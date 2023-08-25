@@ -1,0 +1,455 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   width="1920"
+   height="1080"
+   viewBox="0 0 1920 1080"
+   version="1.1"
+   id="svg1"
+   inkscape:version="1.3 (0e150ed6c4, 2023-07-21)"
+   sodipodi:docname="TimeTrialConcept.svg"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:xlink="http://www.w3.org/1999/xlink"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:dc="http://purl.org/dc/elements/1.1/">
+  <title
+     id="title3">RaceSimEngineer Concept - Time Trial</title>
+  <sodipodi:namedview
+     id="namedview1"
+     pagecolor="#ffffff"
+     bordercolor="#111111"
+     borderopacity="1"
+     inkscape:showpageshadow="0"
+     inkscape:pageopacity="0"
+     inkscape:pagecheckerboard="1"
+     inkscape:deskcolor="#d1d1d1"
+     inkscape:document-units="px"
+     inkscape:zoom="1"
+     inkscape:cx="420"
+     inkscape:cy="411.5"
+     inkscape:window-width="1920"
+     inkscape:window-height="1017"
+     inkscape:window-x="-8"
+     inkscape:window-y="-8"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="layer7" />
+  <defs
+     id="defs1">
+    <linearGradient
+       id="linearGradient5"
+       inkscape:collect="always">
+      <stop
+         style="stop-color:#1f6600;stop-opacity:1;"
+         offset="0"
+         id="stop5" />
+      <stop
+         style="stop-color:#65da23;stop-opacity:1;"
+         offset="1"
+         id="stop6" />
+    </linearGradient>
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient5"
+       id="linearGradient6"
+       x1="480"
+       y1="278"
+       x2="940"
+       y2="278"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="translate(0.002319,-8.9976809)" />
+  </defs>
+  <g
+     inkscape:groupmode="layer"
+     id="layer3"
+     inkscape:label="RightScreenHalf">
+    <rect
+       style="fill:#000000;stroke-width:1.02151"
+       id="rect1-6"
+       width="960"
+       height="1080"
+       x="960"
+       y="0" />
+    <rect
+       style="fill:#000000;fill-opacity:0;stroke:#ffffff;stroke-width:0.999903;stroke-dasharray:none;stroke-opacity:1;paint-order:stroke markers fill"
+       id="rect5-0-6"
+       width="30"
+       height="30"
+       x="960.49994"
+       y="48.49995" />
+  </g>
+  <g
+     inkscape:label="Main Layer"
+     inkscape:groupmode="layer"
+     id="layer1">
+    <g
+       inkscape:groupmode="layer"
+       id="layer2"
+       inkscape:label="Left Screen Half">
+      <rect
+         style="display:inline;fill:#000000;stroke:none;stroke-width:1.02151"
+         id="ScreenLeftHalf"
+         width="960"
+         height="1080"
+         x="0"
+         y="0" />
+      <text
+         xml:space="preserve"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:85.3333px;font-family:'Segoe UI';-inkscape-font-specification:'Segoe UI';display:none;fill:#ffffff;fill-opacity:1;stroke:#000000;stroke-width:2;stroke-dasharray:none;stroke-opacity:1"
+         x="30.41667"
+         y="306.74997"
+         id="text3-8"><tspan
+           sodipodi:role="line"
+           id="tspan3-5"
+           x="0"
+           y="0"
+           style="font-size:85.3333px;fill:#ffffff;fill-opacity:1;stroke:none">0:56.206</tspan></text>
+      <rect
+         style="display:none;fill:#000000;fill-opacity:0;stroke:#ffffff;stroke-width:1;stroke-dasharray:none;stroke-opacity:1"
+         id="rect4-3"
+         width="450"
+         height="120"
+         x="30.5"
+         y="199.5" />
+      <rect
+         style="display:none;fill:url(#linearGradient6);stroke:#ffffff;stroke-width:1;stroke-dasharray:none;stroke-opacity:1"
+         id="rect4-5-3"
+         width="450"
+         height="120"
+         x="480.5"
+         y="199.5" />
+      <text
+         xml:space="preserve"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:85.3333px;font-family:'Segoe UI';-inkscape-font-specification:'Segoe UI';display:none;fill:#ffffff;fill-opacity:1;stroke:#000000;stroke-width:2;stroke-dasharray:none;stroke-opacity:1"
+         x="488.16666"
+         y="307.08331"
+         id="text3-8-8"><tspan
+           sodipodi:role="line"
+           id="tspan3-5-0"
+           x="488.16666"
+           y="307.08331"
+           style="font-size:85.3333px;fill:#ffffff;fill-opacity:1;stroke:none">(-0.661)</tspan></text>
+      <g
+         inkscape:groupmode="layer"
+         id="layer7-7"
+         inkscape:label="Current Lap Status"
+         transform="translate(0,120)">
+        <rect
+           style="display:inline;fill:#000000;fill-opacity:0;stroke:#ffffff;stroke-width:0.999903;stroke-dasharray:none;stroke-opacity:1;paint-order:stroke markers fill"
+           id="CurrentLapTableCellBottomRightBorder-4"
+           width="12"
+           height="12"
+           x="918.49994"
+           y="186.49995" />
+        <rect
+           style="display:inline;fill:#000000;fill-opacity:0;stroke:#ffffff;stroke-width:0.999903;stroke-dasharray:none;stroke-opacity:1;paint-order:stroke markers fill"
+           id="CurrentLapTableCellTopRightBorder-6"
+           width="12"
+           height="12"
+           x="918.49994"
+           y="78.499954" />
+        <rect
+           style="display:inline;fill:#e5e5e5;fill-opacity:0;stroke:#ffffff;stroke-width:1;stroke-dasharray:none;stroke-opacity:1;paint-order:stroke markers fill"
+           id="CurrentLapMainFrame-9"
+           width="438"
+           height="96"
+           x="42.5"
+           y="90.5" />
+        <g
+           inkscape:groupmode="layer"
+           id="layer10"
+           inkscape:label="Current Lap Time Delta">
+          <rect
+             style="display:inline;fill:#000000;fill-opacity:0;stroke:#ffffff;stroke-width:1;stroke-dasharray:none;stroke-opacity:1"
+             id="CurrentLapDeltaToBestTableCell"
+             width="450"
+             height="120"
+             x="480.5"
+             y="78.5" />
+        </g>
+        <g
+           inkscape:groupmode="layer"
+           id="layer9"
+           inkscape:label="Current Lap Time">
+          <text
+             xml:space="preserve"
+             style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:88px;font-family:'Segoe UI';-inkscape-font-specification:'Segoe UI';display:inline;fill:#ffffff;fill-opacity:1;stroke:#000000;stroke-width:2;stroke-dasharray:none;stroke-opacity:1"
+             x="54.083336"
+             y="169.96875"
+             id="CurrentLapTime"><tspan
+               sodipodi:role="line"
+               id="tspan3-7"
+               x="54.083336"
+               y="169.96875"
+               style="font-size:88px;fill:#ffffff;fill-opacity:1;stroke:none">1:01.537</tspan></text>
+          <rect
+             style="display:inline;fill:#000000;fill-opacity:0;stroke:#ffffff;stroke-width:1;stroke-dasharray:none;stroke-opacity:1"
+             id="CurrentLapTimeTableCell"
+             width="450"
+             height="120"
+             x="30.5"
+             y="78.5" />
+          <rect
+             style="display:inline;fill:#000000;fill-opacity:0;stroke:#ffffff;stroke-width:0.999903;stroke-dasharray:none;stroke-opacity:1;paint-order:stroke markers fill"
+             id="CurrentLapStatusTableCellTopLeftBorder"
+             width="12"
+             height="12"
+             x="30.499952"
+             y="78.499954" />
+          <rect
+             style="display:inline;fill:#000000;fill-opacity:0;stroke:#ffffff;stroke-width:0.999903;stroke-dasharray:none;stroke-opacity:1;paint-order:stroke markers fill"
+             id="CurrentLapStatusTableCellBottomLeftBorder"
+             width="12"
+             height="12"
+             x="30.499952"
+             y="186.49995" />
+          <rect
+             style="display:inline;fill:#e5e5e5;fill-opacity:0;stroke:#ffffff;stroke-width:1;stroke-dasharray:none;stroke-opacity:1;paint-order:stroke markers fill"
+             id="CurrentLapTimeFrame"
+             width="405"
+             height="64"
+             x="58.5"
+             y="106.5" />
+          <rect
+             style="display:inline;fill:#000000;fill-opacity:0;stroke:#ffffff;stroke-width:0.999903;stroke-dasharray:none;stroke-opacity:1;paint-order:stroke markers fill"
+             id="CurrentLapMainFrameTopLeftBorder-8"
+             width="16"
+             height="16"
+             x="42.49995"
+             y="90.499954" />
+          <rect
+             style="display:inline;fill:#000000;fill-opacity:0;stroke:#ffffff;stroke-width:0.999903;stroke-dasharray:none;stroke-opacity:1;paint-order:stroke markers fill"
+             id="CurrentLapMainFrameTopRightBorder-3"
+             width="16"
+             height="16"
+             x="463.49994"
+             y="90.499954" />
+          <rect
+             style="display:inline;fill:#000000;fill-opacity:0;stroke:#ffffff;stroke-width:0.999903;stroke-dasharray:none;stroke-opacity:1;paint-order:stroke markers fill"
+             id="CurrentLapMainFrameBottomLeftBorder-1"
+             width="16"
+             height="16"
+             x="42.49995"
+             y="170.49995" />
+          <rect
+             style="display:inline;fill:#000000;fill-opacity:0;stroke:#ffffff;stroke-width:0.999903;stroke-dasharray:none;stroke-opacity:1;paint-order:stroke markers fill"
+             id="CurrentLapMainFrameBottomRightBorder-1"
+             width="16"
+             height="16"
+             x="463.49994"
+             y="170.49995" />
+        </g>
+        <rect
+           style="display:none;fill:#000000;fill-opacity:0;stroke:#ffffff;stroke-width:1;stroke-dasharray:none;stroke-opacity:1"
+           id="CurrentLapStatusTableCell"
+           width="900"
+           height="120"
+           x="30.5"
+           y="78.5" />
+      </g>
+      <g
+         inkscape:groupmode="layer"
+         id="layer7"
+         inkscape:label="Current Lap Label">
+        <rect
+           style="display:none;fill:#000000;fill-opacity:0;stroke:#ffffff;stroke-width:0.999903;stroke-dasharray:none;stroke-opacity:1;paint-order:stroke markers fill"
+           id="CurrentLapTableCellBottomRightBorder"
+           width="12"
+           height="12"
+           x="918.49994"
+           y="186.49995" />
+        <rect
+           style="display:none;fill:#000000;fill-opacity:0;stroke:#ffffff;stroke-width:0.999903;stroke-dasharray:none;stroke-opacity:1;paint-order:stroke markers fill"
+           id="CurrentLapTableCellBottomLeftBorder"
+           width="12"
+           height="12"
+           x="30.499952"
+           y="186.49995" />
+        <rect
+           style="display:none;fill:#000000;fill-opacity:0;stroke:#ffffff;stroke-width:0.999903;stroke-dasharray:none;stroke-opacity:1;paint-order:stroke markers fill"
+           id="CurrentLapTableCellTopRightBorder"
+           width="12"
+           height="12"
+           x="918.49994"
+           y="78.499954" />
+        <rect
+           style="display:none;fill:#000000;fill-opacity:0;stroke:#ffffff;stroke-width:0.999903;stroke-dasharray:none;stroke-opacity:1;paint-order:stroke markers fill"
+           id="CurrentLapTableCellTopLeftBorder"
+           width="12"
+           height="12"
+           x="30.499952"
+           y="78.499954" />
+        <rect
+           style="display:none;fill:#e5e5e5;fill-opacity:0;stroke:#ffffff;stroke-width:1;stroke-dasharray:none;stroke-opacity:1;paint-order:stroke markers fill"
+           id="CurrentLapMainFrame"
+           width="876"
+           height="96"
+           x="42.5"
+           y="90.5" />
+        <rect
+           style="display:none;fill:#000000;fill-opacity:0;stroke:#ffffff;stroke-width:0.999903;stroke-dasharray:none;stroke-opacity:1;paint-order:stroke markers fill"
+           id="CurrentLapMainFrameBottomRightBorder"
+           width="16"
+           height="16"
+           x="902.49994"
+           y="170.49995" />
+        <rect
+           style="display:none;fill:#000000;fill-opacity:0;stroke:#ffffff;stroke-width:0.999903;stroke-dasharray:none;stroke-opacity:1;paint-order:stroke markers fill"
+           id="CurrentLapMainFrameBottomLeftBorder"
+           width="16"
+           height="16"
+           x="42.49995"
+           y="170.49995" />
+        <rect
+           style="display:none;fill:#000000;fill-opacity:0;stroke:#ffffff;stroke-width:0.999903;stroke-dasharray:none;stroke-opacity:1;paint-order:stroke markers fill"
+           id="CurrentLapMainFrameTopRightBorder"
+           width="16"
+           height="16"
+           x="902.49994"
+           y="90.499954" />
+        <rect
+           style="display:none;fill:#000000;fill-opacity:0;stroke:#ffffff;stroke-width:0.999903;stroke-dasharray:none;stroke-opacity:1;paint-order:stroke markers fill"
+           id="CurrentLapMainFrameTopLeftBorder"
+           width="16"
+           height="16"
+           x="42.49995"
+           y="90.499954" />
+        <rect
+           style="display:none;fill:#e5e5e5;fill-opacity:0;stroke:#ffffff;stroke-width:1;stroke-dasharray:none;stroke-opacity:1;paint-order:stroke markers fill"
+           id="CurrentLapTextFrame"
+           width="844"
+           height="64"
+           x="58.5"
+           y="106.5" />
+        <text
+           xml:space="preserve"
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:88px;font-family:'Segoe UI';-inkscape-font-specification:'Segoe UI';fill:#ffffff;fill-opacity:1;stroke:#000000;stroke-width:2;stroke-dasharray:none;stroke-opacity:1"
+           x="54.083336"
+           y="169.96875"
+           id="CurrentLapText"><tspan
+             sodipodi:role="line"
+             id="tspan3"
+             x="54.083336"
+             y="169.96875"
+             style="font-size:88px;fill:#ffffff;fill-opacity:1;stroke:none">Current Lap</tspan></text>
+        <rect
+           style="display:inline;fill:#000000;fill-opacity:0;stroke:#ffffff;stroke-width:1;stroke-dasharray:none;stroke-opacity:1"
+           id="CurrentLapLabelTableCell"
+           width="900"
+           height="120"
+           x="30.5"
+           y="78.5" />
+      </g>
+      <rect
+         style="fill:#000000;fill-opacity:0;stroke:#ffffff;stroke-width:0.999903;stroke-dasharray:none;stroke-opacity:1;paint-order:stroke markers fill"
+         id="LeftScreenHalfBottomRightBorder"
+         width="30"
+         height="30"
+         x="930.49994"
+         y="1050.5" />
+      <rect
+         style="fill:#000000;fill-opacity:0;stroke:#ffffff;stroke-width:0.999903;stroke-dasharray:none;stroke-opacity:1;paint-order:stroke markers fill"
+         id="LeftScreenHalfBottomLeftBorder"
+         width="30"
+         height="30"
+         x="0.49995151"
+         y="1050.5" />
+      <rect
+         style="fill:#000000;fill-opacity:0;stroke:#ffffff;stroke-width:0.999903;stroke-dasharray:none;stroke-opacity:1;paint-order:stroke markers fill"
+         id="LeftScreenHalfTopRightBorder"
+         width="30"
+         height="30"
+         x="930.49994"
+         y="48.49995" />
+      <rect
+         style="fill:#000000;fill-opacity:0;stroke:#ffffff;stroke-width:0.999903;stroke-dasharray:none;stroke-opacity:1;paint-order:stroke markers fill"
+         id="LeftScreenHalfTopLeftBorder"
+         width="30"
+         height="30"
+         x="0.49995151"
+         y="48.49995" />
+    </g>
+    <g
+       inkscape:groupmode="layer"
+       id="layer4"
+       inkscape:label="System Header">
+      <g
+         inkscape:groupmode="layer"
+         id="layer6"
+         inkscape:label="Program Menu">
+        <rect
+           style="fill:#333333;fill-opacity:1;stroke-width:1.04257;stroke:none"
+           id="ProgramMenuBackground"
+           width="1920"
+           height="25"
+           x="0"
+           y="23" />
+        <text
+           xml:space="preserve"
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:16px;font-family:sans-serif;-inkscape-font-specification:sans-serif;fill:#333333;fill-opacity:1"
+           x="80.53125"
+           y="39.84375"
+           id="ProgramMenuHelpOptionText"><tspan
+             sodipodi:role="line"
+             id="tspan2-0"
+             x="80.53125"
+             y="39.84375"
+             style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:16px;font-family:'Segoe UI';-inkscape-font-specification:'Segoe UI';fill:#ffffff;fill-opacity:1">Help</tspan></text>
+        <text
+           xml:space="preserve"
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:16px;font-family:sans-serif;-inkscape-font-specification:sans-serif;fill:#333333;fill-opacity:1"
+           x="11.054688"
+           y="39.695312"
+           id="ProgramMenuSettingsOptionText"><tspan
+             sodipodi:role="line"
+             id="tspan2"
+             x="11.054688"
+             y="39.695312"
+             style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:16px;font-family:'Segoe UI';-inkscape-font-specification:'Segoe UI';fill:#ffffff;fill-opacity:1">Settings</tspan></text>
+      </g>
+      <g
+         inkscape:groupmode="layer"
+         id="layer5"
+         inkscape:label="Program Header">
+        <rect
+           style="fill:#b7a549;fill-opacity:1;stroke:none"
+           id="ProgramHeaderBackground"
+           width="1920"
+           height="23"
+           x="0"
+           y="0" />
+        <rect
+           style="fill:#ffffff;fill-opacity:1;stroke:#000000;stroke-width:2;stroke-opacity:1;stroke-dasharray:none"
+           id="ProgramIcon"
+           width="17"
+           height="17"
+           x="3"
+           y="3" />
+        <text
+           xml:space="preserve"
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:16px;font-family:sans-serif;-inkscape-font-specification:sans-serif;fill:#333333;fill-opacity:1"
+           x="29.054688"
+           y="16.695312"
+           id="ProgramName"><tspan
+             sodipodi:role="line"
+             id="tspan2-05"
+             x="29.054688"
+             y="16.695312"
+             style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:16px;font-family:'Segoe UI';-inkscape-font-specification:'Segoe UI';fill:#ffffff;fill-opacity:1">RaceSimEngineer - Time Trial</tspan></text>
+      </g>
+    </g>
+  </g>
+  <metadata
+     id="metadata3">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:title>RaceSimEngineer Concept - Time Trial</dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+</svg>

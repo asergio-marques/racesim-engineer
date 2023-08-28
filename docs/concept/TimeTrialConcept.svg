@@ -29,17 +29,33 @@
      inkscape:pagecheckerboard="1"
      inkscape:deskcolor="#d1d1d1"
      inkscape:document-units="px"
-     inkscape:zoom="1.4142136"
-     inkscape:cx="584.07021"
-     inkscape:cy="354.61405"
+     inkscape:zoom="1"
+     inkscape:cx="498.49999"
+     inkscape:cy="193.49999"
      inkscape:window-width="2560"
      inkscape:window-height="1377"
      inkscape:window-x="2552"
      inkscape:window-y="-8"
      inkscape:window-maximized="1"
-     inkscape:current-layer="g17" />
+     inkscape:current-layer="g7" />
   <defs
      id="defs1">
+    <linearGradient
+       id="linearGradient21"
+       inkscape:label="Purple Time">
+      <stop
+         style="stop-color:#500f0f;stop-opacity:0;"
+         offset="0"
+         id="stop14" />
+      <stop
+         style="stop-color:#7a1b1b;stop-opacity:0.89620757;"
+         offset="0.24578866"
+         id="stop20" />
+      <stop
+         style="stop-color:#cb1d1d;stop-opacity:1;"
+         offset="1"
+         id="stop21" />
+    </linearGradient>
     <linearGradient
        id="linearGradient12"
        inkscape:label="Green Time">
@@ -80,7 +96,8 @@
        y1="144.5"
        x2="481"
        y2="144.5"
-       gradientUnits="userSpaceOnUse" />
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="translate(-0.5)" />
     <linearGradient
        inkscape:collect="always"
        xlink:href="#linearGradient12-1"
@@ -88,26 +105,29 @@
        gradientUnits="userSpaceOnUse"
        x1="36"
        y1="144.5"
-       x2="481"
+       x2="333"
+       y2="145.5"
+       gradientTransform="translate(-0.999998)" />
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient21"
+       id="linearGradient8"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="translate(-0.999998)"
+       x1="36"
+       y1="144.5"
+       x2="333"
        y2="144.5" />
     <linearGradient
        inkscape:collect="always"
-       xlink:href="#linearGradient12-1"
-       id="linearGradient27"
+       xlink:href="#linearGradient12"
+       id="linearGradient14"
        gradientUnits="userSpaceOnUse"
+       gradientTransform="translate(-0.999998)"
        x1="36"
        y1="144.5"
-       x2="481"
-       y2="144.5" />
-    <linearGradient
-       inkscape:collect="always"
-       xlink:href="#linearGradient12-1"
-       id="linearGradient33"
-       gradientUnits="userSpaceOnUse"
-       x1="36"
-       y1="144.5"
-       x2="481"
-       y2="144.5" />
+       x2="333"
+       y2="146.5" />
   </defs>
   <g
      inkscape:label="Main Layer"
@@ -155,137 +175,137 @@
            transform="translate(0,240)">
           <g
              inkscape:groupmode="layer"
-             id="g33"
+             id="g14"
              inkscape:label="Current Lap Sector 3"
              transform="translate(590.5)">
             <rect
-               style="display:none;fill:url(#linearGradient33);stroke:#2d083d;stroke-width:2;stroke-dasharray:none;stroke-opacity:1"
-               id="rect27"
+               style="display:inline;fill:url(#linearGradient14);stroke:#2d083d;stroke-width:0;stroke-dasharray:none;stroke-opacity:1"
+               id="CurrentLapSector3DeltaBackgroundGreenIncomplete"
                width="296"
                height="80"
-               x="36.5"
+               x="35.5"
                y="84.5" />
             <rect
-               style="display:inline;fill:#000000;fill-opacity:0;stroke:#ffffff;stroke-width:0.999903;stroke-dasharray:none;stroke-opacity:1;paint-order:stroke markers fill"
-               id="rect28"
+               style="display:inline;fill:#000000;fill-opacity:0;stroke:#ffffff;stroke-width:0;stroke-dasharray:none;stroke-opacity:1;paint-order:stroke markers fill"
+               id="CurrentLapSector3DeltaBottomRightBorder"
                width="16"
                height="20"
-               x="316.49994"
+               x="315.5"
                y="144.49995" />
             <rect
-               style="display:inline;fill:#000000;fill-opacity:0;stroke:#ffffff;stroke-width:0.999903;stroke-dasharray:none;stroke-opacity:1;paint-order:stroke markers fill"
-               id="rect29"
+               style="display:inline;fill:#000000;fill-opacity:0;stroke:#ffffff;stroke-width:0;stroke-dasharray:none;stroke-opacity:1;paint-order:stroke markers fill"
+               id="CurrentLapSector3DeltaBottomLeftBorder"
                width="16"
                height="20"
-               x="36.499954"
+               x="35.5"
                y="144.49995" />
             <rect
-               style="display:inline;fill:#000000;fill-opacity:0;stroke:#ffffff;stroke-width:0.999903;stroke-dasharray:none;stroke-opacity:1;paint-order:stroke markers fill"
-               id="rect30"
+               style="display:inline;fill:#000000;fill-opacity:0;stroke:#ffffff;stroke-width:0;stroke-dasharray:none;stroke-opacity:1;paint-order:stroke markers fill"
+               id="CurrentLapSector3DeltaTopRightBorder"
                width="16"
                height="20"
-               x="316.49994"
+               x="315.5"
                y="84.499954" />
             <rect
-               style="display:inline;fill:#000000;fill-opacity:0;stroke:#ffffff;stroke-width:0.999903;stroke-dasharray:none;stroke-opacity:1;paint-order:stroke markers fill"
-               id="rect31"
+               style="display:inline;fill:#000000;fill-opacity:0;stroke:#ffffff;stroke-width:0;stroke-dasharray:none;stroke-opacity:1;paint-order:stroke markers fill"
+               id="CurrentLapSector3DeltaTopLeftBorder"
                width="16"
                height="20"
-               x="36.499954"
+               x="35.5"
                y="84.499954" />
             <rect
-               style="display:inline;fill:#000000;fill-opacity:0;stroke:#ffffff;stroke-width:0.999903;stroke-dasharray:none;stroke-opacity:1;paint-order:stroke markers fill"
-               id="rect32"
+               style="display:inline;fill:#000000;fill-opacity:0;stroke:#ffffff;stroke-width:0;stroke-dasharray:none;stroke-opacity:1;paint-order:stroke markers fill"
+               id="CurrentLapSector3DeltaTextFrame"
                width="264"
                height="40"
-               x="52.49995"
+               x="51.5"
                y="104.49995" />
             <rect
-               style="display:inline;fill:none;stroke:#ffffff;stroke-width:1;stroke-dasharray:none;stroke-opacity:1"
-               id="rect33"
+               style="display:inline;fill:none;stroke:#ffffff;stroke-width:0;stroke-dasharray:none;stroke-opacity:1"
+               id="CurrentLapSector3DeltaTableCell"
                width="296"
                height="80"
-               x="36.5"
+               x="35.5"
                y="84.5" />
             <text
                xml:space="preserve"
                style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:53.3333px;font-family:'Segoe UI';-inkscape-font-specification:'Segoe UI';fill:#ffffff;fill-opacity:1;stroke:#000000;stroke-width:2;stroke-dasharray:none;stroke-opacity:1"
-               x="184.49997"
-               y="143.69994"
-               id="text33"
-               inkscape:label="CurrentLapSector1DeltaText"><tspan
+               x="183.50003"
+               y="143.69995"
+               id="text14"
+               inkscape:label="CurrentLapSector3DeltaText"><tspan
                  sodipodi:role="line"
-                 id="tspan33"
-                 x="184.49997"
-                 y="143.69994"
-                 style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:53.3333px;font-family:Manrope;-inkscape-font-specification:Manrope;text-align:center;text-anchor:middle;fill:#ffffff;fill-opacity:1;stroke:none">(-0.661)</tspan></text>
+                 id="tspan14"
+                 x="183.50003"
+                 y="143.69995"
+                 style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:53.3333px;font-family:Manrope;-inkscape-font-specification:Manrope;text-align:center;text-anchor:middle;fill:#ffffff;fill-opacity:1;stroke:none">(-0.269)</tspan></text>
           </g>
           <g
              inkscape:groupmode="layer"
-             id="g20"
+             id="g8"
              inkscape:label="Current Lap Sector 2"
              transform="translate(294.5)">
             <rect
-               style="display:none;fill:url(#linearGradient27);stroke:#2d083d;stroke-width:2;stroke-dasharray:none;stroke-opacity:1"
-               id="rect14"
+               style="display:inline;fill:url(#linearGradient8);stroke:#2d083d;stroke-width:0;stroke-dasharray:none;stroke-opacity:1"
+               id="CurrentLapSector2DeltaBackgroundRed"
                width="296"
                height="80"
-               x="36.5"
+               x="35.5"
                y="84.5" />
             <rect
-               style="display:inline;fill:#000000;fill-opacity:0;stroke:#ffffff;stroke-width:0.999903;stroke-dasharray:none;stroke-opacity:1;paint-order:stroke markers fill"
-               id="rect15"
+               style="display:inline;fill:#000000;fill-opacity:0;stroke:#ffffff;stroke-width:0;stroke-dasharray:none;stroke-opacity:1;paint-order:stroke markers fill"
+               id="CurrentLapSector2DeltaBottomRightBorder"
                width="16"
                height="20"
-               x="316.49994"
+               x="315.5"
                y="144.49995" />
             <rect
-               style="display:inline;fill:#000000;fill-opacity:0;stroke:#ffffff;stroke-width:0.999903;stroke-dasharray:none;stroke-opacity:1;paint-order:stroke markers fill"
-               id="rect16"
+               style="display:inline;fill:#000000;fill-opacity:0;stroke:#ffffff;stroke-width:0;stroke-dasharray:none;stroke-opacity:1;paint-order:stroke markers fill"
+               id="CurrentLapSector2DeltaBottomLeftBorder"
                width="16"
                height="20"
-               x="36.499954"
+               x="35.5"
                y="144.49995" />
             <rect
-               style="display:inline;fill:#000000;fill-opacity:0;stroke:#ffffff;stroke-width:0.999903;stroke-dasharray:none;stroke-opacity:1;paint-order:stroke markers fill"
-               id="rect17"
+               style="display:inline;fill:#000000;fill-opacity:0;stroke:#ffffff;stroke-width:0;stroke-dasharray:none;stroke-opacity:1;paint-order:stroke markers fill"
+               id="CurrentLapSector2DeltaTopRightBorder"
                width="16"
                height="20"
-               x="316.49994"
+               x="315.5"
                y="84.499954" />
             <rect
-               style="display:inline;fill:#000000;fill-opacity:0;stroke:#ffffff;stroke-width:0.999903;stroke-dasharray:none;stroke-opacity:1;paint-order:stroke markers fill"
-               id="rect18"
+               style="display:inline;fill:#000000;fill-opacity:0;stroke:#ffffff;stroke-width:0;stroke-dasharray:none;stroke-opacity:1;paint-order:stroke markers fill"
+               id="CurrentLapSector2DeltaTopLeftBorder"
                width="16"
                height="20"
-               x="36.499954"
+               x="35.5"
                y="84.499954" />
             <rect
-               style="display:inline;fill:#000000;fill-opacity:0;stroke:#ffffff;stroke-width:0.999903;stroke-dasharray:none;stroke-opacity:1;paint-order:stroke markers fill"
-               id="rect19"
+               style="display:inline;fill:#000000;fill-opacity:0;stroke:#ffffff;stroke-width:0;stroke-dasharray:none;stroke-opacity:1;paint-order:stroke markers fill"
+               id="CurrentLapSector2DeltaTextFrame"
                width="264"
                height="40"
-               x="52.49995"
+               x="51.5"
                y="104.49995" />
             <rect
-               style="display:inline;fill:none;stroke:#ffffff;stroke-width:1;stroke-dasharray:none;stroke-opacity:1"
-               id="rect20"
+               style="display:inline;fill:none;stroke:#ffffff;stroke-width:0;stroke-dasharray:none;stroke-opacity:1"
+               id="CurrentLapSector2DeltaTableCell"
                width="296"
                height="80"
-               x="36.5"
+               x="35.5"
                y="84.5" />
             <text
                xml:space="preserve"
                style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:53.3333px;font-family:'Segoe UI';-inkscape-font-specification:'Segoe UI';fill:#ffffff;fill-opacity:1;stroke:#000000;stroke-width:2;stroke-dasharray:none;stroke-opacity:1"
-               x="184.49997"
-               y="143.69994"
-               id="text20"
-               inkscape:label="CurrentLapSector1DeltaText"><tspan
+               x="183.50003"
+               y="143.69995"
+               id="text8"
+               inkscape:label="CurrentLapSector2DeltaText"><tspan
                  sodipodi:role="line"
-                 id="tspan20"
-                 x="184.49997"
-                 y="143.69994"
-                 style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:53.3333px;font-family:Manrope;-inkscape-font-specification:Manrope;text-align:center;text-anchor:middle;fill:#ffffff;fill-opacity:1;stroke:none">(-0.661)</tspan></text>
+                 id="tspan8"
+                 x="183.50003"
+                 y="143.69995"
+                 style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:53.3333px;font-family:Manrope;-inkscape-font-specification:Manrope;text-align:center;text-anchor:middle;fill:#ffffff;fill-opacity:1;stroke:none">(+0.205)</tspan></text>
           </g>
           <g
              inkscape:groupmode="layer"
@@ -293,73 +313,73 @@
              inkscape:label="Current Lap Sector 1"
              transform="translate(-1.500001)">
             <rect
-               style="display:none;fill:url(#linearGradient17);stroke:#2d083d;stroke-width:2;stroke-dasharray:none;stroke-opacity:1"
+               style="display:inline;fill:url(#linearGradient17);stroke:#2d083d;stroke-width:0;stroke-dasharray:none;stroke-opacity:1"
                id="CurrentLapSector1DeltaBackgroundPurple"
                width="296"
                height="80"
-               x="36.5"
+               x="35.5"
                y="84.5" />
             <rect
-               style="display:inline;fill:#000000;fill-opacity:0;stroke:#ffffff;stroke-width:0.999903;stroke-dasharray:none;stroke-opacity:1;paint-order:stroke markers fill"
+               style="display:inline;fill:#000000;fill-opacity:0;stroke:#ffffff;stroke-width:0;stroke-dasharray:none;stroke-opacity:1;paint-order:stroke markers fill"
                id="CurrentLapSector1DeltaBottomRightBorder"
                width="16"
                height="20"
-               x="316.49994"
+               x="315.5"
                y="144.49995" />
             <rect
-               style="display:inline;fill:#000000;fill-opacity:0;stroke:#ffffff;stroke-width:0.999903;stroke-dasharray:none;stroke-opacity:1;paint-order:stroke markers fill"
+               style="display:inline;fill:#000000;fill-opacity:0;stroke:#ffffff;stroke-width:0;stroke-dasharray:none;stroke-opacity:1;paint-order:stroke markers fill"
                id="CurrentLapSector1DeltaBottomLeftBorder"
                width="16"
                height="20"
-               x="36.499954"
+               x="35.5"
                y="144.49995" />
             <rect
-               style="display:inline;fill:#000000;fill-opacity:0;stroke:#ffffff;stroke-width:0.999903;stroke-dasharray:none;stroke-opacity:1;paint-order:stroke markers fill"
+               style="display:inline;fill:#000000;fill-opacity:0;stroke:#ffffff;stroke-width:0;stroke-dasharray:none;stroke-opacity:1;paint-order:stroke markers fill"
                id="CurrentLapSector1DeltaTopRightBorder"
                width="16"
                height="20"
-               x="316.49994"
+               x="315.5"
                y="84.499954" />
             <rect
-               style="display:inline;fill:#000000;fill-opacity:0;stroke:#ffffff;stroke-width:0.999903;stroke-dasharray:none;stroke-opacity:1;paint-order:stroke markers fill"
+               style="display:inline;fill:#000000;fill-opacity:0;stroke:#ffffff;stroke-width:0;stroke-dasharray:none;stroke-opacity:1;paint-order:stroke markers fill"
                id="CurrentLapSector1DeltaTopLeftBorder"
                width="16"
                height="20"
-               x="36.499954"
+               x="35.5"
                y="84.499954" />
             <rect
-               style="display:inline;fill:#000000;fill-opacity:0;stroke:#ffffff;stroke-width:0.999903;stroke-dasharray:none;stroke-opacity:1;paint-order:stroke markers fill"
+               style="display:inline;fill:#000000;fill-opacity:0;stroke:#ffffff;stroke-width:0;stroke-dasharray:none;stroke-opacity:1;paint-order:stroke markers fill"
                id="CurrentLapSector1DeltaTextFrame"
                width="264"
                height="40"
-               x="52.49995"
+               x="51.5"
                y="104.49995" />
             <rect
-               style="display:inline;fill:none;stroke:#ffffff;stroke-width:1;stroke-dasharray:none;stroke-opacity:1"
+               style="display:inline;fill:none;stroke:#ffffff;stroke-width:0;stroke-dasharray:none;stroke-opacity:1"
                id="CurrentLapSector1DeltaTableCell"
                width="296"
                height="80"
-               x="36.5"
+               x="35.5"
                y="84.5" />
             <text
                xml:space="preserve"
                style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:53.3333px;font-family:'Segoe UI';-inkscape-font-specification:'Segoe UI';fill:#ffffff;fill-opacity:1;stroke:#000000;stroke-width:2;stroke-dasharray:none;stroke-opacity:1"
-               x="184.49997"
-               y="143.69994"
+               x="183.50003"
+               y="143.69995"
                id="CurrentLapSector1DeltaText"
                inkscape:label="CurrentLapSector1DeltaText"><tspan
                  sodipodi:role="line"
                  id="tspan7-1"
-                 x="184.49997"
-                 y="143.69994"
-                 style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:53.3333px;font-family:Manrope;-inkscape-font-specification:Manrope;text-align:center;text-anchor:middle;fill:#ffffff;fill-opacity:1;stroke:none">(-0.661)</tspan></text>
+                 x="183.50003"
+                 y="143.69995"
+                 style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:53.3333px;font-family:Manrope;-inkscape-font-specification:Manrope;text-align:center;text-anchor:middle;fill:#ffffff;fill-opacity:1;stroke:none">(-0.597)</tspan></text>
           </g>
           <rect
-             style="display:inline;fill:#000000;fill-opacity:0;stroke:#ffffff;stroke-width:1;stroke-dasharray:none;stroke-opacity:1"
+             style="display:inline;fill:#000000;fill-opacity:0;stroke:#ffffff;stroke-width:0;stroke-dasharray:none;stroke-opacity:1"
              id="CurrentLapSectorsTableCell"
              width="888"
              height="80"
-             x="35"
+             x="34"
              y="84.5" />
         </g>
         <g
@@ -370,54 +390,54 @@
           <g
              inkscape:groupmode="layer"
              id="g7"
-             inkscape:label="Current Lap Delta"
+             inkscape:label="Current Lap Delta Time"
              transform="translate(442)">
             <rect
-               style="display:inline;fill:url(#linearGradient13);stroke:#2d083d;stroke-width:2;stroke-dasharray:none;stroke-opacity:1"
-               id="CurrentLapDeltaBackgroundPurple"
+               style="display:inline;fill:url(#linearGradient13);stroke:#2d083d;stroke-width:0;stroke-dasharray:none;stroke-opacity:1"
+               id="CurrentLapDeltaTimeBackgroundPurple"
                width="444"
                height="120"
-               x="36.5"
+               x="36"
                y="84.5" />
             <rect
-               style="display:inline;fill:#000000;fill-opacity:0;stroke:#ffffff;stroke-width:0.999903;stroke-dasharray:none;stroke-opacity:1;paint-order:stroke markers fill"
-               id="CurrentLapDeltaBottomRightBorder"
+               style="display:inline;fill:#000000;fill-opacity:0;stroke:#ffffff;stroke-width:0;stroke-dasharray:none;stroke-opacity:1;paint-order:stroke markers fill"
+               id="CurrentLapDeltaTimeBottomRightBorder"
                width="16"
                height="28"
-               x="464.49994"
+               x="464"
                y="176.49995" />
             <rect
-               style="display:inline;fill:#000000;fill-opacity:0;stroke:#ffffff;stroke-width:0.999903;stroke-dasharray:none;stroke-opacity:1;paint-order:stroke markers fill"
-               id="CurrentLapDeltaTopRightBorder"
+               style="display:inline;fill:#000000;fill-opacity:0;stroke:#ffffff;stroke-width:0;stroke-dasharray:none;stroke-opacity:1;paint-order:stroke markers fill"
+               id="CurrentLapDeltaTimeTopRightBorder"
                width="16"
                height="28"
-               x="464.49994"
+               x="464"
                y="84.499954" />
             <rect
-               style="display:inline;fill:#e5e5e5;fill-opacity:0;stroke:#ffffff;stroke-width:1;stroke-dasharray:none;stroke-opacity:1;paint-order:stroke markers fill"
-               id="CurrentLapDeltaTextFrame"
+               style="display:inline;fill:#e5e5e5;fill-opacity:0;stroke:#ffffff;stroke-width:0;stroke-dasharray:none;stroke-opacity:1;paint-order:stroke markers fill"
+               id="CurrentLapDeltaTimeTextFrame"
                width="428"
                height="64"
-               x="36.5"
+               x="36"
                y="112.5" />
             <rect
-               style="display:inline;fill:none;stroke:#ffffff;stroke-width:1;stroke-dasharray:none;stroke-opacity:1"
-               id="CurrentLapDeltaTableCell"
+               style="display:inline;fill:none;stroke:#ffffff;stroke-width:0;stroke-dasharray:none;stroke-opacity:1"
+               id="CurrentLapDeltaTimeTableCell"
                width="444"
                height="120"
-               x="36.5"
+               x="36"
                y="84.5" />
             <text
                xml:space="preserve"
                style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:85.3333px;font-family:'Segoe UI';-inkscape-font-specification:'Segoe UI';fill:#ffffff;fill-opacity:1;stroke:#000000;stroke-width:2;stroke-dasharray:none;stroke-opacity:1"
-               x="476.9458"
-               y="173.93999"
+               x="475.93851"
+               y="175.21999"
                id="text7"
                inkscape:label="CurrentLapDeltaText"><tspan
                  sodipodi:role="line"
                  id="tspan7"
-                 x="476.9458"
-                 y="173.93999"
+                 x="475.93851"
+                 y="175.21999"
                  style="font-style:normal;font-variant:normal;font-weight:600;font-stretch:normal;font-size:85.3333px;font-family:Manrope;-inkscape-font-specification:'Manrope Semi-Bold';text-align:end;text-anchor:end;fill:#ffffff;fill-opacity:1;stroke:none">(-0.661)</tspan></text>
           </g>
           <g
@@ -426,45 +446,52 @@
              inkscape:label="Current Lap Delta Label"
              transform="translate(-1.9999999)">
             <rect
-               style="display:inline;fill:#000000;fill-opacity:0;stroke:#ffffff;stroke-width:0.999903;stroke-dasharray:none;stroke-opacity:1;paint-order:stroke markers fill"
+               style="display:inline;fill:#000000;fill-opacity:0;stroke:#ffffff;stroke-width:0;stroke-dasharray:none;stroke-opacity:1;paint-order:stroke markers fill"
                id="CurrentLapDeltaLabelBottomLeftBorder"
                width="16"
                height="28"
-               x="36.49995"
+               x="36"
                y="176.49995" />
             <rect
-               style="display:inline;fill:#000000;fill-opacity:0;stroke:#ffffff;stroke-width:0.999903;stroke-dasharray:none;stroke-opacity:1;paint-order:stroke markers fill"
+               style="display:inline;fill:#000000;fill-opacity:0;stroke:#ffffff;stroke-width:0;stroke-dasharray:none;stroke-opacity:1;paint-order:stroke markers fill"
                id="CurrentLapDeltaLabelTopLeftBorder"
                width="16"
                height="28"
-               x="36.49995"
+               x="36"
                y="84.499954" />
             <rect
-               style="display:inline;fill:#e5e5e5;fill-opacity:0;stroke:#ffffff;stroke-width:1;stroke-dasharray:none;stroke-opacity:1;paint-order:stroke markers fill"
+               style="display:inline;fill:#e5e5e5;fill-opacity:0;stroke:#ffffff;stroke-width:0;stroke-dasharray:none;stroke-opacity:1;paint-order:stroke markers fill"
                id="CurrentLapDeltaLabelTextFrame"
                width="428"
                height="64"
-               x="52.5"
+               x="52"
                y="112.5" />
             <rect
-               style="display:inline;fill:#000000;fill-opacity:0;stroke:#ffffff;stroke-width:1;stroke-dasharray:none;stroke-opacity:1"
+               style="display:inline;fill:#000000;fill-opacity:0;stroke:#ffffff;stroke-width:0;stroke-dasharray:none;stroke-opacity:1"
                id="CurrentLapDeltaLabelTableCell"
                width="444"
                height="120"
-               x="36.5"
+               x="36"
                y="84.5" />
             <text
                xml:space="preserve"
                style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:64px;font-family:'Segoe UI';-inkscape-font-specification:'Segoe UI';fill:#ffffff;fill-opacity:1;stroke:#000000;stroke-width:2;stroke-dasharray:none;stroke-opacity:1"
                x="47.52"
-               y="176.25"
+               y="175.53999"
                id="CurrentLapDeltaLabelText"><tspan
                  sodipodi:role="line"
                  id="tspan11"
                  x="47.52"
-                 y="176.25"
+                 y="175.53999"
                  style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:64px;font-family:Manrope;-inkscape-font-specification:Manrope;fill:#ffffff;fill-opacity:1;stroke:none">Delta</tspan></text>
           </g>
+          <rect
+             style="display:inline;fill:#000000;fill-opacity:0;stroke:#ffffff;stroke-width:0;stroke-dasharray:none;stroke-opacity:1"
+             id="CurrentLapDeltaTableCell"
+             width="888"
+             height="120"
+             x="34"
+             y="84.499954" />
         </g>
         <g
            inkscape:groupmode="layer"
@@ -476,44 +503,44 @@
              inkscape:label="Current Lap Time"
              transform="translate(442)">
             <rect
-               style="display:inline;fill:#000000;fill-opacity:0;stroke:#ffffff;stroke-width:0.999903;stroke-dasharray:none;stroke-opacity:1;paint-order:stroke markers fill"
+               style="display:inline;fill:#000000;fill-opacity:0;stroke:#ffffff;stroke-width:0;stroke-dasharray:none;stroke-opacity:1;paint-order:stroke markers fill"
                id="CurrentLapTimeBottomRightBorder"
                width="16"
                height="28"
-               x="464.49994"
+               x="464"
                y="176.49995" />
             <rect
-               style="display:inline;fill:#000000;fill-opacity:0;stroke:#ffffff;stroke-width:0.999903;stroke-dasharray:none;stroke-opacity:1;paint-order:stroke markers fill"
+               style="display:inline;fill:#000000;fill-opacity:0;stroke:#ffffff;stroke-width:0;stroke-dasharray:none;stroke-opacity:1;paint-order:stroke markers fill"
                id="CurrentLapTimeTopRightBorder"
                width="16"
                height="28"
-               x="464.49994"
+               x="464"
                y="84.499954" />
             <rect
-               style="display:inline;fill:#e5e5e5;fill-opacity:0;stroke:#ffffff;stroke-width:1;stroke-dasharray:none;stroke-opacity:1;paint-order:stroke markers fill"
+               style="display:inline;fill:#e5e5e5;fill-opacity:0;stroke:#ffffff;stroke-width:0;stroke-dasharray:none;stroke-opacity:1;paint-order:stroke markers fill"
                id="CurrentLapTimeTextFrame"
                width="428"
                height="64"
-               x="36.5"
+               x="36"
                y="112.5" />
             <rect
-               style="display:inline;fill:#000000;fill-opacity:0;stroke:#ffffff;stroke-width:1;stroke-dasharray:none;stroke-opacity:1"
+               style="display:inline;fill:#000000;fill-opacity:0;stroke:#ffffff;stroke-width:0;stroke-dasharray:none;stroke-opacity:1"
                id="CurrentLapTimeTableCell"
                width="444"
                height="120"
-               x="36.5"
+               x="36"
                y="84.5" />
             <text
                xml:space="preserve"
                style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:85.3333px;font-family:'Segoe UI';-inkscape-font-specification:'Segoe UI';fill:#ffffff;fill-opacity:1;stroke:#000000;stroke-width:2;stroke-dasharray:none;stroke-opacity:1"
-               x="470.79166"
-               y="175.21999"
+               x="469.11993"
+               y="175.22"
                id="CurrentLapTimeText"
                inkscape:label="CurrentLapTimeText"><tspan
                  sodipodi:role="line"
                  id="tspan3-0"
-                 x="470.79166"
-                 y="175.21999"
+                 x="469.11993"
+                 y="175.22"
                  style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:85.3333px;font-family:Manrope;-inkscape-font-specification:'Manrope Bold';text-align:end;text-anchor:end;fill:#ffffff;fill-opacity:1;stroke:none">1.23.558</tspan></text>
           </g>
           <g
@@ -523,81 +550,81 @@
              transform="translate(-1.9999999)"
              style="display:inline">
             <rect
-               style="display:inline;fill:#000000;fill-opacity:0;stroke:#ffffff;stroke-width:0.999903;stroke-dasharray:none;stroke-opacity:1;paint-order:stroke markers fill"
+               style="display:inline;fill:#000000;fill-opacity:0;stroke:#ffffff;stroke-width:0;stroke-dasharray:none;stroke-opacity:1;paint-order:stroke markers fill"
                id="CurrentLapTimeLabelBottomLeftBorder"
                width="16"
                height="28"
-               x="36.49995"
+               x="36"
                y="176.49995" />
             <rect
-               style="display:inline;fill:#000000;fill-opacity:0;stroke:#ffffff;stroke-width:0.999903;stroke-dasharray:none;stroke-opacity:1;paint-order:stroke markers fill"
+               style="display:inline;fill:#000000;fill-opacity:0;stroke:#ffffff;stroke-width:0;stroke-dasharray:none;stroke-opacity:1;paint-order:stroke markers fill"
                id="CurrentLapTimeLabelTopLeftBorder"
                width="16"
                height="28"
-               x="36.49995"
+               x="36"
                y="84.499954" />
             <rect
-               style="display:inline;fill:#e5e5e5;fill-opacity:0;stroke:#ffffff;stroke-width:1;stroke-dasharray:none;stroke-opacity:1;paint-order:stroke markers fill"
+               style="display:inline;fill:#e5e5e5;fill-opacity:0;stroke:#ffffff;stroke-width:0;stroke-dasharray:none;stroke-opacity:1;paint-order:stroke markers fill"
                id="CurrentLapTimeLabelTextFrame"
                width="428"
                height="64"
-               x="52.5"
+               x="52"
                y="112.5" />
             <rect
-               style="display:inline;fill:#000000;fill-opacity:0;stroke:#ffffff;stroke-width:1;stroke-dasharray:none;stroke-opacity:1"
+               style="display:inline;fill:#000000;fill-opacity:0;stroke:#ffffff;stroke-width:0;stroke-dasharray:none;stroke-opacity:1"
                id="CurrentLapTimeLabelTableCell"
                width="444"
                height="120"
-               x="36.5"
+               x="36"
                y="84.5" />
             <text
                xml:space="preserve"
                style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:64px;font-family:'Segoe UI';-inkscape-font-specification:'Segoe UI';fill:#ffffff;fill-opacity:1;stroke:#000000;stroke-width:2;stroke-dasharray:none;stroke-opacity:1"
                x="50.080002"
-               y="176.25"
+               y="175.53999"
                id="CurrentLapTimeLabelText"><tspan
                  sodipodi:role="line"
                  id="tspan4"
                  x="50.080002"
-                 y="176.25"
-                 style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:64px;font-family:Manrope;-inkscape-font-specification:Manrope;fill:#ffffff;fill-opacity:1;stroke:none">Current Lap</tspan></text>
+                 y="175.53999"
+                 style="font-style:italic;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:64px;font-family:Manrope;-inkscape-font-specification:Manrope;fill:#ffffff;fill-opacity:1;stroke:none">Current Lap</tspan></text>
           </g>
           <rect
-             style="display:inline;fill:#000000;fill-opacity:0;stroke:#ffffff;stroke-width:1;stroke-dasharray:none;stroke-opacity:1"
+             style="display:inline;fill:#000000;fill-opacity:0;stroke:#ffffff;stroke-width:0;stroke-dasharray:none;stroke-opacity:1"
              id="CurrentLapStatusTableCell"
              width="888"
              height="120"
-             x="34.5"
+             x="34"
              y="84.5" />
         </g>
       </g>
       <rect
-         style="fill:#000000;fill-opacity:0;stroke:#ffffff;stroke-width:0.999903;stroke-dasharray:none;stroke-opacity:1;paint-order:stroke markers fill"
+         style="fill:#000000;fill-opacity:0;stroke:#ffffff;stroke-width:0;stroke-dasharray:none;stroke-opacity:1;paint-order:stroke markers fill"
          id="LeftScreenHalfBottomRightBorder"
          width="36"
          height="36"
-         x="924.49994"
+         x="924"
          y="1044.5" />
       <rect
-         style="fill:#000000;fill-opacity:0;stroke:#ffffff;stroke-width:0.999903;stroke-dasharray:none;stroke-opacity:1;paint-order:stroke markers fill"
+         style="fill:#000000;fill-opacity:0;stroke:#ffffff;stroke-width:0;stroke-dasharray:none;stroke-opacity:1;paint-order:stroke markers fill"
          id="LeftScreenHalfBottomLeftBorder"
          width="36"
          height="36"
-         x="0.49995151"
+         x="5e-07"
          y="1044.5" />
       <rect
-         style="fill:#000000;fill-opacity:0;stroke:#ffffff;stroke-width:0.999903;stroke-dasharray:none;stroke-opacity:1;paint-order:stroke markers fill"
+         style="fill:#000000;fill-opacity:0;stroke:#ffffff;stroke-width:0;stroke-dasharray:none;stroke-opacity:1;paint-order:stroke markers fill"
          id="LeftScreenHalfTopRightBorder"
          width="36"
          height="36"
-         x="924.49994"
+         x="924"
          y="48.49995" />
       <rect
-         style="fill:#000000;fill-opacity:0;stroke:#ffffff;stroke-width:0.999903;stroke-dasharray:none;stroke-opacity:1;paint-order:stroke markers fill"
+         style="fill:#000000;fill-opacity:0;stroke:#ffffff;stroke-width:0;stroke-dasharray:none;stroke-opacity:1;paint-order:stroke markers fill"
          id="LeftScreenHalfTopLeftBorder"
          width="36"
          height="36"
-         x="0.49995151"
+         x="5e-07"
          y="48.49995" />
     </g>
     <g

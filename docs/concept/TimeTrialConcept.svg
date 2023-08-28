@@ -29,15 +29,15 @@
      inkscape:pagecheckerboard="1"
      inkscape:deskcolor="#d1d1d1"
      inkscape:document-units="px"
-     inkscape:zoom="2"
-     inkscape:cx="455.25"
-     inkscape:cy="361.25"
-     inkscape:window-width="1920"
-     inkscape:window-height="1017"
-     inkscape:window-x="-8"
+     inkscape:zoom="1"
+     inkscape:cx="779"
+     inkscape:cy="265.5"
+     inkscape:window-width="2560"
+     inkscape:window-height="1377"
+     inkscape:window-x="2552"
      inkscape:window-y="-8"
      inkscape:window-maximized="1"
-     inkscape:current-layer="layer3" />
+     inkscape:current-layer="g17" />
   <defs
      id="defs1">
     <linearGradient
@@ -81,6 +81,15 @@
        x2="481"
        y2="144.5"
        gradientUnits="userSpaceOnUse" />
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient12-1"
+       id="linearGradient17"
+       gradientUnits="userSpaceOnUse"
+       x1="36"
+       y1="144.5"
+       x2="481"
+       y2="144.5" />
   </defs>
   <g
      inkscape:label="Main Layer"
@@ -121,6 +130,88 @@
          id="layer7-0"
          inkscape:label="Current Lap Status"
          transform="translate(2.000001)">
+        <g
+           inkscape:groupmode="layer"
+           id="g17"
+           inkscape:label="Current Lap Sectors Row"
+           transform="translate(0,240)">
+          <g
+             inkscape:groupmode="layer"
+             id="g13"
+             inkscape:label="Current Lap Sector 1 To Best"
+             transform="translate(-1.500001)">
+            <rect
+               style="display:inline;fill:url(#linearGradient17);stroke:#2d083d;stroke-width:2;stroke-dasharray:none;stroke-opacity:1"
+               id="rect3"
+               width="296"
+               height="80"
+               x="36.5"
+               y="84.5" />
+            <rect
+               style="display:inline;fill:#000000;fill-opacity:0;stroke:#ffffff;stroke-width:0.999903;stroke-dasharray:none;stroke-opacity:1;paint-order:stroke markers fill"
+               id="rect1"
+               width="16"
+               height="20"
+               x="35.99995"
+               y="144.49995" />
+            <rect
+               style="display:inline;fill:#000000;fill-opacity:0;stroke:#ffffff;stroke-width:0.999903;stroke-dasharray:none;stroke-opacity:1;paint-order:stroke markers fill"
+               id="rect2"
+               width="16"
+               height="20"
+               x="35.99995"
+               y="84.499954" />
+            <rect
+               style="display:inline;fill:#000000;fill-opacity:0;stroke:#ffffff;stroke-width:0.999903;stroke-dasharray:none;stroke-opacity:1;paint-order:stroke markers fill"
+               id="rect2-1"
+               width="264"
+               height="40"
+               x="51.99995"
+               y="104.49995" />
+            <rect
+               style="display:inline;fill:#000000;fill-opacity:0;stroke:#ffffff;stroke-width:0.999903;stroke-dasharray:none;stroke-opacity:1;paint-order:stroke markers fill"
+               id="rect17"
+               width="16"
+               height="20"
+               x="315.99994"
+               y="144.49995" />
+            <rect
+               style="display:inline;fill:#000000;fill-opacity:0;stroke:#ffffff;stroke-width:0.999903;stroke-dasharray:none;stroke-opacity:1;paint-order:stroke markers fill"
+               id="rect18"
+               width="16"
+               height="20"
+               x="315.99994"
+               y="84.499954" />
+            <rect
+               style="display:inline;fill:none;stroke:#ffffff;stroke-width:1;stroke-dasharray:none;stroke-opacity:1"
+               id="rect19"
+               width="296"
+               height="80"
+               x="36.5"
+               y="84.5" />
+            <rect
+               style="display:inline;fill:none;stroke:#ffffff;stroke-width:1;stroke-dasharray:none;stroke-opacity:1"
+               id="rect20"
+               width="296"
+               height="80"
+               x="332.5"
+               y="84.5" />
+            <rect
+               style="display:inline;fill:none;stroke:#ffffff;stroke-width:1;stroke-dasharray:none;stroke-opacity:1"
+               id="rect21"
+               width="296"
+               height="80"
+               x="628.5"
+               y="84.5" />
+          </g>
+          <rect
+             style="display:inline;fill:#000000;fill-opacity:0;stroke:#ffffff;stroke-width:1;stroke-dasharray:none;stroke-opacity:1"
+             id="CurrentLapSectorsTableCell"
+             width="888"
+             height="80"
+             x="34.5"
+             y="84.5" />
+        </g>
         <g
            inkscape:groupmode="layer"
            id="g12"
@@ -225,13 +316,6 @@
              x="34.5"
              y="84.5" />
         </g>
-        <rect
-           style="display:inline;fill:#000000;fill-opacity:0;stroke:#ffffff;stroke-width:1;stroke-dasharray:none;stroke-opacity:1"
-           id="TableSpacer1"
-           width="888"
-           height="120"
-           x="34.5"
-           y="84.5" />
         <g
            inkscape:groupmode="layer"
            id="layer10"

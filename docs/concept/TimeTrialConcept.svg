@@ -29,15 +29,15 @@
      inkscape:pagecheckerboard="1"
      inkscape:deskcolor="#d1d1d1"
      inkscape:document-units="px"
-     inkscape:zoom="1"
-     inkscape:cx="962"
-     inkscape:cy="457.5"
+     inkscape:zoom="0.70710678"
+     inkscape:cx="1936.7655"
+     inkscape:cy="525.38034"
      inkscape:window-width="2560"
      inkscape:window-height="1377"
      inkscape:window-x="2552"
      inkscape:window-y="-8"
      inkscape:window-maximized="1"
-     inkscape:current-layer="g9" />
+     inkscape:current-layer="layer11" />
   <defs
      id="defs1">
     <linearGradient
@@ -165,18 +165,6 @@
      id="layer1">
     <g
        inkscape:groupmode="layer"
-       id="layer3"
-       inkscape:label="Right Screen Half">
-      <rect
-         style="fill:#000000;stroke-width:1.02151"
-         id="rect1-6"
-         width="960"
-         height="1080"
-         x="960"
-         y="0" />
-    </g>
-    <g
-       inkscape:groupmode="layer"
        id="g46"
        inkscape:label="Right Screen Half"
        transform="translate(960)">
@@ -189,9 +177,143 @@
          y="0" />
       <g
          inkscape:groupmode="layer"
+         id="layer7"
+         inkscape:label="Best Lap List">
+        <rect
+           style="display:inline;fill:#000000;fill-opacity:0;stroke:#ffffff;stroke-width:0;stroke-dasharray:none;stroke-opacity:1"
+           id="BestLapTable"
+           width="888"
+           height="560"
+           x="36"
+           y="484" />
+        <g
+           inkscape:groupmode="layer"
+           id="layer9"
+           inkscape:label="Best Lap List Header">
+          <g
+             inkscape:groupmode="layer"
+             id="layer14"
+             inkscape:label="Best Lap List Header Setup Entry" />
+          <g
+             inkscape:groupmode="layer"
+             id="layer13"
+             inkscape:label="Best Lap List Header Sector 3 Time" />
+          <g
+             inkscape:groupmode="layer"
+             id="g191"
+             inkscape:label="Best Lap List Header Sector 2 Time" />
+          <g
+             inkscape:groupmode="layer"
+             id="g192"
+             inkscape:label="Best Lap List Header Sector 1 Time" />
+          <g
+             inkscape:groupmode="layer"
+             id="layer12"
+             inkscape:label="Best Lap List Header Lap Time" />
+          <g
+             inkscape:groupmode="layer"
+             id="layer11"
+             inkscape:label="Best Lap List Header Lap Number">
+            <rect
+               style="display:inline;fill:#000000;fill-opacity:0;stroke:#ffffff;stroke-width:0;stroke-dasharray:none;stroke-opacity:1"
+               id="BestLapListHeaderLapNumberTableCell"
+               width="120"
+               height="35"
+               x="36"
+               y="484" />
+            <text
+               xml:space="preserve"
+               style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:29.3333px;font-family:'Segoe UI';-inkscape-font-specification:'Segoe UI';fill:#ffffff;fill-opacity:1;stroke:#000000;stroke-width:2;stroke-dasharray:none;stroke-opacity:1"
+               x="83.915947"
+               y="511.84"
+               id="BestLapListHeaderLapNumberText"
+               inkscape:label="BestLapListHeaderLapNumberText"><tspan
+                 sodipodi:role="line"
+                 id="tspan1"
+                 x="83.915947"
+                 y="511.84"
+                 style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:29.3333px;font-family:Manrope;-inkscape-font-specification:Manrope;text-align:center;text-anchor:middle;fill:#ffffff;fill-opacity:1;stroke:none">106</tspan></text>
+            <text
+               xml:space="preserve"
+               style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:29.3333px;font-family:Manrope;-inkscape-font-specification:Manrope;text-align:center;text-anchor:middle;fill:#000000;fill-opacity:0.5;stroke:#ffffff;stroke-width:0;stroke-dasharray:none;stroke-opacity:1"
+               x="997.19958"
+               y="486.04877"
+               id="text192"><tspan
+                 sodipodi:role="line"
+                 x="997.19958"
+                 y="486.04877"
+                 id="tspan198"
+                 style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-family:Manrope;-inkscape-font-specification:'Manrope Bold';text-align:start;text-anchor:start;fill:#000000;fill-opacity:1;stroke:#000000;stroke-width:0;stroke-dasharray:none;stroke-opacity:1">864 width total</tspan><tspan
+                 sodipodi:role="line"
+                 x="997.19958"
+                 y="522.71539"
+                 style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-family:Manrope;-inkscape-font-specification:'Manrope Bold';text-align:start;text-anchor:start;fill:#000000;fill-opacity:1;stroke:#000000;stroke-width:0;stroke-dasharray:none;stroke-opacity:1"
+                 id="tspan13">- 120 for lap no column - 96 for number, 12 horizontal borders (show validity in background, with icon = invalid)</tspan><tspan
+                 sodipodi:role="line"
+                 x="997.19958"
+                 y="559.38202"
+                 style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-family:Manrope;-inkscape-font-specification:'Manrope Bold';text-align:start;text-anchor:start;fill:#000000;fill-opacity:1;stroke:#000000;stroke-width:0;stroke-dasharray:none;stroke-opacity:1"
+                 id="tspan16">- 144 for total lap time - 120 for lap time, 12 horizontal borders</tspan><tspan
+                 sodipodi:role="line"
+                 x="997.19958"
+                 y="596.04865"
+                 style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-family:Manrope;-inkscape-font-specification:'Manrope Bold';text-align:start;text-anchor:start;fill:#000000;fill-opacity:1;stroke:#000000;stroke-width:0;stroke-dasharray:none;stroke-opacity:1"
+                 id="tspan17">- 144 for sector 1 time - 120 for lap time, 12 horizontal borders</tspan><tspan
+                 sodipodi:role="line"
+                 x="997.19958"
+                 y="632.71527"
+                 style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-family:Manrope;-inkscape-font-specification:'Manrope Bold';text-align:start;text-anchor:start;fill:#000000;fill-opacity:1;stroke:#000000;stroke-width:0;stroke-dasharray:none;stroke-opacity:1"
+                 id="tspan18">- 144 for sector 2 time - 120 for lap time, 12 horizontal borders</tspan><tspan
+                 sodipodi:role="line"
+                 x="997.19958"
+                 y="669.3819"
+                 style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-family:Manrope;-inkscape-font-specification:'Manrope Bold';text-align:start;text-anchor:start;fill:#000000;fill-opacity:1;stroke:#000000;stroke-width:0;stroke-dasharray:none;stroke-opacity:1"
+                 id="tspan19">- 144 for sector 3 time - 120 for lap time, 12 horizontal borders</tspan><tspan
+                 sodipodi:role="line"
+                 x="997.19958"
+                 y="706.04852"
+                 style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-family:Manrope;-inkscape-font-specification:'Manrope Bold';text-align:start;text-anchor:start;fill:#000000;fill-opacity:1;stroke:#000000;stroke-width:0;stroke-dasharray:none;stroke-opacity:1"
+                 id="tspan20">- 68 for AI level column - 44 for level, 12 horizontal borders</tspan><tspan
+                 sodipodi:role="line"
+                 x="997.19958"
+                 y="742.71515"
+                 style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-family:Manrope;-inkscape-font-specification:'Manrope Bold';text-align:start;text-anchor:start;fill:#000000;fill-opacity:1;stroke:#000000;stroke-width:0;stroke-dasharray:none;stroke-opacity:1"
+                 id="tspan21">- 100 for setup details column - 76 for icon, 12 horizontal borders</tspan></text>
+          </g>
+          <rect
+             style="display:inline;fill:#000000;fill-opacity:0;stroke:#ffffff;stroke-width:0;stroke-dasharray:none;stroke-opacity:1"
+             id="BestLapListHeaderTableCell"
+             width="864"
+             height="35"
+             x="36"
+             y="484" />
+        </g>
+        <rect
+           style="display:inline;fill:#000000;fill-opacity:0;stroke:#ffffff;stroke-width:0;stroke-dasharray:none;stroke-opacity:1"
+           id="BestLapListScrollBar"
+           width="24"
+           height="560"
+           x="900"
+           y="484" />
+      </g>
+      <g
+         inkscape:groupmode="layer"
+         id="layer3"
+         inkscape:label="Best Lap Spacer"
+         transform="translate(0,-0.4999995)">
+        <rect
+           style="display:inline;fill:#000000;fill-opacity:0;stroke:#ffffff;stroke-width:0;stroke-dasharray:none;stroke-opacity:1"
+           id="BestLapSpacer"
+           width="888"
+           height="80"
+           x="36"
+           y="404.5" />
+      </g>
+      <g
+         inkscape:groupmode="layer"
          id="g43"
-         inkscape:label="Current Lap Status"
-         transform="translate(2.000001)">
+         inkscape:label="Best Lap Status"
+         transform="translate(2.000001,-0.49995372)">
         <g
            inkscape:groupmode="layer"
            id="g23"
@@ -204,49 +326,49 @@
              transform="translate(590.5)">
             <rect
                style="display:inline;fill:url(#linearGradient46);stroke:#2d083d;stroke-width:0;stroke-dasharray:none;stroke-opacity:1"
-               id="rect2"
+               id="BestLapSector3TimeBackgroundGreen"
                width="296"
                height="80"
                x="35.5"
                y="84.5" />
             <rect
                style="display:inline;fill:#000000;fill-opacity:0;stroke:#ffffff;stroke-width:0;stroke-dasharray:none;stroke-opacity:1;paint-order:stroke markers fill"
-               id="rect3"
+               id="BestLapSector3TimeBottomRightBorder"
                width="16"
                height="20"
                x="315.5"
                y="144.49995" />
             <rect
                style="display:inline;fill:#000000;fill-opacity:0;stroke:#ffffff;stroke-width:0;stroke-dasharray:none;stroke-opacity:1;paint-order:stroke markers fill"
-               id="rect4"
+               id="BestLapSector3TimeBottomLeftBorder"
                width="16"
                height="20"
                x="35.5"
                y="144.49995" />
             <rect
                style="display:inline;fill:#000000;fill-opacity:0;stroke:#ffffff;stroke-width:0;stroke-dasharray:none;stroke-opacity:1;paint-order:stroke markers fill"
-               id="rect5"
+               id="BestLapSector3TimeTopRightBorder"
                width="16"
                height="20"
                x="315.5"
                y="84.499954" />
             <rect
                style="display:inline;fill:#000000;fill-opacity:0;stroke:#ffffff;stroke-width:0;stroke-dasharray:none;stroke-opacity:1;paint-order:stroke markers fill"
-               id="rect6"
+               id="BestLapSector3TimeTopLeftBorder"
                width="16"
                height="20"
                x="35.5"
                y="84.499954" />
             <rect
                style="display:inline;fill:#000000;fill-opacity:0;stroke:#ffffff;stroke-width:0;stroke-dasharray:none;stroke-opacity:1;paint-order:stroke markers fill"
-               id="rect7"
+               id="BestLapSector3TimeTextFrame"
                width="264"
                height="40"
                x="51.5"
                y="104.49995" />
             <rect
                style="display:inline;fill:none;stroke:#ffffff;stroke-width:0;stroke-dasharray:none;stroke-opacity:1"
-               id="rect8"
+               id="BestLapSector3TimeTableCell"
                width="296"
                height="80"
                x="35.5"
@@ -271,49 +393,49 @@
              transform="translate(294.5)">
             <rect
                style="display:inline;fill:url(#linearGradient47);stroke:#2d083d;stroke-width:0;stroke-dasharray:none;stroke-opacity:1"
-               id="rect9"
+               id="BestLapSector2TimeBackgroundPurple"
                width="296"
                height="80"
                x="35.5"
                y="84.5" />
             <rect
                style="display:inline;fill:#000000;fill-opacity:0;stroke:#ffffff;stroke-width:0;stroke-dasharray:none;stroke-opacity:1;paint-order:stroke markers fill"
-               id="rect10"
+               id="BestLapSector2TimeBottomRightBorder"
                width="16"
                height="20"
                x="315.5"
                y="144.49995" />
             <rect
                style="display:inline;fill:#000000;fill-opacity:0;stroke:#ffffff;stroke-width:0;stroke-dasharray:none;stroke-opacity:1;paint-order:stroke markers fill"
-               id="rect11"
+               id="BestLapSector2TimeBottomLeftBorder"
                width="16"
                height="20"
                x="35.5"
                y="144.49995" />
             <rect
                style="display:inline;fill:#000000;fill-opacity:0;stroke:#ffffff;stroke-width:0;stroke-dasharray:none;stroke-opacity:1;paint-order:stroke markers fill"
-               id="rect12"
+               id="BestLapSector2TimeTopRightBorder"
                width="16"
                height="20"
                x="315.5"
                y="84.499954" />
             <rect
                style="display:inline;fill:#000000;fill-opacity:0;stroke:#ffffff;stroke-width:0;stroke-dasharray:none;stroke-opacity:1;paint-order:stroke markers fill"
-               id="rect13"
+               id="BestLapSector2TimeTopLeftBorder"
                width="16"
                height="20"
                x="35.5"
                y="84.499954" />
             <rect
                style="display:inline;fill:#000000;fill-opacity:0;stroke:#ffffff;stroke-width:0;stroke-dasharray:none;stroke-opacity:1;paint-order:stroke markers fill"
-               id="rect14"
+               id="BestLapSector2TimeTextFrame"
                width="264"
                height="40"
                x="51.5"
                y="104.49995" />
             <rect
                style="display:inline;fill:none;stroke:#ffffff;stroke-width:0;stroke-dasharray:none;stroke-opacity:1"
-               id="rect15"
+               id="BestLapSector2TimeTableCell"
                width="296"
                height="80"
                x="35.5"
@@ -338,49 +460,49 @@
              transform="translate(-1.500001)">
             <rect
                style="display:inline;fill:url(#linearGradient48);stroke:#2d083d;stroke-width:0;stroke-dasharray:none;stroke-opacity:1"
-               id="rect16"
+               id="BestLapSector1TimeBackgroundRed"
                width="296"
                height="80"
                x="35.5"
                y="84.5" />
             <rect
                style="display:inline;fill:#000000;fill-opacity:0;stroke:#ffffff;stroke-width:0;stroke-dasharray:none;stroke-opacity:1;paint-order:stroke markers fill"
-               id="rect17"
+               id="BestLapSector1TimeBottomRightBorder"
                width="16"
                height="20"
                x="315.5"
                y="144.49995" />
             <rect
                style="display:inline;fill:#000000;fill-opacity:0;stroke:#ffffff;stroke-width:0;stroke-dasharray:none;stroke-opacity:1;paint-order:stroke markers fill"
-               id="rect18"
+               id="BestLapSector1TimeBottomLeftBorder"
                width="16"
                height="20"
                x="35.5"
                y="144.49995" />
             <rect
                style="display:inline;fill:#000000;fill-opacity:0;stroke:#ffffff;stroke-width:0;stroke-dasharray:none;stroke-opacity:1;paint-order:stroke markers fill"
-               id="rect19"
+               id="BestLapSector1TimeTopRightBorder"
                width="16"
                height="20"
                x="315.5"
                y="84.499954" />
             <rect
                style="display:inline;fill:#000000;fill-opacity:0;stroke:#ffffff;stroke-width:0;stroke-dasharray:none;stroke-opacity:1;paint-order:stroke markers fill"
-               id="rect20"
+               id="BestLapSector1TimeTopLeftBorder"
                width="16"
                height="20"
                x="35.5"
                y="84.499954" />
             <rect
                style="display:inline;fill:#000000;fill-opacity:0;stroke:#ffffff;stroke-width:0;stroke-dasharray:none;stroke-opacity:1;paint-order:stroke markers fill"
-               id="rect21"
+               id="BestLapSector1TimeTextFrame"
                width="264"
                height="40"
                x="51.5"
                y="104.49995" />
             <rect
                style="display:inline;fill:none;stroke:#ffffff;stroke-width:0;stroke-dasharray:none;stroke-opacity:1"
-               id="rect22"
+               id="BestLapSector1TimeTableCell"
                width="296"
                height="80"
                x="35.5"
@@ -621,28 +743,28 @@
          width="36"
          height="36"
          x="924"
-         y="1044.5" />
+         y="1044" />
       <rect
          style="fill:#000000;fill-opacity:0;stroke:#ffffff;stroke-width:0;stroke-dasharray:none;stroke-opacity:1;paint-order:stroke markers fill"
          id="RightScreenHalfBottomLeftBorder"
          width="36"
          height="36"
          x="5e-07"
-         y="1044.5" />
+         y="1044" />
       <rect
          style="fill:#000000;fill-opacity:0;stroke:#ffffff;stroke-width:0;stroke-dasharray:none;stroke-opacity:1;paint-order:stroke markers fill"
          id="RightScreenHalfTopRightBorder"
          width="36"
          height="36"
          x="924"
-         y="48.49995" />
+         y="48" />
       <rect
          style="fill:#000000;fill-opacity:0;stroke:#ffffff;stroke-width:0;stroke-dasharray:none;stroke-opacity:1;paint-order:stroke markers fill"
          id="RightScreenHalfTopLeftBorder"
          width="36"
          height="36"
          x="5e-07"
-         y="48.49995" />
+         y="48" />
     </g>
     <g
        inkscape:groupmode="layer"
@@ -659,7 +781,7 @@
          inkscape:groupmode="layer"
          id="layer7-0"
          inkscape:label="Current Lap Status"
-         transform="translate(2.000001)">
+         transform="translate(2.000001,-0.49995372)">
         <g
            inkscape:groupmode="layer"
            id="g17"
@@ -1096,28 +1218,28 @@
          width="36"
          height="36"
          x="924"
-         y="1044.5" />
+         y="1044" />
       <rect
          style="fill:#000000;fill-opacity:0;stroke:#ffffff;stroke-width:0;stroke-dasharray:none;stroke-opacity:1;paint-order:stroke markers fill"
          id="LeftScreenHalfBottomLeftBorder"
          width="36"
          height="36"
          x="5e-07"
-         y="1044.5" />
+         y="1044" />
       <rect
          style="fill:#000000;fill-opacity:0;stroke:#ffffff;stroke-width:0;stroke-dasharray:none;stroke-opacity:1;paint-order:stroke markers fill"
          id="LeftScreenHalfTopRightBorder"
          width="36"
          height="36"
          x="924"
-         y="48.49995" />
+         y="48" />
       <rect
          style="fill:#000000;fill-opacity:0;stroke:#ffffff;stroke-width:0;stroke-dasharray:none;stroke-opacity:1;paint-order:stroke markers fill"
          id="LeftScreenHalfTopLeftBorder"
          width="36"
          height="36"
          x="5e-07"
-         y="48.49995" />
+         y="48" />
     </g>
     <g
        inkscape:groupmode="layer"

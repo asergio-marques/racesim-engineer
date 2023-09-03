@@ -30,14 +30,14 @@
      inkscape:deskcolor="#d1d1d1"
      inkscape:document-units="px"
      inkscape:zoom="0.70710678"
-     inkscape:cx="1936.7655"
-     inkscape:cy="525.38034"
-     inkscape:window-width="2560"
-     inkscape:window-height="1377"
-     inkscape:window-x="2552"
+     inkscape:cx="1401.4856"
+     inkscape:cy="400.92955"
+     inkscape:window-width="1920"
+     inkscape:window-height="1017"
+     inkscape:window-x="-8"
      inkscape:window-y="-8"
      inkscape:window-maximized="1"
-     inkscape:current-layer="layer11" />
+     inkscape:current-layer="g25" />
   <defs
      id="defs1">
     <linearGradient
@@ -168,6 +168,52 @@
        id="g46"
        inkscape:label="Right Screen Half"
        transform="translate(960)">
+      <text
+         xml:space="preserve"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:29.3333px;font-family:Manrope;-inkscape-font-specification:Manrope;text-align:center;text-anchor:middle;fill:#000000;fill-opacity:0.5;stroke:#ffffff;stroke-width:0;stroke-dasharray:none;stroke-opacity:1"
+         x="997.19958"
+         y="486.04877"
+         id="text192"><tspan
+           sodipodi:role="line"
+           x="997.19958"
+           y="486.04877"
+           id="tspan198"
+           style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-family:Manrope;-inkscape-font-specification:'Manrope Bold';text-align:start;text-anchor:start;fill:#000000;fill-opacity:1;stroke:#000000;stroke-width:0;stroke-dasharray:none;stroke-opacity:1">864 width total</tspan><tspan
+           sodipodi:role="line"
+           x="997.19958"
+           y="522.71539"
+           style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-family:Manrope;-inkscape-font-specification:'Manrope Bold';text-align:start;text-anchor:start;fill:#000000;fill-opacity:1;stroke:#000000;stroke-width:0;stroke-dasharray:none;stroke-opacity:1"
+           id="tspan13">- 120 for lap no column - 96 for number, 12 horizontal borders (show validity in background, with icon = invalid)</tspan><tspan
+           sodipodi:role="line"
+           x="997.19958"
+           y="559.38202"
+           style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-family:Manrope;-inkscape-font-specification:'Manrope Bold';text-align:start;text-anchor:start;fill:#000000;fill-opacity:1;stroke:#000000;stroke-width:0;stroke-dasharray:none;stroke-opacity:1"
+           id="tspan16">- 144 for total lap time - 120 for lap time, 12 horizontal borders</tspan><tspan
+           sodipodi:role="line"
+           x="997.19958"
+           y="596.04865"
+           style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-family:Manrope;-inkscape-font-specification:'Manrope Bold';text-align:start;text-anchor:start;fill:#000000;fill-opacity:1;stroke:#000000;stroke-width:0;stroke-dasharray:none;stroke-opacity:1"
+           id="tspan17">- 144 for sector 1 time - 120 for lap time, 12 horizontal borders</tspan><tspan
+           sodipodi:role="line"
+           x="997.19958"
+           y="632.71527"
+           style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-family:Manrope;-inkscape-font-specification:'Manrope Bold';text-align:start;text-anchor:start;fill:#000000;fill-opacity:1;stroke:#000000;stroke-width:0;stroke-dasharray:none;stroke-opacity:1"
+           id="tspan18">- 144 for sector 2 time - 120 for lap time, 12 horizontal borders</tspan><tspan
+           sodipodi:role="line"
+           x="997.19958"
+           y="669.3819"
+           style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-family:Manrope;-inkscape-font-specification:'Manrope Bold';text-align:start;text-anchor:start;fill:#000000;fill-opacity:1;stroke:#000000;stroke-width:0;stroke-dasharray:none;stroke-opacity:1"
+           id="tspan19">- 144 for sector 3 time - 120 for lap time, 12 horizontal borders</tspan><tspan
+           sodipodi:role="line"
+           x="997.19958"
+           y="706.04852"
+           style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-family:Manrope;-inkscape-font-specification:'Manrope Bold';text-align:start;text-anchor:start;fill:#000000;fill-opacity:1;stroke:#000000;stroke-width:0;stroke-dasharray:none;stroke-opacity:1"
+           id="tspan20">- 68 for AI level column - 44 for level, 12 horizontal borders</tspan><tspan
+           sodipodi:role="line"
+           x="997.19958"
+           y="742.71515"
+           style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-family:Manrope;-inkscape-font-specification:'Manrope Bold';text-align:start;text-anchor:start;fill:#000000;fill-opacity:1;stroke:#000000;stroke-width:0;stroke-dasharray:none;stroke-opacity:1"
+           id="tspan21">- 100 for setup details column - 76 for icon, 12 horizontal borders</tspan></text>
       <rect
          style="display:inline;fill:#000000;stroke:none;stroke-width:1.02151"
          id="ScreenRightHalf"
@@ -192,28 +238,431 @@
            inkscape:label="Best Lap List Header">
           <g
              inkscape:groupmode="layer"
-             id="layer14"
-             inkscape:label="Best Lap List Header Setup Entry" />
+             id="g6"
+             inkscape:label="Best Lap List Header Setup Details"
+             transform="translate(764)">
+            <rect
+               style="display:inline;fill:#000000;fill-opacity:0;stroke:#ffffff;stroke-width:0;stroke-dasharray:none;stroke-opacity:1"
+               id="rect1"
+               width="12"
+               height="6"
+               x="124"
+               y="513"
+               inkscape:label="BestLapListHeaderSetupDetailsBottomRightBorder" />
+            <rect
+               style="display:inline;fill:#000000;fill-opacity:0;stroke:#ffffff;stroke-width:0;stroke-dasharray:none;stroke-opacity:1"
+               id="rect2"
+               width="12"
+               height="6"
+               x="36"
+               y="513"
+               inkscape:label="BestLapListHeaderSetupDetailsBottomLeftBorder" />
+            <rect
+               style="display:inline;fill:#000000;fill-opacity:0;stroke:#ffffff;stroke-width:0;stroke-dasharray:none;stroke-opacity:1"
+               id="rect3"
+               width="12"
+               height="6"
+               x="124"
+               y="484"
+               inkscape:label="BestLapListHeaderSetupDetailsTopRightBorder" />
+            <rect
+               style="display:inline;fill:#000000;fill-opacity:0;stroke:#ffffff;stroke-width:0;stroke-dasharray:none;stroke-opacity:1"
+               id="rect4"
+               width="12"
+               height="6"
+               x="36"
+               y="484"
+               inkscape:label="BestLapListHeaderSetupDetailsTopLeftBorder" />
+            <rect
+               style="display:inline;fill:#000000;fill-opacity:0;stroke:#ffffff;stroke-width:0;stroke-dasharray:none;stroke-opacity:1"
+               id="BestLapListHeaderSetupDetailsTextFrame"
+               width="76"
+               height="23"
+               x="48"
+               y="490" />
+            <rect
+               style="display:inline;fill:#000000;fill-opacity:0;stroke:#ffffff;stroke-width:0;stroke-dasharray:none;stroke-opacity:1"
+               id="BestLapListHeaderSetupDetailsTableCell"
+               width="100"
+               height="35"
+               x="36"
+               y="484" />
+            <text
+               xml:space="preserve"
+               style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:29.3333px;font-family:'Segoe UI';-inkscape-font-specification:'Segoe UI';text-align:center;text-anchor:middle;fill:#ffffff;fill-opacity:1;stroke:#000000;stroke-width:2;stroke-dasharray:none;stroke-opacity:1"
+               x="86.095345"
+               y="512.0528"
+               id="text6"
+               inkscape:label="BestLapListHeaderSetupDetailsText"><tspan
+                 sodipodi:role="line"
+                 id="tspan6"
+                 x="86.095345"
+                 y="512.0528"
+                 style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:29.3333px;font-family:Manrope;-inkscape-font-specification:Manrope;text-align:center;text-anchor:middle;fill:#ffffff;fill-opacity:1;stroke:none">Setup</tspan></text>
+          </g>
           <g
              inkscape:groupmode="layer"
-             id="layer13"
-             inkscape:label="Best Lap List Header Sector 3 Time" />
+             id="g49"
+             inkscape:label="Best Lap List Header AI Level"
+             transform="translate(696)">
+            <rect
+               style="display:inline;fill:#000000;fill-opacity:0;stroke:#ffffff;stroke-width:0;stroke-dasharray:none;stroke-opacity:1"
+               id="rect44"
+               width="12"
+               height="6"
+               x="92"
+               y="513"
+               inkscape:label="BestLapListHeaderAILevelBottomRightBorder" />
+            <rect
+               style="display:inline;fill:#000000;fill-opacity:0;stroke:#ffffff;stroke-width:0;stroke-dasharray:none;stroke-opacity:1"
+               id="rect45"
+               width="12"
+               height="6"
+               x="36"
+               y="513"
+               inkscape:label="BestLapListHeaderAILevelBottomLeftBorder" />
+            <rect
+               style="display:inline;fill:#000000;fill-opacity:0;stroke:#ffffff;stroke-width:0;stroke-dasharray:none;stroke-opacity:1"
+               id="rect46"
+               width="12"
+               height="6"
+               x="92"
+               y="484"
+               inkscape:label="BestLapListHeaderAILevelTopRightBorder" />
+            <rect
+               style="display:inline;fill:#000000;fill-opacity:0;stroke:#ffffff;stroke-width:0;stroke-dasharray:none;stroke-opacity:1"
+               id="rect47"
+               width="12"
+               height="6"
+               x="36"
+               y="484"
+               inkscape:label="BestLapListHeaderAILevelTopLeftBorder" />
+            <rect
+               style="display:inline;fill:#000000;fill-opacity:0;stroke:#ffffff;stroke-width:0;stroke-dasharray:none;stroke-opacity:1"
+               id="BestLapListHeaderAILevelTextFrame"
+               width="44"
+               height="23"
+               x="48"
+               y="490" />
+            <rect
+               style="display:inline;fill:#000000;fill-opacity:0;stroke:#ffffff;stroke-width:0;stroke-dasharray:none;stroke-opacity:1"
+               id="BestLapListHeaderAILevelTableCell"
+               width="68"
+               height="35"
+               x="36"
+               y="484" />
+            <text
+               xml:space="preserve"
+               style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:29.3333px;font-family:'Segoe UI';-inkscape-font-specification:'Segoe UI';text-align:center;text-anchor:middle;fill:#ffffff;fill-opacity:1;stroke:#000000;stroke-width:2;stroke-dasharray:none;stroke-opacity:1"
+               x="70.87999"
+               y="512.0528"
+               id="text49"
+               inkscape:label="BestLapListHeaderAILevelText"><tspan
+                 sodipodi:role="line"
+                 id="tspan49"
+                 x="70.87999"
+                 y="512.0528"
+                 style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:29.3333px;font-family:Manrope;-inkscape-font-specification:Manrope;text-align:center;text-anchor:middle;fill:#ffffff;fill-opacity:1;stroke:none">AI</tspan></text>
+          </g>
           <g
              inkscape:groupmode="layer"
-             id="g191"
-             inkscape:label="Best Lap List Header Sector 2 Time" />
+             id="g36"
+             inkscape:label="Best Lap List Header Sector 3 Time"
+             transform="translate(552)">
+            <rect
+               style="display:inline;fill:#000000;fill-opacity:0;stroke:#ffffff;stroke-width:0;stroke-dasharray:none;stroke-opacity:1"
+               id="rect31"
+               width="12"
+               height="6"
+               x="168"
+               y="513"
+               inkscape:label="BestLapListHeaderSector3TimeBottomRightBorder" />
+            <rect
+               style="display:inline;fill:#000000;fill-opacity:0;stroke:#ffffff;stroke-width:0;stroke-dasharray:none;stroke-opacity:1"
+               id="rect32"
+               width="12"
+               height="6"
+               x="36"
+               y="513"
+               inkscape:label="BestLapListHeaderSector3TimeBottomLeftBorder" />
+            <rect
+               style="display:inline;fill:#000000;fill-opacity:0;stroke:#ffffff;stroke-width:0;stroke-dasharray:none;stroke-opacity:1"
+               id="rect33"
+               width="12"
+               height="6"
+               x="168"
+               y="484"
+               inkscape:label="BestLapListHeaderSector3TimeTopRightBorder" />
+            <rect
+               style="display:inline;fill:#000000;fill-opacity:0;stroke:#ffffff;stroke-width:0;stroke-dasharray:none;stroke-opacity:1"
+               id="rect34"
+               width="12"
+               height="6"
+               x="36"
+               y="484"
+               inkscape:label="BestLapListHeaderSector3TimeTopLeftBorder" />
+            <rect
+               style="display:inline;fill:#000000;fill-opacity:0;stroke:#ffffff;stroke-width:0;stroke-dasharray:none;stroke-opacity:1"
+               id="BestLapListHeaderSector3TimeTextFrame"
+               width="120"
+               height="23"
+               x="48"
+               y="490" />
+            <rect
+               style="display:inline;fill:#000000;fill-opacity:0;stroke:#ffffff;stroke-width:0;stroke-dasharray:none;stroke-opacity:1"
+               id="BestLapListHeaderSector3TimeTableCell"
+               width="144"
+               height="35"
+               x="36"
+               y="484" />
+            <text
+               xml:space="preserve"
+               style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:29.3333px;font-family:'Segoe UI';-inkscape-font-specification:'Segoe UI';text-align:center;text-anchor:middle;fill:#ffffff;fill-opacity:1;stroke:#000000;stroke-width:2;stroke-dasharray:none;stroke-opacity:1"
+               x="108.38866"
+               y="512.0528"
+               id="text36"
+               inkscape:label="BestLapListHeaderSector3Text"><tspan
+                 sodipodi:role="line"
+                 id="tspan36"
+                 x="108.38866"
+                 y="512.0528"
+                 style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:29.3333px;font-family:Manrope;-inkscape-font-specification:Manrope;text-align:center;text-anchor:middle;fill:#ffffff;fill-opacity:1;stroke:none">Sector 3</tspan></text>
+          </g>
           <g
              inkscape:groupmode="layer"
-             id="g192"
-             inkscape:label="Best Lap List Header Sector 1 Time" />
+             id="g44"
+             inkscape:label="Best Lap List Header Sector 2 Time"
+             transform="translate(408)">
+            <rect
+               style="display:inline;fill:#000000;fill-opacity:0;stroke:#ffffff;stroke-width:0;stroke-dasharray:none;stroke-opacity:1"
+               id="rect37"
+               width="12"
+               height="6"
+               x="168"
+               y="513"
+               inkscape:label="BestLapListHeaderSector2TimeBottomRightBorder" />
+            <rect
+               style="display:inline;fill:#000000;fill-opacity:0;stroke:#ffffff;stroke-width:0;stroke-dasharray:none;stroke-opacity:1"
+               id="rect38"
+               width="12"
+               height="6"
+               x="36"
+               y="513"
+               inkscape:label="BestLapListHeaderSector2TimeBottomLeftBorder" />
+            <rect
+               style="display:inline;fill:#000000;fill-opacity:0;stroke:#ffffff;stroke-width:0;stroke-dasharray:none;stroke-opacity:1"
+               id="rect39"
+               width="12"
+               height="6"
+               x="168"
+               y="484"
+               inkscape:label="BestLapListHeaderSector2TimeTopRightBorder" />
+            <rect
+               style="display:inline;fill:#000000;fill-opacity:0;stroke:#ffffff;stroke-width:0;stroke-dasharray:none;stroke-opacity:1"
+               id="rect40"
+               width="12"
+               height="6"
+               x="36"
+               y="484"
+               inkscape:label="BestLapListHeaderSector2TimeTopLeftBorder" />
+            <rect
+               style="display:inline;fill:#000000;fill-opacity:0;stroke:#ffffff;stroke-width:0;stroke-dasharray:none;stroke-opacity:1"
+               id="BestLapListHeaderSector2TimeTextFrame"
+               width="120"
+               height="23"
+               x="48"
+               y="490" />
+            <rect
+               style="display:inline;fill:#000000;fill-opacity:0;stroke:#ffffff;stroke-width:0;stroke-dasharray:none;stroke-opacity:1"
+               id="BestLapListHeaderSector2TimeTableCell"
+               width="144"
+               height="35"
+               x="36"
+               y="484" />
+            <text
+               xml:space="preserve"
+               style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:29.3333px;font-family:'Segoe UI';-inkscape-font-specification:'Segoe UI';text-align:center;text-anchor:middle;fill:#ffffff;fill-opacity:1;stroke:#000000;stroke-width:2;stroke-dasharray:none;stroke-opacity:1"
+               x="108.242"
+               y="512.06"
+               id="text42"
+               inkscape:label="BestLapListHeaderSector2Text"><tspan
+                 sodipodi:role="line"
+                 id="tspan42"
+                 x="108.242"
+                 y="512.06"
+                 style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:29.3333px;font-family:Manrope;-inkscape-font-specification:Manrope;text-align:center;text-anchor:middle;fill:#ffffff;fill-opacity:1;stroke:none">Sector 2</tspan></text>
+          </g>
           <g
              inkscape:groupmode="layer"
-             id="layer12"
-             inkscape:label="Best Lap List Header Lap Time" />
+             id="g31"
+             inkscape:label="Best Lap List Header Sector 1 Time"
+             transform="translate(264)">
+            <rect
+               style="display:inline;fill:#000000;fill-opacity:0;stroke:#ffffff;stroke-width:0;stroke-dasharray:none;stroke-opacity:1"
+               id="rect26"
+               width="12"
+               height="6"
+               x="168"
+               y="513"
+               inkscape:label="BestLapListHeaderSector1TimeBottomRightBorder" />
+            <rect
+               style="display:inline;fill:#000000;fill-opacity:0;stroke:#ffffff;stroke-width:0;stroke-dasharray:none;stroke-opacity:1"
+               id="rect27"
+               width="12"
+               height="6"
+               x="36"
+               y="513"
+               inkscape:label="BestLapListHeaderSector1TimeBottomLeftBorder" />
+            <rect
+               style="display:inline;fill:#000000;fill-opacity:0;stroke:#ffffff;stroke-width:0;stroke-dasharray:none;stroke-opacity:1"
+               id="rect28"
+               width="12"
+               height="6"
+               x="168"
+               y="484"
+               inkscape:label="BestLapListHeaderSector1TimeTopRightBorder" />
+            <rect
+               style="display:inline;fill:#000000;fill-opacity:0;stroke:#ffffff;stroke-width:0;stroke-dasharray:none;stroke-opacity:1"
+               id="rect29"
+               width="12"
+               height="6"
+               x="36"
+               y="484"
+               inkscape:label="BestLapListHeaderSector1TimeTopLeftBorder" />
+            <rect
+               style="display:inline;fill:#000000;fill-opacity:0;stroke:#ffffff;stroke-width:0;stroke-dasharray:none;stroke-opacity:1"
+               id="BestLapListHeaderSector1TimeTextFrame"
+               width="120"
+               height="23"
+               x="48"
+               y="490" />
+            <rect
+               style="display:inline;fill:#000000;fill-opacity:0;stroke:#ffffff;stroke-width:0;stroke-dasharray:none;stroke-opacity:1"
+               id="BestLapListHeaderSector1TimeTableCell"
+               width="144"
+               height="35"
+               x="36"
+               y="484" />
+            <text
+               xml:space="preserve"
+               style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:29.3333px;font-family:'Segoe UI';-inkscape-font-specification:'Segoe UI';text-align:center;text-anchor:middle;fill:#ffffff;fill-opacity:1;stroke:#000000;stroke-width:2;stroke-dasharray:none;stroke-opacity:1"
+               x="109.26865"
+               y="512.0528"
+               id="text31"
+               inkscape:label="BestLapListHeaderSector1Text"><tspan
+                 sodipodi:role="line"
+                 id="tspan31"
+                 x="109.26865"
+                 y="512.0528"
+                 style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:29.3333px;font-family:Manrope;-inkscape-font-specification:Manrope;text-align:center;text-anchor:middle;fill:#ffffff;fill-opacity:1;stroke:none">Sector 1</tspan></text>
+          </g>
+          <g
+             inkscape:groupmode="layer"
+             id="g25"
+             inkscape:label="Best Lap List Header Lap Time"
+             transform="translate(120)">
+            <rect
+               style="display:inline;fill:#000000;fill-opacity:0;stroke:#ffffff;stroke-width:0;stroke-dasharray:none;stroke-opacity:1"
+               id="rect20"
+               width="12"
+               height="6"
+               x="168"
+               y="513"
+               inkscape:label="BestLapListHeaderLapTimeBottomRightBorder" />
+            <rect
+               style="display:inline;fill:#000000;fill-opacity:0;stroke:#ffffff;stroke-width:0;stroke-dasharray:none;stroke-opacity:1"
+               id="rect21"
+               width="12"
+               height="6"
+               x="36"
+               y="513"
+               inkscape:label="BestLapListHeaderLapTimeBottomLeftBorder" />
+            <rect
+               style="display:inline;fill:#000000;fill-opacity:0;stroke:#ffffff;stroke-width:0;stroke-dasharray:none;stroke-opacity:1"
+               id="rect22"
+               width="12"
+               height="6"
+               x="168"
+               y="484"
+               inkscape:label="BestLapListHeaderLapTimeTopRightBorder" />
+            <rect
+               style="display:inline;fill:#000000;fill-opacity:0;stroke:#ffffff;stroke-width:0;stroke-dasharray:none;stroke-opacity:1"
+               id="rect23"
+               width="12"
+               height="6"
+               x="36"
+               y="484"
+               inkscape:label="BestLapListHeaderLapTimeTopLeftBorder" />
+            <rect
+               style="display:inline;fill:#000000;fill-opacity:0;stroke:#ffffff;stroke-width:0;stroke-dasharray:none;stroke-opacity:1"
+               id="BestLapListHeaderLapTimeTextFrame"
+               width="120"
+               height="23"
+               x="48"
+               y="490" />
+            <rect
+               style="display:inline;fill:#000000;fill-opacity:0;stroke:#ffffff;stroke-width:0;stroke-dasharray:none;stroke-opacity:1"
+               id="BestLapListHeaderLapTimeTableCell"
+               width="144"
+               height="35"
+               x="36"
+               y="484" />
+            <text
+               xml:space="preserve"
+               style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:29.3333px;font-family:'Segoe UI';-inkscape-font-specification:'Segoe UI';text-align:center;text-anchor:middle;fill:#ffffff;fill-opacity:1;stroke:#000000;stroke-width:2;stroke-dasharray:none;stroke-opacity:1"
+               x="108.44441"
+               y="511.91333"
+               id="text25"
+               inkscape:label="BestLapListHeaderLapTimeText"><tspan
+                 sodipodi:role="line"
+                 id="tspan25"
+                 x="108.44441"
+                 y="511.91333"
+                 style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:29.3333px;font-family:Manrope;-inkscape-font-specification:Manrope;text-align:center;text-anchor:middle;fill:#ffffff;fill-opacity:1;stroke:none">Time</tspan></text>
+          </g>
           <g
              inkscape:groupmode="layer"
              id="layer11"
              inkscape:label="Best Lap List Header Lap Number">
+            <rect
+               style="display:inline;fill:#000000;fill-opacity:0;stroke:#ffffff;stroke-width:0;stroke-dasharray:none;stroke-opacity:1"
+               id="rect19"
+               width="12"
+               height="6"
+               x="144"
+               y="513"
+               inkscape:label="BestLapListHeaderLapNumberBottomRightBorder" />
+            <rect
+               style="display:inline;fill:#000000;fill-opacity:0;stroke:#ffffff;stroke-width:0;stroke-dasharray:none;stroke-opacity:1"
+               id="rect18"
+               width="12"
+               height="6"
+               x="36"
+               y="513"
+               inkscape:label="BestLapListHeaderLapNumberBottomLeftBorder" />
+            <rect
+               style="display:inline;fill:#000000;fill-opacity:0;stroke:#ffffff;stroke-width:0;stroke-dasharray:none;stroke-opacity:1"
+               id="rect17"
+               width="12"
+               height="6"
+               x="144"
+               y="484"
+               inkscape:label="BestLapListHeaderLapNumberTopRightBorder" />
+            <rect
+               style="display:inline;fill:#000000;fill-opacity:0;stroke:#ffffff;stroke-width:0;stroke-dasharray:none;stroke-opacity:1"
+               id="rect16"
+               width="12"
+               height="6"
+               x="36"
+               y="484"
+               inkscape:label="BestLapListHeaderLapNumberTopLeftBorder" />
+            <rect
+               style="display:inline;fill:#000000;fill-opacity:0;stroke:#ffffff;stroke-width:0;stroke-dasharray:none;stroke-opacity:1"
+               id="BestLapListHeaderLapNumberTextFrame"
+               width="96"
+               height="23"
+               x="48"
+               y="490" />
             <rect
                style="display:inline;fill:#000000;fill-opacity:0;stroke:#ffffff;stroke-width:0;stroke-dasharray:none;stroke-opacity:1"
                id="BestLapListHeaderLapNumberTableCell"
@@ -223,62 +672,16 @@
                y="484" />
             <text
                xml:space="preserve"
-               style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:29.3333px;font-family:'Segoe UI';-inkscape-font-specification:'Segoe UI';fill:#ffffff;fill-opacity:1;stroke:#000000;stroke-width:2;stroke-dasharray:none;stroke-opacity:1"
-               x="83.915947"
+               style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:29.3333px;font-family:'Segoe UI';-inkscape-font-specification:'Segoe UI';text-align:center;text-anchor:middle;fill:#ffffff;fill-opacity:1;stroke:#000000;stroke-width:2;stroke-dasharray:none;stroke-opacity:1"
+               x="96.044006"
                y="511.84"
                id="BestLapListHeaderLapNumberText"
                inkscape:label="BestLapListHeaderLapNumberText"><tspan
                  sodipodi:role="line"
                  id="tspan1"
-                 x="83.915947"
+                 x="96.044006"
                  y="511.84"
-                 style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:29.3333px;font-family:Manrope;-inkscape-font-specification:Manrope;text-align:center;text-anchor:middle;fill:#ffffff;fill-opacity:1;stroke:none">106</tspan></text>
-            <text
-               xml:space="preserve"
-               style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:29.3333px;font-family:Manrope;-inkscape-font-specification:Manrope;text-align:center;text-anchor:middle;fill:#000000;fill-opacity:0.5;stroke:#ffffff;stroke-width:0;stroke-dasharray:none;stroke-opacity:1"
-               x="997.19958"
-               y="486.04877"
-               id="text192"><tspan
-                 sodipodi:role="line"
-                 x="997.19958"
-                 y="486.04877"
-                 id="tspan198"
-                 style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-family:Manrope;-inkscape-font-specification:'Manrope Bold';text-align:start;text-anchor:start;fill:#000000;fill-opacity:1;stroke:#000000;stroke-width:0;stroke-dasharray:none;stroke-opacity:1">864 width total</tspan><tspan
-                 sodipodi:role="line"
-                 x="997.19958"
-                 y="522.71539"
-                 style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-family:Manrope;-inkscape-font-specification:'Manrope Bold';text-align:start;text-anchor:start;fill:#000000;fill-opacity:1;stroke:#000000;stroke-width:0;stroke-dasharray:none;stroke-opacity:1"
-                 id="tspan13">- 120 for lap no column - 96 for number, 12 horizontal borders (show validity in background, with icon = invalid)</tspan><tspan
-                 sodipodi:role="line"
-                 x="997.19958"
-                 y="559.38202"
-                 style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-family:Manrope;-inkscape-font-specification:'Manrope Bold';text-align:start;text-anchor:start;fill:#000000;fill-opacity:1;stroke:#000000;stroke-width:0;stroke-dasharray:none;stroke-opacity:1"
-                 id="tspan16">- 144 for total lap time - 120 for lap time, 12 horizontal borders</tspan><tspan
-                 sodipodi:role="line"
-                 x="997.19958"
-                 y="596.04865"
-                 style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-family:Manrope;-inkscape-font-specification:'Manrope Bold';text-align:start;text-anchor:start;fill:#000000;fill-opacity:1;stroke:#000000;stroke-width:0;stroke-dasharray:none;stroke-opacity:1"
-                 id="tspan17">- 144 for sector 1 time - 120 for lap time, 12 horizontal borders</tspan><tspan
-                 sodipodi:role="line"
-                 x="997.19958"
-                 y="632.71527"
-                 style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-family:Manrope;-inkscape-font-specification:'Manrope Bold';text-align:start;text-anchor:start;fill:#000000;fill-opacity:1;stroke:#000000;stroke-width:0;stroke-dasharray:none;stroke-opacity:1"
-                 id="tspan18">- 144 for sector 2 time - 120 for lap time, 12 horizontal borders</tspan><tspan
-                 sodipodi:role="line"
-                 x="997.19958"
-                 y="669.3819"
-                 style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-family:Manrope;-inkscape-font-specification:'Manrope Bold';text-align:start;text-anchor:start;fill:#000000;fill-opacity:1;stroke:#000000;stroke-width:0;stroke-dasharray:none;stroke-opacity:1"
-                 id="tspan19">- 144 for sector 3 time - 120 for lap time, 12 horizontal borders</tspan><tspan
-                 sodipodi:role="line"
-                 x="997.19958"
-                 y="706.04852"
-                 style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-family:Manrope;-inkscape-font-specification:'Manrope Bold';text-align:start;text-anchor:start;fill:#000000;fill-opacity:1;stroke:#000000;stroke-width:0;stroke-dasharray:none;stroke-opacity:1"
-                 id="tspan20">- 68 for AI level column - 44 for level, 12 horizontal borders</tspan><tspan
-                 sodipodi:role="line"
-                 x="997.19958"
-                 y="742.71515"
-                 style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-family:Manrope;-inkscape-font-specification:'Manrope Bold';text-align:start;text-anchor:start;fill:#000000;fill-opacity:1;stroke:#000000;stroke-width:0;stroke-dasharray:none;stroke-opacity:1"
-                 id="tspan21">- 100 for setup details column - 76 for icon, 12 horizontal borders</tspan></text>
+                 style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:29.3333px;font-family:Manrope;-inkscape-font-specification:Manrope;text-align:center;text-anchor:middle;fill:#ffffff;fill-opacity:1;stroke:none">Lap</tspan></text>
           </g>
           <rect
              style="display:inline;fill:#000000;fill-opacity:0;stroke:#ffffff;stroke-width:0;stroke-dasharray:none;stroke-opacity:1"

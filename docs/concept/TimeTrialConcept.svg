@@ -30,14 +30,14 @@
      inkscape:deskcolor="#d1d1d1"
      inkscape:document-units="px"
      inkscape:zoom="0.82552083"
-     inkscape:cx="972.11356"
+     inkscape:cx="972.11357"
      inkscape:cy="687.4448"
      inkscape:window-width="2560"
      inkscape:window-height="1377"
      inkscape:window-x="2552"
      inkscape:window-y="-8"
      inkscape:window-maximized="1"
-     inkscape:current-layer="layer2" />
+     inkscape:current-layer="g464" />
   <defs
      id="defs1">
     <linearGradient
@@ -160,15 +160,6 @@
        y2="145.5" />
     <linearGradient
        inkscape:collect="always"
-       xlink:href="#linearGradient12-1"
-       id="linearGradient748"
-       x1="36"
-       y1="501.5"
-       x2="180"
-       y2="501.5"
-       gradientUnits="userSpaceOnUse" />
-    <linearGradient
-       inkscape:collect="always"
        xlink:href="#linearGradient12"
        id="linearGradient752"
        x1="36"
@@ -198,6 +189,42 @@
        inkscape:collect="always"
        xlink:href="#linearGradient12-1"
        id="linearGradient759"
+       x1="36"
+       y1="501.5"
+       x2="180"
+       y2="501.5"
+       gradientUnits="userSpaceOnUse" />
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient12-1"
+       id="linearGradient2"
+       x1="36"
+       y1="501.5"
+       x2="180"
+       y2="501.5"
+       gradientUnits="userSpaceOnUse" />
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient12-1"
+       id="linearGradient4"
+       x1="36"
+       y1="501.5"
+       x2="180"
+       y2="501.5"
+       gradientUnits="userSpaceOnUse" />
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient12-1"
+       id="linearGradient6"
+       x1="36"
+       y1="501.5"
+       x2="180"
+       y2="501.5"
+       gradientUnits="userSpaceOnUse" />
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient12"
+       id="linearGradient9"
        x1="36"
        y1="501.5"
        x2="180"
@@ -2761,7 +2788,7 @@
                  id="tspan464"
                  x="70.87999"
                  y="512.0528"
-                 style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:29.3333px;font-family:Manrope;-inkscape-font-specification:Manrope;text-align:center;text-anchor:middle;fill:#ffffff;fill-opacity:1;stroke:none">94</tspan></text>
+                 style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:29.3333px;font-family:Manrope;-inkscape-font-specification:Manrope;text-align:center;text-anchor:middle;fill:#ffffff;fill-opacity:1;stroke:none">102</tspan></text>
           </g>
           <g
              inkscape:groupmode="layer"
@@ -2832,7 +2859,7 @@
                  id="tspan471"
                  x="108.38866"
                  y="512.0528"
-                 style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:29.3333px;font-family:Manrope;-inkscape-font-specification:Manrope;text-align:center;text-anchor:middle;fill:#ffffff;fill-opacity:1;stroke:none">33.882</tspan></text>
+                 style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:29.3333px;font-family:Manrope;-inkscape-font-specification:Manrope;text-align:center;text-anchor:middle;fill:#ffffff;fill-opacity:1;stroke:none">33.418</tspan></text>
           </g>
           <g
              inkscape:groupmode="layer"
@@ -2903,7 +2930,7 @@
                  id="tspan478"
                  x="108.242"
                  y="512.06"
-                 style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:29.3333px;font-family:Manrope;-inkscape-font-specification:Manrope;text-align:center;text-anchor:middle;fill:#ffffff;fill-opacity:1;stroke:none">27.600</tspan></text>
+                 style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:29.3333px;font-family:Manrope;-inkscape-font-specification:Manrope;text-align:center;text-anchor:middle;fill:#ffffff;fill-opacity:1;stroke:none">27.503</tspan></text>
           </g>
           <g
              inkscape:groupmode="layer"
@@ -2974,7 +3001,7 @@
                  id="tspan485"
                  x="109.26865"
                  y="512.0528"
-                 style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:29.3333px;font-family:Manrope;-inkscape-font-specification:Manrope;text-align:center;text-anchor:middle;fill:#ffffff;fill-opacity:1;stroke:none">42.416</tspan></text>
+                 style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:29.3333px;font-family:Manrope;-inkscape-font-specification:Manrope;text-align:center;text-anchor:middle;fill:#ffffff;fill-opacity:1;stroke:none">42.112</tspan></text>
           </g>
           <g
              inkscape:groupmode="layer"
@@ -3045,7 +3072,7 @@
                  id="tspan492"
                  x="108.44441"
                  y="511.91333"
-                 style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:29.3333px;font-family:Manrope;-inkscape-font-specification:Manrope;text-align:center;text-anchor:middle;fill:#ffffff;fill-opacity:1;stroke:none">1:43.898</tspan></text>
+                 style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:29.3333px;font-family:Manrope;-inkscape-font-specification:Manrope;text-align:center;text-anchor:middle;fill:#ffffff;fill-opacity:1;stroke:none">1:43.033</tspan></text>
           </g>
           <g
              inkscape:groupmode="layer"
@@ -3222,7 +3249,7 @@
                  id="tspan417"
                  x="70.87999"
                  y="512.0528"
-                 style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:29.3333px;font-family:Manrope;-inkscape-font-specification:Manrope;text-align:center;text-anchor:middle;fill:#ffffff;fill-opacity:1;stroke:none">94</tspan></text>
+                 style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:29.3333px;font-family:Manrope;-inkscape-font-specification:Manrope;text-align:center;text-anchor:middle;fill:#ffffff;fill-opacity:1;stroke:none">103</tspan></text>
           </g>
           <g
              inkscape:groupmode="layer"
@@ -3293,7 +3320,7 @@
                  id="tspan424"
                  x="108.38866"
                  y="512.0528"
-                 style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:29.3333px;font-family:Manrope;-inkscape-font-specification:Manrope;text-align:center;text-anchor:middle;fill:#ffffff;fill-opacity:1;stroke:none">33.882</tspan></text>
+                 style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:29.3333px;font-family:Manrope;-inkscape-font-specification:Manrope;text-align:center;text-anchor:middle;fill:#ffffff;fill-opacity:1;stroke:none">33.484</tspan></text>
           </g>
           <g
              inkscape:groupmode="layer"
@@ -3364,7 +3391,7 @@
                  id="tspan431"
                  x="108.242"
                  y="512.06"
-                 style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:29.3333px;font-family:Manrope;-inkscape-font-specification:Manrope;text-align:center;text-anchor:middle;fill:#ffffff;fill-opacity:1;stroke:none">27.600</tspan></text>
+                 style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:29.3333px;font-family:Manrope;-inkscape-font-specification:Manrope;text-align:center;text-anchor:middle;fill:#ffffff;fill-opacity:1;stroke:none">27.612</tspan></text>
           </g>
           <g
              inkscape:groupmode="layer"
@@ -3372,7 +3399,7 @@
              inkscape:label="Best Lap List Row 1 Sector 1 Time"
              transform="translate(264)">
             <rect
-               style="display:inline;fill:#000000;fill-opacity:0;stroke:#ffffff;stroke-width:0;stroke-dasharray:none;stroke-opacity:1"
+               style="display:inline;fill:url(#linearGradient6);fill-opacity:0;stroke:#ffffff;stroke-width:0;stroke-dasharray:none;stroke-opacity:1"
                id="rect432"
                width="144"
                height="35"
@@ -3435,7 +3462,7 @@
                  id="tspan438"
                  x="109.26865"
                  y="512.0528"
-                 style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:29.3333px;font-family:Manrope;-inkscape-font-specification:Manrope;text-align:center;text-anchor:middle;fill:#ffffff;fill-opacity:1;stroke:none">42.416</tspan></text>
+                 style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:29.3333px;font-family:Manrope;-inkscape-font-specification:Manrope;text-align:center;text-anchor:middle;fill:#ffffff;fill-opacity:1;stroke:none">41.856</tspan></text>
           </g>
           <g
              inkscape:groupmode="layer"
@@ -3506,7 +3533,7 @@
                  id="tspan445"
                  x="108.44441"
                  y="511.91333"
-                 style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:29.3333px;font-family:Manrope;-inkscape-font-specification:Manrope;text-align:center;text-anchor:middle;fill:#ffffff;fill-opacity:1;stroke:none">1:43.898</tspan></text>
+                 style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:29.3333px;font-family:Manrope;-inkscape-font-specification:Manrope;text-align:center;text-anchor:middle;fill:#ffffff;fill-opacity:1;stroke:none">1:42.952</tspan></text>
           </g>
           <g
              inkscape:groupmode="layer"
@@ -3683,7 +3710,7 @@
                  id="tspan370"
                  x="70.87999"
                  y="512.0528"
-                 style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:29.3333px;font-family:Manrope;-inkscape-font-specification:Manrope;text-align:center;text-anchor:middle;fill:#ffffff;fill-opacity:1;stroke:none">94</tspan></text>
+                 style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:29.3333px;font-family:Manrope;-inkscape-font-specification:Manrope;text-align:center;text-anchor:middle;fill:#ffffff;fill-opacity:1;stroke:none">104</tspan></text>
           </g>
           <g
              inkscape:groupmode="layer"
@@ -3691,7 +3718,7 @@
              inkscape:label="Best Lap List Row 1 Sector 3 Time"
              transform="translate(552)">
             <rect
-               style="display:inline;fill:#000000;fill-opacity:0;stroke:#ffffff;stroke-width:0;stroke-dasharray:none;stroke-opacity:1"
+               style="display:inline;fill:url(#linearGradient4);fill-opacity:0;stroke:#ffffff;stroke-width:0;stroke-dasharray:none;stroke-opacity:1"
                id="rect371"
                width="144"
                height="35"
@@ -3754,7 +3781,7 @@
                  id="tspan377"
                  x="108.38866"
                  y="512.0528"
-                 style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:29.3333px;font-family:Manrope;-inkscape-font-specification:Manrope;text-align:center;text-anchor:middle;fill:#ffffff;fill-opacity:1;stroke:none">33.882</tspan></text>
+                 style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:29.3333px;font-family:Manrope;-inkscape-font-specification:Manrope;text-align:center;text-anchor:middle;fill:#ffffff;fill-opacity:1;stroke:none">32.805</tspan></text>
           </g>
           <g
              inkscape:groupmode="layer"
@@ -3825,7 +3852,7 @@
                  id="tspan384"
                  x="108.242"
                  y="512.06"
-                 style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:29.3333px;font-family:Manrope;-inkscape-font-specification:Manrope;text-align:center;text-anchor:middle;fill:#ffffff;fill-opacity:1;stroke:none">27.600</tspan></text>
+                 style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:29.3333px;font-family:Manrope;-inkscape-font-specification:Manrope;text-align:center;text-anchor:middle;fill:#ffffff;fill-opacity:1;stroke:none">27.411</tspan></text>
           </g>
           <g
              inkscape:groupmode="layer"
@@ -3896,7 +3923,7 @@
                  id="tspan391"
                  x="109.26865"
                  y="512.0528"
-                 style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:29.3333px;font-family:Manrope;-inkscape-font-specification:Manrope;text-align:center;text-anchor:middle;fill:#ffffff;fill-opacity:1;stroke:none">42.416</tspan></text>
+                 style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:29.3333px;font-family:Manrope;-inkscape-font-specification:Manrope;text-align:center;text-anchor:middle;fill:#ffffff;fill-opacity:1;stroke:none">42.596</tspan></text>
           </g>
           <g
              inkscape:groupmode="layer"
@@ -3967,7 +3994,7 @@
                  id="tspan398"
                  x="108.44441"
                  y="511.91333"
-                 style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:29.3333px;font-family:Manrope;-inkscape-font-specification:Manrope;text-align:center;text-anchor:middle;fill:#ffffff;fill-opacity:1;stroke:none">1:43.898</tspan></text>
+                 style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:29.3333px;font-family:Manrope;-inkscape-font-specification:Manrope;text-align:center;text-anchor:middle;fill:#ffffff;fill-opacity:1;stroke:none">1:42.812</tspan></text>
           </g>
           <g
              inkscape:groupmode="layer"
@@ -4144,7 +4171,7 @@
                  id="tspan323"
                  x="70.87999"
                  y="512.0528"
-                 style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:29.3333px;font-family:Manrope;-inkscape-font-specification:Manrope;text-align:center;text-anchor:middle;fill:#ffffff;fill-opacity:1;stroke:none">94</tspan></text>
+                 style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:29.3333px;font-family:Manrope;-inkscape-font-specification:Manrope;text-align:center;text-anchor:middle;fill:#ffffff;fill-opacity:1;stroke:none">96</tspan></text>
           </g>
           <g
              inkscape:groupmode="layer"
@@ -4215,7 +4242,7 @@
                  id="tspan330"
                  x="108.38866"
                  y="512.0528"
-                 style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:29.3333px;font-family:Manrope;-inkscape-font-specification:Manrope;text-align:center;text-anchor:middle;fill:#ffffff;fill-opacity:1;stroke:none">33.882</tspan></text>
+                 style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:29.3333px;font-family:Manrope;-inkscape-font-specification:Manrope;text-align:center;text-anchor:middle;fill:#ffffff;fill-opacity:1;stroke:none">33.385</tspan></text>
           </g>
           <g
              inkscape:groupmode="layer"
@@ -4286,7 +4313,7 @@
                  id="tspan337"
                  x="108.242"
                  y="512.06"
-                 style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:29.3333px;font-family:Manrope;-inkscape-font-specification:Manrope;text-align:center;text-anchor:middle;fill:#ffffff;fill-opacity:1;stroke:none">27.600</tspan></text>
+                 style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:29.3333px;font-family:Manrope;-inkscape-font-specification:Manrope;text-align:center;text-anchor:middle;fill:#ffffff;fill-opacity:1;stroke:none">27.899</tspan></text>
           </g>
           <g
              inkscape:groupmode="layer"
@@ -4357,7 +4384,7 @@
                  id="tspan344"
                  x="109.26865"
                  y="512.0528"
-                 style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:29.3333px;font-family:Manrope;-inkscape-font-specification:Manrope;text-align:center;text-anchor:middle;fill:#ffffff;fill-opacity:1;stroke:none">42.416</tspan></text>
+                 style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:29.3333px;font-family:Manrope;-inkscape-font-specification:Manrope;text-align:center;text-anchor:middle;fill:#ffffff;fill-opacity:1;stroke:none">42.381</tspan></text>
           </g>
           <g
              inkscape:groupmode="layer"
@@ -4428,7 +4455,7 @@
                  id="tspan351"
                  x="108.44441"
                  y="511.91333"
-                 style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:29.3333px;font-family:Manrope;-inkscape-font-specification:Manrope;text-align:center;text-anchor:middle;fill:#ffffff;fill-opacity:1;stroke:none">1:43.898</tspan></text>
+                 style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:29.3333px;font-family:Manrope;-inkscape-font-specification:Manrope;text-align:center;text-anchor:middle;fill:#ffffff;fill-opacity:1;stroke:none">1:43.665</tspan></text>
           </g>
           <g
              inkscape:groupmode="layer"
@@ -4605,7 +4632,7 @@
                  id="tspan276"
                  x="70.87999"
                  y="512.0528"
-                 style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:29.3333px;font-family:Manrope;-inkscape-font-specification:Manrope;text-align:center;text-anchor:middle;fill:#ffffff;fill-opacity:1;stroke:none">94</tspan></text>
+                 style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:29.3333px;font-family:Manrope;-inkscape-font-specification:Manrope;text-align:center;text-anchor:middle;fill:#ffffff;fill-opacity:1;stroke:none">93</tspan></text>
           </g>
           <g
              inkscape:groupmode="layer"
@@ -4676,7 +4703,7 @@
                  id="tspan283"
                  x="108.38866"
                  y="512.0528"
-                 style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:29.3333px;font-family:Manrope;-inkscape-font-specification:Manrope;text-align:center;text-anchor:middle;fill:#ffffff;fill-opacity:1;stroke:none">33.882</tspan></text>
+                 style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:29.3333px;font-family:Manrope;-inkscape-font-specification:Manrope;text-align:center;text-anchor:middle;fill:#ffffff;fill-opacity:1;stroke:none">33.795</tspan></text>
           </g>
           <g
              inkscape:groupmode="layer"
@@ -4747,7 +4774,7 @@
                  id="tspan290"
                  x="108.242"
                  y="512.06"
-                 style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:29.3333px;font-family:Manrope;-inkscape-font-specification:Manrope;text-align:center;text-anchor:middle;fill:#ffffff;fill-opacity:1;stroke:none">27.600</tspan></text>
+                 style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:29.3333px;font-family:Manrope;-inkscape-font-specification:Manrope;text-align:center;text-anchor:middle;fill:#ffffff;fill-opacity:1;stroke:none">27.722</tspan></text>
           </g>
           <g
              inkscape:groupmode="layer"
@@ -4818,7 +4845,7 @@
                  id="tspan297"
                  x="109.26865"
                  y="512.0528"
-                 style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:29.3333px;font-family:Manrope;-inkscape-font-specification:Manrope;text-align:center;text-anchor:middle;fill:#ffffff;fill-opacity:1;stroke:none">42.416</tspan></text>
+                 style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:29.3333px;font-family:Manrope;-inkscape-font-specification:Manrope;text-align:center;text-anchor:middle;fill:#ffffff;fill-opacity:1;stroke:none">42.484</tspan></text>
           </g>
           <g
              inkscape:groupmode="layer"
@@ -4889,7 +4916,7 @@
                  id="tspan304"
                  x="108.44441"
                  y="511.91333"
-                 style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:29.3333px;font-family:Manrope;-inkscape-font-specification:Manrope;text-align:center;text-anchor:middle;fill:#ffffff;fill-opacity:1;stroke:none">1:43.898</tspan></text>
+                 style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:29.3333px;font-family:Manrope;-inkscape-font-specification:Manrope;text-align:center;text-anchor:middle;fill:#ffffff;fill-opacity:1;stroke:none">1:44.001</tspan></text>
           </g>
           <g
              inkscape:groupmode="layer"
@@ -5066,7 +5093,7 @@
                  id="tspan229"
                  x="70.87999"
                  y="512.0528"
-                 style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:29.3333px;font-family:Manrope;-inkscape-font-specification:Manrope;text-align:center;text-anchor:middle;fill:#ffffff;fill-opacity:1;stroke:none">94</tspan></text>
+                 style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:29.3333px;font-family:Manrope;-inkscape-font-specification:Manrope;text-align:center;text-anchor:middle;fill:#ffffff;fill-opacity:1;stroke:none">100</tspan></text>
           </g>
           <g
              inkscape:groupmode="layer"
@@ -5137,7 +5164,7 @@
                  id="tspan236"
                  x="108.38866"
                  y="512.0528"
-                 style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:29.3333px;font-family:Manrope;-inkscape-font-specification:Manrope;text-align:center;text-anchor:middle;fill:#ffffff;fill-opacity:1;stroke:none">33.882</tspan></text>
+                 style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:29.3333px;font-family:Manrope;-inkscape-font-specification:Manrope;text-align:center;text-anchor:middle;fill:#ffffff;fill-opacity:1;stroke:none">33.342</tspan></text>
           </g>
           <g
              inkscape:groupmode="layer"
@@ -5208,7 +5235,7 @@
                  id="tspan243"
                  x="108.242"
                  y="512.06"
-                 style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:29.3333px;font-family:Manrope;-inkscape-font-specification:Manrope;text-align:center;text-anchor:middle;fill:#ffffff;fill-opacity:1;stroke:none">27.600</tspan></text>
+                 style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:29.3333px;font-family:Manrope;-inkscape-font-specification:Manrope;text-align:center;text-anchor:middle;fill:#ffffff;fill-opacity:1;stroke:none">27.612</tspan></text>
           </g>
           <g
              inkscape:groupmode="layer"
@@ -5279,7 +5306,7 @@
                  id="tspan250"
                  x="109.26865"
                  y="512.0528"
-                 style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:29.3333px;font-family:Manrope;-inkscape-font-specification:Manrope;text-align:center;text-anchor:middle;fill:#ffffff;fill-opacity:1;stroke:none">42.416</tspan></text>
+                 style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:29.3333px;font-family:Manrope;-inkscape-font-specification:Manrope;text-align:center;text-anchor:middle;fill:#ffffff;fill-opacity:1;stroke:none">42.298</tspan></text>
           </g>
           <g
              inkscape:groupmode="layer"
@@ -5350,7 +5377,7 @@
                  id="tspan257"
                  x="108.44441"
                  y="511.91333"
-                 style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:29.3333px;font-family:Manrope;-inkscape-font-specification:Manrope;text-align:center;text-anchor:middle;fill:#ffffff;fill-opacity:1;stroke:none">1:43.898</tspan></text>
+                 style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:29.3333px;font-family:Manrope;-inkscape-font-specification:Manrope;text-align:center;text-anchor:middle;fill:#ffffff;fill-opacity:1;stroke:none">1:43.252</tspan></text>
           </g>
           <g
              inkscape:groupmode="layer"
@@ -5527,7 +5554,7 @@
                  id="tspan182"
                  x="70.87999"
                  y="512.0528"
-                 style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:29.3333px;font-family:Manrope;-inkscape-font-specification:Manrope;text-align:center;text-anchor:middle;fill:#ffffff;fill-opacity:1;stroke:none">94</tspan></text>
+                 style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:29.3333px;font-family:Manrope;-inkscape-font-specification:Manrope;text-align:center;text-anchor:middle;fill:#ffffff;fill-opacity:1;stroke:none">103</tspan></text>
           </g>
           <g
              inkscape:groupmode="layer"
@@ -5598,7 +5625,7 @@
                  id="tspan189"
                  x="108.38866"
                  y="512.0528"
-                 style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:29.3333px;font-family:Manrope;-inkscape-font-specification:Manrope;text-align:center;text-anchor:middle;fill:#ffffff;fill-opacity:1;stroke:none">33.882</tspan></text>
+                 style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:29.3333px;font-family:Manrope;-inkscape-font-specification:Manrope;text-align:center;text-anchor:middle;fill:#ffffff;fill-opacity:1;stroke:none">33.259</tspan></text>
           </g>
           <g
              inkscape:groupmode="layer"
@@ -5669,7 +5696,7 @@
                  id="tspan196"
                  x="108.242"
                  y="512.06"
-                 style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:29.3333px;font-family:Manrope;-inkscape-font-specification:Manrope;text-align:center;text-anchor:middle;fill:#ffffff;fill-opacity:1;stroke:none">27.600</tspan></text>
+                 style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:29.3333px;font-family:Manrope;-inkscape-font-specification:Manrope;text-align:center;text-anchor:middle;fill:#ffffff;fill-opacity:1;stroke:none">27.569</tspan></text>
           </g>
           <g
              inkscape:groupmode="layer"
@@ -5740,7 +5767,7 @@
                  id="tspan203"
                  x="109.26865"
                  y="512.0528"
-                 style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:29.3333px;font-family:Manrope;-inkscape-font-specification:Manrope;text-align:center;text-anchor:middle;fill:#ffffff;fill-opacity:1;stroke:none">42.416</tspan></text>
+                 style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:29.3333px;font-family:Manrope;-inkscape-font-specification:Manrope;text-align:center;text-anchor:middle;fill:#ffffff;fill-opacity:1;stroke:none">42.123</tspan></text>
           </g>
           <g
              inkscape:groupmode="layer"
@@ -5811,7 +5838,7 @@
                  id="tspan210"
                  x="108.44441"
                  y="511.91333"
-                 style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:29.3333px;font-family:Manrope;-inkscape-font-specification:Manrope;text-align:center;text-anchor:middle;fill:#ffffff;fill-opacity:1;stroke:none">1:43.898</tspan></text>
+                 style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:29.3333px;font-family:Manrope;-inkscape-font-specification:Manrope;text-align:center;text-anchor:middle;fill:#ffffff;fill-opacity:1;stroke:none">1:42.951</tspan></text>
           </g>
           <g
              inkscape:groupmode="layer"
@@ -5988,7 +6015,7 @@
                  id="tspan135"
                  x="70.87999"
                  y="512.0528"
-                 style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:29.3333px;font-family:Manrope;-inkscape-font-specification:Manrope;text-align:center;text-anchor:middle;fill:#ffffff;fill-opacity:1;stroke:none">94</tspan></text>
+                 style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:29.3333px;font-family:Manrope;-inkscape-font-specification:Manrope;text-align:center;text-anchor:middle;fill:#ffffff;fill-opacity:1;stroke:none">96</tspan></text>
           </g>
           <g
              inkscape:groupmode="layer"
@@ -6059,7 +6086,7 @@
                  id="tspan142"
                  x="108.38866"
                  y="512.0528"
-                 style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:29.3333px;font-family:Manrope;-inkscape-font-specification:Manrope;text-align:center;text-anchor:middle;fill:#ffffff;fill-opacity:1;stroke:none">33.882</tspan></text>
+                 style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:29.3333px;font-family:Manrope;-inkscape-font-specification:Manrope;text-align:center;text-anchor:middle;fill:#ffffff;fill-opacity:1;stroke:none">34.039</tspan></text>
           </g>
           <g
              inkscape:groupmode="layer"
@@ -6130,7 +6157,7 @@
                  id="tspan149"
                  x="108.242"
                  y="512.06"
-                 style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:29.3333px;font-family:Manrope;-inkscape-font-specification:Manrope;text-align:center;text-anchor:middle;fill:#ffffff;fill-opacity:1;stroke:none">27.600</tspan></text>
+                 style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:29.3333px;font-family:Manrope;-inkscape-font-specification:Manrope;text-align:center;text-anchor:middle;fill:#ffffff;fill-opacity:1;stroke:none">27.458</tspan></text>
           </g>
           <g
              inkscape:groupmode="layer"
@@ -6138,7 +6165,7 @@
              inkscape:label="Best Lap List Row 1 Sector 1 Time"
              transform="translate(264)">
             <rect
-               style="display:inline;fill:#000000;fill-opacity:0;stroke:#ffffff;stroke-width:0;stroke-dasharray:none;stroke-opacity:1"
+               style="display:inline;fill:url(#linearGradient9);fill-opacity:0;stroke:#ffffff;stroke-width:0;stroke-dasharray:none;stroke-opacity:1"
                id="rect150"
                width="144"
                height="35"
@@ -6201,7 +6228,7 @@
                  id="tspan156"
                  x="109.26865"
                  y="512.0528"
-                 style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:29.3333px;font-family:Manrope;-inkscape-font-specification:Manrope;text-align:center;text-anchor:middle;fill:#ffffff;fill-opacity:1;stroke:none">42.416</tspan></text>
+                 style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:29.3333px;font-family:Manrope;-inkscape-font-specification:Manrope;text-align:center;text-anchor:middle;fill:#ffffff;fill-opacity:1;stroke:none">42.098</tspan></text>
           </g>
           <g
              inkscape:groupmode="layer"
@@ -6272,7 +6299,7 @@
                  id="tspan163"
                  x="108.44441"
                  y="511.91333"
-                 style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:29.3333px;font-family:Manrope;-inkscape-font-specification:Manrope;text-align:center;text-anchor:middle;fill:#ffffff;fill-opacity:1;stroke:none">1:43.898</tspan></text>
+                 style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:29.3333px;font-family:Manrope;-inkscape-font-specification:Manrope;text-align:center;text-anchor:middle;fill:#ffffff;fill-opacity:1;stroke:none">1:43.595</tspan></text>
           </g>
           <g
              inkscape:groupmode="layer"
@@ -6528,7 +6555,7 @@
              inkscape:label="Best Lap List Row 1 Sector 2 Time"
              transform="translate(408)">
             <rect
-               style="display:inline;fill:url(#linearGradient748);fill-opacity:0;stroke:#ffffff;stroke-width:0;stroke-dasharray:none;stroke-opacity:1"
+               style="display:inline;fill:url(#linearGradient2);fill-opacity:0;stroke:#ffffff;stroke-width:0;stroke-dasharray:none;stroke-opacity:1"
                id="rect96"
                width="144"
                height="35"

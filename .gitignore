@@ -30,3 +30,7 @@
 *.exe
 *.out
 *.app
+
+#folders
+/src/.vs
+/src/bin

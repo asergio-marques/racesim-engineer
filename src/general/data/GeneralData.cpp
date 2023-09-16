@@ -1,1 +1,2 @@
-#include "general/data/GeneralEnums.h"
+#include "general/data/PacketEnums.h"
+#include "general/data/SessionEnums.h"

@@ -5,11 +5,16 @@ project(RaceSimEngineer LANGUAGES CXX)
 add_executable(${PROJECT_NAME})
 
 add_subdirectory("${CMAKE_CURRENT_SOURCE_DIR}/src/general/data" ${CMAKE_CURRENT_BINARY_DIR}/general/data)
+add_subdirectory("${CMAKE_CURRENT_SOURCE_DIR}/src/netcom/packets" ${CMAKE_CURRENT_BINARY_DIR}/netcom/packets)
 
 target_link_directories(${PROJECT_NAME} PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}/lib/${TARGET_ARCH}/$<CONFIG>")
 target_include_directories(${PROJECT_NAME} PUBLIC "${CMAKE_CURRENT_LIST_DIR}/include")
 
 target_sources(${PROJECT_NAME} PRIVATE src/main.cpp)
+
+target_link_libraries(${PROJECT_NAME} PRIVATE
+    DataEnums
+    F123Packets)
 
 add_custom_command(TARGET ${PROJECT_NAME}
 	POST_BUILD

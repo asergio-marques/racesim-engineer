@@ -1,8 +1,13 @@
 cmake_minimum_required(VERSION 3.25.7)
 set(CMAKE_CXX_STANDARD 17)
 
-project(RaceSimEngineer)
+project(RaceSimEngineer LANGUAGES CXX)
 add_executable(${PROJECT_NAME})
+
+add_subdirectory("${CMAKE_CURRENT_SOURCE_DIR}/general/data" ${CMAKE_CURRENT_BINARY_DIR}/general/data)
+
+target_link_directories(${PROJECT_NAME} PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}/../lib/${TARGET_ARCH}/$<CONFIG>")
+target_include_directories(${PROJECT_NAME} PUBLIC "${CMAKE_CURRENT_LIST_DIR}/general/data/include")
 
 target_sources(${PROJECT_NAME} PRIVATE main.cpp)
 

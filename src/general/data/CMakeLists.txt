@@ -3,9 +3,14 @@ cmake_minimum_required(VERSION 3.25.7)
 project(DataEnums LANGUAGES CXX)
 add_library(${PROJECT_NAME} STATIC)
 
-target_include_directories(${PROJECT_NAME} PRIVATE "${CMAKE_CURRENT_LIST_DIR}/include/")
+# traverse the parent folders until project root is reached
+cmake_path(GET CMAKE_CURRENT_LIST_DIR PARENT_PATH PROJECT_ROOT)
+cmake_path(GET PROJECT_ROOT PARENT_PATH PROJECT_ROOT)
+cmake_path(GET PROJECT_ROOT PARENT_PATH PROJECT_ROOT)
 
-target_sources(${PROJECT_NAME} PRIVATE "${CMAKE_CURRENT_LIST_DIR}/src/GeneralData.cpp")
+target_include_directories(${PROJECT_NAME} PRIVATE "${PROJECT_ROOT}/include/")
+
+target_sources(${PROJECT_NAME} PRIVATE "${CMAKE_CURRENT_LIST_DIR}/GeneralData.cpp")
 
 set_target_properties(${PROJECT_NAME}
 	PROPERTIES

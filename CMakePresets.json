@@ -13,7 +13,7 @@
         "value": "x64",
         "strategy": "set"
       },
-      "binaryDir": "${sourceDir}/../build/win64",
+      "binaryDir": "${sourceDir}/build/win64",
       "cacheVariables": {
         "CMAKE_CONFIGURATION_TYPES": "Debug;Release",
         "TARGET_ARCH": "win64"

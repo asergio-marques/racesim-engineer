@@ -15,10 +15,10 @@ namespace F1_23::Packet {
     struct MarshalZone {
 
         //  Fraction (0..1) of way through the lap the marshal zone starts
-        float       m_zoneStart;
+        float_t  m_zoneStart;
 
         // Currently active flag in zone
-        ActiveFlag  m_zoneFlag;
+        ActiveFlag      m_zoneFlag;
     };
 
     struct WeatherForecastSample {

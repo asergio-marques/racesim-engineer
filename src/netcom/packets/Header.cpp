@@ -3,12 +3,28 @@
 #include <cstdint>
 #include <iostream>
 #include <math.h>
-#include "general/data/PacketEnums.h"
+#include "general/data/Packet.h"
 
 
 
-F1_23::Packet::Header::Header(char* packetContent) {
+F1_23::Packet::Header::Header() :
+    m_packetFormat(0), 
+    m_gameYear(0),
+    m_gameMajorVersion(0),
+    m_gameMinorVersion(0),
+    m_packetVersion(0),
+    m_packetId(F1_23::Packet::Type::InvalidUnknown),
+    m_sessionUID(0),
+    m_sessionTime(0.0f),
+    m_frameIdentifier(0),
+    m_overallFrameIdentifier(0),
+    m_playerCarIndex(0),
+    m_secondaryPlayerCarIndex(0) {
 
-    std::cout << "F123 Packet Header to be implemented" << std::endl;
+}
+
+const F1_23::Packet::Type F1_23::Packet::Header::getPacketType() const {
+    
+    return m_packetId;
 
 }

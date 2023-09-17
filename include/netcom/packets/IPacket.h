@@ -1,34 +1,30 @@
-#ifndef PACKETS_INCLUDE_IPACKET_H_
-#define PACKETS_INCLUDE_IPACKET_H_
+#ifndef NETCOM_PACKETS_INCLUDE_F123_IPACKET_H_
+#define NETCOM_PACKETS_INCLUDE_F123_IPACKET_H_
 
 #include <cstdint>
 
-namespace F1_23 {
+namespace F1_23::Packet {
 
-    namespace Packet {
+    class Header;
 
-        class Header;
+    class IPacket {
 
-        class IPacket {
+        public:
+            // Packet interface constructor, must be passed a header always
+            IPacket();
 
-            public:
-                // Packet interface constructor, must be passed a header always
-                IPacket(Header* header);
+            // Destructor
+            virtual ~IPacket();
 
-                // Destructor
-                virtual ~IPacket();
+            // Exposes the header of the current packet
+            virtual const Header* getHeader() const;
 
-                // Length of the packet in bytes
-                virtual const size_t PacketLength() = 0;
+        private:
+            // Header information present in all received packets
+            Header* m_header;
 
-            private:
-                // Header information present in all received packets
-                Header* m_header;
-
-        };
-
-    }
+    };
 
 }
 
-#endif  //  PACKETS_INCLUDE_IPACKET_H_
+#endif  //  NETCOM_PACKETS_INCLUDE_F123_IPACKET_H_

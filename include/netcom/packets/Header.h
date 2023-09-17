@@ -1,23 +1,22 @@
-#ifndef PACKETS_INCLUDE_F123_PACKET_HEADER_H_
-#define PACKETS_INCLUDE_F123_PACKET_HEADER_H_
+#ifndef NETCOM_PACKETS_INCLUDE_F123_HEADER_H_
+#define NETCOM_PACKETS_INCLUDE_F123_HEADER_H_
 
 #include <cstdint>
 #include <math.h>
-#include "general/data/PacketEnums.h"
+#include "general/data/Packet.h"
 
 
 
-namespace F1_23 {
-    
-    namespace Packet {
+namespace F1_23::Packet {
 
-        class Header {
+    class Header {
     
         public:
-            Header(char* packetContent);
+            Header();
             virtual ~Header() = default;
 
             // Getters for internal infos
+            const Type getPacketType() const;
 
         private:
             //  "2023" for F1 23
@@ -58,10 +57,8 @@ namespace F1_23 {
             //  if no second player
             uint8_t m_secondaryPlayerCarIndex;
 
-        };
-
-    }
+    };
 
 }
 
-#endif  //  PACKETS_INCLUDE_F123_PACKET_HEADER_H_
+#endif  //  NETCOM_PACKETS_INCLUDE_F123_HEADER_H_

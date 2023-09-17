@@ -14,6 +14,7 @@ target_link_directories(${PROJECT_NAME} PRIVATE "${PROJECT_ROOT}/lib/")
 target_sources(${PROJECT_NAME} PRIVATE
     Header.cpp
     IPacket.cpp
+    SessionData.cpp
     )
 
 target_link_libraries(${PROJECT_NAME} PRIVATE

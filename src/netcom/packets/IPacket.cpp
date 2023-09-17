@@ -1,10 +1,13 @@
 #include "netcom/packets/IPacket.h"
-#include "general/data/PacketEnums.h"
+
+#include <iostream>
+#include "netcom/packets/Header.h"
+#include "general/data/Packet.h"
 
 
 
-F1_23::Packet::IPacket::IPacket(Header* header) :
-    m_header(header) {
+F1_23::Packet::IPacket::IPacket() :
+    m_header(new F1_23::Packet::Header) {
 
 }
 
@@ -12,6 +15,14 @@ F1_23::Packet::IPacket::IPacket(Header* header) :
 
 F1_23::Packet::IPacket::~IPacket() {
     
-    delete m_header;
+    if (m_header) { delete m_header; }
+
+}
+
+
+
+const F1_23::Packet::Header* F1_23::Packet::IPacket::getHeader() const {
+
+    return m_header;
 
 }

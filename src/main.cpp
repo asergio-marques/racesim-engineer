@@ -1,27 +1,20 @@
 #include <iostream>
 
-#include "general/data/PacketEnums.h"
-#include "general/data/SessionEnums.h"
-#include "netcom/packets/IPacket.h"
-
-class ExamplePacket : public F1_23::Packet::IPacket {
-    public:
-    ExamplePacket() : IPacket(nullptr) {
-
-        }
-    virtual ~ExamplePacket() = default;
-
-    const size_t PacketLength() override {
-        return 0;
-    }
-};
+#include "netcom/packets/SessionData.h"
 
 int main(int argc, char* argv[]) {
 
 	std::cout << "RaceSim Engineer online." << std::endl;
-    F1_23::Packet::IPacket* packet = new ExamplePacket;
+    F1_23::Packet::IPacket* packet = new F1_23::Packet::SessionData;
+
     if (packet) {
-        std::cout << "Packet created, with length " << packet->PacketLength() << std::endl;
+
+        if (packet->getHeader()) {
+            std::cout << "\tPacket created, has header." << std::endl;
+        }
+        else {
+            std::cout << "\tPacket created but header is fucked." << std::endl;
+        }
     }
 	return 0;
 

@@ -1,2 +1,6 @@
-#include "general/data/PacketEnums.h"
-#include "general/data/SessionEnums.h"
+#include "general/data/Driver.h"
+#include "general/data/Packet.h"
+#include "general/data/Player.h"
+#include "general/data/Session.h"
+#include "general/data/Team.h"
+#include "general/data/Track.h"

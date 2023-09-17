@@ -10,7 +10,7 @@ add_subdirectory("${CMAKE_CURRENT_SOURCE_DIR}/src/netcom/packets" ${CMAKE_CURREN
 target_link_directories(${PROJECT_NAME} PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}/lib/${TARGET_ARCH}/$<CONFIG>")
 target_include_directories(${PROJECT_NAME} PUBLIC "${CMAKE_CURRENT_LIST_DIR}/include")
 
-target_sources(${PROJECT_NAME} PRIVATE src/main.cpp)
+target_sources(${PROJECT_NAME} PRIVATE src/main.cpp "include/general/data/Track.h" "include/general/data/Driver.h" "include/general/data/Team.h"  "include/general/data/Player.h")
 
 target_link_libraries(${PROJECT_NAME} PRIVATE
     DataEnums

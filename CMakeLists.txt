@@ -4,17 +4,17 @@ set(CMAKE_CXX_STANDARD 17)
 project(RaceSimEngineer LANGUAGES CXX)
 add_executable(${PROJECT_NAME})
 
-add_subdirectory("${CMAKE_CURRENT_SOURCE_DIR}/src/general/data" ${CMAKE_CURRENT_BINARY_DIR}/general/data)
-add_subdirectory("${CMAKE_CURRENT_SOURCE_DIR}/src/netcom/packets" ${CMAKE_CURRENT_BINARY_DIR}/netcom/packets)
+add_subdirectory("${CMAKE_CURRENT_SOURCE_DIR}/src/core/" ${CMAKE_CURRENT_BINARY_DIR}/core)
+add_subdirectory("${CMAKE_CURRENT_SOURCE_DIR}/src/netcom/" ${CMAKE_CURRENT_BINARY_DIR}/netcom)
 
-target_link_directories(${PROJECT_NAME} PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}/lib/${TARGET_ARCH}/$<CONFIG>")
 target_include_directories(${PROJECT_NAME} PUBLIC "${CMAKE_CURRENT_LIST_DIR}/include")
+target_link_directories(${PROJECT_NAME} PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}/lib/${TARGET_ARCH}/$<CONFIG>")
 
-target_sources(${PROJECT_NAME} PRIVATE src/main.cpp "include/general/data/Track.h" "include/general/data/Driver.h" "include/general/data/Team.h"  "include/general/data/Player.h")
+target_sources(${PROJECT_NAME} PRIVATE src/main.cpp)
 
 target_link_libraries(${PROJECT_NAME} PRIVATE
-    DataEnums
-    F123Packets)
+    RaceSimEngineerCore
+    RaceSimEngineerNetwork)
 
 add_custom_command(TARGET ${PROJECT_NAME}
 	POST_BUILD

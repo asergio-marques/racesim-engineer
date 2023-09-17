@@ -2,9 +2,8 @@
 #define NETCOM_PACKETS_INCLUDE_SESSION_DATA_H_
 
 #include <cstdint>
-#include "general/data/Session.h"
-#include "general/data/Track.h"
-#include "general/data/Player.h"
+#include "core/data/Session.h"
+#include "core/data/Player.h"
 #include "netcom/packets/IPacket.h"
 #include "netcom/packets/Header.h"
 
@@ -15,34 +14,34 @@ namespace F1_23::Packet {
     struct MarshalZone {
 
         //  Fraction (0..1) of way through the lap the marshal zone starts
-        float_t  m_zoneStart;
+        float_t                 m_zoneStart;
 
         // Currently active flag in zone
-        ActiveFlag      m_zoneFlag;
+        Session::ActiveFlag     m_zoneFlag;
     };
 
     struct WeatherForecastSample {
 
         //  Type of current session
-        SessionType             m_sessionType;
+        Session::Type           m_sessionType;
 
         //  Time in which this forecast is due (minutes)
         uint8_t                 m_timeOffset;
 
         // Weather for this forecast
-        Weather                 m_weather;
+        Session::Weather        m_weather;
 
         // Track temperature (degrees Celsius)
         uint8_t                 m_trackTemperature;
 
         // Track temperature change
-        TempVariation           m_trackTemperatureChange;
+        Session::TempVariation  m_trackTemperatureChange;
 
         // Air temperature (degrees Celsius)
         uint8_t                 m_airTemperature;
 
         //  Air temperature change
-        TempVariation           m_airTemperatureChange;
+        Session::TempVariation  m_airTemperatureChange;
 
         //  Rain probability (percentage, 0-100)
         uint8_t                 m_rainPercentage;
@@ -58,7 +57,7 @@ namespace F1_23::Packet {
 
         private:
             //  Current weather
-            Weather                 m_currentWeather;
+            Session::Weather        m_currentWeather;
 
             //  Current track temperature (degrees Celsius)
             int8_t                  m_currentTrackTemperature;
@@ -73,13 +72,13 @@ namespace F1_23::Packet {
             uint16_t                m_trackLength;
 
             //  Type of current session
-            SessionType             m_sessionType;
+            Session::Type           m_sessionType;
 
             //  Track in which the session takes place
-            Track                   m_trackId;
+            Session::Track          m_trackId;
 
             // Type of cars in the current session
-            CarType                 m_formula;
+            Session::Formula        m_formula;
 
             // Time left in session (seconds)
             uint16_t                m_sessionTimeLeft;
@@ -109,7 +108,7 @@ namespace F1_23::Packet {
             MarshalZone             m_marshalZones[21];
 
             // Current safety car status
-            SafetyCar               m_safetyCarStatus;
+            Session::SafetyCar      m_safetyCarStatus;
 
             // Whether the session is local or online
             bool                    m_isNetwork;
@@ -149,10 +148,10 @@ namespace F1_23::Packet {
             bool                    m_steeringAssistOn;
 
             // Level of braking assist the player has on
-            BrakingAssist           m_brakingAssist;
+            Player::BrakingAssist   m_brakingAssist;
 
             // Level of gearbox assist the player has on
-            GearboxAssist           m_gearboxAssist;
+            Player::GearboxAssist   m_gearboxAssist;
 
             // Whether pit assist is active for the player
             bool                    m_pitAssistOn;
@@ -167,34 +166,34 @@ namespace F1_23::Packet {
             bool                    m_DRSAssistOn;
 
             // Level of racing line assist the player has on
-            RacingLine              m_dynamicRacingLine;
+            Player::RacingLine      m_dynamicRacingLine;
 
             // Whether the racing line assist is 3D
             bool                    m_dynamicRacingLine3D;
 
             // Game mode for the current session
-            GameMode                m_gameMode;
+            Session::GameMode       m_gameMode;
 
             // Ruleset for the current session
-            Ruleset                 m_ruleSet;
+            Session::Ruleset        m_ruleSet;
 
             // Local time of day (minutes past midnight)
             uint32_t                m_timeOfDay;
 
             //  Length of the current session
-            SessionLength           m_sessionLength;
+            Session::Length         m_sessionLength;
 
             //  Speed unit used by Player 1
-            SpeedUnit               m_speedUnitPlayer1;
+            Player::SpeedUnit       m_speedUnitPlayer1;
 
             //  Temperature unit used by Player 1
-            TempUnit                m_tempUnitPlayer1;
+            Player::TempUnit        m_tempUnitPlayer1;
 
             //  Speed unit used by Player 2
-            SpeedUnit               m_speedUnitPlayer2;
+            Player::SpeedUnit       m_speedUnitPlayer2;
 
             //  Temperature unit used by Player 2
-            TempUnit                m_tempUnitPlayer2;
+            Player::TempUnit        m_tempUnitPlayer2;
 
             //  Number of safety cars previously called during the current session
             uint8_t                 m_numSafetyCarPeriods;

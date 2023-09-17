@@ -5,7 +5,7 @@
 
 
 
-namespace F1_23::Packet {
+namespace F1_23::Player {
 
     enum class BrakingAssist : uint8_t
     {

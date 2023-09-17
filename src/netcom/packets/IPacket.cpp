@@ -2,7 +2,7 @@
 
 #include <iostream>
 #include "netcom/packets/Header.h"
-#include "general/data/Packet.h"
+#include "core/data/Packet.h"
 
 
 

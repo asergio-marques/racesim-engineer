@@ -2,6 +2,7 @@
 
 #include <cstdint>
 #include <iostream>
+#include <math.h>
 #include "core/data/Session.h"
 #include "core/data/Player.h"
 #include "netcom/packets/IPacket.h"

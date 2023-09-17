@@ -7,57 +7,69 @@
 
 
 
-namespace F1_23::Packet {
+namespace F1_23 {
 
-    class Header {
-    
-        public:
-            Header();
-            virtual ~Header() = default;
+    namespace PacketBuilder {
+        
+        class Header;
 
-            // Getters for internal infos
-            const Type getPacketType() const;
+    }
 
-        private:
-            //  "2023" for F1 23
-            uint16_t    m_packetFormat;
+    namespace Packet {
 
-            //  Game year - last two digits e.g. 23
-            uint8_t     m_gameYear;
+        class Header {
 
-            //  Game major version - "X.00"
-            uint8_t     m_gameMajorVersion;
+            friend F1_23::PacketBuilder::Header;
 
-            //  Game minor version - "1.XX"
-            uint8_t     m_gameMinorVersion;
+            public:
+                Header();
+                virtual ~Header() = default;
 
-            //  Version of this packet type, all start from 1
-            uint8_t     m_packetVersion;
+                // Getters for internal infos
+                const Type getPacketType() const;
 
-            //  Identifier for the packet type
-            Type        m_packetId;
+            private:
+                //  "2023" for F1 23
+                uint16_t    m_packetFormat;
 
-            //  Unique identifier for the session
-            uint64_t    m_sessionUID;
+                //  Game year - last two digits e.g. 23
+                uint8_t     m_gameYear;
 
-            //  Session timestamp
-            float_t     m_sessionTime;
+                //  Game major version - "X.00"
+                uint8_t     m_gameMajorVersion;
 
-            //  Identifier for the frame the data was retrieved on
-            uint32_t    m_frameIdentifier;
+                //  Game minor version - "1.XX"
+                uint8_t     m_gameMinorVersion;
 
-            //  Overall identifier for the frame the data was retrieved on,
-            //  doesn't go back after flashbacks
-            uint32_t    m_overallFrameIdentifier;
+                //  Version of this packet type, all start from 1
+                uint8_t     m_packetVersion;
 
-            //  Index of player's car in the array
-            uint8_t     m_playerCarIndex;
+                //  Identifier for the packet type
+                Type        m_packetId;
 
-            //  Index of secondary player's car in the array (splitscreen), 255
-            //  if no second player
-            uint8_t     m_secondaryPlayerCarIndex;
+                //  Unique identifier for the session
+                uint64_t    m_sessionUID;
 
-    };
+                //  Session timestamp
+                float_t     m_sessionTime;
+
+                //  Identifier for the frame the data was retrieved on
+                uint32_t    m_frameIdentifier;
+
+                //  Overall identifier for the frame the data was retrieved on,
+                //  doesn't go back after flashbacks
+                uint32_t    m_overallFrameIdentifier;
+
+                //  Index of player 1 car in the array
+                uint8_t     m_carIndexPlayer1;
+
+                //  Index of player 2 car in the array in Split Screen mode, 
+                //  255 if no second player
+                uint8_t     m_carIndexPlayer2;
+
+        };
+
+    }
 
 }
 

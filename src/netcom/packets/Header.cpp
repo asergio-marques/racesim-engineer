@@ -18,8 +18,8 @@ F1_23::Packet::Header::Header() :
     m_sessionTime(0.0f),
     m_frameIdentifier(0),
     m_overallFrameIdentifier(0),
-    m_playerCarIndex(0),
-    m_secondaryPlayerCarIndex(0) {
+    m_carIndexPlayer1(0),
+    m_carIndexPlayer2(0) {
 
 }
 

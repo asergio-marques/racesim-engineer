@@ -8,13 +8,16 @@ cmake_path(GET CMAKE_CURRENT_LIST_DIR PARENT_PATH PROJECT_ROOT)
 cmake_path(GET PROJECT_ROOT PARENT_PATH PROJECT_ROOT)
 
 target_include_directories(${PROJECT_NAME} PUBLIC "${PROJECT_ROOT}/include/")
+target_include_directories(${PROJECT_NAME} PRIVATE "${PROJECT_ROOT}/src/")
 target_link_directories(${PROJECT_NAME} PRIVATE "${PROJECT_ROOT}/lib/")
 
 target_sources(${PROJECT_NAME} PRIVATE
     packets/Header.cpp
     packets/IPacket.cpp
     packets/SessionData.cpp
-    )
+    packet_builders/Header.cpp
+    packet_builders/SessionData.cpp
+     "../../include/netcom/packet_builders/Helper.h")
 
 target_link_libraries(${PROJECT_NAME} PRIVATE
     RaceSimEngineerCore

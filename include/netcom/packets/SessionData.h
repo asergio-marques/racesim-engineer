@@ -2,6 +2,7 @@
 #define NETCOM_PACKETS_INCLUDE_SESSION_DATA_H_
 
 #include <cstdint>
+#include <math.h>
 #include "core/data/Session.h"
 #include "core/data/Player.h"
 #include "netcom/packets/IPacket.h"

@@ -1,95 +1,75 @@
 #include <iostream>
-
 #include "netcom/packets/SessionData.h"
-#include "netcom/packet_builders/Helper.h"
+#include "netcom/packet_builders/Header.h"
+#include "core/data/Packet.h"
 
 int main(int argc, char* argv[]) {
 
 	std::cout << "RaceSim Engineer online." << std::endl;
-    F1_23::Packet::IPacket* packet = new F1_23::Packet::SessionData;
 
-    if (packet) {
+    char headerArray[static_cast<size_t>(F1_23::Packet::LengthBytes::Header)];
 
-        if (packet->getHeader()) {
-            std::cout << "\tPacket created, has header." << std::endl;
-        }
-        else {
-            std::cout << "\tPacket created but header is fucked." << std::endl;
-        }
+    //  Packet format (2023)
+    headerArray[0] = 0xE7;
+    headerArray[1] = 0x07;
+
+    //  Game year (23)
+    headerArray[2] = 0x17;
+
+    //  Game major version (5)
+    headerArray[3] = 0x05;
+
+    //  Game minor version (213)
+    headerArray[4] = 0xD5;
+
+    //  Packet version (1)
+    headerArray[5] = 0x01;
+
+    //  Packet type ID (MotionExtended/13)
+    headerArray[6] = 0x0D;
+
+    //  Session UUID (15200798066961132381)
+    headerArray[7] = 0x5D;
+    headerArray[8] = 0xAB;
+    headerArray[9] = 0xA9;
+    headerArray[10] = 0xFB;
+    headerArray[11] = 0x4D;
+    headerArray[12] = 0x15;
+    headerArray[13] = 0xF4;
+    headerArray[14] = 0xD2;
+
+    //  Session timestamp (7293.2912f)
+    headerArray[15] = 0x54;
+    headerArray[16] = 0xEA;
+    headerArray[17] = 0xE3;
+    headerArray[18] = 0x45;
+
+    //  Frame ID (46518325)
+    headerArray[19] = 0x35;
+    headerArray[20] = 0xD0;
+    headerArray[21] = 0xC5;
+    headerArray[22] = 0x02;
+
+    //  Overall frame ID (501357534)
+    headerArray[23] = 0xDE;
+    headerArray[24] = 0x1B;
+    headerArray[25] = 0xE2;
+    headerArray[26] = 0x1D;
+
+    //  Player 1 index (0)
+    headerArray[27] = 0x00;
+
+    //  Player 2 index (15)
+    headerArray[28] = 0x15;
+
+
+    F1_23::PacketBuilder::Header* headerBuilder = new F1_23::PacketBuilder::Header;
+    F1_23::Packet::Header* header = headerBuilder->buildNewHeader(headerArray);
+    #ifndef NDEBUG
+    if (header) {
+        header->print();
     }
-
-    size_t arrayStatus = 0;
-    char testArray[20];
-
-    // Packet format (value = 2023)
-    testArray[0] = static_cast<char>(0x07);
-    testArray[1] = static_cast<char>(0xE7);
-
-    // Game year (value = 23)
-    testArray[2] = static_cast<char>(23);
-
-    // Track temperature 1 (value = -10)
-    testArray[3];
-    testArray[4];
-
-    // DRS Activated (value = true)
-    testArray[5] = static_cast<char>(1);
-
-    // Track temperature 2 (value = 32)
-    testArray[6];
-    testArray[7];
-
-    // Session time (value 5060203.f)
-    testArray[8];
-    testArray[9];
-    testArray[10];
-    testArray[11];
-
-    // Total race time (value 852351123154.f)
-    testArray[12];
-    testArray[13];
-    testArray[14];
-    testArray[15];
-    testArray[16];
-    testArray[17];
-    testArray[18];
-    testArray[19];
-
-    uint16_t output_u16     = 0;
-    uint8_t output_u8       = 0;
-    int16_t output_i16_1    = 0;
-    bool output_b           = false;
-    int16_t output_i16_2    = 0;
-    float_t output_f        = 0.0f;
-    double_t output_d       = 0.0f;
-
-    std::cout << "Test of unsigned 16-bit integer variable decoding:" << std::endl;
-    F1_23::PacketBuilder::Helper::getVariable<>(testArray, output_u16, arrayStatus);
-    std::cout << std::endl;
-
-    std::cout << "Test of unsigned 8-bit integer variable decoding:" << std::endl;
-    F1_23::PacketBuilder::Helper::getVariable<>(testArray, output_u8, arrayStatus);
-    std::cout << std::endl;
-
-    std::cout << "Test of negative signed 16-bit integer variable decoding:" << std::endl;
-    F1_23::PacketBuilder::Helper::getVariable<>(testArray, output_i16_1, arrayStatus);
-    std::cout << std::endl;
-
-    std::cout << "Test of boolean variable decoding:" << std::endl;
-    F1_23::PacketBuilder::Helper::getVariable<>(testArray, output_b, arrayStatus);
-    std::cout << std::endl;
-
-    std::cout << "Test of positive signed 16-bit integer variable decoding:" << std::endl;
-    F1_23::PacketBuilder::Helper::getVariable<>(testArray, output_i16_2, arrayStatus);
-    std::cout << std::endl;
-
-    std::cout << "Test of floating point variable decoding:" << std::endl;
-    F1_23::PacketBuilder::Helper::getVariable<>(testArray, output_f, arrayStatus);
-    std::cout << std::endl;
-
-    std::cout << "Test of double floating point variable decoding:" << std::endl;
-    F1_23::PacketBuilder::Helper::getVariable<>(testArray, output_d, arrayStatus);
-    std::cout << std::endl;
+    #endif // NDEBUG
 
 	return 0;
 

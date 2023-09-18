@@ -16,8 +16,7 @@ target_sources(${PROJECT_NAME} PRIVATE
     packets/IPacket.cpp
     packets/SessionData.cpp
     packet_builders/Header.cpp
-    packet_builders/SessionData.cpp
-     "../../include/netcom/packet_builders/Helper.h")
+    packet_builders/SessionData.cpp)
 
 target_link_libraries(${PROJECT_NAME} PRIVATE
     RaceSimEngineerCore

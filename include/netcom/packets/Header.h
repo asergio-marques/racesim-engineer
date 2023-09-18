@@ -28,6 +28,10 @@ namespace F1_23 {
                 // Getters for internal infos
                 const Type getPacketType() const;
 
+                #ifndef NDEBUG
+                void print() const;
+                #endif // NDEBUG
+
             private:
                 //  "2023" for F1 23
                 uint16_t    m_packetFormat;

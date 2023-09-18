@@ -1,8 +1,8 @@
-#include "netcom/packets/IPacket.h"
+#include "packets/IPacket.h"
 
 #include <iostream>
-#include "netcom/packets/Header.h"
-#include "core/data/Packet.h"
+#include "packets/Header.h"
+#include "data/Packet.h"
 
 
 

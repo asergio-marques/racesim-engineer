@@ -1,6 +1,6 @@
 #include <iostream>
-#include "netcom/packets/Header.h"
-#include "netcom/packets/SessionData.h"
+#include "packets/Header.h"
+#include "packets/SessionData.h"
 
 int main(int argc, char* argv[]) {
 

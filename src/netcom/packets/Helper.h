@@ -1,11 +1,11 @@
-#ifndef NETCOM_PACKET_BUILDERS_INCLUDE_F123_HELPER_H_
-#define NETCOM_PACKET_BUILDERS_INCLUDE_F123_HELPER_H_
+#ifndef NETCOM_PACKETS_INCLUDE_F123_HELPER_H_
+#define NETCOM_PACKETS_INCLUDE_F123_HELPER_H_
 
 #include <cstring>
 
 namespace F1_23 {
 
-    namespace PacketBuilder {
+    namespace Packet {
 
         class Helper {
 
@@ -37,4 +37,4 @@ namespace F1_23 {
 
 };
 
-#endif  //  NETCOM_PACKET_BUILDERS_INCLUDE_F123_HELPER_H_
+#endif  //  NETCOM_PACKETS_INCLUDE_F123_HELPER_H_

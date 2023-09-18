@@ -1,10 +1,10 @@
-#include "netcom/packets/Header.h"
+#include "packets/Header.h"
 
 #include <cstdint>
 #include <iostream>
 #include <math.h>
-#include "core/data/Packet.h"
-#include "netcom/utilities/Helper.h"
+#include "data/Packet.h"
+#include "packets/Helper.h"
 
 
 
@@ -30,40 +30,40 @@ F1_23::Packet::Header::Header(char* packetInfo) :
         size_t arrayStatus = 0;
 
         // Get packet format
-        F1_23::PacketBuilder::Helper::getVariableFromByteStream<>(packetInfo, &m_packetFormat, arrayStatus);
+        F1_23::Packet::Helper::getVariableFromByteStream<>(packetInfo, &m_packetFormat, arrayStatus);
 
         // Get last two digits of game year
-        F1_23::PacketBuilder::Helper::getVariableFromByteStream<>(packetInfo, &m_gameYear, arrayStatus);
+        F1_23::Packet::Helper::getVariableFromByteStream<>(packetInfo, &m_gameYear, arrayStatus);
 
         // Get major version of the game
-        F1_23::PacketBuilder::Helper::getVariableFromByteStream<>(packetInfo, &m_gameMajorVersion, arrayStatus);
+        F1_23::Packet::Helper::getVariableFromByteStream<>(packetInfo, &m_gameMajorVersion, arrayStatus);
 
         // Get minor version of the game
-        F1_23::PacketBuilder::Helper::getVariableFromByteStream<>(packetInfo, &m_gameMinorVersion, arrayStatus);
+        F1_23::Packet::Helper::getVariableFromByteStream<>(packetInfo, &m_gameMinorVersion, arrayStatus);
 
         // Get packet version
-        F1_23::PacketBuilder::Helper::getVariableFromByteStream<>(packetInfo, &m_packetVersion, arrayStatus);
+        F1_23::Packet::Helper::getVariableFromByteStream<>(packetInfo, &m_packetVersion, arrayStatus);
 
         // Get packet ID
-        F1_23::PacketBuilder::Helper::getVariableFromByteStream<>(packetInfo, &m_packetId, arrayStatus);
+        F1_23::Packet::Helper::getVariableFromByteStream<>(packetInfo, &m_packetId, arrayStatus);
 
         // Get session ID
-        F1_23::PacketBuilder::Helper::getVariableFromByteStream<>(packetInfo, &m_sessionUID, arrayStatus);
+        F1_23::Packet::Helper::getVariableFromByteStream<>(packetInfo, &m_sessionUID, arrayStatus);
 
         // Get timestamp for current session
-        F1_23::PacketBuilder::Helper::getVariableFromByteStream<>(packetInfo, &m_sessionTime, arrayStatus);
+        F1_23::Packet::Helper::getVariableFromByteStream<>(packetInfo, &m_sessionTime, arrayStatus);
 
         // Get ID for frame for which the current data corresponds
-        F1_23::PacketBuilder::Helper::getVariableFromByteStream<>(packetInfo, &m_frameIdentifier, arrayStatus);
+        F1_23::Packet::Helper::getVariableFromByteStream<>(packetInfo, &m_frameIdentifier, arrayStatus);
 
         // Get overall ID for frame ignoring flashbacks
-        F1_23::PacketBuilder::Helper::getVariableFromByteStream<>(packetInfo, &m_overallFrameIdentifier, arrayStatus);
+        F1_23::Packet::Helper::getVariableFromByteStream<>(packetInfo, &m_overallFrameIdentifier, arrayStatus);
 
         // Get player 1 car index
-        F1_23::PacketBuilder::Helper::getVariableFromByteStream<>(packetInfo, &m_carIndexPlayer1, arrayStatus);
+        F1_23::Packet::Helper::getVariableFromByteStream<>(packetInfo, &m_carIndexPlayer1, arrayStatus);
 
         // Get player 2 car index
-        F1_23::PacketBuilder::Helper::getVariableFromByteStream<>(packetInfo, &m_carIndexPlayer2, arrayStatus);
+        F1_23::Packet::Helper::getVariableFromByteStream<>(packetInfo, &m_carIndexPlayer2, arrayStatus);
 
     }
 

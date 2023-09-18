@@ -7,7 +7,7 @@
 
 
 F1_23::Packet::IPacket::IPacket() :
-    m_header(new F1_23::Packet::Header) {
+    m_header(nullptr) {
 
 }
 

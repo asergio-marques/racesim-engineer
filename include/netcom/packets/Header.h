@@ -19,10 +19,8 @@ namespace F1_23 {
 
         class Header {
 
-            friend F1_23::PacketBuilder::Header;
-
             public:
-                Header();
+                Header(char* packetInfo);
                 virtual ~Header() = default;
 
                 // Getters for internal infos

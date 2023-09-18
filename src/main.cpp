@@ -1,7 +1,6 @@
 #include <iostream>
+#include "netcom/packets/Header.h"
 #include "netcom/packets/SessionData.h"
-#include "netcom/packet_builders/Header.h"
-#include "core/data/Packet.h"
 
 int main(int argc, char* argv[]) {
 
@@ -62,14 +61,14 @@ int main(int argc, char* argv[]) {
     //  Player 2 index (15)
     headerArray[28] = 0x15;
 
-
-    F1_23::PacketBuilder::Header* headerBuilder = new F1_23::PacketBuilder::Header;
-    F1_23::Packet::Header* header = headerBuilder->buildNewHeader(headerArray);
+    F1_23::Packet::Header* header = new F1_23::Packet::Header(headerArray);
     #ifndef NDEBUG
     if (header) {
         header->print();
     }
     #endif // NDEBUG
+
+    F1_23::Packet::IPacket* packet = new F1_23::Packet::SessionData;
 
 	return 0;
 

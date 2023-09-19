@@ -62,9 +62,13 @@ int main(int argc, char* argv[]) {
     //  Player 2 index (15)
     headerArray[28] = 0x15;
 
-    F1_23::Packet::Helper* helper = new F1_23::Packet::Helper(F1_23::Packet::LengthBytes::SessionData);
-    F1_23::Packet::IPacket* packet = new F1_23::Packet::SessionData(headerArray, helper);
-    delete helper;
+    F1_23::Packet::IPacket* packet = new F1_23::Packet::SessionData(headerArray, new F1_23::Packet::Helper(F1_23::Packet::LengthBytes::SessionData));
+
+    #ifndef NDEBUG
+    packet->print();
+    #endif // NDEBUG
+
+    // Helper deletion is responsability of the created packet
     delete packet;
 
 	return 0;

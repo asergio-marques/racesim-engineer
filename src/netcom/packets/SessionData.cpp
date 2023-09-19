@@ -4,6 +4,7 @@
 #include <iostream>
 #include <math.h>
 #include "data/Session.h"
+#include "data/Packet.h"
 #include "data/Player.h"
 #include "packets/IPacket.h"
 #include "packets/Header.h"
@@ -74,8 +75,37 @@ F1_23::Packet::SessionData::SessionData(char* packetInfo, F1_23::Packet::Helper*
         // TODO proper error handling/exception
 
     }
+    
+    if (helper) {
+
+        // It is the responsability of the header to delete
+        // the helper as it is to be used only for this function
+        delete helper;
+
+    }
 
 }
+
+const F1_23::Packet::LengthBytes F1_23::Packet::SessionData::getLength() const {
+
+    return F1_23::Packet::LengthBytes::SessionData;
+
+}
+
+#ifndef NDEBUG
+void F1_23::Packet::SessionData::print() const {
+
+    const F1_23::Packet::Header* header = this->getHeader();
+    if (header) {
+        
+        header->print();
+
+    }
+
+    // Packet print TBD
+
+}
+#endif // NDEBUG
 
 void F1_23::Packet::SessionData::BuildPacket(char* packetInfo, F1_23::Packet::Helper* helper) {
 

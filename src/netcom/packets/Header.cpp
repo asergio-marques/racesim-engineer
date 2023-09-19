@@ -40,15 +40,19 @@ F1_23::Packet::Header::Header(char* packetInfo, F1_23::Packet::Helper* helper) :
         helper->getVariableFromByteStream<>(packetInfo, &m_carIndexPlayer1, arrayStatus);
         helper->getVariableFromByteStream<>(packetInfo, &m_carIndexPlayer2, arrayStatus);
 
-        // It is the responsability of the header to delete
-        // the helper as it is to be used only for this function
-        delete helper;
-
     }
     else {
     
         // TODO proper error handling/exception
     
+    }
+
+    if (helper) {
+        
+        // It is the responsability of the header to delete
+        // the helper as it is to be used only for this function
+        delete helper;
+
     }
 
 }

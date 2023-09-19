@@ -4,9 +4,9 @@
 #include <cstdint>
 #include <math.h>
 #include "data/Session.h"
+#include "data/Packet.h"
 #include "data/Player.h"
 #include "packets/IPacket.h"
-#include "packets/Header.h"
 
 namespace F1_23::Packet {
 
@@ -56,6 +56,13 @@ namespace F1_23::Packet {
             
             SessionData(char* packetInfo, F1_23::Packet::Helper* helper);
             ~SessionData() = default;
+
+            // Returns the length of the packet in bytes, including header
+            const F1_23::Packet::LengthBytes getLength() const override;
+
+            #ifndef NDEBUG
+            void print() const override;
+            #endif // NDEBUG
 
         private:
             //  Separate function to build the packet, making the code more readable

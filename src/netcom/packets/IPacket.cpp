@@ -11,14 +11,6 @@ F1_23::Packet::IPacket::IPacket(char* packetInfo) :
     m_header(
         new F1_23::Packet::Header(packetInfo, new F1_23::Packet::Helper(F1_23::Packet::LengthBytes::Header))) {
 
-    if (m_header) {
-        
-        #ifndef NDEBUG
-        m_header->print();
-        #endif // NDEBUG
-
-    }
-
 }
 
 

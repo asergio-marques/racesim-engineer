@@ -17,10 +17,12 @@ namespace F1_23 {
 
     namespace Packet {
 
+        class Helper;
+
         class Header {
 
             public:
-                Header(char* packetInfo);
+                Header(char* packetInfo, F1_23::Packet::Helper* helper);
                 virtual ~Header() = default;
 
                 // Getters for internal infos

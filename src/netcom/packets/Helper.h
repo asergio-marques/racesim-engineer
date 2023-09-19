@@ -2,6 +2,9 @@
 #define NETCOM_PACKETS_INCLUDE_F123_HELPER_H_
 
 #include <cstring>
+#include <exception>
+
+#include "data/Packet.h"
 
 namespace F1_23 {
 
@@ -10,26 +13,36 @@ namespace F1_23 {
         class Helper {
 
             public:
-                Helper() = default;
+                Helper(F1_23::Packet::LengthBytes packetLength);
                 virtual ~Helper() = default;
 
+                // Template function definition must be in header
                 template<typename T>
-                static void getVariableFromByteStream(char* packetInfo, T* var, size_t& movedArray) {
+                void getVariableFromByteStream(char* packetInfo, T* var, size_t& movedArray) {
 
-                    // This assumes little endian!
-                    if (packetInfo) {
+                    const size_t varSizeBytes = sizeof(*var);
 
-                        const size_t varSizeBytes = sizeof(*var);
+                    // Check if the function will try to read any out-of-scope byte, and throw an error if so
+                    if ((movedArray + varSizeBytes) > static_cast<size_t>(m_packetLength)) {
+
+                        // TODO proper error handling/exception
+
+                    }
+                    else if (packetInfo) {
+
+                        // This assumes little endian!
                         char* startLoc = packetInfo + (movedArray);
-
-                        if (startLoc && (startLoc + varSizeBytes)) {
-                            std::memcpy(var, startLoc, varSizeBytes);
-                            movedArray += varSizeBytes;
-                        }
+                        std::memcpy(var, startLoc, varSizeBytes);
+                        movedArray += varSizeBytes;
 
                     }
 
+                    return;
+
                 }
+
+            private:
+                F1_23::Packet::LengthBytes m_packetLength;
 
         };
 

@@ -6,12 +6,13 @@
 namespace F1_23::Packet {
 
     class Header;
+    class Helper;
 
     class IPacket {
 
         public:
-            // Packet interface constructor, must be passed a header always
-            IPacket();
+            // Packet interface constructor
+            IPacket(char* packetInfo);
 
             // Destructor
             virtual ~IPacket();

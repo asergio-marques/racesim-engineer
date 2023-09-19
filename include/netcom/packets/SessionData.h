@@ -11,6 +11,7 @@
 namespace F1_23::Packet {
 
     class Header;
+    class Helper;
 
     struct MarshalZone {
 
@@ -53,10 +54,13 @@ namespace F1_23::Packet {
 
         public:
             
-            SessionData();
+            SessionData(char* packetInfo, F1_23::Packet::Helper* helper);
             ~SessionData() = default;
 
         private:
+            //  Separate function to build the packet, making the code more readable
+            void BuildPacket(char* packetInfo, F1_23::Packet::Helper* helper);
+
             //  Current weather
             Session::Weather        m_currentWeather;
 

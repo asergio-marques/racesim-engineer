@@ -16,7 +16,8 @@ namespace F1_23 {
                 Helper(F1_23::Packet::LengthBytes packetLength);
                 virtual ~Helper() = default;
 
-                // Template function definition must be in header
+                // Function to obtain a specific variable from a data stream, which automatically
+                // moves forward the index
                 template<typename T>
                 void getVariableFromByteStream(char* packetInfo, T* var, size_t& movedArray) {
 
@@ -33,8 +34,25 @@ namespace F1_23 {
                         // This assumes little endian!
                         char* startLoc = packetInfo + (movedArray);
                         std::memcpy(var, startLoc, varSizeBytes);
-                        movedArray += varSizeBytes;
 
+                    }
+
+                    // Move forward in array just in case
+                    movedArray += varSizeBytes;
+
+                    return;
+
+                }
+
+                // Function to obtain an array of variables of a specific type from a data stream, which automatically
+                // moves forward the index
+                template<typename T>
+                void getVariableArrayFromByteStream(char* packetInfo, T* var, size_t numArrayMembers, size_t& movedArray) {
+
+                    for (size_t i = 0; i < numArrayMembers; ++i) {
+
+                        this->getVariableFromByteStream<>(packetInfo, var, movedArray);
+                    
                     }
 
                     return;

@@ -7,11 +7,12 @@
 #include "data/Player.h"
 #include "packets/IPacket.h"
 #include "packets/Header.h"
+#include "packets/Helper.h"
 
 
 
-F1_23::Packet::SessionData::SessionData() :
-    F1_23::Packet::IPacket(),
+F1_23::Packet::SessionData::SessionData(char* packetInfo, F1_23::Packet::Helper* helper) :
+    F1_23::Packet::IPacket(packetInfo),
     m_currentWeather(F1_23::Session::Weather::InvalidUnknown),
     m_currentTrackTemperature(0),
     m_currentAirTemperature(0),
@@ -61,5 +62,73 @@ F1_23::Packet::SessionData::SessionData() :
     m_numSafetyCarPeriods(0),
     m_numVirtualSafetyCarPeriods(0),
     m_numRedFlagPeriods(0) {
+
+    // The header should also be checked as to its good-formation
+    if (packetInfo && helper && getHeader()) {
+
+        BuildPacket(packetInfo, helper);
+
+    }
+    else {
+
+        // TODO proper error handling/exception
+
+    }
+
+}
+
+void F1_23::Packet::SessionData::BuildPacket(char* packetInfo, F1_23::Packet::Helper* helper) {
+
+    // Start at the end of the header
+    size_t arrayStatus = static_cast<size_t>(F1_23::Packet::LengthBytes::Header);
+    helper->getVariableFromByteStream<>(packetInfo, &m_currentWeather, arrayStatus);
+    helper->getVariableFromByteStream<>(packetInfo, &m_currentTrackTemperature, arrayStatus);
+    helper->getVariableFromByteStream<>(packetInfo, &m_currentAirTemperature, arrayStatus);
+    helper->getVariableFromByteStream<>(packetInfo, &m_totalLaps, arrayStatus);
+    helper->getVariableFromByteStream<>(packetInfo, &m_trackLength, arrayStatus);
+    helper->getVariableFromByteStream<>(packetInfo, &m_sessionType, arrayStatus);
+    helper->getVariableFromByteStream<>(packetInfo, &m_trackId, arrayStatus);
+    helper->getVariableFromByteStream<>(packetInfo, &m_formula, arrayStatus);
+    helper->getVariableFromByteStream<>(packetInfo, &m_sessionTimeLeft, arrayStatus);
+    helper->getVariableFromByteStream<>(packetInfo, &m_sessionDuration, arrayStatus);
+    helper->getVariableFromByteStream<>(packetInfo, &m_pitSpeedLimit, arrayStatus);
+    helper->getVariableFromByteStream<>(packetInfo, &m_gamePaused, arrayStatus);
+    helper->getVariableFromByteStream<>(packetInfo, &m_isSpectating, arrayStatus);
+    helper->getVariableFromByteStream<>(packetInfo, &m_spectatorCarIndex, arrayStatus);
+    helper->getVariableFromByteStream<>(packetInfo, &m_sliProNativeSupportOn, arrayStatus);
+    helper->getVariableFromByteStream<>(packetInfo, &m_numMarshalZones, arrayStatus);
+    helper->getVariableArrayFromByteStream<>(packetInfo, m_marshalZones, 21, arrayStatus);
+    helper->getVariableFromByteStream<>(packetInfo, &m_safetyCarStatus, arrayStatus);
+    helper->getVariableFromByteStream<>(packetInfo, &m_isNetwork, arrayStatus);
+    helper->getVariableFromByteStream<>(packetInfo, &m_numWeatherForecastSamples, arrayStatus);
+    helper->getVariableArrayFromByteStream<>(packetInfo, m_weatherForecastSamples, 56, arrayStatus);
+    helper->getVariableFromByteStream<>(packetInfo, &m_isForecastApproximate, arrayStatus);
+    helper->getVariableFromByteStream<>(packetInfo, &m_aiDifficulty, arrayStatus);
+    helper->getVariableFromByteStream<>(packetInfo, &m_seasonLinkIdentifier, arrayStatus);
+    helper->getVariableFromByteStream<>(packetInfo, &m_weekendLinkIdentifier, arrayStatus);
+    helper->getVariableFromByteStream<>(packetInfo, &m_sessionLinkIdentifier, arrayStatus);
+    helper->getVariableFromByteStream<>(packetInfo, &m_pitStopWindowIdealLap, arrayStatus);
+    helper->getVariableFromByteStream<>(packetInfo, &m_pitStopWindowLatestLap, arrayStatus);
+    helper->getVariableFromByteStream<>(packetInfo, &m_pitStopRejoinPosition, arrayStatus);
+    helper->getVariableFromByteStream<>(packetInfo, &m_steeringAssistOn, arrayStatus);
+    helper->getVariableFromByteStream<>(packetInfo, &m_brakingAssist, arrayStatus);
+    helper->getVariableFromByteStream<>(packetInfo, &m_gearboxAssist, arrayStatus);
+    helper->getVariableFromByteStream<>(packetInfo, &m_pitAssistOn, arrayStatus);
+    helper->getVariableFromByteStream<>(packetInfo, &m_pitReleaseAssistOn, arrayStatus);
+    helper->getVariableFromByteStream<>(packetInfo, &m_ERSAssistOn, arrayStatus);
+    helper->getVariableFromByteStream<>(packetInfo, &m_DRSAssistOn, arrayStatus);
+    helper->getVariableFromByteStream<>(packetInfo, &m_dynamicRacingLine, arrayStatus);
+    helper->getVariableFromByteStream<>(packetInfo, &m_dynamicRacingLine3D, arrayStatus);
+    helper->getVariableFromByteStream<>(packetInfo, &m_gameMode, arrayStatus);
+    helper->getVariableFromByteStream<>(packetInfo, &m_ruleSet, arrayStatus);
+    helper->getVariableFromByteStream<>(packetInfo, &m_timeOfDay, arrayStatus);
+    helper->getVariableFromByteStream<>(packetInfo, &m_sessionLength, arrayStatus);
+    helper->getVariableFromByteStream<>(packetInfo, &m_speedUnitPlayer1, arrayStatus);
+    helper->getVariableFromByteStream<>(packetInfo, &m_tempUnitPlayer1, arrayStatus);
+    helper->getVariableFromByteStream<>(packetInfo, &m_speedUnitPlayer2, arrayStatus);
+    helper->getVariableFromByteStream<>(packetInfo, &m_tempUnitPlayer2, arrayStatus);
+    helper->getVariableFromByteStream<>(packetInfo, &m_numSafetyCarPeriods, arrayStatus);
+    helper->getVariableFromByteStream<>(packetInfo, &m_numVirtualSafetyCarPeriods, arrayStatus);
+    helper->getVariableFromByteStream<>(packetInfo, &m_numRedFlagPeriods, arrayStatus);
 
 }

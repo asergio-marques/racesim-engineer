@@ -27,41 +27,22 @@ F1_23::Packet::Header::Header(char* packetInfo, F1_23::Packet::Helper* helper) :
         // Current position in the array
         size_t arrayStatus = 0;
 
-        // Get packet format
         helper->getVariableFromByteStream<>(packetInfo, &m_packetFormat, arrayStatus);
-
-        // Get last two digits of game year
         helper->getVariableFromByteStream<>(packetInfo, &m_gameYear, arrayStatus);
-
-        // Get major version of the game
         helper->getVariableFromByteStream<>(packetInfo, &m_gameMajorVersion, arrayStatus);
-
-        // Get minor version of the game
         helper->getVariableFromByteStream<>(packetInfo, &m_gameMinorVersion, arrayStatus);
-
-        // Get packet version
         helper->getVariableFromByteStream<>(packetInfo, &m_packetVersion, arrayStatus);
-
-        // Get packet ID
         helper->getVariableFromByteStream<>(packetInfo, &m_packetId, arrayStatus);
-
-        // Get session ID
         helper->getVariableFromByteStream<>(packetInfo, &m_sessionUID, arrayStatus);
-
-        // Get timestamp for current session
         helper->getVariableFromByteStream<>(packetInfo, &m_sessionTime, arrayStatus);
-
-        // Get ID for frame for which the current data corresponds
         helper->getVariableFromByteStream<>(packetInfo, &m_frameIdentifier, arrayStatus);
-
-        // Get overall ID for frame ignoring flashbacks
         helper->getVariableFromByteStream<>(packetInfo, &m_overallFrameIdentifier, arrayStatus);
-
-        // Get player 1 car index
         helper->getVariableFromByteStream<>(packetInfo, &m_carIndexPlayer1, arrayStatus);
-
-        // Get player 2 car index
         helper->getVariableFromByteStream<>(packetInfo, &m_carIndexPlayer2, arrayStatus);
+
+        // It is the responsability of the header to delete
+        // the helper as it is to be used only for this function
+        delete helper;
 
     }
     else {

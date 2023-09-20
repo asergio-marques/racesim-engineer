@@ -28,6 +28,10 @@ namespace F1_23::Packet {
             virtual void print() const = 0;
             #endif // NDEBUG
 
+        protected:
+            // Separate function to build the packet, making the code more readable
+            // To be overridden and made protected by concrete packet classes
+            virtual void buildPacket(char* packetInfo, F1_23::Packet::Helper* helper) = 0;
 
         private:
             // Header information present in all received packets

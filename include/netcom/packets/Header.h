@@ -33,42 +33,42 @@ namespace F1_23 {
                 #endif // NDEBUG
 
             private:
-                //  "2023" for F1 23
+                // "2023" for F1 23
                 uint16_t    m_packetFormat;
 
-                //  Game year - last two digits e.g. 23
+                // Game year - last two digits e.g. 23
                 uint8_t     m_gameYear;
 
-                //  Game major version - "X.00"
+                // Game major version - "X.00"
                 uint8_t     m_gameMajorVersion;
 
-                //  Game minor version - "1.XX"
+                // Game minor version - "1.XX"
                 uint8_t     m_gameMinorVersion;
 
-                //  Version of this packet type, all start from 1
+                // Version of this packet type, all start from 1
                 uint8_t     m_packetVersion;
 
-                //  Identifier for the packet type
+                // Identifier for the packet type
                 Type        m_packetId;
 
-                //  Unique identifier for the session
+                // Unique identifier for the session
                 uint64_t    m_sessionUID;
 
-                //  Session timestamp
+                // Session timestamp
                 float_t     m_sessionTime;
 
-                //  Identifier for the frame the data was retrieved on
+                // Identifier for the frame the data was retrieved on
                 uint32_t    m_frameIdentifier;
 
-                //  Overall identifier for the frame the data was retrieved on,
-                //  doesn't go back after flashbacks
+                // Overall identifier for the frame the data was retrieved on,
+                // doesn't go back after flashbacks
                 uint32_t    m_overallFrameIdentifier;
 
-                //  Index of player 1 car in the array
+                // Index of player 1 car in the array
                 uint8_t     m_carIndexPlayer1;
 
-                //  Index of player 2 car in the array in Split Screen mode, 
-                //  255 if no second player
+                // Index of player 2 car in the array in Split Screen mode, 
+                // 255 if no second player
                 uint8_t     m_carIndexPlayer2;
 
         };
@@ -77,4 +77,4 @@ namespace F1_23 {
 
 }
 
-#endif  //  NETCOM_PACKETS_INCLUDE_F123_HEADER_H_
+#endif  // NETCOM_PACKETS_INCLUDE_F123_HEADER_H_

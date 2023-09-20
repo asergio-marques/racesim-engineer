@@ -15,7 +15,7 @@ namespace F1_23::Packet {
 
     struct MarshalZone {
 
-        //  Fraction (0..1) of way through the lap the marshal zone starts
+        // Fraction (0..1) of way through the lap the marshal zone starts
         float_t                 m_zoneStart;
 
         // Currently active flag in zone
@@ -24,10 +24,10 @@ namespace F1_23::Packet {
 
     struct WeatherForecastSample {
 
-        //  Type of current session
+        // Type of current session
         Session::Type           m_sessionType;
 
-        //  Time in which this forecast is due (minutes)
+        // Time in which this forecast is due (minutes)
         uint8_t                 m_timeOffset;
 
         // Weather for this forecast
@@ -42,10 +42,10 @@ namespace F1_23::Packet {
         // Air temperature (degrees Celsius)
         uint8_t                 m_airTemperature;
 
-        //  Air temperature change
+        // Air temperature change
         Session::TempVariation  m_airTemperatureChange;
 
-        //  Rain probability (percentage, 0-100)
+        // Rain probability (percentage, 0-100)
         uint8_t                 m_rainPercentage;
 
     };
@@ -53,7 +53,6 @@ namespace F1_23::Packet {
     class SessionData final : public IPacket {
 
         public:
-            
             SessionData(char* packetInfo, F1_23::Packet::Helper* helper);
             ~SessionData() = default;
 
@@ -65,28 +64,28 @@ namespace F1_23::Packet {
             #endif // NDEBUG
 
         private:
-            //  Separate function to build the packet, making the code more readable
-            void BuildPacket(char* packetInfo, F1_23::Packet::Helper* helper);
+            // Separate function to build the packet, making the code more readable
+            void buildPacket(char* packetInfo, F1_23::Packet::Helper* helper);
 
-            //  Current weather
+            // Current weather
             Session::Weather        m_currentWeather;
 
-            //  Current track temperature (degrees Celsius)
+            // Current track temperature (degrees Celsius)
             int8_t                  m_currentTrackTemperature;
 
-            //  Current air temperature (degrees Celsius)
+            // Current air temperature (degrees Celsius)
             int8_t                  m_currentAirTemperature;
 
-            //  Total number of laps in this session
+            // Total number of laps in this session
             uint8_t                 m_totalLaps;
 
-            //  Track length in meters
+            // Track length in meters
             uint16_t                m_trackLength;
 
-            //  Type of current session
+            // Type of current session
             Session::Type           m_sessionType;
 
-            //  Track in which the session takes place
+            // Track in which the session takes place
             Session::Track          m_trackId;
 
             // Type of cars in the current session
@@ -192,25 +191,25 @@ namespace F1_23::Packet {
             // Local time of day (minutes past midnight)
             uint32_t                m_timeOfDay;
 
-            //  Length of the current session
+            // Length of the current session
             Session::Length         m_sessionLength;
 
-            //  Speed unit used by Player 1
+            // Speed unit used by Player 1
             Player::SpeedUnit       m_speedUnitPlayer1;
 
-            //  Temperature unit used by Player 1
+            // Temperature unit used by Player 1
             Player::TempUnit        m_tempUnitPlayer1;
 
-            //  Speed unit used by Player 2
+            // Speed unit used by Player 2
             Player::SpeedUnit       m_speedUnitPlayer2;
 
-            //  Temperature unit used by Player 2
+            // Temperature unit used by Player 2
             Player::TempUnit        m_tempUnitPlayer2;
 
-            //  Number of safety cars previously called during the current session
+            // Number of safety cars previously called during the current session
             uint8_t                 m_numSafetyCarPeriods;
 
-            //  Number of virtual safety cars previously called during the current session
+            // Number of virtual safety cars previously called during the current session
             uint8_t                 m_numVirtualSafetyCarPeriods;
 
             // Number of red flags previously called during session
@@ -220,4 +219,4 @@ namespace F1_23::Packet {
 
 }
 
-#endif  //  NETCOM_PACKETS_INCLUDE_SESSION_DATA_H_
+#endif  // NETCOM_PACKETS_INCLUDE_SESSION_DATA_H_

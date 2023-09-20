@@ -64,25 +64,7 @@ F1_23::Packet::SessionData::SessionData(char* packetInfo, F1_23::Packet::Helper*
     m_numVirtualSafetyCarPeriods(0),
     m_numRedFlagPeriods(0) {
 
-    // The header should also be checked as to its good-formation
-    if (packetInfo && helper && getHeader()) {
-
-        BuildPacket(packetInfo, helper);
-
-    }
-    else {
-
-        // TODO proper error handling/exception
-
-    }
     
-    if (helper) {
-
-        // It is the responsability of the header to delete
-        // the helper as it is to be used only for this function
-        delete helper;
-
-    }
 
 }
 
@@ -107,7 +89,7 @@ void F1_23::Packet::SessionData::print() const {
 }
 #endif // NDEBUG
 
-void F1_23::Packet::SessionData::BuildPacket(char* packetInfo, F1_23::Packet::Helper* helper) {
+void F1_23::Packet::SessionData::buildPacket(char* packetInfo, F1_23::Packet::Helper* helper) {
 
     // Start at the end of the header
     size_t arrayStatus = static_cast<size_t>(F1_23::Packet::LengthBytes::Header);

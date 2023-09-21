@@ -4,12 +4,26 @@ set(CMAKE_CXX_STANDARD 17)
 project(RaceSimEngineer LANGUAGES CXX)
 add_executable(${PROJECT_NAME})
 
-add_subdirectory("${CMAKE_CURRENT_SOURCE_DIR}/src/general/data" ${CMAKE_CURRENT_BINARY_DIR}/general/data)
+add_subdirectory("${CMAKE_CURRENT_SOURCE_DIR}/src/core/" ${CMAKE_CURRENT_BINARY_DIR}/core)
+add_subdirectory("${CMAKE_CURRENT_SOURCE_DIR}/src/netcom/" ${CMAKE_CURRENT_BINARY_DIR}/netcom)
+
+target_include_directories(${PROJECT_NAME} PUBLIC
+    "${CMAKE_CURRENT_LIST_DIR}/include/core"
+    "${CMAKE_CURRENT_LIST_DIR}/include/netcom"
+    "${CMAKE_CURRENT_LIST_DIR}/include/settings"
+    "${CMAKE_CURRENT_LIST_DIR}/include/ui"
+    "${CMAKE_CURRENT_LIST_DIR}/include/uiadapter"
+    
+    "${CMAKE_CURRENT_LIST_DIR}/src/core"
+    "${CMAKE_CURRENT_LIST_DIR}/src/netcom")
 
 target_link_directories(${PROJECT_NAME} PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}/lib/${TARGET_ARCH}/$<CONFIG>")
-target_include_directories(${PROJECT_NAME} PUBLIC "${CMAKE_CURRENT_LIST_DIR}/include")
 
 target_sources(${PROJECT_NAME} PRIVATE src/main.cpp)
+
+target_link_libraries(${PROJECT_NAME} PRIVATE
+    RaceSimEngineerCore
+    RaceSimEngineerNetwork)
 
 add_custom_command(TARGET ${PROJECT_NAME}
 	POST_BUILD

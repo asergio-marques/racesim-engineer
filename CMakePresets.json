@@ -1,46 +1,55 @@
 {
-  "version": 5,
-  "cmakeMinimumRequired": {
-    "major": 3,
-    "minor": 25,
-    "patch": 7
-  },
-  "configurePresets": [
-    {
-      "name": "win64",
-      "generator": "Visual Studio 17 2022",
-      "architecture": {
-        "value": "x64",
-        "strategy": "set"
-      },
-      "binaryDir": "${sourceDir}/build/win64",
-      "cacheVariables": {
-        "CMAKE_CONFIGURATION_TYPES": "Debug;Release",
-        "TARGET_ARCH": "win64"
-      },
-      "environment": {
-        "CMAKE_BUILD_PARALLEL_LEVEL": "$env{NUMBER_OF_PROCESSORS}"
-      },
-      "vendor": {
-        "microsoft.com/VisualStudioSettings/CMake/1.0": {
-          "hostOS": "Windows",
-          "intelliSenseMode": "windows-msvc-x64"
-        }
-      }
-    }
-  ],
-  "buildPresets": [
-    {
-      "name": "win64debug",
-      "displayName": "Windows 64-bit Debug",
-      "configurePreset": "win64",
-      "configuration": "Debug"
+    "version": 5,
+    "cmakeMinimumRequired": {
+        "major": 3,
+        "minor": 25,
+        "patch": 7
     },
-    {
-      "name": "win64release",
-      "displayName": "Windows 64-bit Release",
-      "configurePreset": "win64",
-      "configuration": "Release"
-    }
-  ]
+    "configurePresets": [
+        {
+            "name": "win64",
+            "generator": "Visual Studio 17 2022",
+            "architecture": {
+                "value": "x64",
+                "strategy": "set"
+            },
+            "binaryDir": "${sourceDir}/build/win64",
+            "cacheVariables": {
+                "CMAKE_CONFIGURATION_TYPES": "Debug;Release",
+                "TARGET_ARCH": "win64"
+            },
+            "environment": {
+                "CMAKE_BUILD_PARALLEL_LEVEL": "$env{NUMBER_OF_PROCESSORS}"
+            },
+            "vendor": {
+                "microsoft.com/VisualStudioSettings/CMake/1.0": {
+                    "hostOS": "Windows",
+                    "intelliSenseMode": "windows-msvc-x64"
+                }
+            }
+        },
+        {
+            "name": "win64-debug",
+            "inherits": [
+                "win64"
+            ],
+            "cacheVariables": {
+                "CMAKE_BUILD_TYPE": "Debug"
+            }
+        }
+    ],
+    "buildPresets": [
+        {
+            "name": "win64debug",
+            "displayName": "Windows 64-bit Debug",
+            "configurePreset": "win64-debug",
+            "configuration": "Debug"
+        },
+        {
+            "name": "win64release",
+            "displayName": "Windows 64-bit Release",
+            "configurePreset": "win64",
+            "configuration": "Release"
+        }
+    ]
 }

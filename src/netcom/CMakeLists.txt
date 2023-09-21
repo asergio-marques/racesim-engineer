@@ -17,7 +17,8 @@ target_sources(${PROJECT_NAME} PRIVATE
     packets/Header.cpp
     packets/Helper.cpp
     packets/IPacket.cpp
-    packets/SessionData.cpp)
+    packets/SessionData.cpp
+    packets/Event.cpp)
 
 target_link_libraries(${PROJECT_NAME} PRIVATE
     RaceSimEngineerCore

@@ -49,7 +49,7 @@ namespace F1_23 {
                 template<typename T>
                 void getVariableArrayFromByteStream(char* packetInfo, T* var, size_t numArrayMembers, size_t& movedArray) {
 
-                    for (size_t i = 0; i < numArrayMembers; ++i) {
+                    for (size_t i = 0; i < numArrayMembers; ++i, ++var) {
 
                         this->getVariableFromByteStream<>(packetInfo, var, movedArray);
                     

@@ -1,13 +1,14 @@
 #include <iostream>
 #include "packets/Header.h"
 #include "packets/Helper.h"
+#include "packets/Event.h"
 #include "packets/SessionData.h"
 
 int main(int argc, char* argv[]) {
 
 	std::cout << "RaceSim Engineer online." << std::endl;
 
-    char headerArray[static_cast<size_t>(F1_23::Packet::LengthBytes::Header)];
+    char headerArray[static_cast<size_t>(F1_23::Packet::LengthBytes::Event)];
 
     //  Packet format (2023)
     headerArray[0] = 0xE7;
@@ -62,7 +63,21 @@ int main(int argc, char* argv[]) {
     //  Player 2 index (15)
     headerArray[28] = 0x15;
 
-    F1_23::Packet::IPacket* packet = new F1_23::Packet::SessionData(headerArray, new F1_23::Packet::Helper(F1_23::Packet::LengthBytes::SessionData));
+    //  Event type (Overtake)
+    headerArray[29] = 0x4F;
+    headerArray[30] = 0x56;
+    headerArray[31] = 0x54;
+    headerArray[32] = 0x4B;
+
+    //  Overtaking car index
+    headerArray[33] = 0x00;
+
+    //  Overtaken car index
+    headerArray[34] = 0x09;
+
+    F1_23::Packet::IPacket* packet;
+
+    packet = new F1_23::Packet::Event(headerArray, new F1_23::Packet::Helper(F1_23::Packet::LengthBytes::Event));
 
     #ifndef NDEBUG
     packet->print();

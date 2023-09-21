@@ -65,7 +65,10 @@ const F1_23::Packet::Type F1_23::Packet::Header::getPacketType() const {
 
 #ifndef NDEBUG
 void F1_23::Packet::Header::print() const {
-
+    
+    std::cout << "--------------------------------------------" << std::endl;
+    std::cout << "\tHeader info" << std::endl;
+    std::cout << "--------------------------------------------" << std::endl;
     std::cout << "Packet format: " << this->m_packetFormat << std::endl;
     std::cout << "Game year: " << static_cast<uint16_t>(this->m_gameYear) << std::endl;
     std::cout << "Game major version: " << static_cast<uint16_t>(this->m_gameMajorVersion) << std::endl;

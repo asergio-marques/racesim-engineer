@@ -3,6 +3,8 @@ cmake_minimum_required(VERSION 3.25.7)
 project(RaceSimEngineerNetwork LANGUAGES CXX)
 add_library(${PROJECT_NAME} STATIC)
 
+find_package(Qt6 6.5 REQUIRED COMPONENTS Network)
+
 # traverse the parent folders until project root is reached
 cmake_path(GET CMAKE_CURRENT_LIST_DIR PARENT_PATH PROJECT_ROOT)
 cmake_path(GET PROJECT_ROOT PARENT_PATH PROJECT_ROOT)
@@ -18,10 +20,12 @@ target_sources(${PROJECT_NAME} PRIVATE
     packets/Helper.cpp
     packets/IPacket.cpp
     packets/SessionData.cpp
-    packets/EventData.cpp)
+    packets/EventData.cpp
+    listener/Director.cpp)
 
 target_link_libraries(${PROJECT_NAME} PRIVATE
     RaceSimEngineerCore
+    Qt6::Network
 )
 
 set_target_properties(${PROJECT_NAME}

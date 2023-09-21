@@ -14,7 +14,7 @@ F1_23::Packet::Header::Header(char* packetInfo, F1_23::Packet::Helper* helper) :
     m_gameMajorVersion(0),
     m_gameMinorVersion(0),
     m_packetVersion(0),
-    m_packetId(F1_23::Packet::Type::InvalidUnknown),
+    m_packetType(F1_23::Packet::Type::InvalidUnknown),
     m_sessionUID(0),
     m_sessionTime(0.0f),
     m_frameIdentifier(0),
@@ -32,7 +32,7 @@ F1_23::Packet::Header::Header(char* packetInfo, F1_23::Packet::Helper* helper) :
         helper->getVariableFromByteStream<>(packetInfo, &m_gameMajorVersion, arrayStatus);
         helper->getVariableFromByteStream<>(packetInfo, &m_gameMinorVersion, arrayStatus);
         helper->getVariableFromByteStream<>(packetInfo, &m_packetVersion, arrayStatus);
-        helper->getVariableFromByteStream<>(packetInfo, &m_packetId, arrayStatus);
+        helper->getVariableFromByteStream<>(packetInfo, &m_packetType, arrayStatus);
         helper->getVariableFromByteStream<>(packetInfo, &m_sessionUID, arrayStatus);
         helper->getVariableFromByteStream<>(packetInfo, &m_sessionTime, arrayStatus);
         helper->getVariableFromByteStream<>(packetInfo, &m_frameIdentifier, arrayStatus);
@@ -57,30 +57,26 @@ F1_23::Packet::Header::Header(char* packetInfo, F1_23::Packet::Helper* helper) :
 
 }
 
-const F1_23::Packet::Type F1_23::Packet::Header::getPacketType() const {
-    
-    return m_packetId;
 
-}
 
 #ifndef NDEBUG
-void F1_23::Packet::Header::print() const {
+void F1_23::Packet::Header::Print() const {
     
     std::cout << "--------------------------------------------" << std::endl;
     std::cout << "\tHeader info" << std::endl;
     std::cout << "--------------------------------------------" << std::endl;
-    std::cout << "Packet format: " << this->m_packetFormat << std::endl;
-    std::cout << "Game year: " << static_cast<uint16_t>(this->m_gameYear) << std::endl;
-    std::cout << "Game major version: " << static_cast<uint16_t>(this->m_gameMajorVersion) << std::endl;
-    std::cout << "Game minor version: " << static_cast<uint16_t>(this->m_gameMinorVersion) << std::endl;
-    std::cout << "Packet version: " << static_cast<uint16_t>(this->m_packetVersion) << std::endl;
-    std::cout << "Packet type ID: " << static_cast<uint16_t>(this->m_packetId) << std::endl;
-    std::cout << "Session UUID: " << this->m_sessionUID << std::endl;
-    std::cout << "Session timestamp: " << this->m_sessionTime << std::endl;
-    std::cout << "Frame ID: " << this->m_frameIdentifier << std::endl;
-    std::cout << "Overall frame ID: " << this->m_overallFrameIdentifier << std::endl;
-    std::cout << "Player 1 index: " << static_cast<uint16_t>(this->m_carIndexPlayer1) << std::endl;
-    std::cout << "Player 2 index: " << static_cast<uint16_t>(this->m_carIndexPlayer2) << std::endl;
+    std::cout << "Packet format: " << GetPacketFormat() << std::endl;
+    std::cout << "Game year: " << static_cast<uint16_t>(GetGameYear()) << std::endl;
+    std::cout << "Game major version: " << static_cast<uint16_t>(GetGameMajorVersion()) << std::endl;
+    std::cout << "Game minor version: " << static_cast<uint16_t>(GetGameMinorVersion()) << std::endl;
+    std::cout << "Packet version: " << static_cast<uint16_t>(GetPacketVersion()) << std::endl;
+    std::cout << "Packet type ID: " << static_cast<uint16_t>(GetPacketType()) << std::endl;
+    std::cout << "Session UUID: " << GetSessionUID() << std::endl;
+    std::cout << "Session timestamp: " << GetSessionTime() << std::endl;
+    std::cout << "Frame ID: " << GetFrameIdentifier() << std::endl;
+    std::cout << "Overall frame ID: " << GetOverallFrameIdentifier() << std::endl;
+    std::cout << "Player 1 index: " << static_cast<uint16_t>(GetCarIndexPlayer1()) << std::endl;
+    std::cout << "Player 2 index: " << static_cast<uint16_t>(GetCarIndexPlayer2()) << std::endl;
     
 }
 #endif // NDEBUG

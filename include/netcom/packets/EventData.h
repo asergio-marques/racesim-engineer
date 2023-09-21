@@ -48,10 +48,10 @@ namespace F1_23::Packet {
     struct PenaltyEvent {
 
         // Penalty awarded
-        PenaltyType m_penaltyType;
+        Event::PenaltyType m_penaltyType;
 
         // Reason for the penalty being awarded
-        InfringementType m_infringementType;
+        Event::InfringementType m_infringementType;
 
         // Index of the car the penalty has been applied to
         uint8_t m_carIndex;
@@ -128,7 +128,7 @@ namespace F1_23::Packet {
     struct ButtonEvent {
 
         // Bit flags specifying which buttons are being pressed currently
-        ButtonBitMasks m_buttonStatus;
+        Event::ButtonBitMask m_buttonStatus;
 
     };
 
@@ -142,28 +142,43 @@ namespace F1_23::Packet {
 
     };
 
-    class Event final : public IPacket {
+    class EventData final : public IPacket {
 
         public:
-        Event(char* packetInfo, F1_23::Packet::Helper* helper);
-        ~Event() = default;
+            EventData(char* packetInfo, F1_23::Packet::Helper* helper);
+            ~EventData() = default;
 
-        // Returns the length of the packet in bytes, including header
-        const F1_23::Packet::LengthBytes getLength() const override;
+            // Returns the length of the packet in bytes, including header
+            const F1_23::Packet::LengthBytes GetLength() const override;
 
-#ifndef NDEBUG
-        void print() const override;
-#endif // NDEBUG
+            // Getters for packet info
+            inline const Event::Type& GetEventType() const { return m_eventType; }
+            inline const FastestLapEvent& GetFastestLapData() const { return m_fastestLapData; }
+            inline const CarRetirementEvent& GetCarRetirementData() const { return m_carRetirementData; }
+            inline const TeammateInPitsEvent& GetTeammateInPitsData() const { return m_teammateInPitsData; }
+            inline const RaceWinnerEvent& GetRaceWinnerData() const { return m_raceWinnerData; }
+            inline const PenaltyEvent& GetPenaltyData() const { return m_penaltyData; }
+            inline const SpeedTrapEvent& GetSpeedTrapData() const { return m_speedTrapData; }
+            inline const StartLightsEvent& GetStartLightsData() const { return m_startLightsData; }
+            inline const DTPenaltyServedEvent& GetDTPenaltyServedData() const { return m_DTPenaltyServedData; }
+            inline const StopGoPenaltyServedEvent& GetStopGoPenaltyServedData() const { return m_stopGoPenaltyServedData; }
+            inline const FlashbackEvent& GetFlashbackData() const { return m_flashbackData; }
+            inline const ButtonEvent& GetButtonData() const { return m_buttonData; }
+            inline const OvertakeEvent& GetOvertakeData() const { return m_overtakeData; }
+
+            #ifndef NDEBUG
+            void Print() const override;
+            #endif // NDEBUG
 
         private:
             // Separate function to build the packet, making the code more readable
-            void buildPacket(char* packetInfo, F1_23::Packet::Helper* helper);
+            void BuildPacket(char* packetInfo, F1_23::Packet::Helper* helper) override;
 
             // Specialized function to determine the event type contained in the datagram
             void DetermineEventType(char* eventCode);
 
             // ID of the event type that allows identification of the correct struct to be used
-            EventType m_eventType;
+            Event::Type m_eventType;
 
             FastestLapEvent m_fastestLapData;
 
@@ -191,7 +206,7 @@ namespace F1_23::Packet {
 
             // Organized map that stores the relationship between the event code strings received
             // from the game and the EventType enum
-            static std::map<std::string, EventType> m_eventCodeTable;
+            static std::map<std::string, Event::Type> m_eventCodeTable;
 
     };
 

@@ -6,9 +6,9 @@
 
 
 
-namespace F1_23::Packet {
+namespace F1_23::Event {
 
-    enum class EventType : uint8_t {
+    enum class Type : uint8_t {
 
         InvalidUnknown      = 0,
         SessionStarted      = 1,
@@ -118,7 +118,7 @@ namespace F1_23::Packet {
 
     };
 
-    enum class ButtonBitMasks : uint32_t {
+    enum class ButtonBitMask : uint32_t {
 
         CrossA              = 0x00000001,
         TriangleY           = 0x00000002,

@@ -77,10 +77,10 @@ int main(int argc, char* argv[]) {
 
     F1_23::Packet::IPacket* packet;
 
-    packet = new F1_23::Packet::Event(headerArray, new F1_23::Packet::Helper(F1_23::Packet::LengthBytes::Event));
+    packet = new F1_23::Packet::EventData(headerArray, new F1_23::Packet::Helper(F1_23::Packet::LengthBytes::Event));
 
     #ifndef NDEBUG
-    packet->print();
+    packet->Print();
     #endif // NDEBUG
 
     // Helper deletion is responsability of the created packet

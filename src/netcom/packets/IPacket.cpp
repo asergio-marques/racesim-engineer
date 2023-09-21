@@ -23,7 +23,7 @@ F1_23::Packet::IPacket::~IPacket() {
 
 
 
-const F1_23::Packet::Header* F1_23::Packet::IPacket::getHeader() const {
+const F1_23::Packet::Header* F1_23::Packet::IPacket::GetHeader() const {
 
     return m_header;
 

@@ -64,23 +64,38 @@ F1_23::Packet::SessionData::SessionData(char* packetInfo, F1_23::Packet::Helper*
     m_numVirtualSafetyCarPeriods(0),
     m_numRedFlagPeriods(0) {
 
-    
+    if (packetInfo && helper) {
+
+        BuildPacket(packetInfo, helper);
+
+    }
+    if (helper) {
+
+        // It is the responsability of the packet class to delete
+        // the helper as it is to be used only for this function
+        delete helper;
+
+    }
 
 }
 
-const F1_23::Packet::LengthBytes F1_23::Packet::SessionData::getLength() const {
+
+
+const F1_23::Packet::LengthBytes F1_23::Packet::SessionData::GetLength() const {
 
     return F1_23::Packet::LengthBytes::SessionData;
 
 }
 
-#ifndef NDEBUG
-void F1_23::Packet::SessionData::print() const {
 
-    const F1_23::Packet::Header* header = this->getHeader();
+
+#ifndef NDEBUG
+void F1_23::Packet::SessionData::Print() const {
+
+    const F1_23::Packet::Header* header = this->GetHeader();
     if (header) {
         
-        header->print();
+        header->Print();
 
     }
 
@@ -89,7 +104,9 @@ void F1_23::Packet::SessionData::print() const {
 }
 #endif // NDEBUG
 
-void F1_23::Packet::SessionData::buildPacket(char* packetInfo, F1_23::Packet::Helper* helper) {
+
+
+void F1_23::Packet::SessionData::BuildPacket(char* packetInfo, F1_23::Packet::Helper* helper) {
 
     // Start at the end of the header
     size_t arrayStatus = static_cast<size_t>(F1_23::Packet::LengthBytes::Header);

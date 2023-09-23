@@ -3,6 +3,7 @@
 
 #include <cstdint>
 #include <thread>
+#include <WinSock2.h>
 #include "listener/SocketBase.h"
 
 
@@ -14,13 +15,20 @@ namespace Listener {
         public:
         UDPSocketWin64();
         virtual ~UDPSocketWin64();
-        bool Bind(const char* ip_address, const uint16_t port) override final;
+        bool Init() override final;
+        bool Bind(const char* ipAddress, const uint16_t port, bool rebind = false) override final;
         void Exec() override final;
 
         private:
-        char m_ipAddress[19] = "";
+        char m_ipAddress[15] = "";
         uint16_t m_port;
         bool m_isBound;
+        bool m_socketDetailsSet;
+        bool m_isSocketInit;
+        WSADATA m_implData;
+        SOCKET m_socket;
+        char m_datagramBuffer[4096];
+        const static size_t m_datagramBufferSize = 4096;
         std::thread m_thread;
 
     };

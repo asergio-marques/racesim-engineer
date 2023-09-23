@@ -1,6 +1,7 @@
 #include "listener/SocketBase.h"
 
 #include <cstdint>
+#include <functional>
 #include "listener/ISocket.h"
 
 
@@ -21,7 +22,7 @@ Listener::SocketBase::~SocketBase() {
 
 }
 
-bool Listener::SocketBase::RegisterFunction(void (*f)(const char*, const uint16_t)) {
+bool Listener::SocketBase::RegisterFunction(std::function<void(const char*, const uint16_t)> f) {
     
     if (f) {
 

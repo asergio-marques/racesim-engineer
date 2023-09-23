@@ -2,6 +2,7 @@
 #define NETCOM_LISTENER_INCLUDE_SOCKETBASE_H_
 
 #include <cstdint>
+#include <functional>
 #include "listener/ISocket.h"
 
 
@@ -12,11 +13,11 @@ namespace Listener {
         public:
         SocketBase();
         virtual ~SocketBase();
-        bool RegisterFunction(void (*f)(const char*, const uint16_t)) override final;
+        bool RegisterFunction(std::function<void(const char*, const uint16_t)> f) override final;
         void DeregisterFunction() override final;
 
         protected:
-        void (*m_regFunc)(const char*, uint16_t);
+        std::function<void(const char*, const uint16_t)> m_regFunc;
 
     };
 

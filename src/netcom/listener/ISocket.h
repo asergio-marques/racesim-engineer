@@ -2,6 +2,7 @@
 #define NETCOM_LISTENER_INCLUDE_ISOCKET_H_
 
 #include <cstdint>
+#include <functional>
 
 
 
@@ -12,8 +13,9 @@ namespace Listener {
         public:
         ISocket() = default;
         virtual ~ISocket() = default;
-        virtual bool Bind(const char* ip_address, const uint16_t port) = 0;
-        virtual bool RegisterFunction(void (*f)(const char*, const uint16_t)) = 0;
+        virtual bool Init() = 0;
+        virtual bool Bind(const char* ipAddress, const uint16_t port, bool rebind = false) = 0;
+        virtual bool RegisterFunction(std::function<void(const char*, const uint16_t)> f) = 0;
         virtual void DeregisterFunction() = 0;
         virtual void Exec() = 0;
 

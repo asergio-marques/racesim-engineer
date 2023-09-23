@@ -13,7 +13,6 @@ target_include_directories(${PROJECT_NAME} PUBLIC
     "${CMAKE_CURRENT_LIST_DIR}/include/settings"
     "${CMAKE_CURRENT_LIST_DIR}/include/ui"
     "${CMAKE_CURRENT_LIST_DIR}/include/uiadapter"
-    
     "${CMAKE_CURRENT_LIST_DIR}/src/core"
     "${CMAKE_CURRENT_LIST_DIR}/src/netcom")
 

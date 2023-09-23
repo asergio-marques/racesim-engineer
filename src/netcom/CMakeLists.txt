@@ -17,6 +17,7 @@ target_link_directories(${PROJECT_NAME} PRIVATE "${PROJECT_ROOT}/lib/")
 
 target_sources(${PROJECT_NAME} PRIVATE
     listener/Director.cpp
+    listener/F123Adapter.cpp
     listener/SocketBase.cpp
     listener/UDPSocketWin64.cpp
     packets/Helper.cpp    
@@ -28,8 +29,15 @@ target_sources(${PROJECT_NAME} PRIVATE
 
 target_link_libraries(${PROJECT_NAME} PRIVATE
     RaceSimEngineerCore
-    Qt6::Network
 )
+
+if (WIN32)
+    target_link_libraries(${PROJECT_NAME} PRIVATE
+    ws2_32
+)
+elseif(LINUX)
+# linux-specific libs
+endif(WIN32)
 
 set_target_properties(${PROJECT_NAME}
 	PROPERTIES

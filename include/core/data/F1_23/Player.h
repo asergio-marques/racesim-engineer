@@ -1,11 +1,11 @@
-#ifndef GENERAL_DATA_INCLUDE_F123_PLAYER_H_
-#define GENERAL_DATA_INCLUDE_F123_PLAYER_H_
+#ifndef GENERAL_DATA_F123_INCLUDE_PLAYER_H_
+#define GENERAL_DATA_F123_INCLUDE_PLAYER_H_
 
 #include <cstdint>
 
 
 
-namespace F1_23::Player {
+namespace Player::F1_23 {
 
     enum class BrakingAssist : uint8_t
     {
@@ -55,4 +55,4 @@ namespace F1_23::Player {
 
 }
 
-#endif // GENERAL_DATA_INCLUDE_F123_PLAYER_H_
+#endif // GENERAL_DATA_F123_INCLUDE_PLAYER_H_

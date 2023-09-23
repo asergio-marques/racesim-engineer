@@ -1,12 +1,11 @@
-#ifndef GENERAL_DATA_INCLUDE_F123_EVENT_H_
-#define GENERAL_DATA_INCLUDE_F123_EVENT_H_
+#ifndef GENERAL_DATA_F123_INCLUDE_EVENT_H_
+#define GENERAL_DATA_F123_INCLUDE_EVENT_H_
 
 #include <cstdint>
-#include <math.h>
 
 
 
-namespace F1_23::Event {
+namespace Event::F1_23 {
 
     enum class Type : uint8_t {
 
@@ -157,4 +156,4 @@ namespace F1_23::Event {
 
 }
 
-#endif // GENERAL_DATA_INCLUDE_F123_EVENT_H_
+#endif // GENERAL_DATA_F123_INCLUDE_EVENT_H_

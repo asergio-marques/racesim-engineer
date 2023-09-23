@@ -3,7 +3,7 @@
 
 class QUdpSocket;
 
-namespace F1_23::Listener {
+namespace Listener {
 
     class Director {
     

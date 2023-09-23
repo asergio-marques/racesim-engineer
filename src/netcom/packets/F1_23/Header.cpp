@@ -1,20 +1,20 @@
-#include "packets/Header.h"
+#include "packets/F1_23/Header.h"
 
 #include <cstdint>
 #include <iostream>
 #include <math.h>
-#include "data/Packet.h"
+#include "data/F1_23/Packet.h"
 #include "packets/Helper.h"
 
 
 
-F1_23::Packet::Header::Header(char* packetInfo, F1_23::Packet::Helper* helper) :
+Packet::F1_23::Header::Header(char* packetInfo, Packet::Helper* helper) :
     m_packetFormat(0), 
     m_gameYear(0),
     m_gameMajorVersion(0),
     m_gameMinorVersion(0),
     m_packetVersion(0),
-    m_packetType(F1_23::Packet::Type::InvalidUnknown),
+    m_packetType(Packet::F1_23::Type::InvalidUnknown),
     m_sessionUID(0),
     m_sessionTime(0.0f),
     m_frameIdentifier(0),
@@ -60,7 +60,7 @@ F1_23::Packet::Header::Header(char* packetInfo, F1_23::Packet::Helper* helper) :
 
 
 #ifndef NDEBUG
-void F1_23::Packet::Header::Print() const {
+void Packet::F1_23::Header::Print() const {
     
     std::cout << "--------------------------------------------" << std::endl;
     std::cout << "\tHeader info" << std::endl;

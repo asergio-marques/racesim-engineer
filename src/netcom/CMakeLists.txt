@@ -16,12 +16,13 @@ target_include_directories(${PROJECT_NAME} PRIVATE "${PROJECT_ROOT}/src/netcom")
 target_link_directories(${PROJECT_NAME} PRIVATE "${PROJECT_ROOT}/lib/")
 
 target_sources(${PROJECT_NAME} PRIVATE
-    packets/Header.cpp
-    packets/Helper.cpp
-    packets/IPacket.cpp
-    packets/SessionData.cpp
-    packets/EventData.cpp
-    listener/Director.cpp)
+    listener/Director.cpp    
+    packets/Helper.cpp    
+    packets/F1_23/Header.cpp
+    packets/F1_23/IPacket.cpp
+    packets/F1_23/SessionData.cpp
+    packets/F1_23/EventData.cpp
+    )
 
 target_link_libraries(${PROJECT_NAME} PRIVATE
     RaceSimEngineerCore

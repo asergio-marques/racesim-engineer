@@ -1,28 +1,22 @@
-#ifndef NETCOM_PACKETS_INCLUDE_F123_HEADER_H_
-#define NETCOM_PACKETS_INCLUDE_F123_HEADER_H_
+#ifndef NETCOM_PACKETS_F123_INCLUDE_HEADER_H_
+#define NETCOM_PACKETS_F123_INCLUDE_HEADER_H_
 
 #include <cstdint>
 #include <math.h>
-#include "data/Packet.h"
+#include "data/F1_23/Packet.h"
 
 
 
-namespace F1_23 {
+namespace Packet {
 
-    namespace PacketBuilder {
-        
-        class Header;
+    class Helper;
 
-    }
-
-    namespace Packet {
-
-        class Helper;
+    namespace F1_23 {
 
         class Header {
 
             public:
-                Header(char* packetInfo, F1_23::Packet::Helper* helper);
+                Header(char* packetInfo, Packet::Helper* helper);
                 virtual ~Header() = default;
 
                 // Getters for packet info
@@ -91,4 +85,4 @@ namespace F1_23 {
 
 }
 
-#endif  // NETCOM_PACKETS_INCLUDE_F123_HEADER_H_
+#endif  // NETCOM_PACKETS_F123_INCLUDE_HEADER_H_

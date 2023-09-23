@@ -1,11 +1,11 @@
-#ifndef GENERAL_DATA_INCLUDE_F123_PACKET_H_
-#define GENERAL_DATA_INCLUDE_F123_PACKET_H_
+#ifndef GENERAL_DATA_F123_INCLUDE_PACKET_H_
+#define GENERAL_DATA_F123_INCLUDE_PACKET_H_
 
 #include <cstdint>
 
 
 
-namespace F1_23::Packet {
+namespace Packet::F1_23 {
 
     enum class Type : uint8_t {
 
@@ -50,4 +50,4 @@ namespace F1_23::Packet {
 
 }
 
-#endif // GENERAL_DATA_INCLUDE_F123_PACKET_H_
+#endif // GENERAL_DATA_F123_INCLUDE_PACKET_H_

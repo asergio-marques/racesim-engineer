@@ -2,12 +2,12 @@
 
 #include <QUdpSocket>
 
-F1_23::Listener::Director::Director() :
+Listener::Director::Director() :
     socket(new QUdpSocket) {
         
 }
 
-F1_23::Listener::Director::~Director() {
+Listener::Director::~Director() {
 
     delete socket;
 

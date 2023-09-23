@@ -1,11 +1,11 @@
-#ifndef GENERAL_DATA_INCLUDE_F123_SESSION_H_
-#define GENERAL_DATA_INCLUDE_F123_SESSION_H_
+#ifndef GENERAL_DATA_F123_INCLUDE_SESSION_H_
+#define GENERAL_DATA_F123_INCLUDE_SESSION_H_
 
 #include <cstdint>
 
 
 
-namespace F1_23::Session {
+namespace Session::F1_23 {
 
     enum class GameMode : uint8_t {
 
@@ -173,4 +173,4 @@ namespace F1_23::Session {
 
 }
 
-#endif // GENERAL_DATA_INCLUDE_F123_SESSION_H_
+#endif // GENERAL_DATA_F123_INCLUDE_SESSION_H_

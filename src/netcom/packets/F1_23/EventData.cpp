@@ -39,8 +39,8 @@ std::map<std::string, Event::F1_23::Type> Packet::F1_23::EventData::m_eventCodeT
 
 
 
-Packet::F1_23::EventData::EventData(char* packetInfo, Packet::Helper* helper) :
-    Packet::F1_23::IPacket(packetInfo),
+Packet::F1_23::EventData::EventData(const char* packetInfo, const Packet::F1_23::Header* header, Packet::Helper* helper) :
+    Packet::F1_23::IPacket(),
     m_eventType(Event::F1_23::Type::InvalidUnknown),
     m_fastestLapData(),
     m_carRetirementData(),
@@ -54,6 +54,8 @@ Packet::F1_23::EventData::EventData(char* packetInfo, Packet::Helper* helper) :
     m_flashbackData(),
     m_buttonData(),
     m_overtakeData() {
+
+    this->SetHeader(header);
 
     if (packetInfo && helper) {
     
@@ -114,7 +116,7 @@ void Packet::F1_23::EventData::Print() const {
 
 
 
-void Packet::F1_23::EventData::BuildPacket(char* packetInfo, Packet::Helper* helper) {
+void Packet::F1_23::EventData::BuildPacket(const char* packetInfo, Packet::Helper* helper) {
 
     char eventCode[5];
     size_t arrayStatus = static_cast<size_t>(Packet::F1_23::LengthBytes::Header);

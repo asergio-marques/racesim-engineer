@@ -8,7 +8,7 @@
 
 
 
-Packet::F1_23::Header::Header(char* packetInfo, Packet::Helper* helper) :
+Packet::F1_23::Header::Header(const char* packetInfo, Packet::Helper* helper) :
     m_packetFormat(0), 
     m_gameYear(0),
     m_gameMajorVersion(0),
@@ -54,6 +54,23 @@ Packet::F1_23::Header::Header(char* packetInfo, Packet::Helper* helper) :
         delete helper;
 
     }
+
+}
+
+
+
+const bool Packet::F1_23::Header::IsWellFormed() const {
+
+    if ((GetPacketFormat() == 2023) &&
+        (GetGameYear() == 0x17) &&
+        (GetPacketVersion() > 0) &&
+        (GetPacketType() != Packet::F1_23::Type::InvalidUnknown)) {
+
+        return true;
+
+    }
+
+    return false;
 
 }
 

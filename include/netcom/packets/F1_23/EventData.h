@@ -15,6 +15,8 @@ namespace Packet {
 
     namespace F1_23 {
 
+        class Header;
+
         struct FastestLapEvent {
 
             // Index of car that has set the fastest lap
@@ -146,7 +148,7 @@ namespace Packet {
         class EventData final : public Packet::F1_23::IPacket {
 
             public:
-            EventData(char* packetInfo, Packet::Helper* helper);
+            EventData(const char* packetInfo, const Header* header, Packet::Helper* helper);
             ~EventData() = default;
 
             // Returns the length of the packet in bytes, including header
@@ -173,7 +175,7 @@ namespace Packet {
 
             private:
             // Separate function to build the packet, making the code more readable
-            void BuildPacket(char* packetInfo, Packet::Helper* helper) override;
+            void BuildPacket(const char* packetInfo, Packet::Helper* helper) override final;
 
             // Specialized function to determine the event type contained in the datagram
             void DetermineEventType(char* eventCode);

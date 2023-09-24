@@ -16,8 +16,10 @@ namespace Packet {
         class Header {
 
             public:
-                Header(char* packetInfo, Packet::Helper* helper);
+                Header(const char* packetInfo, Packet::Helper* helper);
                 virtual ~Header() = default;
+
+                const bool IsWellFormed() const;
 
                 // Getters for packet info
                 inline const uint16_t& GetPacketFormat() const { return m_packetFormat; }

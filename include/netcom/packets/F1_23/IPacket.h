@@ -18,7 +18,7 @@ namespace Packet {
 
             public:
             // Packet interface constructor
-            IPacket(char* packetInfo);
+            IPacket();
 
             // Destructor
             virtual ~IPacket();
@@ -30,13 +30,15 @@ namespace Packet {
             virtual const Packet::F1_23::LengthBytes GetLength() const = 0;
 
             protected:
+            virtual bool SetHeader(const Header* header);
+
             // Separate function to build the packet, making the code more readable
             // To be overridden and made protected by concrete packet classes
-            virtual void BuildPacket(char* packetInfo, Packet::Helper* helper) = 0;
+            virtual void BuildPacket(const char* packetInfo, Packet::Helper* helper) = 0;
 
             private:
             // Header information present in all received packets
-            Header* m_header;
+            const Header* m_header;
 
         };
 

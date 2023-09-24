@@ -12,8 +12,8 @@
 
 
 
-Packet::F1_23::SessionData::SessionData(char* packetInfo, Packet::Helper* helper) :
-    Packet::F1_23::IPacket(packetInfo),
+Packet::F1_23::SessionData::SessionData(const char* packetInfo, const Packet::F1_23::Header* header, Packet::Helper* helper) :
+    Packet::F1_23::IPacket(),
     m_currentWeather(Session::F1_23::Weather::InvalidUnknown),
     m_currentTrackTemperature(0),
     m_currentAirTemperature(0),
@@ -64,6 +64,8 @@ Packet::F1_23::SessionData::SessionData(char* packetInfo, Packet::Helper* helper
     m_numVirtualSafetyCarPeriods(0),
     m_numRedFlagPeriods(0) {
 
+    this->SetHeader(header);
+
     if (packetInfo && helper) {
 
         BuildPacket(packetInfo, helper);
@@ -106,7 +108,7 @@ void Packet::F1_23::SessionData::Print() const {
 
 
 
-void Packet::F1_23::SessionData::BuildPacket(char* packetInfo, Packet::Helper* helper) {
+void Packet::F1_23::SessionData::BuildPacket(const char* packetInfo, Packet::Helper* helper) {
 
     // Start at the end of the header
     size_t arrayStatus = static_cast<size_t>(Packet::F1_23::LengthBytes::Header);

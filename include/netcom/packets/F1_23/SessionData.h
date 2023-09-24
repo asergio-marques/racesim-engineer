@@ -14,6 +14,8 @@ namespace Packet {
 
     namespace F1_23 {
 
+        class Header;
+
         struct MarshalZone {
 
             // Fraction (0..1) of way through the lap the marshal zone starts
@@ -54,7 +56,7 @@ namespace Packet {
         class SessionData final : public Packet::F1_23::IPacket {
 
             public:
-            SessionData(char* packetInfo, Packet::Helper* helper);
+            SessionData(const char* packetInfo, const Header* header, Packet::Helper* helper);
             ~SessionData() = default;
 
             // Returns the length of the packet in bytes, including header
@@ -118,7 +120,7 @@ namespace Packet {
 
             private:
             // Separate function to build the packet, making the code more readable
-            void BuildPacket(char* packetInfo, Packet::Helper* helper) override;
+            void BuildPacket(const char* packetInfo, Packet::Helper* helper) override final;
 
             // Current weather
             Session::F1_23::Weather m_currentWeather;

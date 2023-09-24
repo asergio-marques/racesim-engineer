@@ -2,6 +2,7 @@
 
 #include <functional>
 #include <iostream>
+#include "packets/IPacket.h"
 #include "listener/F123Adapter.h"
 #include "listener/IGameAdapter.h"
 #include "listener/ISocket.h"
@@ -62,8 +63,19 @@ void Listener::Director::OnNewDatagramAvailable(const char* datagram, const uint
     
     if (m_gameAdapter) {
 
-        m_gameAdapter->ProcessDatagram(datagram);
-        // TODO send new packet to central processing unit
+        Packet::IPacket* packet = m_gameAdapter->ProcessDatagram(datagram);
+        if (packet) {
+        
+            #ifndef NDEBUG
+            packet->Print();
+            #endif // NDEBUG
+
+        }
+        else {
+
+            // TODO error logging of discarded datagram and handling
+
+        }
 
     }
 

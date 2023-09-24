@@ -7,9 +7,8 @@
 
 
 
-Packet::F1_23::IPacket::IPacket(char* packetInfo) :
-    m_header(
-        new Packet::F1_23::Header(packetInfo, new Packet::Helper(static_cast<size_t>(Packet::F1_23::LengthBytes::Header)))) {
+Packet::F1_23::IPacket::IPacket() :
+    m_header(nullptr) {
 
 }
 
@@ -26,5 +25,18 @@ Packet::F1_23::IPacket::~IPacket() {
 const Packet::F1_23::Header* Packet::F1_23::IPacket::GetHeader() const {
 
     return m_header;
+
+}
+
+bool Packet::F1_23::IPacket::SetHeader(const Packet::F1_23::Header* header) {
+
+    if (header && !m_header) {
+
+        m_header = header;
+        return true;
+
+    }
+
+    return false;
 
 }

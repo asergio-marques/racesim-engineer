@@ -35,7 +35,7 @@ if (WIN32)
 )
 elseif(LINUX)
 # linux-specific libs
-endif(WIN32)
+endif()
 
 set_target_properties(${PROJECT_NAME}
 	PROPERTIES

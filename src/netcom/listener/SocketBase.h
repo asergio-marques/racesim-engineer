@@ -17,6 +17,7 @@ namespace Listener {
         void DeregisterFunction() override final;
 
         protected:
+        // Function object for the registered function, the logic is the same irrespective of socket-type
         std::function<void(const char*, const uint16_t)> m_regFunc;
 
     };

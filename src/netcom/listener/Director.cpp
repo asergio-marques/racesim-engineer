@@ -36,15 +36,17 @@ Listener::Director::~Director() {
 
 bool Listener::Director::setSocket(Listener::ISocket* socket) {
     
+    // Check validity of injected socket
     if (socket) {
         
+        // Assign new socket object and attempt to set it up fully
         m_socket = socket;
         m_socket->RegisterFunction(std::bind(&Listener::Director::OnNewDatagramAvailable, this, std::placeholders::_1, std::placeholders::_2));
         
         if (m_socket->Init()) {
 
-            // TODO hardcoded at the moment, but needs to read settings later
-            if (m_socket->Bind("127.0.0.1", 12007)) {
+            // TODO hardcoded at the moment, but needs to read port settings later
+            if (m_socket->Bind(12007)) {
 
                 return true;
 
@@ -61,6 +63,8 @@ bool Listener::Director::setSocket(Listener::ISocket* socket) {
 
 void Listener::Director::OnNewDatagramAvailable(const char* datagram, const uint16_t datagramSize) {
     
+    // Forward the datagram to the game-specific packet generate, and after the packet is generated, forward it to a dispatcher/handler
+    // TODO actually dispatch/handle it
     if (m_gameAdapter) {
 
         Packet::IPacket* packet = m_gameAdapter->ProcessDatagram(datagram);

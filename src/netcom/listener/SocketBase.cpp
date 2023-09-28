@@ -24,8 +24,10 @@ Listener::SocketBase::~SocketBase() {
 
 bool Listener::SocketBase::RegisterFunction(std::function<void(const char*, const uint16_t)> f) {
     
+    // Validate function pointer received
     if (f) {
 
+        // Always overwrite the already-existing pointer
         m_regFunc = f;
         return true;
 

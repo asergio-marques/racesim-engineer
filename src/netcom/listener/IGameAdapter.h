@@ -15,6 +15,7 @@ namespace Listener {
         IGameAdapter() = default;
         ~IGameAdapter() = default;
 
+        // Function to be overridden by game-specific child classes that implement the conversion from byte arrays to packets of each respective game
         virtual Packet::IPacket* ProcessDatagram(const char* datagram) = 0;
 
     };

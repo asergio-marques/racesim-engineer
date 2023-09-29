@@ -1,27 +1,27 @@
-#include "packets/SessionData.h"
+#include "packets/F1_23/SessionData.h"
 
 #include <cstdint>
 #include <iostream>
 #include <math.h>
-#include "data/Session.h"
-#include "data/Packet.h"
-#include "data/Player.h"
-#include "packets/IPacket.h"
-#include "packets/Header.h"
+#include "data/F1_23/Session.h"
+#include "data/F1_23/Packet.h"
+#include "data/F1_23/Player.h"
 #include "packets/Helper.h"
+#include "packets/F1_23/IPacket.h"
+#include "packets/F1_23/Header.h"
 
 
 
-F1_23::Packet::SessionData::SessionData(char* packetInfo, F1_23::Packet::Helper* helper) :
-    F1_23::Packet::IPacket(packetInfo),
-    m_currentWeather(F1_23::Session::Weather::InvalidUnknown),
+Packet::F1_23::SessionData::SessionData(const char* packetInfo, const Packet::F1_23::Header* header, Packet::Helper* helper) :
+    Packet::F1_23::IPacket(),
+    m_currentWeather(Session::F1_23::Weather::InvalidUnknown),
     m_currentTrackTemperature(0),
     m_currentAirTemperature(0),
     m_totalLaps(0),
     m_trackLength(0),
-    m_sessionType(F1_23::Session::Type::InvalidUnknown),
-    m_trackId(F1_23::Session::Track::InvalidUnknown),
-    m_formula(F1_23::Session::Formula::InvalidUnknown),
+    m_sessionType(Session::F1_23::Type::InvalidUnknown),
+    m_trackId(Session::F1_23::Track::InvalidUnknown),
+    m_formula(Session::F1_23::Formula::InvalidUnknown),
     m_sessionTimeLeft(0),
     m_sessionDuration(0),
     m_pitSpeedLimit(0),
@@ -31,7 +31,7 @@ F1_23::Packet::SessionData::SessionData(char* packetInfo, F1_23::Packet::Helper*
     m_sliProNativeSupportOn(false),
     m_numMarshalZones(0),
     m_marshalZones(),
-    m_safetyCarStatus(F1_23::Session::SafetyCar::InvalidUnknown),
+    m_safetyCarStatus(Session::F1_23::SafetyCar::InvalidUnknown),
     m_isNetwork(false),
     m_numWeatherForecastSamples(0),
     m_weatherForecastSamples(),
@@ -44,25 +44,27 @@ F1_23::Packet::SessionData::SessionData(char* packetInfo, F1_23::Packet::Helper*
     m_pitStopWindowLatestLap(0),
     m_pitStopRejoinPosition(0),
     m_steeringAssistOn(false),
-    m_brakingAssist(F1_23::Player::BrakingAssist::InvalidUnknown),
-    m_gearboxAssist(F1_23::Player::GearboxAssist::InvalidUnknown),
+    m_brakingAssist(Player::F1_23::BrakingAssist::InvalidUnknown),
+    m_gearboxAssist(Player::F1_23::GearboxAssist::InvalidUnknown),
     m_pitAssistOn(false),
     m_pitReleaseAssistOn(false),
     m_ERSAssistOn(false),
     m_DRSAssistOn(false),
-    m_dynamicRacingLine(F1_23::Player::RacingLine::InvalidUnknown),
+    m_dynamicRacingLine(Player::F1_23::RacingLine::InvalidUnknown),
     m_dynamicRacingLine3D(false),
-    m_gameMode(F1_23::Session::GameMode::InvalidUnknown),
-    m_ruleSet(F1_23::Session::Ruleset::InvalidUnknown),
+    m_gameMode(Session::F1_23::GameMode::InvalidUnknown),
+    m_ruleSet(Session::F1_23::Ruleset::InvalidUnknown),
     m_timeOfDay(0),
-    m_sessionLength(F1_23::Session::Length::InvalidUnknown),
-    m_speedUnitPlayer1(F1_23::Player::SpeedUnit::InvalidUnknown),
-    m_tempUnitPlayer1(F1_23::Player::TempUnit::InvalidUnknown),
-    m_speedUnitPlayer2(F1_23::Player::SpeedUnit::InvalidUnknown),
-    m_tempUnitPlayer2(F1_23::Player::TempUnit::InvalidUnknown),
+    m_sessionLength(Session::F1_23::Length::InvalidUnknown),
+    m_speedUnitPlayer1(Player::F1_23::SpeedUnit::InvalidUnknown),
+    m_tempUnitPlayer1(Player::F1_23::TempUnit::InvalidUnknown),
+    m_speedUnitPlayer2(Player::F1_23::SpeedUnit::InvalidUnknown),
+    m_tempUnitPlayer2(Player::F1_23::TempUnit::InvalidUnknown),
     m_numSafetyCarPeriods(0),
     m_numVirtualSafetyCarPeriods(0),
     m_numRedFlagPeriods(0) {
+
+    this->SetHeader(header);
 
     if (packetInfo && helper) {
 
@@ -81,18 +83,18 @@ F1_23::Packet::SessionData::SessionData(char* packetInfo, F1_23::Packet::Helper*
 
 
 
-const F1_23::Packet::LengthBytes F1_23::Packet::SessionData::GetLength() const {
+const Packet::F1_23::LengthBytes Packet::F1_23::SessionData::GetLength() const {
 
-    return F1_23::Packet::LengthBytes::SessionData;
+    return Packet::F1_23::LengthBytes::SessionData;
 
 }
 
 
 
 #ifndef NDEBUG
-void F1_23::Packet::SessionData::Print() const {
+void Packet::F1_23::SessionData::Print() const {
 
-    const F1_23::Packet::Header* header = this->GetHeader();
+    const Packet::F1_23::Header* header = this->GetHeader();
     if (header) {
         
         header->Print();
@@ -106,10 +108,10 @@ void F1_23::Packet::SessionData::Print() const {
 
 
 
-void F1_23::Packet::SessionData::BuildPacket(char* packetInfo, F1_23::Packet::Helper* helper) {
+void Packet::F1_23::SessionData::BuildPacket(const char* packetInfo, Packet::Helper* helper) {
 
     // Start at the end of the header
-    size_t arrayStatus = static_cast<size_t>(F1_23::Packet::LengthBytes::Header);
+    size_t arrayStatus = static_cast<size_t>(Packet::F1_23::LengthBytes::Header);
     helper->getVariableFromByteStream<>(packetInfo, &m_currentWeather, arrayStatus);
     helper->getVariableFromByteStream<>(packetInfo, &m_currentTrackTemperature, arrayStatus);
     helper->getVariableFromByteStream<>(packetInfo, &m_currentAirTemperature, arrayStatus);

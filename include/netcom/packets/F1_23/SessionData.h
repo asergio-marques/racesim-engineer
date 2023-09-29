@@ -1,63 +1,66 @@
-#ifndef NETCOM_PACKETS_INCLUDE_SESSION_DATA_H_
-#define NETCOM_PACKETS_INCLUDE_SESSION_DATA_H_
+#ifndef NETCOM_PACKETS_F123_INCLUDE_SESSION_DATA_H_
+#define NETCOM_PACKETS_F123_INCLUDE_SESSION_DATA_H_
 
 #include <cstdint>
 #include <math.h>
-#include "data/Session.h"
-#include "data/Packet.h"
-#include "data/Player.h"
-#include "packets/IPacket.h"
+#include "data/F1_23/Session.h"
+#include "data/F1_23/Packet.h"
+#include "data/F1_23/Player.h"
+#include "packets/F1_23/IPacket.h"
 
-namespace F1_23::Packet {
+namespace Packet {
 
-    class Header;
     class Helper;
 
-    struct MarshalZone {
+    namespace F1_23 {
 
-        // Fraction (0..1) of way through the lap the marshal zone starts
-        float_t m_zoneStart;
+        class Header;
 
-        // Currently active flag in zone
-        Session::ActiveFlag m_zoneFlag;
-    };
+        struct MarshalZone {
 
-    struct WeatherForecastSample {
+            // Fraction (0..1) of way through the lap the marshal zone starts
+            float_t m_zoneStart;
 
-        // Type of current session
-        Session::Type m_sessionType;
+            // Currently active flag in zone
+            Session::F1_23::ActiveFlag m_zoneFlag;
+        };
 
-        // Time in which this forecast is due (minutes)
-        uint8_t m_timeOffset;
+        struct WeatherForecastSample {
 
-        // Weather for this forecast
-        Session::Weather m_weather;
+            // Type of current session
+            Session::F1_23::Type m_sessionType;
 
-        // Track temperature (degrees Celsius)
-        uint8_t m_trackTemperature;
+            // Time in which this forecast is due (minutes)
+            uint8_t m_timeOffset;
 
-        // Track temperature change
-        Session::TempVariation m_trackTemperatureChange;
+            // Weather for this forecast
+            Session::F1_23::Weather m_weather;
 
-        // Air temperature (degrees Celsius)
-        uint8_t m_airTemperature;
+            // Track temperature (degrees Celsius)
+            uint8_t m_trackTemperature;
 
-        // Air temperature change
-        Session::TempVariation m_airTemperatureChange;
+            // Track temperature change
+            Session::F1_23::TempVariation m_trackTemperatureChange;
 
-        // Rain probability (percentage, 0-100)
-        uint8_t m_rainPercentage;
+            // Air temperature (degrees Celsius)
+            uint8_t m_airTemperature;
 
-    };
+            // Air temperature change
+            Session::F1_23::TempVariation m_airTemperatureChange;
 
-    class SessionData final : public IPacket {
+            // Rain probability (percentage, 0-100)
+            uint8_t m_rainPercentage;
 
-        public:
-            SessionData(char* packetInfo, F1_23::Packet::Helper* helper);
+        };
+
+        class SessionData final : public Packet::F1_23::IPacket {
+
+            public:
+            SessionData(const char* packetInfo, const Header* header, Packet::Helper* helper);
             ~SessionData() = default;
 
             // Returns the length of the packet in bytes, including header
-            const F1_23::Packet::LengthBytes GetLength() const override;
+            const Packet::F1_23::LengthBytes GetLength() const override;
 
             // Getters for packet info
             static const size_t NumMarshalZones() { return 21; }
@@ -66,9 +69,9 @@ namespace F1_23::Packet {
             inline const int8_t GetCurrentAirTemperature() const { return m_currentAirTemperature; }
             inline const uint8_t GetTotalLaps() const { return m_totalLaps; }
             inline const uint16_t GetTrackLength() const { return m_trackLength; }
-            inline const Session::Type GetSessionType() const { return m_sessionType; }
-            inline const Session::Track GetTrackId() const { return m_trackId; }
-            inline const Session::Formula GetFormula() const { return m_formula; }
+            inline const Session::F1_23::Type GetSessionType() const { return m_sessionType; }
+            inline const Session::F1_23::Track GetTrackId() const { return m_trackId; }
+            inline const Session::F1_23::Formula GetFormula() const { return m_formula; }
             inline const uint16_t GetSessionTimeLeft() const { return m_sessionTimeLeft; }
             inline const uint16_t GetSessionDuration() const { return m_sessionDuration; }
             inline const uint8_t GetPitSpeedLimit() const { return m_pitSpeedLimit; }
@@ -78,7 +81,7 @@ namespace F1_23::Packet {
             inline const bool GetSLIProNativeSupportOn() const { return m_sliProNativeSupportOn; }
             inline const uint8_t GetNumMarshalZones() const { return m_numMarshalZones; }
             inline const MarshalZone* GetMarshalZones() const { return m_marshalZones; }
-            inline const Session::SafetyCar GetSafetyCarStatus() const { return m_safetyCarStatus; }
+            inline const Session::F1_23::SafetyCar GetSafetyCarStatus() const { return m_safetyCarStatus; }
             inline const bool GetIsNetwork() const { return m_isNetwork; }
             inline const uint8_t GetNumWeatherForecastSamples() const { return m_numWeatherForecastSamples; }
             inline const WeatherForecastSample* GetWeatherForecastSamples() const { return m_weatherForecastSamples; }
@@ -91,22 +94,22 @@ namespace F1_23::Packet {
             inline const uint8_t GetPitStopWindowLatestLap() const { return m_pitStopWindowLatestLap; }
             inline const uint8_t GetPitStopRejoinPosition() const { return m_pitStopRejoinPosition; }
             inline const bool GetSteeringAssistOn() const { return m_steeringAssistOn; }
-            inline const Player::BrakingAssist GetbrakingAssist() const { return m_brakingAssist; }
-            inline const Player::GearboxAssist GetGearboxAssist() const { return m_gearboxAssist; }
+            inline const Player::F1_23::BrakingAssist GetbrakingAssist() const { return m_brakingAssist; }
+            inline const Player::F1_23::GearboxAssist GetGearboxAssist() const { return m_gearboxAssist; }
             inline const bool GetPitAssistOn() const { return m_pitAssistOn; }
             inline const bool GetPitReleaseAssistOn() const { return m_pitReleaseAssistOn; }
             inline const bool GetERSAssistOn() const { return m_ERSAssistOn; }
             inline const bool GetDRSAssistOn() const { return m_DRSAssistOn; }
-            inline const Player::RacingLine GetDynamicRacingLine() const { return m_dynamicRacingLine; }
+            inline const Player::F1_23::RacingLine GetDynamicRacingLine() const { return m_dynamicRacingLine; }
             inline const bool GetDynamicRacingLine3D() const { return m_dynamicRacingLine3D; }
-            inline const Session::GameMode GetGameMode() const { return m_gameMode; }
-            inline const Session::Ruleset GetRuleSet() const { return m_ruleSet; }
+            inline const Session::F1_23::GameMode GetGameMode() const { return m_gameMode; }
+            inline const Session::F1_23::Ruleset GetRuleSet() const { return m_ruleSet; }
             inline const uint32_t GetTimeOfDay() const { return m_timeOfDay; }
-            inline const Session::Length GetSessionLength() const { return m_sessionLength; }
-            inline const Player::SpeedUnit GetSpeedUnitPlayer1() const { return m_speedUnitPlayer1; }
-            inline const Player::TempUnit GetTempUnitPlayer1() const { return m_tempUnitPlayer1; }
-            inline const Player::SpeedUnit GetSpeedUnitPlayer2() const { return m_speedUnitPlayer2; }
-            inline const Player::TempUnit GetTempUnitPlayer2() const { return m_tempUnitPlayer2; }
+            inline const Session::F1_23::Length GetSessionLength() const { return m_sessionLength; }
+            inline const Player::F1_23::SpeedUnit GetSpeedUnitPlayer1() const { return m_speedUnitPlayer1; }
+            inline const Player::F1_23::TempUnit GetTempUnitPlayer1() const { return m_tempUnitPlayer1; }
+            inline const Player::F1_23::SpeedUnit GetSpeedUnitPlayer2() const { return m_speedUnitPlayer2; }
+            inline const Player::F1_23::TempUnit GetTempUnitPlayer2() const { return m_tempUnitPlayer2; }
             inline const uint8_t GetNumSafetyCarPeriods() const { return m_numSafetyCarPeriods; }
             inline const uint8_t GetNumVirtualSafetyCarPeriods() const { return m_numVirtualSafetyCarPeriods; }
             inline const uint8_t GetNumRedFlagPeriods() const { return m_numRedFlagPeriods; }
@@ -115,12 +118,12 @@ namespace F1_23::Packet {
             void Print() const override;
             #endif // NDEBUG
 
-        private:
+            private:
             // Separate function to build the packet, making the code more readable
-            void BuildPacket(char* packetInfo, F1_23::Packet::Helper* helper) override;
+            void BuildPacket(const char* packetInfo, Packet::Helper* helper) override final;
 
             // Current weather
-            Session::Weather m_currentWeather;
+            Session::F1_23::Weather m_currentWeather;
 
             // Current track temperature (degrees Celsius)
             int8_t m_currentTrackTemperature;
@@ -135,13 +138,13 @@ namespace F1_23::Packet {
             uint16_t m_trackLength;
 
             // Type of current session
-            Session::Type m_sessionType;
+            Session::F1_23::Type m_sessionType;
 
             // Track in which the session takes place
-            Session::Track m_trackId;
+            Session::F1_23::Track m_trackId;
 
             // Type of cars in the current session
-            Session::Formula m_formula;
+            Session::F1_23::Formula m_formula;
 
             // Time left in session (seconds)
             uint16_t m_sessionTimeLeft;
@@ -171,7 +174,7 @@ namespace F1_23::Packet {
             MarshalZone m_marshalZones[21];
 
             // Current safety car status
-            Session::SafetyCar m_safetyCarStatus;
+            Session::F1_23::SafetyCar m_safetyCarStatus;
 
             // Whether the session is local or online
             bool m_isNetwork;
@@ -211,10 +214,10 @@ namespace F1_23::Packet {
             bool m_steeringAssistOn;
 
             // Level of braking assist the player has on
-            Player::BrakingAssist m_brakingAssist;
+            Player::F1_23::BrakingAssist m_brakingAssist;
 
             // Level of gearbox assist the player has on
-            Player::GearboxAssist m_gearboxAssist;
+            Player::F1_23::GearboxAssist m_gearboxAssist;
 
             // Whether pit assist is active for the player
             bool m_pitAssistOn;
@@ -229,34 +232,34 @@ namespace F1_23::Packet {
             bool m_DRSAssistOn;
 
             // Level of racing line assist the player has on
-            Player::RacingLine m_dynamicRacingLine;
+            Player::F1_23::RacingLine m_dynamicRacingLine;
 
             // Whether the racing line assist is 3D
             bool m_dynamicRacingLine3D;
 
             // Game mode for the current session
-            Session::GameMode m_gameMode;
+            Session::F1_23::GameMode m_gameMode;
 
             // Ruleset for the current session
-            Session::Ruleset m_ruleSet;
+            Session::F1_23::Ruleset m_ruleSet;
 
             // Local time of day (minutes past midnight)
             uint32_t m_timeOfDay;
 
             // Length of the current session
-            Session::Length m_sessionLength;
+            Session::F1_23::Length m_sessionLength;
 
             // Speed unit used by Player 1
-            Player::SpeedUnit m_speedUnitPlayer1;
+            Player::F1_23::SpeedUnit m_speedUnitPlayer1;
 
             // Temperature unit used by Player 1
-            Player::TempUnit m_tempUnitPlayer1;
+            Player::F1_23::TempUnit m_tempUnitPlayer1;
 
             // Speed unit used by Player 2
-            Player::SpeedUnit m_speedUnitPlayer2;
+            Player::F1_23::SpeedUnit m_speedUnitPlayer2;
 
             // Temperature unit used by Player 2
-            Player::TempUnit m_tempUnitPlayer2;
+            Player::F1_23::TempUnit m_tempUnitPlayer2;
 
             // Number of safety cars previously called during the current session
             uint8_t m_numSafetyCarPeriods;
@@ -267,8 +270,10 @@ namespace F1_23::Packet {
             // Number of red flags previously called during session
             uint8_t m_numRedFlagPeriods;
 
-    };
+        };
+
+    }
 
 }
 
-#endif  // NETCOM_PACKETS_INCLUDE_SESSION_DATA_H_
+#endif  // NETCOM_PACKETS_F123_INCLUDE_SESSION_DATA_H_

@@ -2,7 +2,7 @@
 
 
 
-F1_23::Packet::Helper::Helper(F1_23::Packet::LengthBytes packetLength) :
+Packet::Helper::Helper(size_t packetLength) :
     m_packetLength(packetLength) {
     
     // do nothing

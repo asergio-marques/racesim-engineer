@@ -1,46 +1,47 @@
-#include "packets/EventData.h"
+#include "packets/F1_23/EventData.h"
 
 #include <cstdint>
 #include <iostream>
 #include <map>
 #include <math.h>
 #include <string>
-#include "data/Event.h"
-#include "data/Packet.h"
-#include "packets/IPacket.h"
-#include "packets/Header.h"
+#include "data/F1_23/Event.h"
+#include "data/F1_23/Packet.h"
 #include "packets/Helper.h"
+#include "packets/F1_23/IPacket.h"
+#include "packets/F1_23/Header.h"
 
 
-std::map<std::string, F1_23::Event::Type> F1_23::Packet::EventData::m_eventCodeTable = {
 
-    { std::string("SSTA"), F1_23::Event::Type::SessionStarted },
-    { std::string("SEND"), F1_23::Event::Type::SessionEnded },
-    { std::string("FTLP"), F1_23::Event::Type::FastestLapSet },
-    { std::string("RTMT"), F1_23::Event::Type::CarRetired },
-    { std::string("DRSE"), F1_23::Event::Type::DRSEnabled },
-    { std::string("DRSD"), F1_23::Event::Type::DRSDisabled },
-    { std::string("TMPT"), F1_23::Event::Type::TeammateInPits },
-    { std::string("CHQF"), F1_23::Event::Type::ChequeredFlagWaved },
-    { std::string("RCWN"), F1_23::Event::Type::RaceWinnerDecided },
-    { std::string("PENA"), F1_23::Event::Type::PenaltyIssued },
-    { std::string("SPTP"), F1_23::Event::Type::SpeedTrapTriggered },
-    { std::string("STLG"), F1_23::Event::Type::StartLightsOn },
-    { std::string("LGOT"), F1_23::Event::Type::StartLightsOut },
-    { std::string("DTSV"), F1_23::Event::Type::DriveThroughServed },
-    { std::string("SGSV"), F1_23::Event::Type::StopGoServed },
-    { std::string("FLBK"), F1_23::Event::Type::FlashbackActivated },
-    { std::string("BUTN"), F1_23::Event::Type::ButtonStatus },
-    { std::string("RDFL"), F1_23::Event::Type::RedFlagWaved },
-    { std::string("OVTK"), F1_23::Event::Type::OvertakePerformed }
+std::map<std::string, Event::F1_23::Type> Packet::F1_23::EventData::m_eventCodeTable = {
+
+    { std::string("SSTA"), Event::F1_23::Type::SessionStarted },
+    { std::string("SEND"), Event::F1_23::Type::SessionEnded },
+    { std::string("FTLP"), Event::F1_23::Type::FastestLapSet },
+    { std::string("RTMT"), Event::F1_23::Type::CarRetired },
+    { std::string("DRSE"), Event::F1_23::Type::DRSEnabled },
+    { std::string("DRSD"), Event::F1_23::Type::DRSDisabled },
+    { std::string("TMPT"), Event::F1_23::Type::TeammateInPits },
+    { std::string("CHQF"), Event::F1_23::Type::ChequeredFlagWaved },
+    { std::string("RCWN"), Event::F1_23::Type::RaceWinnerDecided },
+    { std::string("PENA"), Event::F1_23::Type::PenaltyIssued },
+    { std::string("SPTP"), Event::F1_23::Type::SpeedTrapTriggered },
+    { std::string("STLG"), Event::F1_23::Type::StartLightsOn },
+    { std::string("LGOT"), Event::F1_23::Type::StartLightsOut },
+    { std::string("DTSV"), Event::F1_23::Type::DriveThroughServed },
+    { std::string("SGSV"), Event::F1_23::Type::StopGoServed },
+    { std::string("FLBK"), Event::F1_23::Type::FlashbackActivated },
+    { std::string("BUTN"), Event::F1_23::Type::ButtonStatus },
+    { std::string("RDFL"), Event::F1_23::Type::RedFlagWaved },
+    { std::string("OVTK"), Event::F1_23::Type::OvertakePerformed }
 
 };
 
 
 
-F1_23::Packet::EventData::EventData(char* packetInfo, F1_23::Packet::Helper* helper) :
-    F1_23::Packet::IPacket(packetInfo),
-    m_eventType(F1_23::Event::Type::InvalidUnknown),
+Packet::F1_23::EventData::EventData(const char* packetInfo, const Packet::F1_23::Header* header, Packet::Helper* helper) :
+    Packet::F1_23::IPacket(),
+    m_eventType(Event::F1_23::Type::InvalidUnknown),
     m_fastestLapData(),
     m_carRetirementData(),
     m_teammateInPitsData(),
@@ -53,6 +54,8 @@ F1_23::Packet::EventData::EventData(char* packetInfo, F1_23::Packet::Helper* hel
     m_flashbackData(),
     m_buttonData(),
     m_overtakeData() {
+
+    this->SetHeader(header);
 
     if (packetInfo && helper) {
     
@@ -71,20 +74,20 @@ F1_23::Packet::EventData::EventData(char* packetInfo, F1_23::Packet::Helper* hel
 
 
 
-const F1_23::Packet::LengthBytes F1_23::Packet::EventData::GetLength() const {
+const Packet::F1_23::LengthBytes Packet::F1_23::EventData::GetLength() const {
 
-    return F1_23::Packet::LengthBytes::Event;
+    return Packet::F1_23::LengthBytes::Event;
 
 }
 
 
 
 #ifndef NDEBUG
-void F1_23::Packet::EventData::Print() const {
+void Packet::F1_23::EventData::Print() const {
     std::cout << "--------------------------------------------" << std::endl;
     std::cout << "\t\tNew packet received!" << std::endl;
 
-    const F1_23::Packet::Header* header = this->GetHeader();
+    const Packet::F1_23::Header* header = this->GetHeader();
     if (header) {
 
         header->Print();
@@ -96,7 +99,7 @@ void F1_23::Packet::EventData::Print() const {
 
     switch (m_eventType) {
 
-        case F1_23::Event::Type::OvertakePerformed:
+        case Event::F1_23::Type::OvertakePerformed:
             std::cout << "Overtaking car index: " << static_cast<uint16_t>(m_overtakeData.m_overtakingCarIndex) << std::endl;
             std::cout << "Overtaken car index: " << static_cast<uint16_t>(m_overtakeData.m_overtakenCarIndex) << std::endl;
             break;
@@ -113,10 +116,10 @@ void F1_23::Packet::EventData::Print() const {
 
 
 
-void F1_23::Packet::EventData::BuildPacket(char* packetInfo, F1_23::Packet::Helper* helper) {
+void Packet::F1_23::EventData::BuildPacket(const char* packetInfo, Packet::Helper* helper) {
 
     char eventCode[5];
-    size_t arrayStatus = static_cast<size_t>(F1_23::Packet::LengthBytes::Header);
+    size_t arrayStatus = static_cast<size_t>(Packet::F1_23::LengthBytes::Header);
 
     // Get the event code from data packet, then add null terminator for ease of comparison
     helper->getVariableArrayFromByteStream<>(packetInfo, eventCode, 4, arrayStatus);
@@ -132,61 +135,61 @@ void F1_23::Packet::EventData::BuildPacket(char* packetInfo, F1_23::Packet::Help
     }
     else {
 
-        m_eventType = F1_23::Event::Type::InvalidUnknown;
+        m_eventType = Event::F1_23::Type::InvalidUnknown;
 
     }
 
     switch (m_eventType) {
 
-        case F1_23::Event::Type::InvalidUnknown:
+        case Event::F1_23::Type::InvalidUnknown:
             // TODO error handling
             break;
 
-        case F1_23::Event::Type::FastestLapSet:
+        case Event::F1_23::Type::FastestLapSet:
             helper->getVariableFromByteStream<>(packetInfo, &m_fastestLapData, arrayStatus);
             break;
 
-        case F1_23::Event::Type::CarRetired:
+        case Event::F1_23::Type::CarRetired:
             helper->getVariableFromByteStream<>(packetInfo, &m_carRetirementData, arrayStatus);
             break;
 
-        case F1_23::Event::Type::TeammateInPits:
+        case Event::F1_23::Type::TeammateInPits:
             helper->getVariableFromByteStream<>(packetInfo, &m_teammateInPitsData, arrayStatus);
             break;
 
-        case F1_23::Event::Type::RaceWinnerDecided:
+        case Event::F1_23::Type::RaceWinnerDecided:
             helper->getVariableFromByteStream<>(packetInfo, &m_raceWinnerData, arrayStatus);
             break;
 
-        case F1_23::Event::Type::PenaltyIssued:
+        case Event::F1_23::Type::PenaltyIssued:
             helper->getVariableFromByteStream<>(packetInfo, &m_penaltyData, arrayStatus);
             break;
 
-        case F1_23::Event::Type::SpeedTrapTriggered:
+        case Event::F1_23::Type::SpeedTrapTriggered:
             helper->getVariableFromByteStream<>(packetInfo, &m_speedTrapData, arrayStatus);
             break;
 
-        case F1_23::Event::Type::StartLightsOn:
+        case Event::F1_23::Type::StartLightsOn:
             helper->getVariableFromByteStream<>(packetInfo, &m_startLightsData, arrayStatus);
             break;
 
-        case F1_23::Event::Type::DriveThroughServed:
+        case Event::F1_23::Type::DriveThroughServed:
             helper->getVariableFromByteStream<>(packetInfo, &m_DTPenaltyServedData, arrayStatus);
             break;
 
-        case F1_23::Event::Type::StopGoServed:
+        case Event::F1_23::Type::StopGoServed:
             helper->getVariableFromByteStream<>(packetInfo, &m_stopGoPenaltyServedData, arrayStatus);
             break;
 
-        case F1_23::Event::Type::FlashbackActivated:
+        case Event::F1_23::Type::FlashbackActivated:
             helper->getVariableFromByteStream<>(packetInfo, &m_flashbackData, arrayStatus);
             break;
 
-        case F1_23::Event::Type::ButtonStatus:
+        case Event::F1_23::Type::ButtonStatus:
             helper->getVariableFromByteStream<>(packetInfo, &m_buttonData, arrayStatus);
             break;
 
-        case F1_23::Event::Type::OvertakePerformed:
+        case Event::F1_23::Type::OvertakePerformed:
             helper->getVariableFromByteStream<>(packetInfo, &m_overtakeData, arrayStatus);
             break;
 

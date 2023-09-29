@@ -1,10 +1,11 @@
 #include <chrono>
 #include <iostream>
 #include <thread>
-#include "packets/F1_23/EventData.h"
-#include "packets/Helper.h"
 #include "listener/Director.h"
 #include "listener/UDPSocketWin64.h"
+#include "settings/Interface.h"
+#include "settings/ISetting.h"
+#include "settings/Key.h"
 
 int main(int argc, char* argv[]) {
 
@@ -15,6 +16,14 @@ int main(int argc, char* argv[]) {
     Listener::Director* director = new Listener::Director;
     Listener::UDPSocketWin64* socket = new Listener::UDPSocketWin64;
     director->setSocket(socket);
+    
+    Settings::Interface* settingsInstance = Settings::Interface::getInstance();
+
+    if (settingsInstance)
+    {
+        Settings::ISetting* gameSetting = settingsInstance->getSetting(Settings::Key::Game);
+    }
+
 
     while (true) {
     

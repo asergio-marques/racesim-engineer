@@ -4,4 +4,3 @@
 #include "data/F1_23/Player.h"
 #include "data/F1_23/Session.h"
 #include "data/F1_23/Team.h"
-#include "settings/Game.h"

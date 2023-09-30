@@ -14,8 +14,7 @@ target_include_directories(${PROJECT_NAME} PRIVATE "${PROJECT_ROOT}/src/core")
 
 target_sources(${PROJECT_NAME} PRIVATE
     data/GeneralData.cpp
-    settings/StoreFront.cpp
-     )
+    settings/StoreFront.cpp)
 
 target_link_libraries(${PROJECT_NAME} PRIVATE
     pugixml)

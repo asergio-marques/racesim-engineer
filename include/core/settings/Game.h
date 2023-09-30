@@ -10,7 +10,9 @@ namespace Settings {
     enum class Game : uint8_t {
 
         InvalidUnknown = 0,
-        F1_23 = 1
+        F1_23 = 1,
+        // Other games go here
+        DEFAULT = F1_23
 
     };
 

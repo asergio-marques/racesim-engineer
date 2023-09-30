@@ -10,18 +10,19 @@ int main(int argc, char* argv[]) {
 
 	std::cout << "RaceSim Engineer online." << std::endl;
 
+    Settings::StoreFront* settingsStore = Settings::StoreFront::getInstance();
+
+    if (settingsStore)
+    {
+        settingsStore->Init();
+    }
+
     // Instantiate director class and inject socket as a test
     // Then infinite loop while the separate listen thread triggers actions
     Listener::Director* director = new Listener::Director;
     Listener::UDPSocketWin64* socket = new Listener::UDPSocketWin64;
     director->setSocket(socket);
-    
-    Settings::StoreFront* settingsStore = Settings::StoreFront::getInstance();
 
-    if (settingsStore)
-    {
-        
-    }
 
 
     while (true) {

@@ -8,6 +8,7 @@
 #include "listener/ISocket.h"
 #include "listener/UDPSocketWin64.h"
 #include "settings/Game.h"
+#include "settings/StoreFront.h"
 
 
 
@@ -45,10 +46,22 @@ bool Listener::Director::setSocket(Listener::ISocket* socket) {
         
         if (m_socket->Init()) {
 
-            // TODO hardcoded at the moment, but needs to read port settings later
-            if (m_socket->Bind(12007)) {
+            Settings::StoreFront* settingsStore = Settings::StoreFront::getInstance();
 
-                return true;
+            if (settingsStore) {
+
+                bool ok;
+                int64_t port = settingsStore->getSettingValue(Settings::Key::SocketPort, ok);
+
+                if (ok) {
+
+                    if (m_socket->Bind(static_cast<uint16_t>(port))) {
+
+                        return true;
+
+                    }
+
+                }
 
             }
 

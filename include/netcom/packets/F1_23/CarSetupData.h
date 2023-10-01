@@ -104,6 +104,7 @@ namespace Packet {
             // Separate function to build the packet, making the code more readable
             void BuildPacket(const char* packetInfo, Packet::Helper* helper) override final;
 
+            // Setup data for all cars on track
             CarSetupInfo m_carSetups[22];
         };
 

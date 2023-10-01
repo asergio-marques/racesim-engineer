@@ -43,9 +43,9 @@ const Packet::F1_23::LengthBytes Packet::F1_23::LapData::GetLength() const {
 
 
 
-const Packet::F1_23::LapInfo Packet::F1_23::LapData::GetLapData(const size_t index, bool& ok) const {
+const Packet::F1_23::LapInfo Packet::F1_23::LapData::GetLapInfo(const size_t index, bool& ok) const {
 
-    if (index > 0 && index < 22) {
+    if (index >= 0 && index < 22) {
 
         ok = true;
         return m_lapData[index];

@@ -7,6 +7,17 @@
 
 namespace Player::F1_23 {
 
+    enum class Platform : uint8_t {
+
+        Invalid         = 0,
+        Steam           = 1,
+        PlayStation     = 3,
+        Xbox            = 4,
+        Origin          = 6,
+        Unknown         = 255
+
+    };
+
     enum class BrakingAssist : uint8_t
     {
 

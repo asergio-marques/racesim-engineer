@@ -23,7 +23,8 @@ target_sources(${PROJECT_NAME} PRIVATE
     packets/F1_23/IPacket.cpp
     packets/F1_23/SessionData.cpp
     packets/F1_23/EventData.cpp
-    packets/F1_23/LapData.cpp)
+    packets/F1_23/LapData.cpp
+    packets/F1_23/ParticipantData.cpp)
 
 target_link_libraries(${PROJECT_NAME} PRIVATE
     RaceSimEngineerCore

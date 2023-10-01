@@ -8,6 +8,7 @@
 #include "packets/F1_23/EventData.h"
 #include "packets/F1_23/SessionData.h"
 #include "packets/F1_23/LapData.h"
+#include "packets/F1_23/ParticipantData.h"
 
 
 
@@ -28,8 +29,8 @@ Packet::IPacket* Listener::F123Adapter::ProcessDatagram(const char* datagram) {
         // TODO implement the other types
         switch (header->GetPacketType()) {
     
-            case Packet::F1_23::Type::Event:
-                packet = new Packet::F1_23::EventData(datagram, header, new Packet::Helper(static_cast<size_t>(Packet::F1_23::LengthBytes::Event)));
+            case Packet::F1_23::Type::EventData:
+                packet = new Packet::F1_23::EventData(datagram, header, new Packet::Helper(static_cast<size_t>(Packet::F1_23::LengthBytes::EventData)));
                 break;
 
             case Packet::F1_23::Type::SessionData:
@@ -38,6 +39,10 @@ Packet::IPacket* Listener::F123Adapter::ProcessDatagram(const char* datagram) {
 
             case Packet::F1_23::Type::LapData:
                 packet = new Packet::F1_23::LapData(datagram, header, new Packet::Helper(static_cast<size_t>(Packet::F1_23::LengthBytes::LapData)));
+                break;
+
+            case Packet::F1_23::Type::ParticipantData:
+                packet = new Packet::F1_23::ParticipantData(datagram, header, new Packet::Helper(static_cast<size_t>(Packet::F1_23::LengthBytes::ParticipantData)));
                 break;
 
             default:

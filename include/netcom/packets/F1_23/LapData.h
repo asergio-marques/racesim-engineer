@@ -119,7 +119,7 @@ namespace Packet {
             const Packet::F1_23::LengthBytes GetLength() const override;
 
             // Get the lap data for a specific array member
-            const Packet::F1_23::LapInfo GetLapData(const size_t index, bool& ok) const;
+            const Packet::F1_23::LapInfo GetLapInfo(const size_t index, bool& ok) const;
 
             inline const uint8_t GetPBCarIndex() const { return m_ttPBCarIndex; }
             inline const uint8_t GetRivalCarIndex() const { return m_ttRivalCarIndex; }

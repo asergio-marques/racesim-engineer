@@ -7,6 +7,7 @@
 #include "packets/F1_23/Header.h"
 #include "packets/F1_23/EventData.h"
 #include "packets/F1_23/SessionData.h"
+#include "packets/F1_23/LapData.h"
 
 
 
@@ -33,6 +34,10 @@ Packet::IPacket* Listener::F123Adapter::ProcessDatagram(const char* datagram) {
 
             case Packet::F1_23::Type::SessionData:
                 packet = new Packet::F1_23::SessionData(datagram, header, new Packet::Helper(static_cast<size_t>(Packet::F1_23::LengthBytes::SessionData)));
+                break;
+
+            case Packet::F1_23::Type::LapData:
+                packet = new Packet::F1_23::LapData(datagram, header, new Packet::Helper(static_cast<size_t>(Packet::F1_23::LengthBytes::LapData)));
                 break;
 
             default:

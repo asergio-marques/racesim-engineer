@@ -1,5 +1,6 @@
 #include "data/F1_23/Driver.h"
 #include "data/F1_23/Event.h"
+#include "data/F1_23/Lap.h"
 #include "data/F1_23/Packet.h"
 #include "data/F1_23/Player.h"
 #include "data/F1_23/Session.h"

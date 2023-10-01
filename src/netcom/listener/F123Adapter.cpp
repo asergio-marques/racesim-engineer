@@ -9,13 +9,11 @@
 #include "packets/F1_23/SessionData.h"
 #include "packets/F1_23/LapData.h"
 #include "packets/F1_23/ParticipantData.h"
+#include "packets/F1_23/CarSetupData.h"
 
 
 
 Packet::IPacket* Listener::F123Adapter::ProcessDatagram(const char* datagram) {
-    
-    // TODO remove, just temporary during development
-    std::cout << "Received datagram: " << datagram << std::endl;
 
     // Generate F1 23 packet header
     Packet::F1_23::Header* header = new Packet::F1_23::Header(datagram, new Packet::Helper(static_cast<size_t>(Packet::F1_23::LengthBytes::Header)));
@@ -43,6 +41,10 @@ Packet::IPacket* Listener::F123Adapter::ProcessDatagram(const char* datagram) {
 
             case Packet::F1_23::Type::ParticipantData:
                 packet = new Packet::F1_23::ParticipantData(datagram, header, new Packet::Helper(static_cast<size_t>(Packet::F1_23::LengthBytes::ParticipantData)));
+                break;
+
+            case Packet::F1_23::Type::CarSetupData:
+                packet = new Packet::F1_23::CarSetupData(datagram, header, new Packet::Helper(static_cast<size_t>(Packet::F1_23::LengthBytes::CarSetupData)));
                 break;
 
             default:

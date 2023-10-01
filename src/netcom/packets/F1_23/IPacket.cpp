@@ -28,6 +28,8 @@ const Packet::F1_23::Header* Packet::F1_23::IPacket::GetHeader() const {
 
 }
 
+
+
 bool Packet::F1_23::IPacket::SetHeader(const Packet::F1_23::Header* header) {
 
     if (header && !m_header) {

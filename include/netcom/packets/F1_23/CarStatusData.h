@@ -1,0 +1,128 @@
+#ifndef NETCOM_PACKETS_F123_INCLUDE_CAR_STATUS_DATA_H_
+#define NETCOM_PACKETS_F123_INCLUDE_CAR_STATUS_DATA_H_
+
+#include <cstdint>
+#include <math.h>
+#include "data/F1_23/Packet.h"
+#include "data/F1_23/Player.h"
+#include "data/F1_23/Session.h"
+#include "data/F1_23/Status.h"
+#include "packets/F1_23/IPacket.h"
+
+namespace Packet {
+
+    class Helper;
+
+    namespace F1_23 {
+
+        class Header;
+
+        struct CarStatusInfo {
+
+            // Traction control assist setting by the player
+            Player::F1_23::TractionControl m_tractionControl;
+
+            // Whether the anti-lock brakes assist is enabled
+            bool m_antiLockBrakes;
+            
+            // Fuel mix currently active for the vehicle
+            Status::F1_23::FuelMix m_fuelMix;
+            
+            // Front brake bias (percentage)
+            uint8_t m_frontBrakeBias;
+            
+            // Whether the pit limiter is currently active
+            bool m_pitLimiterStatus;
+            
+            // Current fuel mass (kilograms)
+            float_t m_fuelInTank;
+            
+            // Maximum fuel mass capacity (kilograms)
+            float_t m_fuelCapacity;
+            
+            // Fuel remaining in terms of laps
+            float_t m_fuelRemainingLaps;
+            
+            // Maximum RPM for the vehicle, point at which the rev limiter is activated
+            uint16_t m_maxRPM;
+            
+            // Minimum RPM for the vehicle, when it is idle
+            uint16_t m_idleRPM;
+            
+            // Maximum number of gears (F2 has lower number of gears)
+            uint8_t m_maxGears;
+            
+            // Whether DRS can be activated
+            bool m_drsAllowed;
+            
+            // Distance until DRS can be activated, 0 if not between DRS detection zone and activation point (meters)
+            uint16_t m_drsDistanceToActivation;
+            
+            // The actual tyre compound the vehicle has on currently
+            Status::F1_23::ActualTyreCompound m_actualTyres;
+            
+            // The visual display/tier of compound the vehicle has on currently
+            Status::F1_23::VisualTyreCompound m_visualTyres;
+            
+            // Age in laps of the current set of tyres
+            uint8_t m_tyreLaps;
+            
+            // Flag currently active for this vehicle
+            Session::F1_23::ActiveFlag m_vehicleFlags;
+            
+            // Power output of ICE (W)
+            float_t m_powerICE;
+            
+            // Power output of MGU-K (W)
+            float_t m_powerMGUK;
+            
+            // Energy currently stored in the ERS (J)
+            float_t m_ersEnergy;
+            
+            // Currently active ERS deployment
+            Status::F1_23::ERSDeploymentMode m_ersDeployMode;
+            
+            // Energy harvested on the current lap by MGU-K for ERS (J)
+            float_t m_ersHarvestedCurrentLapMGUK;
+            
+            // Energy harvested on the current lap by MGU-H for ERS (J)
+            float_t m_ersHarvestedCurrentLapMGUH;
+            
+            // ERS energy deployed on the current lap (J)
+            float_t m_ersDeployedCurrentLap;
+            
+            // Whether the car is paused in a network game
+            bool m_networkPaused;
+
+        };
+
+        class CarStatusData final : public Packet::F1_23::IPacket {
+
+        public:
+            CarStatusData(const char* packetInfo, const Header* header, Packet::Helper* helper);
+            ~CarStatusData() = default;
+
+            // Returns the length of the packet in bytes, including header
+            const Packet::F1_23::LengthBytes GetLength() const override;
+
+            // Get the setup info for a specific array member
+            const Packet::F1_23::CarStatusInfo GetCarStatusInfo(const size_t index, bool& ok) const;
+
+#ifndef NDEBUG
+            void Print() const override;
+#endif // NDEBUG
+
+        private:
+            // Separate function to build the packet, making the code more readable
+            void BuildPacket(const char* packetInfo, Packet::Helper* helper) override final;
+
+            // Status for all cars on track
+            CarStatusInfo m_carStatusData[22];
+
+        };
+
+    }
+
+}
+
+#endif  // NETCOM_PACKETS_F123_INCLUDE_CAR_STATUS_DATA_H_

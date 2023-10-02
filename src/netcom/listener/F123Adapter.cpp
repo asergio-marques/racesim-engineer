@@ -11,6 +11,7 @@
 #include "packets/F1_23/ParticipantData.h"
 #include "packets/F1_23/CarSetupData.h"
 #include "packets/F1_23/CarTelemetryData.h"
+#include "packets/F1_23/CarStatusData.h"
 
 
 
@@ -27,10 +28,6 @@ Packet::IPacket* Listener::F123Adapter::ProcessDatagram(const char* datagram) {
 
         // TODO implement the other types
         switch (header->GetPacketType()) {
-    
-            case Packet::F1_23::Type::EventData:
-                packet = new Packet::F1_23::EventData(datagram, header, new Packet::Helper(static_cast<size_t>(Packet::F1_23::LengthBytes::EventData)));
-                break;
 
             case Packet::F1_23::Type::SessionData:
                 packet = new Packet::F1_23::SessionData(datagram, header, new Packet::Helper(static_cast<size_t>(Packet::F1_23::LengthBytes::SessionData)));
@@ -38,6 +35,10 @@ Packet::IPacket* Listener::F123Adapter::ProcessDatagram(const char* datagram) {
 
             case Packet::F1_23::Type::LapData:
                 packet = new Packet::F1_23::LapData(datagram, header, new Packet::Helper(static_cast<size_t>(Packet::F1_23::LengthBytes::LapData)));
+                break;
+
+            case Packet::F1_23::Type::EventData:
+                packet = new Packet::F1_23::EventData(datagram, header, new Packet::Helper(static_cast<size_t>(Packet::F1_23::LengthBytes::EventData)));
                 break;
 
             case Packet::F1_23::Type::ParticipantData:
@@ -50,6 +51,10 @@ Packet::IPacket* Listener::F123Adapter::ProcessDatagram(const char* datagram) {
 
             case Packet::F1_23::Type::CarTelemetryData:
                 packet = new Packet::F1_23::CarTelemetryData(datagram, header, new Packet::Helper(static_cast<size_t>(Packet::F1_23::LengthBytes::CarTelemetryData)));
+                break;
+
+            case Packet::F1_23::Type::CarStatusData:
+                packet = new Packet::F1_23::CarStatusData(datagram, header, new Packet::Helper(static_cast<size_t>(Packet::F1_23::LengthBytes::CarStatusData)));
                 break;
 
             default:

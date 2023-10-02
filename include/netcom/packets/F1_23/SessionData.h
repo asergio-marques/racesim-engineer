@@ -94,7 +94,7 @@ namespace Packet {
             inline const uint8_t GetPitStopWindowLatestLap() const { return m_pitStopWindowLatestLap; }
             inline const uint8_t GetPitStopRejoinPosition() const { return m_pitStopRejoinPosition; }
             inline const bool GetSteeringAssistOn() const { return m_steeringAssistOn; }
-            inline const Player::F1_23::BrakingAssist GetbrakingAssist() const { return m_brakingAssist; }
+            inline const Player::F1_23::BrakingAssist GetBrakingAssist() const { return m_brakingAssist; }
             inline const Player::F1_23::GearboxAssist GetGearboxAssist() const { return m_gearboxAssist; }
             inline const bool GetPitAssistOn() const { return m_pitAssistOn; }
             inline const bool GetPitReleaseAssistOn() const { return m_pitReleaseAssistOn; }

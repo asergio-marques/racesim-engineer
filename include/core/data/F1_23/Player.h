@@ -17,6 +17,16 @@ namespace Player::F1_23 {
         Unknown         = 255
 
     };
+    
+    enum class TractionControl : uint8_t
+    {
+
+        Off = 0,
+        Medium = 1,
+        Full = 2,
+        InvalidUnknown = 3
+
+    };
 
     enum class BrakingAssist : uint8_t
     {
@@ -62,7 +72,6 @@ namespace Player::F1_23 {
         InvalidUnknown  = 2
 
     };
-
 
 }
 

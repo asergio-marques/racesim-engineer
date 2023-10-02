@@ -13,6 +13,7 @@
 #include "packets/F1_23/CarTelemetryData.h"
 #include "packets/F1_23/CarStatusData.h"
 #include "packets/F1_23/StandingsData.h"
+#include "packets/F1_23/CarDamageData.h"
 
 
 
@@ -60,6 +61,10 @@ Packet::IPacket* Listener::F123Adapter::ProcessDatagram(const char* datagram) {
 
             case Packet::F1_23::Type::StandingsData:
                 packet = new Packet::F1_23::StandingsData(datagram, header, new Packet::Helper(static_cast<size_t>(Packet::F1_23::LengthBytes::StandingsData)));
+                break;
+
+            case Packet::F1_23::Type::CarDamageData:
+                packet = new Packet::F1_23::CarDamageData(datagram, header, new Packet::Helper(static_cast<size_t>(Packet::F1_23::LengthBytes::CarDamageData)));
                 break;
 
             default:

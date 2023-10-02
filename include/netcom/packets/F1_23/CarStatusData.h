@@ -105,7 +105,7 @@ namespace Packet {
             // Returns the length of the packet in bytes, including header
             const Packet::F1_23::LengthBytes GetLength() const override;
 
-            // Get the setup info for a specific array member
+            // Get the status for a specific array member
             const Packet::F1_23::CarStatusInfo GetCarStatusInfo(const size_t index, bool& ok) const;
 
 #ifndef NDEBUG

@@ -64,7 +64,7 @@ namespace Packet {
 
         class StandingsData final : public Packet::F1_23::IPacket {
 
-        public:
+            public:
             StandingsData(const char* packetInfo, const Header* header, Packet::Helper* helper);
             ~StandingsData() = default;
 
@@ -78,7 +78,7 @@ namespace Packet {
             void Print() const override;
 #endif // NDEBUG
 
-        private:
+            private:
             // Separate function to build the packet, making the code more readable
             void BuildPacket(const char* packetInfo, Packet::Helper* helper) override final;
 

@@ -5,9 +5,10 @@
 #include "packets/IPacket.h"
 #include "packets/F1_23/IPacket.h"
 #include "packets/F1_23/Header.h"
-#include "packets/F1_23/EventData.h"
+#include "packets/F1_23/CarMotionData.h"
 #include "packets/F1_23/SessionData.h"
 #include "packets/F1_23/LapData.h"
+#include "packets/F1_23/EventData.h"
 #include "packets/F1_23/ParticipantData.h"
 #include "packets/F1_23/CarSetupData.h"
 #include "packets/F1_23/CarTelemetryData.h"
@@ -31,6 +32,10 @@ Packet::IPacket* Listener::F123Adapter::ProcessDatagram(const char* datagram) {
 
         // TODO implement the other types
         switch (header->GetPacketType()) {
+
+            case Packet::F1_23::Type::CarMotionData:
+                packet = new Packet::F1_23::CarMotionData(datagram, header, new Packet::Helper(static_cast<size_t>(Packet::F1_23::LengthBytes::CarMotionData)));
+                break;
 
             case Packet::F1_23::Type::SessionData:
                 packet = new Packet::F1_23::SessionData(datagram, header, new Packet::Helper(static_cast<size_t>(Packet::F1_23::LengthBytes::SessionData)));

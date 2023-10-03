@@ -21,6 +21,7 @@ target_sources(${PROJECT_NAME} PRIVATE
     packets/Helper.cpp    
     packets/F1_23/Header.cpp
     packets/F1_23/IPacket.cpp
+    packets/F1_23/CarMotionData.cpp
     packets/F1_23/SessionData.cpp
     packets/F1_23/EventData.cpp
     packets/F1_23/LapData.cpp

@@ -10,6 +10,7 @@
 
 
 Packet::F1_23::CarSetupData::CarSetupData(const char* packetInfo, const Packet::F1_23::Header* header, Packet::Helper* helper) :
+    Packet::F1_23::IPacket(),
     m_carSetups() {
 
     this->SetHeader(header);

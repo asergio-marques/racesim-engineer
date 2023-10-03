@@ -11,6 +11,7 @@
 
 
 Packet::F1_23::CarTelemetryData::CarTelemetryData(const char* packetInfo, const Packet::F1_23::Header* header, Packet::Helper* helper) :
+    Packet::F1_23::IPacket(), 
     m_carTelemetry(),
     m_mfdPanelPlayer1(Telemetry::F1_23::MFDPanel::Closed),
     m_mfdPanelPlayer2(Telemetry::F1_23::MFDPanel::Closed),

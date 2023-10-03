@@ -12,6 +12,7 @@
 
 
 Packet::F1_23::StandingsData::StandingsData(const char* packetInfo, const Header* header, Packet::Helper* helper) :
+    Packet::F1_23::IPacket(), 
     m_sessionResults() {
 
     this->SetHeader(header);

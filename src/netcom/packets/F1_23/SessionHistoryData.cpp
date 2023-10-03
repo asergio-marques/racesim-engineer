@@ -9,7 +9,17 @@
 
 
 
-Packet::F1_23::SessionHistoryData::SessionHistoryData(const char* packetInfo, const Header* header, Packet::Helper* helper) {
+Packet::F1_23::SessionHistoryData::SessionHistoryData(const char* packetInfo, const Header* header, Packet::Helper* helper) :
+    Packet::F1_23::IPacket(),
+    m_carIndex(), 
+    m_numLaps(),
+    m_numTyreStints(),
+    m_bestLapTimeLapNum(),
+    m_bestSector1LapNum(),
+    m_bestSector2LapNum(),
+    m_bestSector3LapNum(),
+    m_lapHistoryInfo(),
+    m_tyreStintHistoryInfo() {
 
     this->SetHeader(header);
 

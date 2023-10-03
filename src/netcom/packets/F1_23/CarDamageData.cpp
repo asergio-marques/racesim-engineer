@@ -10,6 +10,7 @@
 
 
 Packet::F1_23::CarDamageData::CarDamageData(const char* packetInfo, const Header* header, Packet::Helper* helper) :
+    Packet::F1_23::IPacket(),
     m_carDamageData() {
 
     this->SetHeader(header);

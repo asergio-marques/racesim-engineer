@@ -18,7 +18,7 @@ target_include_directories(${PROJECT_NAME} PUBLIC
 
 target_link_directories(${PROJECT_NAME} PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}/lib/${TARGET_ARCH}/$<CONFIG>")
 
-target_sources(${PROJECT_NAME} PRIVATE src/main.cpp "include/netcom/packets/F1_23/SessionHistoryData.h")
+target_sources(${PROJECT_NAME} PRIVATE src/main.cpp)
 
 target_link_libraries(${PROJECT_NAME} PRIVATE
     RaceSimEngineerCore

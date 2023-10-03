@@ -77,7 +77,7 @@ namespace Packet {
             // Returns the length of the packet in bytes, including header
             const Packet::F1_23::LengthBytes GetLength() const override;
 
-            // Get the setup info for a specific array member
+            // Get the telemetry info for a specific array member
             const Packet::F1_23::CarTelemetryInfo GetCarTelemetryInfo(const size_t index, bool& ok) const;
             inline const Telemetry::F1_23::MFDPanel GetMFDPanelPlayer1() const { return m_mfdPanelPlayer1; }
             inline const Telemetry::F1_23::MFDPanel GetMFDPanelPlayer2() const { return m_mfdPanelPlayer2; }

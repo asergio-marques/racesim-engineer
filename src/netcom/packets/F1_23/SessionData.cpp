@@ -68,6 +68,7 @@ Packet::F1_23::SessionData::SessionData(const char* packetInfo, const Packet::F1
 
     if (packetInfo && helper) {
 
+        helper->SetPacketLength(static_cast<size_t>(this->GetLength()));
         BuildPacket(packetInfo, helper);
 
     }

@@ -2,8 +2,8 @@
 
 
 
-Packet::Helper::Helper(size_t packetLength) :
-    m_packetLength(packetLength) {
+Packet::Helper::Helper() :
+    m_packetLength(0) {
     
     // do nothing
 

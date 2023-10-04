@@ -16,6 +16,7 @@
 #include "packets/F1_23/StandingsData.h"
 #include "packets/F1_23/CarDamageData.h"
 #include "packets/F1_23/SessionHistoryData.h"
+#include "packets/F1_23/TyreSetData.h"
 
 
 
@@ -77,9 +78,17 @@ Packet::IPacket* Listener::F123Adapter::ProcessDatagram(const char* datagram) {
                 packet = new Packet::F1_23::SessionHistoryData(datagram, header, new Packet::Helper(static_cast<size_t>(Packet::F1_23::LengthBytes::SessionHistoryData)));
                 break;
 
-            default:
+            case Packet::F1_23::Type::TyreSetData:
+                packet = new Packet::F1_23::TyreSetData(datagram, header, new Packet::Helper(static_cast<size_t>(Packet::F1_23::LengthBytes::TyreSetData)));
                 break;
+
+            case Packet::F1_23::Type::MotionExtendedData:
+                // Packet ignored
+                break;
+
+            default:
                 // TODO error handling
+                break;
         
         }
         

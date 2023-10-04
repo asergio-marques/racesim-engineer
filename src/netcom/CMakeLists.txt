@@ -31,7 +31,8 @@ target_sources(${PROJECT_NAME} PRIVATE
     packets/F1_23/CarStatusData.cpp
     packets/F1_23/StandingsData.cpp
     packets/F1_23/CarDamageData.cpp
-    packets/F1_23/SessionHistoryData.cpp)
+    packets/F1_23/SessionHistoryData.cpp
+    packets/F1_23/TyreSetData.cpp)
 
 target_link_libraries(${PROJECT_NAME} PRIVATE
     RaceSimEngineerCore

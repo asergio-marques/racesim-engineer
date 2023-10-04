@@ -21,10 +21,10 @@ namespace Player::F1_23 {
     enum class TractionControl : uint8_t
     {
 
-        Off = 0,
-        Medium = 1,
-        Full = 2,
-        InvalidUnknown = 3
+        Off             = 0,
+        Medium          = 1,
+        Full            = 2,
+        InvalidUnknown  = 3
 
     };
 

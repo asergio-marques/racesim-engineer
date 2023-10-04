@@ -21,6 +21,7 @@ Packet::F1_23::CarTelemetryData::CarTelemetryData(const char* packetInfo, const 
 
     if (packetInfo && helper) {
 
+        helper->SetPacketLength(static_cast<size_t>(this->GetLength()));
         BuildPacket(packetInfo, helper);
 
     }

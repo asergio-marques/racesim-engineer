@@ -11,8 +11,9 @@ namespace Packet {
     class Helper {
 
         public:
-        Helper(size_t packetLength);
+        Helper();
         virtual ~Helper() = default;
+        inline void SetPacketLength(size_t packetLength) { m_packetLength = packetLength; }
 
         // Function to obtain a specific variable from a data stream, which automatically
         // moves forward the index

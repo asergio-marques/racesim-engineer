@@ -4,3 +4,5 @@
 #include "data/F1_23/Participant.h"
 #include "data/F1_23/Player.h"
 #include "data/F1_23/Session.h"
+#include "data/F1_23/Status.h"
+#include "data/F1_23/Telemetry.h"

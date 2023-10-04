@@ -88,7 +88,7 @@ void Listener::Director::OnNewDatagramAvailable(const char* datagram, const uint
             #endif // NDEBUG
 
             // TODO delete for now to prevent memory leak
-            delete packet;
+            // delete packet;
 
         }
         else {

@@ -78,8 +78,6 @@ namespace Packet {
             // First 13 array members are dry compound tyres, following 7 are wet compound tyres
             TyreSetInfo m_tyreSets[20];
 
-
-
         };
 
     }

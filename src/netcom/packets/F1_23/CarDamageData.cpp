@@ -17,6 +17,7 @@ Packet::F1_23::CarDamageData::CarDamageData(const char* packetInfo, const Header
 
     if (packetInfo && helper) {
 
+        helper->SetPacketLength(static_cast<size_t>(this->GetLength()));
         BuildPacket(packetInfo, helper);
 
     }

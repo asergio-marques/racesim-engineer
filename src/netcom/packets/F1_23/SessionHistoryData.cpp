@@ -25,6 +25,7 @@ Packet::F1_23::SessionHistoryData::SessionHistoryData(const char* packetInfo, co
 
     if (packetInfo && helper) {
 
+        helper->SetPacketLength(static_cast<size_t>(this->GetLength()));
         BuildPacket(packetInfo, helper);
 
     }

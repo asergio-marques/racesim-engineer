@@ -19,6 +19,7 @@ Packet::F1_23::StandingsData::StandingsData(const char* packetInfo, const Header
 
     if (packetInfo && helper) {
 
+        helper->SetPacketLength(static_cast<size_t>(this->GetLength()));
         BuildPacket(packetInfo, helper);
 
     }

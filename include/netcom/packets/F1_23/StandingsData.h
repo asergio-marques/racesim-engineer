@@ -19,7 +19,7 @@ namespace Packet {
         struct SessionResultInfo {
 
             // Position at the end of the session
-            uint8_t m_ebdPosition;
+            uint8_t m_enWdPosition;
             
             // Number of laps completed in the session
             uint8_t m_numLaps;

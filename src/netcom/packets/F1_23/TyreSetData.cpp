@@ -20,6 +20,7 @@ Packet::F1_23::TyreSetData::TyreSetData(const char* packetInfo, const Header* he
 
     if (packetInfo && helper) {
 
+        helper->SetPacketLength(static_cast<size_t>(this->GetLength()));
         BuildPacket(packetInfo, helper);
 
     }

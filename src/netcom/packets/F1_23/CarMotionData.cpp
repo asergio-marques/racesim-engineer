@@ -13,7 +13,21 @@ Packet::F1_23::CarMotionData::CarMotionData(const char* packetInfo, const Header
     Packet::F1_23::IPacket(),
     m_carMotion() {
 
+    this->SetHeader(header);
 
+    if (packetInfo && helper) {
+
+        helper->SetPacketLength(static_cast<size_t>(this->GetLength()));
+        BuildPacket(packetInfo, helper);
+
+    }
+    if (helper) {
+
+        // It is the responsability of the packet class to delete
+        // the helper as it is to be used only for this function
+        delete helper;
+
+    }
 
 }
 

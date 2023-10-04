@@ -2,7 +2,6 @@
 #define NETCOM_PACKETS_F123_INCLUDE_PARTICIPANT_DATA_H_
 
 #include <cstdint>
-#include <math.h>
 #include "data/F1_23/Packet.h"
 #include "data/F1_23/Participant.h"
 #include "data/F1_23/Player.h"
@@ -55,7 +54,7 @@ namespace Packet {
         };
 
 
-        class ParticipantData : public Packet::F1_23::IPacket {
+        class ParticipantData final : public Packet::F1_23::IPacket {
 
             public:
             ParticipantData(const char* packetInfo, const Header* header, Packet::Helper* helper);

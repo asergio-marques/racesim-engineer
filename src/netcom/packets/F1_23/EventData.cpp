@@ -59,6 +59,7 @@ Packet::F1_23::EventData::EventData(const char* packetInfo, const Packet::F1_23:
 
     if (packetInfo && helper) {
     
+        helper->SetPacketLength(static_cast<size_t>(this->GetLength()));
         BuildPacket(packetInfo, helper);
 
     }

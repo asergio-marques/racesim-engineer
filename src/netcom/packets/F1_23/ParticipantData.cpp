@@ -1,7 +1,6 @@
 #include "packets/F1_23/ParticipantData.h"
 
 #include <cstdint>
-#include <math.h>
 #include "data/F1_23/Packet.h"
 #include "data/F1_23/Participant.h"
 #include "data/F1_23/Player.h"
@@ -20,6 +19,7 @@ Packet::F1_23::ParticipantData::ParticipantData(const char* packetInfo, const He
 
     if (packetInfo && helper) {
 
+        helper->SetPacketLength(static_cast<size_t>(this->GetLength()));
         BuildPacket(packetInfo, helper);
 
     }

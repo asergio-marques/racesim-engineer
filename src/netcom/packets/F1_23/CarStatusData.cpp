@@ -20,6 +20,7 @@ Packet::F1_23::CarStatusData::CarStatusData(const char* packetInfo, const Header
 
     if (packetInfo && helper) {
 
+        helper->SetPacketLength(static_cast<size_t>(this->GetLength()));
         BuildPacket(packetInfo, helper);
 
     }
@@ -60,6 +61,7 @@ const Packet::F1_23::CarStatusInfo Packet::F1_23::CarStatusData::GetCarStatusInf
 
 
 
+#ifndef NDEBUG
 void Packet::F1_23::CarStatusData::Print() const {
 
     const Packet::F1_23::Header* header = this->GetHeader();
@@ -72,6 +74,7 @@ void Packet::F1_23::CarStatusData::Print() const {
     // Packet print TBD
 
 }
+#endif // NDEBUG
 
 
 

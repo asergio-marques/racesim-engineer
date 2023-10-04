@@ -20,6 +20,7 @@ Packet::F1_23::LapData::LapData(const char* packetInfo, const Header* header, Pa
 
     if (packetInfo && helper) {
 
+        helper->SetPacketLength(static_cast<size_t>(this->GetLength()));
         BuildPacket(packetInfo, helper);
 
     }

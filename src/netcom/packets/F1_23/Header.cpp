@@ -24,6 +24,8 @@ Packet::F1_23::Header::Header(const char* packetInfo, Packet::Helper* helper) :
 
     if (packetInfo && helper) {
 
+        helper->SetPacketLength(static_cast<size_t>(Packet::F1_23::LengthBytes::Header));
+
         // Current position in the array
         size_t arrayStatus = 0;
 

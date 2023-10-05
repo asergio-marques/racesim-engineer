@@ -6,11 +6,11 @@ add_executable(${PROJECT_NAME})
 
 add_subdirectory("${CMAKE_CURRENT_SOURCE_DIR}/src/core/" ${CMAKE_CURRENT_BINARY_DIR}/core)
 add_subdirectory("${CMAKE_CURRENT_SOURCE_DIR}/src/netcom/" ${CMAKE_CURRENT_BINARY_DIR}/netcom)
+add_subdirectory("${CMAKE_CURRENT_SOURCE_DIR}/src/ui/" ${CMAKE_CURRENT_BINARY_DIR}/ui)
 
 target_include_directories(${PROJECT_NAME} PUBLIC
     "${CMAKE_CURRENT_LIST_DIR}/include/core"
     "${CMAKE_CURRENT_LIST_DIR}/include/netcom"
-    "${CMAKE_CURRENT_LIST_DIR}/include/settings"
     "${CMAKE_CURRENT_LIST_DIR}/include/ui"
     "${CMAKE_CURRENT_LIST_DIR}/include/uiadapter"
     "${CMAKE_CURRENT_LIST_DIR}/src/core"
@@ -22,7 +22,8 @@ target_sources(${PROJECT_NAME} PRIVATE src/main.cpp)
 
 target_link_libraries(${PROJECT_NAME} PRIVATE
     RaceSimEngineerCore
-    RaceSimEngineerNetwork)
+    RaceSimEngineerNetwork
+    RaceSimEngineerUI)
 
 add_custom_command(TARGET ${PROJECT_NAME}
 	POST_BUILD

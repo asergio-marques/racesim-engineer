@@ -4,11 +4,9 @@
 #include "listener/Director.h"
 #include "listener/UDPSocketWin64.h"
 #include "settings/StoreFront.h"
-#include "settings/Key.h"
+#include "UIStarter.h"
 
 int main(int argc, char* argv[]) {
-
-	std::cout << "RaceSim Engineer online." << std::endl;
 
     Settings::StoreFront* settingsStore = Settings::StoreFront::getInstance();
 
@@ -17,19 +15,13 @@ int main(int argc, char* argv[]) {
         settingsStore->Init();
     }
 
-    // Instantiate director class and inject socket as a test
-    // Then infinite loop while the separate listen thread triggers actions
     Listener::Director* director = new Listener::Director;
     Listener::UDPSocketWin64* socket = new Listener::UDPSocketWin64;
     director->setSocket(socket);
 
-
-
-    while (true) {
-    
-        std::this_thread::sleep_for(std::chrono::seconds(500));
-    
-    }
+    UserInterface::UIStarter* starter = new UserInterface::UIStarter;
+    starter->Init(&argc, &argv);
+    int runResult = starter->Run();
 
 	return 0;
 

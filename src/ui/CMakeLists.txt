@@ -20,7 +20,10 @@ target_link_directories(${PROJECT_NAME} PRIVATE "${PROJECT_ROOT}/lib/")
 
 target_sources(${PROJECT_NAME} PRIVATE
     UIStarter.cpp
-    screens/Example.cpp)
+    base/Element.cpp
+    base/IPanel.cpp
+    base/IScreen.cpp
+    )
 
 target_link_libraries(${PROJECT_NAME} PRIVATE
     RaceSimEngineerCore

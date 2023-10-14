@@ -3,7 +3,6 @@
 #include <QApplication>
 #include <QMainWindow>
 #include <QMenuBar>
-#include "screens/Example.h"
 
 
 
@@ -22,7 +21,7 @@ void UserInterface::UIStarter::Init(int* argc, char*** argv) {
     QCoreApplication::setApplicationName("Application Example");
     QCoreApplication::setApplicationVersion(QT_VERSION_STR);
     m_app = new QApplication(*argc, *argv);
-    m_screen = new UserInterface::Screen::Example;
+    /*m_screen = new UserInterface::Screen::Example;
     m_window = new QMainWindow();
 
     if (m_window && m_screen) {
@@ -36,7 +35,7 @@ void UserInterface::UIStarter::Init(int* argc, char*** argv) {
         m_window->setPalette(m_screen->palette());
         m_window->show();
 
-    }
+    }*/
 
 }
 

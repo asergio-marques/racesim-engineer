@@ -12,7 +12,9 @@ namespace UserInterface {
         enum class WidgetId : uint8_t {
 
             InvalidUnknown = 0,
-            CurrentLapTime = 1
+            Background = 1,
+            ScreenTitle = 2,
+            CurrentLapTime = 3
 
         };
 

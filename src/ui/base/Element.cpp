@@ -5,8 +5,7 @@
 
 
 
-UserInterface::Base::Element::Element(UserInterface::Base::WidgetId id, QWidget* parent) :
-    QWidget(parent),
+UserInterface::Base::Element::Element(UserInterface::Base::WidgetId id) :
     m_id(id) {
 
 

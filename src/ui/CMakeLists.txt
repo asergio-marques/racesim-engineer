@@ -23,6 +23,14 @@ target_sources(${PROJECT_NAME} PRIVATE
     base/Element.cpp
     base/IPanel.cpp
     base/IScreen.cpp
+    base/elements/ImageElement.cpp
+    base/elements/TextElement.cpp
+    base/elements/ButtonElement.cpp
+    widgets/Background.cpp
+    widgets/ScreenTitle.cpp
+    screens/Loading.cpp
+    panels/LoadingLeft.cpp
+    panels/LoadingRight.cpp
     )
 
 target_link_libraries(${PROJECT_NAME} PRIVATE

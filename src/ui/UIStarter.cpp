@@ -3,12 +3,13 @@
 #include <QApplication>
 #include <QMainWindow>
 #include <QMenuBar>
+#include "screens/Loading.h"
 
 
 
 UserInterface::UIStarter::~UIStarter() {
 
-    delete m_screen;
+    delete m_window;
 
 }
 
@@ -21,21 +22,25 @@ void UserInterface::UIStarter::Init(int* argc, char*** argv) {
     QCoreApplication::setApplicationName("Application Example");
     QCoreApplication::setApplicationVersion(QT_VERSION_STR);
     m_app = new QApplication(*argc, *argv);
-    /*m_screen = new UserInterface::Screen::Example;
-    m_window = new QMainWindow();
+    //m_window = new QMainWindow();
+    if (m_window) {
 
-    if (m_window && m_screen) {
+        m_screen = new UserInterface::Screen::Loading(m_window);
+        if (m_screen) {
+    
+            m_window->setCentralWidget(m_screen);
 
-        m_window->setCentralWidget(m_screen);
+            QMenuBar* menuBar = new QMenuBar(m_window);
+            menuBar->addMenu(QString::fromUtf8("Settings"));
+            menuBar->addMenu(QString::fromUtf8("About"));
+            m_window->setMenuBar(menuBar);
+            m_window->setPalette(m_screen->palette());
+            m_window->show();
+            m_screen->show();
         
-        QMenuBar* menuBar = new QMenuBar(m_window);
-        menuBar->addMenu(QString::fromUtf8("Settings"));
-        menuBar->addMenu(QString::fromUtf8("About"));
-        m_window->setMenuBar(menuBar);
-        m_window->setPalette(m_screen->palette());
-        m_window->show();
+        }
 
-    }*/
+    }
 
 }
 

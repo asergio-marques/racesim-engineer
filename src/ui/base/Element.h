@@ -10,10 +10,10 @@ namespace UserInterface {
 
     namespace Base {
 
-        class Element : public QWidget {
+        class Element {
 
             public:
-                Element(UserInterface::Base::WidgetId id, QWidget* parent = 0);
+                Element(UserInterface::Base::WidgetId id);
                 virtual ~Element() = default;
                 virtual bool Update() = 0;
                 virtual const UserInterface::Base::WidgetId& GetId() const;

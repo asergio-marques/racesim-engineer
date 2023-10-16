@@ -15,7 +15,7 @@ namespace UserInterface {
         class IScreen : public QWidget {
 
             public:
-                IScreen(QWidget* parent = 0);
+                IScreen(QWidget* parent = 0, UserInterface::Base::IPanel* panelLeft = 0, UserInterface::Base::IPanel* panelRight = 0);
                 virtual ~IScreen() = default;
 
                 virtual bool Activate();

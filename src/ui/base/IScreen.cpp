@@ -5,11 +5,11 @@
 
 
 
-UserInterface::Base::IScreen::IScreen(QWidget* parent) :
+UserInterface::Base::IScreen::IScreen(QWidget* parent, UserInterface::Base::IPanel* panelLeft, UserInterface::Base::IPanel* panelRight) :
     QWidget(parent),
     m_mode(Settings::WindowNumber::DEFAULT),
-    m_panelLeft(nullptr),
-    m_panelRight(nullptr) {
+    m_panelLeft(panelLeft),
+    m_panelRight(panelRight) {
 
 
 

@@ -9,9 +9,9 @@ class QWidget;
 
 namespace UserInterface {
 
-    namespace Screen {
+    namespace Base {
 
-        class Example;
+        class IScreen;
 
     }
 
@@ -26,7 +26,7 @@ namespace UserInterface {
     private:
         QApplication* m_app;
         QMainWindow* m_window;
-        UserInterface::Screen::Example* m_screen;
+        UserInterface::Base::IScreen* m_screen;
 
     };
 

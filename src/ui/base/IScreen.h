@@ -15,9 +15,10 @@ namespace UserInterface {
         class IScreen : public QWidget {
 
             public:
-                IScreen(QWidget* parent = 0, UserInterface::Base::IPanel* panelLeft = 0, UserInterface::Base::IPanel* panelRight = 0);
+                IScreen(QWidget* parent = 0);
                 virtual ~IScreen() = default;
 
+                virtual void Initialize();
                 virtual bool Activate();
                 virtual bool Deactivate();
                 // virtual void Update(const InternalInfoPacket* updateInfo) = 0;

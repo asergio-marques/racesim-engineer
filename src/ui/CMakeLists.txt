@@ -26,7 +26,8 @@ target_sources(${PROJECT_NAME} PRIVATE
     base/elements/ImageElement.cpp
     base/elements/TextElement.cpp
     base/elements/ButtonElement.cpp
-    widgets/Background.cpp
+    widgets/BackgroundLeft.cpp
+    widgets/BackgroundRight.cpp
     widgets/ScreenTitle.cpp
     screens/Loading.cpp
     panels/LoadingLeft.cpp
@@ -43,7 +44,8 @@ qt_add_resources(${PROJECT_NAME} "ui_elements"
     PREFIX "/"
     BASE "resources"
     FILES
-        resources/img/background/SingleScreenBG.png
+        resources/img/background/BackgroundLeft.png
+        resources/img/background/BackgroundRight.png
         resources/fonts/Manrope-VariableFont_wght.ttf
 )
 

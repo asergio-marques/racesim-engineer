@@ -8,8 +8,9 @@
 
 
 UserInterface::Screen::Loading::Loading(QWidget* parent) :
-    UserInterface::Base::IScreen(parent,
-        new UserInterface::Panel::LoadingLeft(this),
-        new UserInterface::Panel::LoadingLeft(this)) {
+    UserInterface::Base::IScreen(parent) {
+
+    m_panelLeft = new UserInterface::Panel::LoadingLeft(this);
+    m_panelRight = new UserInterface::Panel::LoadingRight(this);
 
 }

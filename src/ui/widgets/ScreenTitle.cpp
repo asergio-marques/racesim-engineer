@@ -28,7 +28,6 @@ bool UserInterface::Widget::ScreenTitle::SetText() {
     if (m_text) {
 
         m_text->setText(QString::fromUtf8("Time Trial"));
-        m_text->show();
         m_text->update();
         return true;
 

@@ -1,7 +1,7 @@
 #ifndef USERINTERFACE_BASE_INCLUDE_ELEMENT_H_
 #define USERINTERFACE_BASE_INCLUDE_ELEMENT_H_
 
-#include <QWidget>
+#include <QObject>
 #include "base/WidgetId.h"
 
 
@@ -10,7 +10,7 @@ namespace UserInterface {
 
     namespace Base {
 
-        class Element {
+        class Element : public QObject {
 
             public:
                 Element(UserInterface::Base::WidgetId id);

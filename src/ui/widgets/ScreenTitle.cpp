@@ -1,5 +1,7 @@
 #include "widgets/ScreenTitle.h"
 
+#include <QFont>
+#include <QFontDatabase>
 #include <QLabel>
 #include <QString>
 #include <QWidget>
@@ -10,6 +12,18 @@
 
 UserInterface::Widget::ScreenTitle::ScreenTitle(UserInterface::Base::WidgetId id, QWidget* parent) :
     UserInterface::Base::TextElement(id, parent) {
+
+    if (m_text) {
+
+        QFont font;
+        font.setWeight(QFont::Weight::ExtraBold);
+        font.setPixelSize(48);
+        m_text->setFont(font);
+        m_text->setText(QString::fromUtf8("Time Trial"));
+        m_text->move(480, 540);
+        m_text->update();
+
+    }
 
 }
 

@@ -21,6 +21,7 @@ namespace UserInterface {
                 virtual bool UpdateWidget(UserInterface::Base::WidgetId id);
 
             protected:
+                bool RegisterWidget(UserInterface::Base::Element* widget);
                 std::map<UserInterface::Base::WidgetId, UserInterface::Base::Element*> m_widgets;
 
         };

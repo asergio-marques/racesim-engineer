@@ -1,6 +1,7 @@
 #ifndef USERINTERFACE_BASE_INCLUDE_TEXT_ELEMENT_H_
 #define USERINTERFACE_BASE_INCLUDE_TEXT_ELEMENT_H_
 
+#include <QFont>
 #include "base/WidgetId.h"
 #include "base/Element.h"
 
@@ -21,6 +22,7 @@ namespace UserInterface {
 
             protected:
             QLabel* m_text;
+
         };
 
     }

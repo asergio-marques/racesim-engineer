@@ -13,13 +13,8 @@ UserInterface::Panel::LoadingRight::LoadingRight(QWidget* parent) :
 
     m_background = new UserInterface::Widget::BackgroundRight(UserInterface::Base::WidgetId::Background, this);
     m_title = new UserInterface::Widget::ScreenTitle(UserInterface::Base::WidgetId::ScreenTitle, this);
-    Q_ASSERT(m_background);
-    Q_ASSERT(m_title);
-    if (m_background) {
-        m_widgets.emplace(m_background->GetId(), m_background);
-    }
-    if (m_title) {
-        m_widgets.emplace(m_title->GetId(), m_title);
-    }
+
+    RegisterWidget(m_background);
+    RegisterWidget(m_title);
 
 }

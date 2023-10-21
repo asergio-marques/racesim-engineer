@@ -15,6 +15,24 @@ UserInterface::Base::IPanel::IPanel(QWidget* parent) :
 
 }
 
+
+
+bool UserInterface::Base::IPanel::RegisterWidget(UserInterface::Base::Element* widget) {
+
+    Q_ASSERT(widget);
+    if (widget) {
+
+        m_widgets.emplace(widget->GetId(), widget);
+        return true;
+
+    }
+
+    return false;
+
+}
+
+
+
 bool UserInterface::Base::IPanel::UpdateWidget(UserInterface::Base::WidgetId id) {
 
     // return true if at least one widget was updated with the information

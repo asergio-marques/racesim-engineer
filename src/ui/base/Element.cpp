@@ -1,11 +1,11 @@
 #include "base/Element.h"
 
-#include <QWidget>
 #include "base/WidgetId.h"
 
 
 
 UserInterface::Base::Element::Element(UserInterface::Base::WidgetId id) :
+    QObject(),
     m_id(id) {
 
 

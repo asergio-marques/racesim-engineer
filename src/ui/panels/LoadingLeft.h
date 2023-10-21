@@ -26,6 +26,7 @@ namespace UserInterface {
 
             private:
                 UserInterface::Base::ImageElement* m_background;
+                UserInterface::Base::ImageElement* m_loadingIcon;
                 UserInterface::Base::TextElement* m_title;
         };
 

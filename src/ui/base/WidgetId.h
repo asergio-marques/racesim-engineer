@@ -14,7 +14,8 @@ namespace UserInterface {
             InvalidUnknown = 0,
             Background = 1,
             ScreenTitle = 2,
-            CurrentLapTime = 3
+            LoadingIcon = 3,
+            CurrentLapTime = 4
 
         };
 

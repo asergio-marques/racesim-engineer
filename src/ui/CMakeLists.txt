@@ -29,6 +29,7 @@ target_sources(${PROJECT_NAME} PRIVATE
     widgets/BackgroundLeft.cpp
     widgets/BackgroundRight.cpp
     widgets/ScreenTitle.cpp
+    widgets/LoadingIcon.cpp
     screens/Loading.cpp
     panels/LoadingLeft.cpp
     panels/LoadingRight.cpp
@@ -46,7 +47,11 @@ qt_add_resources(${PROJECT_NAME} "ui_elements"
     FILES
         resources/img/background/BackgroundLeft.png
         resources/img/background/BackgroundRight.png
-        resources/fonts/Manrope-VariableFont_wght.ttf
+        resources/img/icons/logo_loading_center.png
+        resources/img/icons/logo_loading_rotate.png
+        resources/fonts/static/Manrope-Regular.ttf
+        resources/fonts/static/Manrope-Bold.ttf
+        resources/fonts/static/Manrope-ExtraBold.ttf
 )
 
 set_target_properties(${PROJECT_NAME}

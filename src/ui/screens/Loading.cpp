@@ -1,16 +1,20 @@
 #include "screens/Loading.h"
 
 #include <QWidget>
-#include "base/IScreen.h"
-#include "panels/LoadingLeft.h"
-#include "panels/LoadingRight.h"
+#include "base/ISinglePanelScreen.h"
+#include "panels/Loading.h"
 
 
 
 UserInterface::Screen::Loading::Loading(QWidget* parent) :
-    UserInterface::Base::IScreen(parent) {
+    UserInterface::Base::ISinglePanelScreen(parent) {
 
-    m_panelLeft = new UserInterface::Panel::LoadingLeft(this);
-    m_panelRight = new UserInterface::Panel::LoadingRight(this);
+    m_panel = new UserInterface::Panel::Loading(this);
+
+}
+
+void UserInterface::Screen::Loading::handleResizeEvent(QResizeEvent* event) {
+
+    qDebug() << "screen resize event";
 
 }

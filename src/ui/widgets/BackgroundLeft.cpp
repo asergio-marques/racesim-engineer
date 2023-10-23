@@ -37,3 +37,11 @@ bool UserInterface::Widget::BackgroundLeft::Update() {
     return false;
 
 }
+
+
+
+void UserInterface::Widget::BackgroundLeft::Move(int16_t x, int16_t y) {
+
+    m_image->move(x, y);
+
+}

@@ -5,6 +5,7 @@
 #include <QFontDatabase>
 #include <QMainWindow>
 #include <QMenuBar>
+#include "CustomMainWindow.h"
 #include "screens/Loading.h"
 
 
@@ -33,22 +34,18 @@ void UserInterface::UIStarter::Init(int* argc, char*** argv) {
     font.setFamily(QFontDatabase::applicationFontFamilies(normal_id).at(0));
     font.setStyleStrategy(QFont::StyleStrategy::PreferAntialias);
     QGuiApplication::setFont(font);
-    m_window = new QMainWindow();
+    m_window = new UserInterface::CustomMainWindow();
     if (m_window) {
 
         m_window->setMinimumSize(1366, 768);
-
-        m_screen = new UserInterface::Screen::Loading(m_window);
-        if (m_screen) {
-            m_screen->Initialize();
-            m_window->setCentralWidget(m_screen);
-            QMenuBar* menuBar = new QMenuBar(m_window);
+        m_window->addScreen(new UserInterface::Screen::Loading);
+        QMenuBar* menuBar = new QMenuBar(m_window);
+        if (menuBar) {
             menuBar->addMenu(QString::fromUtf8("Settings"));
             menuBar->addMenu(QString::fromUtf8("About"));
             m_window->setMenuBar(menuBar);
-            m_window->show();
-        
         }
+        m_window->show();
 
     }
 

@@ -1,7 +1,7 @@
 #ifndef USERINTERFACE_SCREENS_INCLUDE_LOADING_H_
 #define USERINTERFACE_SCREENS_INCLUDE_LOADING_H_
 
-#include "base/IScreen.h"
+#include "base/ISinglePanelScreen.h"
 
 class QWidget;
 
@@ -18,11 +18,16 @@ namespace UserInterface {
 
     namespace Screen {
 
-        class Loading : public UserInterface::Base::IScreen {
+        class Loading : public UserInterface::Base::ISinglePanelScreen {
+
+            Q_OBJECT
 
         public:
             Loading(QWidget* parent = 0);
             virtual ~Loading() = default;
+
+        public slots:
+            virtual void handleResizeEvent(QResizeEvent* event) override;
         };
 
     }

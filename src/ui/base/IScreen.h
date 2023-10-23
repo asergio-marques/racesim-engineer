@@ -14,19 +14,19 @@ namespace UserInterface {
 
         class IScreen : public QWidget {
 
+            Q_OBJECT
+
             public:
                 IScreen(QWidget* parent = 0);
                 virtual ~IScreen() = default;
 
-                virtual void Initialize();
-                virtual bool Activate();
-                virtual bool Deactivate();
+                virtual void Initialize() = 0;
+                virtual bool Activate() = 0;
+                virtual bool Deactivate() = 0;
                 // virtual void Update(const InternalInfoPacket* updateInfo) = 0;
 
-            protected:
-                Settings::WindowNumber m_mode;
-                UserInterface::Base::IPanel* m_panelLeft;
-                UserInterface::Base::IPanel* m_panelRight;
+            public slots:
+                virtual void handleResizeEvent(QResizeEvent* event) { qDebug() << "unspecific resizeevent"; }
 
         };
 

@@ -15,9 +15,15 @@ namespace UserInterface {
 
         class ImageElement : public UserInterface::Base::Element {
 
+            Q_OBJECT
+
             public:
                 ImageElement(UserInterface::Base::WidgetId id, QWidget* parent = 0);
                 virtual ~ImageElement() = default;
+
+                // Getters
+                virtual const int16_t Width() const override;
+                virtual const int16_t Height() const override;
 
             protected:
                 QLabel* m_image;

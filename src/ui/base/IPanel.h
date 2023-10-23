@@ -15,6 +15,8 @@ namespace UserInterface {
 
         class IPanel : public QWidget {
 
+            Q_OBJECT
+
             public:
                 IPanel(QWidget* parent = 0);
                 virtual ~IPanel() = default;

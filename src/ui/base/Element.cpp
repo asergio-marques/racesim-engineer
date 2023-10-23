@@ -1,5 +1,7 @@
 #include "base/Element.h"
 
+#include <QObject>
+#include <QObject>
 #include "base/WidgetId.h"
 
 

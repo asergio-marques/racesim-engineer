@@ -9,12 +9,15 @@ namespace UserInterface {
 
     namespace Widget {
 
-        class ScreenTitle : public UserInterface::Base::TextElement {
+        class ScreenTitle final : public UserInterface::Base::TextElement {
+
+            Q_OBJECT
 
             public:
                 ScreenTitle(UserInterface::Base::WidgetId id, QWidget* parent = 0);
                 virtual ~ScreenTitle() = default;
                 bool Update() override;
+                void Move(int16_t x, int16_t y) override;
                 bool SetText();
         };
 

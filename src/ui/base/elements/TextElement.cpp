@@ -21,3 +21,25 @@ UserInterface::Base::TextElement::TextElement(UserInterface::Base::WidgetId id, 
     }
 
 }
+
+
+
+const int16_t UserInterface::Base::TextElement::Width() const {
+
+    if (m_text) {
+        return m_text->width();
+    }
+    return 0;
+
+}
+
+
+
+const int16_t UserInterface::Base::TextElement::Height() const {
+
+    if (m_text) {
+        return m_text->height();
+    }
+    return 0;
+
+}

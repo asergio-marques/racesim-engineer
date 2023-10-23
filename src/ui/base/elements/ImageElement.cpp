@@ -12,3 +12,25 @@ UserInterface::Base::ImageElement::ImageElement(UserInterface::Base::WidgetId id
     m_image(new QLabel(parent)) {
     
 }
+
+
+
+const int16_t UserInterface::Base::ImageElement::Width() const {
+
+    if (m_image) {
+        return m_image->width();
+    }
+    return 0;
+
+}
+
+
+
+const int16_t UserInterface::Base::ImageElement::Height() const {
+
+    if (m_image) {
+        return m_image->height();
+    }
+    return 0;
+
+}

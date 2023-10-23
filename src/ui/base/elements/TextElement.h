@@ -16,9 +16,15 @@ namespace UserInterface {
 
         class TextElement : public UserInterface::Base::Element {
 
+            Q_OBJECT
+
             public:
             TextElement(UserInterface::Base::WidgetId id, QWidget* parent = 0);
             virtual ~TextElement() = default;
+
+            // Getters
+            virtual const int16_t Width() const override;
+            virtual const int16_t Height() const override;
 
             protected:
             QLabel* m_text;

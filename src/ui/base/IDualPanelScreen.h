@@ -1,11 +1,11 @@
 #ifndef USERINTERFACE_BASE_INCLUDE_IDUALPANELSCREEN_H_
 #define USERINTERFACE_BASE_INCLUDE_IDUALPANELSCREEN_H_
 
-#include <QWidget>
 #include "base/IScreen.h"
 #include "settings/WindowNumber.h"
 
-
+class QResizeEvent;
+class QWidget;
 
 namespace UserInterface {
 
@@ -24,6 +24,9 @@ namespace UserInterface {
                 virtual void Initialize() override;
                 virtual bool Activate() override;
                 virtual bool Deactivate() override;
+
+            public slots:
+                virtual void handleResizeEvent(QResizeEvent* event) override final;
 
             protected:
                 Settings::WindowNumber m_mode;

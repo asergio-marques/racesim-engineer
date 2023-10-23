@@ -19,25 +19,23 @@ UserInterface::Panel::Loading::Loading(QWidget* parent) :
     RegisterWidget(m_background);
     RegisterWidget(m_loadingIcon);
 
-    if (m_loadingIcon) {
-        const int16_t x = (m_background->Width() - m_loadingIcon->Width()) / 2;
-        const int16_t y = (m_background->Height() - m_loadingIcon->Height()) / 2;
-        m_loadingIcon->Move(x, y);
-    }
-
 }
 
 
 
-void UserInterface::Panel::Loading::resizeEvent(QResizeEvent* event) {
+void UserInterface::Panel::Loading::ResizePanel(const QSize& newPanelSize) {
 
-    QWidget::resizeEvent(event);
-    qDebug() << "resize";
+    const int16_t width = newPanelSize.width();
+    const int16_t height = newPanelSize.height();
 
-    if (event && m_loadingIcon) {
-        const int16_t x = (event->size().width() - m_loadingIcon->Width()) / 2;
-        const int16_t y = (event->size().height() - m_loadingIcon->Height()) / 2;
-        m_loadingIcon->Move(x, y);
+    if (m_loadingIcon) {
+
+        // TODO figure out a way to solve the startup issue here, the value of the width and height functions
+        // is different from what it should be, but the widgets are aligned after a resize
+        const int16_t newX = (width / 2) - (m_loadingIcon->Width() / 2);
+        const int16_t newY = (height / 2) - (m_loadingIcon->Height() / 2);
+        m_loadingIcon->Move(newX, newY);
+
     }
 
 }

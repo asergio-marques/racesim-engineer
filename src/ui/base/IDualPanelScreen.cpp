@@ -1,5 +1,6 @@
 #include "base/IDualPanelScreen.h"
 
+#include <QResizeEvent>
 #include <QWidget>
 #include "base/IPanel.h"
 #include "base/IScreen.h"
@@ -54,5 +55,20 @@ bool UserInterface::Base::IDualPanelScreen::Activate() {
 bool UserInterface::Base::IDualPanelScreen::Deactivate() {
 
     return true;
+
+}
+
+
+
+void UserInterface::Base::IDualPanelScreen::handleResizeEvent(QResizeEvent* event) {
+
+    if (event) {
+
+        QSize newScreenSize = event->size();
+        QSize newPanelSize(newScreenSize.width() / 2, newScreenSize.height());
+        if (m_panelLeft) m_panelLeft->ResizePanel(newPanelSize);
+        if (m_panelRight) m_panelRight->ResizePanel(newPanelSize);
+
+    }
 
 }

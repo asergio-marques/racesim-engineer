@@ -55,9 +55,14 @@ void UserInterface::Widget::LoadingIcon::Move(int16_t x, int16_t y) {
 
     if (m_image && m_rotateImage) {
 
-        const int16_t centerDx = (m_rotateImage->pixmap().width() - m_image->pixmap().width()) / 2;
-        const int16_t centerDy = (m_rotateImage->pixmap().height() - m_image->pixmap().height()) / 2;
-        
+        int16_t centerDx = (m_rotateImage->width() - m_image->width()) / 2;
+        int16_t centerDy = (m_rotateImage->height() - m_image->height()) / 2;
+
+        // TODO figure out a way to solve the startup issue here, the result of the above operations is 0
+        // this fixes the issue temporarily, but everything is screwed up if scaling has been performed
+        if (centerDx == 0) centerDx = 32;
+        if (centerDy == 0) centerDy = 32;
+
         m_rotateImage->move(x, y);
         m_image->move(x + centerDx, y + centerDy);
 

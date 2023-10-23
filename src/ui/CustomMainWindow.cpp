@@ -19,7 +19,6 @@ UserInterface::CustomMainWindow::CustomMainWindow(QWidget* parent) :
 void UserInterface::CustomMainWindow::resizeEvent(QResizeEvent* event) {
 
     QMainWindow::resizeEvent(event);
-    qDebug() << "resize";
     emit onResizeEvent(event);
 
 }

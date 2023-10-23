@@ -19,16 +19,14 @@ namespace UserInterface {
 
     namespace Panel {
 
-        class Loading : public UserInterface::Base::IPanel {
+        class Loading final : public UserInterface::Base::IPanel {
 
             Q_OBJECT
 
             public:
                 Loading(QWidget* parent = 0);
                 virtual ~Loading() = default;
-
-            protected:
-                virtual void resizeEvent(QResizeEvent* event) override final;
+                virtual void ResizePanel(const QSize& newPanelSize) override final;
 
             private:
                 UserInterface::Base::ImageElement* m_background;

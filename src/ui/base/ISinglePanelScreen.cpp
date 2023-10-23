@@ -1,5 +1,6 @@
 #include "base/ISinglePanelScreen.h"
 
+#include <QResizeEvent>
 #include <QWidget>
 #include "base/IPanel.h"
 #include "base/IScreen.h"
@@ -43,5 +44,16 @@ bool UserInterface::Base::ISinglePanelScreen::Activate() {
 bool UserInterface::Base::ISinglePanelScreen::Deactivate() {
 
     return true;
+
+}
+
+
+void UserInterface::Base::ISinglePanelScreen::handleResizeEvent(QResizeEvent* event) {
+
+    if (event) {
+
+        m_panel->ResizePanel(event->size());
+
+    }
 
 }

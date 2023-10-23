@@ -26,8 +26,6 @@ namespace UserInterface {
             Loading(QWidget* parent = 0);
             virtual ~Loading() = default;
 
-        public slots:
-            virtual void handleResizeEvent(QResizeEvent* event) override;
         };
 
     }

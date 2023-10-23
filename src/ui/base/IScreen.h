@@ -26,7 +26,7 @@ namespace UserInterface {
                 // virtual void Update(const InternalInfoPacket* updateInfo) = 0;
 
             public slots:
-                virtual void handleResizeEvent(QResizeEvent* event) { qDebug() << "unspecific resizeevent"; }
+                virtual void handleResizeEvent(QResizeEvent* event) = 0;
 
         };
 

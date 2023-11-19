@@ -41,19 +41,6 @@ namespace UserInterface {
                     1600    // m_maxValuePoint
                 };
 
-                static inline const ValueCurve LoadingTextFontSize = {
-                    ValueType::Absolute,    // m_type
-                    16,     // m_minValue
-                    480,    // m_minValuePoint
-
-                    32,     // m_normValue
-                    960,    // m_normValueMinPoint
-                    1440,   // m_normValueMaxPoint
-
-                    48,     // m_maxValue
-                    1600    // m_maxValuePoint
-                };
-
                 static inline const Value LoadingTextX = { ValueType::Relative, 50 };
                 static inline const ValueCurve LoadingTextYDiffCenter = {
                     ValueType::Absolute,    // m_type

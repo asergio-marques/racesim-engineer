@@ -11,7 +11,8 @@
 
 UserInterface::CustomMainWindow::CustomMainWindow(QWidget* parent) :
     QMainWindow(parent),
-    m_screens() {
+    m_screens(),
+    m_activeScreen(nullptr) {
 
 
 
@@ -59,6 +60,7 @@ void UserInterface::CustomMainWindow::doAddScreen(UserInterface::Base::IScreen* 
     newScreen->Initialize();
     if (!centralWidget()) {
 
+        m_activeScreen = newScreen;
         this->setCentralWidget(newScreen);
 
     }

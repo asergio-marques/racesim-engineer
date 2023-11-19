@@ -11,7 +11,6 @@
 
 UserInterface::Panel::Loading::Loading(QWidget* parent) :
     UserInterface::Base::IPanel(parent),
-    m_background(nullptr),
     m_loadingIcon(nullptr),
     m_loadingText(nullptr) {
         
@@ -35,18 +34,14 @@ UserInterface::Panel::Loading::Loading(QWidget* parent) :
 
 void UserInterface::Panel::Loading::ResizePanel(const QSize& newPanelSize) {
 
+    // call overridden function to resize background
+    UserInterface::Base::IPanel::ResizePanel(newPanelSize);
+
     UserInterface::Style::General generalStyle;
     UserInterface::Style::Loading loadingStyle;
 
     const int16_t width = newPanelSize.width();
     const int16_t height = newPanelSize.height();
-
-    if (m_background) {
-
-        // aspect ratio cannot be kept due to the title and menu bars occupying vertical space
-        m_background->SetSize(width, height, false);
-
-    }
 
     if (m_loadingIcon && loadingStyle.LoadingIconScale.IsValid() && loadingStyle.LoadingIconYDiffCenter.IsValid()) {
 
@@ -57,9 +52,9 @@ void UserInterface::Panel::Loading::ResizePanel(const QSize& newPanelSize) {
         m_loadingIcon->Move(loadingStyle.LoadingIconX.Calculate(width), newY, true, true);
 
     }
-    if (m_loadingText && loadingStyle.LoadingTextFontSize.IsValid() && loadingStyle.LoadingTextYDiffCenter.IsValid()) {
+    if (m_loadingText && generalStyle.ScreenTitleFontSize.IsValid() && loadingStyle.LoadingTextYDiffCenter.IsValid()) {
 
-        const uint16_t newFontSize = loadingStyle.LoadingTextFontSize.Interpolate(height);
+        const uint16_t newFontSize = generalStyle.ScreenTitleFontSize.Interpolate(height);
         m_loadingText->SetFontSize(newFontSize);
 
         // calc the vertical offset from the center of the panel

@@ -8,6 +8,7 @@
 #include <QTimer>
 #include "CustomMainWindow.h"
 #include "screens/Loading.h"
+#include "screens/TimeTrial.h"
 
 
 
@@ -41,6 +42,7 @@ void UserInterface::UIStarter::Init(int* argc, char*** argv) {
         m_window->setMinimumSize(480, 360);
         m_window->setBaseSize(1920, 1040);
         m_window->addScreen(new UserInterface::Screen::Loading);
+        m_window->addScreen(new UserInterface::Screen::TimeTrial);
         
         QMenuBar* menuBar = new QMenuBar(m_window);
         if (menuBar) {

@@ -118,6 +118,20 @@ namespace UserInterface {
                 static inline const Value VerticalEdgeBorder = { ValueType::Absolute, 40 };
 
                 static inline const Value HorizontalEdgeBorder = { ValueType::Absolute, 36 };
+
+                static inline const ValueCurve ScreenTitleFontSize = {
+                    ValueType::Absolute,    // m_type
+                    16,     // m_minValue
+                    480,    // m_minValuePoint
+
+                    32,     // m_normValue
+                    960,    // m_normValueMinPoint
+                    1440,   // m_normValueMaxPoint
+
+                    48,     // m_maxValue
+                    1600    // m_maxValuePoint
+                };
+
         };
 
     }

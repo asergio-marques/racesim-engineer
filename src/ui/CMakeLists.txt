@@ -37,7 +37,10 @@ target_sources(${PROJECT_NAME} PRIVATE
     widgets/ScreenTitle.cpp
     widgets/LoadingIcon.cpp
     panels/Loading.cpp
+    panels/TimeTrialLeft.cpp
+    panels/TimeTrialRight.cpp
     screens/Loading.cpp
+    screens/TimeTrial.cpp
     )
 
 target_link_libraries(${PROJECT_NAME} PRIVATE

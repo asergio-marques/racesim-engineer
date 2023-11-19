@@ -35,7 +35,6 @@ namespace UserInterface {
                 virtual void ResizePanel(const QSize& newPanelSize) override final;
 
             private:
-                UserInterface::Base::ImageElement* m_background;
                 UserInterface::Base::ImageElement* m_loadingIcon;
                 UserInterface::Widget::ScreenTitle* m_loadingText;
 

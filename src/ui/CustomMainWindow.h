@@ -34,6 +34,7 @@ namespace UserInterface {
         private:
             void doAddScreen(UserInterface::Base::IScreen* newScreen);
             std::list<UserInterface::Base::IScreen*> m_screens;
+            UserInterface::Base::IScreen* m_activeScreen;
 
     };
 

@@ -2,6 +2,7 @@
 #define USERINTERFACE_WIDGETS_INCLUDE_LOADING_ICON_H_
 
 #include <QPixmap>
+#include <QSize>
 #include "base/elements/ImageElement.h"
 #include "base/WidgetId.h"
 
@@ -24,7 +25,9 @@ namespace UserInterface {
                 
                 // Operations
                 bool Update() final;
-                void Move(int16_t x, int16_t y) final;
+                void Move(const uint16_t x, const uint16_t y, const bool centerAlignment) override final;
+                virtual void Scale(const uint8_t percent) override final;
+                virtual void Scale(const uint8_t percentX, const uint8_t percentY) override final;
 
                 // Getters
                 const int16_t Width() const final;
@@ -32,9 +35,10 @@ namespace UserInterface {
 
             protected:
                 QLabel* m_rotateImage;
-                QPropertyAnimation* m_anim;
                 QPixmap m_rotatePixmap;
-                QPixmap m_centerPixmap;
+                QSize m_originalSizeRotate;
+                QPropertyAnimation* m_anim;
+                qreal m_currentRotation;
 
             private slots:
                 void onAnimUpdate(const QVariant& value);

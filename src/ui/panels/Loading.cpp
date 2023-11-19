@@ -3,6 +3,7 @@
 #include <QResizeEvent>
 #include <QWidget>
 #include "base/IPanel.h"
+#include "styles/Loading.h"
 #include "widgets/BackgroundFullScreen.h"
 #include "widgets/LoadingIcon.h"
 #include "widgets/ScreenTitle.h"
@@ -28,13 +29,24 @@ void UserInterface::Panel::Loading::ResizePanel(const QSize& newPanelSize) {
     const int16_t width = newPanelSize.width();
     const int16_t height = newPanelSize.height();
 
+    if (m_background) {
+
+        // aspect ratio cannot be kept due to the title and menu bars occupying vertical space
+        m_background->SetSize(width, height, false);
+
+    }
+
     if (m_loadingIcon) {
 
-        // TODO figure out a way to solve the startup issue here, the value of the width and height functions
-        // is different from what it should be, but the widgets are aligned after a resize
-        const int16_t newX = (width / 2) - (m_loadingIcon->Width() / 2);
-        const int16_t newY = (height / 2) - (m_loadingIcon->Height() / 2);
-        m_loadingIcon->Move(newX, newY);
+        UserInterface::Style::General generalStyle;
+        UserInterface::Style::Loading loadingStyle;
+
+        if (loadingStyle.LoadingIconScale.IsValid()) {
+
+            m_loadingIcon->Scale(loadingStyle.LoadingIconScale.Interpolate(height));
+            m_loadingIcon->Move(loadingStyle.LoadingIconX.Calculate(width), loadingStyle.LoadingIconY.Calculate(height), true);
+
+        }
 
     }
 

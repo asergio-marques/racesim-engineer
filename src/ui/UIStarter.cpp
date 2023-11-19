@@ -5,6 +5,7 @@
 #include <QFontDatabase>
 #include <QMainWindow>
 #include <QMenuBar>
+#include <QTimer>
 #include "CustomMainWindow.h"
 #include "screens/Loading.h"
 
@@ -37,8 +38,10 @@ void UserInterface::UIStarter::Init(int* argc, char*** argv) {
     m_window = new UserInterface::CustomMainWindow();
     if (m_window) {
 
-        m_window->setMinimumSize(1366, 768);
+        m_window->setMinimumSize(480, 360);
+        m_window->setBaseSize(1920, 1040);
         m_window->addScreen(new UserInterface::Screen::Loading);
+        
         QMenuBar* menuBar = new QMenuBar(m_window);
         if (menuBar) {
             menuBar->addMenu(QString::fromUtf8("Settings"));
@@ -46,6 +49,9 @@ void UserInterface::UIStarter::Init(int* argc, char*** argv) {
             m_window->setMenuBar(menuBar);
         }
         m_window->show();
+
+        // delay the showing of the window slightly so it is properly stylized at startup
+        QTimer::singleShot(50, m_window, &UserInterface::CustomMainWindow::showMaximized);
 
     }
 

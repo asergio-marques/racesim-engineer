@@ -15,11 +15,10 @@ UserInterface::Widget::BackgroundRight::BackgroundRight(UserInterface::Base::Wid
 
     if (m_image) {
 
-        QPixmap image;
-        bool res = image.load(":img/background/BackgroundRight.png");
+        bool res = m_pixmap.load(":img/background/BackgroundRight.png");
         if (res) {
 
-            m_image->setPixmap(image.scaled(QSize(960, 1080), Qt::IgnoreAspectRatio));
+            m_image->setPixmap(m_pixmap.scaled(QSize(960, 1080), Qt::IgnoreAspectRatio));
             m_image->setBaseSize(960, 1080);
             m_image->setMinimumSize(960, 1080);
 
@@ -40,7 +39,7 @@ bool UserInterface::Widget::BackgroundRight::Update() {
 
 
 
-void UserInterface::Widget::BackgroundRight::Move(int16_t x, int16_t y) {
+void UserInterface::Widget::BackgroundRight::Move(const uint16_t x, const uint16_t y, const bool centerAlignment) {
 
     m_image->move(x, y);
 

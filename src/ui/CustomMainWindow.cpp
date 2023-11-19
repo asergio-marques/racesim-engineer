@@ -4,6 +4,7 @@
 #include <QResizeEvent>
 #include <QWidget>
 #include "base/IScreen.h"
+#include "styles/General.h"
 
 
 

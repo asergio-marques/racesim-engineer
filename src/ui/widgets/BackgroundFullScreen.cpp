@@ -15,11 +15,10 @@ UserInterface::Widget::BackgroundFullScreen::BackgroundFullScreen(UserInterface:
 
     if (m_image) {
 
-        QPixmap image;
-        bool res = image.load(":img/background/SingleScreenBG.png");
+        bool res = m_pixmap.load(":img/background/SingleScreenBG.png");
         if (res) {
 
-            m_image->setPixmap(image.scaled(QSize(1920, 1080), Qt::KeepAspectRatio));
+            m_image->setPixmap(m_pixmap.scaled(QSize(1920, 1080), Qt::KeepAspectRatio));
             m_image->setBaseSize(1920, 1080);
             m_image->setMinimumSize(1920, 1080);
 
@@ -40,7 +39,7 @@ bool UserInterface::Widget::BackgroundFullScreen::Update() {
 
 
 
-void UserInterface::Widget::BackgroundFullScreen::Move(int16_t x, int16_t y) {
+void UserInterface::Widget::BackgroundFullScreen::Move(const uint16_t x, const uint16_t y, const bool centerAlignment) {
 
     m_image->move(x, y);
 

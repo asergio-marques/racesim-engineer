@@ -15,17 +15,59 @@ namespace UserInterface {
                 ~Loading() = default;
 
                 static inline const ValueCurve LoadingIconScale = {
-                    { ValueType::Relative, 25 },    // m_minValue
-                    { ValueType::Absolute, 480 },   // m_minValuePoint
-                    { ValueType::Relative, 100 },   // m_normValue
-                    { ValueType::Absolute, 960 },   // m_normValueMinPoint
-                    { ValueType::Absolute, 1440 },  // m_normValueMaxPoint
-                    { ValueType::Relative, 200 },   // m_maxValue
-                    { ValueType::Absolute, 1600 }   // m_maxValuePoint
+                    ValueType::Relative,    // m_type
+                    25,     // m_minValue
+                    480,    // m_minValuePoint
+
+                    100,    // m_normValue
+                    960,    // m_normValueMinPoint
+                    1440,   // m_normValueMaxPoint
+
+                    200,    // m_maxValue
+                    1600    // m_maxValuePoint
                 };
 
                 static inline const Value LoadingIconX = { ValueType::Relative, 50 };
-                static inline const Value LoadingIconY = { ValueType::Relative, 50 };
+                static inline const ValueCurve LoadingIconYDiffCenter = {
+                    ValueType::Absolute,    // m_type
+                    32,     // m_minValue
+                    480,    // m_minValuePoint
+
+                    64,     // m_normValue
+                    960,    // m_normValueMinPoint
+                    1440,   // m_normValueMaxPoint
+
+                    96,     // m_maxValue
+                    1600    // m_maxValuePoint
+                };
+
+                static inline const ValueCurve LoadingTextFontSize = {
+                    ValueType::Absolute,    // m_type
+                    16,     // m_minValue
+                    480,    // m_minValuePoint
+
+                    32,     // m_normValue
+                    960,    // m_normValueMinPoint
+                    1440,   // m_normValueMaxPoint
+
+                    48,     // m_maxValue
+                    1600    // m_maxValuePoint
+                };
+
+                static inline const Value LoadingTextX = { ValueType::Relative, 50 };
+                static inline const ValueCurve LoadingTextYDiffCenter = {
+                    ValueType::Absolute,    // m_type
+                    32,     // m_minValue
+                    480,    // m_minValuePoint
+
+                    64,     // m_normValue
+                    960,    // m_normValueMinPoint
+                    1440,   // m_normValueMaxPoint
+
+                    96,     // m_maxValue
+                    1600    // m_maxValuePoint
+                };
+
         };
 
     }

@@ -17,6 +17,12 @@ namespace UserInterface {
 
     }
 
+    namespace Widget {
+
+        class ScreenTitle;
+
+    }
+
     namespace Panel {
 
         class Loading final : public UserInterface::Base::IPanel {
@@ -31,6 +37,8 @@ namespace UserInterface {
             private:
                 UserInterface::Base::ImageElement* m_background;
                 UserInterface::Base::ImageElement* m_loadingIcon;
+                UserInterface::Widget::ScreenTitle* m_loadingText;
+
         };
 
     }

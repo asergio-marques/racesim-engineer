@@ -9,6 +9,16 @@ namespace UserInterface {
 
     namespace Widget {
 
+        enum class ScreenType {
+
+            InvalidUnknown  = 0,
+            Loading         = 1,
+            TimeTrial       = 2,
+            Qualification   = 3,
+            Race            = 4
+
+        };
+
         class ScreenTitle final : public UserInterface::Base::TextElement {
 
             Q_OBJECT
@@ -17,8 +27,7 @@ namespace UserInterface {
                 ScreenTitle(UserInterface::Base::WidgetId id, QWidget* parent = 0);
                 virtual ~ScreenTitle() = default;
                 bool Update() override;
-                void Move(const uint16_t x, const uint16_t y, const bool centerAlignment) override;
-                bool SetText();
+                void SetTitle(UserInterface::Widget::ScreenType type);
         };
 
     }

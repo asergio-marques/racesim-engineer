@@ -36,11 +36,3 @@ bool UserInterface::Widget::BackgroundFullScreen::Update() {
     return false;
 
 }
-
-
-
-void UserInterface::Widget::BackgroundFullScreen::Move(const uint16_t x, const uint16_t y, const bool centerAlignment) {
-
-    m_image->move(x, y);
-
-}

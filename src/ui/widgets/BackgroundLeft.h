@@ -20,7 +20,6 @@ namespace UserInterface {
 
             // Operations
             bool Update() override;
-            void Move(const uint16_t x, const uint16_t y, const bool centerAlignment) override;
 
         };
 

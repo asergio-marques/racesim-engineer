@@ -13,17 +13,7 @@
 UserInterface::Widget::ScreenTitle::ScreenTitle(UserInterface::Base::WidgetId id, QWidget* parent) :
     UserInterface::Base::TextElement(id, parent) {
 
-    if (m_text) {
-
-        QFont font;
-        font.setWeight(QFont::Weight::ExtraBold);
-        font.setPixelSize(48);
-        m_text->setFont(font);
-        m_text->setText(QString::fromUtf8("Time Trial"));
-        m_text->move(480, 540);
-        m_text->update();
-
-    }
+    this->SetFontThickness(UserInterface::Base::FontThickness::Bold);
 
 }
 
@@ -37,15 +27,30 @@ bool UserInterface::Widget::ScreenTitle::Update() {
 
 
 
-bool UserInterface::Widget::ScreenTitle::SetText() {
-    
-    if (m_text) {
+void UserInterface::Widget::ScreenTitle::SetTitle(UserInterface::Widget::ScreenType type) {
 
-        m_text->setText(QString::fromUtf8("Time Trial"));
-        m_text->update();
-        return true;
+    switch (type) {
+
+        case UserInterface::Widget::ScreenType::Loading:
+            this->SetText("Waiting for a session to start...");
+            break;
+
+        case UserInterface::Widget::ScreenType::TimeTrial:
+            this->SetText("Time Trial");
+            break;
+
+        case UserInterface::Widget::ScreenType::Qualification:
+            this->SetText("Quali");
+            break;
+
+        case UserInterface::Widget::ScreenType::Race:
+            this->SetText("Race");
+            break;
+
+        default:
+            this->SetText("N/A");
+            break;
 
     }
-    return false;
 
 }

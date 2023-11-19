@@ -25,13 +25,13 @@ namespace UserInterface {
                 
                 // Operations
                 bool Update() final;
-                void Move(const uint16_t x, const uint16_t y, const bool centerAlignment) override final;
+                void Move(const uint16_t x, const uint16_t y, const bool centerAlignmentX, const bool centerAlignmentY) override final;
                 virtual void Scale(const uint8_t percent) override final;
                 virtual void Scale(const uint8_t percentX, const uint8_t percentY) override final;
 
                 // Getters
-                const int16_t Width() const final;
-                const int16_t Height() const final;
+                const int16_t Width() const override;
+                const int16_t Height() const override;
 
             protected:
                 QLabel* m_rotateImage;

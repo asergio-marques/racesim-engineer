@@ -57,7 +57,7 @@ bool UserInterface::Widget::LoadingIcon::Update() {
 
 }
 
-void UserInterface::Widget::LoadingIcon::Move(const uint16_t x, const uint16_t y, const bool centerAlignment) {
+void UserInterface::Widget::LoadingIcon::Move(const uint16_t x, const uint16_t y, const bool centerAlignmentX, const bool centerAlignmentY) {
 
     if (m_image && m_rotateImage) {
 
@@ -65,25 +65,16 @@ void UserInterface::Widget::LoadingIcon::Move(const uint16_t x, const uint16_t y
         int16_t centerDx = (m_rotateImage->width() - m_image->width()) / 2;
         int16_t centerDy = (m_rotateImage->height() - m_image->height()) / 2;
 
-        if (centerAlignment) {
-    
-            // calc the offset from the center of the window
-            // use rotateImage as it is the bigger of the two, always
-            int32_t windowCenterDx = m_rotateImage->width() / 2;
-            int32_t windowCenterDy = m_rotateImage->height() / 2;
+        uint16_t newX = 0;
+        uint16_t newY = 0;
 
-            m_rotateImage->move(x - windowCenterDx, y - windowCenterDy);
-            m_image->move(x + centerDx - windowCenterDx, y + centerDy - windowCenterDy);
+        if (centerAlignmentX) newX = x - (m_rotateImage->width() / 2);
+        else newX = x;
+        if (centerAlignmentY) newY = y - (m_rotateImage->height() / 2);
+        else newY = y;
 
-        }
-        else {
-
-            m_rotateImage->move(x, y);
-            m_image->move(x + centerDx, y + centerDy);
-
-        }
-
-        
+        m_rotateImage->move(newX, newY);
+        m_image->move(newX + centerDx, newY + centerDy);
 
     }
 

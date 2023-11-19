@@ -18,25 +18,18 @@ UserInterface::Base::ImageElement::ImageElement(UserInterface::Base::WidgetId id
 
 
 
-void UserInterface::Base::ImageElement::Move(const uint16_t x, const uint16_t y, const bool centerAlignment) {
+void UserInterface::Base::ImageElement::Move(const uint16_t x, const uint16_t y, const bool centerAlignmentX, const bool centerAlignmentY) {
 
     if (m_image) {
 
-        if (centerAlignment) {
+        uint16_t newX = 0;
+        uint16_t newY = 0;
 
-            // calc offset from center
-            int32_t windowCenterDx = m_image->width() / 2;
-            int32_t windowCenterDy = m_image->height() / 2;
-            m_image->move(x - windowCenterDx, y - windowCenterDy);
-
-        }
-        else {
-        
-            const int16_t newX = x - (m_image->width() / 2);
-            const int16_t newY = y - (m_image->height() / 2);
-            m_image->move(newX, newY);
-
-        }
+        if (centerAlignmentX) newX = x - (m_image->width() / 2);
+        else newX = x;
+        if (centerAlignmentY) newY = y - (m_image->height() / 2);
+        else newY = y;
+        m_image->move(newX, newY);
 
     }
 
@@ -98,8 +91,10 @@ void UserInterface::Base::ImageElement::SetSize(const uint16_t newWidth, const u
 const int16_t UserInterface::Base::ImageElement::Width() const {
 
     if (m_image) {
+
         return m_image->width();
     }
+
     return 0;
 
 }
@@ -109,8 +104,42 @@ const int16_t UserInterface::Base::ImageElement::Width() const {
 const int16_t UserInterface::Base::ImageElement::Height() const {
 
     if (m_image) {
+
         return m_image->height();
+
     }
+
     return 0;
 
 }
+
+
+
+const int16_t UserInterface::Base::ImageElement::X() const {
+
+    if (m_image) {
+
+        return m_image->x();
+
+    }
+
+    return 0;
+
+}
+
+
+
+const int16_t UserInterface::Base::ImageElement::Y() const {
+
+    if (m_image) {
+
+        return m_image->y();
+
+    }
+
+    return 0;
+
+}
+
+
+

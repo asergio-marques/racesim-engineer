@@ -39,6 +39,10 @@ void UserInterface::Widget::ScreenTitle::SetTitle(UserInterface::Widget::ScreenT
             this->SetText("Time Trial");
             break;
 
+        case UserInterface::Widget::ScreenType::FreePractice:
+            this->SetText("Practice");
+            break;
+
         case UserInterface::Widget::ScreenType::Qualification:
             this->SetText("Quali");
             break;

@@ -3,6 +3,7 @@
 #include <QResizeEvent>
 #include <QWidget>
 #include "base/IPanel.h"
+#include "base/ScreenType.h"
 #include "styles/Loading.h"
 #include "widgets/BackgroundFullScreen.h"
 #include "widgets/LoadingIcon.h"
@@ -24,7 +25,7 @@ UserInterface::Panel::Loading::Loading(QWidget* parent) :
 
     if (m_loadingText) {
 
-        m_loadingText->SetTitle(UserInterface::Widget::ScreenType::Loading);
+        m_loadingText->SetTitle(UserInterface::Base::ScreenType::Loading);
 
     }
 

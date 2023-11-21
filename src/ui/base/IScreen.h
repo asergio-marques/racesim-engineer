@@ -2,7 +2,9 @@
 #define USERINTERFACE_BASE_INCLUDE_ISCREEN_H_
 
 #include <QWidget>
+#include "base/ScreenType.h"
 #include "settings/WindowNumber.h"
+
 
 
 
@@ -24,6 +26,7 @@ namespace UserInterface {
                 virtual bool Activate() = 0;
                 virtual bool Deactivate() = 0;
                 // virtual void Update(const InternalInfoPacket* updateInfo) = 0;
+                virtual const UserInterface::Base::ScreenType Type() const = 0;
 
             public slots:
                 virtual void handleResizeEvent(QResizeEvent* event) = 0;

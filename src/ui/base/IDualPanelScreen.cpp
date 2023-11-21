@@ -46,15 +46,24 @@ void UserInterface::Base::IDualPanelScreen::Initialize() {
 
 bool UserInterface::Base::IDualPanelScreen::Activate() {
 
-    return true;
+    bool res = true;
 
+    if (m_panelLeft) res &= m_panelLeft->Activate();
+    if (m_panelRight) res &= m_panelRight->Activate();
+
+    return res;
 }
 
 
 
 bool UserInterface::Base::IDualPanelScreen::Deactivate() {
 
-    return true;
+    bool res = true;
+
+    if (m_panelLeft) res &= m_panelLeft->Deactivate();
+    if (m_panelRight) res &= m_panelRight->Deactivate();
+
+    return res;
 
 }
 

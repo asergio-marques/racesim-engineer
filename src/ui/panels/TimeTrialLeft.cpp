@@ -3,6 +3,7 @@
 #include <QSize>
 #include <QWidget>
 #include "base/IPanel.h"
+#include "base/ScreenType.h"
 #include "styles/General.h"
 #include "widgets/BackgroundLeft.h"
 #include "widgets/ScreenTitle.h"
@@ -20,7 +21,7 @@ UserInterface::Panel::TimeTrialLeft::TimeTrialLeft(QWidget* parent) :
 
     if (m_screenTitle) {
 
-        m_screenTitle->SetTitle(UserInterface::Widget::ScreenType::TimeTrial);
+        m_screenTitle->SetTitle(UserInterface::Base::ScreenType::TimeTrial);
 
     }
 

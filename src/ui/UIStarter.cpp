@@ -50,10 +50,18 @@ void UserInterface::UIStarter::Init(int* argc, char*** argv) {
             menuBar->addMenu(QString::fromUtf8("About"));
             m_window->setMenuBar(menuBar);
         }
+        // start on Loading by default
+        m_window->OnSessionEnd();
         m_window->show();
 
         // delay the showing of the window slightly so it is properly stylized at startup
         QTimer::singleShot(50, m_window, &UserInterface::CustomMainWindow::showMaximized);
+
+        // test code to go back and forth between two screen types for testing
+        QTimer::singleShot(2000, m_window, &UserInterface::CustomMainWindow::OnTimeTrialStart);
+        QTimer::singleShot(4000, m_window, &UserInterface::CustomMainWindow::OnSessionEnd);
+        QTimer::singleShot(7000, m_window, &UserInterface::CustomMainWindow::OnTimeTrialStart);
+        QTimer::singleShot(10000, m_window, &UserInterface::CustomMainWindow::OnSessionEnd);
 
     }
 
@@ -70,5 +78,65 @@ int UserInterface::UIStarter::Run() {
     }
 
     return 0;
+
+}
+
+
+
+void UserInterface::UIStarter::OnSessionEnd() {
+    
+    if (m_window) {
+
+        m_window->OnSessionEnd();
+
+    }
+
+}
+
+
+
+void UserInterface::UIStarter::OnTimeTrialStart() {
+
+    if (m_window) {
+
+        m_window->OnTimeTrialStart();
+
+    }
+
+}
+
+
+
+void UserInterface::UIStarter::OnFreePracticeStart() {
+
+    if (m_window) {
+
+        m_window->OnFreePracticeStart();
+
+    }
+
+}
+
+
+
+void UserInterface::UIStarter::OnQualiStart() {
+
+    if (m_window) {
+
+        m_window->OnQualiStart();
+
+    }
+
+}
+
+
+
+void UserInterface::UIStarter::OnRaceStart() {
+
+    if (m_window) {
+
+        m_window->OnRaceStart();
+
+    }
 
 }

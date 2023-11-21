@@ -35,7 +35,8 @@ void UserInterface::Base::ISinglePanelScreen::Initialize() {
 
 bool UserInterface::Base::ISinglePanelScreen::Activate() {
 
-    return true;
+    if (m_panel) return m_panel->Activate();
+    return false;
 
 }
 
@@ -43,7 +44,8 @@ bool UserInterface::Base::ISinglePanelScreen::Activate() {
 
 bool UserInterface::Base::ISinglePanelScreen::Deactivate() {
 
-    return true;
+    if (m_panel) return m_panel->Deactivate();
+    return false;
 
 }
 

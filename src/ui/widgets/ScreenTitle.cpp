@@ -6,7 +6,9 @@
 #include <QString>
 #include <QWidget>
 #include "base/elements/TextElement.h"
+#include "base/ScreenType.h"
 #include "base/WidgetId.h"
+
 
 
 
@@ -27,27 +29,27 @@ bool UserInterface::Widget::ScreenTitle::Update() {
 
 
 
-void UserInterface::Widget::ScreenTitle::SetTitle(UserInterface::Widget::ScreenType type) {
+void UserInterface::Widget::ScreenTitle::SetTitle(UserInterface::Base::ScreenType type) {
 
     switch (type) {
 
-        case UserInterface::Widget::ScreenType::Loading:
+        case UserInterface::Base::ScreenType::Loading:
             this->SetText("Waiting for a session to start...");
             break;
 
-        case UserInterface::Widget::ScreenType::TimeTrial:
+        case UserInterface::Base::ScreenType::TimeTrial:
             this->SetText("Time Trial");
             break;
 
-        case UserInterface::Widget::ScreenType::FreePractice:
+        case UserInterface::Base::ScreenType::FreePractice:
             this->SetText("Practice");
             break;
 
-        case UserInterface::Widget::ScreenType::Qualification:
+        case UserInterface::Base::ScreenType::Qualification:
             this->SetText("Quali");
             break;
 
-        case UserInterface::Widget::ScreenType::Race:
+        case UserInterface::Base::ScreenType::Race:
             this->SetText("Race");
             break;
 

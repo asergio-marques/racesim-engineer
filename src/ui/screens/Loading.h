@@ -2,6 +2,7 @@
 #define USERINTERFACE_SCREENS_INCLUDE_LOADING_H_
 
 #include "base/ISinglePanelScreen.h"
+#include "base/ScreenType.h"
 
 class QWidget;
 
@@ -25,6 +26,7 @@ namespace UserInterface {
         public:
             Loading(QWidget* parent = 0);
             virtual ~Loading() = default;
+            virtual const UserInterface::Base::ScreenType Type() const override;
 
         };
 

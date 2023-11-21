@@ -4,6 +4,7 @@
 #include <QResizeEvent>
 #include <QWidget>
 #include "base/IScreen.h"
+#include "base/ScreenType.h"
 #include "styles/General.h"
 
 
@@ -14,9 +15,9 @@ UserInterface::CustomMainWindow::CustomMainWindow(QWidget* parent) :
     m_screens(),
     m_activeScreen(nullptr) {
 
-
-
 }
+
+
 
 void UserInterface::CustomMainWindow::resizeEvent(QResizeEvent* event) {
 
@@ -25,10 +26,15 @@ void UserInterface::CustomMainWindow::resizeEvent(QResizeEvent* event) {
 
 }
 
+
+
 void UserInterface::CustomMainWindow::addScreen(UserInterface::Base::IScreen* newScreen) {
     
     if (newScreen) {
     
+        newScreen->setParent(this);
+        newScreen->hide();
+
         if (m_screens.empty()) {
     
             doAddScreen(newScreen);
@@ -38,7 +44,9 @@ void UserInterface::CustomMainWindow::addScreen(UserInterface::Base::IScreen* ne
 
         for (const auto screen : m_screens) {
             
-            if (screen == newScreen) {
+            // check if it's the exact same screen object being added twice
+            // or if it's a second screen of the same type
+            if (screen == newScreen || screen->Type() == newScreen->Type()) {
                 
                 return;
 
@@ -53,15 +61,91 @@ void UserInterface::CustomMainWindow::addScreen(UserInterface::Base::IScreen* ne
 }
 
 
+
+void UserInterface::CustomMainWindow::OnSessionEnd() {
+
+    this->doSwitchScreen(UserInterface::Base::ScreenType::Loading);
+
+}
+
+
+
+void UserInterface::CustomMainWindow::OnTimeTrialStart() {
+
+    this->doSwitchScreen(UserInterface::Base::ScreenType::TimeTrial);
+
+}
+
+
+
+void UserInterface::CustomMainWindow::OnFreePracticeStart() {
+
+    this->doSwitchScreen(UserInterface::Base::ScreenType::FreePractice);
+
+}
+
+
+
+void UserInterface::CustomMainWindow::OnQualiStart() {
+
+    this->doSwitchScreen(UserInterface::Base::ScreenType::Qualification);
+
+}
+
+
+
+void UserInterface::CustomMainWindow::OnRaceStart() {
+
+    this->doSwitchScreen(UserInterface::Base::ScreenType::Race);
+
+}
+
+
+
 void UserInterface::CustomMainWindow::doAddScreen(UserInterface::Base::IScreen* newScreen) {
 
     m_screens.push_back(newScreen);
     connect(this, &UserInterface::CustomMainWindow::onResizeEvent, newScreen, &UserInterface::Base::IScreen::handleResizeEvent);
     newScreen->Initialize();
-    if (!centralWidget()) {
 
-        m_activeScreen = newScreen;
-        this->setCentralWidget(newScreen);
+}
+
+
+
+void UserInterface::CustomMainWindow::doSwitchScreen(const UserInterface::Base::ScreenType type) {
+
+    // avoid switching screen to already-present screen by returning early
+    if (m_activeScreen && (m_activeScreen->Type() == type)) {
+
+        return;
+
+    }
+
+    UserInterface::Base::IScreen* screenToBeActivated = nullptr;
+
+    for (UserInterface::Base::IScreen* screen : m_screens) {
+
+        // TODO figure out what is causing the crash here when reactivating
+        // a screen previously shown then hidden, race condition maybe? could also be a weird qt bug
+        if (screen &&
+            (screen != m_activeScreen) &&
+            (screen->Type() == type)) {
+
+            screenToBeActivated = screen;
+            break;
+
+        }
+
+    }
+
+    if (screenToBeActivated) {
+
+        // deactivate current screen if there is one
+        if (m_activeScreen) m_activeScreen->hide();
+
+        this->setCentralWidget(screenToBeActivated);
+        screenToBeActivated->show();
+        m_activeScreen = screenToBeActivated;
 
     }
 

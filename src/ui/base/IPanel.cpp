@@ -19,6 +19,40 @@ UserInterface::Base::IPanel::IPanel(QWidget* parent) :
 
 
 
+bool UserInterface::Base::IPanel::Activate() {
+
+    bool res = true;
+
+    for (auto elementPair : m_widgets) {
+
+        auto widget = elementPair.second;
+        if (widget) res &= widget->Activate();
+
+    }
+
+    return res;
+
+}
+
+
+
+bool UserInterface::Base::IPanel::Deactivate() {
+
+    bool res = true;
+
+    for (auto elementPair : m_widgets) {
+
+        auto widget = elementPair.second;
+        if (widget) res &= widget->Deactivate();
+
+    }
+
+    return res;
+
+}
+
+
+
 bool UserInterface::Base::IPanel::RegisterWidget(UserInterface::Base::Element* widget) {
 
     Q_ASSERT(widget);

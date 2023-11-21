@@ -24,6 +24,8 @@ namespace UserInterface {
                 virtual ~ImageElement() = default;
 
                 // Operations
+                virtual bool Activate() override;
+                virtual bool Deactivate() override;
                 virtual void Move(const uint16_t x, const uint16_t y, const bool centerAlignmentX, const bool centerAlignmentY) override;
                 virtual void Scale(const uint8_t percent);
                 virtual void Scale(const uint8_t percentX, const uint8_t percentY);

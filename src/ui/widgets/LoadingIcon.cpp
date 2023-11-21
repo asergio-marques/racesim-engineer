@@ -57,6 +57,28 @@ bool UserInterface::Widget::LoadingIcon::Update() {
 
 }
 
+
+
+bool UserInterface::Widget::LoadingIcon::Activate() {
+
+    bool res = UserInterface::Base::ImageElement::Activate();
+    if (m_rotateImage) m_rotateImage->show();
+    return res;
+
+}
+
+
+
+bool UserInterface::Widget::LoadingIcon::Deactivate() {
+
+    bool res = UserInterface::Base::ImageElement::Deactivate();
+    if (m_rotateImage) m_rotateImage->hide();
+    return res;
+
+}
+
+
+
 void UserInterface::Widget::LoadingIcon::Move(const uint16_t x, const uint16_t y, const bool centerAlignmentX, const bool centerAlignmentY) {
 
     if (m_image && m_rotateImage) {

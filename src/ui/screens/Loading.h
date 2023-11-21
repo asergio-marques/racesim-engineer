@@ -23,10 +23,10 @@ namespace UserInterface {
 
             Q_OBJECT
 
-        public:
-            Loading(QWidget* parent = 0);
-            virtual ~Loading() = default;
-            virtual const UserInterface::Base::ScreenType Type() const override;
+            public:
+                Loading(QWidget* parent = 0);
+                virtual ~Loading() = default;
+                virtual const UserInterface::Base::ScreenType Type() const override;
 
         };
 

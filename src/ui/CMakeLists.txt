@@ -39,8 +39,17 @@ target_sources(${PROJECT_NAME} PRIVATE
     panels/Loading.cpp
     panels/TimeTrialLeft.cpp
     panels/TimeTrialRight.cpp
+    panels/FreePracticeLeft.cpp
+    panels/FreePracticeRight.cpp
+    panels/QualifyingLeft.cpp
+    panels/QualifyingRight.cpp
+    panels/RaceLeft.cpp
+    panels/RaceRight.cpp
     screens/Loading.cpp
     screens/TimeTrial.cpp
+    screens/FreePractice.cpp
+    screens/Qualifying.cpp
+    screens/Race.cpp
     )
 
 target_link_libraries(${PROJECT_NAME} PRIVATE

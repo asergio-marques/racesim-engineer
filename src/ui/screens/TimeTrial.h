@@ -16,10 +16,10 @@ namespace UserInterface {
 
             Q_OBJECT
 
-        public:
-            TimeTrial(QWidget* parent = 0);
-            virtual ~TimeTrial() = default;
-            virtual const UserInterface::Base::ScreenType Type() const override;
+            public:
+                TimeTrial(QWidget* parent = 0);
+                virtual ~TimeTrial() = default;
+                virtual const UserInterface::Base::ScreenType Type() const override;
 
         };
 

@@ -88,7 +88,7 @@ void UserInterface::CustomMainWindow::OnFreePracticeStart() {
 
 void UserInterface::CustomMainWindow::OnQualiStart() {
 
-    this->doSwitchScreen(UserInterface::Base::ScreenType::Qualification);
+    this->doSwitchScreen(UserInterface::Base::ScreenType::Qualifying);
 
 }
 

@@ -15,7 +15,7 @@ namespace UserInterface {
             Loading = 1,
             FreePractice = 2,
             TimeTrial = 3,
-            Qualification = 4,
+            Qualifying = 4,
             Race = 5
 
         };

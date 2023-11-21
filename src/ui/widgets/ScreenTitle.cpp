@@ -45,7 +45,7 @@ void UserInterface::Widget::ScreenTitle::SetTitle(UserInterface::Base::ScreenTyp
             this->SetText("Practice");
             break;
 
-        case UserInterface::Base::ScreenType::Qualification:
+        case UserInterface::Base::ScreenType::Qualifying:
             this->SetText("Quali");
             break;
 

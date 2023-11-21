@@ -18,24 +18,6 @@ UserInterface::Base::ImageElement::ImageElement(UserInterface::Base::WidgetId id
 
 
 
-bool UserInterface::Base::ImageElement::Activate() {
-
-    if (m_image) m_image->show();
-    return true;
-
-}
-
-
-
-bool UserInterface::Base::ImageElement::Deactivate() {
-
-    if (m_image) m_image->hide();
-    return true;
-
-}
-
-
-
 void UserInterface::Base::ImageElement::Move(const uint16_t x, const uint16_t y, const bool centerAlignmentX, const bool centerAlignmentY) {
 
     if (m_image) {

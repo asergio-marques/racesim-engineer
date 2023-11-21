@@ -22,8 +22,6 @@ namespace UserInterface {
                 virtual ~IDualPanelScreen() = default;
 
                 virtual void Initialize() override;
-                virtual bool Activate() override;
-                virtual bool Deactivate() override;
 
             public slots:
                 virtual void handleResizeEvent(QResizeEvent* event) override final;

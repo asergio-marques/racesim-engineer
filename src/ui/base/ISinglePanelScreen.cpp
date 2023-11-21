@@ -32,24 +32,6 @@ void UserInterface::Base::ISinglePanelScreen::Initialize() {
 }
 
 
-
-bool UserInterface::Base::ISinglePanelScreen::Activate() {
-
-    if (m_panel) return m_panel->Activate();
-    return false;
-
-}
-
-
-
-bool UserInterface::Base::ISinglePanelScreen::Deactivate() {
-
-    if (m_panel) return m_panel->Deactivate();
-    return false;
-
-}
-
-
 void UserInterface::Base::ISinglePanelScreen::handleResizeEvent(QResizeEvent* event) {
 
     if (event) {

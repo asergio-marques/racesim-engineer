@@ -23,8 +23,6 @@ namespace UserInterface {
                 virtual ~IScreen() = default;
 
                 virtual void Initialize() = 0;
-                virtual bool Activate() = 0;
-                virtual bool Deactivate() = 0;
                 // virtual void Update(const InternalInfoPacket* updateInfo) = 0;
                 virtual const UserInterface::Base::ScreenType Type() const = 0;
 

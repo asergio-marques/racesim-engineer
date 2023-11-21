@@ -21,8 +21,6 @@ namespace UserInterface {
             public:
                 IPanel(QWidget* parent = 0);
                 virtual ~IPanel() = default;
-                virtual bool Activate();
-                virtual bool Deactivate();
                 virtual bool UpdateWidget(UserInterface::Base::WidgetId id);
                 virtual void ResizePanel(const QSize& newPanelSize);
 

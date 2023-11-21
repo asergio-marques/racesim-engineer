@@ -25,9 +25,7 @@ namespace UserInterface {
                 
 
                 // Operations
-                bool Update() final;
-                virtual bool Activate() override;
-                virtual bool Deactivate() override;
+                bool Update() override final;
                 void Move(const uint16_t x, const uint16_t y, const bool centerAlignmentX, const bool centerAlignmentY) override final;
                 virtual void Scale(const uint8_t percent) override final;
                 virtual void Scale(const uint8_t percentX, const uint8_t percentY) override final;

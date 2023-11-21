@@ -17,6 +17,13 @@ namespace UserInterface {
         virtual ~UIStarter();
         void Init(int* argc, char*** argv);
         int Run();
+        // TODO these functions are to take in session start internal packets,
+        // but these are yet to be implemented
+        void OnSessionEnd();
+        void OnTimeTrialStart();
+        void OnFreePracticeStart();
+        void OnQualiStart();
+        void OnRaceStart();
 
     private:
         QApplication* m_app;

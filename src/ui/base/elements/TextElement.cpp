@@ -24,24 +24,6 @@ UserInterface::Base::TextElement::TextElement(UserInterface::Base::WidgetId id, 
 
 
 
-bool UserInterface::Base::TextElement::Activate() {
-
-    if (m_text) m_text->show();
-    return true;
-
-}
-
-
-
-bool UserInterface::Base::TextElement::Deactivate() {
-
-    if (m_text) m_text->hide();
-    return true;
-
-}
-
-
-
 void UserInterface::Base::TextElement::Move(const uint16_t x, const uint16_t y, const bool centerAlignmentX, const bool centerAlignmentY) {
 
     if (m_text) {

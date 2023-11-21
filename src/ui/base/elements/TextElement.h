@@ -31,8 +31,6 @@ namespace UserInterface {
                 virtual ~TextElement() = default;
 
                 // Operations
-                virtual bool Activate() override;
-                virtual bool Deactivate() override;
                 virtual void Move(const uint16_t x, const uint16_t y, const bool centerAlignmentX, const bool centerAlignmentY) override;
                 virtual void SetFontSize(const uint16_t size);
                 virtual void SetFontThickness(const UserInterface::Base::FontThickness thickness);

@@ -20,8 +20,6 @@ namespace UserInterface {
                 
                 // Operations
                 virtual bool Update() = 0;
-                virtual bool Activate() = 0;
-                virtual bool Deactivate() = 0;
                 virtual void Move(const uint16_t x, const uint16_t y, const bool centerAlignmentX, const bool centerAlignmentY) = 0;
                 virtual const UserInterface::Base::WidgetId& GetId() const;
 

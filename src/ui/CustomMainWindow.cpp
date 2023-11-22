@@ -32,7 +32,6 @@ void UserInterface::CustomMainWindow::addScreen(UserInterface::Base::IScreen* ne
     
     if (newScreen) {
     
-        newScreen->setParent(this);
         newScreen->hide();
 
         if (m_screens.empty()) {
@@ -43,18 +42,19 @@ void UserInterface::CustomMainWindow::addScreen(UserInterface::Base::IScreen* ne
         }
 
         for (const auto screen : m_screens) {
-            
+
             // check if it's the exact same screen object being added twice
             // or if it's a second screen of the same type
-            if (screen == newScreen || screen->Type() == newScreen->Type()) {
+            if (screen &&
+                (screen == newScreen || screen->Type() == newScreen->Type())) {
                 
                 return;
 
             }
 
-            doAddScreen(newScreen);
-
         }
+
+        doAddScreen(newScreen);
 
     }
 
@@ -104,6 +104,7 @@ void UserInterface::CustomMainWindow::OnRaceStart() {
 
 void UserInterface::CustomMainWindow::doAddScreen(UserInterface::Base::IScreen* newScreen) {
 
+    newScreen->setParent(this);
     m_screens.push_back(newScreen);
     connect(this, &UserInterface::CustomMainWindow::onResizeEvent, newScreen, &UserInterface::Base::IScreen::handleResizeEvent);
     newScreen->Initialize();
@@ -121,15 +122,13 @@ void UserInterface::CustomMainWindow::doSwitchScreen(const UserInterface::Base::
 
     }
 
+
     UserInterface::Base::IScreen* screenToBeActivated = nullptr;
 
-    for (UserInterface::Base::IScreen* screen : m_screens) {
+    for (const auto screen : m_screens) {
 
-        // TODO figure out what is causing the crash here when reactivating
-        // a screen previously shown then hidden, race condition maybe? could also be a weird qt bug
         if (screen &&
-            (screen != m_activeScreen) &&
-            (screen->Type() == type)) {
+            ((screen != m_activeScreen) && (screen->Type() == type))) {
 
             screenToBeActivated = screen;
             break;
@@ -140,8 +139,13 @@ void UserInterface::CustomMainWindow::doSwitchScreen(const UserInterface::Base::
 
     if (screenToBeActivated) {
 
-        // deactivate current screen if there is one
-        if (m_activeScreen) m_activeScreen->hide();
+        // deactivate current screen if there is one, and retrieve ownership
+        if (m_activeScreen) {
+
+            m_activeScreen->hide();
+            this->takeCentralWidget();
+
+        }
 
         this->setCentralWidget(screenToBeActivated);
         screenToBeActivated->show();

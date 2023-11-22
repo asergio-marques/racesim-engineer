@@ -9,6 +9,9 @@
 #include "CustomMainWindow.h"
 #include "screens/Loading.h"
 #include "screens/TimeTrial.h"
+#include "screens/FreePractice.h"
+#include "screens/Qualifying.h"
+#include "screens/Race.h"
 
 
 
@@ -43,6 +46,9 @@ void UserInterface::UIStarter::Init(int* argc, char*** argv) {
         m_window->setBaseSize(1920, 1040);
         m_window->addScreen(new UserInterface::Screen::Loading);
         m_window->addScreen(new UserInterface::Screen::TimeTrial);
+        m_window->addScreen(new UserInterface::Screen::FreePractice);
+        m_window->addScreen(new UserInterface::Screen::Qualifying);
+        m_window->addScreen(new UserInterface::Screen::Race);
         
         QMenuBar* menuBar = new QMenuBar(m_window);
         if (menuBar) {
@@ -56,12 +62,6 @@ void UserInterface::UIStarter::Init(int* argc, char*** argv) {
 
         // delay the showing of the window slightly so it is properly stylized at startup
         QTimer::singleShot(50, m_window, &UserInterface::CustomMainWindow::showMaximized);
-
-        // test code to go back and forth between two screen types for testing
-        QTimer::singleShot(2000, m_window, &UserInterface::CustomMainWindow::OnTimeTrialStart);
-        QTimer::singleShot(4000, m_window, &UserInterface::CustomMainWindow::OnSessionEnd);
-        QTimer::singleShot(7000, m_window, &UserInterface::CustomMainWindow::OnTimeTrialStart);
-        QTimer::singleShot(10000, m_window, &UserInterface::CustomMainWindow::OnSessionEnd);
 
     }
 

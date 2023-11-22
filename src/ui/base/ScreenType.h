@@ -13,8 +13,8 @@ namespace UserInterface {
 
             InvalidUnknown = 0,
             Loading = 1,
-            FreePractice = 2,
-            TimeTrial = 3,
+            TimeTrial = 2,
+            FreePractice = 3,
             Qualifying = 4,
             Race = 5
 

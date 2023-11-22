@@ -2,6 +2,7 @@
 
 #include <functional>
 #include <iostream>
+#include "packets/Broadcaster.h"
 #include "packets/IPacket.h"
 #include "listener/F123Adapter.h"
 #include "listener/IGameAdapter.h"
@@ -13,15 +14,17 @@
 
 
 Listener::Director::Director() :
+    Packet::Broadcaster(),
     m_socket(nullptr),
     m_gameAdapter(nullptr),
-    m_shutdown(false) {
+    m_shutdown(false),
+    m_enabled(false) {
    
     // TODO Game is always F1 23 right now
     //if (getGame() == Settings::Game::F1_23) {
     if (true) {
 
-        m_gameAdapter = new F123Adapter;
+        m_gameAdapter = new Listener::F123Adapter;
     
     }
 
@@ -34,6 +37,21 @@ Listener::Director::~Director() {
     delete m_socket;
 
 }
+
+
+
+void Listener::Director::Init() {
+    
+    #ifndef LINUX
+        Listener::ISocket* socket = new Listener::UDPSocketWin64;
+    #else
+        Listener::ISocket* socket = new Listener::UDPSocketLinux64;
+    #endif
+        setSocket(socket);
+
+}
+
+
 
 bool Listener::Director::setSocket(Listener::ISocket* socket) {
     
@@ -76,7 +94,7 @@ bool Listener::Director::setSocket(Listener::ISocket* socket) {
 
 void Listener::Director::OnNewDatagramAvailable(const char* datagram, const uint16_t datagramSize) {
     
-    // Forward the datagram to the game-specific packet generate, and after the packet is generated, forward it to a dispatcher/handler
+    // Forward the datagram to the game-specific packet generator, and after the packet is generated, forward it to a dispatcher/handler
     // TODO actually dispatch/handle it
     if (m_gameAdapter) {
 
@@ -87,8 +105,7 @@ void Listener::Director::OnNewDatagramAvailable(const char* datagram, const uint
             packet->Print();
             #endif // NDEBUG
 
-            // TODO delete for now to prevent memory leak
-            delete packet;
+            Broadcast(packet);
 
         }
         else {

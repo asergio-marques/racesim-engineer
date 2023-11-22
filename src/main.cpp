@@ -1,28 +1,46 @@
-#include <chrono>
-#include <iostream>
-#include <thread>
 #include "listener/Director.h"
-#include "listener/UDPSocketWin64.h"
 #include "settings/StoreFront.h"
 #include "UIStarter.h"
+#include "Facade.h"
+#include "Presenter.h"
+
+
 
 int main(int argc, char* argv[]) {
 
+    // Set up components
     Settings::StoreFront* settingsStore = Settings::StoreFront::getInstance();
-
-    if (settingsStore)
-    {
-        settingsStore->Init();
-    }
+    if (settingsStore) settingsStore->Init();
+    else return -1;
 
     Listener::Director* director = new Listener::Director;
-    Listener::UDPSocketWin64* socket = new Listener::UDPSocketWin64;
-    director->setSocket(socket);
+    if (director) director->Init();
+    else return -1;
+
+    Processor::IFacade* processor = new Processor::Facade;
+    if (processor) {
+
+        director->Subscribe(processor);
+
+    }
+    else return -1;
+
+    Packet::Subscriber* presenter = new Presenter::Presenter;
+    if (presenter) {
+
+        director->Subscribe(presenter);
+        processor->Subscribe(presenter);
+
+    }
+    else return -1;
 
     UserInterface::UIStarter* starter = new UserInterface::UIStarter;
-    starter->Init(&argc, &argv);
-    int runResult = starter->Run();
+    if (starter) {
 
-	return 0;
+        starter->Init(&argc, &argv);
+        return starter->Run();
+
+    }
+    else return -1;
 
 }

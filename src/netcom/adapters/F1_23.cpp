@@ -1,4 +1,4 @@
-#include "listener/F123Adapter.h"
+#include "adapters/F1_23.h"
 
 #include <iostream>
 #include "packets/Helper.h"
@@ -20,7 +20,7 @@
 
 
 
-Packet::IPacket* Listener::F123Adapter::ProcessDatagram(const char* datagram) {
+Packet::IPacket* NetCom::Adapter::F1_23::ProcessDatagram(const char* datagram) {
 
     // Generate F1 23 packet header
     Packet::F1_23::Header* header = new Packet::F1_23::Header(datagram, new Packet::Helper);
@@ -96,6 +96,12 @@ Packet::IPacket* Listener::F123Adapter::ProcessDatagram(const char* datagram) {
 
     }
     
+    return nullptr;
+
+}
+
+const Packet::Internal::Generic* NetCom::Adapter::F1_23::ConvertPacket(const Packet::IPacket* packet) {
+
     return nullptr;
 
 }

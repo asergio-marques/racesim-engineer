@@ -6,21 +6,25 @@
 #include "listener/ISocket.h"
 
 
-namespace Listener {
+namespace NetCom {
 
-    class SocketBase : public ISocket {
+    namespace Listener {
 
-        public:
-        SocketBase();
-        virtual ~SocketBase();
-        bool RegisterFunction(std::function<void(const char*, const uint16_t)> f) override final;
-        void DeregisterFunction() override final;
+        class SocketBase : public NetCom::Listener::ISocket {
 
-        protected:
-        // Function object for the registered function, the logic is the same irrespective of socket-type
-        std::function<void(const char*, const uint16_t)> m_regFunc;
+            public:
+            SocketBase();
+            virtual ~SocketBase();
+            bool RegisterFunction(std::function<void(const char*, const uint16_t)> f) override final;
+            void DeregisterFunction() override final;
 
-    };
+            protected:
+            // Function object for the registered function, the logic is the same irrespective of socket-type
+            std::function<void(const char*, const uint16_t)> m_regFunc;
+
+        };
+
+    }
 
 }
 

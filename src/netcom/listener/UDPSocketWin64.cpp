@@ -7,7 +7,7 @@
 #include <WinSock2.h>
 #include <ws2tcpip.h>
 
-Listener::UDPSocketWin64::UDPSocketWin64() :
+NetCom::Listener::UDPSocketWin64::UDPSocketWin64() :
     Listener::SocketBase(),
     m_ipAddress(),
     m_port(),
@@ -31,7 +31,7 @@ Listener::UDPSocketWin64::UDPSocketWin64() :
 
 
 
-Listener::UDPSocketWin64::~UDPSocketWin64() {
+NetCom::Listener::UDPSocketWin64::~UDPSocketWin64() {
 
     // Join thread if possible before destructing it
     if (m_execThread.joinable()) {
@@ -44,7 +44,7 @@ Listener::UDPSocketWin64::~UDPSocketWin64() {
 
 
 
-bool Listener::UDPSocketWin64::Init() {
+bool NetCom::Listener::UDPSocketWin64::Init() {
 
     // Check if conditions for socket initialization are verified
     if (m_WSAInit && !m_isSocketInit) {
@@ -68,7 +68,7 @@ bool Listener::UDPSocketWin64::Init() {
 
 
 
-bool Listener::UDPSocketWin64::Bind(const uint16_t port, bool rebind) {
+bool NetCom::Listener::UDPSocketWin64::Bind(const uint16_t port, bool rebind) {
 
     // If the socket is actually already bound, it can be rebound automatically, just needs previous steps
     if (m_isBound && rebind) {
@@ -96,7 +96,7 @@ bool Listener::UDPSocketWin64::Bind(const uint16_t port, bool rebind) {
 
 
 
-void Listener::UDPSocketWin64::Exec() {
+void NetCom::Listener::UDPSocketWin64::Exec() {
 
     while (m_isBound) {
         
@@ -129,7 +129,7 @@ void Listener::UDPSocketWin64::Exec() {
 
 
 
-const std::string Listener::UDPSocketWin64::getLocalIPAddress() {
+const std::string NetCom::Listener::UDPSocketWin64::getLocalIPAddress() {
 
     const char* googleDNS = "8.8.8.8";
     int googlePort = 53;
@@ -185,7 +185,7 @@ const std::string Listener::UDPSocketWin64::getLocalIPAddress() {
 
 }
 
-void Listener::UDPSocketWin64::doBind(const uint16_t port) {
+void NetCom::Listener::UDPSocketWin64::doBind(const uint16_t port) {
 
     // Get IP address of local machine, quit function if empty string
     m_ipAddress = getLocalIPAddress();

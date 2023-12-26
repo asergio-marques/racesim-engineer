@@ -1,0 +1,48 @@
+#include "Facade.h"
+
+#include "adapters/F1_23.h"
+#include "listener/Director.h"
+#include "converter/PacketGeneralizer.h"
+
+
+
+NetCom::Facade::Facade() :
+    m_director(new NetCom::Listener::Director),
+    m_packetGeneralizer(new NetCom::Converter::PacketGeneralizer),
+    m_gameAdapter(nullptr) {
+
+    if (m_director && m_packetGeneralizer) {
+    
+        m_director->Subscribe(m_packetGeneralizer);
+    
+    }
+
+
+}
+
+NetCom::Facade::~Facade() {
+
+
+
+}
+
+
+
+void NetCom::Facade::Init() {
+
+    // TODO Game is always F1 23 right now
+    //if (getGame() == Settings::Game::F1_23) {
+    if (true) {
+
+        m_gameAdapter = new NetCom::Adapter::F1_23;
+        if (m_gameAdapter && m_director && m_packetGeneralizer) {
+
+            m_director->setGameAdapter(m_gameAdapter);
+            m_packetGeneralizer->setGameAdapter(m_gameAdapter);
+            m_director->Init();
+
+        }
+
+    }
+
+}

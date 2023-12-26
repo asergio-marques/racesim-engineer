@@ -22,7 +22,7 @@ void Packet::Broadcaster::Broadcast(Packet::IPacket* packet) {
     if (packet) {
 
         // deletion of packet will be handled via shared_ptr
-        std::shared_ptr<Packet::IPacket> shared_packet(packet);
+        const std::shared_ptr<Packet::IPacket> shared_packet(packet);
         for (auto subscriber : m_subscribers) {
 
             if (subscriber) subscriber->OnPacketBroadcast(shared_packet);

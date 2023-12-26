@@ -2,10 +2,10 @@
 
 #include <functional>
 #include <iostream>
+#include "adapters/Interface.h"
+#include "adapters/F1_23.h"
 #include "packets/Broadcaster.h"
 #include "packets/IPacket.h"
-#include "listener/F123Adapter.h"
-#include "listener/IGameAdapter.h"
 #include "listener/ISocket.h"
 #include "listener/UDPSocketWin64.h"
 #include "settings/Game.h"
@@ -13,26 +13,18 @@
 
 
 
-Listener::Director::Director() :
+NetCom::Listener::Director::Director() :
     Packet::Broadcaster(),
     m_socket(nullptr),
     m_gameAdapter(nullptr),
     m_shutdown(false),
     m_enabled(false) {
-   
-    // TODO Game is always F1 23 right now
-    //if (getGame() == Settings::Game::F1_23) {
-    if (true) {
-
-        m_gameAdapter = new Listener::F123Adapter;
-    
-    }
 
 }
 
 
 
-Listener::Director::~Director() {
+NetCom::Listener::Director::~Director() {
 
     delete m_socket;
 
@@ -40,27 +32,28 @@ Listener::Director::~Director() {
 
 
 
-void Listener::Director::Init() {
+void NetCom::Listener::Director::Init() {
     
     #ifndef LINUX
-        Listener::ISocket* socket = new Listener::UDPSocketWin64;
+        NetCom::Listener::ISocket* socket = new NetCom::Listener::UDPSocketWin64;
     #else
         Listener::ISocket* socket = new Listener::UDPSocketLinux64;
     #endif
-        setSocket(socket);
+    
+    setSocket(socket);
 
 }
 
 
 
-bool Listener::Director::setSocket(Listener::ISocket* socket) {
+bool NetCom::Listener::Director::setSocket(NetCom::Listener::ISocket* socket) {
     
     // Check validity of injected socket
     if (socket) {
         
         // Assign new socket object and attempt to set it up fully
         m_socket = socket;
-        m_socket->RegisterFunction(std::bind(&Listener::Director::OnNewDatagramAvailable, this, std::placeholders::_1, std::placeholders::_2));
+        m_socket->RegisterFunction(std::bind(&NetCom::Listener::Director::OnNewDatagramAvailable, this, std::placeholders::_1, std::placeholders::_2));
         
         if (m_socket->Init()) {
 
@@ -92,7 +85,18 @@ bool Listener::Director::setSocket(Listener::ISocket* socket) {
 }
 
 
-void Listener::Director::OnNewDatagramAvailable(const char* datagram, const uint16_t datagramSize) {
+void NetCom::Listener::Director::setGameAdapter(NetCom::Adapter::Interface* gameAdapter) {
+    
+    if (gameAdapter) {
+        
+        m_gameAdapter = gameAdapter;
+
+    }
+
+}
+
+
+void NetCom::Listener::Director::OnNewDatagramAvailable(const char* datagram, const uint16_t datagramSize) {
     
     // Forward the datagram to the game-specific packet generator, and after the packet is generated, forward it to a dispatcher/handler
     // TODO actually dispatch/handle it

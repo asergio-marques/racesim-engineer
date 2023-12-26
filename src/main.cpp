@@ -1,8 +1,6 @@
-#include "listener/Director.h"
 #include "settings/StoreFront.h"
-#include "UIStarter.h"
-#include "Facade.h"
-#include "Presenter.h"
+#include "netcom/Facade.h"
+#include "ui/UIStarter.h"
 
 
 
@@ -13,16 +11,12 @@ int main(int argc, char* argv[]) {
     if (settingsStore) settingsStore->Init();
     else return -1;
 
-    Listener::Director* director = new Listener::Director;
-    if (director) director->Init();
+    NetCom::Facade* commComponent = new NetCom::Facade;
+    if (commComponent) commComponent->Init();
     else return -1;
 
-    Processor::IFacade* processor = new Processor::Facade;
-    if (processor) {
-
-        director->Subscribe(processor);
-
-    }
+    /*Processor::IFacade* processor = new Processor::Facade;
+    if (processor) director->Subscribe(processor);
     else return -1;
 
     Packet::Subscriber* presenter = new Presenter::Presenter;
@@ -32,7 +26,7 @@ int main(int argc, char* argv[]) {
         processor->Subscribe(presenter);
 
     }
-    else return -1;
+    else return -1;*/
 
     UserInterface::UIStarter* starter = new UserInterface::UIStarter;
     if (starter) {

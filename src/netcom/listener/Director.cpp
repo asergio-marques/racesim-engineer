@@ -4,8 +4,8 @@
 #include <iostream>
 #include "adapters/Interface.h"
 #include "adapters/F1_23.h"
-#include "packets/Broadcaster.h"
-#include "packets/IPacket.h"
+#include "packets/game/Broadcaster.h"
+#include "packets/game/Interface.h"
 #include "listener/ISocket.h"
 #include "listener/UDPSocketWin64.h"
 #include "settings/Game.h"
@@ -14,7 +14,7 @@
 
 
 NetCom::Listener::Director::Director() :
-    Packet::Broadcaster(),
+    Packet::Game::Broadcaster(),
     m_socket(nullptr),
     m_gameAdapter(nullptr),
     m_shutdown(false),
@@ -102,7 +102,7 @@ void NetCom::Listener::Director::OnNewDatagramAvailable(const char* datagram, co
     // TODO actually dispatch/handle it
     if (m_gameAdapter) {
 
-        Packet::IPacket* packet = m_gameAdapter->ProcessDatagram(datagram);
+        Packet::Game::Interface* packet = m_gameAdapter->ProcessDatagram(datagram);
         if (packet) {
         
             #ifndef NDEBUG

@@ -1,11 +1,11 @@
 #include "Presenter.h"
 
 #include <memory>
-#include "packets/Subscriber.h"
+#include "packets/game/Subscriber.h"
 
 
 
-void Presenter::Presenter::OnPacketBroadcast(const std::shared_ptr<Packet::IPacket> packet) {
+void Presenter::Presenter::OnPacketBroadcast(const std::shared_ptr<Packet::Game::Interface> packet) {
 
     // Identify packet (type, version)
     // Convert to generic app packet

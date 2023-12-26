@@ -5,7 +5,7 @@
 
 
 
-namespace Packet::F1_23 {
+namespace Packet::Game::F1_23 {
 
     enum class Type : uint8_t {
 

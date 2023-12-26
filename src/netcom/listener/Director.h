@@ -3,7 +3,7 @@
 
 #include <cstdint>
 #include <list>
-#include "packets/Broadcaster.h"
+#include "packets/game/Broadcaster.h"
 
 namespace NetCom {
 
@@ -17,7 +17,7 @@ namespace NetCom {
 
         class ISocket;
 
-        class Director : public Packet::Broadcaster {
+        class Director : public Packet::Game::Broadcaster {
 
             public:
             Director();

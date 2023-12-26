@@ -1,12 +1,12 @@
 #include "converter/PacketGeneralizer.h"
 
 #include "adapters/Interface.h"
-#include "packets/Subscriber.h"
-#include "packets/IPacket.h"
+#include "packets/game/Subscriber.h"
+#include "packets/game/Interface.h"
 
 
 
-void NetCom::Converter::PacketGeneralizer::OnPacketBroadcast(const std::shared_ptr<Packet::IPacket> packet) {
+void NetCom::Converter::PacketGeneralizer::OnPacketBroadcast(const std::shared_ptr<Packet::Game::Interface> packet) {
 
     if (packet && m_gameAdapter) {
     

@@ -5,11 +5,15 @@
 
 namespace Packet {
 
-    class IPacket;
+    namespace Game {
+
+        class Interface;
+
+    }
 
     namespace Internal {
 
-        class Generic;
+        class Interface;
 
     }
 
@@ -25,8 +29,8 @@ namespace NetCom {
             F1_23() = default;
             ~F1_23() = default;
 
-            Packet::IPacket* ProcessDatagram(const char* datagram) override final;
-            const Packet::Internal::Generic* ConvertPacket(const Packet::IPacket* packet) override final;
+            Packet::Game::Interface* ProcessDatagram(const char* datagram) override final;
+            const Packet::Internal::Interface* ConvertPacket(const Packet::Game::Interface* packet) override final;
 
         };
 

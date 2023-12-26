@@ -1,0 +1,38 @@
+#ifndef USERINTERFACE_BASE_INCLUDE_ISCREEN_H_
+#define USERINTERFACE_BASE_INCLUDE_ISCREEN_H_
+
+#include <QWidget>
+#include "base/ScreenType.h"
+#include "settings/WindowNumber.h"
+
+
+
+
+namespace UserInterface {
+
+    namespace Base {
+
+        class IPanel;
+
+        class IScreen : public QWidget {
+
+            Q_OBJECT
+
+            public:
+                IScreen(QWidget* parent = 0);
+                virtual ~IScreen() = default;
+
+                virtual void Initialize() = 0;
+                // virtual void Update(const InternalInfoPacket* updateInfo) = 0;
+                virtual const UserInterface::Base::ScreenType Type() const = 0;
+
+            public slots:
+                virtual void handleResizeEvent(QResizeEvent* event) = 0;
+
+        };
+
+    }
+
+}
+
+#endif // USERINTERFACE_BASE_INCLUDE_ISCREEN_H_

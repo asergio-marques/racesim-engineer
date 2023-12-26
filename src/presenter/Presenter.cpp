@@ -7,6 +7,9 @@
 
 void Presenter::Presenter::OnPacketBroadcast(const std::shared_ptr<Packet::IPacket> packet) {
 
-    // TODO do stuff
+    // Identify packet (type, version)
+    // Convert to generic app packet
+    // Do presentation modifications according to settings
+    // Send to UI
 
 }

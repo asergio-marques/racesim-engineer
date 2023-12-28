@@ -23,6 +23,7 @@ target_link_directories(${PROJECT_NAME} PRIVATE "${PROJECT_ROOT}/lib/")
 target_sources(${PROJECT_NAME} PRIVATE
     UIStarter.cpp
     CustomMainWindow.cpp
+    PacketHandler.cpp
     base/Element.cpp
     base/IPanel.cpp
     base/IScreen.cpp

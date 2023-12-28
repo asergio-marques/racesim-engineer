@@ -11,11 +11,7 @@ add_subdirectory("${CMAKE_CURRENT_SOURCE_DIR}/src/presenter/" ${CMAKE_CURRENT_BI
 add_subdirectory("${CMAKE_CURRENT_SOURCE_DIR}/src/ui/" ${CMAKE_CURRENT_BINARY_DIR}/ui)
 
 target_include_directories(${PROJECT_NAME} PUBLIC
-    "${CMAKE_CURRENT_LIST_DIR}/include/core"
-    "${CMAKE_CURRENT_LIST_DIR}/include/netcom"
-    "${CMAKE_CURRENT_LIST_DIR}/include/processor"
-    "${CMAKE_CURRENT_LIST_DIR}/include/presenter"
-    "${CMAKE_CURRENT_LIST_DIR}/include/ui")
+    "${CMAKE_CURRENT_LIST_DIR}/include/")
 
 target_link_directories(${PROJECT_NAME} PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}/lib/${TARGET_ARCH}/$<CONFIG>")
 

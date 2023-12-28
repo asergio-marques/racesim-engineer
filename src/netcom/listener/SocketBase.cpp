@@ -6,7 +6,7 @@
 
 
 
-Listener::SocketBase::SocketBase() :
+NetCom::Listener::SocketBase::SocketBase() :
     Listener::ISocket(),
     m_regFunc(nullptr) {
 
@@ -16,13 +16,13 @@ Listener::SocketBase::SocketBase() :
 
 
 
-Listener::SocketBase::~SocketBase() {
+NetCom::Listener::SocketBase::~SocketBase() {
 
 
 
 }
 
-bool Listener::SocketBase::RegisterFunction(std::function<void(const char*, const uint16_t)> f) {
+bool NetCom::Listener::SocketBase::RegisterFunction(std::function<void(const char*, const uint16_t)> f) {
     
     // Validate function pointer received
     if (f) {
@@ -38,7 +38,7 @@ bool Listener::SocketBase::RegisterFunction(std::function<void(const char*, cons
 }
 
 
-void Listener::SocketBase::DeregisterFunction() {
+void NetCom::Listener::SocketBase::DeregisterFunction() {
 
     m_regFunc = nullptr;
 

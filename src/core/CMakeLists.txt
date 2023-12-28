@@ -14,24 +14,28 @@ target_include_directories(${PROJECT_NAME} PRIVATE "${PROJECT_ROOT}/src/core")
 
 target_sources(${PROJECT_NAME} PRIVATE
     data/GeneralData.cpp
-    packets/Broadcaster.cpp
-    packets/Helper.cpp
-    packets/F1_23/Header.cpp
-    packets/F1_23/IPacket.cpp
-    packets/F1_23/CarMotionData.cpp
-    packets/F1_23/SessionData.cpp
-    packets/F1_23/EventData.cpp
-    packets/F1_23/LapData.cpp
-    packets/F1_23/ParticipantData.cpp
-    packets/F1_23/CarSetupData.cpp
-    packets/F1_23/CarTelemetryData.cpp
-    packets/F1_23/CarStatusData.cpp
-    packets/F1_23/StandingsData.cpp
-    packets/F1_23/CarDamageData.cpp
-    packets/F1_23/SessionHistoryData.cpp
-    packets/F1_23/TyreSetData.cpp
-    settings/StoreFront.cpp
-    )
+    packets/internal/Broadcaster.cpp
+    packets/internal/tt_types/TimeTrialStart.cpp
+    packets/internal/practice_types/PracticeStart.cpp
+    packets/internal/quali_types/QualiStart.cpp
+    packets/internal/race_types/RaceStart.cpp
+    packets/game/Broadcaster.cpp
+    packets/game/Helper.cpp
+    packets/game/F1_23/Header.cpp
+    packets/game/F1_23/Interface.cpp
+    packets/game/F1_23/CarMotionData.cpp
+    packets/game/F1_23/SessionData.cpp
+    packets/game/F1_23/EventData.cpp
+    packets/game/F1_23/LapData.cpp
+    packets/game/F1_23/ParticipantData.cpp
+    packets/game/F1_23/CarSetupData.cpp
+    packets/game/F1_23/CarTelemetryData.cpp
+    packets/game/F1_23/CarStatusData.cpp
+    packets/game/F1_23/StandingsData.cpp
+    packets/game/F1_23/CarDamageData.cpp
+    packets/game/F1_23/SessionHistoryData.cpp
+    packets/game/F1_23/TyreSetData.cpp
+    settings/StoreFront.cpp)
 
 target_link_libraries(${PROJECT_NAME} PRIVATE
     pugixml)

@@ -7,11 +7,23 @@
 #include <QMenuBar>
 #include <QTimer>
 #include "CustomMainWindow.h"
+#include "PacketHandler.h"
 #include "screens/Loading.h"
 #include "screens/TimeTrial.h"
 #include "screens/FreePractice.h"
 #include "screens/Qualifying.h"
 #include "screens/Race.h"
+
+
+
+UserInterface::UIStarter::UIStarter() :
+    m_app(nullptr),
+    m_window(nullptr),
+    m_handler(new UserInterface::PacketHandler) {
+
+
+
+}
 
 
 
@@ -40,7 +52,18 @@ void UserInterface::UIStarter::Init(int* argc, char*** argv) {
     font.setStyleStrategy(QFont::StyleStrategy::PreferAntialias);
     QGuiApplication::setFont(font);
     m_window = new UserInterface::CustomMainWindow();
-    if (m_window) {
+    if (m_window && m_handler) {
+
+        m_handler->connect(m_handler, &UserInterface::PacketHandler::TimeTrialStart,
+            m_window, &UserInterface::CustomMainWindow::OnTimeTrialStart);
+        m_handler->connect(m_handler, &UserInterface::PacketHandler::PracticeStart,
+            m_window, &UserInterface::CustomMainWindow::OnFreePracticeStart);
+        m_handler->connect(m_handler, &UserInterface::PacketHandler::QualiStart,
+            m_window, &UserInterface::CustomMainWindow::OnQualiStart);
+        m_handler->connect(m_handler, &UserInterface::PacketHandler::RaceStart,
+            m_window, &UserInterface::CustomMainWindow::OnRaceStart);
+        m_handler->connect(m_handler, &UserInterface::PacketHandler::SessionEnd,
+            m_window, &UserInterface::CustomMainWindow::OnSessionEnd);
 
         m_window->setMinimumSize(480, 360);
         m_window->setBaseSize(1920, 1040);
@@ -83,59 +106,11 @@ int UserInterface::UIStarter::Run() {
 
 
 
-void UserInterface::UIStarter::OnSessionEnd() {
-    
-    if (m_window) {
+void UserInterface::UIStarter::OnPacketBroadcast(Packet::Internal::Interface* packet) {
 
-        m_window->OnSessionEnd();
+    if (packet && m_handler) {
 
-    }
-
-}
-
-
-
-void UserInterface::UIStarter::OnTimeTrialStart() {
-
-    if (m_window) {
-
-        m_window->OnTimeTrialStart();
-
-    }
-
-}
-
-
-
-void UserInterface::UIStarter::OnFreePracticeStart() {
-
-    if (m_window) {
-
-        m_window->OnFreePracticeStart();
-
-    }
-
-}
-
-
-
-void UserInterface::UIStarter::OnQualiStart() {
-
-    if (m_window) {
-
-        m_window->OnQualiStart();
-
-    }
-
-}
-
-
-
-void UserInterface::UIStarter::OnRaceStart() {
-
-    if (m_window) {
-
-        m_window->OnRaceStart();
+        m_handler->AcceptPacket(packet);
 
     }
 

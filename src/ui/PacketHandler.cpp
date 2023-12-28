@@ -1,0 +1,134 @@
+#include "PacketHandler.h"
+
+#include <memory>
+#include <QList>
+#include <QObject>
+#include <QThread>
+#include <QTimer>
+#include "packets/internal/SessionStart.h"
+#include "packets/internal/SessionEnd.h"
+
+
+
+UserInterface::PacketHandler::PacketHandler() :
+    QObject(),
+    m_packetList(),
+    m_execTimer(),
+    m_workerThread() {
+
+    moveToThread(&m_workerThread);
+    connect(&m_workerThread, &QThread::started,
+        this, &UserInterface::PacketHandler::StartTimer);
+    connect(&m_execTimer, &QTimer::timeout,
+        this, &UserInterface::PacketHandler::Exec);
+
+    m_execTimer.setInterval(5);
+    m_execTimer.moveToThread(&m_workerThread);
+    
+    m_workerThread.start();
+
+}
+
+
+
+UserInterface::PacketHandler::~PacketHandler() {
+
+    m_execTimer.stop();
+    m_packetList.clear();
+
+}
+
+
+
+void UserInterface::PacketHandler::AcceptPacket(Packet::Internal::Interface* packet) {
+
+    if (packet) {
+
+        m_packetList.push_back(packet);
+
+    }
+
+}
+
+
+
+void UserInterface::PacketHandler::StartTimer() {
+
+    m_execTimer.start();
+
+}
+
+
+
+void UserInterface::PacketHandler::Exec() {
+
+    for (auto packet : m_packetList) {
+
+        // TODO proper packet handler, for now let's cast to our hearts' delight
+        auto sessionStartPacket = dynamic_cast<Packet::Internal::SessionStart*>(packet);
+        if (sessionStartPacket) {
+            switch (sessionStartPacket->SessionType()) {
+
+                case Session::Internal::Type::TimeTrial:
+                    sessionStartPacket->markAsProcessed();
+                    emit TimeTrialStart();
+                    break;
+
+                case Session::Internal::Type::FreePractice:
+                    sessionStartPacket->markAsProcessed();
+                    emit PracticeStart();
+                    break;
+
+                case Session::Internal::Type::Qualifying:
+                    sessionStartPacket->markAsProcessed();
+                    emit QualiStart();
+                    break;
+
+                case Session::Internal::Type::Race:
+                    sessionStartPacket->markAsProcessed();
+                    emit RaceStart();
+                    break;
+
+                default:
+                    // idk
+                    break;
+
+            }
+
+        }
+
+        auto sessionEndPacket = dynamic_cast<Packet::Internal::SessionEnd*>(packet);
+
+        if (sessionEndPacket) {
+
+            sessionEndPacket->markAsProcessed();
+            emit SessionEnd();
+
+        }
+
+    }
+
+    CleanupList();
+
+}
+
+void UserInterface::PacketHandler::CleanupList() {
+    
+    auto it = m_packetList.begin();
+    while (it != m_packetList.end()) {
+
+        // take care of iterator invalidation
+        if (it && *it && (*it)->isProcessed()) {
+
+            it = m_packetList.erase(it);
+
+        }
+        else {
+
+            ++it;
+
+        }
+
+    }
+
+}

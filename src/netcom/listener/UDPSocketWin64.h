@@ -9,56 +9,60 @@
 
 
 
-namespace Listener {
+namespace NetCom {
 
-    class UDPSocketWin64 : public SocketBase {
+    namespace Listener {
 
-        public:
-        UDPSocketWin64();
-        virtual ~UDPSocketWin64();
-        bool Init() override final;
-        bool Bind(const uint16_t port, bool rebind = false) override final;
+        class UDPSocketWin64 : public NetCom::Listener::SocketBase {
 
-        private:
-        // Private function to obtain the IP address of the local machine (assumes the game is running on the same machine as the app)
-        const std::string getLocalIPAddress();
+            public:
+            UDPSocketWin64();
+            virtual ~UDPSocketWin64();
+            bool Init() override final;
+            bool Bind(const uint16_t port, bool rebind = false) override final;
 
-        // Private function to perform the socket-binding logic, success is written to m_isBound
-        void doBind(const uint16_t port);
+            private:
+            // Private function to obtain the IP address of the local machine (assumes the game is running on the same machine as the app)
+            const std::string getLocalIPAddress();
 
-        void Exec() override final;
+            // Private function to perform the socket-binding logic, success is written to m_isBound
+            void doBind(const uint16_t port);
 
-        // Whether the WSA system has been started up successfully
-        bool m_WSAInit;
+            void Exec() override final;
 
-        // Whether the socket has been initialized successfully
-        bool m_isSocketInit;
+            // Whether the WSA system has been started up successfully
+            bool m_WSAInit;
 
-        // Whether the socket is bound to an IP and port
-        bool m_isBound;
+            // Whether the socket has been initialized successfully
+            bool m_isSocketInit;
 
-        // IP address to which the socket has been bound (valid only after Bind is called successfully)
-        std::string m_ipAddress;
+            // Whether the socket is bound to an IP and port
+            bool m_isBound;
 
-        // IP address to which the socket has been bound (valid only after Bind is called successfully)
-        uint16_t m_port;
+            // IP address to which the socket has been bound (valid only after Bind is called successfully)
+            std::string m_ipAddress;
 
-        // Structure containing information for WinSock
-        WSADATA m_implData;
+            // IP address to which the socket has been bound (valid only after Bind is called successfully)
+            uint16_t m_port;
 
-        // Socket descriptor
-        SOCKET m_socket;
+            // Structure containing information for WinSock
+            WSADATA m_implData;
 
-        // Buffer for the data contained in a datagram
-        char m_datagramBuffer[4096];
+            // Socket descriptor
+            SOCKET m_socket;
 
-        // Buffer size, constant for all wrappers of this class
-        const static size_t m_datagramBufferSize = 4096;
+            // Buffer for the data contained in a datagram
+            char m_datagramBuffer[4096];
 
-        // Thread within which the listen function is always running
-        std::thread m_execThread;
+            // Buffer size, constant for all wrappers of this class
+            const static size_t m_datagramBufferSize = 4096;
 
-    };
+            // Thread within which the listen function is always running
+            std::thread m_execThread;
+
+        };
+
+    }
 
 }
 

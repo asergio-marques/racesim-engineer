@@ -7,11 +7,28 @@
 
 
 
-void NetCom::Converter::PacketGeneralizer::OnPacketBroadcast(const std::shared_ptr<Packet::Game::Interface> packet) {
+NetCom::Converter::PacketGeneralizer::PacketGeneralizer() :
+    Packet::Game::Subscriber(),
+    Packet::Internal::Broadcaster(),
+    m_gameAdapter(nullptr) {
 
-    if (packet && m_gameAdapter) {
+
+
+}
+
+
+
+void NetCom::Converter::PacketGeneralizer::OnPacketBroadcast(Packet::Game::Interface* gamePacket) {
+
+    if (gamePacket && m_gameAdapter) {
     
-        const Packet::Internal::Interface* pack = m_gameAdapter->ConvertPacket(packet.get());
+        Packet::Internal::Interface* internalPacket = m_gameAdapter->ConvertPacket(gamePacket);
+
+        if (internalPacket) {
+
+            Broadcast(internalPacket);
+
+        }
 
     }
 

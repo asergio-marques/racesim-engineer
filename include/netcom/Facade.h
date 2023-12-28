@@ -3,6 +3,15 @@
 
 
 
+namespace Packet {
+
+    namespace Internal {
+
+        class Broadcaster;
+
+    }
+
+}
 
 namespace NetCom {
 
@@ -30,6 +39,7 @@ namespace NetCom {
             Facade();
             virtual ~Facade();
             void Init();
+            Packet::Internal::Broadcaster* exposeBroadcasterInterface() const;
 
         private:
             NetCom::Listener::Director* m_director;

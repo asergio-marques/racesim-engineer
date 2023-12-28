@@ -13,7 +13,7 @@ namespace Presenter {
         public:
             Presenter() = default;
             virtual ~Presenter() = default;
-            virtual void OnPacketBroadcast(const std::shared_ptr<Packet::Game::Interface> packet) override final;
+            virtual void OnPacketBroadcast(Packet::Game::Interface* packet) override final;
 
     };
 

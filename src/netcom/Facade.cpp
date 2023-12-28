@@ -46,3 +46,10 @@ void NetCom::Facade::Init() {
     }
 
 }
+
+
+Packet::Internal::Broadcaster* NetCom::Facade::exposeBroadcasterInterface() const {
+
+    return m_packetGeneralizer;
+
+}

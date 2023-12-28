@@ -5,7 +5,7 @@
 
 
 
-void Processor::Facade::OnPacketBroadcast(const std::shared_ptr<Packet::Game::Interface> packet) {
+void Processor::Facade::OnPacketBroadcast(Packet::Game::Interface* packet) {
 
     // TODO do stuff
 

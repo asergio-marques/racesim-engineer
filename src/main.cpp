@@ -1,3 +1,4 @@
+#include "packets/internal/Broadcaster.h"
 #include "settings/StoreFront.h"
 #include "netcom/Facade.h"
 #include "ui/UIStarter.h"
@@ -29,9 +30,10 @@ int main(int argc, char* argv[]) {
     else return -1;*/
 
     UserInterface::UIStarter* starter = new UserInterface::UIStarter;
-    if (starter) {
-
+    if (starter && commComponent) {
+        Packet::Internal::Broadcaster* internalPacketBroadcast = commComponent->exposeBroadcasterInterface();
         starter->Init(&argc, &argv);
+        internalPacketBroadcast->Subscribe(starter);
         return starter->Run();
 
     }

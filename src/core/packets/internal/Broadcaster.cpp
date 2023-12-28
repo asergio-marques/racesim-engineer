@@ -1,11 +1,11 @@
-#include "packets/game/Broadcaster.h"
+#include "packets/internal/Broadcaster.h"
 
 #include <list>
-#include "packets/game/Subscriber.h"
+#include "packets/internal/Subscriber.h"
 
 
 
-void Packet::Game::Broadcaster::Subscribe(Packet::Game::Subscriber* subscriber) {
+void Packet::Internal::Broadcaster::Subscribe(Packet::Internal::Subscriber* subscriber) {
 
     if (subscriber) {
 
@@ -17,7 +17,7 @@ void Packet::Game::Broadcaster::Subscribe(Packet::Game::Subscriber* subscriber) 
 
 
 
-void Packet::Game::Broadcaster::Broadcast(Packet::Game::Interface* packet) {
+void Packet::Internal::Broadcaster::Broadcast(Packet::Internal::Interface* packet) {
 
     if (packet) {
 

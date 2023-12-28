@@ -16,7 +16,7 @@ namespace Packet {
             public:
             Subscriber() = default;
             virtual ~Subscriber() = default;
-            virtual void OnPacketBroadcast(const std::shared_ptr<Packet::Game::Interface> packet) = 0;
+            virtual void OnPacketBroadcast(Packet::Game::Interface* packet) = 0;
 
         };
 

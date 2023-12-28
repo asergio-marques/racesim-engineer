@@ -13,7 +13,7 @@ namespace Processor {
         public:
             Facade() = default;
             virtual ~Facade() = default;
-            virtual void OnPacketBroadcast(const std::shared_ptr<Packet::Game::Interface> packet) override final;
+            virtual void OnPacketBroadcast(Packet::Game::Interface* packet) override final;
 
     };
 

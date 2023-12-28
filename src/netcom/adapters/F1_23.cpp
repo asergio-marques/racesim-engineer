@@ -5,6 +5,7 @@
 #include "packets/game/Helper.h"
 #include "packets/game/Interface.h"
 #include "packets/internal/Interface.h"
+#include "packets/internal/SessionEnd.h"
 #include "packets/internal/race_types/RaceStart.h"
 #include "packets/internal/quali_types/QualiStart.h"
 #include "packets/internal/practice_types/PracticeStart.h"
@@ -30,8 +31,7 @@ NetCom::Adapter::F1_23::F1_23() :
     m_sessionInProgress(false),
     m_sessionStartPacketSent(false),
     m_waitingForFirstSessionPacket(false),
-    m_waitingForFirstParticipantPacket(false),
-    m_sessionStartPacket(nullptr) {
+    m_waitingForFirstParticipantPacket(false) {
 
 }
 
@@ -116,7 +116,7 @@ Packet::Game::Interface* NetCom::Adapter::F1_23::ProcessDatagram(const char* dat
 
 }
 
-const Packet::Internal::Interface* NetCom::Adapter::F1_23::ConvertPacket(const Packet::Game::Interface* packet) {
+Packet::Internal::Interface* NetCom::Adapter::F1_23::ConvertPacket(const Packet::Game::Interface* packet) {
 
     if (!packet) {
 
@@ -131,7 +131,7 @@ const Packet::Internal::Interface* NetCom::Adapter::F1_23::ConvertPacket(const P
     
     }
 
-    const Packet::Internal::Interface* outputPacket = nullptr;
+    Packet::Internal::Interface* outputPacket = nullptr;
     switch (gamePacket->GetHeader()->GetPacketType()) {
 
         case Packet::Game::F1_23::Type::EventData:
@@ -158,7 +158,7 @@ const Packet::Internal::Interface* NetCom::Adapter::F1_23::ConvertPacket(const P
 
 }
 
-const Packet::Internal::Interface* NetCom::Adapter::F1_23::ConvertEventDataPacket(const Packet::Game::F1_23::EventData* inputPacket) {
+Packet::Internal::Interface* NetCom::Adapter::F1_23::ConvertEventDataPacket(const Packet::Game::F1_23::EventData* inputPacket) {
 
     if (!inputPacket) {
 
@@ -181,14 +181,17 @@ const Packet::Internal::Interface* NetCom::Adapter::F1_23::ConvertEventDataPacke
             m_waitingForFirstSessionPacket = false;
             m_waitingForFirstParticipantPacket = false;
             // TODO handle
+            return new Packet::Internal::SessionEnd;
             break;
 
     }
 
+    return nullptr;
+
 }
 
 
-const Packet::Internal::Interface* NetCom::Adapter::F1_23::ConvertSessionDataPacket(const Packet::Game::F1_23::SessionData* inputPacket) {
+Packet::Internal::Interface* NetCom::Adapter::F1_23::ConvertSessionDataPacket(const Packet::Game::F1_23::SessionData* inputPacket) {
 
     if (!inputPacket) {
 
@@ -242,7 +245,7 @@ const Packet::Internal::Interface* NetCom::Adapter::F1_23::ConvertSessionDataPac
 }
 
 
-const Packet::Internal::Interface* NetCom::Adapter::F1_23::ConvertParticipantDataPacket(const Packet::Game::F1_23::ParticipantData* inputPacket) {
+Packet::Internal::Interface* NetCom::Adapter::F1_23::ConvertParticipantDataPacket(const Packet::Game::F1_23::ParticipantData* inputPacket) {
 
     if (!inputPacket) {
 
@@ -251,5 +254,6 @@ const Packet::Internal::Interface* NetCom::Adapter::F1_23::ConvertParticipantDat
     }
 
     m_waitingForFirstParticipantPacket = false;
+    return nullptr;
 
 }

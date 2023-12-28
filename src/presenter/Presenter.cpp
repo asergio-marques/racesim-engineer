@@ -5,7 +5,7 @@
 
 
 
-void Presenter::Presenter::OnPacketBroadcast(const std::shared_ptr<Packet::Game::Interface> packet) {
+void Presenter::Presenter::OnPacketBroadcast(Packet::Game::Interface* packet) {
 
     // Identify packet (type, version)
     // Convert to generic app packet

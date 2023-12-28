@@ -1,6 +1,7 @@
 #ifndef NETCOM_CONVERTER_INCLUDE_PACKET_GENERALIZER_H_
 #define NETCOM_CONVERTER_INCLUDE_PACKET_GENERALIZER_H_
 
+#include "packets/internal/Broadcaster.h"
 #include "packets/game/Subscriber.h"
 
 
@@ -21,14 +22,14 @@ namespace NetCom {
 
     namespace Converter {
 
-        class PacketGeneralizer : public Packet::Game::Subscriber {
+        class PacketGeneralizer : public Packet::Game::Subscriber, public Packet::Internal::Broadcaster {
 
             public:
-            PacketGeneralizer() = default;
+            PacketGeneralizer();
             ~PacketGeneralizer() = default;
 
             // Interface function called when a new packet is available
-            void OnPacketBroadcast(const std::shared_ptr<Packet::Game::Interface> packet) override final;
+            void OnPacketBroadcast(Packet::Game::Interface* gamePacket) override final;
 
             // Inject the game adapter object from above, being managed by a higher-level component
             void setGameAdapter(NetCom::Adapter::Interface* gameAdapter);

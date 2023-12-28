@@ -16,6 +16,13 @@ namespace Packet {
             // Destructor
             virtual ~Interface() = default;
 
+            virtual inline const bool isProcessed() const { return m_processed; }
+
+            virtual inline void markAsProcessed() { m_processed = true; }
+
+            private:
+            bool m_processed = false;
+
         };
 
     }

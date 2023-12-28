@@ -106,7 +106,7 @@ void NetCom::Listener::Director::OnNewDatagramAvailable(const char* datagram, co
         if (packet) {
         
             #ifndef NDEBUG
-            packet->Print();
+            //packet->Print();
             #endif // NDEBUG
 
             Broadcast(packet);

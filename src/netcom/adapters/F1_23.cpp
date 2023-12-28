@@ -1,8 +1,14 @@
 #include "adapters/F1_23.h"
 
 #include <iostream>
+#include "data/game/F1_23/Event.h"
 #include "packets/game/Helper.h"
 #include "packets/game/Interface.h"
+#include "packets/internal/Interface.h"
+#include "packets/internal/race_types/RaceStart.h"
+#include "packets/internal/quali_types/QualiStart.h"
+#include "packets/internal/practice_types/PracticeStart.h"
+#include "packets/internal/tt_types/TimeTrialStart.h"
 #include "packets/game/F1_23/Interface.h"
 #include "packets/game/F1_23/Header.h"
 #include "packets/game/F1_23/CarMotionData.h"
@@ -18,6 +24,16 @@
 #include "packets/game/F1_23/SessionHistoryData.h"
 #include "packets/game/F1_23/TyreSetData.h"
 
+
+
+NetCom::Adapter::F1_23::F1_23() :
+    m_sessionInProgress(false),
+    m_sessionStartPacketSent(false),
+    m_waitingForFirstSessionPacket(false),
+    m_waitingForFirstParticipantPacket(false),
+    m_sessionStartPacket(nullptr) {
+
+}
 
 
 Packet::Game::Interface* NetCom::Adapter::F1_23::ProcessDatagram(const char* datagram) {
@@ -102,6 +118,138 @@ Packet::Game::Interface* NetCom::Adapter::F1_23::ProcessDatagram(const char* dat
 
 const Packet::Internal::Interface* NetCom::Adapter::F1_23::ConvertPacket(const Packet::Game::Interface* packet) {
 
+    if (!packet) {
+
+        return nullptr;
+
+    }
+
+    auto gamePacket = dynamic_cast<const Packet::Game::F1_23::Interface*>(packet);
+    if (!gamePacket || !(gamePacket->GetHeader())) {
+    
+        return nullptr;
+    
+    }
+
+    const Packet::Internal::Interface* outputPacket = nullptr;
+    switch (gamePacket->GetHeader()->GetPacketType()) {
+
+        case Packet::Game::F1_23::Type::EventData:
+            outputPacket = ConvertEventDataPacket(dynamic_cast<const Packet::Game::F1_23::EventData*>(gamePacket));
+            break;
+
+        case Packet::Game::F1_23::Type::SessionData:
+            outputPacket = ConvertSessionDataPacket(dynamic_cast<const Packet::Game::F1_23::SessionData*>(gamePacket));
+            break;
+
+        case Packet::Game::F1_23::Type::ParticipantData:
+            outputPacket = ConvertParticipantDataPacket(dynamic_cast<const Packet::Game::F1_23::ParticipantData*>(gamePacket));
+            break;
+
+    }
+
+    if (!m_sessionStartPacketSent && !m_waitingForFirstSessionPacket && !m_waitingForFirstParticipantPacket) {
+
+        m_sessionStartPacketSent = true;
+
+    }
+
+    return outputPacket;
+
+}
+
+const Packet::Internal::Interface* NetCom::Adapter::F1_23::ConvertEventDataPacket(const Packet::Game::F1_23::EventData* inputPacket) {
+
+    if (!inputPacket) {
+
+        return nullptr;
+
+    }
+
+    switch (inputPacket->GetEventType()) {
+
+        case Event::F1_23::Type::SessionStarted:
+            m_sessionInProgress = true;
+            m_sessionStartPacketSent = false;
+            m_waitingForFirstSessionPacket = true;
+            m_waitingForFirstParticipantPacket = true;
+            break;
+
+        case Event::F1_23::Type::SessionEnded:
+            m_sessionInProgress = false;
+            m_sessionStartPacketSent = false;
+            m_waitingForFirstSessionPacket = false;
+            m_waitingForFirstParticipantPacket = false;
+            // TODO handle
+            break;
+
+    }
+
+}
+
+
+const Packet::Internal::Interface* NetCom::Adapter::F1_23::ConvertSessionDataPacket(const Packet::Game::F1_23::SessionData* inputPacket) {
+
+    if (!inputPacket) {
+
+        return nullptr;
+
+    }
+
+    if (m_waitingForFirstSessionPacket) {
+
+        m_waitingForFirstSessionPacket = false;
+
+        switch (inputPacket->GetSessionType()) {
+
+            case Session::Game::F1_23::Type::FreePractice1:
+            case Session::Game::F1_23::Type::FreePractice2:
+            case Session::Game::F1_23::Type::FreePractice3:
+            case Session::Game::F1_23::Type::ShortPractice:
+                // TODO get more info from packet
+                return new Packet::Internal::PracticeStart;
+                break;
+
+            case Session::Game::F1_23::Type::Qualifying1:
+            case Session::Game::F1_23::Type::Qualifying2:
+            case Session::Game::F1_23::Type::Qualifying3:
+            case Session::Game::F1_23::Type::ShortQualifying:
+                // TODO get more info from packet
+                return new Packet::Internal::QualiStart;
+                break;
+
+            case Session::Game::F1_23::Type::OneShotQualifying:
+            case Session::Game::F1_23::Type::TimeTrial:
+                // TODO get more info from packet
+                return new Packet::Internal::TimeTrialStart;
+                break;
+
+            case Session::Game::F1_23::Type::Race1:
+            case Session::Game::F1_23::Type::Race2:
+                // TODO get more info from packet
+                return new Packet::Internal::RaceStart;
+                break;
+
+            default:
+                break;
+
+        }
+
+    }
+
     return nullptr;
+
+}
+
+
+const Packet::Internal::Interface* NetCom::Adapter::F1_23::ConvertParticipantDataPacket(const Packet::Game::F1_23::ParticipantData* inputPacket) {
+
+    if (!inputPacket) {
+
+        return nullptr;
+
+    }
+
+    m_waitingForFirstParticipantPacket = false;
 
 }

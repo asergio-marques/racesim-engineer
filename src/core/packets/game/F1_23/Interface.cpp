@@ -30,6 +30,28 @@ const Packet::Game::F1_23::Header* Packet::Game::F1_23::Interface::GetHeader() c
 
 
 
+const Packet::Game::F1_23::LengthBytes Packet::Game::F1_23::Interface::GetLength() const {
+
+    return Packet::Game::F1_23::LengthBytes::Header;
+
+}
+
+
+
+#ifndef NDEBUG
+void Packet::Game::F1_23::Interface::Print() const {
+
+    if (m_header) {
+
+        m_header->Print();
+
+    }
+
+}
+#endif // NDEBUG
+
+
+
 bool Packet::Game::F1_23::Interface::SetHeader(const Packet::Game::F1_23::Header* header) {
 
     if (header && !m_header) {
@@ -40,5 +62,13 @@ bool Packet::Game::F1_23::Interface::SetHeader(const Packet::Game::F1_23::Header
     }
 
     return false;
+
+}
+
+
+
+void Packet::Game::F1_23::Interface::BuildPacket(const char* packetInfo, Packet::Game::Helper* helper) {
+
+    // DO NOTHING
 
 }

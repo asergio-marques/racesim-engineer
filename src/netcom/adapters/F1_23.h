@@ -9,6 +9,14 @@ namespace Packet {
 
         class Interface;
 
+        namespace F1_23 {
+
+            class EventData;
+            class ParticipantData;
+            class SessionData;
+
+        }
+
     }
 
     namespace Internal {
@@ -26,11 +34,22 @@ namespace NetCom {
         class F1_23 : public NetCom::Adapter::Interface {
 
             public:
-            F1_23() = default;
-            ~F1_23() = default;
+            F1_23();
+            virtual ~F1_23() = default;
 
             Packet::Game::Interface* ProcessDatagram(const char* datagram) override final;
             const Packet::Internal::Interface* ConvertPacket(const Packet::Game::Interface* packet) override final;
+
+            private:
+            const Packet::Internal::Interface* ConvertEventDataPacket(const Packet::Game::F1_23::EventData* inputPacket);
+            const Packet::Internal::Interface* ConvertSessionDataPacket(const Packet::Game::F1_23::SessionData* inputPacket);
+            const Packet::Internal::Interface* ConvertParticipantDataPacket(const Packet::Game::F1_23::ParticipantData* inputPacket);
+
+            bool m_sessionInProgress;
+            bool m_sessionStartPacketSent;
+            bool m_waitingForFirstSessionPacket;
+            bool m_waitingForFirstParticipantPacket;
+            Packet::Internal::Interface* m_sessionStartPacket;
 
         };
 

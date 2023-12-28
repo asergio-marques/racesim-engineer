@@ -1,6 +1,7 @@
 #include "converter/PacketGeneralizer.h"
 
 #include "adapters/Interface.h"
+#include "packets/internal/Interface.h"
 #include "packets/game/Subscriber.h"
 #include "packets/game/Interface.h"
 
@@ -10,7 +11,7 @@ void NetCom::Converter::PacketGeneralizer::OnPacketBroadcast(const std::shared_p
 
     if (packet && m_gameAdapter) {
     
-        auto pack = m_gameAdapter->ConvertPacket(packet.get());
+        const Packet::Internal::Interface* pack = m_gameAdapter->ConvertPacket(packet.get());
 
     }
 

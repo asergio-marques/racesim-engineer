@@ -194,6 +194,11 @@ void NetCom::Listener::UDPSocketWin64::doBind(const uint16_t port) {
         return;
 
     }
+    else {
+
+        std::cout << "Listening at " << m_ipAddress << ":" << port << std::endl;
+
+    }
     m_port = port;
 
     // Prepare socket details with the user input port and the local IP address

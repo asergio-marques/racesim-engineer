@@ -29,14 +29,18 @@ namespace Packet {
                 virtual const Header* GetHeader() const;
 
                 // Returns the length of the packet in bytes, including header
-                virtual const Packet::Game::F1_23::LengthBytes GetLength() const = 0;
+                virtual const Packet::Game::F1_23::LengthBytes GetLength() const;
+
+                #ifndef NDEBUG
+                virtual void Print() const override;
+                #endif // NDEBUG
 
                 protected:
                 virtual bool SetHeader(const Header* header);
 
                 // Separate function to build the packet, making the code more readable
                 // To be overridden and made protected by concrete packet classes
-                virtual void BuildPacket(const char* packetInfo, Packet::Game::Helper* helper) = 0;
+                virtual void BuildPacket(const char* packetInfo, Packet::Game::Helper* helper);
 
                 private:
                 // Header information present in all received packets

@@ -3,9 +3,9 @@
 
 #include <cstdint>
 #include <math.h>
-#include "data/F1_23/Lap.h"
-#include "data/F1_23/Packet.h"
-#include "data/F1_23/Status.h"
+#include "data/game/F1_23/Lap.h"
+#include "data/game/F1_23/Packet.h"
+#include "data/game/F1_23/Status.h"
 #include "packets/game/F1_23/Interface.h"
 
 namespace Packet {
@@ -36,7 +36,7 @@ namespace Packet {
                 uint8_t m_numPitStops;
 
                 // Vehicle result in the session
-                Lap::F1_23::ResultStatus m_resultStatus;
+                Lap::Game::F1_23::ResultStatus m_resultStatus;
 
                 // Best lap time of the session for this vehicle (millisseconds)
                 uint32_t m_bestLapTime;
@@ -54,10 +54,10 @@ namespace Packet {
                 uint8_t m_numTyreStints;
 
                 // Actual tyre compounds used by the vehicle during the session
-                Status::F1_23::ActualTyreCompound m_actualTyreStints[8];
+                Status::Game::F1_23::ActualTyreCompound m_actualTyreStints[8];
 
                 // Visual tyre compounds used by the vehicle during the session
-                Status::F1_23::VisualTyreCompound m_visualTyreStints[8];
+                Status::Game::F1_23::VisualTyreCompound m_visualTyreStints[8];
 
                 // Laps on which the tyre stints in the arrays ended
                 uint8_t m_tyreStintsEndLaps[8];

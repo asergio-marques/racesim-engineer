@@ -2,8 +2,8 @@
 #define PACKETS_GAME_F123_INCLUDE_SESSION_HISTORY_DATA_H_
 
 #include <cstdint>
-#include "data/F1_23/Packet.h"
-#include "data/F1_23/Status.h"
+#include "data/game/F1_23/Packet.h"
+#include "data/game/F1_23/Status.h"
 #include "packets/game/F1_23/Interface.h"
 
 namespace Packet {
@@ -54,10 +54,10 @@ namespace Packet {
                 uint8_t m_endLap;
 
                 // The actual tyre compound that corresponds to this struct
-                Status::F1_23::ActualTyreCompound m_tyreActualCompound;
+                Status::Game::F1_23::ActualTyreCompound m_tyreActualCompound;
 
                 // The visual display/tier of compound that corresponds to this struct
-                Status::F1_23::VisualTyreCompound m_tyreVisualCompound;
+                Status::Game::F1_23::VisualTyreCompound m_tyreVisualCompound;
 
             };
 

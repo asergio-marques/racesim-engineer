@@ -2,9 +2,9 @@
 #define PACKETS_GAME_F123_INCLUDE_PARTICIPANT_DATA_H_
 
 #include <cstdint>
-#include "data/F1_23/Packet.h"
-#include "data/F1_23/Participant.h"
-#include "data/F1_23/Player.h"
+#include "data/game/F1_23/Packet.h"
+#include "data/game/F1_23/Participant.h"
+#include "data/game/F1_23/Player.h"
 #include "packets/game/F1_23/Interface.h"
 
 namespace Packet {
@@ -23,13 +23,13 @@ namespace Packet {
                 uint8_t m_aiControlled;
 
                 // Driver ID for this vehicle
-                Participant::F1_23::DriverID m_driverId;
+                Participant::Game::F1_23::DriverID m_driverId;
 
                 // Unique network identifier for this player
                 uint8_t m_networkId;
 
                 // Team ID for this vehicle
-                Participant::F1_23::TeamID m_teamId;
+                Participant::Game::F1_23::TeamID m_teamId;
 
                 // Whether the vehicle is a My Team vehicle
                 bool m_myTeam;
@@ -38,7 +38,7 @@ namespace Packet {
                 uint8_t m_raceNumber;
 
                 // Vehicle driver nationality
-                Participant::F1_23::Nationality m_nationality;
+                Participant::Game::F1_23::Nationality m_nationality;
 
                 // Name of the participant, null terminated (UTF-8 format)
                 // Will be truncated with … (U+2026) if too long
@@ -51,7 +51,7 @@ namespace Packet {
                 bool m_showOnlineNames;
 
                 // 1 = Steam, 3 = PlayStation, 4 = Xbox, 6 = Origin, 255 = unknown
-                Player::F1_23::Platform m_platform;
+                Player::Game::F1_23::Platform m_platform;
 
             };
 

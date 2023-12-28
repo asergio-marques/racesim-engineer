@@ -2,8 +2,8 @@
 
 #include <cstdint>
 #include <math.h>
-#include "data/F1_23/Packet.h"
-#include "data/F1_23/Telemetry.h"
+#include "data/game/F1_23/Packet.h"
+#include "data/game/F1_23/Telemetry.h"
 #include "packets/game/Helper.h"
 #include "packets/game/F1_23/Interface.h"
 #include "packets/game/F1_23/Header.h"
@@ -13,9 +13,9 @@
 Packet::Game::F1_23::CarTelemetryData::CarTelemetryData(const char* packetInfo, const Packet::Game::F1_23::Header* header, Packet::Game::Helper* helper) :
     Packet::Game::F1_23::Interface(), 
     m_carTelemetry(),
-    m_mfdPanelPlayer1(Telemetry::F1_23::MFDPanel::Closed),
-    m_mfdPanelPlayer2(Telemetry::F1_23::MFDPanel::Closed),
-    m_suggestedGearPlayer1(Telemetry::F1_23::Gear::Neutral) {
+    m_mfdPanelPlayer1(Telemetry::Game::F1_23::MFDPanel::Closed),
+    m_mfdPanelPlayer2(Telemetry::Game::F1_23::MFDPanel::Closed),
+    m_suggestedGearPlayer1(Telemetry::Game::F1_23::Gear::Neutral) {
 
     this->SetHeader(header);
 

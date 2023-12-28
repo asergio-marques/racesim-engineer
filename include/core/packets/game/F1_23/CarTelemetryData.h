@@ -3,8 +3,8 @@
 
 #include <cstdint>
 #include <math.h>
-#include "data/F1_23/Packet.h"
-#include "data/F1_23/Telemetry.h"
+#include "data/game/F1_23/Packet.h"
+#include "data/game/F1_23/Telemetry.h"
 #include "packets/game/F1_23/Interface.h"
 
 namespace Packet {
@@ -35,7 +35,7 @@ namespace Packet {
                 uint8_t m_clutch;
 
                 // Gear currently active
-                Telemetry::F1_23::Gear m_gear;
+                Telemetry::Game::F1_23::Gear m_gear;
 
                 // Engine RPM
                 uint16_t m_engineRPM;
@@ -65,7 +65,7 @@ namespace Packet {
                 float_t m_tyresPressure[4];
 
                 // Surface on which each tyre is on
-                Telemetry::F1_23::Surface m_surfaceType[4];
+                Telemetry::Game::F1_23::Surface m_surfaceType[4];
 
             };
 
@@ -81,9 +81,9 @@ namespace Packet {
 
                 // Get the telemetry info for a specific array member
                 const Packet::Game::F1_23::CarTelemetryInfo GetCarTelemetryInfo(const size_t index, bool& ok) const;
-                inline const Telemetry::F1_23::MFDPanel GetMFDPanelPlayer1() const { return m_mfdPanelPlayer1; }
-                inline const Telemetry::F1_23::MFDPanel GetMFDPanelPlayer2() const { return m_mfdPanelPlayer2; }
-                inline const Telemetry::F1_23::Gear GetSuggestedGearPlayer1() const { return m_suggestedGearPlayer1; }
+                inline const Telemetry::Game::F1_23::MFDPanel GetMFDPanelPlayer1() const { return m_mfdPanelPlayer1; }
+                inline const Telemetry::Game::F1_23::MFDPanel GetMFDPanelPlayer2() const { return m_mfdPanelPlayer2; }
+                inline const Telemetry::Game::F1_23::Gear GetSuggestedGearPlayer1() const { return m_suggestedGearPlayer1; }
 
                 #ifndef NDEBUG
                 void Print() const override;
@@ -97,13 +97,13 @@ namespace Packet {
                 CarTelemetryInfo m_carTelemetry[22];
 
                 // Index of MFD panel player 1 has open currently
-                Telemetry::F1_23::MFDPanel m_mfdPanelPlayer1;
+                Telemetry::Game::F1_23::MFDPanel m_mfdPanelPlayer1;
 
                 // Index of MFD panel player 1 has open currently
-                Telemetry::F1_23::MFDPanel m_mfdPanelPlayer2;
+                Telemetry::Game::F1_23::MFDPanel m_mfdPanelPlayer2;
 
                 // Suggested gear for player 1, Neutral is to be interpreted as no suggestion
-                Telemetry::F1_23::Gear m_suggestedGearPlayer1;
+                Telemetry::Game::F1_23::Gear m_suggestedGearPlayer1;
 
             };
 

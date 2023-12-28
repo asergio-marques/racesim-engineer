@@ -3,8 +3,8 @@
 
 #include <cstdint>
 #include <math.h>
-#include "data/F1_23/Lap.h"
-#include "data/F1_23/Packet.h"
+#include "data/game/F1_23/Lap.h"
+#include "data/game/F1_23/Packet.h"
 #include "packets/game/F1_23/Interface.h"
 
 namespace Packet {
@@ -62,13 +62,13 @@ namespace Packet {
                 uint8_t m_currentLapNum;
 
                 // Status of the car in regards to pitlane
-                Lap::F1_23::PitStatus m_pitStatus;
+                Lap::Game::F1_23::PitStatus m_pitStatus;
 
                 // Number of pit stops taken in this race
                 uint8_t m_numPitStops;
 
                 // Sector the vehicle is currently in
-                Lap::F1_23::Sector m_sector;
+                Lap::Game::F1_23::Sector m_sector;
 
                 // Whether the current lap is invalid
                 bool m_currentLapInvalid;
@@ -92,10 +92,10 @@ namespace Packet {
                 uint8_t m_gridPositionStart;
 
                 // Status of the vehicle in regards to pitting, if stopped, just into the racetrack, etc
-                Lap::F1_23::VehicleStatus m_status;
+                Lap::Game::F1_23::VehicleStatus m_status;
 
                 // Vehicle result in the session
-                Lap::F1_23::ResultStatus m_result;
+                Lap::Game::F1_23::ResultStatus m_result;
 
                 // Whether the pit lane timing is active
                 bool m_pitLaneTimerActive;

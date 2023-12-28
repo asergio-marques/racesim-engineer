@@ -1,9 +1,9 @@
 #include "packets/game/F1_23/ParticipantData.h"
 
 #include <cstdint>
-#include "data/F1_23/Packet.h"
-#include "data/F1_23/Participant.h"
-#include "data/F1_23/Player.h"
+#include "data/game/F1_23/Packet.h"
+#include "data/game/F1_23/Participant.h"
+#include "data/game/F1_23/Player.h"
 #include "packets/game/Helper.h"
 #include "packets/game/F1_23/Interface.h"
 #include "packets/game/F1_23/Header.h"

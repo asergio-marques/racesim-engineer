@@ -1,11 +1,11 @@
-#ifndef GENERAL_DATA_F123_INCLUDE_LAP_H_
-#define GENERAL_DATA_F123_INCLUDE_LAP_H_
+#ifndef DATA_GAME_F123_INCLUDE_LAP_H_
+#define DATA_GAME_F123_INCLUDE_LAP_H_
 
 #include <cstdint>
 
 
 
-namespace Lap::F1_23 {
+namespace Lap::Game::F1_23 {
 
     enum class PitStatus : uint8_t {
 
@@ -50,4 +50,4 @@ namespace Lap::F1_23 {
 
 }
 
-#endif // GENERAL_DATA_F123_INCLUDE_LAP_H_
+#endif // DATA_GAME_F123_INCLUDE_LAP_H_

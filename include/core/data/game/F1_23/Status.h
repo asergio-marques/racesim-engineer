@@ -1,11 +1,11 @@
-#ifndef GENERAL_DATA_F123_INCLUDE_STATUS_H_
-#define GENERAL_DATA_F123_INCLUDE_STATUS_H_
+#ifndef DATA_GAME_F123_INCLUDE_STATUS_H_
+#define DATA_GAME_F123_INCLUDE_STATUS_H_
 
 #include <cstdint>
 
 
 
-namespace Status::F1_23 {
+namespace Status::Game::F1_23 {
 
     enum class Platform : uint8_t {
 
@@ -78,4 +78,4 @@ namespace Status::F1_23 {
 
 }
 
-#endif // GENERAL_DATA_F123_INCLUDE_STATUS_H_
+#endif // DATA_GAME_F123_INCLUDE_STATUS_H_

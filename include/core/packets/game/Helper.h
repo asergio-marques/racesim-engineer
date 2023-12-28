@@ -4,7 +4,7 @@
 #include <cstring>
 #include <exception>
 
-#include "data/F1_23/Packet.h"
+#include "data/game/F1_23/Packet.h"
 
 namespace Packet {
 

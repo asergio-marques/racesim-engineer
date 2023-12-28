@@ -2,7 +2,7 @@
 #define PACKETS_GAME_F123_INCLUDE_Interface_H_
 
 #include <cstdint>
-#include "data/F1_23/Packet.h"
+#include "data/game/F1_23/Packet.h"
 #include "packets/game/Interface.h"
 
 

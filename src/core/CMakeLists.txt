@@ -14,6 +14,7 @@ target_include_directories(${PROJECT_NAME} PRIVATE "${PROJECT_ROOT}/src/core")
 
 target_sources(${PROJECT_NAME} PRIVATE
     data/GeneralData.cpp
+    packets/internal/race_types/RaceStart.cpp
     packets/game/Broadcaster.cpp
     packets/game/Helper.cpp
     packets/game/F1_23/Header.cpp
@@ -30,8 +31,7 @@ target_sources(${PROJECT_NAME} PRIVATE
     packets/game/F1_23/CarDamageData.cpp
     packets/game/F1_23/SessionHistoryData.cpp
     packets/game/F1_23/TyreSetData.cpp
-    settings/StoreFront.cpp
-    )
+    settings/StoreFront.cpp)
 
 target_link_libraries(${PROJECT_NAME} PRIVATE
     pugixml)

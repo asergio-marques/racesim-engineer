@@ -1,11 +1,11 @@
-#ifndef GENERAL_DATA_F123_INCLUDE_PLAYER_H_
-#define GENERAL_DATA_F123_INCLUDE_PLAYER_H_
+#ifndef DATA_GAME_F123_INCLUDE_PLAYER_H_
+#define DATA_GAME_F123_INCLUDE_PLAYER_H_
 
 #include <cstdint>
 
 
 
-namespace Player::F1_23 {
+namespace Player::Game::F1_23 {
 
     enum class Platform : uint8_t {
 
@@ -75,4 +75,4 @@ namespace Player::F1_23 {
 
 }
 
-#endif // GENERAL_DATA_F123_INCLUDE_PLAYER_H_
+#endif // DATA_GAME_F123_INCLUDE_PLAYER_H_

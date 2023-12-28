@@ -3,9 +3,9 @@
 #include <cstdint>
 #include <iostream>
 #include <math.h>
-#include "data/F1_23/Session.h"
-#include "data/F1_23/Packet.h"
-#include "data/F1_23/Player.h"
+#include "data/game/F1_23/Session.h"
+#include "data/game/F1_23/Packet.h"
+#include "data/game/F1_23/Player.h"
 #include "packets/game/Helper.h"
 #include "packets/game/F1_23/Interface.h"
 #include "packets/game/F1_23/Header.h"
@@ -14,14 +14,14 @@
 
 Packet::Game::F1_23::SessionData::SessionData(const char* packetInfo, const Packet::Game::F1_23::Header* header, Packet::Game::Helper* helper) :
     Packet::Game::F1_23::Interface(),
-    m_currentWeather(Session::F1_23::Weather::InvalidUnknown),
+    m_currentWeather(Session::Game::F1_23::Weather::InvalidUnknown),
     m_currentTrackTemperature(0),
     m_currentAirTemperature(0),
     m_totalLaps(0),
     m_trackLength(0),
-    m_sessionType(Session::F1_23::Type::InvalidUnknown),
-    m_trackId(Session::F1_23::Track::InvalidUnknown),
-    m_formula(Session::F1_23::Formula::InvalidUnknown),
+    m_sessionType(Session::Game::F1_23::Type::InvalidUnknown),
+    m_trackId(Session::Game::F1_23::Track::InvalidUnknown),
+    m_formula(Session::Game::F1_23::Formula::InvalidUnknown),
     m_sessionTimeLeft(0),
     m_sessionDuration(0),
     m_pitSpeedLimit(0),
@@ -31,7 +31,7 @@ Packet::Game::F1_23::SessionData::SessionData(const char* packetInfo, const Pack
     m_sliProNativeSupportOn(false),
     m_numMarshalZones(0),
     m_marshalZones(),
-    m_safetyCarStatus(Session::F1_23::SafetyCar::InvalidUnknown),
+    m_safetyCarStatus(Session::Game::F1_23::SafetyCar::InvalidUnknown),
     m_isNetwork(false),
     m_numWeatherForecastSamples(0),
     m_weatherForecastSamples(),
@@ -44,22 +44,22 @@ Packet::Game::F1_23::SessionData::SessionData(const char* packetInfo, const Pack
     m_pitStopWindowLatestLap(0),
     m_pitStopRejoinPosition(0),
     m_steeringAssistOn(false),
-    m_brakingAssist(Player::F1_23::BrakingAssist::InvalidUnknown),
-    m_gearboxAssist(Player::F1_23::GearboxAssist::InvalidUnknown),
+    m_brakingAssist(Player::Game::F1_23::BrakingAssist::InvalidUnknown),
+    m_gearboxAssist(Player::Game::F1_23::GearboxAssist::InvalidUnknown),
     m_pitAssistOn(false),
     m_pitReleaseAssistOn(false),
     m_ERSAssistOn(false),
     m_DRSAssistOn(false),
-    m_dynamicRacingLine(Player::F1_23::RacingLine::InvalidUnknown),
+    m_dynamicRacingLine(Player::Game::F1_23::RacingLine::InvalidUnknown),
     m_dynamicRacingLine3D(false),
-    m_gameMode(Session::F1_23::GameMode::InvalidUnknown),
-    m_ruleSet(Session::F1_23::Ruleset::InvalidUnknown),
+    m_gameMode(Session::Game::F1_23::GameMode::InvalidUnknown),
+    m_ruleSet(Session::Game::F1_23::Ruleset::InvalidUnknown),
     m_timeOfDay(0),
-    m_sessionLength(Session::F1_23::Length::InvalidUnknown),
-    m_speedUnitPlayer1(Player::F1_23::SpeedUnit::InvalidUnknown),
-    m_tempUnitPlayer1(Player::F1_23::TempUnit::InvalidUnknown),
-    m_speedUnitPlayer2(Player::F1_23::SpeedUnit::InvalidUnknown),
-    m_tempUnitPlayer2(Player::F1_23::TempUnit::InvalidUnknown),
+    m_sessionLength(Session::Game::F1_23::Length::InvalidUnknown),
+    m_speedUnitPlayer1(Player::Game::F1_23::SpeedUnit::InvalidUnknown),
+    m_tempUnitPlayer1(Player::Game::F1_23::TempUnit::InvalidUnknown),
+    m_speedUnitPlayer2(Player::Game::F1_23::SpeedUnit::InvalidUnknown),
+    m_tempUnitPlayer2(Player::Game::F1_23::TempUnit::InvalidUnknown),
     m_numSafetyCarPeriods(0),
     m_numVirtualSafetyCarPeriods(0),
     m_numRedFlagPeriods(0) {

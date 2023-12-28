@@ -3,10 +3,10 @@
 
 #include <cstdint>
 #include <math.h>
-#include "data/F1_23/Packet.h"
-#include "data/F1_23/Player.h"
-#include "data/F1_23/Session.h"
-#include "data/F1_23/Status.h"
+#include "data/game/F1_23/Packet.h"
+#include "data/game/F1_23/Player.h"
+#include "data/game/F1_23/Session.h"
+#include "data/game/F1_23/Status.h"
 #include "packets/game/F1_23/Interface.h"
 
 namespace Packet {
@@ -22,13 +22,13 @@ namespace Packet {
             struct CarStatusInfo {
 
                 // Traction control assist setting by the player
-                Player::F1_23::TractionControl m_tractionControl;
+                Player::Game::F1_23::TractionControl m_tractionControl;
 
                 // Whether the anti-lock brakes assist is enabled
                 bool m_antiLockBrakes;
 
                 // Fuel mix currently active for the vehicle
-                Status::F1_23::FuelMix m_fuelMix;
+                Status::Game::F1_23::FuelMix m_fuelMix;
 
                 // Front brake bias (percentage)
                 uint8_t m_frontBrakeBias;
@@ -61,16 +61,16 @@ namespace Packet {
                 uint16_t m_drsDistanceToActivation;
 
                 // The actual tyre compound the vehicle has on currently
-                Status::F1_23::ActualTyreCompound m_actualTyres;
+                Status::Game::F1_23::ActualTyreCompound m_actualTyres;
 
                 // The visual display/tier of compound the vehicle has on currently
-                Status::F1_23::VisualTyreCompound m_visualTyres;
+                Status::Game::F1_23::VisualTyreCompound m_visualTyres;
 
                 // Age in laps of the current set of tyres
                 uint8_t m_tyreLaps;
 
                 // Flag currently active for this vehicle
-                Session::F1_23::ActiveFlag m_vehicleFlags;
+                Session::Game::F1_23::ActiveFlag m_vehicleFlags;
 
                 // Power output of ICE (W)
                 float_t m_powerICE;
@@ -82,7 +82,7 @@ namespace Packet {
                 float_t m_ersEnergy;
 
                 // Currently active ERS deployment
-                Status::F1_23::ERSDeploymentMode m_ersDeployMode;
+                Status::Game::F1_23::ERSDeploymentMode m_ersDeployMode;
 
                 // Energy harvested on the current lap by MGU-K for ERS (J)
                 float_t m_ersHarvestedCurrentLapMGUK;

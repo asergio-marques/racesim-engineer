@@ -2,9 +2,9 @@
 #define PACKETS_GAME_F123_INCLUDE_TYRE_SET_DATA_H_
 
 #include <cstdint>
-#include "data/F1_23/Packet.h"
-#include "data/F1_23/Session.h"
-#include "data/F1_23/Status.h"
+#include "data/game/F1_23/Packet.h"
+#include "data/game/F1_23/Session.h"
+#include "data/game/F1_23/Status.h"
 #include "packets/game/F1_23/Interface.h"
 
 namespace Packet {
@@ -20,10 +20,10 @@ namespace Packet {
             struct TyreSetInfo {
 
                 // Actual tyre compound of the set
-                Status::F1_23::ActualTyreCompound m_actualTyreCompound;
+                Status::Game::F1_23::ActualTyreCompound m_actualTyreCompound;
 
                 // Visual tyre compound of the set
-                Status::F1_23::VisualTyreCompound m_visualTyreCompound;
+                Status::Game::F1_23::VisualTyreCompound m_visualTyreCompound;
 
                 // Tyre wear (percentage)
                 uint8_t m_wear;
@@ -32,7 +32,7 @@ namespace Packet {
                 bool m_available;
 
                 // Recommended session for tyre set
-                Session::F1_23::Type m_recommendedSession;
+                Session::Game::F1_23::Type m_recommendedSession;
 
                 // Average laps left in the tyre set
                 uint8_t m_currentRemainingLifeSpan;

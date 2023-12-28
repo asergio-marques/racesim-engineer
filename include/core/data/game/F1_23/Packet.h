@@ -1,5 +1,5 @@
-#ifndef GENERAL_DATA_F123_INCLUDE_PACKET_H_
-#define GENERAL_DATA_F123_INCLUDE_PACKET_H_
+#ifndef DATA_GAME_F123_INCLUDE_PACKET_H_
+#define DATA_GAME_F123_INCLUDE_PACKET_H_
 
 #include <cstdint>
 
@@ -50,4 +50,4 @@ namespace Packet::Game::F1_23 {
 
 }
 
-#endif // GENERAL_DATA_F123_INCLUDE_PACKET_H_
+#endif // DATA_GAME_F123_INCLUDE_PACKET_H_

@@ -5,8 +5,8 @@
 #include <map>
 #include <math.h>
 #include <string>
-#include "data/F1_23/Event.h"
-#include "data/F1_23/Packet.h"
+#include "data/game/F1_23/Event.h"
+#include "data/game/F1_23/Packet.h"
 #include "packets/game/Helper.h"
 #include "packets/game/F1_23/Interface.h"
 #include "packets/game/F1_23/Header.h"

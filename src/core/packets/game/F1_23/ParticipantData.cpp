@@ -81,7 +81,7 @@ void Packet::Game::F1_23::ParticipantData::BuildPacket(const char* packetInfo, P
 
     // Start at the end of the header
     size_t arrayStatus = static_cast<size_t>(Packet::Game::F1_23::LengthBytes::Header);
-    helper->getVariableArrayFromByteStream<>(packetInfo, m_participants, 22, arrayStatus);
     helper->getVariableFromByteStream(packetInfo, &m_numActiveCars, arrayStatus);
+    helper->getVariableArrayFromByteStream<>(packetInfo, m_participants, 22, arrayStatus);
 
 }

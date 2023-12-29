@@ -14,7 +14,10 @@ target_include_directories(${PROJECT_NAME} PRIVATE "${PROJECT_ROOT}/src/netcom")
 target_link_directories(${PROJECT_NAME} PRIVATE "${PROJECT_ROOT}/lib/")
 
 target_sources(${PROJECT_NAME} PRIVATE
+    adapters/SessionStateMachine.cpp
     adapters/F1_23.cpp
+    adapters/F1_23/SessionStartBuilder.cpp
+    adapters/F1_23/DataConversionMaps.cpp
     listener/Director.cpp
     listener/SocketBase.cpp
     listener/UDPSocketWin64.cpp

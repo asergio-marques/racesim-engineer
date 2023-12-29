@@ -140,6 +140,13 @@ void Packet::Game::F1_23::EventData::BuildPacket(const char* packetInfo, Packet:
 
     }
 
+    if (m_eventType == Event::F1_23::Type::SessionStarted ||
+        m_eventType == Event::F1_23::Type::SessionEnded) {
+
+        std::cout << "session thing" << std::endl;
+
+    }
+
     switch (m_eventType) {
 
         case Event::F1_23::Type::InvalidUnknown:

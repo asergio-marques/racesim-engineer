@@ -1,25 +1,26 @@
 #ifndef PACKETS_INTERNAL_RACE_INCLUDE_QUALI_START_H_
 #define PACKETS_INTERNAL_RACE_INCLUDE_QUALI_START_H_
 
-#include "packets/internal/SessionStart.h"
+#include <list>
+#include "packets/internal/MPSessionStart.h"
 #include "data/internal/Session.h"
+
 
 
 namespace Packet {
 
     namespace Internal {
 
-        class QualiStart : public Packet::Internal::SessionStart {
+        struct QualiStart : public Packet::Internal::MPSessionStart {
 
-            public:
             // Packet interface constructor
-            QualiStart() = default;
+            QualiStart(uint8_t carsClassifiedAtEnd);
 
             // Destructor
             virtual ~QualiStart() = default;
 
-            // Returns the type of the session that has begun
-            virtual const Session::Internal::Type SessionType() const override final;
+            // How many cars go through to the next round
+            uint8_t m_carsClassifiedAtEnd;
 
         };
 

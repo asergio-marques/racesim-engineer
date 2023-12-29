@@ -27,7 +27,7 @@ namespace UserInterface {
             void addScreen(UserInterface::Base::IScreen* newScreen);
             // TODO these functions are to take in session start internal packets,
             // but these are yet to be implemented
-            void OnSessionEnd();
+            void OnSessionEnd(bool withDelay = false);
             void OnTimeTrialStart();
             void OnFreePracticeStart();
             void OnQualiStart();
@@ -41,7 +41,7 @@ namespace UserInterface {
 
         private:
             void doAddScreen(UserInterface::Base::IScreen* newScreen);
-            void doSwitchScreen(const UserInterface::Base::ScreenType type);
+            bool doSwitchScreen(const UserInterface::Base::ScreenType type);
             std::list<UserInterface::Base::IScreen*> m_screens;
             UserInterface::Base::IScreen* m_activeScreen;
 

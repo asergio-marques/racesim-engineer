@@ -34,7 +34,7 @@ namespace UserInterface {
         void PracticeStart();
         void QualiStart();
         void RaceStart();
-        void SessionEnd();
+        void SessionEnd(bool withDelay);
 
         private:
         void StartTimer();

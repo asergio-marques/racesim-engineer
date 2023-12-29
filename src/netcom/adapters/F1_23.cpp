@@ -1,6 +1,7 @@
 #include "adapters/F1_23.h"
 
 #include <iostream>
+#include "adapters/SessionStateMachine.h"
 #include "data/game/F1_23/Event.h"
 #include "packets/game/Helper.h"
 #include "packets/game/Interface.h"
@@ -28,10 +29,7 @@
 
 
 NetCom::Adapter::F1_23::F1_23() :
-    m_sessionInProgress(false),
-    m_sessionStartPacketSent(false),
-    m_waitingForFirstSessionPacket(false),
-    m_waitingForFirstParticipantPacket(false) {
+    m_sessionSM() {
 
 }
 
@@ -148,9 +146,19 @@ Packet::Internal::Interface* NetCom::Adapter::F1_23::ConvertPacket(const Packet:
 
     }
 
-    if (!m_sessionStartPacketSent && !m_waitingForFirstSessionPacket && !m_waitingForFirstParticipantPacket) {
+    // If still waiting for the start packet, check if there is a finished one waiting to be sent in the builder
+    // if the builder returns not nullptr from Finish, then the SessionStart build procedure is finished and the
+    // state machine can carry on to the "stable" state!
+    // This session start packet has precedence over all others, hence why it "overwrites" the local pointer variable
+    if (m_sessionSM.GetSessionState() == NetCom::Adapter::SessionState::Started) {
 
-        m_sessionStartPacketSent = true;
+        outputPacket = m_startPacketBuilder.Finish();
+        if (outputPacket) {
+
+            // no need to check return value as there's no way this should fail (fingers crossed)
+            m_sessionSM.SessionStartPacketSent();
+
+        }
 
     }
 
@@ -169,19 +177,23 @@ Packet::Internal::Interface* NetCom::Adapter::F1_23::ConvertEventDataPacket(cons
     switch (inputPacket->GetEventType()) {
 
         case Event::F1_23::Type::SessionStarted:
-            m_sessionInProgress = true;
-            m_sessionStartPacketSent = false;
-            m_waitingForFirstSessionPacket = true;
-            m_waitingForFirstParticipantPacket = true;
+            // If the transition was successful, start building a session start packet anew
+            // Okay to return null if need be!
+            if (m_sessionSM.SessionStarted()) m_startPacketBuilder.Start();
             break;
 
         case Event::F1_23::Type::SessionEnded:
-            m_sessionInProgress = false;
-            m_sessionStartPacketSent = false;
-            m_waitingForFirstSessionPacket = false;
-            m_waitingForFirstParticipantPacket = false;
-            // TODO handle
-            return new Packet::Internal::SessionEnd;
+            // If the transition was successful, then the session has truly ended now
+            // Okay to return null if need be!
+            // 
+            // NOTE: as it is possible to not receive the session start event at the start of certain sessions
+            // it could also happen that the session end event is also not received once a session is closed
+            // if this checks out, start praying to your god of choice, otherwise, choose one. I already did.
+            if (m_sessionSM.SessionEnded()) return new Packet::Internal::SessionEnd;
+            break;
+
+        default:
+            // Does absolutely nothing
             break;
 
     }
@@ -199,44 +211,18 @@ Packet::Internal::Interface* NetCom::Adapter::F1_23::ConvertSessionDataPacket(co
 
     }
 
-    if (m_waitingForFirstSessionPacket) {
+    // For some reason in some race lengths we may not get the SessionStart Event packet from the game...
+    // So we check if the session start packet has been received, and if not, we attempt to move the state machine
+    // If moving the state machine was successful, then we proceed with creating the packet, if participant data was
+    // received beforehand, the builder should automatically append the list
+    if (m_sessionSM.SessionStarted()) {
 
-        m_waitingForFirstSessionPacket = false;
+        m_startPacketBuilder.Start();
 
-        switch (inputPacket->GetSessionType()) {
+    }
+    if (m_sessionSM.GetSessionState() == NetCom::Adapter::SessionState::Started) {
 
-            case Session::Game::F1_23::Type::FreePractice1:
-            case Session::Game::F1_23::Type::FreePractice2:
-            case Session::Game::F1_23::Type::FreePractice3:
-            case Session::Game::F1_23::Type::ShortPractice:
-                // TODO get more info from packet
-                return new Packet::Internal::PracticeStart;
-                break;
-
-            case Session::Game::F1_23::Type::Qualifying1:
-            case Session::Game::F1_23::Type::Qualifying2:
-            case Session::Game::F1_23::Type::Qualifying3:
-            case Session::Game::F1_23::Type::ShortQualifying:
-                // TODO get more info from packet
-                return new Packet::Internal::QualiStart;
-                break;
-
-            case Session::Game::F1_23::Type::OneShotQualifying:
-            case Session::Game::F1_23::Type::TimeTrial:
-                // TODO get more info from packet
-                return new Packet::Internal::TimeTrialStart;
-                break;
-
-            case Session::Game::F1_23::Type::Race1:
-            case Session::Game::F1_23::Type::Race2:
-                // TODO get more info from packet
-                return new Packet::Internal::RaceStart;
-                break;
-
-            default:
-                break;
-
-        }
+        m_startPacketBuilder.CreateSessionPacket(inputPacket);
 
     }
 
@@ -253,7 +239,20 @@ Packet::Internal::Interface* NetCom::Adapter::F1_23::ConvertParticipantDataPacke
 
     }
 
-    m_waitingForFirstParticipantPacket = false;
+    // For some reason in some race lengths we may not get the SessionStart Event packet from the game...
+    // So we check if the session start packet has been received, and if not, we attempt to move the state machine
+    // If moving the state machine was successful, then we proceed with adding participant data
+    if (m_sessionSM.SessionStarted()) {
+
+        m_startPacketBuilder.Start();
+
+    }
+    if (m_sessionSM.GetSessionState() == NetCom::Adapter::SessionState::Started
+        || m_sessionSM.GetSessionState() == NetCom::Adapter::SessionState::StartPacketSent) {
+        
+        m_startPacketBuilder.AppendParticipantData(inputPacket);
+
+    }
     return nullptr;
 
 }

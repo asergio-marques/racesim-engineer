@@ -1,12 +1,15 @@
 #include "packets/internal/race_types/RaceStart.h"
 
-#include "packets/internal/SessionStart.h"
+#include <list>
 #include "data/internal/Session.h"
+#include "packets/internal/MPSessionStart.h"
 
 
 
-const Session::Internal::Type Packet::Internal::RaceStart::SessionType() const {
+Packet::Internal::RaceStart::RaceStart(uint8_t numLaps) :
+    Packet::Internal::MPSessionStart(Session::Internal::Type::Race),
+    m_numLaps(numLaps) {
 
-    return Session::Internal::Type::Race;
+
 
 }

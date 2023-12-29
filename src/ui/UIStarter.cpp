@@ -37,11 +37,10 @@ UserInterface::UIStarter::~UIStarter() {
 
 void UserInterface::UIStarter::Init(int* argc, char*** argv) {
 
-    //Q_INIT_RESOURCE(application);
-    QCoreApplication::setOrganizationName("QtProject");
-    QCoreApplication::setApplicationName("Application Example");
-    QCoreApplication::setApplicationVersion(QT_VERSION_STR);
     m_app = new QApplication(*argc, *argv);
+    QCoreApplication::setOrganizationName("Sérgio Marques");
+    QCoreApplication::setApplicationName("RaceSimEngineer");
+    QCoreApplication::setApplicationVersion("0.0.1 alpha");
     Q_ASSERT(m_app);
 
     int normal_id = QFontDatabase::addApplicationFont(":/fonts/static/Manrope-Regular.ttf");

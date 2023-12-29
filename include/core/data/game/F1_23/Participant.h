@@ -209,7 +209,8 @@ namespace Participant::Game::F1_23 {
         KamuiKobayashi          = 141,
         PastorMaldonado         = 142,
         MikaHakkinen            = 143,
-        NigelMansell            = 144
+        NigelMansell            = 144,
+        NetworkHuman            = 255
 
     };
 

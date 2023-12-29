@@ -1,12 +1,13 @@
 #include "packets/internal/tt_types/TimeTrialStart.h"
 
-#include "packets/internal/SessionStart.h"
 #include "data/internal/Session.h"
+#include "packets/internal/SoloSessionStart.h"
 
 
 
-const Session::Internal::Type Packet::Internal::TimeTrialStart::SessionType() const {
+Packet::Internal::TimeTrialStart::TimeTrialStart() :
+    Packet::Internal::SoloSessionStart(Session::Internal::Type::TimeTrial) {
 
-    return Session::Internal::Type::TimeTrial;
+
 
 }

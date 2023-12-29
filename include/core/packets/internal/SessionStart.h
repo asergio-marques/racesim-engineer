@@ -9,17 +9,20 @@ namespace Packet {
 
     namespace Internal {
 
-        class SessionStart : public Packet::Internal::Interface {
+        struct SessionStart : public Packet::Internal::Interface {
 
             public:
             // Packet interface constructor
-            SessionStart() = default;
+            SessionStart(const Session::Internal::Type& sessionType);
 
             // Destructor
             virtual ~SessionStart() = default;
 
-            // Returns the type of the session that has begun
-            virtual const Session::Internal::Type SessionType() const = 0;
+            // The type of the session that has begun
+            Session::Internal::Type m_sessionType;
+
+            // The track at which the session is taking place
+            Session::Internal::Track m_sessionTrack;
 
         };
 

@@ -2,32 +2,26 @@
 #define PACKETS_INTERNAL_RACE_INCLUDE_RACE_START_H_
 
 #include <list>
-#include "packets/internal/SessionStart.h"
+#include "packets/internal/MPSessionStart.h"
 #include "data/internal/Session.h"
+
 
 
 namespace Packet {
 
     namespace Internal {
 
-        class RaceStart : public Packet::Internal::SessionStart {
+        struct RaceStart : public Packet::Internal::MPSessionStart {
 
             public:
             // Packet interface constructor
-            RaceStart();
+            RaceStart(uint8_t numLaps);
 
             // Destructor
             virtual ~RaceStart() = default;
 
-            // Returns the type of the session that has begun
-            virtual const Session::Internal::Type SessionType() const override final;
-
-            // Accessor
-            const std::list<Session::Internal::Participant>& getParticipantData() const;
-
-            private:
-            // List containing the initial data for all session participants
-            std::list<Session::Internal::Participant> m_participants;
+            // Number of laps in the race
+            uint8_t m_numLaps;
 
         };
 

@@ -1,7 +1,7 @@
 #ifndef PACKETS_INTERNAL_RACE_INCLUDE_TIME_TRIAL_START_H_
 #define PACKETS_INTERNAL_RACE_INCLUDE_TIME_TRIAL_START_H_
 
-#include "packets/internal/SessionStart.h"
+#include "packets/internal/SoloSessionStart.h"
 #include "data/internal/Session.h"
 
 
@@ -9,17 +9,14 @@ namespace Packet {
 
     namespace Internal {
 
-        class TimeTrialStart : public Packet::Internal::SessionStart {
+        struct TimeTrialStart : public Packet::Internal::SoloSessionStart {
 
             public:
             // Packet interface constructor
-            TimeTrialStart() = default;
+            TimeTrialStart();
 
             // Destructor
             virtual ~TimeTrialStart() = default;
-
-            // Returns the type of the session that has begun
-            virtual const Session::Internal::Type SessionType() const override final;
 
         };
 

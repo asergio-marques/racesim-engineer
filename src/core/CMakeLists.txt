@@ -15,6 +15,7 @@ target_include_directories(${PROJECT_NAME} PRIVATE "${PROJECT_ROOT}/src/core")
 target_sources(${PROJECT_NAME} PRIVATE
     data/GeneralData.cpp
     packets/internal/Broadcaster.cpp
+    packets/internal/SessionStart.cpp
     packets/internal/tt_types/TimeTrialStart.cpp
     packets/internal/practice_types/PracticeStart.cpp
     packets/internal/quali_types/QualiStart.cpp

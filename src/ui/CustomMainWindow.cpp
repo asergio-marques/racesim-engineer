@@ -1,7 +1,9 @@
 #include "CustomMainWindow.h"
 
+#include <QApplication>
 #include <QMainWindow>
 #include <QResizeEvent>
+#include <QTimer>
 #include <QWidget>
 #include "base/IScreen.h"
 #include "base/ScreenType.h"
@@ -62,9 +64,23 @@ void UserInterface::CustomMainWindow::addScreen(UserInterface::Base::IScreen* ne
 
 
 
-void UserInterface::CustomMainWindow::OnSessionEnd() {
+void UserInterface::CustomMainWindow::OnSessionEnd(bool withDelay) {
 
-    this->doSwitchScreen(UserInterface::Base::ScreenType::Loading);
+    // TODO figure a way to make this work so the "result screen" hangs on for 
+    // a (configurable?) time at the end before switching to the loading screen
+    /*if (withDelay) {
+        QTimer::singleShot(5000, this, &UserInterface::CustomMainWindow::doSwitchScreen(UserInterface::Base::ScreenType::Loading));
+    }
+    else {
+        doSwitchScreen(UserInterface::Base::ScreenType::Loading);
+    }*/
+
+    if (doSwitchScreen(UserInterface::Base::ScreenType::Loading)) {
+        
+        // TODO: Isn't working for some reason
+        QCoreApplication::setApplicationName("RaceSimEngineer - Waiting for Session...");
+
+    }
 
 }
 
@@ -72,7 +88,12 @@ void UserInterface::CustomMainWindow::OnSessionEnd() {
 
 void UserInterface::CustomMainWindow::OnTimeTrialStart() {
 
-    this->doSwitchScreen(UserInterface::Base::ScreenType::TimeTrial);
+    if (doSwitchScreen(UserInterface::Base::ScreenType::TimeTrial)) {
+
+        // TODO: Isn't working for some reason
+        QCoreApplication::setApplicationName("RaceSimEngineer - Time Trial");
+
+    }
 
 }
 
@@ -80,7 +101,12 @@ void UserInterface::CustomMainWindow::OnTimeTrialStart() {
 
 void UserInterface::CustomMainWindow::OnFreePracticeStart() {
 
-    this->doSwitchScreen(UserInterface::Base::ScreenType::FreePractice);
+    if (doSwitchScreen(UserInterface::Base::ScreenType::FreePractice)) {
+
+        // TODO: Isn't working for some reason
+        QCoreApplication::setApplicationName("RaceSimEngineer - Practice");
+
+    }
 
 }
 
@@ -88,7 +114,12 @@ void UserInterface::CustomMainWindow::OnFreePracticeStart() {
 
 void UserInterface::CustomMainWindow::OnQualiStart() {
 
-    this->doSwitchScreen(UserInterface::Base::ScreenType::Qualifying);
+    if (doSwitchScreen(UserInterface::Base::ScreenType::Qualifying)) {
+
+        // TODO: Isn't working for some reason
+        QCoreApplication::setApplicationName("RaceSimEngineer - Qualifying");
+
+    }
 
 }
 
@@ -96,7 +127,12 @@ void UserInterface::CustomMainWindow::OnQualiStart() {
 
 void UserInterface::CustomMainWindow::OnRaceStart() {
 
-    this->doSwitchScreen(UserInterface::Base::ScreenType::Race);
+    if (doSwitchScreen(UserInterface::Base::ScreenType::Race)) {
+
+        // TODO: Isn't working for some reason
+        QCoreApplication::setApplicationName("RaceSimEngineer - Race");
+
+    }
 
 }
 
@@ -113,12 +149,12 @@ void UserInterface::CustomMainWindow::doAddScreen(UserInterface::Base::IScreen* 
 
 
 
-void UserInterface::CustomMainWindow::doSwitchScreen(const UserInterface::Base::ScreenType type) {
+bool UserInterface::CustomMainWindow::doSwitchScreen(const UserInterface::Base::ScreenType type) {
 
     // avoid switching screen to already-present screen by returning early
     if (m_activeScreen && (m_activeScreen->Type() == type)) {
 
-        return;
+        return false;
 
     }
 
@@ -143,14 +179,17 @@ void UserInterface::CustomMainWindow::doSwitchScreen(const UserInterface::Base::
         if (m_activeScreen) {
 
             m_activeScreen->hide();
-            this->takeCentralWidget();
+            takeCentralWidget();
 
         }
 
-        this->setCentralWidget(screenToBeActivated);
+        setCentralWidget(screenToBeActivated);
         screenToBeActivated->show();
         m_activeScreen = screenToBeActivated;
+        return true;
 
     }
+
+    return false;
 
 }

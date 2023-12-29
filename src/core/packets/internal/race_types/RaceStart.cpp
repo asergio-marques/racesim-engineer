@@ -1,30 +1,15 @@
 #include "packets/internal/race_types/RaceStart.h"
 
 #include <list>
-#include "packets/internal/SessionStart.h"
 #include "data/internal/Session.h"
+#include "packets/internal/MPSessionStart.h"
 
 
 
-Packet::Internal::RaceStart::RaceStart() :
-    m_participants() {
+Packet::Internal::RaceStart::RaceStart(uint8_t numLaps) :
+    Packet::Internal::MPSessionStart(Session::Internal::Type::Race),
+    m_numLaps(numLaps) {
 
 
-
-}
-
-
-
-const Session::Internal::Type Packet::Internal::RaceStart::SessionType() const {
-
-    return Session::Internal::Type::Race;
-
-}
-
-
-
-const std::list<Session::Internal::Participant>& Packet::Internal::RaceStart::getParticipantData() const {
-
-    return m_participants;
 
 }

@@ -67,7 +67,7 @@ void UserInterface::PacketHandler::Exec() {
         // TODO proper packet handler, for now let's cast to our hearts' delight
         auto sessionStartPacket = dynamic_cast<Packet::Internal::SessionStart*>(packet);
         if (sessionStartPacket) {
-            switch (sessionStartPacket->SessionType()) {
+            switch (sessionStartPacket->m_sessionType) {
 
                 case Session::Internal::Type::TimeTrial:
                     sessionStartPacket->markAsProcessed();
@@ -102,7 +102,7 @@ void UserInterface::PacketHandler::Exec() {
         if (sessionEndPacket) {
 
             sessionEndPacket->markAsProcessed();
-            emit SessionEnd();
+            emit SessionEnd(true);
 
         }
 

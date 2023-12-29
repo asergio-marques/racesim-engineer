@@ -185,7 +185,15 @@ Packet::Internal::Interface* NetCom::Adapter::F1_23::ConvertEventDataPacket(cons
         case Event::F1_23::Type::SessionEnded:
             // If the transition was successful, then the session has truly ended now
             // Okay to return null if need be!
+            // 
+            // NOTE: as it is possible to not receive the session start event at the start of certain sessions
+            // it could also happen that the session end event is also not received once a session is closed
+            // if this checks out, start praying to your god of choice, otherwise, choose one. I already did.
             if (m_sessionSM.SessionEnded()) return new Packet::Internal::SessionEnd;
+            break;
+
+        default:
+            // Does absolutely nothing
             break;
 
     }
@@ -203,6 +211,15 @@ Packet::Internal::Interface* NetCom::Adapter::F1_23::ConvertSessionDataPacket(co
 
     }
 
+    // For some reason in some race lengths we may not get the SessionStart Event packet from the game...
+    // So we check if the session start packet has been received, and if not, we attempt to move the state machine
+    // If moving the state machine was successful, then we proceed with creating the packet, if participant data was
+    // received beforehand, the builder should automatically append the list
+    if (m_sessionSM.SessionStarted()) {
+
+        m_startPacketBuilder.Start();
+
+    }
     if (m_sessionSM.GetSessionState() == NetCom::Adapter::SessionState::Started) {
 
         m_startPacketBuilder.CreateSessionPacket(inputPacket);
@@ -222,8 +239,17 @@ Packet::Internal::Interface* NetCom::Adapter::F1_23::ConvertParticipantDataPacke
 
     }
 
-    if (m_sessionSM.GetSessionState() == NetCom::Adapter::SessionState::Started) {
+    // For some reason in some race lengths we may not get the SessionStart Event packet from the game...
+    // So we check if the session start packet has been received, and if not, we attempt to move the state machine
+    // If moving the state machine was successful, then we proceed with adding participant data
+    if (m_sessionSM.SessionStarted()) {
 
+        m_startPacketBuilder.Start();
+
+    }
+    if (m_sessionSM.GetSessionState() == NetCom::Adapter::SessionState::Started
+        || m_sessionSM.GetSessionState() == NetCom::Adapter::SessionState::StartPacketSent) {
+        
         m_startPacketBuilder.AppendParticipantData(inputPacket);
 
     }

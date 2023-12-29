@@ -111,7 +111,7 @@ namespace Session::Game::F1_23 {
         UAE_AbuDhabi            = 14,
         USA_Texas               = 15,
         BRA_Interlagos          = 16,
-        AUS_RedBullRing         = 17,
+        AUT_RedBullRing         = 17,
         RUS_Sochi               = 18,
         MEX_MexicoCity          = 19,
         AZE_Baku                = 20,

@@ -2,6 +2,10 @@
 #define NETCOM_ADAPTERS_INCLUDE_F123_H_
 
 #include "adapters/Interface.h"
+#include "adapters/SessionStateMachine.h"
+#include "adapters/F1_23/SessionStartBuilder.h"
+
+
 
 namespace Packet {
 
@@ -45,10 +49,8 @@ namespace NetCom {
             Packet::Internal::Interface* ConvertSessionDataPacket(const Packet::Game::F1_23::SessionData* inputPacket);
             Packet::Internal::Interface* ConvertParticipantDataPacket(const Packet::Game::F1_23::ParticipantData* inputPacket);
 
-            bool m_sessionInProgress;
-            bool m_sessionStartPacketSent;
-            bool m_waitingForFirstSessionPacket;
-            bool m_waitingForFirstParticipantPacket;
+            NetCom::Adapter::SessionStateMachine m_sessionSM;
+            NetCom::Adapter::F1_23_SessionStartBuilder m_startPacketBuilder;
 
         };
 

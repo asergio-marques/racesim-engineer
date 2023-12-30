@@ -1,9 +1,9 @@
-#ifndef USERINTERFACE_BASE_INCLUDE_TEXT_ELEMENT_H_
-#define USERINTERFACE_BASE_INCLUDE_TEXT_ELEMENT_H_
+#ifndef USERINTERFACE_WIDGET_INCLUDE_TEXT_INTERFACE_H_
+#define USERINTERFACE_WIDGET_INCLUDE_TEXT_INTERFACE_H_
 
 #include <QFont>
-#include "base/WidgetId.h"
-#include "base/Element.h"
+#include "base/ID.h"
+#include "base/Interface.h"
 
 class QLabel;
 class QWidget;
@@ -12,7 +12,7 @@ class QWidget;
 
 namespace UserInterface {
 
-    namespace Base {
+    namespace Widget {
 
         enum class FontThickness {
 
@@ -22,18 +22,18 @@ namespace UserInterface {
 
         };
 
-        class TextElement : public UserInterface::Base::Element {
+        class TextInterface : public UserInterface::Widget::Interface {
 
             Q_OBJECT
 
             public:
-                TextElement(UserInterface::Base::WidgetId id, QWidget* parent = 0);
-                virtual ~TextElement() = default;
+                TextInterface(UserInterface::Widget::ID id, QWidget* parent = 0);
+                virtual ~TextInterface() = default;
 
                 // Operations
                 virtual void Move(const uint16_t x, const uint16_t y, const bool centerAlignmentX, const bool centerAlignmentY) override;
                 virtual void SetFontSize(const uint16_t size);
-                virtual void SetFontThickness(const UserInterface::Base::FontThickness thickness);
+                virtual void SetFontThickness(const UserInterface::Widget::FontThickness thickness);
 
                 // Getters
                 virtual const int16_t Width() const override;
@@ -54,4 +54,4 @@ namespace UserInterface {
 
 }
 
-#endif // USERINTERFACE_BASE_INCLUDE_TEXT_ELEMENT_H_
+#endif // USERINTERFACE_WIDGET_INCLUDE_TEXT_INTERFACE_H_

@@ -1,7 +1,7 @@
 #ifndef USERINTERFACE_PANELS_INCLUDE_LOADING_H_
 #define USERINTERFACE_PANELS_INCLUDE_LOADING_H_
 
-#include "base/IPanel.h"
+#include "panels/Interface.h"
 
 class QResizeEvent;
 class QWidget;
@@ -10,22 +10,17 @@ class QWidget;
 
 namespace UserInterface {
 
-    namespace Base {
-
-        class TextElement;
-        class ImageElement;
-
-    }
-
     namespace Widget {
 
+        class ImageInterface;
         class ScreenTitle;
+        class TextInterface;
 
     }
 
     namespace Panel {
 
-        class Loading final : public UserInterface::Base::IPanel {
+        class Loading final : public UserInterface::Panel::Interface {
 
             Q_OBJECT
 
@@ -35,7 +30,7 @@ namespace UserInterface {
                 virtual void ResizePanel(const QSize& newPanelSize) override final;
 
             private:
-                UserInterface::Base::ImageElement* m_loadingIcon;
+                UserInterface::Widget::ImageInterface* m_loadingIcon;
                 UserInterface::Widget::ScreenTitle* m_loadingText;
 
         };

@@ -1,27 +1,27 @@
-#ifndef USERINTERFACE_BASE_INCLUDE_ELEMENT_H_
-#define USERINTERFACE_BASE_INCLUDE_ELEMENT_H_
+#ifndef USERINTERFACE_WIDGET_INCLUDE_INTERFACE_H_
+#define USERINTERFACE_WIDGET_INCLUDE_INTERFACE_H_
 
 #include <QObject>
-#include "base/WidgetId.h"
+#include "base/ID.h"
 
 
 
 namespace UserInterface {
 
-    namespace Base {
+    namespace Widget {
 
-        class Element : public QObject {
+        class Interface : public QObject {
 
             Q_OBJECT
 
             public:
-                Element(UserInterface::Base::WidgetId id);
-                virtual ~Element() = default;
+                Interface(UserInterface::Widget::ID id);
+                virtual ~Interface() = default;
                 
                 // Operations
                 virtual bool Update() = 0;
                 virtual void Move(const uint16_t x, const uint16_t y, const bool centerAlignmentX, const bool centerAlignmentY) = 0;
-                virtual const UserInterface::Base::WidgetId& GetId() const;
+                virtual const UserInterface::Widget::ID& GetId() const;
 
                 // Getters
                 virtual const int16_t Width() const = 0;
@@ -30,7 +30,7 @@ namespace UserInterface {
                 virtual const int16_t Y() const = 0;
 
             private:
-                UserInterface::Base::WidgetId m_id;
+                UserInterface::Widget::ID m_id;
 
         };
 
@@ -38,4 +38,4 @@ namespace UserInterface {
 
 }
 
-#endif // USERINTERFACE_BASE_INCLUDE_ELEMENT_H_
+#endif // USERINTERFACE_WIDGET_INCLUDE_INTERFACE_H_

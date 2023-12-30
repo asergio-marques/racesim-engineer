@@ -1,14 +1,14 @@
-#include "base/IPanel.h"
+#include "panels/Interface.h"
 
 #include <map>
 #include <QWidget>
-#include "base/WidgetId.h"
-#include "base/Element.h"
-#include "base/elements/ImageElement.h"
+#include "widgets/base/ID.h"
+#include "widgets/base/Interface.h"
+#include "widgets/base/ImageInterface.h"
 
 
 
-UserInterface::Base::IPanel::IPanel(QWidget* parent) :
+UserInterface::Panel::Interface::Interface(QWidget* parent) :
     QWidget(parent),
     m_widgets(),
     m_background(nullptr) {
@@ -19,7 +19,7 @@ UserInterface::Base::IPanel::IPanel(QWidget* parent) :
 
 
 
-bool UserInterface::Base::IPanel::RegisterWidget(UserInterface::Base::Element* widget) {
+bool UserInterface::Panel::Interface::RegisterWidget(UserInterface::Widget::Interface* widget) {
 
     Q_ASSERT(widget);
     if (widget) {
@@ -35,14 +35,14 @@ bool UserInterface::Base::IPanel::RegisterWidget(UserInterface::Base::Element* w
 
 
 
-bool UserInterface::Base::IPanel::UpdateWidget(UserInterface::Base::WidgetId id) {
+bool UserInterface::Panel::Interface::UpdateWidget(UserInterface::Widget::ID id) {
 
     // return true if at least one widget was updated with the information
     bool modified = false;
 
     for (auto entry : m_widgets) {
 
-        UserInterface::Base::Element* widget = entry.second;
+        UserInterface::Widget::Interface* widget = entry.second;
 
         if (widget) {
 
@@ -61,7 +61,7 @@ bool UserInterface::Base::IPanel::UpdateWidget(UserInterface::Base::WidgetId id)
 }
 
 
-void UserInterface::Base::IPanel::ResizePanel(const QSize& newPanelSize) {
+void UserInterface::Panel::Interface::ResizePanel(const QSize& newPanelSize) {
 
     if (m_background) {
 

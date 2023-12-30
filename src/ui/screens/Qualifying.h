@@ -1,8 +1,8 @@
 #ifndef USERINTERFACE_SCREENS_INCLUDE_QUALIFYING_H_
 #define USERINTERFACE_SCREENS_INCLUDE_QUALIFYING_H_
 
-#include "base/IDualPanelScreen.h"
-#include "base/ScreenType.h"
+#include "screens/DualPanelInterface.h"
+#include "core/ScreenType.h"
 
 class QWidget;
 
@@ -12,14 +12,14 @@ namespace UserInterface {
 
     namespace Screen {
 
-        class Qualifying : public UserInterface::Base::IDualPanelScreen {
+        class Qualifying : public UserInterface::Screen::DualPanelInterface {
 
             Q_OBJECT
 
             public:
                 Qualifying(QWidget* parent = 0);
                 virtual ~Qualifying() = default;
-                virtual const UserInterface::Base::ScreenType Type() const override;
+                virtual const UserInterface::Screen::Type Type() const override;
 
         };
 

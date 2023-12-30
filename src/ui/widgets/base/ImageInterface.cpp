@@ -1,15 +1,15 @@
-#include "base/elements/ImageElement.h"
+#include "base/ImageInterface.h"
 
 #include <QLabel>
 #include <QSize>
 #include <QWidget>
-#include "base/WidgetId.h"
-#include "base/Element.h"
+#include "base/ID.h"
+#include "base/Interface.h"
 
 
 
-UserInterface::Base::ImageElement::ImageElement(UserInterface::Base::WidgetId id, QWidget* parent) :
-    UserInterface::Base::Element(id),
+UserInterface::Widget::ImageInterface::ImageInterface(UserInterface::Widget::ID id, QWidget* parent) :
+    UserInterface::Widget::Interface(id),
     m_image(new QLabel(parent)),
     m_pixmap(),
     m_originalSize(QSize(0, 0)) {
@@ -18,7 +18,7 @@ UserInterface::Base::ImageElement::ImageElement(UserInterface::Base::WidgetId id
 
 
 
-void UserInterface::Base::ImageElement::Move(const uint16_t x, const uint16_t y, const bool centerAlignmentX, const bool centerAlignmentY) {
+void UserInterface::Widget::ImageInterface::Move(const uint16_t x, const uint16_t y, const bool centerAlignmentX, const bool centerAlignmentY) {
 
     if (m_image) {
 
@@ -37,7 +37,7 @@ void UserInterface::Base::ImageElement::Move(const uint16_t x, const uint16_t y,
 
 
 
-void UserInterface::Base::ImageElement::Scale(const uint8_t percent) {
+void UserInterface::Widget::ImageInterface::Scale(const uint8_t percent) {
 
     if (m_image) {
 
@@ -51,7 +51,7 @@ void UserInterface::Base::ImageElement::Scale(const uint8_t percent) {
 
 
 
-void UserInterface::Base::ImageElement::Scale(const uint8_t percentX, const uint8_t percentY) {
+void UserInterface::Widget::ImageInterface::Scale(const uint8_t percentX, const uint8_t percentY) {
 
     if (m_image) {
 
@@ -65,7 +65,7 @@ void UserInterface::Base::ImageElement::Scale(const uint8_t percentX, const uint
 
 
 
-void UserInterface::Base::ImageElement::SetSize(const uint16_t newWidth, const uint16_t newHeight, const bool keepAspectRatio) {
+void UserInterface::Widget::ImageInterface::SetSize(const uint16_t newWidth, const uint16_t newHeight, const bool keepAspectRatio) {
 
     if (m_image) {
 
@@ -88,7 +88,7 @@ void UserInterface::Base::ImageElement::SetSize(const uint16_t newWidth, const u
 
 
 
-const int16_t UserInterface::Base::ImageElement::Width() const {
+const int16_t UserInterface::Widget::ImageInterface::Width() const {
 
     if (m_image) {
 
@@ -101,7 +101,7 @@ const int16_t UserInterface::Base::ImageElement::Width() const {
 
 
 
-const int16_t UserInterface::Base::ImageElement::Height() const {
+const int16_t UserInterface::Widget::ImageInterface::Height() const {
 
     if (m_image) {
 
@@ -115,7 +115,7 @@ const int16_t UserInterface::Base::ImageElement::Height() const {
 
 
 
-const int16_t UserInterface::Base::ImageElement::X() const {
+const int16_t UserInterface::Widget::ImageInterface::X() const {
 
     if (m_image) {
 
@@ -129,7 +129,7 @@ const int16_t UserInterface::Base::ImageElement::X() const {
 
 
 
-const int16_t UserInterface::Base::ImageElement::Y() const {
+const int16_t UserInterface::Widget::ImageInterface::Y() const {
 
     if (m_image) {
 

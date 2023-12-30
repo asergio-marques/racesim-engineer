@@ -1,9 +1,9 @@
 #ifndef USERINTERFACE_WIDGETS_INCLUDE_SCREEN_TITLE_H_
 #define USERINTERFACE_WIDGETS_INCLUDE_SCREEN_TITLE_H_
 
-#include "base/elements/TextElement.h"
-#include "base/ScreenType.h"
-#include "base/WidgetId.h"
+#include "ScreenType.h"
+#include "base/TextInterface.h"
+#include "base/ID.h"
 
 
 
@@ -11,15 +11,15 @@ namespace UserInterface {
 
     namespace Widget {
 
-        class ScreenTitle final : public UserInterface::Base::TextElement {
+        class ScreenTitle final : public UserInterface::Widget::TextInterface {
 
             Q_OBJECT
 
             public:
-                ScreenTitle(UserInterface::Base::WidgetId id, QWidget* parent = 0);
+                ScreenTitle(UserInterface::Widget::ID id, QWidget* parent = 0);
                 virtual ~ScreenTitle() = default;
                 bool Update() override;
-                void SetTitle(UserInterface::Base::ScreenType type);
+                void SetTitle(UserInterface::Screen::Type type);
         };
 
     }

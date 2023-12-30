@@ -1,8 +1,8 @@
 #ifndef USERINTERFACE_SCREENS_INCLUDE_TIME_TRIAL_H_
 #define USERINTERFACE_SCREENS_INCLUDE_TIME_TRIAL_H_
 
-#include "base/IDualPanelScreen.h"
-#include "base/ScreenType.h"
+#include "screens/DualPanelInterface.h"
+#include "core/ScreenType.h"
 
 class QWidget;
 
@@ -12,14 +12,14 @@ namespace UserInterface {
 
     namespace Screen {
 
-        class TimeTrial : public UserInterface::Base::IDualPanelScreen {
+        class TimeTrial : public UserInterface::Screen::DualPanelInterface {
 
             Q_OBJECT
 
             public:
                 TimeTrial(QWidget* parent = 0);
                 virtual ~TimeTrial() = default;
-                virtual const UserInterface::Base::ScreenType Type() const override;
+                virtual const UserInterface::Screen::Type Type() const override;
 
         };
 

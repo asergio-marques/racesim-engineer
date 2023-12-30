@@ -24,19 +24,8 @@ target_sources(${PROJECT_NAME} PRIVATE
     UIStarter.cpp
     CustomMainWindow.cpp
     PacketHandler.cpp
-    base/Element.cpp
-    base/IPanel.cpp
-    base/IScreen.cpp
-    base/ISinglePanelScreen.cpp
-    base/IDualPanelScreen.cpp
-    base/elements/ImageElement.cpp
-    base/elements/TextElement.cpp
-    base/elements/ButtonElement.cpp
-    widgets/BackgroundLeft.cpp
-    widgets/BackgroundRight.cpp
-    widgets/BackgroundFullScreen.cpp
-    widgets/ScreenTitle.cpp
-    widgets/LoadingIcon.cpp
+    # panels
+    panels/Interface.cpp
     panels/Loading.cpp
     panels/TimeTrialLeft.cpp
     panels/TimeTrialRight.cpp
@@ -46,6 +35,10 @@ target_sources(${PROJECT_NAME} PRIVATE
     panels/QualifyingRight.cpp
     panels/RaceLeft.cpp
     panels/RaceRight.cpp
+    # screens
+    screens/Interface.cpp
+    screens/SinglePanelInterface.cpp
+    screens/DualPanelInterface.cpp
     screens/Loading.cpp
     screens/TimeTrial.cpp
     screens/FreePractice.cpp
@@ -55,22 +48,9 @@ target_sources(${PROJECT_NAME} PRIVATE
 
 target_link_libraries(${PROJECT_NAME} PRIVATE
     RaceSimEngineerCore
+    RaceSimEngineerUIWidgets
     Qt6::Core
     Qt6::Widgets
-)
-
-qt_add_resources(${PROJECT_NAME} "ui_elements"
-    PREFIX "/"
-    BASE "resources"
-    FILES
-        resources/img/background/BackgroundLeft.png
-        resources/img/background/BackgroundRight.png
-        resources/img/background/SingleScreenBG.png
-        resources/img/icons/logo_loading_center.png
-        resources/img/icons/logo_loading_rotate.png
-        resources/fonts/static/Manrope-Regular.ttf
-        resources/fonts/static/Manrope-Bold.ttf
-        resources/fonts/static/Manrope-ExtraBold.ttf
 )
 
 set_target_properties(${PROJECT_NAME}

@@ -3,8 +3,8 @@
 
 #include <QPixmap>
 #include <QSize>
-#include "base/elements/ImageElement.h"
-#include "base/WidgetId.h"
+#include "base/ImageInterface.h"
+#include "base/ID.h"
 
 class QPropertyAnimation;
 class QLabel;
@@ -15,12 +15,12 @@ namespace UserInterface {
 
     namespace Widget {
 
-        class LoadingIcon final : public UserInterface::Base::ImageElement {
+        class LoadingIcon final : public UserInterface::Widget::ImageInterface {
 
             Q_OBJECT
 
             public:
-                LoadingIcon(UserInterface::Base::WidgetId id, QWidget* parent = 0);
+                LoadingIcon(UserInterface::Widget::ID id, QWidget* parent = 0);
                 virtual ~LoadingIcon() = default;
                 
 

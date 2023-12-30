@@ -1,16 +1,16 @@
-#include "base/elements/TextElement.h"
+#include "base/TextInterface.h"
 
 #include <QGuiApplication>
 #include <QLabel>
 #include <QPalette>
 #include <QWidget>
-#include "base/WidgetId.h"
-#include "base/Element.h"
+#include "base/ID.h"
+#include "base/Interface.h"
 
 
 
-UserInterface::Base::TextElement::TextElement(UserInterface::Base::WidgetId id, QWidget* parent) :
-    UserInterface::Base::Element(id),
+UserInterface::Widget::TextInterface::TextInterface(UserInterface::Widget::ID id, QWidget* parent) :
+    UserInterface::Widget::Interface(id),
     m_text(new QLabel(parent)) {
 
     if (m_text) {
@@ -24,7 +24,7 @@ UserInterface::Base::TextElement::TextElement(UserInterface::Base::WidgetId id, 
 
 
 
-void UserInterface::Base::TextElement::Move(const uint16_t x, const uint16_t y, const bool centerAlignmentX, const bool centerAlignmentY) {
+void UserInterface::Widget::TextInterface::Move(const uint16_t x, const uint16_t y, const bool centerAlignmentX, const bool centerAlignmentY) {
 
     if (m_text) {
 
@@ -42,7 +42,7 @@ void UserInterface::Base::TextElement::Move(const uint16_t x, const uint16_t y, 
 }
 
 
-void UserInterface::Base::TextElement::SetFontSize(const uint16_t size) {
+void UserInterface::Widget::TextInterface::SetFontSize(const uint16_t size) {
 
     // TODO fix the issue where the text disappears entirely
     // if it is wider than the window itself
@@ -57,7 +57,7 @@ void UserInterface::Base::TextElement::SetFontSize(const uint16_t size) {
 
 }
 
-void UserInterface::Base::TextElement::SetFontThickness(const UserInterface::Base::FontThickness thickness) {
+void UserInterface::Widget::TextInterface::SetFontThickness(const UserInterface::Widget::FontThickness thickness) {
 
     if (m_text) {
 
@@ -65,11 +65,11 @@ void UserInterface::Base::TextElement::SetFontThickness(const UserInterface::Bas
         // using stuff like setBold is not working as intended
         switch (thickness) {
 
-            case UserInterface::Base::FontThickness::Bold:
+            case UserInterface::Widget::FontThickness::Bold:
                 m_text->setStyleSheet("QLabel { color : white; font : Manrope Bold }");
                 break;
 
-            case UserInterface::Base::FontThickness::ExtraBold:
+            case UserInterface::Widget::FontThickness::ExtraBold:
                 m_text->setStyleSheet("QLabel { color : white; font : Manrope ExtraBold }");
                 break;
 
@@ -85,7 +85,7 @@ void UserInterface::Base::TextElement::SetFontThickness(const UserInterface::Bas
 }
 
 
-const int16_t UserInterface::Base::TextElement::Width() const {
+const int16_t UserInterface::Widget::TextInterface::Width() const {
 
     if (m_text) {
 
@@ -98,7 +98,7 @@ const int16_t UserInterface::Base::TextElement::Width() const {
 
 
 
-const int16_t UserInterface::Base::TextElement::Height() const {
+const int16_t UserInterface::Widget::TextInterface::Height() const {
 
     if (m_text) {
 
@@ -111,7 +111,7 @@ const int16_t UserInterface::Base::TextElement::Height() const {
 
 
 
-const int16_t UserInterface::Base::TextElement::X() const {
+const int16_t UserInterface::Widget::TextInterface::X() const {
 
     if (m_text) {
 
@@ -125,7 +125,7 @@ const int16_t UserInterface::Base::TextElement::X() const {
 
 
 
-const int16_t UserInterface::Base::TextElement::Y() const {
+const int16_t UserInterface::Widget::TextInterface::Y() const {
 
     if (m_text) {
     
@@ -139,7 +139,7 @@ const int16_t UserInterface::Base::TextElement::Y() const {
 
 
 
-void UserInterface::Base::TextElement::SetText(const QString& text) {
+void UserInterface::Widget::TextInterface::SetText(const QString& text) {
 
     if (m_text) {
 
@@ -151,7 +151,7 @@ void UserInterface::Base::TextElement::SetText(const QString& text) {
 
 
 
-void UserInterface::Base::TextElement::SetText(const std::string& text) {
+void UserInterface::Widget::TextInterface::SetText(const std::string& text) {
 
     if (m_text) {
 
@@ -164,7 +164,7 @@ void UserInterface::Base::TextElement::SetText(const std::string& text) {
 
 
 
-void UserInterface::Base::TextElement::SetText(const char* text) {
+void UserInterface::Widget::TextInterface::SetText(const char* text) {
 
     if (m_text) {
 

@@ -2,22 +2,23 @@
 
 #include <QResizeEvent>
 #include <QWidget>
-#include "base/IPanel.h"
-#include "base/ScreenType.h"
+#include "panels/Interface.h"
+#include "core/ScreenType.h"
 #include "styles/Loading.h"
-#include "widgets/BackgroundFullScreen.h"
+#include "widgets/general_use/BackgroundFullScreen.h"
+#include "widgets/general_use/ScreenTitle.h"
 #include "widgets/LoadingIcon.h"
-#include "widgets/ScreenTitle.h"
+
 
 
 UserInterface::Panel::Loading::Loading(QWidget* parent) :
-    UserInterface::Base::IPanel(parent),
+    UserInterface::Panel::Interface(parent),
     m_loadingIcon(nullptr),
     m_loadingText(nullptr) {
         
-    m_background = new UserInterface::Widget::BackgroundFullScreen(UserInterface::Base::WidgetId::Background, this);
-    m_loadingIcon = new UserInterface::Widget::LoadingIcon(UserInterface::Base::WidgetId::LoadingIcon, this);
-    m_loadingText = new UserInterface::Widget::ScreenTitle(UserInterface::Base::WidgetId::ScreenTitle, this);
+    m_background = new UserInterface::Widget::BackgroundFullScreen(UserInterface::Widget::ID::Background, this);
+    m_loadingIcon = new UserInterface::Widget::LoadingIcon(UserInterface::Widget::ID::LoadingIcon, this);
+    m_loadingText = new UserInterface::Widget::ScreenTitle(UserInterface::Widget::ID::ScreenTitle, this);
 
     RegisterWidget(m_background);
     RegisterWidget(m_loadingIcon);
@@ -25,7 +26,7 @@ UserInterface::Panel::Loading::Loading(QWidget* parent) :
 
     if (m_loadingText) {
 
-        m_loadingText->SetTitle(UserInterface::Base::ScreenType::Loading);
+        m_loadingText->SetTitle(UserInterface::Screen::Type::Loading);
 
     }
 
@@ -36,7 +37,7 @@ UserInterface::Panel::Loading::Loading(QWidget* parent) :
 void UserInterface::Panel::Loading::ResizePanel(const QSize& newPanelSize) {
 
     // call overridden function to resize background
-    UserInterface::Base::IPanel::ResizePanel(newPanelSize);
+    UserInterface::Panel::Interface::ResizePanel(newPanelSize);
 
     UserInterface::Style::General generalStyle;
     UserInterface::Style::Loading loadingStyle;

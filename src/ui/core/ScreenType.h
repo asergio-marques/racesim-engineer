@@ -1,5 +1,5 @@
-#ifndef USERINTERFACE_BASE_INCLUDE_SCREENTYPE_H_
-#define USERINTERFACE_BASE_INCLUDE_SCREENTYPE_H_
+#ifndef USERINTERFACE_SCREEN_INCLUDE_TYPE_H_
+#define USERINTERFACE_SCREEN_INCLUDE_TYPE_H_
 
 #include <cstdint>
 
@@ -7,9 +7,9 @@
 
 namespace UserInterface {
 
-    namespace Base {
+    namespace Screen {
 
-        enum class ScreenType : uint8_t {
+        enum class Type : uint8_t {
 
             InvalidUnknown = 0,
             Loading = 1,
@@ -24,4 +24,4 @@ namespace UserInterface {
 
 }
 
-#endif // USERINTERFACE_BASE_INCLUDE_SCREENTYPE_H_
+#endif // USERINTERFACE_SCREEN_INCLUDE_TYPE_H_

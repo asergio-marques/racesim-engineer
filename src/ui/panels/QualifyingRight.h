@@ -2,7 +2,7 @@
 #define USERINTERFACE_PANELS_INCLUDE_QUALIFYING_RIGHT_H_
 
 #include <QSize>
-#include "base/IPanel.h"
+#include "panels/Interface.h"
 
 class QWidget;
 
@@ -12,7 +12,7 @@ namespace UserInterface {
 
     namespace Panel {
 
-        class QualifyingRight final : public UserInterface::Base::IPanel {
+        class QualifyingRight final : public UserInterface::Panel::Interface {
 
             Q_OBJECT
 

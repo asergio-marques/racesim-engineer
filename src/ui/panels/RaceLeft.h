@@ -2,7 +2,7 @@
 #define USERINTERFACE_PANELS_INCLUDE_RACE_LEFT_H_
 
 #include <QSize>
-#include "base/IPanel.h"
+#include "panels/Interface.h"
 
 class QWidget;
 
@@ -18,7 +18,7 @@ namespace UserInterface {
 
     namespace Panel {
 
-        class RaceLeft final : public UserInterface::Base::IPanel {
+        class RaceLeft final : public UserInterface::Panel::Interface {
 
             Q_OBJECT
 

@@ -1,15 +1,15 @@
-#include "base/IDualPanelScreen.h"
+#include "screens/DualPanelInterface.h"
 
 #include <QResizeEvent>
 #include <QWidget>
-#include "base/IPanel.h"
-#include "base/IScreen.h"
+#include "panels/Interface.h"
+#include "screens/Interface.h"
 #include "settings/WindowNumber.h"
 
 
 
-UserInterface::Base::IDualPanelScreen::IDualPanelScreen(QWidget* parent) :
-    UserInterface::Base::IScreen(parent),
+UserInterface::Screen::DualPanelInterface::DualPanelInterface(QWidget* parent) :
+    UserInterface::Screen::Interface(parent),
     m_mode(Settings::WindowNumber::DEFAULT),
     m_panelLeft(nullptr),
     m_panelRight(nullptr) {
@@ -20,7 +20,7 @@ UserInterface::Base::IDualPanelScreen::IDualPanelScreen(QWidget* parent) :
 
 
 
-void UserInterface::Base::IDualPanelScreen::Initialize() {
+void UserInterface::Screen::DualPanelInterface::Initialize() {
 
     Q_ASSERT(m_panelLeft);
     Q_ASSERT(m_panelRight);
@@ -44,7 +44,7 @@ void UserInterface::Base::IDualPanelScreen::Initialize() {
 
 
 
-void UserInterface::Base::IDualPanelScreen::handleResizeEvent(QResizeEvent* event) {
+void UserInterface::Screen::DualPanelInterface::handleResizeEvent(QResizeEvent* event) {
 
     if (event) {
 

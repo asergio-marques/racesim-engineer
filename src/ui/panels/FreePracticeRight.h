@@ -2,7 +2,7 @@
 #define USERINTERFACE_PANELS_INCLUDE_FREE_PRACTICE_RIGHT_H_
 
 #include <QSize>
-#include "base/IPanel.h"
+#include "panels/Interface.h"
 
 class QWidget;
 
@@ -12,7 +12,7 @@ namespace UserInterface {
 
     namespace Panel {
 
-        class FreePracticeRight final : public UserInterface::Base::IPanel {
+        class FreePracticeRight final : public UserInterface::Panel::Interface {
 
             Q_OBJECT
 

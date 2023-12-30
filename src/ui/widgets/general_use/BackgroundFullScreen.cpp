@@ -1,17 +1,17 @@
-#include "widgets/BackgroundFullScreen.h"
+#include "general_use/BackgroundFullScreen.h"
 
 #include <QLabel>
 #include <QPalette>
 #include <QPixmap>
 #include <QString>
 #include <QWidget>
-#include "base/elements/ImageElement.h"
-#include "base/WidgetId.h"
+#include "base/ImageInterface.h"
+#include "base/ID.h"
 
 
 
-UserInterface::Widget::BackgroundFullScreen::BackgroundFullScreen(UserInterface::Base::WidgetId id, QWidget* parent) :
-    UserInterface::Base::ImageElement(id, parent) {
+UserInterface::Widget::BackgroundFullScreen::BackgroundFullScreen(UserInterface::Widget::ID id, QWidget* parent) :
+    UserInterface::Widget::ImageInterface(id, parent) {
 
     if (m_image) {
 

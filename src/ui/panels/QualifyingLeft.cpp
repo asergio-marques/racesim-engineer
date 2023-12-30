@@ -2,26 +2,26 @@
 
 #include <QSize>
 #include <QWidget>
-#include "base/IPanel.h"
-#include "base/ScreenType.h"
+#include "panels/Interface.h"
+#include "core/ScreenType.h"
 #include "styles/General.h"
-#include "widgets/BackgroundLeft.h"
-#include "widgets/ScreenTitle.h"
+#include "widgets/general_use/BackgroundLeft.h"
+#include "widgets/general_use/ScreenTitle.h"
 
 
 UserInterface::Panel::QualifyingLeft::QualifyingLeft(QWidget* parent) :
-    UserInterface::Base::IPanel(parent),
+    UserInterface::Panel::Interface(parent),
     m_screenTitle(nullptr) {
         
-    m_background = new UserInterface::Widget::BackgroundLeft(UserInterface::Base::WidgetId::Background, this);
-    m_screenTitle = new UserInterface::Widget::ScreenTitle(UserInterface::Base::WidgetId::ScreenTitle, this);
+    m_background = new UserInterface::Widget::BackgroundLeft(UserInterface::Widget::ID::Background, this);
+    m_screenTitle = new UserInterface::Widget::ScreenTitle(UserInterface::Widget::ID::ScreenTitle, this);
 
     RegisterWidget(m_background);
     RegisterWidget(m_screenTitle);
 
     if (m_screenTitle) {
 
-        m_screenTitle->SetTitle(UserInterface::Base::ScreenType::Qualifying);
+        m_screenTitle->SetTitle(UserInterface::Screen::Type::Qualifying);
 
     }
 
@@ -32,7 +32,7 @@ UserInterface::Panel::QualifyingLeft::QualifyingLeft(QWidget* parent) :
 void UserInterface::Panel::QualifyingLeft::ResizePanel(const QSize& newPanelSize) {
 
     // call overridden function to resize background
-    UserInterface::Base::IPanel::ResizePanel(newPanelSize);
+    UserInterface::Panel::Interface::ResizePanel(newPanelSize);
 
     const uint16_t width = newPanelSize.width();
     const uint16_t height = newPanelSize.height();

@@ -1,15 +1,15 @@
 #include "screens/TimeTrial.h"
 
 #include <QWidget>
-#include "base/IDualPanelScreen.h"
-#include "base/ScreenType.h"
+#include "screens/DualPanelInterface.h"
+#include "core/ScreenType.h"
 #include "panels/TimeTrialLeft.h"
 #include "panels/TimeTrialRight.h"
 
 
 
 UserInterface::Screen::TimeTrial::TimeTrial(QWidget* parent) :
-    UserInterface::Base::IDualPanelScreen(parent) {
+    UserInterface::Screen::DualPanelInterface(parent) {
 
     m_panelLeft = new UserInterface::Panel::TimeTrialLeft(this);
     m_panelRight = new UserInterface::Panel::TimeTrialRight(this);
@@ -18,8 +18,8 @@ UserInterface::Screen::TimeTrial::TimeTrial(QWidget* parent) :
 
 
 
-const UserInterface::Base::ScreenType UserInterface::Screen::TimeTrial::Type() const {
+const UserInterface::Screen::Type UserInterface::Screen::TimeTrial::Type() const {
 
-    return UserInterface::Base::ScreenType::TimeTrial;
+    return UserInterface::Screen::Type::TimeTrial;
 
 }

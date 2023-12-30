@@ -1,17 +1,17 @@
-#include "widgets/LoadingIcon.h"
+#include "LoadingIcon.h"
 
 #include <QPropertyAnimation>
 #include <QLabel>
 #include <QPixmap>
 #include <QSize>
 #include <QWidget>
-#include "base/elements/ImageElement.h"
-#include "base/WidgetId.h"
+#include "base/ImageInterface.h"
+#include "base/ID.h"
 
 
 
-UserInterface::Widget::LoadingIcon::LoadingIcon(UserInterface::Base::WidgetId id, QWidget* parent) :
-    UserInterface::Base::ImageElement(id, parent),
+UserInterface::Widget::LoadingIcon::LoadingIcon(UserInterface::Widget::ID id, QWidget* parent) :
+    UserInterface::Widget::ImageInterface(id, parent),
     m_rotateImage(new QLabel(parent)),
     m_rotatePixmap(),
     m_originalSizeRotate(QSize(0, 0)),
@@ -86,7 +86,7 @@ void UserInterface::Widget::LoadingIcon::Move(const uint16_t x, const uint16_t y
 
 void UserInterface::Widget::LoadingIcon::Scale(const uint8_t percent) {
 
-    UserInterface::Base::ImageElement::Scale(percent);
+    UserInterface::Widget::ImageInterface::Scale(percent);
 
     if (m_rotateImage) {
 
@@ -110,7 +110,7 @@ void UserInterface::Widget::LoadingIcon::Scale(const uint8_t percent) {
 
 void UserInterface::Widget::LoadingIcon::Scale(const uint8_t percentX, const uint8_t percentY) {
 
-    UserInterface::Base::ImageElement::Scale(percentX, percentY);
+    UserInterface::Widget::ImageInterface::Scale(percentX, percentY);
 
     if (m_rotateImage) {
 
@@ -130,11 +130,11 @@ const int16_t UserInterface::Widget::LoadingIcon::Width() const {
 
     if (m_rotateImage) {
 
-        return qMax(m_rotateImage->width(), UserInterface::Base::ImageElement::Width());
+        return qMax(m_rotateImage->width(), UserInterface::Widget::ImageInterface::Width());
 
     }
 
-    return UserInterface::Base::ImageElement::Width();
+    return UserInterface::Widget::ImageInterface::Width();
 
 }
 
@@ -144,11 +144,11 @@ const int16_t UserInterface::Widget::LoadingIcon::Height() const {
 
     if (m_rotateImage) {
 
-        return qMax(m_rotateImage->height(), UserInterface::Base::ImageElement::Height());
+        return qMax(m_rotateImage->height(), UserInterface::Widget::ImageInterface::Height());
 
     }
 
-    return UserInterface::Base::ImageElement::Height();
+    return UserInterface::Widget::ImageInterface::Height();
 
 }
 

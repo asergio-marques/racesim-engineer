@@ -1,5 +1,5 @@
-#ifndef USERINTERFACE_BASE_INCLUDE_WIDGETID_H_
-#define USERINTERFACE_BASE_INCLUDE_WIDGETID_H_
+#ifndef USERINTERFACE_WIDGET_INCLUDE_ID_H_
+#define USERINTERFACE_WIDGET_INCLUDE_ID_H_
 
 #include <cstdint>
 
@@ -7,9 +7,9 @@
 
 namespace UserInterface {
 
-    namespace Base {
+    namespace Widget {
 
-        enum class WidgetId : uint8_t {
+        enum class ID : uint8_t {
 
             InvalidUnknown = 0,
             Background = 1,
@@ -23,4 +23,4 @@ namespace UserInterface {
 
 }
 
-#endif // USERINTERFACE_BASE_INCLUDE_WIDGETID_H_
+#endif // USERINTERFACE_WIDGET_INCLUDE_ID_H_

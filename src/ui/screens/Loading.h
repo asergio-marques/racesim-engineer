@@ -1,8 +1,8 @@
 #ifndef USERINTERFACE_SCREENS_INCLUDE_LOADING_H_
 #define USERINTERFACE_SCREENS_INCLUDE_LOADING_H_
 
-#include "base/ISinglePanelScreen.h"
-#include "base/ScreenType.h"
+#include "screens/SinglePanelInterface.h"
+#include "core/ScreenType.h"
 
 class QWidget;
 
@@ -19,14 +19,14 @@ namespace UserInterface {
 
     namespace Screen {
 
-        class Loading : public UserInterface::Base::ISinglePanelScreen {
+        class Loading : public UserInterface::Screen::SinglePanelInterface {
 
             Q_OBJECT
 
             public:
                 Loading(QWidget* parent = 0);
                 virtual ~Loading() = default;
-                virtual const UserInterface::Base::ScreenType Type() const override;
+                virtual const UserInterface::Screen::Type Type() const override;
 
         };
 

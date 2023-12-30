@@ -1,8 +1,8 @@
-#ifndef USERINTERFACE_BASE_INCLUDE_IMAGE_ELEMENT_H_
-#define USERINTERFACE_BASE_INCLUDE_IMAGE_ELEMENT_H_
+#ifndef USERINTERFACE_WIDGET_INCLUDE_IMAGE_INTERFACE_H_
+#define USERINTERFACE_WIDGET_INCLUDE_IMAGE_INTERFACE_H_
 
-#include "base/WidgetId.h"
-#include "base/Element.h"
+#include "base/ID.h"
+#include "base/Interface.h"
 #include <QPixmap>
 #include <QSize>
 
@@ -13,15 +13,15 @@ class QWidget;
 
 namespace UserInterface {
 
-    namespace Base {
+    namespace Widget {
 
-        class ImageElement : public UserInterface::Base::Element {
+        class ImageInterface : public UserInterface::Widget::Interface {
 
             Q_OBJECT
 
             public:
-                ImageElement(UserInterface::Base::WidgetId id, QWidget* parent = 0);
-                virtual ~ImageElement() = default;
+                ImageInterface(UserInterface::Widget::ID id, QWidget* parent = 0);
+                virtual ~ImageInterface() = default;
 
                 // Operations
                 virtual void Move(const uint16_t x, const uint16_t y, const bool centerAlignmentX, const bool centerAlignmentY) override;
@@ -45,4 +45,4 @@ namespace UserInterface {
 
 }
 
-#endif // USERINTERFACE_BASE_INCLUDE_IMAGE_ELEMENT_H_
+#endif // USERINTERFACE_WIDGET_INCLUDE_IMAGE_INTERFACE_H_

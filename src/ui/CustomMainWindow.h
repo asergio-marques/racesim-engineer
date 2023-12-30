@@ -2,7 +2,7 @@
 #define USERINTERFACE_INCLUDE_CUSTOM_MAIN_WINDOW_H_
 
 #include <QMainWindow>
-#include "base/ScreenType.h"
+#include "core/ScreenType.h"
 
 class QResizeEvent;
 class QWidget;
@@ -11,9 +11,9 @@ class QWidget;
 
 namespace UserInterface {
 
-    namespace Base {
+    namespace Screen {
         
-        class IScreen;
+        class Interface;
 
     }
 
@@ -24,7 +24,7 @@ namespace UserInterface {
         public:
             CustomMainWindow(QWidget* parent = 0);
             virtual ~CustomMainWindow() = default;
-            void addScreen(UserInterface::Base::IScreen* newScreen);
+            void addScreen(UserInterface::Screen::Interface* newScreen);
             // TODO these functions are to take in session start internal packets,
             // but these are yet to be implemented
             void OnSessionEnd(bool withDelay = false);
@@ -40,10 +40,10 @@ namespace UserInterface {
             virtual void resizeEvent(QResizeEvent* event) override;
 
         private:
-            void doAddScreen(UserInterface::Base::IScreen* newScreen);
-            bool doSwitchScreen(const UserInterface::Base::ScreenType type);
-            std::list<UserInterface::Base::IScreen*> m_screens;
-            UserInterface::Base::IScreen* m_activeScreen;
+            void doAddScreen(UserInterface::Screen::Interface* newScreen);
+            bool doSwitchScreen(const UserInterface::Screen::Type type);
+            std::list<UserInterface::Screen::Interface*> m_screens;
+            UserInterface::Screen::Interface* m_activeScreen;
 
     };
 

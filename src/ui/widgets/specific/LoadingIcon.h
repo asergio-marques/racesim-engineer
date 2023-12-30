@@ -6,10 +6,20 @@
 #include "base/ImageInterface.h"
 #include "base/ID.h"
 
+
+
 class QPropertyAnimation;
 class QLabel;
 
+namespace Packet {
 
+    namespace Internal {
+
+        class Interface;
+
+    }
+
+}
 
 namespace UserInterface {
 
@@ -25,7 +35,6 @@ namespace UserInterface {
                 
 
                 // Operations
-                bool Update() override final;
                 void Move(const uint16_t x, const uint16_t y, const bool centerAlignmentX, const bool centerAlignmentY) override final;
                 virtual void Scale(const uint8_t percent) override final;
                 virtual void Scale(const uint8_t percentX, const uint8_t percentY) override final;

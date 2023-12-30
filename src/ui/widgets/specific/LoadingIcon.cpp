@@ -50,15 +50,6 @@ UserInterface::Widget::LoadingIcon::LoadingIcon(UserInterface::Widget::ID id, QW
 
 
 
-bool UserInterface::Widget::LoadingIcon::Update() {
-
-    // Never updated?
-    return false;
-
-}
-
-
-
 void UserInterface::Widget::LoadingIcon::Move(const uint16_t x, const uint16_t y, const bool centerAlignmentX, const bool centerAlignmentY) {
 
     if (m_image && m_rotateImage) {

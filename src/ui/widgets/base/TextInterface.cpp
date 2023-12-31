@@ -10,166 +10,82 @@
 
 
 UserInterface::Widget::TextInterface::TextInterface(UserInterface::Widget::ID id, QWidget* parent) :
-    UserInterface::Widget::Interface(id),
-    m_text(new QLabel(parent)) {
+    QLabel(parent),
+    UserInterface::Widget::Interface(id) {
 
-    if (m_text) {
-
-        m_text->setStyleSheet("QLabel { color : white; font : Manrope }");
-        m_text->update();
-
-    }
+    setStyleSheet("QLabel { color : white; font : Manrope }");
+    update();
 
 }
 
 
 
-void UserInterface::Widget::TextInterface::Move(const uint16_t x, const uint16_t y, const bool centerAlignmentX, const bool centerAlignmentY) {
+void UserInterface::Widget::TextInterface::move(const uint16_t x, const uint16_t y, const bool centerAlignmentX, const bool centerAlignmentY) {
 
-    if (m_text) {
+    uint16_t newX = 0;
+    uint16_t newY = 0;
 
-        uint16_t newX = 0;
-        uint16_t newY = 0;
-
-        if (centerAlignmentX) newX = x - (m_text->width() / 2);
-        else newX = x;
-        if (centerAlignmentY) newY = y - (m_text->height() / 2);
-        else newY = y;
-        m_text->move(newX, newY);
-
-    }
+    if (centerAlignmentX) newX = x - (width() / 2);
+    else newX = x;
+    if (centerAlignmentY) newY = y - (height() / 2);
+    else newY = y;
+    QLabel::move(newX, newY);
 
 }
 
 
-void UserInterface::Widget::TextInterface::SetFontSize(const uint16_t size) {
+
+void UserInterface::Widget::TextInterface::setText(const std::string& text) {
+
+    const QString tempText = QString::fromUtf8(text);
+    QLabel::setText(tempText);
+
+}
+
+
+
+void UserInterface::Widget::TextInterface::setText(const char* text) {
+
+    const QString tempText = QString::fromUtf8(text);
+    QLabel::setText(tempText);
+
+}
+
+
+void UserInterface::Widget::TextInterface::setFontSize(const uint16_t size) {
+
 
     // TODO fix the issue where the text disappears entirely
     // if it is wider than the window itself
-    if (m_text) {
-
-        QFont font = m_text->font();
-        font.setPointSize(size);
-        m_text->setFont(font);
-        m_text->adjustSize();
-
-    }
-
-}
-
-void UserInterface::Widget::TextInterface::SetFontThickness(const UserInterface::Widget::FontThickness thickness) {
-
-    if (m_text) {
-
-        // TODO figure out a better way to use these fonts than to change the stylesheet everytime
-        // using stuff like setBold is not working as intended
-        switch (thickness) {
-
-            case UserInterface::Widget::FontThickness::Bold:
-                m_text->setStyleSheet("QLabel { color : white; font : Manrope Bold }");
-                break;
-
-            case UserInterface::Widget::FontThickness::ExtraBold:
-                m_text->setStyleSheet("QLabel { color : white; font : Manrope ExtraBold }");
-                break;
-
-            // also includes the case where Regular is requested
-            default:
-                m_text->setStyleSheet("QLabel { color : white; font : Manrope }");
-                break;
-
-        }
-
-    }    
-
-}
-
-
-const int16_t UserInterface::Widget::TextInterface::Width() const {
-
-    if (m_text) {
-
-        return m_text->width();
-
-    }
-    return 0;
+    QFont font = QLabel::font();
+    font.setPointSize(size);
+    setFont(font);
+    adjustSize();
 
 }
 
 
 
-const int16_t UserInterface::Widget::TextInterface::Height() const {
 
-    if (m_text) {
-
-        return m_text->height();
-
-    }
-    return 0;
-
-}
+void UserInterface::Widget::TextInterface::setFontThickness(const UserInterface::Widget::FontThickness thickness) {
 
 
+    // TODO figure out a better way to use these fonts than to change the stylesheet everytime
+    // using stuff like setBold is not working as intended
+    switch (thickness) {
 
-const int16_t UserInterface::Widget::TextInterface::X() const {
+        case UserInterface::Widget::FontThickness::Bold:
+            setStyleSheet("QLabel { color : white; font : Manrope Bold }");
+            break;
 
-    if (m_text) {
+        case UserInterface::Widget::FontThickness::ExtraBold:
+            setStyleSheet("QLabel { color : white; font : Manrope ExtraBold }");
+            break;
 
-        return m_text->x();
-
-    }
-
-    return 0;
-
-}
-
-
-
-const int16_t UserInterface::Widget::TextInterface::Y() const {
-
-    if (m_text) {
-    
-        return m_text->y();
-
-    }
-
-    return 0;
-
-}
-
-
-
-void UserInterface::Widget::TextInterface::SetText(const QString& text) {
-
-    if (m_text) {
-
-        m_text->setText(text);
-
-    }
-
-}
-
-
-
-void UserInterface::Widget::TextInterface::SetText(const std::string& text) {
-
-    if (m_text) {
-
-        const QString tempText = QString::fromUtf8(text);
-        this->SetText(tempText);
-
-    }
-
-}
-
-
-
-void UserInterface::Widget::TextInterface::SetText(const char* text) {
-
-    if (m_text) {
-
-        const QString tempText = QString::fromUtf8(text);
-        this->SetText(tempText);
+        // also includes the case where Regular is requested
+        default:
+            setStyleSheet("QLabel { color : white; font : Manrope }");
+            break;
 
     }
 

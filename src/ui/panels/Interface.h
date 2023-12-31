@@ -7,6 +7,16 @@
 
 
 
+namespace Packet {
+
+    namespace Internal {
+
+        class Interface;
+
+    }
+
+}
+
 namespace UserInterface {
 
     namespace Widget {
@@ -25,7 +35,7 @@ namespace UserInterface {
             public:
                 Interface(QWidget* parent = 0);
                 virtual ~Interface() = default;
-                virtual bool UpdateWidget(UserInterface::Widget::ID id);
+                virtual bool UpdateWidget(const UserInterface::Widget::ID& id, const Packet::Internal::Interface* dataPacket);
                 virtual void ResizePanel(const QSize& newPanelSize);
 
             protected:

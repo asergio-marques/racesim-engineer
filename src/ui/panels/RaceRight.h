@@ -4,11 +4,27 @@
 #include <QSize>
 #include "panels/Interface.h"
 
+
+
 class QWidget;
 
+namespace Packet {
 
+    namespace Internal {
+
+        class Interface;
+
+    }
+
+}
 
 namespace UserInterface {
+
+    namespace Widget {
+
+        class Standings;
+
+    }
 
     namespace Panel {
 
@@ -20,6 +36,9 @@ namespace UserInterface {
                 RaceRight(QWidget* parent = 0);
                 virtual ~RaceRight() = default;
                 virtual void ResizePanel(const QSize& newPanelSize) override final;
+
+            private:
+                UserInterface::Widget::Standings* m_driverStandings;
 
         };
 

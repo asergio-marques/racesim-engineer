@@ -7,7 +7,7 @@
 #include "styles/Loading.h"
 #include "widgets/general_use/BackgroundFullScreen.h"
 #include "widgets/general_use/ScreenTitle.h"
-#include "widgets/LoadingIcon.h"
+#include "widgets/specific/LoadingIcon.h"
 
 
 
@@ -17,7 +17,7 @@ UserInterface::Panel::Loading::Loading(QWidget* parent) :
     m_loadingText(nullptr) {
         
     m_background = new UserInterface::Widget::BackgroundFullScreen(UserInterface::Widget::ID::Background, this);
-    m_loadingIcon = new UserInterface::Widget::LoadingIcon(UserInterface::Widget::ID::LoadingIcon, this);
+    m_loadingIcon = new UserInterface::Widget::LoadingIcon(this);
     m_loadingText = new UserInterface::Widget::ScreenTitle(UserInterface::Widget::ID::ScreenTitle, this);
 
     RegisterWidget(m_background);
@@ -26,7 +26,7 @@ UserInterface::Panel::Loading::Loading(QWidget* parent) :
 
     if (m_loadingText) {
 
-        m_loadingText->SetTitle(UserInterface::Screen::Type::Loading);
+        m_loadingText->setTitle(UserInterface::Screen::Type::Loading);
 
     }
 
@@ -47,21 +47,21 @@ void UserInterface::Panel::Loading::ResizePanel(const QSize& newPanelSize) {
 
     if (m_loadingIcon && loadingStyle.LoadingIconScale.IsValid() && loadingStyle.LoadingIconYDiffCenter.IsValid()) {
 
-        m_loadingIcon->Scale(loadingStyle.LoadingIconScale.Interpolate(height));
+        m_loadingIcon->scale(loadingStyle.LoadingIconScale.Interpolate(height));
 
         // calc the vertical offset from the center of the panel
         const uint16_t newY = (height / 2) - loadingStyle.LoadingIconYDiffCenter.Interpolate(height);
-        m_loadingIcon->Move(loadingStyle.LoadingIconX.Calculate(width), newY, true, true);
+        m_loadingIcon->move(loadingStyle.LoadingIconX.Calculate(width), newY, true, true);
 
     }
     if (m_loadingText && generalStyle.ScreenTitleFontSize.IsValid() && loadingStyle.LoadingTextYDiffCenter.IsValid()) {
 
         const uint16_t newFontSize = generalStyle.ScreenTitleFontSize.Interpolate(height);
-        m_loadingText->SetFontSize(newFontSize);
+        m_loadingText->setFontSize(newFontSize);
 
         // calc the vertical offset from the center of the panel
         const uint16_t newY = (height / 2) + loadingStyle.LoadingTextYDiffCenter.Interpolate(height);
-        m_loadingText->Move(loadingStyle.LoadingTextX.Calculate(width), newY, true, false);
+        m_loadingText->move(loadingStyle.LoadingTextX.Calculate(width), newY, true, false);
 
     }
 

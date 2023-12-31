@@ -7,6 +7,16 @@
 
 
 
+namespace Packet {
+
+    namespace Internal {
+
+        class Interface;
+
+    }
+
+}
+
 namespace UserInterface {
 
     namespace Widget {
@@ -18,8 +28,8 @@ namespace UserInterface {
             public:
                 ScreenTitle(UserInterface::Widget::ID id, QWidget* parent = 0);
                 virtual ~ScreenTitle() = default;
-                bool Update() override;
-                void SetTitle(UserInterface::Screen::Type type);
+                void setTitle(UserInterface::Screen::Type type);
+
         };
 
     }

@@ -14,11 +14,20 @@ namespace Packet {
     namespace Internal {
 
         class Interface;
+        class PracticeStart;
+        class QualiStart;
+        class RaceStart;
 
     }
 }
 
 namespace UserInterface {
+
+    namespace Widget {
+
+        class Interface;
+
+    }
 
     class PacketHandler : public QObject {
 
@@ -40,6 +49,10 @@ namespace UserInterface {
         void StartTimer();
         void Exec();
         void CleanupList();
+
+        // Notify functions
+        void NotifySessionStartObservers(Packet::Internal::Interface* packet);
+        void NotifySessionEndObservers(Packet::Internal::Interface* packet);
 
         QList<Packet::Internal::Interface*> m_packetList;
         QThread m_workerThread;

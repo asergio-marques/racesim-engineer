@@ -3,8 +3,20 @@
 
 #include "panels/Interface.h"
 
+
+
 class QResizeEvent;
 class QWidget;
+
+namespace Packet {
+
+    namespace Internal {
+
+        class Interface;
+
+    }
+
+}
 
 
 
@@ -12,9 +24,8 @@ namespace UserInterface {
 
     namespace Widget {
 
-        class ImageInterface;
+        class LoadingIcon;
         class ScreenTitle;
-        class TextInterface;
 
     }
 
@@ -30,7 +41,7 @@ namespace UserInterface {
                 virtual void ResizePanel(const QSize& newPanelSize) override final;
 
             private:
-                UserInterface::Widget::ImageInterface* m_loadingIcon;
+                UserInterface::Widget::LoadingIcon* m_loadingIcon;
                 UserInterface::Widget::ScreenTitle* m_loadingText;
 
         };

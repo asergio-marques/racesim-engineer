@@ -4,9 +4,19 @@
 #include "screens/SinglePanelInterface.h"
 #include "core/ScreenType.h"
 
+
+
 class QWidget;
 
+namespace Packet {
 
+    namespace Internal {
+
+        class Interface;
+
+    }
+
+}
 
 namespace UserInterface {
 

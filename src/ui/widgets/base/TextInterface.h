@@ -2,10 +2,11 @@
 #define USERINTERFACE_WIDGET_INCLUDE_TEXT_INTERFACE_H_
 
 #include <QFont>
+#include <QLabel>
 #include "base/ID.h"
 #include "base/Interface.h"
 
-class QLabel;
+
 class QWidget;
 
 
@@ -22,7 +23,7 @@ namespace UserInterface {
 
         };
 
-        class TextInterface : public UserInterface::Widget::Interface {
+        class TextInterface : public QLabel, public UserInterface::Widget::Interface {
 
             Q_OBJECT
 
@@ -31,22 +32,14 @@ namespace UserInterface {
                 virtual ~TextInterface() = default;
 
                 // Operations
-                virtual void Move(const uint16_t x, const uint16_t y, const bool centerAlignmentX, const bool centerAlignmentY) override;
-                virtual void SetFontSize(const uint16_t size);
-                virtual void SetFontThickness(const UserInterface::Widget::FontThickness thickness);
-
-                // Getters
-                virtual const int16_t Width() const override;
-                virtual const int16_t Height() const override;
-                virtual const int16_t X() const override;
-                virtual const int16_t Y() const override;
+                virtual void move(const uint16_t x, const uint16_t y, const bool centerAlignmentX, const bool centerAlignmentY) override;
+                virtual void setText(const std::string& text);
+                virtual void setText(const char* text);
+                virtual void setFontSize(const uint16_t size);
+                virtual void setFontThickness(const UserInterface::Widget::FontThickness thickness);
 
             protected:
-                QLabel* m_text;
-
-                virtual void SetText(const QString& text);
-                virtual void SetText(const std::string& text);
-                virtual void SetText(const char* text);
+                uint16_t m_originalFontSize;
 
         };
 

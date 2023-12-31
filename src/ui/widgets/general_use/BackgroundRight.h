@@ -6,6 +6,16 @@
 
 
 
+namespace Packet {
+
+    namespace Internal {
+
+        class Interface;
+
+    }
+
+}
+
 namespace UserInterface {
 
     namespace Widget {
@@ -17,9 +27,6 @@ namespace UserInterface {
             public:
             BackgroundRight(UserInterface::Widget::ID id, QWidget* parent = 0);
             virtual ~BackgroundRight() = default;
-
-            // operations
-            bool Update() override;
 
         };
 

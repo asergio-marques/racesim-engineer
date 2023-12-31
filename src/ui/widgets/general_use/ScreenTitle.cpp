@@ -15,46 +15,38 @@
 UserInterface::Widget::ScreenTitle::ScreenTitle(UserInterface::Widget::ID id, QWidget* parent) :
     UserInterface::Widget::TextInterface(id, parent) {
 
-    this->SetFontThickness(UserInterface::Widget::FontThickness::Bold);
+    setFontThickness(UserInterface::Widget::FontThickness::Bold);
 
 }
 
 
 
-bool UserInterface::Widget::ScreenTitle::Update() {
-    
-    return true;
-
-}
-
-
-
-void UserInterface::Widget::ScreenTitle::SetTitle(UserInterface::Screen::Type type) {
+void UserInterface::Widget::ScreenTitle::setTitle(UserInterface::Screen::Type type) {
 
     switch (type) {
 
         case UserInterface::Screen::Type::Loading:
-            this->SetText("Waiting for a session to start...");
+            setText("Waiting for a session to start...");
             break;
 
         case UserInterface::Screen::Type::TimeTrial:
-            this->SetText("Time Trial");
+            setText("Time Trial");
             break;
 
         case UserInterface::Screen::Type::FreePractice:
-            this->SetText("Practice");
+            setText("Practice");
             break;
 
         case UserInterface::Screen::Type::Qualifying:
-            this->SetText("Quali");
+            setText("Quali");
             break;
 
         case UserInterface::Screen::Type::Race:
-            this->SetText("Race");
+            setText("Race");
             break;
 
         default:
-            this->SetText("N/A");
+            setText("N/A");
             break;
 
     }

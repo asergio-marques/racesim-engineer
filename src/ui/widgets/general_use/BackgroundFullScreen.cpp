@@ -13,26 +13,14 @@
 UserInterface::Widget::BackgroundFullScreen::BackgroundFullScreen(UserInterface::Widget::ID id, QWidget* parent) :
     UserInterface::Widget::ImageInterface(id, parent) {
 
-    if (m_image) {
+    QPixmap pm;
+    bool res = pm.load(":img/background/SingleScreenBG.png");
+    if (res) {
 
-        bool res = m_pixmap.load(":img/background/SingleScreenBG.png");
-        if (res) {
-
-            m_image->setPixmap(m_pixmap.scaled(QSize(1920, 1080), Qt::KeepAspectRatio));
-            m_image->setBaseSize(1920, 1080);
-            m_image->setMinimumSize(1920, 1080);
-
-        }
+        setPixmap(pm.scaled(QSize(1920, 1080), Qt::IgnoreAspectRatio), true);
+        setBaseSize(1920, 1080);
+        setMinimumSize(1920, 1080);
 
     }
-
-}
-
-
-
-bool UserInterface::Widget::BackgroundFullScreen::Update() {
-
-    // Never updated?
-    return false;
 
 }

@@ -35,7 +35,7 @@ bool UserInterface::Panel::Interface::RegisterWidget(UserInterface::Widget::Inte
 
 
 
-bool UserInterface::Panel::Interface::UpdateWidget(UserInterface::Widget::ID id) {
+bool UserInterface::Panel::Interface::UpdateWidget(const UserInterface::Widget::ID& id, const Packet::Internal::Interface* dataPacket) {
 
     // return true if at least one widget was updated with the information
     bool modified = false;
@@ -48,7 +48,7 @@ bool UserInterface::Panel::Interface::UpdateWidget(UserInterface::Widget::ID id)
 
             if (widget->GetId() == id) {
 
-                modified |= widget->Update();
+                // modified |= widget->Update();
 
             }
 
@@ -66,7 +66,7 @@ void UserInterface::Panel::Interface::ResizePanel(const QSize& newPanelSize) {
     if (m_background) {
 
         // aspect ratio cannot be kept due to the title and menu bars occupying vertical space
-        m_background->SetSize(newPanelSize.width(), newPanelSize.height(), false);
+        m_background->setSize(newPanelSize.width(), newPanelSize.height(), false);
 
     }
 

@@ -7,6 +7,15 @@
 
 
 
+namespace Packet {
+
+    namespace Internal {
+
+        class Interface;
+
+    }
+
+}
 
 namespace UserInterface {
 
@@ -27,7 +36,6 @@ namespace UserInterface {
                 virtual ~Interface() = default;
 
                 virtual void Initialize() = 0;
-                // virtual void Update(const InternalInfoPacket* updateInfo) = 0;
                 virtual const UserInterface::Screen::Type Type() const = 0;
 
             public slots:

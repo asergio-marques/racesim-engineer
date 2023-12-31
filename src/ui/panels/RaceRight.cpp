@@ -5,10 +5,12 @@
 #include "panels/Interface.h"
 #include "widgets/general_use/BackgroundRight.h"
 #include "widgets/general_use/ScreenTitle.h"
+//#include "widgets/multiplayer_session/Standings.h"
 
 
 UserInterface::Panel::RaceRight::RaceRight(QWidget* parent) :
-    UserInterface::Panel::Interface(parent) {
+    UserInterface::Panel::Interface(parent),
+    m_driverStandings(nullptr) {
         
     m_background = new UserInterface::Widget::BackgroundRight(UserInterface::Widget::ID::Background, this);
 

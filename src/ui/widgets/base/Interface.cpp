@@ -6,7 +6,6 @@
 
 
 UserInterface::Widget::Interface::Interface(UserInterface::Widget::ID id) :
-    QObject(),
     m_id(id) {
 
 

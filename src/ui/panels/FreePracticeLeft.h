@@ -4,9 +4,19 @@
 #include <QSize>
 #include "panels/Interface.h"
 
+
+
 class QWidget;
 
+namespace Packet {
 
+    namespace Internal {
+
+        class Interface;
+
+    }
+
+}
 
 namespace UserInterface {
 

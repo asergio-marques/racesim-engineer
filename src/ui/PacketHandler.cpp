@@ -65,44 +65,21 @@ void UserInterface::PacketHandler::Exec() {
     for (auto packet : m_packetList) {
 
         // TODO proper packet handler, for now let's cast to our hearts' delight
-        auto sessionStartPacket = dynamic_cast<Packet::Internal::SessionStart*>(packet);
-        if (sessionStartPacket) {
-            switch (sessionStartPacket->m_sessionType) {
+        if (packet) {
 
-                case Session::Internal::Type::TimeTrial:
-                    sessionStartPacket->markAsProcessed();
-                    emit TimeTrialStart();
+            switch (packet->packetType()) {
+
+                case Packet::Internal::Type::SessionStart:
+                    NotifySessionStartObservers(packet);
                     break;
-
-                case Session::Internal::Type::FreePractice:
-                    sessionStartPacket->markAsProcessed();
-                    emit PracticeStart();
+                case Packet::Internal::Type::SessionEnd:
+                    NotifySessionEndObservers(packet);
                     break;
-
-                case Session::Internal::Type::Qualifying:
-                    sessionStartPacket->markAsProcessed();
-                    emit QualiStart();
-                    break;
-
-                case Session::Internal::Type::Race:
-                    sessionStartPacket->markAsProcessed();
-                    emit RaceStart();
-                    break;
-
                 default:
-                    // idk
+                    // whoopsie daisy
                     break;
 
             }
-
-        }
-
-        auto sessionEndPacket = dynamic_cast<Packet::Internal::SessionEnd*>(packet);
-
-        if (sessionEndPacket) {
-
-            sessionEndPacket->markAsProcessed();
-            emit SessionEnd(true);
 
         }
 
@@ -128,6 +105,59 @@ void UserInterface::PacketHandler::CleanupList() {
             ++it;
 
         }
+
+    }
+
+}
+
+
+void UserInterface::PacketHandler::NotifySessionStartObservers(Packet::Internal::Interface* packet) {
+
+    // no need to check for nullptr
+    auto sessionStartPacket = dynamic_cast<Packet::Internal::SessionStart*>(packet);
+    if (sessionStartPacket) {
+
+        switch (sessionStartPacket->m_sessionType) {
+
+            case Session::Internal::Type::TimeTrial:
+                sessionStartPacket->markAsProcessed();
+                emit TimeTrialStart();
+                break;
+
+            case Session::Internal::Type::FreePractice:
+                sessionStartPacket->markAsProcessed();
+                emit PracticeStart();
+                break;
+
+            case Session::Internal::Type::Qualifying:
+                sessionStartPacket->markAsProcessed();
+                emit QualiStart();
+                break;
+
+            case Session::Internal::Type::Race:
+                sessionStartPacket->markAsProcessed();
+                emit RaceStart();
+                break;
+
+            default:
+                // idk
+                break;
+
+        }
+
+    }
+
+}
+
+
+
+void UserInterface::PacketHandler::NotifySessionEndObservers(Packet::Internal::Interface* packet) {
+
+    // information from packet not needed for the time being
+    if (packet) {
+
+        packet->markAsProcessed();
+        emit SessionEnd(true);
 
     }
 

@@ -21,7 +21,7 @@ UserInterface::Panel::RaceLeft::RaceLeft(QWidget* parent) :
 
     if (m_screenTitle) {
 
-        m_screenTitle->SetTitle(UserInterface::Screen::Type::Race);
+        m_screenTitle->setTitle(UserInterface::Screen::Type::Race);
 
     }
 
@@ -42,8 +42,8 @@ void UserInterface::Panel::RaceLeft::ResizePanel(const QSize& newPanelSize) {
     if (m_screenTitle && generalStyle.ScreenTitleFontSize.IsValid()) {
 
         const uint16_t newFontSize = generalStyle.ScreenTitleFontSize.Interpolate(height);
-        m_screenTitle->SetFontSize(newFontSize);
-        m_screenTitle->Move(generalStyle.HorizontalEdgeBorder.Calculate(width), generalStyle.VerticalEdgeBorder.Calculate(height), false, false);
+        m_screenTitle->setFontSize(newFontSize);
+        m_screenTitle->move(generalStyle.HorizontalEdgeBorder.Calculate(width), generalStyle.VerticalEdgeBorder.Calculate(height), false, false);
 
     }
 

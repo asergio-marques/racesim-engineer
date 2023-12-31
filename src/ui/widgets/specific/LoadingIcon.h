@@ -3,6 +3,7 @@
 
 #include <QPixmap>
 #include <QSize>
+#include "base/Container.h"
 #include "base/ImageInterface.h"
 #include "base/ID.h"
 
@@ -25,33 +26,31 @@ namespace UserInterface {
 
     namespace Widget {
 
-        class LoadingIcon final : public UserInterface::Widget::ImageInterface {
-
-            Q_OBJECT
+        class LoadingIcon final : public UserInterface::Widget::Container, public UserInterface::Widget::Interface {
 
             public:
-                LoadingIcon(UserInterface::Widget::ID id, QWidget* parent = 0);
-                virtual ~LoadingIcon() = default;
-                
+            LoadingIcon(QWidget* parent = 0);
+            virtual ~LoadingIcon() = default;
 
-                // Operations
-                void Move(const uint16_t x, const uint16_t y, const bool centerAlignmentX, const bool centerAlignmentY) override final;
-                virtual void Scale(const uint8_t percent) override final;
-                virtual void Scale(const uint8_t percentX, const uint8_t percentY) override final;
+            void move(const uint16_t x, const uint16_t y, const bool centerAlignmentX, const bool centerAlignmentY) override final;
+            void scale(const uint8_t percent);
+            void scale(const uint8_t percentX, const uint8_t percentY);
 
-                // Getters
-                const int16_t Width() const override;
-                const int16_t Height() const override;
+            const int16_t width() override final;
+            const int16_t height() override final;
+            const int16_t x() override final;
+            const int16_t y() override final;
 
             protected:
-                QLabel* m_rotateImage;
-                QPixmap m_rotatePixmap;
-                QSize m_originalSizeRotate;
-                QPropertyAnimation* m_anim;
-                qreal m_currentRotation;
+            UserInterface::Widget::ImageInterface* m_centerWidget;
+            UserInterface::Widget::ImageInterface* m_rotateWidget;
+            QPixmap m_centerPixmap;
+            QPixmap m_rotatePixmap;
+            QPropertyAnimation* m_anim;
+            qreal m_currentRotation;
 
             private slots:
-                void onAnimUpdate(const QVariant& value);
+            void onAnimUpdate(const QVariant& value);
 
         };
 

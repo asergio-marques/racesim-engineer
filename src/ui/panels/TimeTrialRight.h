@@ -20,6 +20,8 @@ namespace Packet {
 
 namespace UserInterface {
 
+    class PacketHandler;
+
     namespace Panel {
 
         class TimeTrialRight final : public UserInterface::Panel::Interface {
@@ -27,7 +29,7 @@ namespace UserInterface {
             Q_OBJECT
 
             public:
-                TimeTrialRight(QWidget* parent = 0);
+                TimeTrialRight(UserInterface::PacketHandler* handler, QWidget* parent = 0);
                 virtual ~TimeTrialRight() = default;
                 virtual void ResizePanel(const QSize& newPanelSize) override final;
 

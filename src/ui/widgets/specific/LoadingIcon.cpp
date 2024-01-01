@@ -11,7 +11,7 @@
 
 
 UserInterface::Widget::LoadingIcon::LoadingIcon(QWidget* parent) :
-    UserInterface::Widget::Interface(UserInterface::Widget::ID::LoadingIcon),
+    UserInterface::Widget::Container(UserInterface::Widget::ID::LoadingIcon),
     m_centerWidget(new UserInterface::Widget::ImageInterface(UserInterface::Widget::ID::LoadingIcon, parent)),
     m_rotateWidget(new UserInterface::Widget::ImageInterface(UserInterface::Widget::ID::LoadingIcon, parent)),
     m_centerPixmap(),
@@ -50,24 +50,26 @@ UserInterface::Widget::LoadingIcon::LoadingIcon(QWidget* parent) :
 
 void UserInterface::Widget::LoadingIcon::move(const uint16_t x, const uint16_t y, const bool centerAlignmentX, const bool centerAlignmentY) {
 
-    if (m_centerWidget && m_rotateWidget) {
+    if (!m_centerWidget || !m_rotateWidget) {
 
-        // calc the offset between the two icons
-        int16_t centerDx = (m_rotateWidget->width() - m_centerWidget->width()) / 2;
-        int16_t centerDy = (m_rotateWidget->height() - m_centerWidget->height()) / 2;
-
-        uint16_t newX = 0;
-        uint16_t newY = 0;
-
-        if (centerAlignmentX) newX = x - (m_rotateWidget->width() / 2);
-        else newX = x;
-        if (centerAlignmentY) newY = y - (m_rotateWidget->height() / 2);
-        else newY = y;
-
-        m_rotateWidget->move(newX, newY, false, false);
-        m_centerWidget->move(newX + centerDx, newY + centerDy, false, false);
+        return;
 
     }
+
+    // calc the offset between the two icons
+    int16_t centerDx = (m_rotateWidget->width() - m_centerWidget->width()) / 2;
+    int16_t centerDy = (m_rotateWidget->height() - m_centerWidget->height()) / 2;
+
+    uint16_t newX = 0;
+    uint16_t newY = 0;
+
+    if (centerAlignmentX) newX = x - (m_rotateWidget->width() / 2);
+    else newX = x;
+    if (centerAlignmentY) newY = y - (m_rotateWidget->height() / 2);
+    else newY = y;
+
+    m_rotateWidget->move(newX, newY, false, false);
+    m_centerWidget->move(newX + centerDx, newY + centerDy, false, false);
 
 }
 
@@ -122,7 +124,19 @@ void UserInterface::Widget::LoadingIcon::scale(const uint8_t percentX, const uin
 
 }
 
-const int16_t UserInterface::Widget::LoadingIcon::width() {
+
+
+void UserInterface::Widget::LoadingIcon::setSize(const uint16_t newWidth, const uint16_t newHeight, const bool keepAspectRatio) {
+
+    uint8_t scaleX = newWidth / width();
+    uint8_t scaleY = newHeight / height();
+    scale(newWidth, newHeight);
+
+}
+
+
+
+const int16_t UserInterface::Widget::LoadingIcon::width() const {
 
     if (m_centerWidget && m_rotateWidget) {
 
@@ -136,7 +150,7 @@ const int16_t UserInterface::Widget::LoadingIcon::width() {
 
 
 
-const int16_t UserInterface::Widget::LoadingIcon::height() {
+const int16_t UserInterface::Widget::LoadingIcon::height() const {
 
     if (m_centerWidget && m_rotateWidget) {
 
@@ -150,7 +164,7 @@ const int16_t UserInterface::Widget::LoadingIcon::height() {
 
 
 
-const int16_t UserInterface::Widget::LoadingIcon::x() {
+const int16_t UserInterface::Widget::LoadingIcon::x() const {
 
     if (m_centerWidget && m_rotateWidget) {
 
@@ -163,7 +177,7 @@ const int16_t UserInterface::Widget::LoadingIcon::x() {
 
 
 
-const int16_t UserInterface::Widget::LoadingIcon::y() {
+const int16_t UserInterface::Widget::LoadingIcon::y() const {
 
     if (m_centerWidget && m_rotateWidget) {
 

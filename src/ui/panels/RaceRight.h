@@ -20,6 +20,8 @@ namespace Packet {
 
 namespace UserInterface {
 
+    class PacketHandler;
+
     namespace Widget {
 
         class Standings;
@@ -33,7 +35,7 @@ namespace UserInterface {
             Q_OBJECT
 
             public:
-                RaceRight(QWidget* parent = 0);
+                RaceRight(UserInterface::PacketHandler* handler, QWidget* parent = 0);
                 virtual ~RaceRight() = default;
                 virtual void ResizePanel(const QSize& newPanelSize) override final;
 

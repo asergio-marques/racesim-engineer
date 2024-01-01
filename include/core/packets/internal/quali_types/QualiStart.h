@@ -2,8 +2,9 @@
 #define PACKETS_INTERNAL_RACE_INCLUDE_QUALI_START_H_
 
 #include <list>
-#include "packets/internal/MPSessionStart.h"
 #include "data/internal/Session.h"
+#include "packets/internal/MPSessionStart.h"
+#include "packets/internal/Type.h"
 
 
 
@@ -20,7 +21,7 @@ namespace Packet {
             virtual ~QualiStart() = default;
 
             // How many cars go through to the next round
-            uint8_t m_carsClassifiedAtEnd;
+            const uint8_t m_carsClassifiedAtEnd;
 
         };
 

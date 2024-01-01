@@ -66,11 +66,11 @@ void UserInterface::UIStarter::Init(int* argc, char*** argv) {
 
         m_window->setMinimumSize(480, 360);
         m_window->setBaseSize(1920, 1040);
-        m_window->addScreen(new UserInterface::Screen::Loading);
-        m_window->addScreen(new UserInterface::Screen::TimeTrial);
-        m_window->addScreen(new UserInterface::Screen::FreePractice);
-        m_window->addScreen(new UserInterface::Screen::Qualifying);
-        m_window->addScreen(new UserInterface::Screen::Race);
+        m_window->addScreen(new UserInterface::Screen::Loading(m_handler, m_window));
+        m_window->addScreen(new UserInterface::Screen::TimeTrial(m_handler, m_window));
+        m_window->addScreen(new UserInterface::Screen::FreePractice(m_handler, m_window));
+        m_window->addScreen(new UserInterface::Screen::Qualifying(m_handler, m_window));
+        m_window->addScreen(new UserInterface::Screen::Race(m_handler, m_window));
         
         QMenuBar* menuBar = new QMenuBar(m_window);
         if (menuBar) {

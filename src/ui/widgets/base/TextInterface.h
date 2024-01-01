@@ -33,6 +33,7 @@ namespace UserInterface {
 
                 // Operations
                 virtual void move(const uint16_t x, const uint16_t y, const bool centerAlignmentX, const bool centerAlignmentY) override;
+                virtual void setText(const QString& text);
                 virtual void setText(const std::string& text);
                 virtual void setText(const char* text);
                 virtual void setFontSize(const uint16_t size);

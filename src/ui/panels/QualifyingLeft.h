@@ -20,6 +20,8 @@ namespace Packet {
 
 namespace UserInterface {
 
+    class PacketHandler;
+
     namespace Widget {
 
         class ScreenTitle;
@@ -33,7 +35,7 @@ namespace UserInterface {
             Q_OBJECT
 
             public:
-                QualifyingLeft(QWidget* parent = 0);
+                QualifyingLeft(UserInterface::PacketHandler* handler, QWidget* parent = 0);
                 virtual ~QualifyingLeft() = default;
                 virtual void ResizePanel(const QSize& newPanelSize) override final;
 

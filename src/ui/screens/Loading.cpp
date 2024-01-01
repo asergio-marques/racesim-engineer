@@ -7,10 +7,10 @@
 
 
 
-UserInterface::Screen::Loading::Loading(QWidget* parent) :
+UserInterface::Screen::Loading::Loading(UserInterface::PacketHandler* handler, QWidget* parent) :
     UserInterface::Screen::SinglePanelInterface(parent) {
 
-    m_panel = new UserInterface::Panel::Loading(this);
+    m_panel = new UserInterface::Panel::Loading(handler, this);
 
 }
 

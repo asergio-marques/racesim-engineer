@@ -10,14 +10,15 @@ class QWidget;
 
 namespace UserInterface {
 
-    namespace Screen {
+    class PacketHandler;
 
+    namespace Screen {
         class FreePractice : public UserInterface::Screen::DualPanelInterface {
 
             Q_OBJECT
 
             public:
-                FreePractice(QWidget* parent = 0);
+                FreePractice(UserInterface::PacketHandler* handler, QWidget* parent = 0);
                 virtual ~FreePractice() = default;
                 virtual const UserInterface::Screen::Type Type() const override;
 

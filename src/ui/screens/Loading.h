@@ -20,6 +20,8 @@ namespace Packet {
 
 namespace UserInterface {
 
+    class PacketHandler;
+
     namespace Base {
 
         class TextElement;
@@ -34,7 +36,7 @@ namespace UserInterface {
             Q_OBJECT
 
             public:
-                Loading(QWidget* parent = 0);
+                Loading(UserInterface::PacketHandler* handler, QWidget* parent = 0);
                 virtual ~Loading() = default;
                 virtual const UserInterface::Screen::Type Type() const override;
 

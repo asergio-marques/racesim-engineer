@@ -43,8 +43,7 @@ target_sources(${PROJECT_NAME} PRIVATE
     screens/TimeTrial.cpp
     screens/FreePractice.cpp
     screens/Qualifying.cpp
-    screens/Race.cpp
-    )
+    screens/Race.cpp)
 
 target_link_libraries(${PROJECT_NAME} PRIVATE
     RaceSimEngineerCore

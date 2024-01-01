@@ -19,6 +19,8 @@ namespace Packet {
 
 namespace UserInterface {
 
+    class PacketHandler;
+
     namespace Widget {
 
         class Interface;
@@ -33,9 +35,8 @@ namespace UserInterface {
             Q_OBJECT
 
             public:
-                Interface(QWidget* parent = 0);
+                Interface(UserInterface::PacketHandler* handler, QWidget* parent = 0);
                 virtual ~Interface() = default;
-                virtual bool UpdateWidget(const UserInterface::Widget::ID& id, const Packet::Internal::Interface* dataPacket);
                 virtual void ResizePanel(const QSize& newPanelSize);
 
             protected:
@@ -43,7 +44,7 @@ namespace UserInterface {
                 std::map<UserInterface::Widget::ID, UserInterface::Widget::Interface*> m_widgets;
 
                 UserInterface::Widget::ImageInterface* m_background;
-
+                UserInterface::PacketHandler* m_handler;
         };
 
     }

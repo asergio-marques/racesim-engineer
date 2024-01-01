@@ -8,9 +8,10 @@
 
 
 
-UserInterface::Panel::Interface::Interface(QWidget* parent) :
+UserInterface::Panel::Interface::Interface(UserInterface::PacketHandler* handler, QWidget* parent) :
     QWidget(parent),
     m_widgets(),
+    m_handler(handler),
     m_background(nullptr) {
 
 
@@ -30,33 +31,6 @@ bool UserInterface::Panel::Interface::RegisterWidget(UserInterface::Widget::Inte
     }
 
     return false;
-
-}
-
-
-
-bool UserInterface::Panel::Interface::UpdateWidget(const UserInterface::Widget::ID& id, const Packet::Internal::Interface* dataPacket) {
-
-    // return true if at least one widget was updated with the information
-    bool modified = false;
-
-    for (auto entry : m_widgets) {
-
-        UserInterface::Widget::Interface* widget = entry.second;
-
-        if (widget) {
-
-            if (widget->GetId() == id) {
-
-                // modified |= widget->Update();
-
-            }
-
-        }
-
-    }
-
-    return modified;
 
 }
 

@@ -7,8 +7,8 @@
 #include "widgets/general_use/ScreenTitle.h"
 
 
-UserInterface::Panel::TimeTrialRight::TimeTrialRight(QWidget* parent) :
-    UserInterface::Panel::Interface(parent) {
+UserInterface::Panel::TimeTrialRight::TimeTrialRight(UserInterface::PacketHandler* handler, QWidget* parent) :
+    UserInterface::Panel::Interface(handler, parent) {
         
     m_background = new UserInterface::Widget::BackgroundRight(UserInterface::Widget::ID::Background, this);
 

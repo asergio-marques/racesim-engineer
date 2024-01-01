@@ -8,11 +8,11 @@
 
 
 
-UserInterface::Screen::FreePractice::FreePractice(QWidget* parent) :
+UserInterface::Screen::FreePractice::FreePractice(UserInterface::PacketHandler* handler, QWidget* parent) :
     UserInterface::Screen::DualPanelInterface(parent) {
 
-    m_panelLeft = new UserInterface::Panel::FreePracticeLeft(this);
-    m_panelRight = new UserInterface::Panel::FreePracticeRight(this);
+    m_panelLeft = new UserInterface::Panel::FreePracticeLeft(handler, this);
+    m_panelRight = new UserInterface::Panel::FreePracticeRight(handler, this);
 
 }
 

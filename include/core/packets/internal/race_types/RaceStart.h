@@ -2,8 +2,9 @@
 #define PACKETS_INTERNAL_RACE_INCLUDE_RACE_START_H_
 
 #include <list>
-#include "packets/internal/MPSessionStart.h"
 #include "data/internal/Session.h"
+#include "packets/internal/MPSessionStart.h"
+#include "packets/internal/Type.h"
 
 
 
@@ -21,7 +22,7 @@ namespace Packet {
             virtual ~RaceStart() = default;
 
             // Number of laps in the race
-            uint8_t m_numLaps;
+            const uint8_t m_numLaps;
 
         };
 

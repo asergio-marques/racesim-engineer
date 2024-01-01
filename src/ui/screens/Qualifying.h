@@ -10,6 +10,8 @@ class QWidget;
 
 namespace UserInterface {
 
+    class PacketHandler;
+
     namespace Screen {
 
         class Qualifying : public UserInterface::Screen::DualPanelInterface {
@@ -17,7 +19,7 @@ namespace UserInterface {
             Q_OBJECT
 
             public:
-                Qualifying(QWidget* parent = 0);
+                Qualifying(UserInterface::PacketHandler* handler, QWidget* parent = 0);
                 virtual ~Qualifying() = default;
                 virtual const UserInterface::Screen::Type Type() const override;
 

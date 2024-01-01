@@ -6,26 +6,20 @@
 #include <QObject>
 #include <QThread>
 #include <QTimer>
+// packet headers need to be added here for signals to work
+#include "packets/internal/SessionStart.h"
+#include "packets/internal/tt_types/TimeTrialStart.h"
+#include "packets/internal/practice_types/PracticeStart.h"
+#include "packets/internal/quali_types/QualiStart.h"
+#include "packets/internal/race_types/RaceStart.h"
 
 
-
-namespace Packet {
-
-    namespace Internal {
-
-        class Interface;
-        class PracticeStart;
-        class QualiStart;
-        class RaceStart;
-
-    }
-}
 
 namespace UserInterface {
 
     namespace Widget {
 
-        class Interface;
+        class MPSessionStartInterface;
 
     }
 
@@ -39,10 +33,10 @@ namespace UserInterface {
         void AcceptPacket(Packet::Internal::Interface* packet);
 
         signals:
-        void TimeTrialStart();
-        void PracticeStart();
-        void QualiStart();
-        void RaceStart();
+        void TimeTrialStart(const Packet::Internal::TimeTrialStart*);
+        void PracticeStart(const Packet::Internal::PracticeStart*);
+        void QualiStart(const Packet::Internal::QualiStart*);
+        void RaceStart(const Packet::Internal::RaceStart*);
         void SessionEnd(bool withDelay);
 
         private:
@@ -55,6 +49,7 @@ namespace UserInterface {
         void NotifySessionEndObservers(Packet::Internal::Interface* packet);
 
         QList<Packet::Internal::Interface*> m_packetList;
+        QList<UserInterface::Widget::MPSessionStartInterface*> m_mpSessionStartObservers;
         QThread m_workerThread;
         QTimer m_execTimer;
 

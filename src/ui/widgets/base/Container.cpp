@@ -4,8 +4,9 @@
 
 
 
-UserInterface::Widget::Container::Container() :
-    QObject() {
+UserInterface::Widget::Container::Container(UserInterface::Widget::ID id) :
+    QObject(),
+    UserInterface::Widget::Interface(id) {
 
 
 

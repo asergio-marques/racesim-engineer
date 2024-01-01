@@ -5,8 +5,6 @@
 #include <QObject>
 #include <QThread>
 #include <QTimer>
-#include "packets/internal/SessionStart.h"
-#include "packets/internal/SessionEnd.h"
 
 
 
@@ -121,22 +119,22 @@ void UserInterface::PacketHandler::NotifySessionStartObservers(Packet::Internal:
 
             case Session::Internal::Type::TimeTrial:
                 sessionStartPacket->markAsProcessed();
-                emit TimeTrialStart();
+                emit TimeTrialStart(dynamic_cast<const Packet::Internal::TimeTrialStart*>(sessionStartPacket));
                 break;
 
             case Session::Internal::Type::FreePractice:
                 sessionStartPacket->markAsProcessed();
-                emit PracticeStart();
+                emit PracticeStart(dynamic_cast<const Packet::Internal::PracticeStart*>(sessionStartPacket));
                 break;
 
             case Session::Internal::Type::Qualifying:
                 sessionStartPacket->markAsProcessed();
-                emit QualiStart();
+                emit QualiStart(dynamic_cast<const Packet::Internal::QualiStart*>(sessionStartPacket));
                 break;
 
             case Session::Internal::Type::Race:
                 sessionStartPacket->markAsProcessed();
-                emit RaceStart();
+                emit RaceStart(dynamic_cast<const Packet::Internal::RaceStart*>(sessionStartPacket));
                 break;
 
             default:

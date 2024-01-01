@@ -115,7 +115,7 @@ namespace UserInterface {
 
                 ~General() = default;
 
-                static inline const Value VerticalEdgeBorder = { ValueType::Absolute, 40 };
+                static inline const Value VerticalEdgeBorder = { ValueType::Absolute, 28 };
 
                 static inline const Value HorizontalEdgeBorder = { ValueType::Absolute, 36 };
 

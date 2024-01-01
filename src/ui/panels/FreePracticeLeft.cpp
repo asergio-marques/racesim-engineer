@@ -9,8 +9,8 @@
 #include "widgets/general_use/ScreenTitle.h"
 
 
-UserInterface::Panel::FreePracticeLeft::FreePracticeLeft(QWidget* parent) :
-    UserInterface::Panel::Interface(parent),
+UserInterface::Panel::FreePracticeLeft::FreePracticeLeft(UserInterface::PacketHandler* handler, QWidget* parent) :
+    UserInterface::Panel::Interface(handler, parent),
     m_screenTitle(nullptr) {
         
     m_background = new UserInterface::Widget::BackgroundLeft(UserInterface::Widget::ID::Background, this);

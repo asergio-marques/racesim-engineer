@@ -20,6 +20,8 @@ namespace Packet {
 
 namespace UserInterface {
 
+    class PacketHandler;
+
     namespace Widget {
 
         class ScreenTitle;
@@ -33,7 +35,7 @@ namespace UserInterface {
             Q_OBJECT
 
             public:
-                FreePracticeLeft(QWidget* parent = 0);
+                FreePracticeLeft(UserInterface::PacketHandler* handler, QWidget* parent = 0);
                 virtual ~FreePracticeLeft() = default;
                 virtual void ResizePanel(const QSize& newPanelSize) override final;
 

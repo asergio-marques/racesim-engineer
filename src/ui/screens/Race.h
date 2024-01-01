@@ -10,6 +10,8 @@ class QWidget;
 
 namespace UserInterface {
 
+    class PacketHandler;
+
     namespace Screen {
 
         class Race : public UserInterface::Screen::DualPanelInterface {
@@ -17,7 +19,7 @@ namespace UserInterface {
             Q_OBJECT
 
             public:
-                Race(QWidget* parent = 0);
+                Race(UserInterface::PacketHandler* handler, QWidget* parent = 0);
                 virtual ~Race() = default;
                 virtual const UserInterface::Screen::Type Type() const override;
 

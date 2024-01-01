@@ -35,10 +35,20 @@ void UserInterface::Widget::TextInterface::move(const uint16_t x, const uint16_t
 
 
 
+void UserInterface::Widget::TextInterface::setText(const QString& text) {
+
+    QLabel::setText(text);
+    adjustSize();
+
+}
+
+
+
 void UserInterface::Widget::TextInterface::setText(const std::string& text) {
 
     const QString tempText = QString::fromUtf8(text);
     QLabel::setText(tempText);
+    adjustSize();
 
 }
 
@@ -48,6 +58,7 @@ void UserInterface::Widget::TextInterface::setText(const char* text) {
 
     const QString tempText = QString::fromUtf8(text);
     QLabel::setText(tempText);
+    adjustSize();
 
 }
 

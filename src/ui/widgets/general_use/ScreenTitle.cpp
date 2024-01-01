@@ -15,7 +15,7 @@
 UserInterface::Widget::ScreenTitle::ScreenTitle(UserInterface::Widget::ID id, QWidget* parent) :
     UserInterface::Widget::TextInterface(id, parent) {
 
-    setFontThickness(UserInterface::Widget::FontThickness::Bold);
+    setFontThickness(UserInterface::Widget::FontThickness::ExtraBold);
 
 }
 

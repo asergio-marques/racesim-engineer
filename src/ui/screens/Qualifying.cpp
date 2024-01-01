@@ -8,11 +8,11 @@
 
 
 
-UserInterface::Screen::Qualifying::Qualifying(QWidget* parent) :
+UserInterface::Screen::Qualifying::Qualifying(UserInterface::PacketHandler* handler, QWidget* parent) :
     UserInterface::Screen::DualPanelInterface(parent) {
 
-    m_panelLeft = new UserInterface::Panel::QualifyingLeft(this);
-    m_panelRight = new UserInterface::Panel::QualifyingRight(this);
+    m_panelLeft = new UserInterface::Panel::QualifyingLeft(handler, this);
+    m_panelRight = new UserInterface::Panel::QualifyingRight(handler, this);
 
 }
 

@@ -8,11 +8,11 @@
 
 
 
-UserInterface::Screen::TimeTrial::TimeTrial(QWidget* parent) :
+UserInterface::Screen::TimeTrial::TimeTrial(UserInterface::PacketHandler* handler, QWidget* parent) :
     UserInterface::Screen::DualPanelInterface(parent) {
 
-    m_panelLeft = new UserInterface::Panel::TimeTrialLeft(this);
-    m_panelRight = new UserInterface::Panel::TimeTrialRight(this);
+    m_panelLeft = new UserInterface::Panel::TimeTrialLeft(handler, this);
+    m_panelRight = new UserInterface::Panel::TimeTrialRight(handler, this);
 
 }
 

@@ -4,15 +4,15 @@
 #include <QWidget>
 #include "panels/Interface.h"
 #include "core/ScreenType.h"
-#include "styles/Loading.h"
+#include "core/styles/Loading.h"
 #include "widgets/general_use/BackgroundFullScreen.h"
 #include "widgets/general_use/ScreenTitle.h"
 #include "widgets/specific/LoadingIcon.h"
 
 
 
-UserInterface::Panel::Loading::Loading(QWidget* parent) :
-    UserInterface::Panel::Interface(parent),
+UserInterface::Panel::Loading::Loading(UserInterface::PacketHandler* handler, QWidget* parent) :
+    UserInterface::Panel::Interface(handler, parent),
     m_loadingIcon(nullptr),
     m_loadingText(nullptr) {
         

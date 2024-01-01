@@ -10,6 +10,8 @@ class QWidget;
 
 namespace UserInterface {
 
+    class PacketHandler;
+
     namespace Screen {
 
         class TimeTrial : public UserInterface::Screen::DualPanelInterface {
@@ -17,7 +19,7 @@ namespace UserInterface {
             Q_OBJECT
 
             public:
-                TimeTrial(QWidget* parent = 0);
+                TimeTrial(UserInterface::PacketHandler* handler, QWidget* parent = 0);
                 virtual ~TimeTrial() = default;
                 virtual const UserInterface::Screen::Type Type() const override;
 

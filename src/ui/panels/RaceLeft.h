@@ -2,13 +2,25 @@
 #define USERINTERFACE_PANELS_INCLUDE_RACE_LEFT_H_
 
 #include <QSize>
-#include "base/IPanel.h"
+#include "panels/Interface.h"
+
+
 
 class QWidget;
 
+namespace Packet {
 
+    namespace Internal {
+
+        class Interface;
+
+    }
+
+}
 
 namespace UserInterface {
+
+    class PacketHandler;
 
     namespace Widget {
 
@@ -18,12 +30,12 @@ namespace UserInterface {
 
     namespace Panel {
 
-        class RaceLeft final : public UserInterface::Base::IPanel {
+        class RaceLeft final : public UserInterface::Panel::Interface {
 
             Q_OBJECT
 
             public:
-                RaceLeft(QWidget* parent = 0);
+                RaceLeft(UserInterface::PacketHandler* handler, QWidget* parent = 0);
                 virtual ~RaceLeft() = default;
                 virtual void ResizePanel(const QSize& newPanelSize) override final;
 

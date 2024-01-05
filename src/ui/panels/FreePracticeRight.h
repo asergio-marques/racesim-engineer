@@ -2,22 +2,34 @@
 #define USERINTERFACE_PANELS_INCLUDE_FREE_PRACTICE_RIGHT_H_
 
 #include <QSize>
-#include "base/IPanel.h"
+#include "panels/Interface.h"
+
+
 
 class QWidget;
 
+namespace Packet {
 
+    namespace Internal {
+
+        class Interface;
+
+    }
+
+}
 
 namespace UserInterface {
 
+    class PacketHandler;
+
     namespace Panel {
 
-        class FreePracticeRight final : public UserInterface::Base::IPanel {
+        class FreePracticeRight final : public UserInterface::Panel::Interface {
 
             Q_OBJECT
 
             public:
-                FreePracticeRight(QWidget* parent = 0);
+                FreePracticeRight(UserInterface::PacketHandler* handler, QWidget* parent = 0);
                 virtual ~FreePracticeRight() = default;
                 virtual void ResizePanel(const QSize& newPanelSize) override final;
 

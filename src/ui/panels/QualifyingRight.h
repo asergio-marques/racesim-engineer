@@ -2,22 +2,34 @@
 #define USERINTERFACE_PANELS_INCLUDE_QUALIFYING_RIGHT_H_
 
 #include <QSize>
-#include "base/IPanel.h"
+#include "panels/Interface.h"
+
+
 
 class QWidget;
 
+namespace Packet {
 
+    namespace Internal {
+
+        class Interface;
+
+    }
+
+}
 
 namespace UserInterface {
 
+    class PacketHandler;
+
     namespace Panel {
 
-        class QualifyingRight final : public UserInterface::Base::IPanel {
+        class QualifyingRight final : public UserInterface::Panel::Interface {
 
             Q_OBJECT
 
             public:
-                QualifyingRight(QWidget* parent = 0);
+                QualifyingRight(UserInterface::PacketHandler* handler, QWidget* parent = 0);
                 virtual ~QualifyingRight() = default;
                 virtual void ResizePanel(const QSize& newPanelSize) override final;
 

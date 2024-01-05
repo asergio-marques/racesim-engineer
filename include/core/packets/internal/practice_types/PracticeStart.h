@@ -1,8 +1,9 @@
 #ifndef PACKETS_INTERNAL_RACE_INCLUDE_PRACTICE_START_H_
 #define PACKETS_INTERNAL_RACE_INCLUDE_PRACTICE_START_H_
 
-#include "packets/internal/MPSessionStart.h"
 #include "data/internal/Session.h"
+#include "packets/internal/MPSessionStart.h"
+#include "packets/internal/Type.h"
 
 
 

@@ -1,8 +1,9 @@
 #ifndef PACKETS_INTERNAL_INCLUDE_SESSION_START_H_
 #define PACKETS_INTERNAL_INCLUDE_SESSION_START_H_
 
-#include "packets/internal/Interface.h"
 #include "data/internal/Session.h"
+#include "packets/internal/Interface.h"
+#include "packets/internal/Type.h"
 
 
 namespace Packet {
@@ -17,6 +18,8 @@ namespace Packet {
 
             // Destructor
             virtual ~SessionStart() = default;
+
+            const Packet::Internal::Type packetType() const override final;
 
             // The type of the session that has begun
             Session::Internal::Type m_sessionType;

@@ -1,8 +1,8 @@
 #ifndef USERINTERFACE_SCREENS_INCLUDE_RACE_H_
 #define USERINTERFACE_SCREENS_INCLUDE_RACE_H_
 
-#include "base/IDualPanelScreen.h"
-#include "base/ScreenType.h"
+#include "screens/DualPanelInterface.h"
+#include "core/ScreenType.h"
 
 class QWidget;
 
@@ -10,16 +10,18 @@ class QWidget;
 
 namespace UserInterface {
 
+    class PacketHandler;
+
     namespace Screen {
 
-        class Race : public UserInterface::Base::IDualPanelScreen {
+        class Race : public UserInterface::Screen::DualPanelInterface {
 
             Q_OBJECT
 
             public:
-                Race(QWidget* parent = 0);
+                Race(UserInterface::PacketHandler* handler, QWidget* parent = 0);
                 virtual ~Race() = default;
-                virtual const UserInterface::Base::ScreenType Type() const override;
+                virtual const UserInterface::Screen::Type Type() const override;
 
         };
 

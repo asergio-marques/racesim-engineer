@@ -1,25 +1,25 @@
 #include "screens/Race.h"
 
 #include <QWidget>
-#include "base/IDualPanelScreen.h"
-#include "base/ScreenType.h"
+#include "screens/DualPanelInterface.h"
+#include "core/ScreenType.h"
 #include "panels/RaceLeft.h"
 #include "panels/RaceRight.h"
 
 
 
-UserInterface::Screen::Race::Race(QWidget* parent) :
-    UserInterface::Base::IDualPanelScreen(parent) {
+UserInterface::Screen::Race::Race(UserInterface::PacketHandler* handler, QWidget* parent) :
+    UserInterface::Screen::DualPanelInterface(parent) {
 
-    m_panelLeft = new UserInterface::Panel::RaceLeft(this);
-    m_panelRight = new UserInterface::Panel::RaceRight(this);
+    m_panelLeft = new UserInterface::Panel::RaceLeft(handler, this);
+    m_panelRight = new UserInterface::Panel::RaceRight(handler, this);
 
 }
 
 
 
-const UserInterface::Base::ScreenType UserInterface::Screen::Race::Type() const {
+const UserInterface::Screen::Type UserInterface::Screen::Race::Type() const {
 
-    return UserInterface::Base::ScreenType::Race;
+    return UserInterface::Screen::Type::Race;
 
 }

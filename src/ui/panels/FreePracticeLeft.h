@@ -2,13 +2,25 @@
 #define USERINTERFACE_PANELS_INCLUDE_FREE_PRACTICE_LEFT_H_
 
 #include <QSize>
-#include "base/IPanel.h"
+#include "panels/Interface.h"
+
+
 
 class QWidget;
 
+namespace Packet {
 
+    namespace Internal {
+
+        class Interface;
+
+    }
+
+}
 
 namespace UserInterface {
+
+    class PacketHandler;
 
     namespace Widget {
 
@@ -18,12 +30,12 @@ namespace UserInterface {
 
     namespace Panel {
 
-        class FreePracticeLeft final : public UserInterface::Base::IPanel {
+        class FreePracticeLeft final : public UserInterface::Panel::Interface {
 
             Q_OBJECT
 
             public:
-                FreePracticeLeft(QWidget* parent = 0);
+                FreePracticeLeft(UserInterface::PacketHandler* handler, QWidget* parent = 0);
                 virtual ~FreePracticeLeft() = default;
                 virtual void ResizePanel(const QSize& newPanelSize) override final;
 

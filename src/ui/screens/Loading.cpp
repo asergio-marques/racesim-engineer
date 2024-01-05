@@ -1,23 +1,23 @@
 #include "screens/Loading.h"
 
 #include <QWidget>
-#include "base/ISinglePanelScreen.h"
-#include "base/ScreenType.h"
+#include "screens/SinglePanelInterface.h"
+#include "core/ScreenType.h"
 #include "panels/Loading.h"
 
 
 
-UserInterface::Screen::Loading::Loading(QWidget* parent) :
-    UserInterface::Base::ISinglePanelScreen(parent) {
+UserInterface::Screen::Loading::Loading(UserInterface::PacketHandler* handler, QWidget* parent) :
+    UserInterface::Screen::SinglePanelInterface(parent) {
 
-    m_panel = new UserInterface::Panel::Loading(this);
+    m_panel = new UserInterface::Panel::Loading(handler, this);
 
 }
 
 
 
-const UserInterface::Base::ScreenType UserInterface::Screen::Loading::Type() const {
+const UserInterface::Screen::Type UserInterface::Screen::Loading::Type() const {
 
-    return UserInterface::Base::ScreenType::Loading;
+    return UserInterface::Screen::Type::Loading;
 
 }

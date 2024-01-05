@@ -26,6 +26,7 @@ UserInterface::Widget::Standings::Standings(QWidget* parent) :
             m_driverData.append(newEntry);
 
         }
+
     }
 
 }
@@ -37,6 +38,7 @@ void UserInterface::Widget::Standings::Update(const Packet::Internal::MPSessionS
     if (dataPacket && !m_initialParamsSet) {
 
         uint8_t initPosition = 1;
+
         for (const auto driverInfo : dataPacket->m_participants) {
 
             UserInterface::Widget::DriverEntry* entry = m_driverData.at(initPosition - 1);
@@ -46,23 +48,8 @@ void UserInterface::Widget::Standings::Update(const Packet::Internal::MPSessionS
                 ++initPosition;
 
             }
-            
-        }
-        /*UserInterface::Widget::DriverEntry* newEntry1 = new UserInterface::Widget::DriverEntry(m_parent);
-        m_driverData.append(newEntry1);
-        Session::Internal::Participant info;
-        info.m_index = 0;
-        info.m_isPlayer = true;
-        info.m_TeamIcon = Session::Internal::TeamID::Ferrari;
-        info.m_shortName = "PHT";
-        newEntry1->Update(info, 1);
 
-        UserInterface::Widget::DriverEntry* newEntry2 = new UserInterface::Widget::DriverEntry(m_parent);
-        info.m_index = 1;
-        info.m_isPlayer = false;
-        info.m_TeamIcon = Session::Internal::TeamID::Mercedes;
-        info.m_shortName = "LCY";
-        newEntry2->Update(info, 2);*/
+        }
 
         m_initialParamsSet = true;
         ReorderStandings();
@@ -108,13 +95,17 @@ void UserInterface::Widget::Standings::scale(const uint8_t percentX, const uint8
 
 void UserInterface::Widget::Standings::setSize(const uint16_t newWidth, const uint16_t newHeight, const bool keepAspectRatio) {
 
+    // remove the padding
+    UserInterface::Style::General genStyle;
+    const uint16_t newHeightWidget = newHeight - (2 * genStyle.VerticalEdgeBorder.m_value);
+
     for (const auto driver : m_driverData) {
 
         if (driver) {
 
             // 20 entries maximum
             driver->setSize(newWidth, (newHeight / 20), false);
-            //ReorderStandings();
+            ReorderStandings();
         }
 
     }
@@ -210,7 +201,7 @@ void UserInterface::Widget::Standings::ReorderStandings() {
 
             // take into account the position order
             // TODO height hard-coded!!
-            uint16_t newY = style.VerticalEdgeBorder.m_value + (driver->GetCurrentPosition() * 48);
+            uint16_t newY = style.VerticalEdgeBorder.m_value + ((driver->GetCurrentPosition() - 1) * 48);
             driver->move(style.HorizontalEdgeBorder.m_value, newY, false, false);
 
         }

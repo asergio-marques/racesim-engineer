@@ -115,9 +115,9 @@ namespace UserInterface {
 
                 ~General() = default;
 
-                static inline const Value VerticalEdgeBorder = { ValueType::Absolute, 28 };
+                static inline const Value VerticalEdgeBorder = { ValueType::Absolute, 18 };
 
-                static inline const Value HorizontalEdgeBorder = { ValueType::Absolute, 36 };
+                static inline const Value HorizontalEdgeBorder = { ValueType::Absolute, 18 };
 
                 static inline const ValueCurve ScreenTitleFontSize = {
                     ValueType::Absolute,    // m_type

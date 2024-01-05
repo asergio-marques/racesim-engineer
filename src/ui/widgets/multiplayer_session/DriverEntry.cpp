@@ -25,12 +25,13 @@ UserInterface::Widget::DriverEntry::DriverEntry(QWidget* parent) :
     if (m_fastestLap) {
 
         m_allWidgets.append(m_fastestLap);
+
     }
 
     m_position = new UserInterface::Widget::TextInterface(UserInterface::Widget::ID::DriverPosition, parent);
     if (m_position) {
 
-        m_position->setFontThickness(UserInterface::Widget::FontThickness::Bold);
+        m_position->setFontThickness(UserInterface::Widget::FontThickness::ExtraBold);
         m_position->setAlignment(Qt::AlignCenter);
         m_allWidgets.append(m_position);
 
@@ -57,34 +58,50 @@ UserInterface::Widget::DriverEntry::DriverEntry(QWidget* parent) :
 
 void UserInterface::Widget::DriverEntry::move(const uint16_t x, const uint16_t y, const bool centerAlignmentX, const bool centerAlignmentY) {
 
+    // TODO fix issue with wrong move point due to center
     int16_t totalWidth = 0;
     UserInterface::Style::Standings standingsStyle;
+    int16_t fastLapCenterX = x;
+    int16_t centerY = y;
 
     if (m_fastestLap) {
 
-        m_fastestLap->move(x, y, true, true);
-        totalWidth += m_fastestLap->width();
+        m_fastestLap->move(x + standingsStyle.PaddingReference.m_value, y, false, false);
+        
+        // Register middle of row for future use, center of fast lap indicator used to center the place text
+        fastLapCenterX = m_fastestLap->x() + (m_fastestLap->width() / 2);
+        centerY = y + (m_fastestLap->height() / 2);
+
+        // Padding 2x because it is to be inserted to the left and to the right
+        totalWidth += m_fastestLap->width() + standingsStyle.PaddingReference.m_value * 2;
+
 
     }
     if (m_position) {
 
-        m_position->move(x, y, true, true);
+        m_position->move(fastLapCenterX, centerY, true, true);
 
     }
     if (m_teamIcon) {
         
-        // Add the padding!
-        totalWidth += standingsStyle.TeamLogoPaddingXY.m_value;
-        m_teamIcon->move(x + totalWidth, y, true, true);
-        totalWidth += m_teamIcon->width();
+        // Add the padding! And the width for centering!
+        totalWidth += standingsStyle.PaddingReference.m_value;
+        m_teamIcon->move(x + totalWidth + (m_teamIcon->width() / 2), centerY, true, true);
+        
+        // Add padding again to account for the right padding
+        totalWidth += m_teamIcon->width() + standingsStyle.PaddingReference.m_value;
 
     }
     if (m_driverName) {
         
-        // Add the padding, again!
-        totalWidth += standingsStyle.TeamLogoPaddingXY.m_value;
-        m_driverName->move(x + totalWidth, y, false, true);
-        totalWidth += m_driverName->width();
+        // Add the padding, again! And the maximum width for centering!
+        totalWidth += standingsStyle.PaddingReference.m_value;
+        m_driverName->move(x + totalWidth + (standingsStyle.DriverNameMaxWidth.m_value / 2), centerY, true, true);
+        
+        // Add padding again to account for the right padding
+        // Use the maximum width as reference, not the actual width,
+        // otherwise everything to the right will be misaligned
+        totalWidth += standingsStyle.DriverNameMaxWidth.m_value + standingsStyle.PaddingReference.m_value;
 
     }
 
@@ -150,7 +167,7 @@ void UserInterface::Widget::DriverEntry::Update(const Session::Internal::Partici
     m_isPlayer = dataPacket.m_isPlayer;
     if (m_fastestLap) {
         // hidden by default
-        //m_fastestLap->hide();
+        m_fastestLap->hide();
     }
     if (m_position) {
         m_position->setText(QString::number(initPosition));

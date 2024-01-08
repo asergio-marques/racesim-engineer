@@ -1,7 +1,7 @@
 #ifndef PACKETS_INTERNAL_INCLUDE_MP_SESSION_START_H_
 #define PACKETS_INTERNAL_INCLUDE_MP_SESSION_START_H_
 
-#include <list>
+#include <vector>
 #include "packets/internal/SessionStart.h"
 #include "data/internal/Session.h"
 
@@ -24,7 +24,7 @@ namespace Packet {
             virtual ~MPSessionStart() = default;
 
             // List containing the initial data for all session participants
-            std::list<Session::Internal::Participant> m_participants;
+            std::vector<Session::Internal::Participant> m_participants;
 
         };
 

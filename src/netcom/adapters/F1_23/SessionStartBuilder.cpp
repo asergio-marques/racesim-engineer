@@ -1,9 +1,10 @@
 #include "adapters/F1_23/SessionStartBuilder.h"
 
-#include <list>
+#include <vector>
 #include "adapters/F1_23/DataConversionMaps.h"
 #include "data/game/F1_23/Session.h"
 #include "packets/game/F1_23/Header.h"
+#include "packets/game/F1_23/LapData.h"
 #include "packets/game/F1_23/ParticipantData.h"
 #include "packets/game/F1_23/SessionData.h"
 #include "packets/internal/SessionStart.h"
@@ -18,6 +19,7 @@ NetCom::Adapter::F1_23_SessionStartBuilder::F1_23_SessionStartBuilder() :
     m_enabled(false),
     m_waitingForParticipantData(false),
     m_waitingForSessionData(false),
+    m_waitingForLapData(false),
     m_packetBeingBuilt(nullptr) {
 
 
@@ -31,6 +33,7 @@ void NetCom::Adapter::F1_23_SessionStartBuilder::Start() {
     m_enabled = true;
     m_waitingForParticipantData = true;
     m_waitingForSessionData = true;
+    m_waitingForLapData = true;
 
 }
 
@@ -74,6 +77,7 @@ void NetCom::Adapter::F1_23_SessionStartBuilder::CreateSessionPacket(const Packe
                 // TODO do we need to wait for participant data in this case? Think not
                 m_waitingForSessionData = false;
                 m_waitingForParticipantData = false;
+                m_waitingForLapData = false;
                 m_packetBeingBuilt = CreateTimeTrialStartPacket(gamePacket);
                 break;
 
@@ -98,6 +102,7 @@ void NetCom::Adapter::F1_23_SessionStartBuilder::CreateSessionPacket(const Packe
 void NetCom::Adapter::F1_23_SessionStartBuilder::AppendParticipantData(const Packet::Game::F1_23::ParticipantData* gamePacket) {
 
     if (m_waitingForParticipantData) {
+
         Packet::Internal::MPSessionStart* packet = dynamic_cast<Packet::Internal::MPSessionStart*>(m_packetBeingBuilt);
         
         // participant data only needed if we're on a non-solo session (anything that isn't TimeTrial)
@@ -125,11 +130,43 @@ void NetCom::Adapter::F1_23_SessionStartBuilder::AppendParticipantData(const Pac
 
 }
 
+#include <iostream>
+void NetCom::Adapter::F1_23_SessionStartBuilder::AppendLapData(const Packet::Game::F1_23::LapData* gamePacket) {
+
+    // Need the indexes from the participant data to add starting positions
+    if (m_waitingForLapData && !m_waitingForParticipantData) {
+
+        Packet::Internal::MPSessionStart* packet = dynamic_cast<Packet::Internal::MPSessionStart*>(m_packetBeingBuilt);
+
+        // lap data only needed if we're on a non-solo session (anything that isn't TimeTrial)
+        if (packet && m_enabled && gamePacket) {
+            
+            // check only those we need to check
+            for (uint8_t i = 0; i < m_listParticipants.size(); ++i) {
+
+                bool ok = false;
+                const Packet::Game::F1_23::LapInfo rawInfo = gamePacket->GetLapInfo(i, ok);
+                if (ok) {
+                    std::cout << "start pos ind " << i << ": " << std::to_string(rawInfo.m_carPosition) << std::endl;
+                    m_listParticipants[i].m_startPosition = rawInfo.m_gridPositionStart;
+
+                }
+
+            }
+
+            m_waitingForLapData = false;
+
+        }
+
+    }
+
+}
+
 
 
 Packet::Internal::SessionStart* NetCom::Adapter::F1_23_SessionStartBuilder::Finish() {
 
-    if (m_enabled && !m_waitingForParticipantData && !m_waitingForSessionData) {
+    if (m_enabled && !m_waitingForParticipantData && !m_waitingForSessionData && !m_waitingForLapData) {
 
         // Temporary holder as the member pointer will be nulled, but the object not deleted
         Packet::Internal::SessionStart* ret = m_packetBeingBuilt;

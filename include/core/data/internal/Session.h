@@ -95,6 +95,9 @@ namespace Session::Internal {
         // Which team icon ought be displayed
         Session::Internal::TeamID m_TeamIcon = Session::Internal::TeamID::Unknown;
 
+        // Starting position for this participant
+        uint8_t m_startPosition = 0;
+
     };
 
 }

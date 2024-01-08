@@ -132,6 +132,10 @@ Packet::Internal::Interface* NetCom::Adapter::F1_23::ConvertPacket(const Packet:
     Packet::Internal::Interface* outputPacket = nullptr;
     switch (gamePacket->GetHeader()->GetPacketType()) {
 
+        case Packet::Game::F1_23::Type::LapData:
+            outputPacket = ConvertLapDataPacket(dynamic_cast<const Packet::Game::F1_23::LapData*>(gamePacket));
+            break;
+
         case Packet::Game::F1_23::Type::EventData:
             outputPacket = ConvertEventDataPacket(dynamic_cast<const Packet::Game::F1_23::EventData*>(gamePacket));
             break;
@@ -165,6 +169,30 @@ Packet::Internal::Interface* NetCom::Adapter::F1_23::ConvertPacket(const Packet:
     return outputPacket;
 
 }
+
+
+
+Packet::Internal::Interface* NetCom::Adapter::F1_23::ConvertLapDataPacket(const Packet::Game::F1_23::LapData* inputPacket) {
+
+    if (!inputPacket) {
+
+        return nullptr;
+
+    }
+
+    // We must have the participant data packet info in here otherwise it is impossible to
+    // add the data needed from the lap data packet
+    if (m_sessionSM.GetSessionState() == NetCom::Adapter::SessionState::Started
+        || m_sessionSM.GetSessionState() == NetCom::Adapter::SessionState::StartPacketSent) {
+
+        m_startPacketBuilder.AppendLapData(inputPacket);
+
+    }
+    return nullptr;
+
+}
+
+
 
 Packet::Internal::Interface* NetCom::Adapter::F1_23::ConvertEventDataPacket(const Packet::Game::F1_23::EventData* inputPacket) {
 

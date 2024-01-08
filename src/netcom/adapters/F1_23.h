@@ -16,6 +16,7 @@ namespace Packet {
         namespace F1_23 {
 
             class EventData;
+            class LapData;
             class ParticipantData;
             class SessionData;
 
@@ -45,6 +46,7 @@ namespace NetCom {
             Packet::Internal::Interface* ConvertPacket(const Packet::Game::Interface* packet) override final;
 
             private:
+            Packet::Internal::Interface* ConvertLapDataPacket(const Packet::Game::F1_23::LapData* inputPacket);
             Packet::Internal::Interface* ConvertEventDataPacket(const Packet::Game::F1_23::EventData* inputPacket);
             Packet::Internal::Interface* ConvertSessionDataPacket(const Packet::Game::F1_23::SessionData* inputPacket);
             Packet::Internal::Interface* ConvertParticipantDataPacket(const Packet::Game::F1_23::ParticipantData* inputPacket);

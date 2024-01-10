@@ -16,6 +16,7 @@ namespace Packet {
 
             class Header;
 
+            #pragma pack(push, 1)
             struct CarSetupInfo {
 
                 // Front wing angle (ticks)
@@ -85,6 +86,9 @@ namespace Packet {
                 float_t m_currentFuelLoad;
 
             };
+            #pragma pack(pop)
+
+
 
             class CarSetupData final : public Packet::Game::F1_23::Interface {
 

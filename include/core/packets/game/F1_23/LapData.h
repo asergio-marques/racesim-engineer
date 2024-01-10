@@ -17,6 +17,7 @@ namespace Packet {
 
             class Header;
 
+            #pragma pack(push, 1)
             // NOTE: there is no data for the Sector 3 times, must be calculated from current lap time
             struct LapInfo {
 
@@ -110,6 +111,9 @@ namespace Packet {
                 bool m_shouldServePen;
 
             };
+            #pragma pack(pop)
+
+
 
             class LapData final : public Packet::Game::F1_23::Interface {
 

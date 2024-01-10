@@ -19,6 +19,7 @@ namespace Packet {
 
             class Header;
 
+            #pragma pack(push, 1)
             struct CarStatusInfo {
 
                 // Traction control assist setting by the player
@@ -97,6 +98,9 @@ namespace Packet {
                 bool m_networkPaused;
 
             };
+            #pragma pack(pop)
+
+
 
             class CarStatusData final : public Packet::Game::F1_23::Interface {
 

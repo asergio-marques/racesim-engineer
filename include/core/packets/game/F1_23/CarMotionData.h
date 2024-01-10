@@ -16,6 +16,7 @@ namespace Packet {
 
             class Header;
 
+            #pragma pack(push, 1)
             struct CarMotionInfo {
 
                 // World space X position (meters)
@@ -73,6 +74,7 @@ namespace Packet {
                 float_t m_roll;
 
             };
+            #pragma pack(pop)
 
 
 

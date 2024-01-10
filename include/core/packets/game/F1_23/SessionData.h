@@ -18,6 +18,7 @@ namespace Packet {
 
             class Header;
 
+            #pragma pack(push, 1)
             struct MarshalZone {
 
                 // Fraction (0..1) of way through the lap the marshal zone starts
@@ -54,6 +55,9 @@ namespace Packet {
                 uint8_t m_rainPercentage;
 
             };
+            #pragma pack(pop)
+
+
 
             class SessionData final : public Packet::Game::F1_23::Interface {
 

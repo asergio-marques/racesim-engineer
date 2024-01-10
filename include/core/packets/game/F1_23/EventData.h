@@ -19,6 +19,7 @@ namespace Packet {
 
             class Header;
 
+            #pragma pack(push, 1)
             struct FastestLapEvent {
 
                 // Index of car that has set the fastest lap
@@ -146,6 +147,9 @@ namespace Packet {
                 uint8_t m_overtakenCarIndex;
 
             };
+            #pragma pack(pop)
+
+
 
             class EventData final : public Packet::Game::F1_23::Interface {
 

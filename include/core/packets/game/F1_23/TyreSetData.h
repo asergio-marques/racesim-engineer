@@ -17,6 +17,7 @@ namespace Packet {
 
             class Header;
 
+            #pragma pack(push, 1)
             struct TyreSetInfo {
 
                 // Actual tyre compound of the set
@@ -47,6 +48,9 @@ namespace Packet {
                 bool m_fitted;
 
             };
+            #pragma pack(pop)
+
+
 
             class TyreSetData final : public Packet::Game::F1_23::Interface {
 

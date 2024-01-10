@@ -17,6 +17,7 @@ namespace Packet {
 
             class Header;
 
+            #pragma pack(push, 1)
             struct ParticipantInfo {
 
                 // Whether the vehicle is AI controlled
@@ -54,6 +55,8 @@ namespace Packet {
                 Player::Game::F1_23::Platform m_platform;
 
             };
+            #pragma pack(pop)
+
 
 
             class ParticipantData final : public Packet::Game::F1_23::Interface {

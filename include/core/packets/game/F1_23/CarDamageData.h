@@ -16,6 +16,7 @@ namespace Packet {
 
             class Header;
 
+            #pragma pack(push, 1)
             struct CarDamageInfo {
 
                 // Tyre wear (percentage)
@@ -82,6 +83,9 @@ namespace Packet {
                 bool m_engineSeized;
 
             };
+            #pragma pack(pop)
+
+
 
             class CarDamageData final : public Packet::Game::F1_23::Interface {
 

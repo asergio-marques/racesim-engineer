@@ -17,6 +17,7 @@ namespace Packet {
 
             class Header;
 
+            #pragma pack(push, 1)
             struct CarTelemetryInfo {
 
                 // Vehicle speed (kph)
@@ -68,6 +69,8 @@ namespace Packet {
                 Telemetry::Game::F1_23::Surface m_surfaceType[4];
 
             };
+            #pragma pack(pop)
+
 
 
             class CarTelemetryData final : public Packet::Game::F1_23::Interface {

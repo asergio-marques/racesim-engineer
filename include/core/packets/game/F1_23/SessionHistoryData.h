@@ -16,6 +16,7 @@ namespace Packet {
 
             class Header;
 
+            #pragma pack(push, 1)
             struct LapHistoryInfo {
 
                 // Lap time (milliseconds)
@@ -60,6 +61,9 @@ namespace Packet {
                 Status::Game::F1_23::VisualTyreCompound m_tyreVisualCompound;
 
             };
+            #pragma pack(pop)
+
+
 
             // TODO this packet is probably unnecessary, to be ignored at first
             class SessionHistoryData final : public Packet::Game::F1_23::Interface {

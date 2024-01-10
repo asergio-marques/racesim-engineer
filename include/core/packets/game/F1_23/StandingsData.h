@@ -18,6 +18,7 @@ namespace Packet {
 
             class Header;
 
+            #pragma pack(push, 1)
             struct SessionResultInfo {
 
                 // Position at the end of the session
@@ -63,6 +64,9 @@ namespace Packet {
                 uint8_t m_tyreStintsEndLaps[8];
 
             };
+            #pragma pack(pop)
+
+
 
             class StandingsData final : public Packet::Game::F1_23::Interface {
 

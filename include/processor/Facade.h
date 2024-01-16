@@ -5,15 +5,23 @@
 #include "IFacade.h"
 
 
-
 namespace Processor {
+
+    namespace Data {
+
+        class Databank;
+
+    }
 
     class Facade : public Processor::IFacade {
 
         public:
-            Facade() = default;
-            virtual ~Facade() = default;
+            Facade();
+            virtual ~Facade();
             virtual void OnPacketBroadcast(Packet::Game::Interface* packet) override final;
+
+        private:
+            Processor::Data::Databank* const m_databank;
 
     };
 

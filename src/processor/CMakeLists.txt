@@ -15,7 +15,12 @@ target_include_directories(${PROJECT_NAME} PRIVATE "${PROJECT_ROOT}/src/processo
 target_link_directories(${PROJECT_NAME} PRIVATE "${PROJECT_ROOT}/lib/")
 
 target_sources(${PROJECT_NAME} PRIVATE
-    Facade.cpp)
+    Facade.cpp
+    data/Databank.cpp
+    data/DriverRecord.cpp
+    data/DriverState.cpp
+    data/SessionRecord.cpp
+    data/SessionState.cpp)
 
 target_link_libraries(${PROJECT_NAME} PRIVATE
     RaceSimEngineerCore)

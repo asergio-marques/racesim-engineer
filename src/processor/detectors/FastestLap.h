@@ -20,6 +20,8 @@ namespace Processor {
             public:
             FastestLap(const Processor::Data::Databank* const dataBank);
             ~FastestLap();
+            void ReceiveNewData(Packet::Internal::Interface* const packet) override final;
+            void Exec() override final;
 
         };
 

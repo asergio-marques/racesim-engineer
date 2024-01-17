@@ -19,6 +19,15 @@ Processor::Facade::Facade() :
         m_detectors.push_back(new Processor::Detector::WarningPenalty(m_databank));
     }
 
+    for (auto detector : m_detectors) {
+        
+        if (detector) {
+
+            detector->Init();
+
+        }
+
+    }
 }
 
 
@@ -33,6 +42,14 @@ Processor::Facade::~Facade() {
 
 void Processor::Facade::OnPacketBroadcast(Packet::Internal::Interface* packet) {
 
-    // TODO do stuff
+    for (auto detector : m_detectors) {
+
+        if (detector) {
+
+            detector->ReceiveNewData(packet);
+
+        }
+
+    }
 
 }

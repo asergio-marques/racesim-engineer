@@ -20,6 +20,8 @@ namespace Processor {
             public:
             WarningPenalty(const Processor::Data::Databank* const dataBank);
             ~WarningPenalty();
+            void ReceiveNewData(Packet::Internal::Interface* const packet) override final;
+            void Exec() override final;
 
         };
 

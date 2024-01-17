@@ -20,6 +20,8 @@ namespace Processor {
             public:
             Overtake(const Processor::Data::Databank* const dataBank);
             ~Overtake();
+            void ReceiveNewData(Packet::Internal::Interface* const packet) override final;
+            void Exec() override final;
 
         };
 

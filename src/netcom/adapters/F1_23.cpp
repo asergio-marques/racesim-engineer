@@ -217,7 +217,7 @@ Packet::Internal::Interface* NetCom::Adapter::F1_23::ConvertEventDataPacket(cons
             // NOTE: as it is possible to not receive the session start event at the start of certain sessions
             // it could also happen that the session end event is also not received once a session is closed
             // if this checks out, start praying to your god of choice, otherwise, choose one. I already did.
-            if (m_sessionSM.SessionEnded()) return new Packet::Internal::SessionEnd;
+            if (m_sessionSM.SessionEnded()) return new Packet::Internal::SessionEnd(inputPacket->GetHeader()->GetFrameIdentifier());
             break;
 
         default:

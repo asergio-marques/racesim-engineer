@@ -6,8 +6,8 @@
 
 
 
-Packet::Internal::RaceStart::RaceStart(uint8_t numLaps) :
-    Packet::Internal::MPSessionStart(Session::Internal::Type::Race),
+Packet::Internal::RaceStart::RaceStart(const uint64_t timestamp, uint8_t numLaps) :
+    Packet::Internal::MPSessionStart(timestamp, Session::Internal::Type::Race),
     m_numLaps(numLaps) {
 
 

@@ -15,7 +15,7 @@ namespace Packet {
 
             public:
             // Packet interface constructor
-            PracticeStart();
+            PracticeStart(const uint64_t timestamp);
 
             // Destructor
             virtual ~PracticeStart() = default;

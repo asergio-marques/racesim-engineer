@@ -189,7 +189,7 @@ Packet::Internal::SessionStart* NetCom::Adapter::F1_23_SessionStartBuilder::Fini
 Packet::Internal::TimeTrialStart*
     NetCom::Adapter::F1_23_SessionStartBuilder::CreateTimeTrialStartPacket(const Packet::Game::F1_23::SessionData* gamePacket) {
 
-    Packet::Internal::TimeTrialStart* newTTPacket = new Packet::Internal::TimeTrialStart;
+    Packet::Internal::TimeTrialStart* newTTPacket = new Packet::Internal::TimeTrialStart(gamePacket->GetHeader()->GetFrameIdentifier());
     ConvertTrackID(newTTPacket, gamePacket);
     return newTTPacket;
 
@@ -200,7 +200,7 @@ Packet::Internal::TimeTrialStart*
 Packet::Internal::PracticeStart*
     NetCom::Adapter::F1_23_SessionStartBuilder::CreatePracticeStartPacket(const Packet::Game::F1_23::SessionData* gamePacket) {
 
-    Packet::Internal::PracticeStart* newPracticePacket = new Packet::Internal::PracticeStart;
+    Packet::Internal::PracticeStart* newPracticePacket = new Packet::Internal::PracticeStart(gamePacket->GetHeader()->GetFrameIdentifier());
     ConvertTrackID(newPracticePacket, gamePacket);
     if (!m_listParticipants.empty()) {
 
@@ -216,7 +216,7 @@ Packet::Internal::PracticeStart*
 Packet::Internal::QualiStart*
     NetCom::Adapter::F1_23_SessionStartBuilder::CreateQualiStartPacket(const Packet::Game::F1_23::SessionData* gamePacket, uint8_t numClassifiedAtEnd) {
 
-    Packet::Internal::QualiStart* newQualiPacket = new Packet::Internal::QualiStart(numClassifiedAtEnd);
+    Packet::Internal::QualiStart* newQualiPacket = new Packet::Internal::QualiStart(gamePacket->GetHeader()->GetFrameIdentifier(), numClassifiedAtEnd);
     ConvertTrackID(newQualiPacket, gamePacket);
     if (!m_listParticipants.empty()) {
 
@@ -232,7 +232,7 @@ Packet::Internal::QualiStart*
 Packet::Internal::RaceStart*
     NetCom::Adapter::F1_23_SessionStartBuilder::CreateRaceStartPacket(const Packet::Game::F1_23::SessionData* gamePacket) {
 
-    Packet::Internal::RaceStart* newRacePacket = new Packet::Internal::RaceStart(gamePacket->GetTotalLaps());
+    Packet::Internal::RaceStart* newRacePacket = new Packet::Internal::RaceStart(gamePacket->GetHeader()->GetFrameIdentifier(), gamePacket->GetTotalLaps());
     ConvertTrackID(newRacePacket, gamePacket);
     if (!m_listParticipants.empty()) {
 

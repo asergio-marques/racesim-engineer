@@ -5,8 +5,8 @@
 
 
 
-Packet::Internal::TimeTrialStart::TimeTrialStart() :
-    Packet::Internal::SoloSessionStart(Session::Internal::Type::TimeTrial) {
+Packet::Internal::TimeTrialStart::TimeTrialStart(const uint64_t timestamp) :
+    Packet::Internal::SoloSessionStart(timestamp, Session::Internal::Type::TimeTrial) {
 
 
 

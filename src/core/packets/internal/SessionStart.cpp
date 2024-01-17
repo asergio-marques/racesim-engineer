@@ -6,8 +6,8 @@
 
 
 
-Packet::Internal::SessionStart::SessionStart(const Session::Internal::Type& sessionType) :
-    Packet::Internal::Interface(),
+Packet::Internal::SessionStart::SessionStart(const uint64_t timestamp, const Session::Internal::Type& sessionType) :
+    Packet::Internal::Interface(timestamp),
     m_sessionType(sessionType),
     m_sessionTrack(Session::Internal::Track::Unknown) {
 

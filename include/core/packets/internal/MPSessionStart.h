@@ -1,6 +1,7 @@
 #ifndef PACKETS_INTERNAL_INCLUDE_MP_SESSION_START_H_
 #define PACKETS_INTERNAL_INCLUDE_MP_SESSION_START_H_
 
+#include <cstdint>
 #include <vector>
 #include "packets/internal/SessionStart.h"
 #include "data/internal/Session.h"
@@ -16,8 +17,8 @@ namespace Packet {
 
             public:
             // Packet interface constructor
-            MPSessionStart(const Session::Internal::Type& sessionType) :
-                Packet::Internal::SessionStart(sessionType),
+            MPSessionStart(const uint64_t timestamp, const Session::Internal::Type& sessionType) :
+                Packet::Internal::SessionStart(timestamp, sessionType),
                 m_participants() {}
 
             // Destructor

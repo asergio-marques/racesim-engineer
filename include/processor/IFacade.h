@@ -1,15 +1,15 @@
 #ifndef PROCESSOR_INCLUDE_IFACADE_H_
 #define PROCESSOR_INCLUDE_IFACADE_H_
 
-#include "packets/game/Broadcaster.h"
-#include "packets/game/Subscriber.h"
+#include "packets/internal/Broadcaster.h"
+#include "packets/internal/Subscriber.h"
 
 
 
 
 namespace Processor {
 
-    class IFacade : public Packet::Game::Broadcaster, public Packet::Game::Subscriber {
+    class IFacade : public Packet::Internal::Broadcaster, public Packet::Internal::Subscriber {
 
         public:
             IFacade() = default;

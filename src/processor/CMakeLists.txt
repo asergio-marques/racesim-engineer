@@ -20,7 +20,11 @@ target_sources(${PROJECT_NAME} PRIVATE
     data/DriverRecord.cpp
     data/DriverState.cpp
     data/SessionRecord.cpp
-    data/SessionState.cpp)
+    data/SessionState.cpp
+    detectors/Interface.cpp
+    detectors/FastestLap.cpp
+    detectors/Overtake.cpp
+    detectors/WarningPenalty.cpp)
 
 target_link_libraries(${PROJECT_NAME} PRIVATE
     RaceSimEngineerCore)

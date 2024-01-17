@@ -1,6 +1,7 @@
 #include "packets/internal/Broadcaster.h"
 #include "settings/StoreFront.h"
 #include "netcom/Facade.h"
+#include "processor/Facade.h"
 #include "ui/UIStarter.h"
 
 
@@ -16,11 +17,10 @@ int main(int argc, char* argv[]) {
     if (commComponent) commComponent->Init();
     else return -1;
 
-    /*Processor::IFacade* processor = new Processor::Facade;
-    if (processor) director->Subscribe(processor);
-    else return -1;
+    Processor::IFacade* processor = new Processor::Facade;
+    if (!processor) return -1;
 
-    Packet::Subscriber* presenter = new Presenter::Presenter;
+    /*Packet::Subscriber* presenter = new Presenter::Presenter;
     if (presenter) {
 
         director->Subscribe(presenter);
@@ -30,9 +30,10 @@ int main(int argc, char* argv[]) {
     else return -1;*/
 
     UserInterface::UIStarter* starter = new UserInterface::UIStarter;
-    if (starter && commComponent) {
+    if (starter && commComponent && processor) {
         Packet::Internal::Broadcaster* internalPacketBroadcast = commComponent->exposeBroadcasterInterface();
         starter->Init(&argc, &argv);
+        internalPacketBroadcast->Subscribe(processor);
         internalPacketBroadcast->Subscribe(starter);
         return starter->Run();
 

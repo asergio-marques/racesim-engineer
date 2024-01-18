@@ -11,7 +11,8 @@
 
 Processor::Facade::Facade() :
     m_databank(new Processor::Data::Databank),
-    m_detectors() {
+    m_detectors(),
+    m_execThread() {
 
     if (m_databank) {
         m_detectors.push_back(new Processor::Detector::FastestLap(m_databank));
@@ -28,6 +29,9 @@ Processor::Facade::Facade() :
         }
 
     }
+
+    m_execThread = std::thread(&Processor::Facade::Exec, this);
+
 }
 
 
@@ -49,6 +53,42 @@ void Processor::Facade::OnPacketBroadcast(Packet::Internal::Interface* packet) {
             detector->ReceiveNewData(packet);
 
         }
+
+    }
+
+}
+
+
+
+void Processor::Facade::Exec() {
+
+    while (true) {
+
+        std::vector<Packet::Internal::Interface*> packetsToSend;
+
+        // Get all unsent packets from detectors
+        for (auto detector : m_detectors) {
+
+            if (detector) {
+
+                for (auto packet : detector->UnsentPackets()) {
+
+                    packetsToSend.push_back(packet);
+
+                }
+                detector->ClearPacketList();
+
+            }
+
+        }
+
+        for (auto packet : packetsToSend) {
+
+            Broadcast(packet);
+
+        }
+
+        std::this_thread::sleep_for(std::chrono::milliseconds(5));
 
     }
 

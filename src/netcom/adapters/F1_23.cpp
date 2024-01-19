@@ -8,6 +8,7 @@
 #include "packets/internal/Interface.h"
 #include "packets/internal/SessionEnd.h"
 #include "packets/internal/race_types/RaceStart.h"
+#include "packets/internal/race_types/RaceStandings.h"
 #include "packets/internal/quali_types/QualiStart.h"
 #include "packets/internal/practice_types/PracticeStart.h"
 #include "packets/internal/tt_types/TimeTrialStart.h"
@@ -174,7 +175,7 @@ Packet::Internal::Interface* NetCom::Adapter::F1_23::ConvertPacket(const Packet:
 
 Packet::Internal::Interface* NetCom::Adapter::F1_23::ConvertLapDataPacket(const Packet::Game::F1_23::LapData* inputPacket) {
 
-    if (!inputPacket) {
+    if (!inputPacket || !(inputPacket->GetHeader())) {
 
         return nullptr;
 
@@ -188,7 +189,20 @@ Packet::Internal::Interface* NetCom::Adapter::F1_23::ConvertLapDataPacket(const 
         m_startPacketBuilder.AppendLapData(inputPacket);
 
     }
-    return nullptr;
+    Packet::Internal::RaceStandings* outputPacket = new Packet::Internal::RaceStandings(inputPacket->GetHeader()->GetFrameIdentifier());
+    for (size_t i = 0; i < 22; ++i) {
+
+        bool ok = false;
+        const auto lapInfo = inputPacket->GetLapInfo(i, ok);
+        if (ok) {
+
+            outputPacket->InsertData(i, lapInfo.m_carPosition);
+
+        }
+
+    }
+    outputPacket->Finalize();
+    return outputPacket;
 
 }
 

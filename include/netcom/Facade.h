@@ -5,6 +5,11 @@
 
 namespace Packet {
 
+    namespace Game {
+
+        class Broadcaster;
+
+    }
     namespace Internal {
 
         class Broadcaster;

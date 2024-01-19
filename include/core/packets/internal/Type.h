@@ -13,7 +13,8 @@ namespace Packet {
 
             Unknown         = 0,
             SessionStart    = 1,
-            SessionEnd      = 2
+            SessionEnd      = 2,
+            Standings       = 3
 
         };
     

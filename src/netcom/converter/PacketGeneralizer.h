@@ -22,7 +22,8 @@ namespace NetCom {
 
     namespace Converter {
 
-        class PacketGeneralizer : public Packet::Game::Subscriber, public Packet::Internal::Broadcaster {
+        class PacketGeneralizer : public Packet::Game::Subscriber,
+            public Packet::Internal::Broadcaster {
 
             public:
             PacketGeneralizer();

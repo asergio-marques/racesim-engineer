@@ -18,7 +18,6 @@ namespace Processor {
             ~SessionRecord();
 
             private:
-            uint8_t m_driverId;
             uint64_t m_lastStateTimestamp;
             Session::Internal::Type m_type;
 

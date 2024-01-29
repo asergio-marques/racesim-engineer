@@ -7,7 +7,6 @@
 
 
 Processor::Data::SessionRecord::SessionRecord() :
-    m_driverId(0),
     m_lastStateTimestamp(0),
     m_type(Session::Internal::Type::InvalidUnknown) {
 

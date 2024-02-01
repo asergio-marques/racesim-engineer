@@ -4,7 +4,7 @@
 #include <cstdint>
 #include <string>
 #include "data/DriverState.h"
-
+#include "data/internal/Session.h"
 
 
 namespace Processor {
@@ -14,12 +14,14 @@ namespace Processor {
         class DriverRecord {
 
             public:
-            DriverRecord();
+            DriverRecord(const Session::Internal::Participant& driverData, const uint64_t initTimestamp);
             ~DriverRecord();
+            Processor::Data::DriverState& getModifiableState();
 
             private:
             uint8_t m_driverId;
             std::string m_driverFullName;
+            std::string m_driverShortName;
             uint64_t m_lastStateTimestamp;
             Processor::Data::DriverState m_state;
 

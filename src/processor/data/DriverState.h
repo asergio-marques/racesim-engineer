@@ -1,6 +1,8 @@
 #ifndef PROCESSOR_DATA_INCLUDE_DRIVER_STATE_H_
 #define PROCESSOR_DATA_INCLUDE_DRIVER_STATE_H_
 
+#include <cstdint>
+
 
 
 namespace Processor {
@@ -10,8 +12,12 @@ namespace Processor {
         class DriverState {
 
             public:
-            DriverState();
+            DriverState(const uint8_t startingPosition);
             ~DriverState();
+
+            private:
+            uint8_t m_currentPosition;
+            uint8_t m_startingPosition;
 
         };
 

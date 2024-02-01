@@ -89,6 +89,9 @@ namespace Session::Internal {
         // Index for this participant
         uint8_t m_index = 0;
 
+        // Full nickname for logging
+        std::string m_fullName = "????????????";
+
         // 3-letter name for display
         std::string m_shortName = "???";
 

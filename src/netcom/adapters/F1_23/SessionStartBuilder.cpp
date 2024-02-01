@@ -325,6 +325,7 @@ NetCom::Adapter::F1_23_SessionStartBuilder::GetSingleParticipantData(const Packe
     else {
         convertedInfo.m_shortName = ShortenDriverName(rawInfo.m_name);
     }
+    convertedInfo.m_fullName = rawInfo.m_name;
 
     // Find team to be used as reference in UI
     auto teamIt = NetCom::Adapter::F1_23_DataConversionMaps::TEAM_ID_MAP.find(rawInfo.m_teamId);

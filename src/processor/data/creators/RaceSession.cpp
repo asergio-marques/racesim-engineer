@@ -23,7 +23,7 @@ std::vector<Processor::Data::DriverRecord*> Processor::Data::Creator::RaceSessio
     {
         for (auto driver : m_packet->m_participants) {
 
-            Processor::Data::DriverRecord* record = new Processor::Data::DriverRecord(driver, m_packet->m_timestamp);
+            Processor::Data::DriverRecord* record = new Processor::Data::DriverRecord(m_packet->m_timestamp, driver);
             
         }
     }
@@ -35,12 +35,9 @@ std::vector<Processor::Data::DriverRecord*> Processor::Data::Creator::RaceSessio
 
 Processor::Data::SessionRecord* Processor::Data::Creator::RaceSession::createSessionRecord() const {
 
-    Processor::Data::SessionRecord* sessionRecord = new Processor::Data::SessionRecord;
-    if (m_packet)
-    {
+    Processor::Data::SessionRecord* sessionRecord =
+        new Processor::Data::SessionRecord(m_packet->m_timestamp, m_packet->m_sessionType, m_packet->m_sessionTrack, m_packet->m_numLaps);
 
-    }
     return sessionRecord;
-
 
 }

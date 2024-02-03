@@ -6,11 +6,11 @@
 
 
 
-Processor::Data::SessionRecord::SessionRecord() :
-    m_lastStateTimestamp(0),
-    m_type(Session::Internal::Type::InvalidUnknown) {
-
-
+Processor::Data::SessionRecord::SessionRecord(const uint64_t initTimestamp, const Session::Internal::Type sessionType, const Session::Internal::Track trackID, const uint8_t numLaps) :
+    m_lastStateTimestamp(initTimestamp),
+    m_type(sessionType),
+    m_trackID(trackID),
+    m_totalLaps(numLaps) {
 
 
 }

@@ -14,15 +14,15 @@ namespace Processor {
         class DriverRecord {
 
             public:
-            DriverRecord(const Session::Internal::Participant& driverData, const uint64_t initTimestamp);
+            DriverRecord(const uint64_t initTimestamp, const Session::Internal::Participant& driverData);
             ~DriverRecord();
             Processor::Data::DriverState& getModifiableState();
 
             private:
+            uint64_t m_lastStateTimestamp;
             uint8_t m_driverId;
             std::string m_driverFullName;
             std::string m_driverShortName;
-            uint64_t m_lastStateTimestamp;
             Processor::Data::DriverState m_state;
 
         };

@@ -14,12 +14,14 @@ namespace Processor {
         class SessionRecord {
 
             public:
-            SessionRecord();
+            SessionRecord(const uint64_t initTimestamp, const Session::Internal::Type sessionType, const Session::Internal::Track trackID, const uint8_t numLaps);
             ~SessionRecord();
 
             private:
             uint64_t m_lastStateTimestamp;
-            Session::Internal::Type m_type;
+            const Session::Internal::Type m_type;
+            const Session::Internal::Track m_trackID;
+            uint8_t m_totalLaps;
 
         };
 

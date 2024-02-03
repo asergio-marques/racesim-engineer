@@ -7,11 +7,11 @@
 
 
 
-Processor::Data::DriverRecord::DriverRecord(const Session::Internal::Participant& driverData, const uint64_t initTimestamp) :
+Processor::Data::DriverRecord::DriverRecord(const uint64_t initTimestamp, const Session::Internal::Participant& driverData) :
+    m_lastStateTimestamp(initTimestamp),
     m_driverId(driverData.m_index),
     m_driverFullName(driverData.m_fullName),
     m_driverShortName(driverData.m_shortName),
-    m_lastStateTimestamp(initTimestamp),
     m_state(driverData.m_startPosition) {
 
 

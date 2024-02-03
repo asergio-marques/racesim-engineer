@@ -2,6 +2,7 @@
 #define PROCESSOR_DATA_INCLUDE_DRIVER_STATE_H_
 
 #include <cstdint>
+#include <vector>
 
 
 
@@ -12,8 +13,17 @@ namespace Processor {
         class DriverState {
 
             public:
+
+            enum class Comparison {
+
+                IsSame          = 0,
+                PositionChange  = 1
+
+            };
+
             DriverState(const uint8_t startingPosition);
             ~DriverState();
+            const std::vector<Processor::Data::DriverState::Comparison> CompareState(const Processor::Data::DriverState& other);
 
             private:
             uint8_t m_currentPosition;

@@ -147,13 +147,14 @@ void NetCom::Adapter::F1_23_SessionStartBuilder::AppendLapData(const Packet::Gam
                 bool ok = false;
                 const Packet::Game::F1_23::LapInfo rawInfo = gamePacket->GetLapInfo(i, ok);
                 if (ok) {
-                    std::cout << "start pos ind " << i << ": " << std::to_string(rawInfo.m_carPosition) << std::endl;
+
                     m_listParticipants[i].m_startPosition = rawInfo.m_gridPositionStart;
 
                 }
 
             }
 
+            packet->m_participants = m_listParticipants;
             m_waitingForLapData = false;
 
         }

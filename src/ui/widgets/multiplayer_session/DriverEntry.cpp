@@ -163,14 +163,14 @@ void UserInterface::Widget::DriverEntry::Update(const Session::Internal::Partici
     UserInterface::Style::Standings style;
 
     m_driverIndex = dataPacket.m_index;
-    m_currentPosition = initPosition;
+    m_currentPosition = dataPacket.m_startPosition;
     m_isPlayer = dataPacket.m_isPlayer;
     if (m_fastestLap) {
         // hidden by default
         m_fastestLap->hide();
     }
     if (m_position) {
-        m_position->setText(QString::number(initPosition));
+        m_position->setText(QString::number(dataPacket.m_startPosition));
         m_position->adjustSize();
     }
     if (m_teamIcon) {

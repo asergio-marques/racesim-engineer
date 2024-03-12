@@ -6,7 +6,7 @@
 
 
 
-Processor::Detector::FastestLap::FastestLap(const Processor::Data::Databank* const dataBank) :
+Processor::Detector::FastestLap::FastestLap(const Processor::Data::DataInterface* const dataBank) :
     Processor::Detector::Interface(dataBank) {
 
 
@@ -23,9 +23,9 @@ Processor::Detector::FastestLap::~FastestLap() {
 
 
 
-void Processor::Detector::FastestLap::ReceiveNewData(Packet::Internal::Interface* const packet) {
+const Processor::Detector::Type Processor::Detector::FastestLap::GetType() const {
 
-    
+    return Processor::Detector::Type::FastestLap;
 
 }
 

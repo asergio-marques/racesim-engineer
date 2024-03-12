@@ -2,6 +2,7 @@
 #define PROCESSOR_DETECTOR_INCLUDE_WARNING_PENALTY_H_
 
 #include "detectors/Interface.h"
+#include "detectors/Type.h"
 
 
 
@@ -9,7 +10,7 @@ namespace Processor {
 
     namespace Data {
 
-        class Databank;
+        class DataInterface;
 
     }
 
@@ -18,9 +19,9 @@ namespace Processor {
         class WarningPenalty : public Processor::Detector::Interface {
 
             public:
-            WarningPenalty(const Processor::Data::Databank* const dataBank);
+            WarningPenalty(const Processor::Data::DataInterface* const dataBank);
             ~WarningPenalty();
-            void ReceiveNewData(Packet::Internal::Interface* const packet) override final;
+            const Processor::Detector::Type GetType() const override;
             void Exec() override final;
 
         };

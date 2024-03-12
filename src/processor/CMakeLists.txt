@@ -25,7 +25,7 @@ target_sources(${PROJECT_NAME} PRIVATE
     detectors/Interface.cpp
     detectors/FastestLap.cpp
     detectors/Overtake.cpp
-    detectors/WarningPenalty.cpp "data/creators/RaceSession.cpp")
+    detectors/WarningPenalty.cpp)
 
 target_link_libraries(${PROJECT_NAME} PRIVATE
     RaceSimEngineerCore)

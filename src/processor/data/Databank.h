@@ -1,7 +1,9 @@
 #ifndef PROCESSOR_DATA_INCLUDE_DATABANK_H_
 #define PROCESSOR_DATA_INCLUDE_DATABANK_H_
 
-#include <vector>
+#include <cstdint>
+#include <map>
+#include "data/DataInterface.h"
 
 
 
@@ -11,6 +13,7 @@ namespace Packet {
 
         class Interface;
         class SessionStart;
+        class RaceStandings;
 
     }
 
@@ -23,16 +26,20 @@ namespace Processor {
         class DriverRecord;
         class SessionRecord;
 
-        class Databank {
+        class Databank : public DataInterface {
 
             public:
             Databank();
             ~Databank();
             void UpdateData(const Packet::Internal::Interface* packet);
+            const std::map<const uint8_t, Processor::Data::DriverRecord*> getDriverRecords() const override;
+            const Processor::Data::SessionRecord* getSessionRecord() const override;
 
             private:
             void CreateSessionInformation(const Packet::Internal::SessionStart* sessionStartPacket);
-            std::vector<Processor::Data::DriverRecord*> m_driverRecords;
+            void UpdateStandings(const Packet::Internal::RaceStandings* standingsPacket);
+
+            std::map<const uint8_t, Processor::Data::DriverRecord*> m_driverRecords;
             Processor::Data::SessionRecord* m_sessionRecord;
             
 

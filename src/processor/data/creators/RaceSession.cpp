@@ -16,14 +16,15 @@ Processor::Data::Creator::RaceSession::RaceSession(const Packet::Internal::RaceS
 
 }
 
-std::vector<Processor::Data::DriverRecord*> Processor::Data::Creator::RaceSession::createDriverRecords() const {
+std::map<const uint8_t, Processor::Data::DriverRecord*> Processor::Data::Creator::RaceSession::createDriverRecords() const {
 
-    std::vector<Processor::Data::DriverRecord*> driverRecord;
+    std::map<const uint8_t, Processor::Data::DriverRecord*> driverRecord;
     if (m_packet)
     {
         for (auto driver : m_packet->m_participants) {
 
             Processor::Data::DriverRecord* record = new Processor::Data::DriverRecord(m_packet->m_timestamp, driver);
+            driverRecord.emplace(record->getDriverId(), record);
             
         }
     }

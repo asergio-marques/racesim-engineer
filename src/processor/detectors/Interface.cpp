@@ -6,7 +6,7 @@
 
 
 
-Processor::Detector::Interface::Interface(const Processor::Data::Databank* const dataBank) :
+Processor::Detector::Interface::Interface(const Processor::Data::DataInterface* const dataBank) :
     Packet::Internal::Broadcaster(),
     m_data(dataBank),
     m_workerThread() {

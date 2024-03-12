@@ -3,6 +3,7 @@
 
 #include <thread>
 #include <vector>
+#include "detectors/Type.h"
 #include "packets/internal/Broadcaster.h"
 
 
@@ -22,7 +23,7 @@ namespace Processor {
 
     namespace Data {
 
-        class Databank;
+        class DataInterface;
 
     }
 
@@ -31,16 +32,16 @@ namespace Processor {
         class Interface : public Packet::Internal::Broadcaster {
 
             public:
-            Interface(const Processor::Data::Databank* const dataBank);
+            Interface(const Processor::Data::DataInterface* const dataBank);
             virtual ~Interface();
             virtual void Init();
-            virtual void ReceiveNewData(Packet::Internal::Interface* const packet) = 0;
+            virtual const Processor::Detector::Type GetType() const = 0;
             virtual void Exec() = 0;
             virtual const std::vector<Packet::Internal::Interface*>& UnsentPackets() const;
             virtual bool ClearPacketList();
 
             protected:
-            const Processor::Data::Databank* const m_data;
+            const Processor::Data::DataInterface* const m_data;
             std::vector<Packet::Internal::Interface*> m_packetsToBeProcessed;
             std::thread m_workerThread;
 

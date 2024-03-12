@@ -7,6 +7,13 @@
 
 
 namespace Processor {
+    
+    namespace Detector {
+
+        class Interface;
+        class Overtake;
+
+    }
 
     namespace Data {
 
@@ -14,20 +21,18 @@ namespace Processor {
 
             public:
 
-            enum class Comparison {
-
-                IsSame          = 0,
-                PositionChange  = 1
-
-            };
-
-            DriverState(const uint8_t startingPosition);
+            DriverState(const uint8_t id, const uint8_t startingPosition);
             ~DriverState();
-            const std::vector<Processor::Data::DriverState::Comparison> CompareState(const Processor::Data::DriverState& other);
+            void installDetector(const Processor::Detector::Interface* detector);
+            void updateCurrentPosition(const uint8_t currentPosition);
+            const uint8_t getCurrentPosition() const;
 
             private:
+            const uint8_t m_id;
             uint8_t m_currentPosition;
-            uint8_t m_startingPosition;
+            const uint8_t m_startingPosition;
+            const Processor::Detector::Overtake* m_installedOvertakeDetector;
+
 
         };
 

@@ -29,7 +29,7 @@ namespace Processor {
                 public:
                 RaceSession(const Packet::Internal::RaceStart* packet);
                 virtual ~RaceSession() = default;
-                std::vector<Processor::Data::DriverRecord*> createDriverRecords() const override final;
+                std::map<const uint8_t, Processor::Data::DriverRecord*> createDriverRecords() const override final;
                 Processor::Data::SessionRecord* createSessionRecord() const override final;
 
                 private:

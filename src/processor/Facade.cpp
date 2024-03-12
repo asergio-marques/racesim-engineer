@@ -15,9 +15,11 @@ Processor::Facade::Facade() :
     m_execThread() {
 
     if (m_databank) {
+
         m_detectors.push_back(new Processor::Detector::FastestLap(m_databank));
         m_detectors.push_back(new Processor::Detector::Overtake(m_databank));
         m_detectors.push_back(new Processor::Detector::WarningPenalty(m_databank));
+
     }
 
     for (auto detector : m_detectors) {
@@ -46,15 +48,7 @@ Processor::Facade::~Facade() {
 
 void Processor::Facade::OnPacketBroadcast(Packet::Internal::Interface* packet) {
 
-    for (auto detector : m_detectors) {
-
-        if (detector) {
-
-            detector->ReceiveNewData(packet);
-
-        }
-
-    }
+    // TODO pass to databank
 
 }
 

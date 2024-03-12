@@ -6,7 +6,7 @@
 
 
 
-Processor::Detector::WarningPenalty::WarningPenalty(const Processor::Data::Databank* const dataBank) :
+Processor::Detector::WarningPenalty::WarningPenalty(const Processor::Data::DataInterface* const dataBank) :
     Processor::Detector::Interface(dataBank) {
 
 
@@ -23,9 +23,9 @@ Processor::Detector::WarningPenalty::~WarningPenalty() {
 
 
 
-void Processor::Detector::WarningPenalty::ReceiveNewData(Packet::Internal::Interface* const packet) {
+const Processor::Detector::Type Processor::Detector::WarningPenalty::GetType() const {
 
-
+    return Processor::Detector::Type::WarningPenalty;
 
 }
 

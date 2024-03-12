@@ -2,12 +2,17 @@
 
 #include <cstdint>
 #include <vector>
+#include "detectors/Interface.h"
+#include "detectors/Overtake.h"
+#include "detectors/Type.h"
 
 
 
-Processor::Data::DriverState::DriverState(const uint8_t startingPosition) :
+Processor::Data::DriverState::DriverState(const uint8_t id, const uint8_t startingPosition) :
+    m_id(id),
     m_startingPosition(startingPosition),
-    m_currentPosition(startingPosition) {
+    m_currentPosition(startingPosition),
+    m_installedOvertakeDetector(nullptr) {
 
 
 
@@ -25,12 +30,47 @@ Processor::Data::DriverState::~DriverState() {
 
 
 
+void Processor::Data::DriverState::installDetector(const Processor::Detector::Interface* detector) {
 
-const std::vector<Processor::Data::DriverState::Comparison>
-    Processor::Data::DriverState::CompareState(const Processor::Data::DriverState& other) {
+    if (!detector) return;
 
-    std::vector<Processor::Data::DriverState::Comparison> differenceList;
-    if (other.m_currentPosition != m_currentPosition) differenceList.push_back(Processor::Data::DriverState::Comparison::PositionChange);
+    switch (detector->GetType()) {
 
-    return differenceList;
+        case Processor::Detector::Type::Overtake:
+            m_installedOvertakeDetector = dynamic_cast<const Processor::Detector::Overtake*>(detector);
+            break;
+
+        case Processor::Detector::Type::FastestLap:
+            // TODO implement
+            break;
+
+        case Processor::Detector::Type::WarningPenalty:
+            // TODO implement
+            break;
+
+        default:
+            // shit's fucked
+            break;
+    }
+
+}
+
+
+
+void Processor::Data::DriverState::updateCurrentPosition(const uint8_t currentPosition) {
+
+    m_currentPosition = currentPosition;
+    if (m_installedOvertakeDetector) {
+
+        //m_installedOvertakeDetector->AddPositionChange(m_id, m_currentPosition);
+
+    }
+
+}
+
+
+const uint8_t Processor::Data::DriverState::getCurrentPosition() const {
+
+    return m_currentPosition;
+
 }

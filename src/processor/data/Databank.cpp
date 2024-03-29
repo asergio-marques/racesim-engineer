@@ -5,6 +5,7 @@
 #include "data/SessionRecord.h"
 #include "data/creators/Interface.h"
 #include "data/creators/RaceSession.h"
+#include "detectors/Interface.h"
 #include "packets/internal/Interface.h"
 #include "packets/internal/SessionStart.h"
 #include "packets/internal/race_types/RaceStart.h"
@@ -15,7 +16,8 @@
 Processor::Data::Databank::Databank() :
     Processor::Data::DataInterface(),
     m_driverRecords(),
-    m_sessionRecord(nullptr) {
+    m_sessionRecord(nullptr),
+    m_activeDetectors() {
 
 
 
@@ -39,7 +41,7 @@ Processor::Data::Databank::~Databank() {
 
 void Processor::Data::Databank::UpdateData(const Packet::Internal::Interface* packet) {
 
-    if (packet && m_sessionRecord) {
+    if (packet) {
 
         switch (packet->packetType()) {
 
@@ -49,7 +51,7 @@ void Processor::Data::Databank::UpdateData(const Packet::Internal::Interface* pa
 
             case Packet::Internal::Type::Standings:
                 UpdateStandings(dynamic_cast<const Packet::Internal::RaceStandings*>(packet));
-                
+                break;
 
         }
 
@@ -57,23 +59,36 @@ void Processor::Data::Databank::UpdateData(const Packet::Internal::Interface* pa
 
 }
 
+void Processor::Data::Databank::installDetector(Processor::Detector::Interface* detector) {
 
+    if (detector) {
 
-const std::map<const uint8_t, Processor::Data::DriverRecord*> Processor::Data::Databank::getDriverRecords() const {
+        const auto it = m_activeDetectors.find(detector->GetType());
+        if (it == m_activeDetectors.cend()) {
+            
+            // Add to vector
+            m_activeDetectors.emplace(detector->GetType(), detector);
 
-    return m_driverRecords;
+            // Try to add to the current records
+            if (!(m_driverRecords.empty()) && m_sessionRecord) {
+                
+                for (auto entry : m_driverRecords) {
+                    
+                    auto record = entry.second;
+                    if (record) record->getModifiableState().installDetector(detector);
+
+                }
+
+                // TODO this
+                //m_sessionRecord->installDetector(detector);
+
+            }
+
+        }
+
+    }
 
 }
-
-
-
-const Processor::Data::SessionRecord* Processor::Data::Databank::getSessionRecord() const {
-
-    return m_sessionRecord;
-
-}
-
-
 
 void Processor::Data::Databank::CreateSessionInformation(const Packet::Internal::SessionStart* sessionStartPacket) {
 
@@ -109,6 +124,19 @@ void Processor::Data::Databank::CreateSessionInformation(const Packet::Internal:
             m_driverRecords = creator->createDriverRecords();
             m_sessionRecord = creator->createSessionRecord();
 
+            for (auto detectorEntry : m_activeDetectors) {
+
+                auto detector = detectorEntry.second;
+
+                for (auto driverEntry : m_driverRecords) {
+
+                    auto record = driverEntry.second;
+                    if (record) record->getModifiableState().installDetector(detector);
+
+                }
+
+            }
+
         }
 
     }
@@ -137,10 +165,10 @@ void Processor::Data::Databank::UpdateStandings(const Packet::Internal::RaceStan
 
                 auto driverData = entry->second;
 
-                if (driverData &&
-                    (driverData->getLastTimestamp() <= standingsPacket->m_timestamp)) {
+                if (driverData && driverData->updateLastTimestamp(standingsPacket->m_timestamp)) {
 
                     driverData->getModifiableState().updateCurrentPosition(standing.m_position);
+
 
                 }
 

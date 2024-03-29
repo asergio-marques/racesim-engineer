@@ -4,6 +4,7 @@
 #include <cstdint>
 #include <map>
 #include "data/DataInterface.h"
+#include "detectors/Type.h"
 
 
 
@@ -21,6 +22,12 @@ namespace Packet {
 
 namespace Processor {
 
+    namespace Detector {
+
+        class Interface;
+
+    }
+
     namespace Data {
 
         class DriverRecord;
@@ -32,8 +39,7 @@ namespace Processor {
             Databank();
             ~Databank();
             void UpdateData(const Packet::Internal::Interface* packet);
-            const std::map<const uint8_t, Processor::Data::DriverRecord*> getDriverRecords() const override;
-            const Processor::Data::SessionRecord* getSessionRecord() const override;
+            void installDetector(Processor::Detector::Interface* detector) override final;
 
             private:
             void CreateSessionInformation(const Packet::Internal::SessionStart* sessionStartPacket);
@@ -41,7 +47,7 @@ namespace Processor {
 
             std::map<const uint8_t, Processor::Data::DriverRecord*> m_driverRecords;
             Processor::Data::SessionRecord* m_sessionRecord;
-            
+            std::map<Processor::Detector::Type, Processor::Detector::Interface*> m_activeDetectors;
 
         };
 

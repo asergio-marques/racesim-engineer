@@ -21,18 +21,12 @@ namespace Packet {
 
 namespace Processor {
 
-    namespace Data {
-
-        class DataInterface;
-
-    }
-
     namespace Detector {
 
         class Interface : public Packet::Internal::Broadcaster {
 
             public:
-            Interface(const Processor::Data::DataInterface* const dataBank);
+            Interface();
             virtual ~Interface();
             virtual void Init();
             virtual const Processor::Detector::Type GetType() const = 0;
@@ -41,7 +35,6 @@ namespace Processor {
             virtual bool ClearPacketList();
 
             protected:
-            const Processor::Data::DataInterface* const m_data;
             std::vector<Packet::Internal::Interface*> m_packetsToBeProcessed;
             std::thread m_workerThread;
 

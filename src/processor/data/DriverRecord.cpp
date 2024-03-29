@@ -28,6 +28,21 @@ Processor::Data::DriverRecord::~DriverRecord() {
 
 
 
+const bool Processor::Data::DriverRecord::updateLastTimestamp(const uint64_t newTimestamp) {
+
+    if (newTimestamp >= m_lastStateTimestamp) {
+
+        m_lastStateTimestamp = newTimestamp;
+        return true;
+
+    }
+
+    return false;
+
+}
+
+
+
 const uint64_t Processor::Data::DriverRecord::getLastTimestamp() {
 
     return m_lastStateTimestamp;

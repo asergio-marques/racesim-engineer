@@ -6,8 +6,8 @@
 
 
 
-Processor::Detector::FastestLap::FastestLap(const Processor::Data::DataInterface* const dataBank) :
-    Processor::Detector::Interface(dataBank) {
+Processor::Detector::FastestLap::FastestLap() :
+    Processor::Detector::Interface() {
 
 
 
@@ -36,7 +36,7 @@ void Processor::Detector::FastestLap::Exec() {
     while (true) {
 
         // Thread is executed at 10Hz
-        std::this_thread::sleep_for(std::chrono::milliseconds(10));
+        std::this_thread::sleep_for(std::chrono::milliseconds(100));
 
     }
 

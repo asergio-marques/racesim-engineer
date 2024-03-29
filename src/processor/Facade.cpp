@@ -16,22 +16,21 @@ Processor::Facade::Facade() :
 
     if (m_databank) {
 
-        m_detectors.push_back(new Processor::Detector::FastestLap(m_databank));
-        m_detectors.push_back(new Processor::Detector::Overtake(m_databank));
-        m_detectors.push_back(new Processor::Detector::WarningPenalty(m_databank));
+        m_detectors.push_back(new Processor::Detector::FastestLap);
+        m_detectors.push_back(new Processor::Detector::Overtake);
+        m_detectors.push_back(new Processor::Detector::WarningPenalty);
 
     }
 
     for (auto detector : m_detectors) {
-        
+
         if (detector) {
 
-            detector->Init();
+            m_databank->installDetector(detector);
 
         }
 
     }
-
     m_execThread = std::thread(&Processor::Facade::Exec, this);
 
 }
@@ -48,7 +47,11 @@ Processor::Facade::~Facade() {
 
 void Processor::Facade::OnPacketBroadcast(Packet::Internal::Interface* packet) {
 
-    // TODO pass to databank
+    if (m_databank && packet) {
+
+        m_databank->UpdateData(packet);
+
+    }
 
 }
 

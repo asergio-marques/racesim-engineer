@@ -24,7 +24,11 @@ std::map<const uint8_t, Processor::Data::DriverRecord*> Processor::Data::Creator
         for (auto driver : m_packet->m_participants) {
 
             Processor::Data::DriverRecord* record = new Processor::Data::DriverRecord(m_packet->m_timestamp, driver);
-            driverRecord.emplace(record->getDriverId(), record);
+            if (record) {
+
+                driverRecord.emplace(record->getDriverId(), record);
+
+            }
             
         }
     }

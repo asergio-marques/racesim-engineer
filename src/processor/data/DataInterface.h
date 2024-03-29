@@ -8,18 +8,20 @@
 
 namespace Processor {
 
-    namespace Data {
+    namespace Detector {
 
-        class DriverRecord;
-        class SessionRecord;
+        class Interface;
+
+    }
+
+    namespace Data {
 
         class DataInterface {
 
             public:
             DataInterface() = default;
             virtual ~DataInterface() = default;
-            virtual const std::map<const uint8_t, Processor::Data::DriverRecord*> getDriverRecords() const = 0;
-            virtual const Processor::Data::SessionRecord* getSessionRecord() const = 0;
+            virtual void installDetector(Processor::Detector::Interface* detector) = 0;
 
 
         };

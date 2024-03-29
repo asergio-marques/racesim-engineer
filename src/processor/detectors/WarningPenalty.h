@@ -19,7 +19,7 @@ namespace Processor {
         class WarningPenalty : public Processor::Detector::Interface {
 
             public:
-            WarningPenalty(const Processor::Data::DataInterface* const dataBank);
+            WarningPenalty();
             ~WarningPenalty();
             const Processor::Detector::Type GetType() const override;
             void Exec() override final;

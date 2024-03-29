@@ -8,18 +8,12 @@
 
 namespace Processor {
 
-    namespace Data {
-
-        class DataInterface;
-
-    }
-
     namespace Detector {
 
         class FastestLap : public Processor::Detector::Interface {
 
             public:
-            FastestLap(const Processor::Data::DataInterface* const dataBank);
+            FastestLap();
             ~FastestLap();
             const Processor::Detector::Type GetType() const override;
             void Exec() override final;

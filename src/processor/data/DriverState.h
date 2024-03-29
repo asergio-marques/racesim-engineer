@@ -23,7 +23,7 @@ namespace Processor {
 
             DriverState(const uint8_t id, const uint8_t startingPosition);
             ~DriverState();
-            void installDetector(const Processor::Detector::Interface* detector);
+            void installDetector(Processor::Detector::Interface* detector);
             void updateCurrentPosition(const uint8_t currentPosition);
             const uint8_t getCurrentPosition() const;
 
@@ -31,7 +31,7 @@ namespace Processor {
             const uint8_t m_id;
             uint8_t m_currentPosition;
             const uint8_t m_startingPosition;
-            const Processor::Detector::Overtake* m_installedOvertakeDetector;
+            Processor::Detector::Overtake* m_installedOvertakeDetector;
 
 
         };

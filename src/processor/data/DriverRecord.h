@@ -16,6 +16,7 @@ namespace Processor {
             public:
             DriverRecord(const uint64_t initTimestamp, const Session::Internal::Participant& driverData);
             ~DriverRecord();
+            const bool updateLastTimestamp(const uint64_t newTimestamp);
             const uint64_t getLastTimestamp();
             const uint8_t getDriverId();
             Processor::Data::DriverState& getModifiableState();

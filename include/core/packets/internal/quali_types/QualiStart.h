@@ -14,7 +14,7 @@ namespace Packet {
 
         struct QualiStart : public Packet::Internal::MPSessionStart {
 
-            // Packet interface constructor
+            // Packet constructor
             QualiStart(const uint64_t timestamp, uint8_t carsClassifiedAtEnd);
 
             // Destructor

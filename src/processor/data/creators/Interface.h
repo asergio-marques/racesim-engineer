@@ -29,7 +29,7 @@ namespace Processor {
                 virtual std::map<const uint8_t, Processor::Data::DriverRecord*> createDriverRecords() const = 0;
 
                 // Inheritable function that is to create the session records
-                // appropriate for the type ofsession taking place
+                // appropriate for the type of session taking place
                 virtual Processor::Data::SessionRecord* createSessionRecord() const = 0;
 
             };

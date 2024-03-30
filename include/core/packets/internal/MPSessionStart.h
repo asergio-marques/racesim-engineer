@@ -16,10 +16,8 @@ namespace Packet {
         struct MPSessionStart : public Packet::Internal::SessionStart {
 
             public:
-            // Packet interface constructor
-            MPSessionStart(const uint64_t timestamp, const Session::Internal::Type& sessionType) :
-                Packet::Internal::SessionStart(timestamp, sessionType),
-                m_participants() {}
+            // Packet constructor
+            MPSessionStart(const uint64_t timestamp, const Session::Internal::Type& sessionType);
 
             // Destructor
             virtual ~MPSessionStart() = default;

@@ -2,4 +2,3 @@
 #include "base/packets/SoloSessionStartInterface.h"
 #include "base/packets/MPSessionStartInterface.h"
 #include "base/packets/ParticipantInfoInterface.h"
-#include "base/packets/StandingsUpdateInterface.h"

@@ -17,8 +17,7 @@ Packet::Internal::RaceStandings::Data::Data(const uint8_t driverID, const uint8_
 
 Packet::Internal::RaceStandings::RaceStandings(const uint64_t timestamp) :
     Packet::Internal::Interface(timestamp),
-    m_fullStandingsData(),
-    m_isFinalized(false) {
+    m_fullStandingsData() {
 
 }
 
@@ -32,21 +31,9 @@ const Packet::Internal::Type Packet::Internal::RaceStandings::packetType() const
 
 
 
-void Packet::Internal::RaceStandings::Finalize() {
-
-    m_isFinalized = true;
-
-}
-
-
-
 void Packet::Internal::RaceStandings::InsertData(const uint8_t driverID, const uint8_t position) {
 
-    if (!m_isFinalized) {
-
-        m_fullStandingsData.push_back(Packet::Internal::RaceStandings::Data(driverID, position));
-
-    }
+    m_fullStandingsData.push_back(Packet::Internal::RaceStandings::Data(driverID, position));
 
 }
 

@@ -201,7 +201,6 @@ Packet::Internal::Interface* NetCom::Adapter::F1_23::ConvertLapDataPacket(const 
         }
 
     }
-    outputPacket->Finalize();
     return outputPacket;
 
 }

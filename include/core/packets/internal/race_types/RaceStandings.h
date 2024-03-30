@@ -17,6 +17,7 @@ namespace Packet {
             struct Data {
 
                 public:
+                // Constructor
                 Data(const uint8_t driverID, const uint8_t position);
 
                 // ID of the driver for which this standing is relative to
@@ -34,15 +35,17 @@ namespace Packet {
             // Destructor
             virtual ~RaceStandings() = default;
 
+            // Type identifier for the packet
             const Packet::Internal::Type packetType() const override final;
-            void Finalize();
+
+            // Adds standings data into the packet
             void InsertData(const uint8_t driverID, const uint8_t position);
+
+            // Retrieve standings data from the packet
             const std::vector<Packet::Internal::RaceStandings::Data>& GetData() const;
 
             private:
-            // Number of laps in the race
-            bool m_isFinalized;
-
+            // Holds the current position of all drivers in the session
             std::vector<Packet::Internal::RaceStandings::Data> m_fullStandingsData;
 
         };

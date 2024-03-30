@@ -14,14 +14,6 @@ target_include_directories(${PROJECT_NAME} PRIVATE "${PROJECT_ROOT}/src/core")
 
 target_sources(${PROJECT_NAME} PRIVATE
     data/GeneralData.cpp
-    packets/internal/Broadcaster.cpp
-    packets/internal/SessionStart.cpp
-    packets/internal/tt_types/TimeTrialStart.cpp
-    packets/internal/practice_types/PracticeStart.cpp
-    packets/internal/quali_types/QualiStart.cpp
-    packets/internal/race_types/Overtake.cpp
-    packets/internal/race_types/RaceStandings.cpp
-    packets/internal/race_types/RaceStart.cpp
     packets/game/Broadcaster.cpp
     packets/game/Helper.cpp
     packets/game/F1_23/Header.cpp
@@ -38,6 +30,18 @@ target_sources(${PROJECT_NAME} PRIVATE
     packets/game/F1_23/CarDamageData.cpp
     packets/game/F1_23/SessionHistoryData.cpp
     packets/game/F1_23/TyreSetData.cpp
+    packets/internal/Broadcaster.cpp
+    packets/internal/Interface.cpp
+    packets/internal/SessionStart.cpp
+    packets/internal/SoloSessionStart.cpp
+    packets/internal/MPSessionStart.cpp
+    packets/internal/SessionEnd.cpp
+    packets/internal/tt_types/TimeTrialStart.cpp
+    packets/internal/practice_types/PracticeStart.cpp
+    packets/internal/quali_types/QualiStart.cpp
+    packets/internal/race_types/Overtake.cpp
+    packets/internal/race_types/RaceStandings.cpp
+    packets/internal/race_types/RaceStart.cpp
     settings/StoreFront.cpp)
 
 target_link_libraries(${PROJECT_NAME} PRIVATE

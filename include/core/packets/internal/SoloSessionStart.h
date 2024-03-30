@@ -15,10 +15,9 @@ namespace Packet {
 
             public:
             // Packet interface constructor
-            SoloSessionStart(const uint64_t timestamp, const Session::Internal::Type& sessionType) :
-                Packet::Internal::SessionStart(timestamp, sessionType) {}
+            SoloSessionStart(const uint64_t timestamp, const Session::Internal::Type& sessionType);
 
-            // Destructor
+            // Default destructor
             virtual ~SoloSessionStart() = default;
 
         };

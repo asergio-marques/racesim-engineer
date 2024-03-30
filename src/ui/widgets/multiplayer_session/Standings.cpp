@@ -34,7 +34,7 @@ UserInterface::Widget::Standings::Standings(QWidget* parent) :
 
 
 
-void UserInterface::Widget::Standings::UpdateAtStart(const Packet::Internal::MPSessionStart* dataPacket) {
+void UserInterface::Widget::Standings::updateAtStart(const Packet::Internal::MPSessionStart* dataPacket) {
 
     if (dataPacket && !m_initialParamsSet) {
 
@@ -53,37 +53,11 @@ void UserInterface::Widget::Standings::UpdateAtStart(const Packet::Internal::MPS
         }
 
         m_initialParamsSet = true;
-        ReorderStandings();
+        reorderStandings();
 
     }
 
 }
-
-
-
-/*void UserInterface::Widget::Standings::UpdateStandings(const Packet::Internal::RaceStandings* dataPacket) {
-
-    if (dataPacket && m_initialParamsSet) {
-
-        for (const auto standingData : dataPacket->GetData()) {
-
-            UserInterface::Widget::DriverEntry* entry = m_driverData.at(standingData.m_driverID);
-            if (entry) {
-
-                entry->UpdatePosition(standingData.m_position);
-
-            }
-
-        }
-
-        m_initialParamsSet = true;
-        ReorderStandings();
-
-    }
-
-}*/
-
-
 
 
 
@@ -132,7 +106,7 @@ void UserInterface::Widget::Standings::setSize(const uint16_t newWidth, const ui
 
             // 20 entries maximum
             driver->setSize(newWidth, (newHeight / 20), false);
-            ReorderStandings();
+            reorderStandings();
         }
 
     }
@@ -141,7 +115,7 @@ void UserInterface::Widget::Standings::setSize(const uint16_t newWidth, const ui
 
 
 
-void UserInterface::Widget::Standings::ReorderStandings() {
+void UserInterface::Widget::Standings::reorderStandings() {
 
     UserInterface::Style::General style;
 

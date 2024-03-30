@@ -20,6 +20,7 @@ namespace Packet {
             // Destructor
             virtual ~SessionStart() = default;
 
+            // Type identifier for the packet
             const Packet::Internal::Type packetType() const override final;
 
             // The type of the session that has begun

@@ -14,17 +14,13 @@ namespace Packet {
 
             public:
             // Packet interface constructor
-            SessionEnd(const uint64_t timestamp) :
-                Packet::Internal::Interface(timestamp) {
-
-            }
+            SessionEnd(const uint64_t timestamp);
 
             // Destructor
             virtual ~SessionEnd() = default;
 
-            const Packet::Internal::Type packetType() const override final {
-                return Packet::Internal::Type::SessionEnd;
-            }
+            // Type identifier for the packet
+            const Packet::Internal::Type packetType() const;
 
         };
 

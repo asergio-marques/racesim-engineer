@@ -17,6 +17,7 @@ namespace Packet {
             struct Data {
 
                 public:
+                // Constructor
                 Data(const uint8_t driverID, const uint8_t newPosition, const bool positionUp);
 
                 // ID of the driver whose position has changed
@@ -37,11 +38,17 @@ namespace Packet {
             // Destructor
             virtual ~Overtake() = default;
 
+            // Type identifier for the packet
             const Packet::Internal::Type packetType() const override final;
+
+            // Adds overtake data into the packet
             void InsertData(const uint8_t driverID, const uint8_t newPosition, const bool positionUp);
+
+            // Retrieves the overtake data in the packet
             const std::vector<Packet::Internal::Overtake::Data>& GetData() const;
 
             private:
+            // Holds all the data with the drivers involved in an overtake
             std::vector<Packet::Internal::Overtake::Data> m_fullOvertakeData;
 
         };

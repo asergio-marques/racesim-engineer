@@ -18,8 +18,7 @@ Packet::Internal::Overtake::Data::Data(const uint8_t driverID, const uint8_t new
 
 Packet::Internal::Overtake::Overtake(const uint64_t timestamp) :
     Packet::Internal::Interface(timestamp),
-    m_fullOvertakeData(),
-    m_isFinalized(false) {
+    m_fullOvertakeData() {
 
 }
 
@@ -33,21 +32,9 @@ const Packet::Internal::Type Packet::Internal::Overtake::packetType() const {
 
 
 
-void Packet::Internal::Overtake::Finalize() {
-
-    m_isFinalized = true;
-
-}
-
-
-
 void Packet::Internal::Overtake::InsertData(const uint8_t driverID, const uint8_t newPosition, const bool positionUp) {
 
-    if (!m_isFinalized) {
-
-        m_fullOvertakeData.push_back(Packet::Internal::Overtake::Data(driverID, newPosition, positionUp));
-
-    }
+    m_fullOvertakeData.push_back(Packet::Internal::Overtake::Data(driverID, newPosition, positionUp));
 
 }
 

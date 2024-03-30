@@ -41,28 +41,60 @@ void Processor::Detector::Overtake::Exec() {
         for (const auto positionChange : m_positionChanges) {
 
             if (m_packetsToBeProcessed.empty()) {
+
                 // timestamp can be 0 as the UI isn't supposed to check on this I think maybe perhaps
                 Packet::Internal::Overtake* packet = new Packet::Internal::Overtake(0);
                 if (packet) {
+
                     packet->InsertData(positionChange.m_id, positionChange.m_newPosition,
                         (positionChange.m_newPosition < positionChange.m_oldPosition));
                     m_packetsToBeProcessed.push_back(packet);
+
                 }
+
             }
             else
             {
                 // check if position change can be associated with an overtake packet
+                bool alreadyAdded = false;
                 for (auto packet : m_packetsToBeProcessed) {
+
                     auto castPacket = dynamic_cast<Packet::Internal::Overtake*>(packet);
                     if (castPacket) {
+
                         for (const auto data : castPacket->GetData()) {
+
                             if (data.m_position == positionChange.m_oldPosition) {
 
+                                castPacket->InsertData(positionChange.m_id, positionChange.m_newPosition,
+                                    (positionChange.m_newPosition < positionChange.m_oldPosition));
+                                alreadyAdded = true;
+                                // Break the overtake data loop
+                                break;
+
                             }
+
                         }
+                        
+                        // Break the already-existing packet loop
+                        if (alreadyAdded) break;
+
                     }
+
                 }
                 // if not, create new overtake packet
+                if (!alreadyAdded)
+                {
+                    // timestamp can be 0 as the UI isn't supposed to check on this I think maybe perhaps
+                    Packet::Internal::Overtake* packet = new Packet::Internal::Overtake(0);
+                    if (packet) {
+                        packet->InsertData(positionChange.m_id, positionChange.m_newPosition,
+                            (positionChange.m_newPosition < positionChange.m_oldPosition));
+                        m_packetsToBeProcessed.push_back(packet);
+                    }
+
+                }
+
             }
 
         }

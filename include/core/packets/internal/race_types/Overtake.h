@@ -38,14 +38,10 @@ namespace Packet {
             virtual ~Overtake() = default;
 
             const Packet::Internal::Type packetType() const override final;
-            void Finalize();
             void InsertData(const uint8_t driverID, const uint8_t newPosition, const bool positionUp);
             const std::vector<Packet::Internal::Overtake::Data>& GetData() const;
 
             private:
-            // Number of laps in the race
-            bool m_isFinalized;
-
             std::vector<Packet::Internal::Overtake::Data> m_fullOvertakeData;
 
         };

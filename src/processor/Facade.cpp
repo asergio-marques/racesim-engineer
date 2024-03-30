@@ -27,6 +27,7 @@ Processor::Facade::Facade() :
         if (detector) {
 
             m_databank->installDetector(detector);
+            detector->Init();
 
         }
 

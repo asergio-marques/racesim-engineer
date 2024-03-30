@@ -3,23 +3,7 @@
 #include <chrono>
 #include <thread>
 #include "detectors/Interface.h"
-
-
-
-Processor::Detector::FastestLap::FastestLap() :
-    Processor::Detector::Interface() {
-
-
-
-}
-
-
-
-Processor::Detector::FastestLap::~FastestLap() {
-
-
-
-}
+#include "detectors/Type.h"
 
 
 

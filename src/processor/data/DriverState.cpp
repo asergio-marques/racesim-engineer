@@ -1,7 +1,6 @@
 #include "data/DriverState.h"
 
 #include <cstdint>
-#include <vector>
 #include "detectors/Interface.h"
 #include "detectors/Overtake.h"
 #include "detectors/Type.h"
@@ -51,30 +50,21 @@ void Processor::Data::DriverState::installDetector(Processor::Detector::Interfac
         default:
             // shit's fucked
             break;
+
     }
 
 }
 
 
-#include <iostream>
-#include <string>
+
 void Processor::Data::DriverState::updateCurrentPosition(const uint8_t currentPosition) {
 
-    if (m_currentPosition != currentPosition)
-        std::cout << "pos change " << std::to_string(m_id) << " - " << std::to_string(m_currentPosition) << " to " << std::to_string(currentPosition) << std::endl;
-
+    // Only add a position change if it actually exists
     if (m_installedOvertakeDetector && (m_currentPosition != currentPosition)) {
 
         m_installedOvertakeDetector->AddPositionChange(m_id, m_currentPosition, currentPosition);
+        m_currentPosition = currentPosition;
 
     }
-    m_currentPosition = currentPosition;
-
-}
-
-
-const uint8_t Processor::Data::DriverState::getCurrentPosition() const {
-
-    return m_currentPosition;
 
 }

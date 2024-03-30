@@ -10,12 +10,19 @@ namespace Processor {
 
     namespace Detector {
 
-        class FastestLap : public Processor::Detector::Interface {
+        class FastestLap final : public Processor::Detector::Interface {
 
             public:
-            FastestLap();
-            ~FastestLap();
+            // Default constructor
+            FastestLap() = default;
+
+            // Default destructor
+            ~FastestLap() = default;
+
+            // Returns the identifying type of this detector
             const Processor::Detector::Type GetType() const override;
+
+            // Main execution function
             void Exec() override final;
 
         };

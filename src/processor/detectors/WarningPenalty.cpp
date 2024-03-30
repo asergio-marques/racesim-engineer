@@ -3,23 +3,7 @@
 #include <chrono>
 #include <thread>
 #include "detectors/Interface.h"
-
-
-
-Processor::Detector::WarningPenalty::WarningPenalty() :
-    Processor::Detector::Interface() {
-
-
-
-}
-
-
-
-Processor::Detector::WarningPenalty::~WarningPenalty() {
-
-
-
-}
+#include "detectors/Type.h"
 
 
 

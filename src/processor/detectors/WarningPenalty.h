@@ -16,12 +16,19 @@ namespace Processor {
 
     namespace Detector {
 
-        class WarningPenalty : public Processor::Detector::Interface {
+        class WarningPenalty final : public Processor::Detector::Interface {
 
             public:
-            WarningPenalty();
-            ~WarningPenalty();
+            // Default constructor
+            WarningPenalty() = default;
+
+            // Default destructor
+            ~WarningPenalty() = default;
+
+            // Returns the identifying type of this detector
             const Processor::Detector::Type GetType() const override;
+
+            // Main execution function
             void Exec() override final;
 
         };

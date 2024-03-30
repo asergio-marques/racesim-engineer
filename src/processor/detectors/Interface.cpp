@@ -2,28 +2,10 @@
 
 #include <thread>
 #include <vector>
-#include "packets/internal/Broadcaster.h"
-#include "data/DataInterface.h"
 #include "data/DriverRecord.h"
 #include "data/DriverState.h"
-
-
-
-Processor::Detector::Interface::Interface() :
-    Packet::Internal::Broadcaster(),
-    m_workerThread() {
-
-
-
-}
-
-
-
-Processor::Detector::Interface::~Interface() {
-
-
-
-}
+#include "detectors/Type.h"
+#include "packets/internal/Broadcaster.h"
 
 
 

@@ -42,15 +42,7 @@ const bool Processor::Data::DriverRecord::updateLastTimestamp(const uint64_t new
 }
 
 
-
-const uint64_t Processor::Data::DriverRecord::getLastTimestamp() {
-
-    return m_lastStateTimestamp;
-
-}
-
-
-const uint8_t Processor::Data::DriverRecord::getDriverId() {
+const uint8_t Processor::Data::DriverRecord::getDriverId() const {
 
     return m_driverId;
 

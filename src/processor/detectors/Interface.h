@@ -26,16 +26,32 @@ namespace Processor {
         class Interface : public Packet::Internal::Broadcaster {
 
             public:
-            Interface();
-            virtual ~Interface();
+            // Default constructor
+            Interface() = default;
+
+            // Default destructor
+            virtual ~Interface() = default;
+
+            // Starts the worker thread of this detector
             virtual void Init();
+
+            // Returns the identifying type of this detector
             virtual const Processor::Detector::Type GetType() const = 0;
+
+            // Main execution function to be overridden by all concrete detectors
             virtual void Exec() = 0;
+
+            // Exposes the list of vector currently held by the detector so that it may be sent
             virtual const std::vector<Packet::Internal::Interface*>& UnsentPackets() const;
+
+            // Cleans up the list of packets
             virtual bool ClearPacketList();
 
             protected:
+            // Holds all the internal packets that are yet to be sent to subscribers
             std::vector<Packet::Internal::Interface*> m_packetsToBeProcessed;
+
+            // Main execution thread
             std::thread m_workerThread;
 
         };

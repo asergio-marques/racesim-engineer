@@ -1,18 +1,21 @@
 #include "Facade.h"
 
-#include <memory>
+#include <thread>
+#include <vector>
 #include "data/Databank.h"
 #include "detectors/FastestLap.h"
 #include "detectors/Overtake.h"
 #include "detectors/WarningPenalty.h"
+#include "IFacade.h"
 #include "packets/internal/Subscriber.h"
 
 
 
 Processor::Facade::Facade() :
+    Processor::IFacade::IFacade(),
     m_databank(new Processor::Data::Databank),
     m_detectors(),
-    m_execThread() {
+    m_workerThread() {
 
     if (m_databank) {
 
@@ -32,7 +35,7 @@ Processor::Facade::Facade() :
         }
 
     }
-    m_execThread = std::thread(&Processor::Facade::Exec, this);
+    m_workerThread = std::thread(&Processor::Facade::Exec, this);
 
 }
 
@@ -50,7 +53,7 @@ void Processor::Facade::OnPacketBroadcast(Packet::Internal::Interface* packet) {
 
     if (m_databank && packet) {
 
-        m_databank->UpdateData(packet);
+        m_databank->updateData(packet);
 
     }
 
@@ -78,11 +81,6 @@ void Processor::Facade::Exec() {
 
             }
 
-        }
-
-        if (!packetsToSend.empty())
-        {
-            int i = 0;
         }
 
         for (auto packet : packetsToSend) {

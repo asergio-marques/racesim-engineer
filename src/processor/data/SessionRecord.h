@@ -14,14 +14,27 @@ namespace Processor {
         class SessionRecord {
 
             public:
+            // Constructor
             SessionRecord(const uint64_t initTimestamp, const Session::Internal::Type sessionType, const Session::Internal::Track trackID, const uint8_t numLaps);
+
+            // Destructor
             ~SessionRecord();
 
             private:
+            // Holds the value of the most recent timestamp
             uint64_t m_lastStateTimestamp;
+
+            // Generic type of the session currently running
             const Session::Internal::Type m_type;
+
+            // ID of the track the session is running on
             const Session::Internal::Track m_trackID;
-            uint8_t m_totalLaps;
+
+            // Number of total laps to be completed
+            const uint8_t m_totalLaps;
+
+            // Internal state of the session record, where all changes to the state of the session are made
+            Processor::Data::SessionState m_state;
 
         };
 

@@ -20,18 +20,30 @@ namespace Processor {
 
     }
 
-    class Facade : public Processor::IFacade {
+    class Facade final : public Processor::IFacade {
 
         public:
+            // Constructor, initializes the detectors and starts the execution thread for all
             Facade();
+
+            // Destructor
             virtual ~Facade();
+
+            // Implements the internal packet subscriber handling function
             virtual void OnPacketBroadcast(Packet::Internal::Interface* packet) override final;
+
+            // Main execution loop function
             void Exec();
 
         private:
+            // Main handler object for all driver and session data
             Processor::Data::Databank* const m_databank;
+
+            // Holder for all detectors that will have access to the databank
             std::vector<Processor::Detector::Interface*> m_detectors;
-            std::thread m_execThread;
+
+            // Main execution thread
+            std::thread m_workerThread;
 
     };
 

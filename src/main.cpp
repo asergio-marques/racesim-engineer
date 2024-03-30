@@ -20,15 +20,6 @@ int main(int argc, char* argv[]) {
     Processor::IFacade* processor = new Processor::Facade;
     if (!processor) return -1;
 
-    /*Packet::Subscriber* presenter = new Presenter::Presenter;
-    if (presenter) {
-
-        director->Subscribe(presenter);
-        processor->Subscribe(presenter);
-
-    }
-    else return -1;*/
-
     UserInterface::UIStarter* starter = new UserInterface::UIStarter;
     if (starter && commComponent && processor) {
         Packet::Internal::Broadcaster* internalPacketBroadcast = commComponent->exposeBroadcasterInterface();

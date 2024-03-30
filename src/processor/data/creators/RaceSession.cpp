@@ -1,5 +1,7 @@
 #include "data/creators/RaceSession.h"
 
+#include <cstdint>
+#include <map>
 #include "data/DriverRecord.h"
 #include "data/SessionRecord.h"
 #include "data/creators/Interface.h"
@@ -15,6 +17,8 @@ Processor::Data::Creator::RaceSession::RaceSession(const Packet::Internal::RaceS
 
 
 }
+
+
 
 std::map<const uint8_t, Processor::Data::DriverRecord*> Processor::Data::Creator::RaceSession::createDriverRecords() const {
 
@@ -40,9 +44,9 @@ std::map<const uint8_t, Processor::Data::DriverRecord*> Processor::Data::Creator
 
 Processor::Data::SessionRecord* Processor::Data::Creator::RaceSession::createSessionRecord() const {
 
-    Processor::Data::SessionRecord* sessionRecord =
-        new Processor::Data::SessionRecord(m_packet->m_timestamp, m_packet->m_sessionType, m_packet->m_sessionTrack, m_packet->m_numLaps);
-
-    return sessionRecord;
+    return new Processor::Data::SessionRecord(m_packet->m_timestamp,
+        m_packet->m_sessionType,
+        m_packet->m_sessionTrack,
+        m_packet->m_numLaps);
 
 }

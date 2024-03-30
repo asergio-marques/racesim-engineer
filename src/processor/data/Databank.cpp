@@ -1,56 +1,44 @@
 #include "data/Databank.h"
 
-#include "data/DataInterface.h"
+#include <cstdint>
+#include <map>
 #include "data/DriverRecord.h"
 #include "data/SessionRecord.h"
 #include "data/creators/Interface.h"
 #include "data/creators/RaceSession.h"
 #include "detectors/Interface.h"
+#include "detectors/Type.h"
 #include "packets/internal/Interface.h"
 #include "packets/internal/SessionStart.h"
-#include "packets/internal/race_types/RaceStart.h"
 #include "packets/internal/race_types/RaceStandings.h"
-
-
-
-Processor::Data::Databank::Databank() :
-    Processor::Data::DataInterface(),
-    m_driverRecords(),
-    m_sessionRecord(nullptr),
-    m_activeDetectors() {
-
-
-
-}
+#include "packets/internal/race_types/RaceStart.h"
 
 
 
 Processor::Data::Databank::~Databank() {
 
-    for (auto record : m_driverRecords) {
-
-        delete record.second;
-
-    }
-    m_driverRecords.clear();
-    delete m_sessionRecord;
+    deleteSessionInformation();
 
 }
 
 
 
-void Processor::Data::Databank::UpdateData(const Packet::Internal::Interface* packet) {
+void Processor::Data::Databank::updateData(const Packet::Internal::Interface* packet) {
 
     if (packet) {
 
         switch (packet->packetType()) {
 
             case Packet::Internal::Type::SessionStart:
-                CreateSessionInformation(dynamic_cast<const Packet::Internal::SessionStart*>(packet));
+                createSessionInformation(dynamic_cast<const Packet::Internal::SessionStart*>(packet));
+                break;
+
+            case Packet::Internal::Type::SessionEnd:
+                deleteSessionInformation();
                 break;
 
             case Packet::Internal::Type::Standings:
-                UpdateStandings(dynamic_cast<const Packet::Internal::RaceStandings*>(packet));
+                updateStandings(dynamic_cast<const Packet::Internal::RaceStandings*>(packet));
                 break;
 
         }
@@ -63,6 +51,7 @@ void Processor::Data::Databank::installDetector(Processor::Detector::Interface* 
 
     if (detector) {
 
+        // Search the type of the detector being added to avoid duplicates
         const auto it = m_activeDetectors.find(detector->GetType());
         if (it == m_activeDetectors.cend()) {
             
@@ -79,9 +68,6 @@ void Processor::Data::Databank::installDetector(Processor::Detector::Interface* 
 
                 }
 
-                // TODO this
-                //m_sessionRecord->installDetector(detector);
-
             }
 
         }
@@ -90,7 +76,7 @@ void Processor::Data::Databank::installDetector(Processor::Detector::Interface* 
 
 }
 
-void Processor::Data::Databank::CreateSessionInformation(const Packet::Internal::SessionStart* sessionStartPacket) {
+void Processor::Data::Databank::createSessionInformation(const Packet::Internal::SessionStart* sessionStartPacket) {
 
     if (sessionStartPacket) {
 
@@ -145,7 +131,21 @@ void Processor::Data::Databank::CreateSessionInformation(const Packet::Internal:
 
 
 
-void Processor::Data::Databank::UpdateStandings(const Packet::Internal::RaceStandings* standingsPacket) {
+void Processor::Data::Databank::deleteSessionInformation() {
+
+    for (auto record : m_driverRecords) {
+
+        delete record.second;
+
+    }
+    m_driverRecords.clear();
+    delete m_sessionRecord;
+
+}
+
+
+
+void Processor::Data::Databank::updateStandings(const Packet::Internal::RaceStandings* standingsPacket) {
 
     if (standingsPacket) {
 

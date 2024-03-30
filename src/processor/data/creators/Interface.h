@@ -18,9 +18,18 @@ namespace Processor {
             class Interface {
 
                 public:
+                // Default constructor
                 Interface() = default;
+
+                // Destructor
                 virtual ~Interface() = default;
+
+                // Inheritable function that is to create the driver records
+                // appropriate for the session taking place
                 virtual std::map<const uint8_t, Processor::Data::DriverRecord*> createDriverRecords() const = 0;
+
+                // Inheritable function that is to create the session records
+                // appropriate for the type ofsession taking place
                 virtual Processor::Data::SessionRecord* createSessionRecord() const = 0;
 
             };

@@ -7,10 +7,14 @@ namespace Processor {
 
     namespace Data {
 
+        // TODO class to be properly defined
         class SessionState {
 
             public:
+            // Default constructor
             SessionState();
+
+            // Destructor
             ~SessionState();
 
         };

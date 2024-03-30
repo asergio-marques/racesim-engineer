@@ -12,6 +12,7 @@
 #include "packets/internal/practice_types/PracticeStart.h"
 #include "packets/internal/quali_types/QualiStart.h"
 #include "packets/internal/race_types/RaceStart.h"
+#include "packets/internal/race_types/Overtake.h"
 
 
 
@@ -38,6 +39,7 @@ namespace UserInterface {
         void QualiStart(const Packet::Internal::QualiStart*);
         void RaceStart(const Packet::Internal::RaceStart*);
         void SessionEnd(bool withDelay);
+        void OvertakePerformed(const Packet::Internal::Overtake*);
 
         private:
         void StartTimer();
@@ -47,6 +49,7 @@ namespace UserInterface {
         // Notify functions
         void NotifySessionStartObservers(Packet::Internal::Interface* packet);
         void NotifySessionEndObservers(Packet::Internal::Interface* packet);
+        void NotifyOvertakeObservers(Packet::Internal::Interface* packet);
 
         QList<Packet::Internal::Interface*> m_packetList;
         QList<UserInterface::Widget::MPSessionStartInterface*> m_mpSessionStartObservers;

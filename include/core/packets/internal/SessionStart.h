@@ -1,6 +1,7 @@
 #ifndef PACKETS_INTERNAL_INCLUDE_SESSION_START_H_
 #define PACKETS_INTERNAL_INCLUDE_SESSION_START_H_
 
+#include <cstdint>
 #include "data/internal/Session.h"
 #include "packets/internal/Interface.h"
 #include "packets/internal/Type.h"
@@ -14,11 +15,12 @@ namespace Packet {
 
             public:
             // Packet interface constructor
-            SessionStart(const Session::Internal::Type& sessionType);
+            SessionStart(const uint64_t timestamp, const Session::Internal::Type& sessionType);
 
             // Destructor
             virtual ~SessionStart() = default;
 
+            // Type identifier for the packet
             const Packet::Internal::Type packetType() const override final;
 
             // The type of the session that has begun

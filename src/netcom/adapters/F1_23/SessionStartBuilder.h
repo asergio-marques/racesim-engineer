@@ -1,7 +1,7 @@
 #ifndef NETCOM_ADAPTERS_INCLUDE_F123_SESSION_START_BUILDER_H_
 #define NETCOM_ADAPTERS_INCLUDE_F123_SESSION_START_BUILDER_H_
 
-#include <list>
+#include <vector>
 #include <map>
 #include <string>
 #include "data/internal/Session.h"
@@ -27,6 +27,7 @@ namespace Packet {
             class ParticipantData;
             class ParticipantInfo;
             class SessionData;
+            class LapData;
 
         }
 
@@ -47,6 +48,7 @@ namespace NetCom {
             void Start();
             void CreateSessionPacket(const Packet::Game::F1_23::SessionData* gamePacket);
             void AppendParticipantData(const Packet::Game::F1_23::ParticipantData* gamePacket);
+            void AppendLapData(const Packet::Game::F1_23::LapData* gamePacket);
             Packet::Internal::SessionStart* Finish();
 
             private:
@@ -66,9 +68,10 @@ namespace NetCom {
             bool m_enabled;
             bool m_waitingForParticipantData;
             bool m_waitingForSessionData;
+            bool m_waitingForLapData;
 
             Packet::Internal::SessionStart* m_packetBeingBuilt;
-            std::list<Session::Internal::Participant> m_listParticipants;
+            std::vector<Session::Internal::Participant> m_listParticipants;
 
         };
 

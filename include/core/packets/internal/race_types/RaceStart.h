@@ -16,7 +16,7 @@ namespace Packet {
 
             public:
             // Packet interface constructor
-            RaceStart(uint8_t numLaps);
+            RaceStart(const uint64_t timestamp, uint8_t numLaps);
 
             // Destructor
             virtual ~RaceStart() = default;

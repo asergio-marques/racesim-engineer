@@ -1,19 +1,49 @@
 #ifndef PROCESSOR_INCLUDE_FACADE_H_
 #define PROCESSOR_INCLUDE_FACADE_H_
 
-#include <memory>
+#include <thread>
+#include <vector>
 #include "IFacade.h"
-
 
 
 namespace Processor {
 
-    class Facade : public Processor::IFacade {
+    namespace Data {
+
+        class Databank;
+
+    }
+
+    namespace Detector {
+
+        class Interface;
+
+    }
+
+    class Facade final : public Processor::IFacade {
 
         public:
-            Facade() = default;
-            virtual ~Facade() = default;
-            virtual void OnPacketBroadcast(Packet::Game::Interface* packet) override final;
+            // Constructor, initializes the detectors and starts the execution thread for all
+            Facade();
+
+            // Destructor
+            virtual ~Facade();
+
+            // Implements the internal packet subscriber handling function
+            virtual void OnPacketBroadcast(Packet::Internal::Interface* packet) override final;
+
+            // Main execution loop function
+            void Exec();
+
+        private:
+            // Main handler object for all driver and session data
+            Processor::Data::Databank* const m_databank;
+
+            // Holder for all detectors that will have access to the databank
+            std::vector<Processor::Detector::Interface*> m_detectors;
+
+            // Main execution thread
+            std::thread m_workerThread;
 
     };
 

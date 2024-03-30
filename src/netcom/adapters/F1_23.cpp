@@ -8,6 +8,7 @@
 #include "packets/internal/Interface.h"
 #include "packets/internal/SessionEnd.h"
 #include "packets/internal/race_types/RaceStart.h"
+#include "packets/internal/race_types/RaceStandings.h"
 #include "packets/internal/quali_types/QualiStart.h"
 #include "packets/internal/practice_types/PracticeStart.h"
 #include "packets/internal/tt_types/TimeTrialStart.h"
@@ -132,6 +133,10 @@ Packet::Internal::Interface* NetCom::Adapter::F1_23::ConvertPacket(const Packet:
     Packet::Internal::Interface* outputPacket = nullptr;
     switch (gamePacket->GetHeader()->GetPacketType()) {
 
+        case Packet::Game::F1_23::Type::LapData:
+            outputPacket = ConvertLapDataPacket(dynamic_cast<const Packet::Game::F1_23::LapData*>(gamePacket));
+            break;
+
         case Packet::Game::F1_23::Type::EventData:
             outputPacket = ConvertEventDataPacket(dynamic_cast<const Packet::Game::F1_23::EventData*>(gamePacket));
             break;
@@ -166,6 +171,42 @@ Packet::Internal::Interface* NetCom::Adapter::F1_23::ConvertPacket(const Packet:
 
 }
 
+
+
+Packet::Internal::Interface* NetCom::Adapter::F1_23::ConvertLapDataPacket(const Packet::Game::F1_23::LapData* inputPacket) {
+
+    if (!inputPacket || !(inputPacket->GetHeader())) {
+
+        return nullptr;
+
+    }
+
+    // We must have the participant data packet info in here otherwise it is impossible to
+    // add the data needed from the lap data packet
+    if (m_sessionSM.GetSessionState() == NetCom::Adapter::SessionState::Started
+        || m_sessionSM.GetSessionState() == NetCom::Adapter::SessionState::StartPacketSent) {
+
+        m_startPacketBuilder.AppendLapData(inputPacket);
+
+    }
+    Packet::Internal::RaceStandings* outputPacket = new Packet::Internal::RaceStandings(inputPacket->GetHeader()->GetFrameIdentifier());
+    for (size_t i = 0; i < 22; ++i) {
+
+        bool ok = false;
+        const auto lapInfo = inputPacket->GetLapInfo(i, ok);
+        if (ok) {
+
+            outputPacket->InsertData(i, lapInfo.m_carPosition);
+
+        }
+
+    }
+    return outputPacket;
+
+}
+
+
+
 Packet::Internal::Interface* NetCom::Adapter::F1_23::ConvertEventDataPacket(const Packet::Game::F1_23::EventData* inputPacket) {
 
     if (!inputPacket) {
@@ -189,7 +230,7 @@ Packet::Internal::Interface* NetCom::Adapter::F1_23::ConvertEventDataPacket(cons
             // NOTE: as it is possible to not receive the session start event at the start of certain sessions
             // it could also happen that the session end event is also not received once a session is closed
             // if this checks out, start praying to your god of choice, otherwise, choose one. I already did.
-            if (m_sessionSM.SessionEnded()) return new Packet::Internal::SessionEnd;
+            if (m_sessionSM.SessionEnded()) return new Packet::Internal::SessionEnd(inputPacket->GetHeader()->GetFrameIdentifier());
             break;
 
         default:

@@ -3,6 +3,7 @@
 #include <QSize>
 #include <QWidget>
 #include "PacketHandler.h"
+#include "packets/internal/race_types/Overtake.h"
 #include "panels/Interface.h"
 #include "styles/Standings.h"
 #include "widgets/general_use/BackgroundRight.h"
@@ -25,7 +26,9 @@ UserInterface::Panel::RaceRight::RaceRight(UserInterface::PacketHandler* handler
     if (m_driverStandings) {
 
         RegisterWidget(m_driverStandings);
-        connect(handler, &UserInterface::PacketHandler::RaceStart, m_driverStandings, &UserInterface::Widget::Standings::Update);
+        connect(handler, &UserInterface::PacketHandler::RaceStart, m_driverStandings, &UserInterface::Widget::Standings::updateAtStart);
+        connect(handler, &UserInterface::PacketHandler::OvertakePerformed, this, &UserInterface::Panel::RaceRight::onOvertake);
+
     }
 
 }
@@ -50,6 +53,24 @@ void UserInterface::Panel::RaceRight::ResizePanel(const QSize& newPanelSize) {
 
         m_driverStandings->setSize(newWidth, newHeight, false);
         m_driverStandings->move(generalStyle.HorizontalEdgeBorder.m_value, generalStyle.VerticalEdgeBorder.m_value, false, false);
+
+    }
+
+}
+
+
+
+void UserInterface::Panel::RaceRight::onOvertake(const Packet::Internal::Overtake* packet) {
+
+    if (packet && m_driverStandings) {
+
+        for (const auto overtakeData : packet->GetData()) {
+
+            m_driverStandings->positionChange(overtakeData.m_driverID, overtakeData.m_position);
+
+        }
+
+        m_driverStandings->reorderStandings();
 
     }
 

@@ -6,8 +6,8 @@
 
 
 
-Packet::Internal::PracticeStart::PracticeStart() :
-    Packet::Internal::MPSessionStart(Session::Internal::Type::FreePractice) {
+Packet::Internal::PracticeStart::PracticeStart(const uint64_t timestamp) :
+    Packet::Internal::MPSessionStart(timestamp, Session::Internal::Type::FreePractice) {
 
 
 

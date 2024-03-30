@@ -1,7 +1,8 @@
 #ifndef PACKETS_INTERNAL_INCLUDE_MP_SESSION_START_H_
 #define PACKETS_INTERNAL_INCLUDE_MP_SESSION_START_H_
 
-#include <list>
+#include <cstdint>
+#include <vector>
 #include "packets/internal/SessionStart.h"
 #include "data/internal/Session.h"
 
@@ -15,16 +16,14 @@ namespace Packet {
         struct MPSessionStart : public Packet::Internal::SessionStart {
 
             public:
-            // Packet interface constructor
-            MPSessionStart(const Session::Internal::Type& sessionType) :
-                Packet::Internal::SessionStart(sessionType),
-                m_participants() {}
+            // Packet constructor
+            MPSessionStart(const uint64_t timestamp, const Session::Internal::Type& sessionType);
 
             // Destructor
             virtual ~MPSessionStart() = default;
 
             // List containing the initial data for all session participants
-            std::list<Session::Internal::Participant> m_participants;
+            std::vector<Session::Internal::Participant> m_participants;
 
         };
 

@@ -89,11 +89,17 @@ namespace Session::Internal {
         // Index for this participant
         uint8_t m_index = 0;
 
+        // Full nickname for logging
+        std::string m_fullName = "????????????";
+
         // 3-letter name for display
         std::string m_shortName = "???";
 
         // Which team icon ought be displayed
         Session::Internal::TeamID m_TeamIcon = Session::Internal::TeamID::Unknown;
+
+        // Starting position for this participant
+        uint8_t m_startPosition = 0;
 
     };
 

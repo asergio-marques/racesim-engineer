@@ -5,8 +5,8 @@
 
 
 
-Packet::Internal::QualiStart::QualiStart(uint8_t carsClassifiedAtEnd) :
-    Packet::Internal::MPSessionStart(Session::Internal::Type::Qualifying),
+Packet::Internal::QualiStart::QualiStart(const uint64_t timestamp, uint8_t carsClassifiedAtEnd) :
+    Packet::Internal::MPSessionStart(timestamp, Session::Internal::Type::Qualifying),
     m_carsClassifiedAtEnd(carsClassifiedAtEnd) {
 
 

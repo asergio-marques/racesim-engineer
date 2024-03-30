@@ -33,11 +33,13 @@ namespace UserInterface {
             public:
             Standings(QWidget* parent = 0);
             virtual ~Standings() = default;
-            virtual void Update(const Packet::Internal::MPSessionStart* dataPacket) override final;
+            virtual void updateAtStart(const Packet::Internal::MPSessionStart* dataPacket) override final;
             void move(const uint16_t x, const uint16_t y, const bool centerAlignmentX, const bool centerAlignmentY) override final;
             void scale(const uint8_t percent) override final;
             void scale(const uint8_t percentX, const uint8_t percentY) override final;
             void setSize(const uint16_t newWidth, const uint16_t newHeight, const bool keepAspectRatio) override final;
+            void reorderStandings();
+            void positionChange(const uint8_t id, const uint8_t newPosition);
 
             // Getters
             const int16_t width() const override final;
@@ -46,7 +48,6 @@ namespace UserInterface {
             const int16_t y() const override final;
 
             private:
-            void ReorderStandings();
             QWidget* m_parent;
             QList<UserInterface::Widget::DriverEntry*> m_driverData;
             bool m_initialParamsSet;

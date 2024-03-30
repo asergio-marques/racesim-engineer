@@ -14,8 +14,8 @@ namespace Packet {
         struct PracticeStart : public Packet::Internal::MPSessionStart {
 
             public:
-            // Packet interface constructor
-            PracticeStart();
+            // Packet constructor
+            PracticeStart(const uint64_t timestamp);
 
             // Destructor
             virtual ~PracticeStart() = default;

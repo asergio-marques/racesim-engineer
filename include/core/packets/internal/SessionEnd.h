@@ -1,6 +1,7 @@
 #ifndef PACKETS_INTERNAL_INCLUDE_SESSION_END_H_
 #define PACKETS_INTERNAL_INCLUDE_SESSION_END_H_
 
+#include <cstdint>
 #include "packets/internal/Interface.h"
 #include "packets/internal/Type.h"
 
@@ -13,14 +14,13 @@ namespace Packet {
 
             public:
             // Packet interface constructor
-            SessionEnd() = default;
+            SessionEnd(const uint64_t timestamp);
 
             // Destructor
             virtual ~SessionEnd() = default;
 
-            const Packet::Internal::Type packetType() const override final {
-                return Packet::Internal::Type::SessionEnd;
-            }
+            // Type identifier for the packet
+            const Packet::Internal::Type packetType() const;
 
         };
 

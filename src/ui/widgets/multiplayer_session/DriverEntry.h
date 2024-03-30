@@ -30,6 +30,7 @@ namespace UserInterface {
             void scale(const uint8_t percentX, const uint8_t percentY) override final;
             void setSize(const uint16_t newWidth, const uint16_t newHeight, const bool keepAspectRatio) override final;
             void Update(const Session::Internal::Participant& dataPacket, const uint8_t& initPosition) override final;
+            void UpdatePosition(const uint8_t newPosition);
 
             // Getters
             virtual const int16_t width() const override final;

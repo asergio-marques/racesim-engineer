@@ -80,13 +80,19 @@ void Processor::Facade::Exec() {
 
         }
 
+        if (!packetsToSend.empty())
+        {
+            int i = 0;
+        }
+
         for (auto packet : packetsToSend) {
 
             Broadcast(packet);
 
         }
 
-        std::this_thread::sleep_for(std::chrono::milliseconds(5));
+        // Thread runs at 10Hz
+        std::this_thread::sleep_for(std::chrono::milliseconds(100));
 
     }
 

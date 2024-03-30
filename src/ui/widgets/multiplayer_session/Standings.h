@@ -4,6 +4,7 @@
 #include <QList>
 #include "base/Container.h"
 #include "base/packets/MPSessionStartInterface.h"
+#include "base/packets/StandingsUpdateInterface.h"
 
 
 
@@ -26,6 +27,8 @@ namespace UserInterface {
         class DriverEntry;
 
         class Standings final : public UserInterface::Widget::Container,
+            /*public UserInterface::Widget::MPSessionStartInterface,
+            public UserInterface::Widget::StandingsUpdateInterface {*/
             public UserInterface::Widget::MPSessionStartInterface {
 
             Q_OBJECT
@@ -33,11 +36,14 @@ namespace UserInterface {
             public:
             Standings(QWidget* parent = 0);
             virtual ~Standings() = default;
-            virtual void Update(const Packet::Internal::MPSessionStart* dataPacket) override final;
+            virtual void UpdateAtStart(const Packet::Internal::MPSessionStart* dataPacket) override final;
+            //virtual void UpdateStandings(const Packet::Internal::RaceStandings* dataPacket) override final;
             void move(const uint16_t x, const uint16_t y, const bool centerAlignmentX, const bool centerAlignmentY) override final;
             void scale(const uint8_t percent) override final;
             void scale(const uint8_t percentX, const uint8_t percentY) override final;
             void setSize(const uint16_t newWidth, const uint16_t newHeight, const bool keepAspectRatio) override final;
+            void ReorderStandings();
+            void positionChange(const uint8_t id, const uint8_t newPosition);
 
             // Getters
             const int16_t width() const override final;
@@ -46,7 +52,6 @@ namespace UserInterface {
             const int16_t y() const override final;
 
             private:
-            void ReorderStandings();
             QWidget* m_parent;
             QList<UserInterface::Widget::DriverEntry*> m_driverData;
             bool m_initialParamsSet;

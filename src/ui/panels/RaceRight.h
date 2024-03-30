@@ -12,7 +12,7 @@ namespace Packet {
 
     namespace Internal {
 
-        class Interface;
+        class Overtake;
 
     }
 
@@ -35,12 +35,13 @@ namespace UserInterface {
             Q_OBJECT
 
             public:
-                RaceRight(UserInterface::PacketHandler* handler, QWidget* parent = 0);
-                virtual ~RaceRight() = default;
-                virtual void ResizePanel(const QSize& newPanelSize) override final;
+            RaceRight(UserInterface::PacketHandler* handler, QWidget* parent = 0);
+            virtual ~RaceRight() = default;
+            virtual void ResizePanel(const QSize& newPanelSize) override final;
 
             private:
-                UserInterface::Widget::Standings* m_driverStandings;
+            void onOvertake(const Packet::Internal::Overtake* packet);
+            UserInterface::Widget::Standings* m_driverStandings;
 
         };
 

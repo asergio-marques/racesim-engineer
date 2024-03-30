@@ -20,7 +20,7 @@ namespace UserInterface {
         class MPSessionStartInterface {
 
             public:
-            virtual void Update(const Packet::Internal::MPSessionStart* dataPacket) = 0;
+            virtual void UpdateAtStart(const Packet::Internal::MPSessionStart* dataPacket) = 0;
 
         };
 

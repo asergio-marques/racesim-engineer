@@ -35,6 +35,7 @@ int main(int argc, char* argv[]) {
         starter->Init(&argc, &argv);
         internalPacketBroadcast->Subscribe(processor);
         internalPacketBroadcast->Subscribe(starter);
+        processor->Subscribe(starter);
         return starter->Run();
 
     }

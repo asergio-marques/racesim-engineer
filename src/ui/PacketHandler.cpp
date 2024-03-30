@@ -73,6 +73,9 @@ void UserInterface::PacketHandler::Exec() {
                 case Packet::Internal::Type::SessionEnd:
                     NotifySessionEndObservers(packet);
                     break;
+                case Packet::Internal::Type::Overtake:
+                    NotifyOvertakeObservers(packet);
+                    break;
                 default:
                     // whoopsie daisy
                     break;
@@ -156,6 +159,19 @@ void UserInterface::PacketHandler::NotifySessionEndObservers(Packet::Internal::I
 
         packet->markAsProcessed();
         emit SessionEnd(true);
+
+    }
+
+}
+
+
+
+void UserInterface::PacketHandler::NotifyOvertakeObservers(Packet::Internal::Interface* packet) {
+
+    if (packet) {
+
+        packet->markAsProcessed();
+        emit OvertakePerformed(dynamic_cast<const Packet::Internal::Overtake*>(packet));
 
     }
 

@@ -187,6 +187,17 @@ void UserInterface::Widget::DriverEntry::Update(const Session::Internal::Partici
 
 
 
+void UserInterface::Widget::DriverEntry::UpdatePosition(const uint8_t newPosition) {
+
+    m_currentPosition = newPosition;
+    if (m_position) {
+        m_position->setText(QString::number(newPosition));
+        m_position->adjustSize();
+    }
+
+}
+
+
 const int16_t UserInterface::Widget::DriverEntry::width() const {
 
     if (!m_position || !m_driverName || !m_teamIcon) {

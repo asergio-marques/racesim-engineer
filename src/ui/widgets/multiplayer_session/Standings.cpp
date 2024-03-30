@@ -6,6 +6,7 @@
 #include "base/packets/MPSessionStartInterface.h"
 #include "multiplayer_session/DriverEntry.h"
 #include "packets/internal/MPSessionStart.h"
+#include "packets/internal/race_types/RaceStandings.h"
 #include "styles/Standings.h"
 #include "styles/General.h"
 
@@ -33,7 +34,7 @@ UserInterface::Widget::Standings::Standings(QWidget* parent) :
 
 
 
-void UserInterface::Widget::Standings::Update(const Packet::Internal::MPSessionStart* dataPacket) {
+void UserInterface::Widget::Standings::UpdateAtStart(const Packet::Internal::MPSessionStart* dataPacket) {
 
     if (dataPacket && !m_initialParamsSet) {
 
@@ -57,6 +58,32 @@ void UserInterface::Widget::Standings::Update(const Packet::Internal::MPSessionS
     }
 
 }
+
+
+
+/*void UserInterface::Widget::Standings::UpdateStandings(const Packet::Internal::RaceStandings* dataPacket) {
+
+    if (dataPacket && m_initialParamsSet) {
+
+        for (const auto standingData : dataPacket->GetData()) {
+
+            UserInterface::Widget::DriverEntry* entry = m_driverData.at(standingData.m_driverID);
+            if (entry) {
+
+                entry->UpdatePosition(standingData.m_position);
+
+            }
+
+        }
+
+        m_initialParamsSet = true;
+        ReorderStandings();
+
+    }
+
+}*/
+
+
 
 
 
@@ -112,6 +139,43 @@ void UserInterface::Widget::Standings::setSize(const uint16_t newWidth, const ui
 
 }
 
+
+
+void UserInterface::Widget::Standings::ReorderStandings() {
+
+    UserInterface::Style::General style;
+
+    for (auto driver : m_driverData) {
+
+        if (driver) {
+
+            // take into account the position order
+            // TODO height hard-coded!!
+            uint16_t newY = style.VerticalEdgeBorder.m_value + ((driver->GetCurrentPosition() - 1) * 48);
+            driver->move(style.HorizontalEdgeBorder.m_value, newY, false, false);
+
+        }
+
+    }
+
+}
+
+
+
+void UserInterface::Widget::Standings::positionChange(const uint8_t id, const uint8_t newPosition) {
+
+    if (m_initialParamsSet) {
+
+        UserInterface::Widget::DriverEntry* entry = m_driverData.at(id);
+        if (entry) {
+
+            entry->UpdatePosition(newPosition);
+
+        }
+
+    }
+
+}
 
 
 
@@ -186,26 +250,5 @@ const int16_t UserInterface::Widget::Standings::y() const {
     }
 
     return minY;
-
-}
-
-
-
-void UserInterface::Widget::Standings::ReorderStandings() {
-
-    UserInterface::Style::General style;
-
-    for (auto driver : m_driverData) {
-
-        if (driver) {
-
-            // take into account the position order
-            // TODO height hard-coded!!
-            uint16_t newY = style.VerticalEdgeBorder.m_value + ((driver->GetCurrentPosition() - 1) * 48);
-            driver->move(style.HorizontalEdgeBorder.m_value, newY, false, false);
-
-        }
-
-    }
 
 }

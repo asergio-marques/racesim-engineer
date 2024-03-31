@@ -7,7 +7,7 @@
 #include <QThread>
 #include <QTimer>
 // packet headers need to be added here for signals to work
-#include "packets/internal/SessionStart.h"
+#include "packets/internal/multi_use/SessionStart.h"
 #include "packets/internal/tt_types/TimeTrialStart.h"
 #include "packets/internal/practice_types/PracticeStart.h"
 #include "packets/internal/quali_types/QualiStart.h"

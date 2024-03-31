@@ -6,7 +6,7 @@
 #include "packets/game/Helper.h"
 #include "packets/game/Interface.h"
 #include "packets/internal/Interface.h"
-#include "packets/internal/SessionEnd.h"
+#include "packets/internal/multi_use/SessionEnd.h"
 #include "packets/internal/race_types/RaceStart.h"
 #include "packets/internal/race_types/RaceStandings.h"
 #include "packets/internal/quali_types/QualiStart.h"
@@ -231,6 +231,10 @@ Packet::Internal::Interface* NetCom::Adapter::F1_23::ConvertEventDataPacket(cons
             // it could also happen that the session end event is also not received once a session is closed
             // if this checks out, start praying to your god of choice, otherwise, choose one. I already did.
             if (m_sessionSM.SessionEnded()) return new Packet::Internal::SessionEnd(inputPacket->GetHeader()->GetFrameIdentifier());
+            break;
+
+        case Event::F1_23::Type::PenaltyIssued:
+            
             break;
 
         default:

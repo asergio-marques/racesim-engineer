@@ -32,10 +32,10 @@ target_sources(${PROJECT_NAME} PRIVATE
     packets/game/F1_23/TyreSetData.cpp
     packets/internal/Broadcaster.cpp
     packets/internal/Interface.cpp
-    packets/internal/SessionStart.cpp
-    packets/internal/SoloSessionStart.cpp
-    packets/internal/MPSessionStart.cpp
-    packets/internal/SessionEnd.cpp
+    packets/internal/multi_use/SessionStart.cpp
+    packets/internal/multi_use/SoloSessionStart.cpp
+    packets/internal/multi_use/MPSessionStart.cpp
+    packets/internal/multi_use/SessionEnd.cpp
     packets/internal/tt_types/TimeTrialStart.cpp
     packets/internal/practice_types/PracticeStart.cpp
     packets/internal/quali_types/QualiStart.cpp

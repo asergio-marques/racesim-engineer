@@ -2,7 +2,7 @@
 #define PACKETS_INTERNAL_INCLUDE_SOLO_SESSION_START_H_
 
 #include <cstdint>
-#include "packets/internal/SessionStart.h"
+#include "packets/internal/multi_use/SessionStart.h"
 #include "data/internal/Session.h"
 
 

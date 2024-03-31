@@ -9,7 +9,7 @@
 #include "detectors/Interface.h"
 #include "detectors/Type.h"
 #include "packets/internal/Interface.h"
-#include "packets/internal/SessionStart.h"
+#include "packets/internal/multi_use/SessionStart.h"
 #include "packets/internal/race_types/RaceStandings.h"
 #include "packets/internal/race_types/RaceStart.h"
 

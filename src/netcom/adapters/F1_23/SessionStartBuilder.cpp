@@ -7,7 +7,7 @@
 #include "packets/game/F1_23/LapData.h"
 #include "packets/game/F1_23/ParticipantData.h"
 #include "packets/game/F1_23/SessionData.h"
-#include "packets/internal/SessionStart.h"
+#include "packets/internal/multi_use/SessionStart.h"
 #include "packets/internal/tt_types/TimeTrialStart.h"
 #include "packets/internal/practice_types/PracticeStart.h"
 #include "packets/internal/quali_types/QualiStart.h"

@@ -36,12 +36,15 @@ target_sources(${PROJECT_NAME} PRIVATE
     packets/internal/multi_use/SoloSessionStart.cpp
     packets/internal/multi_use/MPSessionStart.cpp
     packets/internal/multi_use/SessionEnd.cpp
+    packets/internal/multi_use/PenaltyGiven.cpp
+    packets/internal/multi_use/PenaltyServed.cpp
     packets/internal/tt_types/TimeTrialStart.cpp
     packets/internal/practice_types/PracticeStart.cpp
     packets/internal/quali_types/QualiStart.cpp
-    packets/internal/race_types/Overtake.cpp
-    packets/internal/race_types/RaceStandings.cpp
     packets/internal/race_types/RaceStart.cpp
+    packets/internal/race_types/RaceStandings.cpp
+    packets/internal/race_types/Overtake.cpp
+    packets/internal/race_types/PenaltyStatus.cpp
     settings/StoreFront.cpp)
 
 target_link_libraries(${PROJECT_NAME} PRIVATE

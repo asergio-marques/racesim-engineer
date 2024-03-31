@@ -15,7 +15,12 @@ namespace Packet {
             SessionStart    = 1,
             SessionEnd      = 2,
             Standings       = 3,
-            Overtake        = 101
+            LapFinished     = 4,
+            PenaltyStatus   = 5,
+            Overtake        = 101,
+            NewFastestLap   = 102,
+            PenaltyGiven    = 103,
+            PenaltyServed   = 104
 
         };
     

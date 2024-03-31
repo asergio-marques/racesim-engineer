@@ -1,6 +1,10 @@
 #ifndef NETCOM_ADAPTERS_INCLUDE_INTERFACE_H_
 #define NETCOM_ADAPTERS_INCLUDE_INTERFACE_H_
 
+#include <vector>
+
+
+
 namespace Packet {
     
     namespace Game {
@@ -30,7 +34,7 @@ namespace NetCom {
             // Function to be overridden by game-specific child classes that implement the conversion from byte arrays to packets of each respective game
             virtual Packet::Game::Interface* ProcessDatagram(const char* datagram) = 0;
 
-            virtual Packet::Internal::Interface* ConvertPacket(const Packet::Game::Interface* packet) = 0;
+            virtual std::vector<Packet::Internal::Interface*> ConvertPacket(const Packet::Game::Interface* packet) = 0;
 
         };
 

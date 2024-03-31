@@ -1,6 +1,6 @@
 #include "adapters/F1_23.h"
 
-#include <iostream>
+#include <vector>
 #include "adapters/SessionStateMachine.h"
 #include "data/game/F1_23/Event.h"
 #include "packets/game/Helper.h"
@@ -9,6 +9,7 @@
 #include "packets/internal/multi_use/SessionEnd.h"
 #include "packets/internal/race_types/RaceStart.h"
 #include "packets/internal/race_types/RaceStandings.h"
+#include "packets/internal/race_types/PenaltyStatus.h"
 #include "packets/internal/quali_types/QualiStart.h"
 #include "packets/internal/practice_types/PracticeStart.h"
 #include "packets/internal/tt_types/TimeTrialStart.h"
@@ -33,6 +34,7 @@ NetCom::Adapter::F1_23::F1_23() :
     m_sessionSM() {
 
 }
+
 
 
 Packet::Game::Interface* NetCom::Adapter::F1_23::ProcessDatagram(const char* datagram) {
@@ -115,38 +117,40 @@ Packet::Game::Interface* NetCom::Adapter::F1_23::ProcessDatagram(const char* dat
 
 }
 
-Packet::Internal::Interface* NetCom::Adapter::F1_23::ConvertPacket(const Packet::Game::Interface* packet) {
+
+
+std::vector<Packet::Internal::Interface*> NetCom::Adapter::F1_23::ConvertPacket(const Packet::Game::Interface* packet) {
 
     if (!packet) {
 
-        return nullptr;
+        return {};
 
     }
 
     auto gamePacket = dynamic_cast<const Packet::Game::F1_23::Interface*>(packet);
     if (!gamePacket || !(gamePacket->GetHeader())) {
     
-        return nullptr;
+        return {};
     
     }
 
-    Packet::Internal::Interface* outputPacket = nullptr;
+    std::vector<Packet::Internal::Interface*> outputPackets;
     switch (gamePacket->GetHeader()->GetPacketType()) {
 
         case Packet::Game::F1_23::Type::LapData:
-            outputPacket = ConvertLapDataPacket(dynamic_cast<const Packet::Game::F1_23::LapData*>(gamePacket));
+            outputPackets = ConvertLapDataPacket(dynamic_cast<const Packet::Game::F1_23::LapData*>(gamePacket));
             break;
 
         case Packet::Game::F1_23::Type::EventData:
-            outputPacket = ConvertEventDataPacket(dynamic_cast<const Packet::Game::F1_23::EventData*>(gamePacket));
+            outputPackets = ConvertEventDataPacket(dynamic_cast<const Packet::Game::F1_23::EventData*>(gamePacket));
             break;
 
         case Packet::Game::F1_23::Type::SessionData:
-            outputPacket = ConvertSessionDataPacket(dynamic_cast<const Packet::Game::F1_23::SessionData*>(gamePacket));
+            outputPackets = ConvertSessionDataPacket(dynamic_cast<const Packet::Game::F1_23::SessionData*>(gamePacket));
             break;
 
         case Packet::Game::F1_23::Type::ParticipantData:
-            outputPacket = ConvertParticipantDataPacket(dynamic_cast<const Packet::Game::F1_23::ParticipantData*>(gamePacket));
+            outputPackets = ConvertParticipantDataPacket(dynamic_cast<const Packet::Game::F1_23::ParticipantData*>(gamePacket));
             break;
 
     }
@@ -157,8 +161,9 @@ Packet::Internal::Interface* NetCom::Adapter::F1_23::ConvertPacket(const Packet:
     // This session start packet has precedence over all others, hence why it "overwrites" the local pointer variable
     if (m_sessionSM.GetSessionState() == NetCom::Adapter::SessionState::Started) {
 
-        outputPacket = m_startPacketBuilder.Finish();
-        if (outputPacket) {
+        Packet::Internal::Interface* sessionStartPacket = m_startPacketBuilder.Finish();
+        outputPackets.push_back(sessionStartPacket);
+        if (sessionStartPacket) {
 
             // no need to check return value as there's no way this should fail (fingers crossed)
             m_sessionSM.SessionStartPacketSent();
@@ -167,17 +172,17 @@ Packet::Internal::Interface* NetCom::Adapter::F1_23::ConvertPacket(const Packet:
 
     }
 
-    return outputPacket;
+    return outputPackets;
 
 }
 
 
 
-Packet::Internal::Interface* NetCom::Adapter::F1_23::ConvertLapDataPacket(const Packet::Game::F1_23::LapData* inputPacket) {
+std::vector<Packet::Internal::Interface*> NetCom::Adapter::F1_23::ConvertLapDataPacket(const Packet::Game::F1_23::LapData* inputPacket) {
 
     if (!inputPacket || !(inputPacket->GetHeader())) {
 
-        return nullptr;
+        return {};
 
     }
 
@@ -189,29 +194,36 @@ Packet::Internal::Interface* NetCom::Adapter::F1_23::ConvertLapDataPacket(const 
         m_startPacketBuilder.AppendLapData(inputPacket);
 
     }
-    Packet::Internal::RaceStandings* outputPacket = new Packet::Internal::RaceStandings(inputPacket->GetHeader()->GetFrameIdentifier());
+    Packet::Internal::RaceStandings* standingsPacket = new Packet::Internal::RaceStandings(inputPacket->GetHeader()->GetFrameIdentifier());
+    Packet::Internal::PenaltyStatus* penaltiesPacket = new Packet::Internal::PenaltyStatus(inputPacket->GetHeader()->GetFrameIdentifier());
     for (size_t i = 0; i < 22; ++i) {
 
         bool ok = false;
         const auto lapInfo = inputPacket->GetLapInfo(i, ok);
         if (ok) {
 
-            outputPacket->InsertData(i, lapInfo.m_carPosition);
+            standingsPacket->InsertData(i, lapInfo.m_carPosition);
+            penaltiesPacket->InsertData(i, lapInfo.m_numTotalWarn,
+                lapInfo.m_numCornerCutWarn,
+                lapInfo.m_penalties,
+                lapInfo.m_numUnservedStopGoPens,
+                lapInfo.m_numUnservedDTPens);
 
         }
 
     }
-    return outputPacket;
+
+    return { standingsPacket, penaltiesPacket };
 
 }
 
 
 
-Packet::Internal::Interface* NetCom::Adapter::F1_23::ConvertEventDataPacket(const Packet::Game::F1_23::EventData* inputPacket) {
+std::vector<Packet::Internal::Interface*> NetCom::Adapter::F1_23::ConvertEventDataPacket(const Packet::Game::F1_23::EventData* inputPacket) {
 
     if (!inputPacket) {
 
-        return nullptr;
+        return {};
 
     }
 
@@ -230,11 +242,8 @@ Packet::Internal::Interface* NetCom::Adapter::F1_23::ConvertEventDataPacket(cons
             // NOTE: as it is possible to not receive the session start event at the start of certain sessions
             // it could also happen that the session end event is also not received once a session is closed
             // if this checks out, start praying to your god of choice, otherwise, choose one. I already did.
-            if (m_sessionSM.SessionEnded()) return new Packet::Internal::SessionEnd(inputPacket->GetHeader()->GetFrameIdentifier());
-            break;
-
-        case Event::F1_23::Type::PenaltyIssued:
-            
+            if (m_sessionSM.SessionEnded())
+                return { new Packet::Internal::SessionEnd(inputPacket->GetHeader()->GetFrameIdentifier()) };
             break;
 
         default:
@@ -243,16 +252,16 @@ Packet::Internal::Interface* NetCom::Adapter::F1_23::ConvertEventDataPacket(cons
 
     }
 
-    return nullptr;
+    return {};
 
 }
 
 
-Packet::Internal::Interface* NetCom::Adapter::F1_23::ConvertSessionDataPacket(const Packet::Game::F1_23::SessionData* inputPacket) {
+std::vector<Packet::Internal::Interface*> NetCom::Adapter::F1_23::ConvertSessionDataPacket(const Packet::Game::F1_23::SessionData* inputPacket) {
 
     if (!inputPacket) {
 
-        return nullptr;
+        return {};
 
     }
 
@@ -271,16 +280,16 @@ Packet::Internal::Interface* NetCom::Adapter::F1_23::ConvertSessionDataPacket(co
 
     }
 
-    return nullptr;
+    return {};
 
 }
 
 
-Packet::Internal::Interface* NetCom::Adapter::F1_23::ConvertParticipantDataPacket(const Packet::Game::F1_23::ParticipantData* inputPacket) {
+std::vector<Packet::Internal::Interface*> NetCom::Adapter::F1_23::ConvertParticipantDataPacket(const Packet::Game::F1_23::ParticipantData* inputPacket) {
 
     if (!inputPacket) {
 
-        return nullptr;
+        return {};
 
     }
 
@@ -298,6 +307,6 @@ Packet::Internal::Interface* NetCom::Adapter::F1_23::ConvertParticipantDataPacke
         m_startPacketBuilder.AppendParticipantData(inputPacket);
 
     }
-    return nullptr;
+    return{};
 
 }

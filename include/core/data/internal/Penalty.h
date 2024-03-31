@@ -49,37 +49,6 @@ namespace Penalty::Internal {
 
     };
 
-    struct Data {
-        
-        // Index for this participant
-        uint8_t m_index;
-
-        // Type of penalty given to the vehicle
-        Penalty::Internal::Type m_type;
-
-        // Reason for the penalty being given
-        Penalty::Internal::Reason m_reasonforPenalty;
-
-        // Number of millisseconds added to vehicle's time,
-        // if the penalty is a time penalty
-        uint16_t m_timeLength;
-
-    };
-
-    struct Served {
-
-        // Index for this participant
-        uint8_t m_index;
-
-        // Type of penalty that was served
-        Penalty::Internal::Type m_type;
-
-        // Number of millisseconds removed from vehicle's penalties,
-        // if the penalty served was a time penalty
-        uint16_t m_timeLength;
-
-    };
-
 }
 
 

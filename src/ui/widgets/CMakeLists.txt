@@ -39,6 +39,11 @@ target_sources(${PROJECT_NAME} PRIVATE
     multiplayer_session/FastestLapIndicator.cpp
     multiplayer_session/Standings.cpp
     multiplayer_session/TeamIcon.cpp
+    multiplayer_session/penalty/PenaltyIcon.cpp
+    multiplayer_session/penalty/PenaltyFlag.cpp
+    multiplayer_session/penalty/PenaltyTextBackground.cpp
+    multiplayer_session/warning/WarningIcon.cpp
+    multiplayer_session/warning/WarningContainer.cpp
     )
 
 target_link_libraries(${PROJECT_NAME} PRIVATE
@@ -55,6 +60,8 @@ qt_add_resources(${PROJECT_NAME} "ui_elements"
         ../resources/img/background/BackgroundRight.png
         ../resources/img/background/SingleScreenBG.png
         ../resources/img/icons/FastestLap.png
+        ../resources/img/icons/PenaltyIndicator.png
+        ../resources/img/icons/PenaltyIndicatorTextBG.png
         ../resources/img/icons/LogoLoadingCenter.png
         ../resources/img/icons/LogoLoadingRotate.png
         ../resources/img/teams/AlfaRomeoLogo.png

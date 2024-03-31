@@ -5,6 +5,8 @@
 #include "base/TextInterface.h"
 #include "multiplayer_session/FastestLapIndicator.h"
 #include "multiplayer_session/TeamIcon.h"
+#include "multiplayer_session/penalty/PenaltyIcon.h"
+#include "multiplayer_session/warning/WarningContainer.h"
 #include "styles/General.h"
 #include "styles/Standings.h"
 
@@ -19,7 +21,10 @@ UserInterface::Widget::DriverEntry::DriverEntry(QWidget* parent) :
     m_fastestLap(nullptr),
     m_position(nullptr),
     m_teamIcon(nullptr),
-    m_driverName(nullptr) {
+    m_driverName(nullptr),
+    m_penalties(nullptr),
+    m_trackLimWarn(nullptr),
+    m_otherWarn(nullptr){
 
     m_fastestLap = new UserInterface::Widget::FastestLapIndicator(parent);
     if (m_fastestLap) {
@@ -49,6 +54,27 @@ UserInterface::Widget::DriverEntry::DriverEntry(QWidget* parent) :
 
         m_position->setFontThickness(UserInterface::Widget::FontThickness::Regular);
         m_allWidgets.append(m_driverName);
+
+    }
+
+    // m_penalties = new UserInterface::Widget::PenaltyIcon(parent);
+    if (m_penalties) {
+
+
+
+    }
+
+    // m_trackLimWarn = new UserInterface::Widget::WarningContainer(parent);
+    if (m_trackLimWarn) {
+
+
+
+    }
+
+    // m_otherWarn = new UserInterface::Widget::WarningContainer(parent);
+    if (m_otherWarn) {
+
+
 
     }
 

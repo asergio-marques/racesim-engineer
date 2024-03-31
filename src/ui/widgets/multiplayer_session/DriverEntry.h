@@ -16,6 +16,8 @@ namespace UserInterface {
         class FastestLapIndicator;
         class TeamIcon;
         class TextInterface;
+        class PenaltyIcon;
+        class WarningContainer;
 
         class DriverEntry : public UserInterface::Widget::Container,
             UserInterface::Widget::ParticipantInfoInterface {
@@ -48,6 +50,10 @@ namespace UserInterface {
             UserInterface::Widget::TextInterface* m_position;
             UserInterface::Widget::TeamIcon* m_teamIcon;
             UserInterface::Widget::TextInterface* m_driverName;
+            UserInterface::Widget::PenaltyIcon* m_penalties;
+            UserInterface::Widget::WarningContainer* m_trackLimWarn;
+            UserInterface::Widget::WarningContainer* m_otherWarn;
+
         };
 
     }

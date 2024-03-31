@@ -1,5 +1,6 @@
 #include "converter/PacketGeneralizer.h"
 
+#include <vector>
 #include "adapters/Interface.h"
 #include "packets/internal/Interface.h"
 #include "packets/game/Subscriber.h"
@@ -22,11 +23,10 @@ void NetCom::Converter::PacketGeneralizer::OnPacketBroadcast(Packet::Game::Inter
 
     if (gamePacket && m_gameAdapter) {
     
-        Packet::Internal::Interface* internalPacket = m_gameAdapter->ConvertPacket(gamePacket);
+        std::vector<Packet::Internal::Interface*> newPackets = m_gameAdapter->ConvertPacket(gamePacket);
+        for (auto packet : newPackets) {
 
-        if (internalPacket) {
-
-            Broadcast(internalPacket);
+            if (packet) Broadcast(packet);
 
         }
 

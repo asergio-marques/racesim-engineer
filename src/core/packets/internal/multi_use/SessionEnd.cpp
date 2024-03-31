@@ -1,4 +1,4 @@
-#include "packets/internal/SessionEnd.h"
+#include "packets/internal/multi_use/SessionEnd.h"
 
 #include "data/internal/Session.h"
 #include "packets/internal/Interface.h"

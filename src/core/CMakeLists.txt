@@ -32,16 +32,18 @@ target_sources(${PROJECT_NAME} PRIVATE
     packets/game/F1_23/TyreSetData.cpp
     packets/internal/Broadcaster.cpp
     packets/internal/Interface.cpp
-    packets/internal/SessionStart.cpp
-    packets/internal/SoloSessionStart.cpp
-    packets/internal/MPSessionStart.cpp
-    packets/internal/SessionEnd.cpp
+    packets/internal/multi_use/SessionStart.cpp
+    packets/internal/multi_use/SoloSessionStart.cpp
+    packets/internal/multi_use/MPSessionStart.cpp
+    packets/internal/multi_use/SessionEnd.cpp
+    packets/internal/multi_use/PenaltyChange.cpp
     packets/internal/tt_types/TimeTrialStart.cpp
     packets/internal/practice_types/PracticeStart.cpp
     packets/internal/quali_types/QualiStart.cpp
-    packets/internal/race_types/Overtake.cpp
-    packets/internal/race_types/RaceStandings.cpp
     packets/internal/race_types/RaceStart.cpp
+    packets/internal/race_types/RaceStandings.cpp
+    packets/internal/race_types/Overtake.cpp
+    packets/internal/race_types/PenaltyStatus.cpp
     settings/StoreFront.cpp)
 
 target_link_libraries(${PROJECT_NAME} PRIVATE

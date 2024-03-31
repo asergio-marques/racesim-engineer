@@ -86,7 +86,7 @@ void UserInterface::PacketHandler::Exec() {
 
     }
 
-    CleanupList();
+    m_packetList.clear();
 
 }
 

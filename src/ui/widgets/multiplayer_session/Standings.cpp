@@ -5,7 +5,7 @@
 #include "base/Container.h"
 #include "base/packets/MPSessionStartInterface.h"
 #include "multiplayer_session/DriverEntry.h"
-#include "packets/internal/MPSessionStart.h"
+#include "packets/internal/multi_use/MPSessionStart.h"
 #include "packets/internal/race_types/RaceStandings.h"
 #include "styles/Standings.h"
 #include "styles/General.h"

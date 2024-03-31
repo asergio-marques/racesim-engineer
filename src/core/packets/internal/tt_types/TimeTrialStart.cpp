@@ -1,7 +1,7 @@
 #include "packets/internal/tt_types/TimeTrialStart.h"
 
 #include "data/internal/Session.h"
-#include "packets/internal/SoloSessionStart.h"
+#include "packets/internal/multi_use/SoloSessionStart.h"
 
 
 

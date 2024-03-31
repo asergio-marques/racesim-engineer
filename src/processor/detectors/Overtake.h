@@ -23,7 +23,7 @@ namespace Processor {
 
             struct PositionChange {
 
-                // ID of the vehicle whose position has change
+                // ID of the vehicle whose position has changed
                 const uint8_t m_id;
 
                 // Previous position of the vehicle

@@ -2,7 +2,7 @@
 #define PACKETS_INTERNAL_RACE_INCLUDE_TIME_TRIAL_START_H_
 
 #include "data/internal/Session.h"
-#include "packets/internal/SoloSessionStart.h"
+#include "packets/internal/multi_use/SoloSessionStart.h"
 #include "packets/internal/Type.h"
 
 

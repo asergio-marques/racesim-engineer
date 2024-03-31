@@ -31,6 +31,11 @@ namespace Processor {
             // Main execution function
             void Exec() override final;
 
+            // Interface function to create new packets for communicating changes to the UI
+            void AddWarnPenChange(const int8_t id, const int8_t diffWarns,
+                const int8_t diffTrackLims, const int32_t diffTimePens,
+                const int8_t diffStopGo, const int8_t diffDriveThrough);
+
         };
 
     }

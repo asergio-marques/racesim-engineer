@@ -36,8 +36,7 @@ target_sources(${PROJECT_NAME} PRIVATE
     packets/internal/multi_use/SoloSessionStart.cpp
     packets/internal/multi_use/MPSessionStart.cpp
     packets/internal/multi_use/SessionEnd.cpp
-    packets/internal/multi_use/PenaltyGiven.cpp
-    packets/internal/multi_use/PenaltyServed.cpp
+    packets/internal/multi_use/PenaltyChange.cpp
     packets/internal/tt_types/TimeTrialStart.cpp
     packets/internal/practice_types/PracticeStart.cpp
     packets/internal/quali_types/QualiStart.cpp

@@ -12,19 +12,19 @@ namespace Processor {
         struct WarningPenaltyData {
 
             // Number of warnings of all types issued
-            const uint8_t m_totalWarns = 0;
+            uint8_t m_totalWarns;
 
             // Number of outstanding track limit warnings
-            const uint8_t m_numTrackLimits = 0;
+            uint8_t m_numTrackLimits;
 
             // Time penalty (in millisseconds) to be added at the end of the session
-            const uint16_t m_timePenMS = 0;
+            uint16_t m_timePenMS;
 
             // Number of stop-go penalties still to be served
-            const uint8_t m_numStopGo = 0;
+            uint8_t m_numStopGo;
 
             // Number of drive-through penalties still to be served
-            const uint8_t m_numDriveThrough = 0;
+            uint8_t m_numDriveThrough;
 
         };
 

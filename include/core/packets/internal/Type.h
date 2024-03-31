@@ -19,8 +19,7 @@ namespace Packet {
             PenaltyStatus   = 5,
             Overtake        = 101,
             NewFastestLap   = 102,
-            PenaltyGiven    = 103,
-            PenaltyServed   = 104
+            PenaltyChange   = 103,
 
         };
     

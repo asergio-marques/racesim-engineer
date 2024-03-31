@@ -205,7 +205,8 @@ std::vector<Packet::Internal::Interface*> NetCom::Adapter::F1_23::ConvertLapData
             standingsPacket->InsertData(i, lapInfo.m_carPosition);
             penaltiesPacket->InsertData(i, lapInfo.m_numTotalWarn,
                 lapInfo.m_numCornerCutWarn,
-                lapInfo.m_penalties,
+                // lap info in seconds, internal packet in milliseconds
+                lapInfo.m_timePenalties * 1000,
                 lapInfo.m_numUnservedStopGoPens,
                 lapInfo.m_numUnservedDTPens);
 

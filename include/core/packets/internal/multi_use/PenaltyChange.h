@@ -11,14 +11,14 @@ namespace Packet {
 
     namespace Internal {
 
-        struct PenaltyGiven : public Packet::Internal::Interface {
+        struct PenaltyChange : public Packet::Internal::Interface {
 
             public:
             // Packet interface constructor
-            PenaltyGiven(const uint64_t timestamp);
+            PenaltyChange(const uint64_t timestamp);
 
             // Destructor
-            virtual ~PenaltyGiven() = default;
+            virtual ~PenaltyChange() = default;
 
             // Type identifier for the packet
             const Packet::Internal::Type packetType() const override final;
@@ -29,12 +29,9 @@ namespace Packet {
             // Type of penalty given to the vehicle
             Penalty::Internal::Type m_type;
 
-            // Reason for the penalty being given
-            Penalty::Internal::Reason m_reasonforPenalty;
-
-            // Number of millisseconds added to vehicle's time,
-            // if the penalty is a time penalty
-            uint16_t m_timeLength;
+            // Change to this type of penalty, if time,
+            // then it is represented in milliseconds
+            int32_t m_delta;
 
         };
 

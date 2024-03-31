@@ -75,7 +75,7 @@ namespace Packet {
                 bool m_currentLapInvalid;
 
                 // Cumulative time penalties to be added to vehicle time (seconds)
-                uint8_t m_penalties;
+                uint8_t m_timePenalties;
 
                 // Cumulative number of warnings issued to vehicle
                 uint8_t m_numTotalWarn;

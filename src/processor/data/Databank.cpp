@@ -10,8 +10,9 @@
 #include "detectors/Type.h"
 #include "packets/internal/Interface.h"
 #include "packets/internal/multi_use/SessionStart.h"
-#include "packets/internal/race_types/RaceStandings.h"
 #include "packets/internal/race_types/RaceStart.h"
+#include "packets/internal/race_types/RaceStandings.h"
+#include "packets/internal/race_types/PenaltyStatus.h"
 
 
 
@@ -39,6 +40,14 @@ void Processor::Data::Databank::updateData(const Packet::Internal::Interface* pa
 
             case Packet::Internal::Type::Standings:
                 updateStandings(dynamic_cast<const Packet::Internal::RaceStandings*>(packet));
+                break;
+
+            case Packet::Internal::Type::PenaltyStatus:
+                updatePenalties(dynamic_cast<const Packet::Internal::PenaltyStatus*>(packet));
+                break;
+
+            default:
+                // do nothing
                 break;
 
         }
@@ -177,5 +186,45 @@ void Processor::Data::Databank::updateStandings(const Packet::Internal::RaceStan
         }
 
     }
+
+}
+
+
+
+void Processor::Data::Databank::updatePenalties(const Packet::Internal::PenaltyStatus* penaltyPacket) {
+
+    if (penaltyPacket) {
+        // for each standing data on the packet, check if the driver ID
+        // matches up with the driver ID of each of the driver records and
+        // if we are not overwriting more recent data
+        // once it does match, the current position in the state is updated
+        // breaking the inner loop then, allows for some optimization so we
+        // don't iterate over the two vectors a million times
+        //
+        // there's probably a better way to do this matching while still avoiding
+        // vector index assumptions though
+        for (const auto penaltyData : penaltyPacket->GetData()) {
+
+            auto entry = m_driverRecords.find(penaltyData.m_driverID);
+            if (entry != m_driverRecords.end()) {
+
+                auto driverData = entry->second;
+
+                if (driverData && driverData->updateLastTimestamp(penaltyPacket->m_timestamp)) {
+
+                    driverData->getModifiableState().updateWarningPenalties(penaltyData.m_totalWarns,
+                        penaltyData.m_numTrackLimits, 
+                        penaltyData.m_timePenMS, 
+                        penaltyData.m_numStopGo, 
+                        penaltyData.m_numDriveThrough);
+
+
+                }
+
+            }
+
+        }
+
+}
 
 }

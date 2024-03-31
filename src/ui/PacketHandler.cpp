@@ -96,7 +96,7 @@ void UserInterface::PacketHandler::CleanupList() {
     while (it != m_packetList.end()) {
 
         // take care of iterator invalidation
-        if (it && *it && (*it)->isProcessed()) {
+        /*if (it && *it && (*it)->isProcessed()) {
 
             it = m_packetList.erase(it);
 
@@ -105,7 +105,7 @@ void UserInterface::PacketHandler::CleanupList() {
 
             ++it;
 
-        }
+        }*/
 
     }
 

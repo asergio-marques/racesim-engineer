@@ -35,6 +35,11 @@ namespace Processor {
             // Alter the position in this driver state, and feed it to the detector
             void updateCurrentPosition(const uint8_t currentPosition);
 
+            // Alter the status of warnings and penalties, and feed it to the detector
+            void updateWarningPenalties(const uint8_t totalWarnings,
+                    const uint8_t trackLimitWarnings, const uint16_t timePenalties,
+                    const uint8_t stopGoPens, const uint8_t driveThroughPens);
+
             private:
             // ID of the driver associated with this state
             const uint8_t m_id;

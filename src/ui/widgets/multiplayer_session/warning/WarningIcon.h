@@ -16,6 +16,11 @@ namespace UserInterface {
             public:
             WarningIcon(QWidget* parent = 0);
             ~WarningIcon() = default;
+            void SetTrackLimitType();
+            void SetOtherWarningsType();
+
+            private:
+            bool m_isTypeSet;
 
         };
     }

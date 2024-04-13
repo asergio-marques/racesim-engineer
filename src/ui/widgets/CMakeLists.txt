@@ -62,6 +62,8 @@ qt_add_resources(${PROJECT_NAME} "ui_elements"
         ../resources/img/icons/FastestLap.png
         ../resources/img/icons/PenaltyIndicator.png
         ../resources/img/icons/PenaltyIndicatorTextBG.png
+        ../resources/img/icons/TrackLimitWarningIcon.png
+        ../resources/img/icons/OtherWarningIcon.png
         ../resources/img/icons/LogoLoadingCenter.png
         ../resources/img/icons/LogoLoadingRotate.png
         ../resources/img/teams/AlfaRomeoLogo.png

@@ -3,8 +3,8 @@
 
 #include <cstdint>
 #include "base/Container.h"
-#include "base/packets/ParticipantInfoInterface.h"
-
+#include "data/internal/Penalty.h"
+#include "data/internal/Session.h"
 
 
 class QWidget;
@@ -19,8 +19,7 @@ namespace UserInterface {
         class PenaltyIcon;
         class WarningContainer;
 
-        class DriverEntry : public UserInterface::Widget::Container,
-            UserInterface::Widget::ParticipantInfoInterface {
+        class DriverEntry : public UserInterface::Widget::Container {
 
             Q_OBJECT
 
@@ -31,8 +30,9 @@ namespace UserInterface {
             void scale(const uint8_t percent) override final;
             void scale(const uint8_t percentX, const uint8_t percentY) override final;
             void setSize(const uint16_t newWidth, const uint16_t newHeight, const bool keepAspectRatio) override final;
-            void Update(const Session::Internal::Participant& dataPacket, const uint8_t& initPosition) override final;
-            void UpdatePosition(const uint8_t newPosition);
+            void init(const Session::Internal::Participant& dataPacket, const uint8_t& initPosition);
+            void updatePosition(const uint8_t newPosition);
+            void updatePenalties(const Penalty::Internal::Type type, const int32_t change);
 
             // Getters
             virtual const int16_t width() const override final;

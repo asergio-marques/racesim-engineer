@@ -42,6 +42,22 @@ UserInterface::Widget::DriverEntry::DriverEntry(QWidget* parent) :
 
     }
 
+    m_trackLimWarn = new UserInterface::Widget::WarningContainer(
+        UserInterface::Widget::WarningContainer::Type::TrackLimits, parent);
+    if (m_trackLimWarn) {
+
+        m_allWidgets.append(m_trackLimWarn);
+
+    }
+
+    m_otherWarn = new UserInterface::Widget::WarningContainer(
+        UserInterface::Widget::WarningContainer::Type::OtherWarns, parent);
+    if (m_otherWarn) {
+
+        m_allWidgets.append(m_otherWarn);
+
+    }
+
     m_teamIcon = new UserInterface::Widget::TeamIcon(parent);
     if (m_teamIcon) {
 
@@ -59,20 +75,6 @@ UserInterface::Widget::DriverEntry::DriverEntry(QWidget* parent) :
 
     // m_penalties = new UserInterface::Widget::PenaltyIcon(parent);
     if (m_penalties) {
-
-
-
-    }
-
-    // m_trackLimWarn = new UserInterface::Widget::WarningContainer(parent);
-    if (m_trackLimWarn) {
-
-
-
-    }
-
-    // m_otherWarn = new UserInterface::Widget::WarningContainer(parent);
-    if (m_otherWarn) {
 
 
 
@@ -106,6 +108,17 @@ void UserInterface::Widget::DriverEntry::move(const uint16_t x, const uint16_t y
     if (m_position) {
 
         m_position->move(fastLapCenterX, centerY, true, true);
+
+    }
+    if (m_trackLimWarn) {
+
+        m_trackLimWarn->move(x + standingsStyle.PaddingReference.m_value, y, false, false);
+
+        if (m_otherWarn) {
+
+            m_otherWarn->move(m_trackLimWarn->x() + standingsStyle.PaddingReference.m_value, y, false, false);
+
+        }
 
     }
     if (m_teamIcon) {
@@ -184,7 +197,7 @@ void UserInterface::Widget::DriverEntry::setSize(const uint16_t newWidth, const 
 
 
 
-void UserInterface::Widget::DriverEntry::Update(const Session::Internal::Participant& dataPacket, const uint8_t& initPosition) {
+void UserInterface::Widget::DriverEntry::init(const Session::Internal::Participant& dataPacket, const uint8_t& initPosition) {
     
     UserInterface::Style::Standings style;
 
@@ -213,7 +226,7 @@ void UserInterface::Widget::DriverEntry::Update(const Session::Internal::Partici
 
 
 
-void UserInterface::Widget::DriverEntry::UpdatePosition(const uint8_t newPosition) {
+void UserInterface::Widget::DriverEntry::updatePosition(const uint8_t newPosition) {
 
     m_currentPosition = newPosition;
     if (m_position) {
@@ -222,6 +235,46 @@ void UserInterface::Widget::DriverEntry::UpdatePosition(const uint8_t newPositio
     }
 
 }
+
+
+
+
+void UserInterface::Widget::DriverEntry::updatePenalties(const Penalty::Internal::Type type, const int32_t change) {
+
+    switch (type) {
+
+        case Penalty::Internal::Type::Warning:
+            for (size_t i = 0; i < change; ++i)
+                if (m_trackLimWarn) m_trackLimWarn->addWarning();
+            break;
+
+        case Penalty::Internal::Type::Time:
+            if (m_penalties) m_penalties->addTimePenalty(change);
+            break;
+
+        case Penalty::Internal::Type::DriveThrough:
+            if (m_penalties) m_penalties->addDriveThrough(change);
+            break;
+
+        case Penalty::Internal::Type::StopGo:
+            if (m_penalties) m_penalties->addStopGo(change);
+            break;
+
+        case Penalty::Internal::Type::Disqualified:
+            // TODO
+            break;
+
+        case Penalty::Internal::Type::Retired:
+            // TODO
+            break;
+
+        default:
+            // DO NOTHING
+            break;
+    }
+
+}
+
 
 
 const int16_t UserInterface::Widget::DriverEntry::width() const {

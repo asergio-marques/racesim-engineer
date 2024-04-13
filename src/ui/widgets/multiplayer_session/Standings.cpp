@@ -6,6 +6,7 @@
 #include "base/packets/MPSessionStartInterface.h"
 #include "multiplayer_session/DriverEntry.h"
 #include "packets/internal/multi_use/MPSessionStart.h"
+#include "packets/internal/multi_use/PenaltyChange.h"
 #include "packets/internal/race_types/RaceStandings.h"
 #include "styles/Standings.h"
 #include "styles/General.h"
@@ -14,7 +15,6 @@
 
 UserInterface::Widget::Standings::Standings(QWidget* parent) :
     UserInterface::Widget::Container(UserInterface::Widget::ID::DriverStandings),
-    UserInterface::Widget::MPSessionStartInterface(),
     m_parent(parent),
     m_driverData(),
     m_initialParamsSet(false) {
@@ -34,7 +34,7 @@ UserInterface::Widget::Standings::Standings(QWidget* parent) :
 
 
 
-void UserInterface::Widget::Standings::updateAtStart(const Packet::Internal::MPSessionStart* dataPacket) {
+void UserInterface::Widget::Standings::setStartingGrid(const Packet::Internal::MPSessionStart* dataPacket) {
 
     if (dataPacket && !m_initialParamsSet) {
 
@@ -45,7 +45,7 @@ void UserInterface::Widget::Standings::updateAtStart(const Packet::Internal::MPS
             UserInterface::Widget::DriverEntry* entry = m_driverData.at(initPosition - 1);
             if (entry) {
 
-                entry->Update(driverInfo, initPosition);
+                entry->init(driverInfo, initPosition);
                 ++initPosition;
 
             }
@@ -54,6 +54,19 @@ void UserInterface::Widget::Standings::updateAtStart(const Packet::Internal::MPS
 
         m_initialParamsSet = true;
         reorderStandings();
+
+    }
+
+}
+
+
+
+void UserInterface::Widget::Standings::penaltyAssignedToVehicle(const Packet::Internal::PenaltyChange* dataPacket) {
+
+    if (dataPacket && m_initialParamsSet) {
+
+        UserInterface::Widget::DriverEntry* entry = m_driverData.at(dataPacket->m_index - 1);
+        if (entry) entry->updatePenalties(dataPacket->m_type, dataPacket->m_delta);
 
     }
 
@@ -143,7 +156,7 @@ void UserInterface::Widget::Standings::positionChange(const uint8_t id, const ui
         UserInterface::Widget::DriverEntry* entry = m_driverData.at(id);
         if (entry) {
 
-            entry->UpdatePosition(newPosition);
+            entry->updatePosition(newPosition);
 
         }
 

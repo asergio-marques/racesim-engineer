@@ -26,8 +26,9 @@ UserInterface::Panel::RaceRight::RaceRight(UserInterface::PacketHandler* handler
     if (m_driverStandings) {
 
         RegisterWidget(m_driverStandings);
-        connect(handler, &UserInterface::PacketHandler::RaceStart, m_driverStandings, &UserInterface::Widget::Standings::updateAtStart);
+        connect(handler, &UserInterface::PacketHandler::RaceStart, m_driverStandings, &UserInterface::Widget::Standings::setStartingGrid);
         connect(handler, &UserInterface::PacketHandler::OvertakePerformed, this, &UserInterface::Panel::RaceRight::onOvertake);
+        connect(handler, &UserInterface::PacketHandler::PenaltyAssigned, m_driverStandings, &UserInterface::Widget::Standings::penaltyAssignedToVehicle);
 
     }
 

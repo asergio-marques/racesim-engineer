@@ -3,21 +3,12 @@
 
 #include <QList>
 #include "base/Container.h"
-#include "base/packets/MPSessionStartInterface.h"
+#include "packets/internal/multi_use/MPSessionStart.h"
+#include "packets/internal/multi_use/PenaltyChange.h"
 
 
 
 class QWidget;
-
-namespace Packet {
-
-    namespace Internal {
-
-        class Interface;
-
-    }
-
-}
 
 namespace UserInterface {
 
@@ -25,15 +16,15 @@ namespace UserInterface {
 
         class DriverEntry;
 
-        class Standings final : public UserInterface::Widget::Container,
-            public UserInterface::Widget::MPSessionStartInterface {
+        class Standings final : public UserInterface::Widget::Container {
 
             Q_OBJECT
 
             public:
             Standings(QWidget* parent = 0);
             virtual ~Standings() = default;
-            virtual void updateAtStart(const Packet::Internal::MPSessionStart* dataPacket) override final;
+            void setStartingGrid(const Packet::Internal::MPSessionStart* dataPacket);
+            void penaltyAssignedToVehicle(const Packet::Internal::PenaltyChange* dataPacket);
             void move(const uint16_t x, const uint16_t y, const bool centerAlignmentX, const bool centerAlignmentY) override final;
             void scale(const uint8_t percent) override final;
             void scale(const uint8_t percentX, const uint8_t percentY) override final;

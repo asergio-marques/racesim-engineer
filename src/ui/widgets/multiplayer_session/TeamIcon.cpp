@@ -3,6 +3,7 @@
 #include <QMap>
 #include <QString>
 #include <QWidget>
+#include "base/ID.h"
 #include "base/ImageInterface.h"
 #include "data/internal/Session.h"
 

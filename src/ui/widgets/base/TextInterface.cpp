@@ -1,5 +1,7 @@
 #include "base/TextInterface.h"
 
+#include <QFont>
+#include <QFontMetrics>
 #include <QGuiApplication>
 #include <QLabel>
 #include <QPalette>
@@ -80,7 +82,6 @@ void UserInterface::Widget::TextInterface::setFontSize(const uint16_t size) {
 
 void UserInterface::Widget::TextInterface::setFontThickness(const UserInterface::Widget::FontThickness thickness) {
 
-
     // TODO figure out a better way to use these fonts than to change the stylesheet everytime
     // using stuff like setBold is not working as intended
     switch (thickness) {
@@ -99,5 +100,23 @@ void UserInterface::Widget::TextInterface::setFontThickness(const UserInterface:
             break;
 
     }
+
+}
+
+
+
+const uint16_t UserInterface::Widget::TextInterface::getTextWidth() const {
+
+    QFontMetrics fm(font());
+    return fm.horizontalAdvance(text());
+
+}
+
+
+
+const uint16_t UserInterface::Widget::TextInterface::getTextHeight() const {
+
+    QFontMetrics fm(font());
+    return fm.height();
 
 }

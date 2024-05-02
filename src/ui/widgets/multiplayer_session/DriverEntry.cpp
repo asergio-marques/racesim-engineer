@@ -24,7 +24,7 @@ UserInterface::Widget::DriverEntry::DriverEntry(QWidget* parent) :
     m_driverName(nullptr),
     m_penalties(nullptr),
     m_trackLimWarn(nullptr),
-    m_otherWarn(nullptr){
+    m_otherWarn(nullptr) {
 
     m_fastestLap = new UserInterface::Widget::FastestLapIndicator(parent);
     if (m_fastestLap) {
@@ -73,7 +73,7 @@ UserInterface::Widget::DriverEntry::DriverEntry(QWidget* parent) :
 
     }
 
-    // m_penalties = new UserInterface::Widget::PenaltyIcon(parent);
+    m_penalties = new UserInterface::Widget::PenaltyIcon(parent);
     if (m_penalties) {
 
 

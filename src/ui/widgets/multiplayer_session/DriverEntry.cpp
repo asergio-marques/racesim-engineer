@@ -18,22 +18,22 @@ UserInterface::Widget::DriverEntry::DriverEntry(QWidget* parent) :
     m_driverIndex(),
     m_currentPosition(),
     m_isPlayer(),
-    m_fastestLap(nullptr),
-    m_position(nullptr),
-    m_teamIcon(nullptr),
-    m_driverName(nullptr),
-    m_penalties(nullptr),
-    m_trackLimWarn(nullptr),
-    m_otherWarn(nullptr) {
+    m_fastestLap(new UserInterface::Widget::FastestLapIndicator(parent)),
+    m_position(new UserInterface::Widget::TextInterface(UserInterface::Widget::ID::DriverPosition, parent)),
+    m_trackLimWarn(new UserInterface::Widget::WarningContainer(
+        UserInterface::Widget::WarningContainer::Type::TrackLimits, parent)),
+    m_otherWarn(new UserInterface::Widget::WarningContainer(
+        UserInterface::Widget::WarningContainer::Type::OtherWarns, parent)),
+    m_teamIcon(new UserInterface::Widget::TeamIcon(parent)),
+    m_driverName(new UserInterface::Widget::TextInterface(UserInterface::Widget::ID::DriverName, parent)),
+    m_penalties(new UserInterface::Widget::PenaltyIcon(parent)) {
 
-    m_fastestLap = new UserInterface::Widget::FastestLapIndicator(parent);
     if (m_fastestLap) {
 
         m_allWidgets.append(m_fastestLap);
 
     }
 
-    m_position = new UserInterface::Widget::TextInterface(UserInterface::Widget::ID::DriverPosition, parent);
     if (m_position) {
 
         m_position->setFontThickness(UserInterface::Widget::FontThickness::ExtraBold);
@@ -42,30 +42,24 @@ UserInterface::Widget::DriverEntry::DriverEntry(QWidget* parent) :
 
     }
 
-    m_trackLimWarn = new UserInterface::Widget::WarningContainer(
-        UserInterface::Widget::WarningContainer::Type::TrackLimits, parent);
     if (m_trackLimWarn) {
 
         m_allWidgets.append(m_trackLimWarn);
 
     }
 
-    m_otherWarn = new UserInterface::Widget::WarningContainer(
-        UserInterface::Widget::WarningContainer::Type::OtherWarns, parent);
     if (m_otherWarn) {
 
         m_allWidgets.append(m_otherWarn);
 
     }
 
-    m_teamIcon = new UserInterface::Widget::TeamIcon(parent);
     if (m_teamIcon) {
 
         m_allWidgets.append(m_teamIcon);
 
     }
 
-    m_driverName = new UserInterface::Widget::TextInterface(UserInterface::Widget::ID::DriverName, parent);
     if (m_driverName) {
 
         m_position->setFontThickness(UserInterface::Widget::FontThickness::Regular);
@@ -73,10 +67,9 @@ UserInterface::Widget::DriverEntry::DriverEntry(QWidget* parent) :
 
     }
 
-    m_penalties = new UserInterface::Widget::PenaltyIcon(parent);
     if (m_penalties) {
 
-
+        m_allWidgets.append(m_penalties);
 
     }
 
@@ -87,10 +80,10 @@ UserInterface::Widget::DriverEntry::DriverEntry(QWidget* parent) :
 void UserInterface::Widget::DriverEntry::move(const uint16_t x, const uint16_t y, const bool centerAlignmentX, const bool centerAlignmentY) {
 
     // TODO fix issue with wrong move point due to center
-    int16_t totalWidth = 0;
+    uint16_t totalWidth = 0;
     UserInterface::Style::Standings standingsStyle;
-    int16_t fastLapCenterX = x;
-    int16_t centerY = y;
+    uint16_t fastLapCenterX = x;
+    uint16_t centerY = y;
 
     if (m_fastestLap) {
 
@@ -98,11 +91,10 @@ void UserInterface::Widget::DriverEntry::move(const uint16_t x, const uint16_t y
         
         // Register middle of row for future use, center of fast lap indicator used to center the place text
         fastLapCenterX = m_fastestLap->x() + (m_fastestLap->width() / 2);
-        centerY = y + (m_fastestLap->height() / 2);
+        centerY = m_fastestLap->y() + (m_fastestLap->height() / 2);
 
         // Padding 2x because it is to be inserted to the left and to the right
         totalWidth += m_fastestLap->width() + standingsStyle.PaddingReference.m_value * 2;
-
 
     }
     if (m_position) {
@@ -112,11 +104,11 @@ void UserInterface::Widget::DriverEntry::move(const uint16_t x, const uint16_t y
     }
     if (m_trackLimWarn) {
 
-        m_trackLimWarn->move(x + standingsStyle.PaddingReference.m_value, y, false, false);
+        m_trackLimWarn->move(x + standingsStyle.PaddingReference.m_value, centerY, false, true);
 
         if (m_otherWarn) {
 
-            m_otherWarn->move(m_trackLimWarn->x() + standingsStyle.PaddingReference.m_value, y, false, false);
+            m_otherWarn->move(m_trackLimWarn->x() + standingsStyle.PaddingReference.m_value, centerY, false, true);
 
         }
 
@@ -143,7 +135,15 @@ void UserInterface::Widget::DriverEntry::move(const uint16_t x, const uint16_t y
         totalWidth += standingsStyle.DriverNameMaxWidth.m_value + standingsStyle.PaddingReference.m_value;
 
     }
+    if (m_penalties) {
 
+        // Add the padding, again! And the maximum width for centering!
+        totalWidth += standingsStyle.PaddingReference.m_value;
+        m_penalties->move(x + totalWidth, centerY, false, true);
+
+        // Add padding again to account for the right padding
+        totalWidth += m_penalties->width() + standingsStyle.PaddingReference.m_value;
+    }
 }
 
 
@@ -193,6 +193,12 @@ void UserInterface::Widget::DriverEntry::setSize(const uint16_t newWidth, const 
         m_driverName->adjustSize();
 
     }
+    if (m_penalties) {
+
+        m_penalties->setTextFontSize(standingsStyle.PenaltyIconTextSize.m_value);
+        m_penalties->adjustSize();
+
+    }
 }
 
 
@@ -220,6 +226,10 @@ void UserInterface::Widget::DriverEntry::init(const Session::Internal::Participa
     if (m_driverName) {
         m_driverName->setText(dataPacket.m_shortName);
         m_driverName->adjustSize();
+    }
+    if (m_penalties) {
+        m_penalties->setSize(style.PenaltyIconMaxX.m_value, style.PenaltyIconMaxY.m_value, true);
+        m_penalties->adjustSize();
     }
 
 }

@@ -48,11 +48,11 @@ namespace UserInterface {
             bool m_isPlayer;
             UserInterface::Widget::FastestLapIndicator* m_fastestLap;
             UserInterface::Widget::TextInterface* m_position;
+            UserInterface::Widget::WarningContainer* m_trackLimWarn;
+            UserInterface::Widget::WarningContainer* m_otherWarn;
             UserInterface::Widget::TeamIcon* m_teamIcon;
             UserInterface::Widget::TextInterface* m_driverName;
             UserInterface::Widget::PenaltyIcon* m_penalties;
-            UserInterface::Widget::WarningContainer* m_trackLimWarn;
-            UserInterface::Widget::WarningContainer* m_otherWarn;
 
         };
 

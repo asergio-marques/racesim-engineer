@@ -7,13 +7,33 @@
 
 UserInterface::Widget::PenaltyIcon::PenaltyIcon(QWidget* parent) : 
     UserInterface::Widget::Container(UserInterface::Widget::ID::PenaltyIcon),
-    m_flagIcon(nullptr),
-    m_textBackground(nullptr),
-    m_text(nullptr),
+    m_flagIcon(new UserInterface::Widget::PenaltyFlag(parent)),
+    m_textBackground(new UserInterface::Widget::PenaltyTextBackground(parent)),
+    m_text(new UserInterface::Widget::TextInterface(UserInterface::Widget::ID::PenaltyIcon, parent)),
     m_active(false),
     m_timePen(0),
     m_driveThroughs(0),
     m_stopGos(0) {
+
+    if (m_flagIcon) {
+
+        m_flagIcon->hide();
+
+    }
+
+    if (m_textBackground) {
+
+        m_textBackground->hide();
+
+    }
+
+    if (m_text) {
+
+        m_text->hide();
+        m_text->setFontThickness(UserInterface::Widget::FontThickness::Bold);
+        m_text->setAlignment(Qt::AlignCenter);
+
+    }
 
 }
 
@@ -52,9 +72,8 @@ void UserInterface::Widget::PenaltyIcon::move(const uint16_t x, const uint16_t y
 
         m_flagIcon->move(x, y, centerAlignmentX, centerAlignmentY);
 
-        const uint8_t baseX = m_flagIcon->x() + (m_flagIcon->width() / 2);
-        const uint8_t baseY = m_flagIcon->y() + (m_flagIcon->height() / 2);
-
+        const uint16_t baseX = m_flagIcon->x() + (m_flagIcon->width() / 2);
+        const uint16_t baseY = m_flagIcon->y() + (m_flagIcon->height() / 2);
         m_text->move(baseX, baseY, true, true);
 
         if (m_text->getTextWidth() > 0) {
@@ -88,7 +107,19 @@ void UserInterface::Widget::PenaltyIcon::scale(const uint8_t percentX, const uin
 
 void UserInterface::Widget::PenaltyIcon::setSize(const uint16_t newWidth, const uint16_t newHeight, const bool keepAspectRatio) {
 
-    // TODO
+    if (m_flagIcon && m_text && m_textBackground) {
+
+        m_flagIcon->setSize(newWidth, newHeight, keepAspectRatio);
+        if (m_text->getTextHeight() >= (newHeight - (VERTICAL_OFFSET * 2))) {
+
+            m_text->setFontSize(m_text->font().pointSize() - 4);
+            m_text->adjustSize();
+            m_textBackground->resize(m_text->getTextWidth() + (HORIZONTAL_OFFSET * 2),
+                m_text->getTextHeight() + (VERTICAL_OFFSET * 2));
+
+        }
+
+    }
 
 }
 
@@ -148,22 +179,20 @@ void UserInterface::Widget::PenaltyIcon::checkDisplayStatus() {
         // If activated now, or if just values updated, set text, resize the background, and display
         else if (m_active) {
 
-            const uint8_t baseX = m_flagIcon->x() + (m_flagIcon->width() / 2);
-            const uint8_t baseY = m_flagIcon->y() + (m_flagIcon->height() / 2);
+            m_flagIcon->show();
+
+            const uint16_t baseX = m_flagIcon->x() + (m_flagIcon->width() / 2);
+            const uint16_t baseY = m_flagIcon->y() + (m_flagIcon->height() / 2);
 
             m_text->setText(generateText());
             m_text->show();
             m_text->move(baseX, baseY, true, true);
 
-            m_flagIcon->show();
-
             m_textBackground->show();
-            m_textBackground->resize(m_text->getTextWidth() + (HORIZONTAL_OFFSET * 2),
-                m_text->getTextHeight() + (VERTICAL_OFFSET * 2));
+            m_textBackground->setSize(m_text->getTextWidth() + (HORIZONTAL_OFFSET * 2),
+                m_text->getTextHeight() + (VERTICAL_OFFSET * 2), false);
             m_textBackground->move(baseX, baseY, true, true);
-            
-            // redo the positioning of the internal widgets, easiest way
-            move(x(), y(), false, false);
+
 
         }
 
@@ -178,14 +207,18 @@ const QString UserInterface::Widget::PenaltyIcon::generateText() {
     QString text = "";
 
     if (m_stopGos != 0) {
-
-        text += QString::number(m_stopGos) + "SG";
+        
+        // if only 1 stop & go, don't show number
+        text +=
+            (m_stopGos == 1) ? "SG" : QString::number(m_stopGos) + "SG";
 
     }
     if (m_driveThroughs != 0) {
 
         if (!text.isEmpty()) text += "+";
-        text += QString::number(m_driveThroughs) + "DT";
+        // if only 1 drive-through, don't show number
+        text +=
+            (m_driveThroughs == 1) ? "DT" : QString::number(m_driveThroughs) + "DT";
 
     }
     if (m_timePen != 0) {
@@ -198,5 +231,39 @@ const QString UserInterface::Widget::PenaltyIcon::generateText() {
     }
 
     return text;
+
+}
+
+
+
+void UserInterface::Widget::PenaltyIcon::setTextFontSize(const uint16_t size) {
+
+    if (m_text) {
+
+        m_text->setFontSize(size);
+
+    }
+
+}
+
+
+
+void UserInterface::Widget::PenaltyIcon::adjustSize() {
+
+    if (m_flagIcon) {
+
+        m_flagIcon->adjustSize();
+
+    }
+    if (m_textBackground) {
+
+        m_textBackground->adjustSize();
+
+    }
+    if (m_text) {
+
+        m_text->adjustSize();
+
+    }
 
 }

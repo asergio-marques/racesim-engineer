@@ -31,6 +31,8 @@ namespace UserInterface {
             const int16_t height() const override;
             const int16_t x() const override;
             const int16_t y() const override;
+            void setTextFontSize(const uint16_t size) override;
+            void adjustSize() override;
 
             private:
             void checkDisplayStatus();

@@ -65,7 +65,7 @@ void UserInterface::Widget::Standings::penaltyAssignedToVehicle(const Packet::In
 
     if (dataPacket && m_initialParamsSet) {
 
-        UserInterface::Widget::DriverEntry* entry = m_driverData.at(dataPacket->m_index - 1);
+        UserInterface::Widget::DriverEntry* entry = m_driverData.at(dataPacket->m_index);
         if (entry) entry->updatePenalties(dataPacket->m_type, dataPacket->m_delta);
 
     }

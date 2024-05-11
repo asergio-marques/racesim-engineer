@@ -35,6 +35,9 @@ namespace UserInterface {
             static inline const Value PenaltyIconMaxY = { ValueType::Absolute, 36 };
             static inline const Value PenaltyIconTextSize = { ValueType::Absolute, 16 };
 
+            // Retirement icon
+            static inline const Value RetirementIconTextSize = { ValueType::Absolute, 24 };
+
         };
 
     }

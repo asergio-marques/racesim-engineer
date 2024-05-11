@@ -79,6 +79,9 @@ void UserInterface::PacketHandler::Exec() {
                 case Packet::Internal::Type::PenaltyChange:
                     NotifyPenaltyChangeObservers(packet);
                     break;
+                case Packet::Internal::Type::ParticipantStatusChange:
+                    NotifyStatusChangeObservers(packet);
+                    break;
                 default:
                     // whoopsie daisy
                     break;
@@ -188,6 +191,19 @@ void UserInterface::PacketHandler::NotifyPenaltyChangeObservers(Packet::Internal
 
         packet->markAsProcessed();
         emit PenaltyAssigned(dynamic_cast<const Packet::Internal::PenaltyChange*>(packet));
+
+    }
+
+}
+
+
+
+void UserInterface::PacketHandler::NotifyStatusChangeObservers(Packet::Internal::Interface* packet) {
+
+    if (packet) {
+
+        packet->markAsProcessed();
+        emit DriverStatusChanged(dynamic_cast<const Packet::Internal::ParticipantStatusChange*>(packet));
 
     }
 

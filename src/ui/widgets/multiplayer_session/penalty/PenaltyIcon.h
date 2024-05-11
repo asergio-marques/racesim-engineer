@@ -27,12 +27,16 @@ namespace UserInterface {
             void scale(const uint8_t percent) override;
             void scale(const uint8_t percentX, const uint8_t percentY) override;
             void setSize(const uint16_t newWidth, const uint16_t newHeight, const bool keepAspectRatio) override;
+            void raise() override final;
+            void lower() override final;
+            void setTextFontSize(const uint16_t size) override final;
+            void adjustSize() override final;
+
+            // Getters
             const int16_t width() const override;
             const int16_t height() const override;
             const int16_t x() const override;
             const int16_t y() const override;
-            void setTextFontSize(const uint16_t size) override;
-            void adjustSize() override;
 
             private:
             void checkDisplayStatus();

@@ -21,12 +21,16 @@ namespace UserInterface {
             virtual void scale(const uint8_t percent) = 0;
             virtual void scale(const uint8_t percentX, const uint8_t percentY) = 0;
             virtual void setSize(const uint16_t newWidth, const uint16_t newHeight, const bool keepAspectRatio) = 0;
+            virtual void raise() = 0;
+            virtual void lower() = 0;
+            virtual void setTextFontSize(const uint16_t size);
+            virtual void adjustSize();
+            
+            // Getters
             virtual const int16_t width() const = 0;
             virtual const int16_t height() const = 0;
             virtual const int16_t x() const = 0;
             virtual const int16_t y() const = 0;
-            virtual void setTextFontSize(const uint16_t size);
-            virtual void adjustSize();
 
         };
 

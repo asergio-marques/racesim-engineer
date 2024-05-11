@@ -15,6 +15,7 @@ namespace Processor {
         class Interface;
         class Overtake;
         class WarningPenalty;
+        class DriverStatus;
 
     }
 
@@ -40,6 +41,9 @@ namespace Processor {
                     const uint8_t trackLimitWarnings, const uint16_t timePenalties,
                     const uint8_t stopGoPens, const uint8_t driveThroughPens);
 
+            // Alter the status of the driver itself in the session, and feed it to the detector
+            void updateStatus(const Participant::Internal::Status status);
+
             private:
             // ID of the driver associated with this state
             const uint8_t m_id;
@@ -55,6 +59,9 @@ namespace Processor {
 
             // Pointer to the penalty & warning detector currently installed
             Processor::Detector::WarningPenalty* m_installedPenWarnDetector;
+
+            // Pointer to the status change detector currently installed
+            Processor::Detector::DriverStatus* m_installedStatusDetector;
 
         };
 

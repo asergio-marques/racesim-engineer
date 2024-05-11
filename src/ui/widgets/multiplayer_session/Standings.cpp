@@ -74,6 +74,19 @@ void UserInterface::Widget::Standings::penaltyAssignedToVehicle(const Packet::In
 
 
 
+void UserInterface::Widget::Standings::vehicleStatusChanged(const Packet::Internal::ParticipantStatusChange* dataPacket) {
+
+    if (dataPacket && m_initialParamsSet) {
+
+        UserInterface::Widget::DriverEntry* entry = m_driverData.at(dataPacket->m_index);
+        if (entry) entry->updateStatus(dataPacket->m_status);
+
+    }
+
+}
+
+
+
 void UserInterface::Widget::Standings::move(const uint16_t x, const uint16_t y, const bool centerAlignmentX, const bool centerAlignmentY) {
 
     for (auto driver : m_driverData) {
@@ -121,6 +134,30 @@ void UserInterface::Widget::Standings::setSize(const uint16_t newWidth, const ui
             driver->setSize(newWidth, (newHeight / 20), false);
             reorderStandings();
         }
+
+    }
+
+}
+
+
+
+void UserInterface::Widget::Standings::raise() {
+
+    for (auto entry : m_driverData) {
+
+        if (entry) entry->raise();
+
+    }
+
+}
+
+
+
+void UserInterface::Widget::Standings::lower() {
+
+    for (auto entry : m_driverData) {
+
+        if (entry) entry->lower();
 
     }
 

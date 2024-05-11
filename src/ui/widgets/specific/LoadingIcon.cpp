@@ -136,6 +136,32 @@ void UserInterface::Widget::LoadingIcon::setSize(const uint16_t newWidth, const 
 
 
 
+void UserInterface::Widget::LoadingIcon::raise() {
+
+    if (m_centerWidget) {
+        m_centerWidget->raise();
+    }
+    if (m_rotateWidget) {
+        m_rotateWidget->raise();
+    }
+
+}
+
+
+
+void UserInterface::Widget::LoadingIcon::lower() {
+
+    if (m_centerWidget) {
+        m_centerWidget->lower();
+    }
+    if (m_rotateWidget) {
+        m_rotateWidget->lower();
+    }
+
+}
+
+
+
 const int16_t UserInterface::Widget::LoadingIcon::width() const {
 
     if (m_centerWidget && m_rotateWidget) {

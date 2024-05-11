@@ -5,6 +5,7 @@
 #include "data/holders/WarningPenaltyData.h"
 #include "data/holders/PositionTimingData.h"
 #include "detectors/Interface.h"
+#include "detectors/DriverStatus.h"
 #include "detectors/Overtake.h"
 #include "detectors/WarningPenalty.h"
 #include "detectors/Type.h"
@@ -16,7 +17,8 @@ Processor::Data::DriverState::DriverState(const uint8_t id, const uint8_t starti
     m_posTimeData(startingPosition),
     m_warnPenData(),
     m_installedOvertakeDetector(nullptr),
-    m_installedPenWarnDetector(nullptr) {
+    m_installedPenWarnDetector(nullptr),
+    m_installedStatusDetector(nullptr) {
 
 
 
@@ -50,6 +52,10 @@ void Processor::Data::DriverState::installDetector(Processor::Detector::Interfac
 
         case Processor::Detector::Type::WarningPenalty:
             m_installedPenWarnDetector = dynamic_cast<Processor::Detector::WarningPenalty*>(detector);
+            break;
+
+        case Processor::Detector::Type::ParticipantStatus:
+            m_installedStatusDetector = dynamic_cast<Processor::Detector::DriverStatus*>(detector);
             break;
 
         default:
@@ -109,6 +115,25 @@ void Processor::Data::DriverState::updateWarningPenalties(const uint8_t totalWar
         if (diffTimePen != 0) m_warnPenData.m_timePenMS = timePenalties;
         if (diffStopGo != 0) m_warnPenData.m_numStopGo = stopGoPens;
         if (diffDriveThrough != 0) m_warnPenData.m_numDriveThrough = driveThroughPens;
+
+    }
+
+}
+
+
+
+void Processor::Data::DriverState::updateStatus(const Participant::Internal::Status status) {
+
+    if (m_posTimeData.m_status != status &&
+        m_posTimeData.m_status != Participant::Internal::Status::DNF &&
+        m_posTimeData.m_status != Participant::Internal::Status::DSQ &&
+        m_posTimeData.m_status != Participant::Internal::Status::FinishedSession) {
+
+        // Update information
+        m_posTimeData.m_status == status;
+
+        // Feed to detector
+        m_installedStatusDetector->AddStatusChange(m_id, status);
 
     }
 

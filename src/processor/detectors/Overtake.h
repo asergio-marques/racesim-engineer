@@ -10,13 +10,6 @@
 
 namespace Processor {
 
-    namespace Data {
-
-        class DataInterface;
-        class DriverRecord;
-
-    }
-
     namespace Detector {
 
         class Overtake final : public Processor::Detector::Interface {

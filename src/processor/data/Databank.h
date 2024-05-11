@@ -15,6 +15,7 @@ namespace Packet {
         class SessionStart;
         class RaceStandings;
         class PenaltyStatus;
+        class ParticipantStatus;
 
     }
 
@@ -60,6 +61,9 @@ namespace Processor {
 
             // Interfaces with the DriverState class to update the penalties and warnings
             void updatePenalties(const Packet::Internal::PenaltyStatus* penaltyPacket);
+
+            // Interfaces with the DriverState class to update the status of the session participants
+            void updateParticipantStatus(const Packet::Internal::ParticipantStatus* statusPacket);
 
             // Holds a list of the driver records for the current session, using the driver ID as index
             std::map<const uint8_t, Processor::Data::DriverRecord*> m_driverRecords;

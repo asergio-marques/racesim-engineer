@@ -11,11 +11,11 @@ namespace Processor {
 
         enum class Type : uint8_t {
 
-            Invalid         = 0,
-            Overtake        = 1,
-            FastestLap      = 2,
-            WarningPenalty  = 3
-
+            Invalid             = 0,
+            Overtake            = 1,
+            FastestLap          = 2,
+            WarningPenalty      = 3,
+            ParticipantStatus   = 4
 
         };
 

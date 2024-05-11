@@ -32,6 +32,8 @@ namespace UserInterface {
             void scale(const uint8_t percent) override final;
             void scale(const uint8_t percentX, const uint8_t percentY) override final;
             void setSize(const uint16_t newWidth, const uint16_t newHeight, const bool keepAspectRatio) override final;
+            void raise() override final;
+            void lower() override final;
 
             // Getters
             virtual const int16_t width() const override final;

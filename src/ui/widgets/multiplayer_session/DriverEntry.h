@@ -3,6 +3,7 @@
 
 #include <cstdint>
 #include "base/Container.h"
+#include "data/internal/Participant.h"
 #include "data/internal/Penalty.h"
 #include "data/internal/Session.h"
 
@@ -18,6 +19,7 @@ namespace UserInterface {
         class TextInterface;
         class PenaltyIcon;
         class WarningContainer;
+        class RetirementIcon;
 
         class DriverEntry : public UserInterface::Widget::Container {
 
@@ -26,13 +28,16 @@ namespace UserInterface {
             public:
             DriverEntry(QWidget* parent = 0);
             virtual ~DriverEntry() = default;
+            void init(const Session::Internal::Participant& dataPacket, const uint8_t& initPosition);
+            void updatePosition(const uint8_t newPosition);
+            void updatePenalties(const Penalty::Internal::Type type, const int32_t change);
+            void updateStatus(const Participant::Internal::Status status);
             virtual void move(const uint16_t x, const uint16_t y, const bool centerAlignmentX, const bool centerAlignmentY) override final;
             void scale(const uint8_t percent) override final;
             void scale(const uint8_t percentX, const uint8_t percentY) override final;
             void setSize(const uint16_t newWidth, const uint16_t newHeight, const bool keepAspectRatio) override final;
-            void init(const Session::Internal::Participant& dataPacket, const uint8_t& initPosition);
-            void updatePosition(const uint8_t newPosition);
-            void updatePenalties(const Penalty::Internal::Type type, const int32_t change);
+            void raise() override final;
+            void lower() override final;
 
             // Getters
             virtual const int16_t width() const override final;
@@ -53,6 +58,7 @@ namespace UserInterface {
             UserInterface::Widget::TeamIcon* m_teamIcon;
             UserInterface::Widget::TextInterface* m_driverName;
             UserInterface::Widget::PenaltyIcon* m_penalties;
+            UserInterface::Widget::RetirementIcon* m_retirement;
 
         };
 

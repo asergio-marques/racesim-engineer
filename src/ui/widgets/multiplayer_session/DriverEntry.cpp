@@ -3,10 +3,14 @@
 #include <QWidget>
 #include "base/Container.h"
 #include "base/TextInterface.h"
+#include "data/internal/Participant.h"
+#include "data/internal/Penalty.h"
+#include "data/internal/Session.h"
 #include "multiplayer_session/FastestLapIndicator.h"
 #include "multiplayer_session/TeamIcon.h"
 #include "multiplayer_session/penalty/PenaltyIcon.h"
 #include "multiplayer_session/warning/WarningContainer.h"
+#include "multiplayer_session/other/RetirementIcon.h"
 #include "styles/General.h"
 #include "styles/Standings.h"
 
@@ -26,7 +30,8 @@ UserInterface::Widget::DriverEntry::DriverEntry(QWidget* parent) :
         UserInterface::Widget::WarningContainer::Type::OtherWarns, parent)),
     m_teamIcon(new UserInterface::Widget::TeamIcon(parent)),
     m_driverName(new UserInterface::Widget::TextInterface(UserInterface::Widget::ID::DriverName, parent)),
-    m_penalties(new UserInterface::Widget::PenaltyIcon(parent)) {
+    m_penalties(new UserInterface::Widget::PenaltyIcon(parent)),
+    m_retirement(new UserInterface::Widget::RetirementIcon(parent)) {
 
     if (m_fastestLap) {
 
@@ -62,7 +67,7 @@ UserInterface::Widget::DriverEntry::DriverEntry(QWidget* parent) :
 
     if (m_driverName) {
 
-        m_position->setFontThickness(UserInterface::Widget::FontThickness::Regular);
+        m_driverName->setFontThickness(UserInterface::Widget::FontThickness::Regular);
         m_allWidgets.append(m_driverName);
 
     }
@@ -70,6 +75,121 @@ UserInterface::Widget::DriverEntry::DriverEntry(QWidget* parent) :
     if (m_penalties) {
 
         m_allWidgets.append(m_penalties);
+
+    }
+
+    if (m_retirement) {
+
+        m_allWidgets.append(m_retirement);
+        m_retirement->raise();
+
+    }
+
+}
+
+
+
+void UserInterface::Widget::DriverEntry::init(const Session::Internal::Participant& dataPacket, const uint8_t& initPosition) {
+
+    UserInterface::Style::Standings style;
+
+    m_driverIndex = dataPacket.m_index;
+    m_currentPosition = dataPacket.m_startPosition;
+    m_isPlayer = dataPacket.m_isPlayer;
+    if (m_fastestLap) {
+
+        // hidden by default
+        m_fastestLap->hide();
+
+    }
+    if (m_position) {
+
+        m_position->setText(QString::number(dataPacket.m_startPosition));
+        m_position->adjustSize();
+
+    }
+    if (m_teamIcon) {
+
+        m_teamIcon->SetTeam(dataPacket.m_TeamIcon);
+        m_teamIcon->setSize(style.TeamLogoMaxXY.m_value, style.TeamLogoMaxXY.m_value, true);
+        m_teamIcon->adjustSize();
+
+    }
+    if (m_driverName) {
+
+        m_driverName->setText(dataPacket.m_shortName);
+        m_driverName->adjustSize();
+
+    }
+    if (m_penalties) {
+
+        m_penalties->setSize(style.PenaltyIconMaxX.m_value, style.PenaltyIconMaxY.m_value, true);
+        m_penalties->adjustSize();
+
+    }
+    // needs to be the last one so that the width can be calculated okay
+    if (m_retirement) {
+        
+        // TODO proper calculation of width and values
+        auto retirementIconWidth = 522;
+        m_retirement->setSize(retirementIconWidth, m_fastestLap->height() - 3 - 3, false);
+        m_retirement->move(m_penalties->x(), m_penalties->y() + (m_penalties->height() / 2), false, true);
+        m_retirement->adjustSize();
+
+    }
+
+}
+
+
+
+void UserInterface::Widget::DriverEntry::updatePosition(const uint8_t newPosition) {
+
+    m_currentPosition = newPosition;
+    if (m_position) {
+        m_position->setText(QString::number(newPosition));
+        m_position->adjustSize();
+    }
+
+}
+
+
+
+
+void UserInterface::Widget::DriverEntry::updatePenalties(const Penalty::Internal::Type type, const int32_t change) {
+
+    switch (type) {
+
+        case Penalty::Internal::Type::Warning:
+            for (size_t i = 0; i < change; ++i)
+                if (m_trackLimWarn) m_trackLimWarn->addWarning();
+            break;
+
+        case Penalty::Internal::Type::Time:
+            if (m_penalties) m_penalties->addTimePenalty(change);
+            break;
+
+        case Penalty::Internal::Type::DriveThrough:
+            if (m_penalties) m_penalties->addDriveThrough(change);
+            break;
+
+        case Penalty::Internal::Type::StopGo:
+            if (m_penalties) m_penalties->addStopGo(change);
+            break;
+
+        default:
+            // DO NOTHING
+            break;
+    }
+
+}
+
+
+
+void UserInterface::Widget::DriverEntry::updateStatus(const Participant::Internal::Status status) {
+
+    if (m_retirement) {
+
+        m_retirement->activate(status);
 
     }
 
@@ -133,6 +253,12 @@ void UserInterface::Widget::DriverEntry::move(const uint16_t x, const uint16_t y
         // Use the maximum width as reference, not the actual width,
         // otherwise everything to the right will be misaligned
         totalWidth += standingsStyle.DriverNameMaxWidth.m_value + standingsStyle.PaddingReference.m_value;
+
+    }
+    if (m_retirement) {
+
+        // No need for padding as this widget is supposed to be "above" the others
+        m_retirement->move(x + totalWidth, centerY, false, true);
 
     }
     if (m_penalties) {
@@ -199,89 +325,37 @@ void UserInterface::Widget::DriverEntry::setSize(const uint16_t newWidth, const 
         m_penalties->adjustSize();
 
     }
+    if (m_retirement) {
+
+        m_retirement->setTextFontSize(standingsStyle.RetirementIconTextSize.m_value);
+        m_retirement->adjustSize();
+
+    }
 }
 
 
 
-void UserInterface::Widget::DriverEntry::init(const Session::Internal::Participant& dataPacket, const uint8_t& initPosition) {
-    
-    UserInterface::Style::Standings style;
+void UserInterface::Widget::DriverEntry::raise() {
 
-    m_driverIndex = dataPacket.m_index;
-    m_currentPosition = dataPacket.m_startPosition;
-    m_isPlayer = dataPacket.m_isPlayer;
-    if (m_fastestLap) {
-        // hidden by default
-        m_fastestLap->hide();
-    }
-    if (m_position) {
-        m_position->setText(QString::number(dataPacket.m_startPosition));
-        m_position->adjustSize();
-    }
-    if (m_teamIcon) {
-        m_teamIcon->SetTeam(dataPacket.m_TeamIcon);
-        m_teamIcon->setSize(style.TeamLogoMaxXY.m_value, style.TeamLogoMaxXY.m_value, true);
-        //m_teamIcon->adjustSize();
-    }
-    if (m_driverName) {
-        m_driverName->setText(dataPacket.m_shortName);
-        m_driverName->adjustSize();
-    }
-    if (m_penalties) {
-        m_penalties->setSize(style.PenaltyIconMaxX.m_value, style.PenaltyIconMaxY.m_value, true);
-        m_penalties->adjustSize();
-    }
+    if (m_fastestLap) m_fastestLap->raise();
+    if (m_position) m_position->raise();
+    if (m_teamIcon) m_teamIcon->raise();
+    if (m_driverName) m_driverName->raise();
+    if (m_penalties) m_penalties->raise();
+    if (m_retirement) m_retirement->raise();
 
 }
 
 
 
-void UserInterface::Widget::DriverEntry::updatePosition(const uint8_t newPosition) {
+void UserInterface::Widget::DriverEntry::lower() {
 
-    m_currentPosition = newPosition;
-    if (m_position) {
-        m_position->setText(QString::number(newPosition));
-        m_position->adjustSize();
-    }
-
-}
-
-
-
-
-void UserInterface::Widget::DriverEntry::updatePenalties(const Penalty::Internal::Type type, const int32_t change) {
-
-    switch (type) {
-
-        case Penalty::Internal::Type::Warning:
-            for (size_t i = 0; i < change; ++i)
-                if (m_trackLimWarn) m_trackLimWarn->addWarning();
-            break;
-
-        case Penalty::Internal::Type::Time:
-            if (m_penalties) m_penalties->addTimePenalty(change);
-            break;
-
-        case Penalty::Internal::Type::DriveThrough:
-            if (m_penalties) m_penalties->addDriveThrough(change);
-            break;
-
-        case Penalty::Internal::Type::StopGo:
-            if (m_penalties) m_penalties->addStopGo(change);
-            break;
-
-        case Penalty::Internal::Type::Disqualified:
-            // TODO
-            break;
-
-        case Penalty::Internal::Type::Retired:
-            // TODO
-            break;
-
-        default:
-            // DO NOTHING
-            break;
-    }
+    if (m_fastestLap) m_fastestLap->lower();
+    if (m_position) m_position->lower();
+    if (m_teamIcon) m_teamIcon->lower();
+    if (m_driverName) m_driverName->lower();
+    if (m_penalties) m_penalties->lower();
+    if (m_retirement) m_retirement->lower();
 
 }
 

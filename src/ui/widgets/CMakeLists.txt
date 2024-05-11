@@ -44,6 +44,8 @@ target_sources(${PROJECT_NAME} PRIVATE
     multiplayer_session/penalty/PenaltyTextBackground.cpp
     multiplayer_session/warning/WarningIcon.cpp
     multiplayer_session/warning/WarningContainer.cpp
+    multiplayer_session/other/RetirementIcon.cpp
+    multiplayer_session/other/RetirementIconBackground.cpp
     )
 
 target_link_libraries(${PROJECT_NAME} PRIVATE

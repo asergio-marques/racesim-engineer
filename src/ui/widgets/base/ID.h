@@ -23,7 +23,8 @@ namespace UserInterface {
             DriverTeamIcon          = 9,
             DriverName              = 10,
             WarningIcon             = 11,
-            PenaltyIcon             = 12
+            PenaltyIcon             = 12,
+            RetirementIcon          = 13,
 
         };
 

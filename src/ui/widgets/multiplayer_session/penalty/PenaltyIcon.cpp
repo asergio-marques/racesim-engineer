@@ -164,7 +164,7 @@ const int16_t UserInterface::Widget::PenaltyIcon::y() const {
 void UserInterface::Widget::PenaltyIcon::checkDisplayStatus() {
 
     const bool previousActiveStatus = m_active;
-    m_active = true;
+    m_active = m_timePen > 0 || m_driveThroughs > 0 || m_stopGos > 0;
 
     if (m_flagIcon && m_textBackground && m_text) {
 
@@ -205,14 +205,8 @@ void UserInterface::Widget::PenaltyIcon::checkDisplayStatus() {
 const QString UserInterface::Widget::PenaltyIcon::generateText() {
 
     QString text = "";
+    uint16_t totalTimePen = 5000 * m_stopGos + m_timePen;
 
-    if (m_stopGos != 0) {
-        
-        // if only 1 stop & go, don't show number
-        text +=
-            (m_stopGos == 1) ? "SG" : QString::number(m_stopGos) + "SG";
-
-    }
     if (m_driveThroughs != 0) {
 
         if (!text.isEmpty()) text += "+";
@@ -221,12 +215,12 @@ const QString UserInterface::Widget::PenaltyIcon::generateText() {
             (m_driveThroughs == 1) ? "DT" : QString::number(m_driveThroughs) + "DT";
 
     }
-    if (m_timePen != 0) {
+    if (totalTimePen != 0) {
 
         if (!text.isEmpty()) text += "+";
-        const int32_t fractionPart = m_timePen % 1000;
-        if (fractionPart > 0) text += QString::number(m_timePen / 1000) + "." + QString::number(fractionPart);
-        else text += QString::number(m_timePen / 1000);
+        const int32_t fractionPart = totalTimePen % 1000;
+        if (fractionPart > 0) text += QString::number(totalTimePen / 1000) + "." + QString::number(fractionPart);
+        else text += QString::number(totalTimePen / 1000);
 
     }
 

@@ -59,6 +59,7 @@ qt_add_resources(${PROJECT_NAME} "ui_elements"
         ../resources/img/background/BackgroundLeft.png
         ../resources/img/background/BackgroundRight.png
         ../resources/img/background/SingleScreenBG.png
+        ../resources/img/icons/RetirementIndicator.png
         ../resources/img/icons/FastestLap.png
         ../resources/img/icons/PenaltyIndicator.png
         ../resources/img/icons/PenaltyIndicatorTextBG.png

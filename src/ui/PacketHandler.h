@@ -8,6 +8,7 @@
 #include <QTimer>
 // packet headers need to be added here for signals to work
 #include "packets/internal/multi_use/SessionStart.h"
+#include "packets/internal/multi_use/PenaltyChange.h"
 #include "packets/internal/tt_types/TimeTrialStart.h"
 #include "packets/internal/practice_types/PracticeStart.h"
 #include "packets/internal/quali_types/QualiStart.h"
@@ -40,6 +41,7 @@ namespace UserInterface {
         void RaceStart(const Packet::Internal::RaceStart*);
         void SessionEnd(bool withDelay);
         void OvertakePerformed(const Packet::Internal::Overtake*);
+        void PenaltyAssigned(const Packet::Internal::PenaltyChange*);
 
         private:
         void StartTimer();
@@ -50,6 +52,7 @@ namespace UserInterface {
         void NotifySessionStartObservers(Packet::Internal::Interface* packet);
         void NotifySessionEndObservers(Packet::Internal::Interface* packet);
         void NotifyOvertakeObservers(Packet::Internal::Interface* packet);
+        void NotifyPenaltyChangeObservers(Packet::Internal::Interface* packet);
 
         QList<Packet::Internal::Interface*> m_packetList;
         QList<UserInterface::Widget::MPSessionStartInterface*> m_mpSessionStartObservers;

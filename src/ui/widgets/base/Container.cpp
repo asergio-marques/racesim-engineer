@@ -11,3 +11,20 @@ UserInterface::Widget::Container::Container(UserInterface::Widget::ID id) :
 
 
 }
+
+
+
+void UserInterface::Widget::Container::setTextFontSize(const uint16_t size) {
+
+    // empty implementation by default, to be overridden by all containers
+    // that possess text elements within
+
+}
+
+
+
+void UserInterface::Widget::Container::adjustSize() {
+
+    // empty implementation by default, to be overridden by all containers
+
+}

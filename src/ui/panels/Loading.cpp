@@ -1,6 +1,7 @@
 #include "panels/Loading.h"
 
 #include <QResizeEvent>
+#include <QTimer>
 #include <QWidget>
 #include "panels/Interface.h"
 #include "core/ScreenType.h"

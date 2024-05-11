@@ -25,6 +25,8 @@ namespace UserInterface {
             virtual const int16_t height() const = 0;
             virtual const int16_t x() const = 0;
             virtual const int16_t y() const = 0;
+            virtual void setTextFontSize(const uint16_t size);
+            virtual void adjustSize();
 
         };
 

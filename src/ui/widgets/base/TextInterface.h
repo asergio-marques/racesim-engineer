@@ -39,6 +39,10 @@ namespace UserInterface {
                 virtual void setFontSize(const uint16_t size);
                 virtual void setFontThickness(const UserInterface::Widget::FontThickness thickness);
 
+                // Getters
+                virtual const uint16_t getTextWidth() const;
+                virtual const uint16_t getTextHeight() const;
+
             protected:
                 uint16_t m_originalFontSize;
 

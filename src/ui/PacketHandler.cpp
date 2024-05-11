@@ -76,6 +76,9 @@ void UserInterface::PacketHandler::Exec() {
                 case Packet::Internal::Type::Overtake:
                     NotifyOvertakeObservers(packet);
                     break;
+                case Packet::Internal::Type::PenaltyChange:
+                    NotifyPenaltyChangeObservers(packet);
+                    break;
                 default:
                     // whoopsie daisy
                     break;
@@ -172,6 +175,19 @@ void UserInterface::PacketHandler::NotifyOvertakeObservers(Packet::Internal::Int
 
         packet->markAsProcessed();
         emit OvertakePerformed(dynamic_cast<const Packet::Internal::Overtake*>(packet));
+
+    }
+
+}
+
+
+
+void UserInterface::PacketHandler::NotifyPenaltyChangeObservers(Packet::Internal::Interface* packet) {
+
+    if (packet) {
+
+        packet->markAsProcessed();
+        emit PenaltyAssigned(dynamic_cast<const Packet::Internal::PenaltyChange*>(packet));
 
     }
 

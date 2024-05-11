@@ -9,6 +9,7 @@
 // packet headers need to be added here for signals to work
 #include "packets/internal/multi_use/SessionStart.h"
 #include "packets/internal/multi_use/PenaltyChange.h"
+#include "packets/internal/multi_use/ParticipantStatusChange.h"
 #include "packets/internal/tt_types/TimeTrialStart.h"
 #include "packets/internal/practice_types/PracticeStart.h"
 #include "packets/internal/quali_types/QualiStart.h"
@@ -42,6 +43,7 @@ namespace UserInterface {
         void SessionEnd(bool withDelay);
         void OvertakePerformed(const Packet::Internal::Overtake*);
         void PenaltyAssigned(const Packet::Internal::PenaltyChange*);
+        void DriverStatusChanged(const Packet::Internal::ParticipantStatusChange*);
 
         private:
         void StartTimer();
@@ -53,6 +55,7 @@ namespace UserInterface {
         void NotifySessionEndObservers(Packet::Internal::Interface* packet);
         void NotifyOvertakeObservers(Packet::Internal::Interface* packet);
         void NotifyPenaltyChangeObservers(Packet::Internal::Interface* packet);
+        void NotifyStatusChangeObservers(Packet::Internal::Interface* packet);
 
         QList<Packet::Internal::Interface*> m_packetList;
         QList<UserInterface::Widget::MPSessionStartInterface*> m_mpSessionStartObservers;

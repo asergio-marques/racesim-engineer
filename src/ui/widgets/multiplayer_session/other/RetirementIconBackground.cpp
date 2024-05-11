@@ -9,7 +9,7 @@
 UserInterface::Widget::RetirementIconBackground::RetirementIconBackground(QWidget* parent) :
     UserInterface::Widget::ImageInterface(UserInterface::Widget::ID::RetirementIcon, parent) {
 
-    bool res = m_pixmap.load(":img/icons/RetirementIconBackground.png");
+    bool res = m_pixmap.load(":img/icons/RetirementIndicator.png");
 
     if (res) {
 

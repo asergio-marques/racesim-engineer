@@ -99,6 +99,30 @@ void UserInterface::Widget::WarningContainer::setSize(const uint16_t newWidth, c
 
 
 
+void UserInterface::Widget::WarningContainer::raise() {
+
+    for (auto icon : m_icons) {
+
+        if (icon) icon->raise();
+
+    }
+
+}
+
+
+
+void UserInterface::Widget::WarningContainer::lower() {
+
+    for (auto icon : m_icons) {
+
+        if (icon) icon->lower();
+
+    }
+
+}
+
+
+
 const int16_t UserInterface::Widget::WarningContainer::width() const {
 
     const int16_t xMin = x();

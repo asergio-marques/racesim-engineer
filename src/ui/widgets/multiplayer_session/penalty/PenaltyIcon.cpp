@@ -125,6 +125,37 @@ void UserInterface::Widget::PenaltyIcon::setSize(const uint16_t newWidth, const 
 
 
 
+void UserInterface::Widget::PenaltyIcon::raise() {
+
+    if (m_flagIcon) {
+        m_flagIcon->raise();
+    }
+    if (m_textBackground) {
+        m_textBackground->raise();
+    }
+    if (m_text) {
+        m_text->raise();
+    }
+}
+
+
+
+void UserInterface::Widget::PenaltyIcon::lower() {
+
+    if (m_text) {
+        m_text->lower();
+    }
+    if (m_textBackground) {
+        m_textBackground->lower();
+    }
+    if (m_flagIcon) {
+        m_flagIcon->lower();
+    }
+
+}
+
+
+
 const int16_t UserInterface::Widget::PenaltyIcon::width() const {
 
     if (m_flagIcon) return m_flagIcon->width();

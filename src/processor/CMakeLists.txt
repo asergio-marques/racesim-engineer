@@ -23,6 +23,7 @@ target_sources(${PROJECT_NAME} PRIVATE
     data/SessionState.cpp
     data/creators/RaceSession.cpp
     detectors/Interface.cpp
+    detectors/DriverStatus.cpp
     detectors/FastestLap.cpp
     detectors/Overtake.cpp
     detectors/WarningPenalty.cpp)

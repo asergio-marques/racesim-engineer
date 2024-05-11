@@ -8,12 +8,6 @@
 
 namespace Processor {
 
-    namespace Data {
-
-        class DataInterface;
-
-    }
-
     namespace Detector {
 
         class WarningPenalty final : public Processor::Detector::Interface {

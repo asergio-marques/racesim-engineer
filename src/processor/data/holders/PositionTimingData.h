@@ -2,7 +2,7 @@
 #define PROCESSOR_DATA_INCLUDE_POSITION_TIMING_DATA_H_
 
 #include <cstdint>
-
+#include "data/internal/Participant.h"
 
 
 namespace Processor {
@@ -21,6 +21,9 @@ namespace Processor {
 
             // Current position for this vehicle
             uint8_t m_currentPosition;
+
+            // Status of the vehicle
+            Participant::Internal::Status m_status;
 
         };
 

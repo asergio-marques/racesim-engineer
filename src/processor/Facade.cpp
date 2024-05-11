@@ -6,6 +6,7 @@
 #include "detectors/FastestLap.h"
 #include "detectors/Overtake.h"
 #include "detectors/WarningPenalty.h"
+#include "detectors/DriverStatus.h"
 #include "IFacade.h"
 #include "packets/internal/Subscriber.h"
 
@@ -22,6 +23,7 @@ Processor::Facade::Facade() :
         m_detectors.push_back(new Processor::Detector::FastestLap);
         m_detectors.push_back(new Processor::Detector::Overtake);
         m_detectors.push_back(new Processor::Detector::WarningPenalty);
+        m_detectors.push_back(new Processor::Detector::DriverStatus);
 
     }
 

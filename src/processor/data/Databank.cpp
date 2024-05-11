@@ -4,12 +4,14 @@
 #include <map>
 #include "data/DriverRecord.h"
 #include "data/SessionRecord.h"
+#include "data/internal/Participant.h"
 #include "data/creators/Interface.h"
 #include "data/creators/RaceSession.h"
 #include "detectors/Interface.h"
 #include "detectors/Type.h"
 #include "packets/internal/Interface.h"
 #include "packets/internal/multi_use/SessionStart.h"
+#include "packets/internal/multi_use/ParticipantStatus.h"
 #include "packets/internal/race_types/RaceStart.h"
 #include "packets/internal/race_types/RaceStandings.h"
 #include "packets/internal/race_types/PenaltyStatus.h"
@@ -44,6 +46,10 @@ void Processor::Data::Databank::updateData(const Packet::Internal::Interface* pa
 
             case Packet::Internal::Type::PenaltyStatus:
                 updatePenalties(dynamic_cast<const Packet::Internal::PenaltyStatus*>(packet));
+                break;
+
+            case Packet::Internal::Type::ParticipantStatus:
+                updateParticipantStatus(dynamic_cast<const Packet::Internal::ParticipantStatus*>(packet));
                 break;
 
             default:
@@ -225,6 +231,42 @@ void Processor::Data::Databank::updatePenalties(const Packet::Internal::PenaltyS
 
         }
 
+    }
+
 }
+
+
+
+void Processor::Data::Databank::updateParticipantStatus(const Packet::Internal::ParticipantStatus* statusPacket) {
+
+    if (statusPacket) {
+        // for each standing data on the packet, check if the driver ID
+        // matches up with the driver ID of each of the driver records and
+        // if we are not overwriting more recent data
+        // once it does match, the current position in the state is updated
+        // breaking the inner loop then, allows for some optimization so we
+        // don't iterate over the two vectors a million times
+        //
+        // there's probably a better way to do this matching while still avoiding
+        // vector index assumptions though
+        for (const auto statusData : statusPacket->GetData()) {
+
+            auto entry = m_driverRecords.find(statusData.m_driverID);
+            if (entry != m_driverRecords.end()) {
+
+                auto driverData = entry->second;
+
+                if (driverData && driverData->updateLastTimestamp(statusPacket->m_timestamp)) {
+
+                    driverData->getModifiableState().updateStatus(statusData.m_status);
+
+
+                }
+
+            }
+
+        }
+
+    }
 
 }

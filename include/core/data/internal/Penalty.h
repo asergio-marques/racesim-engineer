@@ -15,9 +15,7 @@ namespace Penalty::Internal {
         CurrentNextLapInvalid = 3,
         Time = 4,
         DriveThrough = 5,
-        StopGo = 6,
-        Disqualified = 7,
-        Retired = 8
+        StopGo = 6
 
     };
 
@@ -50,6 +48,7 @@ namespace Penalty::Internal {
     };
 
 }
+
 
 
 #endif // DATA_INTERNAL_INCLUDE_PENALTY_H_

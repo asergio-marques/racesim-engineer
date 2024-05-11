@@ -3,10 +3,12 @@
 #include <vector>
 #include "adapters/SessionStateMachine.h"
 #include "data/game/F1_23/Event.h"
+#include "data/internal/Participant.h"
 #include "packets/game/Helper.h"
 #include "packets/game/Interface.h"
 #include "packets/internal/Interface.h"
 #include "packets/internal/multi_use/SessionEnd.h"
+#include "packets/internal/multi_use/ParticipantStatus.h"
 #include "packets/internal/race_types/RaceStart.h"
 #include "packets/internal/race_types/RaceStandings.h"
 #include "packets/internal/race_types/PenaltyStatus.h"
@@ -196,6 +198,7 @@ std::vector<Packet::Internal::Interface*> NetCom::Adapter::F1_23::ConvertLapData
     }
     Packet::Internal::RaceStandings* standingsPacket = new Packet::Internal::RaceStandings(inputPacket->GetHeader()->GetFrameIdentifier());
     Packet::Internal::PenaltyStatus* penaltiesPacket = new Packet::Internal::PenaltyStatus(inputPacket->GetHeader()->GetFrameIdentifier());
+    Packet::Internal::ParticipantStatus* statusPacket = new Packet::Internal::ParticipantStatus(inputPacket->GetHeader()->GetFrameIdentifier());
     for (size_t i = 0; i < 22; ++i) {
 
         bool ok = false;
@@ -209,12 +212,35 @@ std::vector<Packet::Internal::Interface*> NetCom::Adapter::F1_23::ConvertLapData
                 lapInfo.m_timePenalties * 1000,
                 lapInfo.m_numUnservedStopGoPens,
                 lapInfo.m_numUnservedDTPens);
+            
+            // convert status
+            Participant::Internal::Status status;
+            switch (lapInfo.m_result) {
+                case Lap::Game::F1_23::ResultStatus::Active:
+                    status = Participant::Internal::Status::Active;
+                    break;
+                case Lap::Game::F1_23::ResultStatus::Inactive:
+                case Lap::Game::F1_23::ResultStatus::NotClassified:
+                    status = Participant::Internal::Status::Inactive;
+                    break;
+                case Lap::Game::F1_23::ResultStatus::DNF:
+                case Lap::Game::F1_23::ResultStatus::Retired:
+                    status = Participant::Internal::Status::DNF;
+                    break;
+                case Lap::Game::F1_23::ResultStatus::DSQ:
+                    status = Participant::Internal::Status::DSQ;
+                    break;
+                default:
+                    status = Participant::Internal::Status::InvalidUnknown;
+            }
+
+            statusPacket->InsertData(i, status);
 
         }
 
     }
 
-    return { standingsPacket, penaltiesPacket };
+    return { standingsPacket, penaltiesPacket, statusPacket };
 
 }
 

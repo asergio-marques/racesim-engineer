@@ -270,14 +270,6 @@ void UserInterface::Widget::DriverEntry::updatePenalties(const Penalty::Internal
             if (m_penalties) m_penalties->addStopGo(change);
             break;
 
-        case Penalty::Internal::Type::Disqualified:
-            // TODO
-            break;
-
-        case Penalty::Internal::Type::Retired:
-            // TODO
-            break;
-
         default:
             // DO NOTHING
             break;

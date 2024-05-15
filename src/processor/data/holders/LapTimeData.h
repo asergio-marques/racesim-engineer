@@ -3,6 +3,8 @@
 
 #include <cstdint>
 #include <vector>
+#include "data/internal/Lap.h"
+#include "data/internal/LapTime.h"
 
 
 namespace Processor {
@@ -18,31 +20,28 @@ namespace Processor {
             bool m_isFinished;
 
             // 
-            bool m_inLap;
+            Lap::Internal::Status m_status;
 
             // 
-            bool m_outLap;
-
-            // 
-            uint32_t m_totalLapTime;
+            Lap::Internal::Time m_totalLapTime;
             
             // 
-            uint32_t m_sector1Time;
+            Lap::Internal::Time m_sector1Time;
 
             // 
-            uint32_t m_sector2Time;
+            Lap::Internal::Time m_sector2Time;
 
             // 
-            uint32_t m_sector3Time;
+            Lap::Internal::Time m_sector3Time;
 
             // 
-            std::vector<uint32_t> m_sector1MiniSectorsTime;
+            std::vector<Lap::Internal::Time> m_sector1MiniSectorsTime;
 
             // 
-            std::vector<uint32_t> m_sector2MiniSectorsTime;
+            std::vector<Lap::Internal::Time> m_sector2MiniSectorsTime;
 
             // 
-            std::vector<uint32_t> m_sector3MiniSectorsTime;
+            std::vector<Lap::Internal::Time> m_sector3MiniSectorsTime;
 
             // TODO // The visual tyre compound on which the majority
             // of the lap was raced

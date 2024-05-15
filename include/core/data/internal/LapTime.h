@@ -13,6 +13,8 @@ namespace Lap::Internal {
         Time() = default;
         Time(const uint32_t milliseconds);
         Time(const uint8_t seconds, const uint16_t milliseconds);
+        Time(const Time& other) = default;
+        Time& operator=(const Time& other) = default;
         Time& operator+(const Time& other);
         Time& operator-(const Time& other);
         bool operator==(const Time& other);
@@ -28,6 +30,7 @@ namespace Lap::Internal {
         uint16_t m_milliseconds;
 
     };
+
 }
 
 

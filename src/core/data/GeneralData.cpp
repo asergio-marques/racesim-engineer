@@ -7,4 +7,5 @@
 #include "data/game/F1_23/Status.h"
 #include "data/game/F1_23/Telemetry.h"
 #include "data/internal/Session.h"
+#include "data/internal/Participant.h"
 #include "data/internal/Penalty.h"

@@ -130,7 +130,7 @@ void Processor::Data::DriverState::updateStatus(const Participant::Internal::Sta
         m_posTimeData.m_status != Participant::Internal::Status::FinishedSession) {
 
         // Update information
-        m_posTimeData.m_status == status;
+        m_posTimeData.m_status = status;
 
         // Feed to detector
         m_installedStatusDetector->AddStatusChange(m_id, status);

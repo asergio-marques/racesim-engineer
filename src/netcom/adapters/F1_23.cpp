@@ -9,6 +9,7 @@
 #include "packets/internal/Interface.h"
 #include "packets/internal/multi_use/SessionEnd.h"
 #include "packets/internal/multi_use/ParticipantStatus.h"
+#include "packets/internal/multi_use/LapStatus.h"
 #include "packets/internal/race_types/RaceStart.h"
 #include "packets/internal/race_types/RaceStandings.h"
 #include "packets/internal/race_types/PenaltyStatus.h"
@@ -199,6 +200,7 @@ std::vector<Packet::Internal::Interface*> NetCom::Adapter::F1_23::ConvertLapData
     Packet::Internal::RaceStandings* standingsPacket = new Packet::Internal::RaceStandings(inputPacket->GetHeader()->GetFrameIdentifier());
     Packet::Internal::PenaltyStatus* penaltiesPacket = new Packet::Internal::PenaltyStatus(inputPacket->GetHeader()->GetFrameIdentifier());
     Packet::Internal::ParticipantStatus* statusPacket = new Packet::Internal::ParticipantStatus(inputPacket->GetHeader()->GetFrameIdentifier());
+    Packet::Internal::LapStatus* lapPacket = new Packet::Internal::LapStatus(inputPacket->GetHeader()->GetFrameIdentifier());
     for (size_t i = 0; i < 22; ++i) {
 
         bool ok = false;

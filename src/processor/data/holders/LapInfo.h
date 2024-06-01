@@ -1,5 +1,5 @@
-#ifndef PROCESSOR_DATA_INCLUDE_LAP_TIME_DATA_H_
-#define PROCESSOR_DATA_INCLUDE_LAP_TIME_DATA_H_
+#ifndef PROCESSOR_DATA_INCLUDE_LAP_INFO_H_
+#define PROCESSOR_DATA_INCLUDE_LAP_INFO_H_
 
 #include <cstdint>
 #include <vector>
@@ -11,7 +11,7 @@ namespace Processor {
 
     namespace Data {
 
-        struct LapData {
+        struct LapInfo {
 
             // ID of the lap performed
             uint16_t m_lapId;
@@ -60,18 +60,12 @@ namespace Processor {
             //
             uint8_t m_numDRSActivation;
 
-            // 
+            // TODO // The type of track conditions during this lap
             // Session::Internal::Conditions m_conditions;
-        };
-
-        struct LapTimeData {
-
-            
-
         };
 
     }
 
 }
 
-#endif //  PROCESSOR_DATA_INCLUDE_LAP_TIME_DATA_H_
+#endif //  PROCESSOR_DATA_INCLUDE_LAP_INFO_H_

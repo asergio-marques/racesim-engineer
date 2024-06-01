@@ -40,6 +40,7 @@ target_sources(${PROJECT_NAME} PRIVATE
     packets/internal/multi_use/PenaltyChange.cpp
     packets/internal/multi_use/ParticipantStatus.cpp
     packets/internal/multi_use/ParticipantStatusChange.cpp
+    packets/internal/multi_use/LapStatus.cpp
     packets/internal/tt_types/TimeTrialStart.cpp
     packets/internal/practice_types/PracticeStart.cpp
     packets/internal/quali_types/QualiStart.cpp

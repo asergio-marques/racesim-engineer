@@ -1,7 +1,8 @@
 #include "data/DriverState.h"
 
 #include <cstdint>
-#include "data/holders/LapTimeData.h"
+#include <vector>
+#include "data/holders/LapInfo.h"
 #include "data/holders/WarningPenaltyData.h"
 #include "data/holders/PositionTimingData.h"
 #include "detectors/Interface.h"
@@ -16,6 +17,7 @@ Processor::Data::DriverState::DriverState(const uint8_t id, const uint8_t starti
     m_id(id),
     m_posTimeData(startingPosition),
     m_warnPenData(),
+    m_laps(),
     m_installedOvertakeDetector(nullptr),
     m_installedPenWarnDetector(nullptr),
     m_installedStatusDetector(nullptr) {

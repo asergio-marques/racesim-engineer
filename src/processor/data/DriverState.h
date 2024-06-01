@@ -2,7 +2,8 @@
 #define PROCESSOR_DATA_INCLUDE_DRIVER_STATE_H_
 
 #include <cstdint>
-#include "data/holders/LapTimeData.h"
+#include <vector>
+#include "data/holders/LapInfo.h"
 #include "data/holders/WarningPenaltyData.h"
 #include "data/holders/PositionTimingData.h"
 
@@ -53,6 +54,10 @@ namespace Processor {
 
             // Holder of all warning and penalty data
             Processor::Data::WarningPenaltyData m_warnPenData;
+
+            // Holder of data pertaining to all laps run
+            // The most recent lap (finished/not) should be at the bottom of the vector
+            std::vector<Processor::Data::LapInfo> m_laps;
 
             // Pointer to the overtake detector currently installed
             Processor::Detector::Overtake* m_installedOvertakeDetector;

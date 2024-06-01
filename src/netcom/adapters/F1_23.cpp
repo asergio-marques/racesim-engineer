@@ -207,7 +207,10 @@ std::vector<Packet::Internal::Interface*> NetCom::Adapter::F1_23::ConvertLapData
         const auto lapInfo = inputPacket->GetLapInfo(i, ok);
         if (ok) {
 
+            // Standings packet
             standingsPacket->InsertData(i, lapInfo.m_carPosition);
+
+            // Penalties packet
             penaltiesPacket->InsertData(i, lapInfo.m_numTotalWarn,
                 lapInfo.m_numCornerCutWarn,
                 // lap info in seconds, internal packet in milliseconds
@@ -215,7 +218,7 @@ std::vector<Packet::Internal::Interface*> NetCom::Adapter::F1_23::ConvertLapData
                 lapInfo.m_numUnservedStopGoPens,
                 lapInfo.m_numUnservedDTPens);
             
-            // convert status
+            // Status packet
             Participant::Internal::Status status;
             switch (lapInfo.m_result) {
                 case Lap::Game::F1_23::ResultStatus::Active:
@@ -235,14 +238,38 @@ std::vector<Packet::Internal::Interface*> NetCom::Adapter::F1_23::ConvertLapData
                 default:
                     status = Participant::Internal::Status::InvalidUnknown;
             }
-
             statusPacket->InsertData(i, status);
+
+            // Current lap data packet
+            Packet::Internal::LapStatus::Data lapData;
+            lapData.m_driverID = i;
+            lapData.m_lapID = lapInfo.m_currentLapNum;
+            lapData.m_status = lapInfo.m_currentLapInvalid ? Lap::Internal::Status::Invalid : Lap::Internal::Status::Valid;
+            switch (lapInfo.m_status) {
+                case Lap::Game::F1_23::VehicleStatus::OutLap:
+                    lapData.m_type = Lap::Internal::Type::OutLap;
+                    break;
+                case Lap::Game::F1_23::VehicleStatus::InLap:
+                    lapData.m_type = Lap::Internal::Type::InLap;
+                    break;
+                case Lap::Game::F1_23::VehicleStatus::FlyingLap:
+                case Lap::Game::F1_23::VehicleStatus::OnTrack:
+                    lapData.m_type = Lap::Internal::Type::FlyingLap;
+                    break;
+                default:
+                    lapData.m_type = Lap::Internal::Type::InvalidUnknown;
+            }
+            auto sector3TimeMS = lapInfo.m_currentLapTime - lapInfo.m_sector1TimeMS - lapInfo.m_sector2TimeMS;
+            lapData.m_sectorTimes = { lapInfo.m_sector1TimeMS,
+                                    lapInfo.m_sector2TimeMS,
+                                    sector3TimeMS };
+            lapPacket->InsertData(lapData);
 
         }
 
     }
 
-    return { standingsPacket, penaltiesPacket, statusPacket };
+    return { standingsPacket, penaltiesPacket, statusPacket, lapPacket };
 
 }
 

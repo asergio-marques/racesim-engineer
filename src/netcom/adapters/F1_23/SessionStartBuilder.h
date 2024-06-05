@@ -39,41 +39,45 @@ namespace NetCom {
 
     namespace Adapter {
 
-        class F1_23_SessionStartBuilder {
+        namespace F1_23 {
 
-            public:
-            F1_23_SessionStartBuilder();
-            virtual ~F1_23_SessionStartBuilder() = default;
+            class SessionStartBuilder {
 
-            void Start();
-            void CreateSessionPacket(const Packet::Game::F1_23::SessionData* gamePacket);
-            void AppendParticipantData(const Packet::Game::F1_23::ParticipantData* gamePacket);
-            void AppendLapData(const Packet::Game::F1_23::LapData* gamePacket);
-            Packet::Internal::SessionStart* Finish();
+                public:
+                SessionStartBuilder();
+                virtual ~SessionStartBuilder() = default;
 
-            private:
-            // Main creation functions
-            Packet::Internal::TimeTrialStart* CreateTimeTrialStartPacket(const Packet::Game::F1_23::SessionData* gamePacket);
-            Packet::Internal::PracticeStart* CreatePracticeStartPacket(const Packet::Game::F1_23::SessionData* gamePacket);
-            Packet::Internal::QualiStart* CreateQualiStartPacket(const Packet::Game::F1_23::SessionData* gamePacket, uint8_t numClassifiedAtEnd);
-            Packet::Internal::RaceStart* CreateRaceStartPacket(const Packet::Game::F1_23::SessionData* gamePacket);
+                void Start();
+                void CreateSessionPacket(const Packet::Game::F1_23::SessionData* gamePacket);
+                void AppendParticipantData(const Packet::Game::F1_23::ParticipantData* gamePacket);
+                void AppendLapData(const Packet::Game::F1_23::LapData* gamePacket);
+                Packet::Internal::SessionStart* Finish();
 
-            // Auxiliary functions for duplicated code
-            void ConvertTrackID(Packet::Internal::SessionStart* newPacket, const Packet::Game::F1_23::SessionData* gamePacket);
-            const std::string ShortenDriverName(const char* originalName);
-            const Session::Internal::Participant GetSingleParticipantData(const Packet::Game::F1_23::ParticipantInfo& rawInfo,
-                const uint8_t& arrayIndex,
-                const uint8_t& playerIndex);
-            
-            bool m_enabled;
-            bool m_waitingForParticipantData;
-            bool m_waitingForSessionData;
-            bool m_waitingForLapData;
+                private:
+                // Main creation functions
+                Packet::Internal::TimeTrialStart* CreateTimeTrialStartPacket(const Packet::Game::F1_23::SessionData* gamePacket);
+                Packet::Internal::PracticeStart* CreatePracticeStartPacket(const Packet::Game::F1_23::SessionData* gamePacket);
+                Packet::Internal::QualiStart* CreateQualiStartPacket(const Packet::Game::F1_23::SessionData* gamePacket, uint8_t numClassifiedAtEnd);
+                Packet::Internal::RaceStart* CreateRaceStartPacket(const Packet::Game::F1_23::SessionData* gamePacket);
 
-            Packet::Internal::SessionStart* m_packetBeingBuilt;
-            std::vector<Session::Internal::Participant> m_listParticipants;
+                // Auxiliary functions for duplicated code
+                void ConvertTrackID(Packet::Internal::SessionStart* newPacket, const Packet::Game::F1_23::SessionData* gamePacket);
+                const std::string ShortenDriverName(const char* originalName);
+                const Session::Internal::Participant GetSingleParticipantData(const Packet::Game::F1_23::ParticipantInfo& rawInfo,
+                    const uint8_t& arrayIndex,
+                    const uint8_t& playerIndex);
 
-        };
+                bool m_enabled;
+                bool m_waitingForParticipantData;
+                bool m_waitingForSessionData;
+                bool m_waitingForLapData;
+
+                Packet::Internal::SessionStart* m_packetBeingBuilt;
+                std::vector<Session::Internal::Participant> m_listParticipants;
+
+            };
+
+        }
 
     }
 

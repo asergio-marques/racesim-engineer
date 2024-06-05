@@ -15,7 +15,7 @@
 
 
 
-NetCom::Adapter::F1_23_SessionStartBuilder::F1_23_SessionStartBuilder() :
+NetCom::Adapter::F1_23::SessionStartBuilder::SessionStartBuilder() :
     m_enabled(false),
     m_waitingForParticipantData(false),
     m_waitingForSessionData(false),
@@ -28,7 +28,7 @@ NetCom::Adapter::F1_23_SessionStartBuilder::F1_23_SessionStartBuilder() :
 
 
 
-void NetCom::Adapter::F1_23_SessionStartBuilder::Start() {
+void NetCom::Adapter::F1_23::SessionStartBuilder::Start() {
 
     m_enabled = true;
     m_waitingForParticipantData = true;
@@ -39,7 +39,7 @@ void NetCom::Adapter::F1_23_SessionStartBuilder::Start() {
 
 
 
-void NetCom::Adapter::F1_23_SessionStartBuilder::CreateSessionPacket(const Packet::Game::F1_23::SessionData* gamePacket) {
+void NetCom::Adapter::F1_23::SessionStartBuilder::CreateSessionPacket(const Packet::Game::F1_23::SessionData* gamePacket) {
 
     if (m_enabled && gamePacket) {
 
@@ -99,7 +99,7 @@ void NetCom::Adapter::F1_23_SessionStartBuilder::CreateSessionPacket(const Packe
 
 
 
-void NetCom::Adapter::F1_23_SessionStartBuilder::AppendParticipantData(const Packet::Game::F1_23::ParticipantData* gamePacket) {
+void NetCom::Adapter::F1_23::SessionStartBuilder::AppendParticipantData(const Packet::Game::F1_23::ParticipantData* gamePacket) {
 
     if (m_waitingForParticipantData) {
 
@@ -131,7 +131,7 @@ void NetCom::Adapter::F1_23_SessionStartBuilder::AppendParticipantData(const Pac
 }
 
 #include <iostream>
-void NetCom::Adapter::F1_23_SessionStartBuilder::AppendLapData(const Packet::Game::F1_23::LapData* gamePacket) {
+void NetCom::Adapter::F1_23::SessionStartBuilder::AppendLapData(const Packet::Game::F1_23::LapData* gamePacket) {
 
     // Need the indexes from the participant data to add starting positions
     if (m_waitingForLapData && !m_waitingForParticipantData) {
@@ -165,7 +165,7 @@ void NetCom::Adapter::F1_23_SessionStartBuilder::AppendLapData(const Packet::Gam
 
 
 
-Packet::Internal::SessionStart* NetCom::Adapter::F1_23_SessionStartBuilder::Finish() {
+Packet::Internal::SessionStart* NetCom::Adapter::F1_23::SessionStartBuilder::Finish() {
 
     if (m_enabled && !m_waitingForParticipantData && !m_waitingForSessionData && !m_waitingForLapData) {
 
@@ -188,7 +188,7 @@ Packet::Internal::SessionStart* NetCom::Adapter::F1_23_SessionStartBuilder::Fini
 
 
 Packet::Internal::TimeTrialStart*
-    NetCom::Adapter::F1_23_SessionStartBuilder::CreateTimeTrialStartPacket(const Packet::Game::F1_23::SessionData* gamePacket) {
+    NetCom::Adapter::F1_23::SessionStartBuilder::CreateTimeTrialStartPacket(const Packet::Game::F1_23::SessionData* gamePacket) {
 
     Packet::Internal::TimeTrialStart* newTTPacket = new Packet::Internal::TimeTrialStart(gamePacket->GetHeader()->GetFrameIdentifier());
     ConvertTrackID(newTTPacket, gamePacket);
@@ -199,7 +199,7 @@ Packet::Internal::TimeTrialStart*
 
 
 Packet::Internal::PracticeStart*
-    NetCom::Adapter::F1_23_SessionStartBuilder::CreatePracticeStartPacket(const Packet::Game::F1_23::SessionData* gamePacket) {
+    NetCom::Adapter::F1_23::SessionStartBuilder::CreatePracticeStartPacket(const Packet::Game::F1_23::SessionData* gamePacket) {
 
     Packet::Internal::PracticeStart* newPracticePacket = new Packet::Internal::PracticeStart(gamePacket->GetHeader()->GetFrameIdentifier());
     ConvertTrackID(newPracticePacket, gamePacket);
@@ -215,7 +215,7 @@ Packet::Internal::PracticeStart*
 
 
 Packet::Internal::QualiStart*
-    NetCom::Adapter::F1_23_SessionStartBuilder::CreateQualiStartPacket(const Packet::Game::F1_23::SessionData* gamePacket, uint8_t numClassifiedAtEnd) {
+    NetCom::Adapter::F1_23::SessionStartBuilder::CreateQualiStartPacket(const Packet::Game::F1_23::SessionData* gamePacket, uint8_t numClassifiedAtEnd) {
 
     Packet::Internal::QualiStart* newQualiPacket = new Packet::Internal::QualiStart(gamePacket->GetHeader()->GetFrameIdentifier(), numClassifiedAtEnd);
     ConvertTrackID(newQualiPacket, gamePacket);
@@ -231,7 +231,7 @@ Packet::Internal::QualiStart*
 
 
 Packet::Internal::RaceStart*
-    NetCom::Adapter::F1_23_SessionStartBuilder::CreateRaceStartPacket(const Packet::Game::F1_23::SessionData* gamePacket) {
+    NetCom::Adapter::F1_23::SessionStartBuilder::CreateRaceStartPacket(const Packet::Game::F1_23::SessionData* gamePacket) {
 
     Packet::Internal::RaceStart* newRacePacket = new Packet::Internal::RaceStart(gamePacket->GetHeader()->GetFrameIdentifier(), gamePacket->GetTotalLaps());
     ConvertTrackID(newRacePacket, gamePacket);
@@ -246,12 +246,12 @@ Packet::Internal::RaceStart*
 
 
 
-void NetCom::Adapter::F1_23_SessionStartBuilder::ConvertTrackID(Packet::Internal::SessionStart* newPacket,
+void NetCom::Adapter::F1_23::SessionStartBuilder::ConvertTrackID(Packet::Internal::SessionStart* newPacket,
     const Packet::Game::F1_23::SessionData* gamePacket) {
 
     if (newPacket && gamePacket) {
-        auto it = NetCom::Adapter::F1_23_DataConversionMaps::TRACK_ID_MAP.find(gamePacket->GetTrackId());
-        if (it != NetCom::Adapter::F1_23_DataConversionMaps::TRACK_ID_MAP.end()) {
+        auto it = NetCom::Adapter::F1_23::DataConversionMaps::TRACK_ID_MAP.find(gamePacket->GetTrackId());
+        if (it != NetCom::Adapter::F1_23::DataConversionMaps::TRACK_ID_MAP.end()) {
 
             newPacket->m_sessionTrack = it->second;
 
@@ -264,7 +264,7 @@ void NetCom::Adapter::F1_23_SessionStartBuilder::ConvertTrackID(Packet::Internal
 
 
 
-const std::string NetCom::Adapter::F1_23_SessionStartBuilder::ShortenDriverName(const char* originalName) {
+const std::string NetCom::Adapter::F1_23::SessionStartBuilder::ShortenDriverName(const char* originalName) {
 
     const std::string originalNameStr{ originalName };
     if (originalNameStr.length() == 0) {
@@ -305,7 +305,7 @@ const std::string NetCom::Adapter::F1_23_SessionStartBuilder::ShortenDriverName(
 }
 
 const Session::Internal::Participant
-NetCom::Adapter::F1_23_SessionStartBuilder::GetSingleParticipantData(const Packet::Game::F1_23::ParticipantInfo& rawInfo,
+NetCom::Adapter::F1_23::SessionStartBuilder::GetSingleParticipantData(const Packet::Game::F1_23::ParticipantInfo& rawInfo,
     const uint8_t& arrayIndex,
     const uint8_t& playerIndex) {
 
@@ -318,8 +318,8 @@ NetCom::Adapter::F1_23_SessionStartBuilder::GetSingleParticipantData(const Packe
     // Then the string will be empty and the game will be forced to "shorten" the username
     // 
     // NOTE: Problems with the shortening method may arise in the case of things like clan tags
-    auto driverIt = NetCom::Adapter::F1_23_DataConversionMaps::DRIVER_SHORTHAND_MAP.find(rawInfo.m_driverId);
-    if (driverIt != NetCom::Adapter::F1_23_DataConversionMaps::DRIVER_SHORTHAND_MAP.end() &&
+    auto driverIt = NetCom::Adapter::F1_23::DataConversionMaps::DRIVER_SHORTHAND_MAP.find(rawInfo.m_driverId);
+    if (driverIt != NetCom::Adapter::F1_23::DataConversionMaps::DRIVER_SHORTHAND_MAP.end() &&
         std::strcmp(driverIt->second, "")) {
         convertedInfo.m_shortName = ShortenDriverName(driverIt->second);
     }
@@ -329,8 +329,8 @@ NetCom::Adapter::F1_23_SessionStartBuilder::GetSingleParticipantData(const Packe
     convertedInfo.m_fullName = rawInfo.m_name;
 
     // Find team to be used as reference in UI
-    auto teamIt = NetCom::Adapter::F1_23_DataConversionMaps::TEAM_ID_MAP.find(rawInfo.m_teamId);
-    if (teamIt != NetCom::Adapter::F1_23_DataConversionMaps::TEAM_ID_MAP.end()) {
+    auto teamIt = NetCom::Adapter::F1_23::DataConversionMaps::TEAM_ID_MAP.find(rawInfo.m_teamId);
+    if (teamIt != NetCom::Adapter::F1_23::DataConversionMaps::TEAM_ID_MAP.end()) {
 
         convertedInfo.m_TeamIcon = teamIt->second;
 

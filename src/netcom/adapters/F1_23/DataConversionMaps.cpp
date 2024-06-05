@@ -8,7 +8,7 @@
 
 
 const std::map<Session::Game::F1_23::Track, Session::Internal::Track>
-NetCom::Adapter::F1_23_DataConversionMaps::TRACK_ID_MAP = {
+NetCom::Adapter::F1_23::DataConversionMaps::TRACK_ID_MAP = {
     { Session::Game::F1_23::Track::InvalidUnknown           , Session::Internal::Track::Unknown },
     { Session::Game::F1_23::Track::AUS_Melbourne            , Session::Internal::Track::AUS_Melbourne },
     { Session::Game::F1_23::Track::FRA_PaulRicard           , Session::Internal::Track::FRA_PaulRicard },
@@ -48,7 +48,7 @@ NetCom::Adapter::F1_23_DataConversionMaps::TRACK_ID_MAP = {
 
 
 const std::map<Participant::Game::F1_23::TeamID, Session::Internal::TeamID>
-NetCom::Adapter::F1_23_DataConversionMaps::TEAM_ID_MAP = {
+NetCom::Adapter::F1_23::DataConversionMaps::TEAM_ID_MAP = {
     { Participant::Game::F1_23::TeamID::Mercedes2023        , Session::Internal::TeamID::Mercedes },
     { Participant::Game::F1_23::TeamID::Ferrari2023         , Session::Internal::TeamID::Ferrari },
     { Participant::Game::F1_23::TeamID::RedBull2023         , Session::Internal::TeamID::RedBull },
@@ -109,7 +109,7 @@ NetCom::Adapter::F1_23_DataConversionMaps::TEAM_ID_MAP = {
 
 
 const std::map<Participant::Game::F1_23::DriverID, const char*>
-NetCom::Adapter::F1_23_DataConversionMaps::DRIVER_SHORTHAND_MAP = {
+NetCom::Adapter::F1_23::DataConversionMaps::DRIVER_SHORTHAND_MAP = {
     { Participant::Game::F1_23::DriverID::NetworkHuman              , "" },     // Deliberately empty
     { Participant::Game::F1_23::DriverID::CarlosSainz               , "SAI" },
     { Participant::Game::F1_23::DriverID::DaniilKvyat               , "KVY" },

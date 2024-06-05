@@ -6,6 +6,7 @@ add_executable(${PROJECT_NAME})
 
 add_subdirectory("${CMAKE_CURRENT_SOURCE_DIR}/src/core/" ${CMAKE_CURRENT_BINARY_DIR}/core)
 add_subdirectory("${CMAKE_CURRENT_SOURCE_DIR}/src/core/packets/game/F1_23" ${CMAKE_CURRENT_BINARY_DIR}/core/packets/game/F1_23)
+add_subdirectory("${CMAKE_CURRENT_SOURCE_DIR}/src/core/packets/game/F1_24" ${CMAKE_CURRENT_BINARY_DIR}/core/packets/game/F1_24)
 add_subdirectory("${CMAKE_CURRENT_SOURCE_DIR}/src/core/packets/internal" ${CMAKE_CURRENT_BINARY_DIR}/core/packets/internal)
 add_subdirectory("${CMAKE_CURRENT_SOURCE_DIR}/src/netcom/" ${CMAKE_CURRENT_BINARY_DIR}/netcom)
 add_subdirectory("${CMAKE_CURRENT_SOURCE_DIR}/src/processor/" ${CMAKE_CURRENT_BINARY_DIR}/processor)

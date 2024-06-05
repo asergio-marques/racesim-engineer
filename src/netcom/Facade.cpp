@@ -1,6 +1,7 @@
 #include "Facade.h"
 
 #include "adapters/F1_23/Facade.h"
+#include "adapters/F1_24/Facade.h"
 #include "listener/Director.h"
 #include "converter/PacketGeneralizer.h"
 
@@ -34,7 +35,8 @@ void NetCom::Facade::Init() {
     //if (getGame() == Settings::Game::F1_23) {
     if (true) {
 
-        m_gameAdapter = new NetCom::Adapter::F1_23::Facade;
+        // m_gameAdapter = new NetCom::Adapter::F1_23::Facade;
+        m_gameAdapter = new NetCom::Adapter::F1_24::Facade;
         if (m_gameAdapter && m_director && m_packetGeneralizer) {
 
             m_director->setGameAdapter(m_gameAdapter);

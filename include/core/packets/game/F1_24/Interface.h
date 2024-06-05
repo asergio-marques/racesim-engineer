@@ -1,8 +1,8 @@
-#ifndef PACKETS_GAME_F123_INCLUDE_INTERFACE_H_
-#define PACKETS_GAME_F123_INCLUDE_INTERFACE_H_
+#ifndef PACKETS_GAME_F124_INCLUDE_INTERFACE_H_
+#define PACKETS_GAME_F124_INCLUDE_INTERFACE_H_
 
 #include <cstdint>
-#include "data/game/F1_23/Packet.h"
+#include "data/game/F1_24/Packet.h"
 #include "packets/game/Interface.h"
 
 
@@ -12,7 +12,7 @@ namespace Packet {
 
         class Helper;
 
-        namespace F1_23 {
+        namespace F1_24 {
 
             class Header;
 
@@ -29,7 +29,7 @@ namespace Packet {
                 virtual const Header* GetHeader() const;
 
                 // Returns the length of the packet in bytes, including header
-                virtual const Packet::Game::F1_23::LengthBytes GetLength() const;
+                virtual const Packet::Game::F1_24::LengthBytes GetLength() const;
 
                 #ifndef NDEBUG
                 virtual void Print() const override;
@@ -54,4 +54,4 @@ namespace Packet {
 
 }
 
-#endif  //  PACKETS_GAME_F123_INCLUDE_INTERFACE_H_
+#endif  //  PACKETS_GAME_F124_INCLUDE_INTERFACE_H_

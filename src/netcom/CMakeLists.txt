@@ -17,7 +17,10 @@ target_sources(${PROJECT_NAME} PRIVATE
     adapters/SessionStateMachine.cpp
     adapters/F1_23/Facade.cpp
     adapters/F1_23/DataConversionMaps.cpp
-    adapters/F1_23/SessionStartBuilder.cpp   
+    adapters/F1_23/SessionStartBuilder.cpp
+    adapters/F1_24/Facade.cpp
+    adapters/F1_24/DataConversionMaps.cpp
+    adapters/F1_24/SessionStartBuilder.cpp      
     listener/Director.cpp
     listener/SocketBase.cpp
     listener/UDPSocketWin64.cpp
@@ -27,6 +30,7 @@ target_sources(${PROJECT_NAME} PRIVATE
 target_link_libraries(${PROJECT_NAME} PRIVATE
     RaceSimEngineerCore
     RaceSimEngineerPacketsF123
+    RaceSimEngineerPacketsF124
     RaceSimEngineerPacketsInternal
 )
 

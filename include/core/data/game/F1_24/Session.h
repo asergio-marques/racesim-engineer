@@ -175,6 +175,16 @@ namespace Session::Game::F1_24 {
         InvalidUnknown  = 4
 
     };
+    
+    enum class SafetyCarAction : uint8_t {
+
+        Deployed        = 0,
+        ReturningToPits = 1,
+        ReturnComplete  = 2,
+        RaceRestart     = 3,
+        InvalidUnknown  = 4
+
+    };
 
     enum class RecoveryMode : uint8_t {
         

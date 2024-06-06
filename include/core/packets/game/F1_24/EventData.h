@@ -7,6 +7,7 @@
 #include <string>
 #include "data/game/F1_24/Event.h"
 #include "data/game/F1_24/Packet.h"
+#include "data/game/F1_24/Session.h"
 #include "packets/game/F1_24/Interface.h"
 
 namespace Packet {
@@ -147,6 +148,26 @@ namespace Packet {
                 uint8_t m_overtakenCarIndex;
 
             };
+
+            struct SafetyCarEvent {
+
+                // Type of safety car that triggered the event
+                Session::Game::F1_24::SafetyCar m_type;
+
+                // What action performed by the safety car triggered the event
+                Session::Game::F1_24::SafetyCarAction m_action;
+
+            };
+
+            struct CollisionEvent {
+
+                // Index of the first car involved in the collision
+                uint8_t m_collidingCar1Index;
+
+                // Index of the second car involved in the collision
+                uint8_t m_collidingCar2Index;
+
+            };
             #pragma pack(pop)
 
 
@@ -174,6 +195,8 @@ namespace Packet {
                 inline const FlashbackEvent& GetFlashbackData() const { return m_flashbackData; }
                 inline const ButtonEvent& GetButtonData() const { return m_buttonData; }
                 inline const OvertakeEvent& GetOvertakeData() const { return m_overtakeData; }
+                inline const SafetyCarEvent& GetSafetyCarData() const { return m_safetyCarData; }
+                inline const CollisionEvent& GetCollisionData() const { return m_collisionData; }
 
                 #ifndef NDEBUG
                 void Print() const override;
@@ -212,6 +235,10 @@ namespace Packet {
                 ButtonEvent m_buttonData;
 
                 OvertakeEvent m_overtakeData;
+
+                SafetyCarEvent m_safetyCarData;
+
+                CollisionEvent m_collisionData;
 
                 // Organized map that stores the relationship between the event code strings received
                 // from the game and the EventType enum

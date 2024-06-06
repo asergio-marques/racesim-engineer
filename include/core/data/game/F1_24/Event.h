@@ -28,7 +28,9 @@ namespace Event::F1_24 {
         FlashbackActivated  = 16,
         ButtonStatus        = 17,
         RedFlagWaved        = 18,
-        OvertakePerformed   = 19
+        OvertakePerformed   = 19,
+        SafetyCarActivated  = 20,
+        CollisionOccurred   = 21
 
     };
 

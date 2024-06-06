@@ -33,7 +33,9 @@ std::map<std::string, Event::F1_24::Type> Packet::Game::F1_24::EventData::m_even
     { std::string("FLBK"), Event::F1_24::Type::FlashbackActivated },
     { std::string("BUTN"), Event::F1_24::Type::ButtonStatus },
     { std::string("RDFL"), Event::F1_24::Type::RedFlagWaved },
-    { std::string("OVTK"), Event::F1_24::Type::OvertakePerformed }
+    { std::string("OVTK"), Event::F1_24::Type::OvertakePerformed },
+    { std::string("SCAR"), Event::F1_24::Type::SafetyCarActivated },
+    { std::string("COLL"), Event::F1_24::Type::CollisionOccurred }
 
 };
 
@@ -53,7 +55,9 @@ Packet::Game::F1_24::EventData::EventData(const char* packetInfo, const Packet::
     m_stopGoPenaltyServedData(),
     m_flashbackData(),
     m_buttonData(),
-    m_overtakeData() {
+    m_overtakeData(),
+    m_safetyCarData(),
+    m_collisionData() {
 
     this->SetHeader(header);
 
@@ -192,6 +196,14 @@ void Packet::Game::F1_24::EventData::BuildPacket(const char* packetInfo, Packet:
 
         case Event::F1_24::Type::OvertakePerformed:
             helper->getVariableFromByteStream<>(packetInfo, &m_overtakeData, arrayStatus);
+            break;
+
+        case Event::F1_24::Type::SafetyCarActivated:
+            helper->getVariableFromByteStream<>(packetInfo, &m_safetyCarData, arrayStatus);
+            break;
+
+        case Event::F1_24::Type::CollisionOccurred:
+            helper->getVariableFromByteStream<>(packetInfo, &m_collisionData, arrayStatus);
             break;
 
         default:

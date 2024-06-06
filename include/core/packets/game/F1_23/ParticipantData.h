@@ -51,7 +51,7 @@ namespace Packet {
                 // Whether the player has configured the online names to be displayed
                 bool m_showOnlineNames;
 
-                // 1 = Steam, 3 = PlayStation, 4 = Xbox, 6 = Origin, 255 = unknown
+                // Platform on which this participant is playing from
                 Player::Game::F1_23::Platform m_platform;
 
             };

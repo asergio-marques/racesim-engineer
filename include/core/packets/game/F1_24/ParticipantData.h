@@ -51,7 +51,10 @@ namespace Packet {
                 // Whether the player has configured the online names to be displayed
                 bool m_showOnlineNames;
 
-                // 1 = Steam, 3 = PlayStation, 4 = Xbox, 6 = Origin, 255 = unknown
+                // Tech level of this participant in F1 World
+                uint16_t m_techLevel;
+
+                // Platform on which this participant is playing from
                 Player::Game::F1_24::Platform m_platform;
 
             };

@@ -101,10 +101,6 @@ Packet::Game::Interface* NetCom::Adapter::F1_23::Facade::ProcessDatagram(const c
                 packet = new Packet::Game::F1_23::TyreSetData(datagram, header, new Packet::Game::Helper);
                 break;
 
-            case Packet::Game::F1_23::Type::MotionExtendedData:
-                // Packet ignored
-                break;
-
             default:
                 // TODO error handling
                 break;

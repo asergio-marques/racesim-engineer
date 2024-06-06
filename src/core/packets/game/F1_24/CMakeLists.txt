@@ -27,6 +27,7 @@ target_sources(${PROJECT_NAME} PRIVATE
     StandingsData.cpp
     CarDamageData.cpp
     SessionHistoryData.cpp
+    TimeTrialData.cpp
     TyreSetData.cpp)
 
 set_target_properties(${PROJECT_NAME}

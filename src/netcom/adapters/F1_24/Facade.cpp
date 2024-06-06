@@ -28,6 +28,7 @@
 #include "packets/game/F1_24/StandingsData.h"
 #include "packets/game/F1_24/CarDamageData.h"
 #include "packets/game/F1_24/SessionHistoryData.h"
+#include "packets/game/F1_24/TimeTrialData.h"
 #include "packets/game/F1_24/TyreSetData.h"
 
 
@@ -101,8 +102,8 @@ Packet::Game::Interface* NetCom::Adapter::F1_24::Facade::ProcessDatagram(const c
                 packet = new Packet::Game::F1_24::TyreSetData(datagram, header, new Packet::Game::Helper);
                 break;
 
-            case Packet::Game::F1_24::Type::MotionExtendedData:
-                // Packet ignored
+            case Packet::Game::F1_24::Type::TimeTrialData:
+                packet = new Packet::Game::F1_24::TimeTrialData(datagram, header, new Packet::Game::Helper);
                 break;
 
             default:

@@ -11,7 +11,8 @@
 
 Packet::Game::F1_24::CarSetupData::CarSetupData(const char* packetInfo, const Packet::Game::F1_24::Header* header, Packet::Game::Helper* helper) :
     Packet::Game::F1_24::Interface(),
-    m_carSetups() {
+    m_carSetups(),
+    m_nextFrontWingValuePlayer(0.0f) {
 
     this->SetHeader(header);
 
@@ -80,5 +81,6 @@ void Packet::Game::F1_24::CarSetupData::BuildPacket(const char* packetInfo, Pack
     // Start at the end of the header
     size_t arrayStatus = static_cast<size_t>(Packet::Game::F1_24::LengthBytes::Header);
     helper->getVariableArrayFromByteStream<>(packetInfo, m_carSetups, 22, arrayStatus);
+    helper->getVariableFromByteStream<>(packetInfo, &m_nextFrontWingValuePlayer, arrayStatus);
 
 }

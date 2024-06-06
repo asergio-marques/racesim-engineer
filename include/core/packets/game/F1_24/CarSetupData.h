@@ -67,6 +67,9 @@ namespace Packet {
                 // Front brake bias (percentage)
                 uint8_t m_frontBrakeBias;
 
+                // Engine braking application (percentage)
+                uint8_t m_engineBraking;
+
                 // Rear left tyre pressure (PSI)
                 float_t m_rearLeftTyrePressure;
 
@@ -112,6 +115,9 @@ namespace Packet {
 
                 // Setup data for all cars on track
                 CarSetupInfo m_carSetups[22];
+
+                // Value of front wing set to be used by the player's car after next pitstop
+                float_t m_nextFrontWingValuePlayer;
             };
 
         }

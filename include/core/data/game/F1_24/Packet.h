@@ -23,7 +23,8 @@ namespace Packet::Game::F1_24 {
         SessionHistoryData  = 11,
         TyreSetData         = 12,
         MotionExtendedData  = 13,   // To be ignored, unused
-        InvalidUnknown      = 14    // Additional error type
+        TimeTrialData       = 14,
+        InvalidUnknown      = 15    // Additional error type
 
     };
 
@@ -32,19 +33,20 @@ namespace Packet::Game::F1_24 {
         InvalidUnknown      = 0,        // Default error length
         Header              = 29,       // Constant, always at the start
         CarMotionData       = 1349,
-        SessionData         = 644,
-        LapData             = 1131,
+        SessionData         = 753,
+        LapData             = 1285,
         EventData           = 45,
-        ParticipantData     = 1306,
-        CarSetupData        = 1107,
+        ParticipantData     = 1350,
+        CarSetupData        = 1133,
         CarTelemetryData    = 1352,
         CarStatusData       = 1239,
         StandingsData       = 1020,
-        LobbyData           = 1218,     // To be ignored
+        LobbyData           = 1306,     // To be ignored
         CarDamageData       = 953,
         SessionHistoryData  = 1460,
         TyreSetData         = 231,
-        MotionExtendedData  = 217       // To be ignored
+        MotionExtendedData  = 237,      // To be ignored
+        TimeTrialData       = 101
         
     };
 

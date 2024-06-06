@@ -27,23 +27,29 @@ namespace Packet {
                 // Current time around the lap (milliseconds)
                 uint32_t m_currentLapTime;
 
-                // Sector 1 time (milliseconds)
-                uint16_t m_sector1TimeMS;
+                // Sector 1 time, remainder of a minute (as in, the X in 1:XX.XXX) (milliseconds)
+                uint16_t m_sector1TimeRemainderMS;
 
-                // Sector 1 time (only whole minute part)
+                // Sector 1 time, minute part (as in, the X in X:12.345) (minutes)
                 uint8_t m_sector1TimeMin;
 
-                // Sector 2 time (milliseconds)
-                uint16_t m_sector2TimeMS;
+                // Sector 2 time, remainder of a minute (as in, the X in 1:XX.XXX) (milliseconds)
+                uint16_t m_sector2TimeRemainderMS;
 
-                // Sector 2 time (only whole minute part)
-                uint8_t m_sector2TimeInMins;
+                // Sector 2 time, minute part (as in, the X in X:12.345) (minutes)
+                uint8_t m_sector2TimeMin;
 
-                // Time delta to car in front (milliseconds)
-                uint16_t m_deltaCarFront;
+                // Time delta to car in front, remainder of a minute (as in, the X in 1:XX.XXX) (milliseconds)
+                uint16_t m_deltaCarFrontRemainderMS;
 
-                // Time delta to race leader (milliseconds)
-                uint16_t m_deltaRaceLeader;
+                // Time delta to car in front, minute part (as in, the X in X:12.345) (minutes)
+                uint8_t m_deltaCarFrontMin;
+
+                // Time delta to race leader, remainder of a minute (as in, the X in 1:XX.XXX) (milliseconds)
+                uint16_t m_deltaRaceLeaderRemainderMS;
+
+                // Time delta to race leader, minute part (as in, the X in X:12.345) (minutes)
+                uint8_t m_deltaRaceLeaderMin;
 
                 // Track distance the vehicle has travelled in the current lap (meters)
                 // Could be negative if start line has yet to be crossed
@@ -109,6 +115,12 @@ namespace Packet {
 
                 // Whether the car is to serve a penalty at the current pitstop
                 bool m_shouldServePen;
+
+                // Fastest speed achieved at speed trap for the current car (km/h)
+                float_t m_speedTrapFastestSpeed;
+
+                // Lap at which the fastest speed at the trap was achieved (255 if not set)
+                uint8_t m_lapFastestSpeedTrapSet;
 
             };
             #pragma pack(pop)

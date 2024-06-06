@@ -22,22 +22,22 @@ namespace Packet {
                 // Lap time (milliseconds)
                 uint32_t m_lapTime;
 
-                // Sector 1 time (milliseconds)
-                uint16_t m_sector1TimeMS;
+                // Sector 1 time, remainder of a minute (as in, the X in 1:XX.XXX) (milliseconds)
+                uint16_t m_sector1TimeRemainderMS;
 
-                // Sector 1 time (whole minute)
+                // Sector 1 time, minute part (as in, the X in X:12.345) (minutes)
                 uint8_t m_sector1TimeMin;
 
-                // Sector 2 time (milliseconds)
-                uint16_t m_sector2TimeMS;
+                // Sector 2 time, remainder of a minute (as in, the X in 1:XX.XXX) (milliseconds)
+                uint16_t m_sector2TimeRemainderMS;
 
-                // Sector 2 time (whole minute)
+                // Sector 2 time, minute part (as in, the X in X:12.345) (minutes)
                 uint8_t m_sector2TimeMin;
 
-                // Sector 3 time (milliseconds)
-                uint16_t m_sector3TimeMS;
+                // Sector 3 time, remainder of a minute (as in, the X in 1:XX.XXX) (milliseconds)
+                uint16_t m_sector3TimeRemainderMS;
 
-                // Sector 3 time (whole minute)
+                // Sector 3 time, minute part (as in, the X in X:12.345) (minutes)
                 uint8_t m_sector3TimeMin;
 
                 // Bitmasked indicator of lap and sector validity

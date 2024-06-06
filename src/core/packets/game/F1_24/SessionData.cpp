@@ -62,7 +62,35 @@ Packet::Game::F1_24::SessionData::SessionData(const char* packetInfo, const Pack
     m_tempUnitPlayer2(Player::Game::F1_24::TempUnit::InvalidUnknown),
     m_numSafetyCarPeriods(0),
     m_numVirtualSafetyCarPeriods(0),
-    m_numRedFlagPeriods(0) {
+    m_numRedFlagPeriods(0),
+    m_equalCarPerformanceOn(0),
+    m_recoveryMode(Session::Game::F1_24::RecoveryMode::InvalidUnknown),
+    m_flashbackLimit(Session::Game::F1_24::FlashbackLimit::InvalidUnknown),
+    m_surfaceTypeRealistic(0),
+    m_lowFuelModeHard(0),
+    m_raceStartMode(0),
+    m_tyreTemperatureComplex(0),
+    m_pitLaneTyreSimOn(0),
+    m_carDamage(Session::Game::F1_24::EventRate4State::InvalidUnknown),
+    m_carDamageRate(Session::Game::F1_24::EventRate3State::InvalidUnknown),
+    m_collisions(Session::Game::F1_24::CollisionSetting::InvalidUnknown),
+    m_collisionsOffForFirstLapOnly(0),
+    m_mpUnsafePitReleaseOff(0),
+    m_mpCollisionOffForGriefing(0),
+    m_cornerCuttingStringencyStrict(0),
+    m_parcFermeOn(0),
+    m_pitStopSetting(Session::Game::F1_24::ExperienceSetting::InvalidUnknown),
+    m_safetyCarRate(Session::Game::F1_24::EventRate4State::InvalidUnknown),
+    m_safetyCarAIDriven(0),
+    m_formationLapOn(0),
+    m_formationLapAIDriven(0),
+    m_redFlagRate(Session::Game::F1_24::EventRate4State::InvalidUnknown),
+    m_affectsLicenceLevelSolo(0),
+    m_affectsLicenceLevelMP(0),
+    m_numSessionsInWeekend(0),
+    m_weekendStructure(),
+    m_sector2LapDistanceStart(0),
+    m_sector3LapDistanceStart(0) {
 
     this->SetHeader(header);
 
@@ -162,5 +190,33 @@ void Packet::Game::F1_24::SessionData::BuildPacket(const char* packetInfo, Packe
     helper->getVariableFromByteStream<>(packetInfo, &m_numSafetyCarPeriods, arrayStatus);
     helper->getVariableFromByteStream<>(packetInfo, &m_numVirtualSafetyCarPeriods, arrayStatus);
     helper->getVariableFromByteStream<>(packetInfo, &m_numRedFlagPeriods, arrayStatus);
+    helper->getVariableFromByteStream<>(packetInfo, &m_equalCarPerformanceOn, arrayStatus);
+    helper->getVariableFromByteStream<>(packetInfo, &m_recoveryMode, arrayStatus);
+    helper->getVariableFromByteStream<>(packetInfo, &m_flashbackLimit, arrayStatus);
+    helper->getVariableFromByteStream<>(packetInfo, &m_surfaceTypeRealistic, arrayStatus);
+    helper->getVariableFromByteStream<>(packetInfo, &m_lowFuelModeHard, arrayStatus);
+    helper->getVariableFromByteStream<>(packetInfo, &m_raceStartMode, arrayStatus);
+    helper->getVariableFromByteStream<>(packetInfo, &m_tyreTemperatureComplex, arrayStatus);
+    helper->getVariableFromByteStream<>(packetInfo, &m_pitLaneTyreSimOn, arrayStatus);
+    helper->getVariableFromByteStream<>(packetInfo, &m_carDamage, arrayStatus);
+    helper->getVariableFromByteStream<>(packetInfo, &m_carDamageRate, arrayStatus);
+    helper->getVariableFromByteStream<>(packetInfo, &m_collisions, arrayStatus);
+    helper->getVariableFromByteStream<>(packetInfo, &m_collisionsOffForFirstLapOnly, arrayStatus);
+    helper->getVariableFromByteStream<>(packetInfo, &m_mpUnsafePitReleaseOff, arrayStatus);
+    helper->getVariableFromByteStream<>(packetInfo, &m_mpCollisionOffForGriefing, arrayStatus);
+    helper->getVariableFromByteStream<>(packetInfo, &m_cornerCuttingStringencyStrict, arrayStatus);
+    helper->getVariableFromByteStream<>(packetInfo, &m_parcFermeOn, arrayStatus);
+    helper->getVariableFromByteStream<>(packetInfo, &m_pitStopSetting, arrayStatus);
+    helper->getVariableFromByteStream<>(packetInfo, &m_safetyCarRate, arrayStatus);
+    helper->getVariableFromByteStream<>(packetInfo, &m_safetyCarAIDriven, arrayStatus);
+    helper->getVariableFromByteStream<>(packetInfo, &m_formationLapOn, arrayStatus);
+    helper->getVariableFromByteStream<>(packetInfo, &m_formationLapAIDriven, arrayStatus);
+    helper->getVariableFromByteStream<>(packetInfo, &m_redFlagRate, arrayStatus);
+    helper->getVariableFromByteStream<>(packetInfo, &m_affectsLicenceLevelSolo, arrayStatus);
+    helper->getVariableFromByteStream<>(packetInfo, &m_affectsLicenceLevelMP, arrayStatus);
+    helper->getVariableFromByteStream<>(packetInfo, &m_numSessionsInWeekend, arrayStatus);
+    helper->getVariableArrayFromByteStream<>(packetInfo, m_weekendStructure, 12, arrayStatus);
+    helper->getVariableFromByteStream<>(packetInfo, &m_sector2LapDistanceStart, arrayStatus);
+    helper->getVariableFromByteStream<>(packetInfo, &m_sector3LapDistanceStart, arrayStatus);
 
 }

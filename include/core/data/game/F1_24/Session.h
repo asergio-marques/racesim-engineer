@@ -49,32 +49,37 @@ namespace Session::Game::F1_24 {
 
         F1_Modern       = 0,
         F1_Classic      = 1,
-        F2_2022         = 2,
+        F2              = 2,
         F1_Generic      = 3,
         Beta            = 4,
-        Supercars       = 5,
         Esports         = 6,
-        F2_2021         = 7,
-        InvalidUnknown  = 8
+        F1_World        = 8,
+        F1_Elimination  = 9,
+        InvalidUnknown  = 10
 
     };
 
     enum class Type : uint8_t {
 
-        InvalidUnknown      = 0,
-        FreePractice1       = 1,
-        FreePractice2       = 2,
-        FreePractice3       = 3,
-        ShortPractice       = 4,
-        Qualifying1         = 5,
-        Qualifying2         = 6,
-        Qualifying3         = 7,
-        ShortQualifying     = 8,
-        OneShotQualifying   = 9,
-        Race1               = 10,
-        Race2               = 11,
-        Race3               = 12,
-        TimeTrial           = 13
+        InvalidUnknown          = 0,
+        FreePractice1           = 1,
+        FreePractice2           = 2,
+        FreePractice3           = 3,
+        ShortPractice           = 4,
+        Qualifying1             = 5,
+        Qualifying2             = 6,
+        Qualifying3             = 7,
+        ShortQualifying         = 8,
+        OneShotQualifying       = 9,
+        SprintShootout1         = 10,
+        SprintShootout2         = 11,
+        SprintShootout3         = 12,
+        ShortSprintShootout     = 13,
+        OneShotSprintShootout   = 14,
+        Race1                   = 15,
+        Race2                   = 16,
+        Race3                   = 17,
+        TimeTrial               = 18
 
     };
 
@@ -168,6 +173,62 @@ namespace Session::Game::F1_24 {
         Virtual         = 2,
         FormationLap    = 3,
         InvalidUnknown  = 4
+
+    };
+
+    enum class RecoveryMode : uint8_t {
+        
+        None            = 0,
+        Flashback       = 1,
+        AutoReset       = 2,
+        InvalidUnknown  = 3
+
+    };
+
+    enum class FlashbackLimit : uint8_t {
+        
+        Low             = 0,
+        Medium          = 1,
+        High            = 2,
+        Unlimited       = 3,
+        InvalidUnknown  = 4
+
+    };
+
+    enum class EventRate3State: uint8_t {
+
+        Reduced         = 0,
+        Standard        = 1,
+        Increased       = 2,
+        InvalidUnknown  = 3
+
+    };
+
+    enum class EventRate4State : uint8_t {
+        
+        Off             = 0,
+        Reduced         = 1,
+        Standard        = 2,
+        Increased       = 3,
+        InvalidUnknown  = 4
+
+    };
+
+    enum class CollisionSetting : uint8_t {
+
+        Off             = 0,
+        OffP2P          = 1,
+        On              = 2,
+        InvalidUnknown  = 3
+
+    };
+
+    enum class ExperienceSetting : uint8_t {
+
+        Automatic       = 0,
+        Broadcast       = 1,
+        Immersive       = 2,
+        InvalidUnknown  = 3
 
     };
 

@@ -25,7 +25,11 @@ namespace Session::Game::F1_24 {
         Career_22               = 19,
         Online_Career_22        = 20,
         Career_23               = 21,
-        Online_Career_23        = 22, 
+        Online_Career_23        = 22,
+        Career_24               = 23,
+        Online_Career_24        = 24,
+        MyTeam_Career_24        = 25,
+        RealLife_Career_24      = 26,
         Benchmark               = 127,
         InvalidUnknown          = 255
 

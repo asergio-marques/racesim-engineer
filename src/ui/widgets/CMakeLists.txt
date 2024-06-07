@@ -50,6 +50,7 @@ target_sources(${PROJECT_NAME} PRIVATE
 
 target_link_libraries(${PROJECT_NAME} PRIVATE
     RaceSimEngineerCore
+    RaceSimEngineerPacketsInternal
     Qt6::Core
     Qt6::Widgets
 )
@@ -79,6 +80,8 @@ qt_add_resources(${PROJECT_NAME} "ui_elements"
         ../resources/img/teams/MercedesLogo.png
         ../resources/img/teams/RedBullLogo.png
         ../resources/img/teams/WilliamsLogo.png
+        ../resources/img/teams/VCARBLogo.png
+        ../resources/img/teams/KickLogo.png
         ../resources/fonts/static/Manrope-Regular.ttf
         ../resources/fonts/static/Manrope-Bold.ttf
         ../resources/fonts/static/Manrope-ExtraBold.ttf

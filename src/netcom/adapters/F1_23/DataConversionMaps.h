@@ -12,13 +12,17 @@ namespace NetCom {
 
     namespace Adapter {
 
-        struct F1_23_DataConversionMaps {
+        namespace F1_23 {
 
-            static const std::map<Session::Game::F1_23::Track, Session::Internal::Track> TRACK_ID_MAP;
-            static const std::map<Participant::Game::F1_23::TeamID, Session::Internal::TeamID> TEAM_ID_MAP;
-            static const std::map<Participant::Game::F1_23::DriverID, const char*> DRIVER_SHORTHAND_MAP;
+            struct DataConversionMaps {
 
-        };
+                static const std::map<Session::Game::F1_23::Track, Session::Internal::Track> TRACK_ID_MAP;
+                static const std::map<Participant::Game::F1_23::TeamID, Session::Internal::TeamID> TEAM_ID_MAP;
+                static const std::map<Participant::Game::F1_23::DriverID, const char*> DRIVER_SHORTHAND_MAP;
+
+            };
+
+        }
 
     }
 

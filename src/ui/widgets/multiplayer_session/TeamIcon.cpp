@@ -20,7 +20,9 @@ const QMap<Session::Internal::TeamID, QString> UserInterface::Widget::TeamIcon::
     { Session::Internal::TeamID::McLaren,       ":img/teams/McLarenLogo.png" },
     { Session::Internal::TeamID::Mercedes,      ":img/teams/MercedesLogo.png" },
     { Session::Internal::TeamID::RedBull,       ":img/teams/RedBullLogo.png" },
-    { Session::Internal::TeamID::Williams,      ":img/teams/WilliamsLogo.png" }
+    { Session::Internal::TeamID::Williams,      ":img/teams/WilliamsLogo.png" },
+    { Session::Internal::TeamID::KickSauber,    ":img/teams/KickLogo.png" },
+    { Session::Internal::TeamID::VCARB,         ":img/teams/VCARBLogo.png" }
 
 };
 

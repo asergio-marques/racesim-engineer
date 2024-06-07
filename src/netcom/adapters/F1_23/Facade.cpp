@@ -1,4 +1,4 @@
-#include "adapters/F1_23.h"
+#include "adapters/F1_23/Facade.h"
 
 #include <vector>
 #include "adapters/SessionStateMachine.h"
@@ -32,14 +32,14 @@
 
 
 
-NetCom::Adapter::F1_23::F1_23() :
+NetCom::Adapter::F1_23::Facade::Facade() :
     m_sessionSM() {
 
 }
 
 
 
-Packet::Game::Interface* NetCom::Adapter::F1_23::ProcessDatagram(const char* datagram) {
+Packet::Game::Interface* NetCom::Adapter::F1_23::Facade::ProcessDatagram(const char* datagram) {
 
     // Generate F1 23 packet header
     Packet::Game::F1_23::Header* header = new Packet::Game::F1_23::Header(datagram, new Packet::Game::Helper);
@@ -101,10 +101,6 @@ Packet::Game::Interface* NetCom::Adapter::F1_23::ProcessDatagram(const char* dat
                 packet = new Packet::Game::F1_23::TyreSetData(datagram, header, new Packet::Game::Helper);
                 break;
 
-            case Packet::Game::F1_23::Type::MotionExtendedData:
-                // Packet ignored
-                break;
-
             default:
                 // TODO error handling
                 break;
@@ -121,7 +117,7 @@ Packet::Game::Interface* NetCom::Adapter::F1_23::ProcessDatagram(const char* dat
 
 
 
-std::vector<Packet::Internal::Interface*> NetCom::Adapter::F1_23::ConvertPacket(const Packet::Game::Interface* packet) {
+std::vector<Packet::Internal::Interface*> NetCom::Adapter::F1_23::Facade::ConvertPacket(const Packet::Game::Interface* packet) {
 
     if (!packet) {
 
@@ -180,7 +176,7 @@ std::vector<Packet::Internal::Interface*> NetCom::Adapter::F1_23::ConvertPacket(
 
 
 
-std::vector<Packet::Internal::Interface*> NetCom::Adapter::F1_23::ConvertLapDataPacket(const Packet::Game::F1_23::LapData* inputPacket) {
+std::vector<Packet::Internal::Interface*> NetCom::Adapter::F1_23::Facade::ConvertLapDataPacket(const Packet::Game::F1_23::LapData* inputPacket) {
 
     if (!inputPacket || !(inputPacket->GetHeader())) {
 
@@ -246,7 +242,7 @@ std::vector<Packet::Internal::Interface*> NetCom::Adapter::F1_23::ConvertLapData
 
 
 
-std::vector<Packet::Internal::Interface*> NetCom::Adapter::F1_23::ConvertEventDataPacket(const Packet::Game::F1_23::EventData* inputPacket) {
+std::vector<Packet::Internal::Interface*> NetCom::Adapter::F1_23::Facade::ConvertEventDataPacket(const Packet::Game::F1_23::EventData* inputPacket) {
 
     if (!inputPacket) {
 
@@ -284,7 +280,7 @@ std::vector<Packet::Internal::Interface*> NetCom::Adapter::F1_23::ConvertEventDa
 }
 
 
-std::vector<Packet::Internal::Interface*> NetCom::Adapter::F1_23::ConvertSessionDataPacket(const Packet::Game::F1_23::SessionData* inputPacket) {
+std::vector<Packet::Internal::Interface*> NetCom::Adapter::F1_23::Facade::ConvertSessionDataPacket(const Packet::Game::F1_23::SessionData* inputPacket) {
 
     if (!inputPacket) {
 
@@ -312,7 +308,7 @@ std::vector<Packet::Internal::Interface*> NetCom::Adapter::F1_23::ConvertSession
 }
 
 
-std::vector<Packet::Internal::Interface*> NetCom::Adapter::F1_23::ConvertParticipantDataPacket(const Packet::Game::F1_23::ParticipantData* inputPacket) {
+std::vector<Packet::Internal::Interface*> NetCom::Adapter::F1_23::Facade::ConvertParticipantDataPacket(const Packet::Game::F1_23::ParticipantData* inputPacket) {
 
     if (!inputPacket) {
 

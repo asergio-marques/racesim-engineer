@@ -1,5 +1,6 @@
 #include "adapters/F1_23/Facade.h"
 
+#include <limits>
 #include <vector>
 #include "adapters/SessionStateMachine.h"
 #include "data/game/F1_23/Event.h"
@@ -259,6 +260,8 @@ std::vector<Packet::Internal::Interface*> NetCom::Adapter::F1_23::Facade::Conver
             lapData.m_sectorTimes = { lapInfo.m_sector1TimeMS,
                                     lapInfo.m_sector2TimeMS,
                                     sector3TimeMS };
+            // filter for negative values as that may happen
+            lapData.m_lapDistanceRun = (lapInfo.m_lapDistance > std::numeric_limits<float_t>::epsilon() ? lapInfo.m_lapDistance : 0.0f);
             lapPacket->InsertData(lapData);
 
         }

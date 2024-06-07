@@ -1,5 +1,6 @@
 #include "adapters/F1_24/Facade.h"
 
+#include <limits>
 #include <vector>
 #include "adapters/SessionStateMachine.h"
 #include "data/game/F1_24/Event.h"
@@ -9,6 +10,7 @@
 #include "packets/internal/Interface.h"
 #include "packets/internal/multi_use/SessionEnd.h"
 #include "packets/internal/multi_use/ParticipantStatus.h"
+#include "packets/internal/multi_use/LapStatus.h"
 #include "packets/internal/race_types/RaceStart.h"
 #include "packets/internal/race_types/RaceStandings.h"
 #include "packets/internal/race_types/PenaltyStatus.h"
@@ -200,6 +202,7 @@ std::vector<Packet::Internal::Interface*> NetCom::Adapter::F1_24::Facade::Conver
     Packet::Internal::RaceStandings* standingsPacket = new Packet::Internal::RaceStandings(inputPacket->GetHeader()->GetFrameIdentifier());
     Packet::Internal::PenaltyStatus* penaltiesPacket = new Packet::Internal::PenaltyStatus(inputPacket->GetHeader()->GetFrameIdentifier());
     Packet::Internal::ParticipantStatus* statusPacket = new Packet::Internal::ParticipantStatus(inputPacket->GetHeader()->GetFrameIdentifier());
+    Packet::Internal::LapStatus* lapPacket = new Packet::Internal::LapStatus(inputPacket->GetHeader()->GetFrameIdentifier());
     for (size_t i = 0; i < 22; ++i) {
 
         bool ok = false;
@@ -237,11 +240,38 @@ std::vector<Packet::Internal::Interface*> NetCom::Adapter::F1_24::Facade::Conver
 
             statusPacket->InsertData(i, status);
 
+            // Current lap data packet
+            Packet::Internal::LapStatus::Data lapData;
+            lapData.m_driverID = i;
+            lapData.m_lapID = lapInfo.m_currentLapNum;
+            lapData.m_status = lapInfo.m_currentLapInvalid ? Lap::Internal::Status::Invalid : Lap::Internal::Status::Valid;
+            switch (lapInfo.m_status) {
+                case Lap::Game::F1_24::VehicleStatus::OutLap:
+                    lapData.m_type = Lap::Internal::Type::OutLap;
+                    break;
+                case Lap::Game::F1_24::VehicleStatus::InLap:
+                    lapData.m_type = Lap::Internal::Type::InLap;
+                    break;
+                case Lap::Game::F1_24::VehicleStatus::FlyingLap:
+                case Lap::Game::F1_24::VehicleStatus::OnTrack:
+                    lapData.m_type = Lap::Internal::Type::FlyingLap;
+                    break;
+                default:
+                    lapData.m_type = Lap::Internal::Type::InvalidUnknown;
+            }
+            auto sector1TimeMS = (lapInfo.m_sector1TimeMin * 60 * 1000) + lapInfo.m_sector1TimeRemainderMS;
+            auto sector2TimeMS = (lapInfo.m_sector2TimeMin * 60 * 1000) + lapInfo.m_sector2TimeRemainderMS;
+            auto sector3TimeMS = lapInfo.m_currentLapTime - sector1TimeMS - sector2TimeMS;
+            lapData.m_sectorTimes = { sector1TimeMS, sector2TimeMS, sector3TimeMS };
+            // filter for negative values as that may happen
+            lapData.m_lapDistanceRun = (lapInfo.m_lapDistance > std::numeric_limits<float_t>::epsilon() ? lapInfo.m_lapDistance : 0.0f);
+            lapPacket->InsertData(lapData);
+
         }
 
     }
 
-    return { standingsPacket, penaltiesPacket, statusPacket };
+    return { standingsPacket, penaltiesPacket, statusPacket, lapPacket };
 
 }
 

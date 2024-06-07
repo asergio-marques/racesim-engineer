@@ -1,9 +1,7 @@
 #include "listener/Director.h"
 
 #include <functional>
-#include <iostream>
 #include "adapters/Interface.h"
-#include "adapters/F1_23.h"
 #include "packets/game/Broadcaster.h"
 #include "packets/game/Interface.h"
 #include "listener/ISocket.h"

@@ -1,11 +1,11 @@
-#ifndef PACKETS_GAME_F123_INCLUDE_PARTICIPANT_DATA_H_
-#define PACKETS_GAME_F123_INCLUDE_PARTICIPANT_DATA_H_
+#ifndef PACKETS_GAME_F124_INCLUDE_PARTICIPANT_DATA_H_
+#define PACKETS_GAME_F124_INCLUDE_PARTICIPANT_DATA_H_
 
 #include <cstdint>
-#include "data/game/F1_23/Packet.h"
-#include "data/game/F1_23/Participant.h"
-#include "data/game/F1_23/Player.h"
-#include "packets/game/F1_23/Interface.h"
+#include "data/game/F1_24/Packet.h"
+#include "data/game/F1_24/Participant.h"
+#include "data/game/F1_24/Player.h"
+#include "packets/game/F1_24/Interface.h"
 
 namespace Packet {
 
@@ -13,7 +13,7 @@ namespace Packet {
 
         class Helper;
 
-        namespace F1_23 {
+        namespace F1_24 {
 
             class Header;
 
@@ -24,13 +24,13 @@ namespace Packet {
                 uint8_t m_aiControlled;
 
                 // Driver ID for this vehicle
-                Participant::Game::F1_23::DriverID m_driverId;
+                Participant::Game::F1_24::DriverID m_driverId;
 
                 // Unique network identifier for this player
                 uint8_t m_networkId;
 
                 // Team ID for this vehicle
-                Participant::Game::F1_23::TeamID m_teamId;
+                Participant::Game::F1_24::TeamID m_teamId;
 
                 // Whether the vehicle is a My Team vehicle
                 bool m_myTeam;
@@ -39,7 +39,7 @@ namespace Packet {
                 uint8_t m_raceNumber;
 
                 // Vehicle driver nationality
-                Participant::Game::F1_23::Nationality m_nationality;
+                Participant::Game::F1_24::Nationality m_nationality;
 
                 // Name of the participant, null terminated (UTF-8 format)
                 // Will be truncated with … (U+2026) if too long
@@ -51,25 +51,28 @@ namespace Packet {
                 // Whether the player has configured the online names to be displayed
                 bool m_showOnlineNames;
 
+                // Tech level of this participant in F1 World
+                uint16_t m_techLevel;
+
                 // Platform on which this participant is playing from
-                Player::Game::F1_23::Platform m_platform;
+                Player::Game::F1_24::Platform m_platform;
 
             };
             #pragma pack(pop)
 
 
 
-            class ParticipantData final : public Packet::Game::F1_23::Interface {
+            class ParticipantData final : public Packet::Game::F1_24::Interface {
 
                 public:
                 ParticipantData(const char* packetInfo, const Header* header, Packet::Game::Helper* helper);
                 ~ParticipantData() = default;
 
                 // Returns the length of the packet in bytes, including header
-                const Packet::Game::F1_23::LengthBytes GetLength() const override;
+                const Packet::Game::F1_24::LengthBytes GetLength() const override;
 
                 // Get the lap data for a specific array member
-                const Packet::Game::F1_23::ParticipantInfo GetParticipantInfo(const size_t index, bool& ok) const;
+                const Packet::Game::F1_24::ParticipantInfo GetParticipantInfo(const size_t index, bool& ok) const;
 
                 inline const uint8_t GetNumActiveCars() const { return m_numActiveCars; }
 
@@ -85,7 +88,7 @@ namespace Packet {
                 uint8_t m_numActiveCars;
 
                 // Lap data for all cars on track
-                Packet::Game::F1_23::ParticipantInfo m_participants[22];
+                Packet::Game::F1_24::ParticipantInfo m_participants[22];
 
             };
 
@@ -96,4 +99,4 @@ namespace Packet {
 
 }
 
-#endif // PACKETS_GAME_F123_INCLUDE_PARTICIPANT_DATA_H_
+#endif // PACKETS_GAME_F124_INCLUDE_PARTICIPANT_DATA_H_

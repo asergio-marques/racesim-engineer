@@ -256,9 +256,9 @@ std::vector<Packet::Internal::Interface*> NetCom::Adapter::F1_23::Facade::Conver
                 default:
                     lapData.m_type = Lap::Internal::Type::InvalidUnknown;
             }
-            auto sector3TimeMS = lapInfo.m_currentLapTime - lapInfo.m_sector1TimeMS - lapInfo.m_sector2TimeMS;
-            lapData.m_sectorTimes = { lapInfo.m_sector1TimeMS,
-                                    lapInfo.m_sector2TimeMS,
+            uint32_t sector3TimeMS = lapInfo.m_currentLapTime - lapInfo.m_sector1TimeMS - lapInfo.m_sector2TimeMS;
+            lapData.m_sectorTimes = { static_cast<uint32_t>(lapInfo.m_sector1TimeMS),
+                                    static_cast<uint32_t>(lapInfo.m_sector2TimeMS),
                                     sector3TimeMS };
             // filter for negative values as that may happen
             lapData.m_lapDistanceRun = (lapInfo.m_lapDistance > std::numeric_limits<float_t>::epsilon() ? lapInfo.m_lapDistance : 0.0f);

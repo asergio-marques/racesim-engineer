@@ -1,6 +1,7 @@
 #include "data/DriverState.h"
 
 #include <cstdint>
+#include <map>
 #include <vector>
 #include "data/holders/LapInfo.h"
 #include "data/holders/WarningPenaltyData.h"
@@ -17,7 +18,6 @@ Processor::Data::DriverState::DriverState(const uint8_t id, const uint8_t starti
     m_id(id),
     m_posTimeData(startingPosition),
     m_warnPenData(),
-    m_laps(),
     m_installedOvertakeDetector(nullptr),
     m_installedPenWarnDetector(nullptr),
     m_installedStatusDetector(nullptr) {
@@ -136,6 +136,60 @@ void Processor::Data::DriverState::updateStatus(const Participant::Internal::Sta
 
         // Feed to detector
         m_installedStatusDetector->AddStatusChange(m_id, status);
+
+    }
+
+}
+
+
+void Processor::Data::DriverState::updateLap(const uint8_t lapID, const Lap::Internal::Type type,
+    const Lap::Internal::Status status, const std::vector<Lap::Internal::Time> sectorTimes,
+    const float_t lapDistanceRun, const Lap::Internal::Time previousLapTime) {
+
+    // new entry creation should always happen if the map is empty
+    bool createNew = m_lapData.m_laps.empty();
+
+    // First find the lap with the same ID, alter it
+    auto it = m_lapData.m_laps.find(lapID);
+    if (it != m_lapData.m_laps.end()) {
+
+        auto& lap = it->second;
+        if (!lap.m_isFinished) {
+
+            lap.m_sector1Time = sectorTimes.at(0);
+            lap.m_sector2Time = sectorTimes.at(1);
+            lap.m_sector3Time = sectorTimes.at(2);
+            lap.m_totalLapTime = lap.m_sector1Time + lap.m_sector2Time + lap.m_sector3Time;
+            lap.m_status = status;
+            lap.m_distanceFulfilled = lapDistanceRun;
+
+        }
+
+    }
+    // If unsuccessful, find the previous lap
+    // If still unsuccessful, then it's the first lap so we need to create an entry
+    else if ((it = m_lapData.m_laps.find(lapID - 1)) != m_lapData.m_laps.end()) {
+        
+        createNew = true;
+        auto& finishedLap = it->second;
+        finishedLap.m_isFinished = true;
+        finishedLap.m_totalLapTime = previousLapTime;
+        finishedLap.m_sector3Time = finishedLap.m_totalLapTime - finishedLap.m_sector1Time - finishedLap.m_sector2Time;
+
+        // TODO send info about previous lap to detectors
+
+    }
+    if (createNew) {
+
+        Processor::Data::LapInfo lap;
+        lap.m_lapId = lapID;
+        lap.m_sector1Time = sectorTimes.at(0);
+        lap.m_sector2Time = sectorTimes.at(1);
+        lap.m_sector3Time = sectorTimes.at(2);
+        lap.m_totalLapTime = lap.m_sector1Time + lap.m_sector2Time + lap.m_sector3Time;
+        lap.m_status = status;
+        lap.m_distanceFulfilled = lapDistanceRun;
+        m_lapData.m_laps.emplace(lap.m_lapId, lap);
 
     }
 

@@ -34,6 +34,9 @@ namespace Packet {
                 // Whether the lap has been invalidated (or not) or if it's a simple cooldown lap in between pushlaps
                 Lap::Internal::Status m_status;
 
+                // Time for a run around the track for the lap previous to the current one
+                Lap::Internal::Time m_previousLapTime;
+
                 // Container for the times for each mini-sector of the track (0 = mini-sector 1, 1 = mini-sector 2...)
                 std::vector<Lap::Internal::Time> m_miniSectorTimes;
 

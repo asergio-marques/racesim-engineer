@@ -55,13 +55,16 @@ namespace Processor {
             int8_t m_ersDeltaPercent;
 
             // 
-            uint8_t m_fuelBurnKg;
+            float_t m_fuelBurnKg;
 
             //
             uint8_t m_numDRSActivation;
 
             // TODO // The type of track conditions during this lap
             // Session::Internal::Conditions m_conditions;
+
+            // How much distance in the lap has been run by the car (meters)
+            float_t m_distanceFulfilled;
         };
 
     }

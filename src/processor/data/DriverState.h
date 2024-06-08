@@ -2,8 +2,11 @@
 #define PROCESSOR_DATA_INCLUDE_DRIVER_STATE_H_
 
 #include <cstdint>
+#include <map>
+#include <math.h>
 #include <vector>
-#include "data/holders/LapInfo.h"
+#include "data/internal/Lap.h"
+#include "data/holders/LapHistoryData.h"
 #include "data/holders/WarningPenaltyData.h"
 #include "data/holders/PositionTimingData.h"
 
@@ -45,6 +48,11 @@ namespace Processor {
             // Alter the status of the driver itself in the session, and feed it to the detector
             void updateStatus(const Participant::Internal::Status status);
 
+            // Alter the status of the driver's most recent lap in the session
+            void updateLap(const uint8_t lapID, const Lap::Internal::Type type,
+                const Lap::Internal::Status status, const std::vector<Lap::Internal::Time> sectorTimes,
+                const float_t lapDistanceRun, const Lap::Internal::Time previousLapTime);
+
             private:
             // ID of the driver associated with this state
             const uint8_t m_id;
@@ -55,9 +63,8 @@ namespace Processor {
             // Holder of all warning and penalty data
             Processor::Data::WarningPenaltyData m_warnPenData;
 
-            // Holder of data pertaining to all laps run
-            // The most recent lap (finished/not) should be at the bottom of the vector
-            std::vector<Processor::Data::LapInfo> m_laps;
+            // Holder of data for all laps run for this driver in the current session
+            Processor::Data::LapHistoryData m_lapData;
 
             // Pointer to the overtake detector currently installed
             Processor::Detector::Overtake* m_installedOvertakeDetector;

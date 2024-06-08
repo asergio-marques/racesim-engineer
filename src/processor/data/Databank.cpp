@@ -12,6 +12,7 @@
 #include "packets/internal/Interface.h"
 #include "packets/internal/multi_use/SessionStart.h"
 #include "packets/internal/multi_use/ParticipantStatus.h"
+#include "packets/internal/multi_use/LapStatus.h"
 #include "packets/internal/race_types/RaceStart.h"
 #include "packets/internal/race_types/RaceStandings.h"
 #include "packets/internal/race_types/PenaltyStatus.h"
@@ -50,6 +51,10 @@ void Processor::Data::Databank::updateData(const Packet::Internal::Interface* pa
 
             case Packet::Internal::Type::ParticipantStatus:
                 updateParticipantStatus(dynamic_cast<const Packet::Internal::ParticipantStatus*>(packet));
+                break;
+
+            case Packet::Internal::Type::LapStatus:
+                updateLapStatus(dynamic_cast<const Packet::Internal::LapStatus*>(packet));
                 break;
 
             default:
@@ -240,7 +245,7 @@ void Processor::Data::Databank::updatePenalties(const Packet::Internal::PenaltyS
 void Processor::Data::Databank::updateParticipantStatus(const Packet::Internal::ParticipantStatus* statusPacket) {
 
     if (statusPacket) {
-        // for each standing data on the packet, check if the driver ID
+        // for each participant data on the packet, check if the driver ID
         // matches up with the driver ID of each of the driver records and
         // if we are not overwriting more recent data
         // once it does match, the current position in the state is updated
@@ -260,6 +265,35 @@ void Processor::Data::Databank::updateParticipantStatus(const Packet::Internal::
 
                     driverData->getModifiableState().updateStatus(statusData.m_status);
 
+
+                }
+
+            }
+
+        }
+
+    }
+
+}
+
+
+
+void Processor::Data::Databank::updateLapStatus(const Packet::Internal::LapStatus* lapPacket) {
+
+    if (lapPacket) {
+
+        for (const auto lapData : lapPacket->GetData()) {
+
+            auto entry = m_driverRecords.find(lapData.m_driverID);
+            if (entry != m_driverRecords.end()) {
+
+                auto driverData = entry->second;
+
+                if (driverData && driverData->updateLastTimestamp(lapPacket->m_timestamp)) {
+
+                    driverData->getModifiableState().updateLap(lapData.m_lapID, lapData.m_type,
+                        lapData.m_status, lapData.m_sectorTimes,
+                        lapData.m_lapDistanceRun, lapData.m_previousLapTime);
 
                 }
 

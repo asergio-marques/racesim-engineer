@@ -259,12 +259,13 @@ std::vector<Packet::Internal::Interface*> NetCom::Adapter::F1_24::Facade::Conver
                 default:
                     lapData.m_type = Lap::Internal::Type::InvalidUnknown;
             }
-            auto sector1TimeMS = (lapInfo.m_sector1TimeMin * 60 * 1000) + lapInfo.m_sector1TimeRemainderMS;
-            auto sector2TimeMS = (lapInfo.m_sector2TimeMin * 60 * 1000) + lapInfo.m_sector2TimeRemainderMS;
-            auto sector3TimeMS = lapInfo.m_currentLapTime - sector1TimeMS - sector2TimeMS;
+            uint32_t sector1TimeMS = (lapInfo.m_sector1TimeMin * 60 * 1000) + lapInfo.m_sector1TimeRemainderMS;
+            uint32_t sector2TimeMS = (lapInfo.m_sector2TimeMin * 60 * 1000) + lapInfo.m_sector2TimeRemainderMS;
+            uint32_t sector3TimeMS = lapInfo.m_currentLapTime - sector1TimeMS - sector2TimeMS;
             lapData.m_sectorTimes = { sector1TimeMS, sector2TimeMS, sector3TimeMS };
             // filter for negative values as that may happen
             lapData.m_lapDistanceRun = (lapInfo.m_lapDistance > std::numeric_limits<float_t>::epsilon() ? lapInfo.m_lapDistance : 0.0f);
+            lapData.m_previousLapTime = lapInfo.m_lastLapTime;
             lapPacket->InsertData(lapData);
 
         }

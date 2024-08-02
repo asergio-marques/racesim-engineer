@@ -14,7 +14,8 @@ namespace Processor {
             // Constructor
             PositionTimingData(const uint8_t startingPosition) :
                 m_currentPosition(startingPosition),
-                m_startingPosition(startingPosition) {}
+                m_startingPosition(startingPosition),
+                m_status(Participant::Internal::Status::InvalidUnknown) {}
 
             // Starting position for this vehicle
             const uint8_t m_startingPosition;

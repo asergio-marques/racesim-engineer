@@ -15,7 +15,8 @@ namespace Processor {
             Overtake            = 1,
             FastestLap          = 2,
             WarningPenalty      = 3,
-            ParticipantStatus   = 4
+            ParticipantStatus   = 4,
+            FinishedLap         = 5
 
         };
 

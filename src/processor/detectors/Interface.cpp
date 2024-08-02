@@ -9,9 +9,10 @@
 
 
 
-void Processor::Detector::Interface::Init() {
+void Processor::Detector::Interface::Init(Processor::Data::SessionRecord* sessionRecord) {
 
     m_workerThread = std::thread(&Processor::Detector::Interface::Exec, this);
+    m_sessionRecord = sessionRecord;
 
 }
 

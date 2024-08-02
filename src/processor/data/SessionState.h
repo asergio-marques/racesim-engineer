@@ -1,13 +1,14 @@
 #ifndef PROCESSOR_DATA_INCLUDE_SESSION_STATE_H_
 #define PROCESSOR_DATA_INCLUDE_SESSION_STATE_H_
 
+#include "holders/LapInfo.h"
+
 
 
 namespace Processor {
 
     namespace Data {
 
-        // TODO class to be properly defined
         class SessionState {
 
             public:
@@ -16,6 +17,13 @@ namespace Processor {
 
             // Destructor
             ~SessionState();
+
+            // Checks if a newly-finished lap is a new fastest lap for the current session
+            void evaluateCompletedLap(const Processor::Data::LapInfo& finishedLap);
+
+            private:
+            // Records the fastest lap of the current session
+            Processor::Data::LapInfo m_fastestLap;
 
         };
 

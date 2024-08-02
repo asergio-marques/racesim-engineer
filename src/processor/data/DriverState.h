@@ -16,10 +16,11 @@ namespace Processor {
     
     namespace Detector {
 
+        class DriverStatus;
+        class FinishedLap;
         class Interface;
         class Overtake;
         class WarningPenalty;
-        class DriverStatus;
 
     }
 
@@ -74,6 +75,9 @@ namespace Processor {
 
             // Pointer to the status change detector currently installed
             Processor::Detector::DriverStatus* m_installedStatusDetector;
+
+            // Pointer to the finished lap detector currently installed
+            Processor::Detector::FinishedLap* m_installedFinishedLapDetector;
 
         };
 

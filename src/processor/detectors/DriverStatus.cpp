@@ -18,14 +18,6 @@ const Processor::Detector::Type Processor::Detector::DriverStatus::GetType() con
 
 
 
-void Processor::Detector::DriverStatus::Exec() {
-
-    // Do nothing, this detector does not require parallelization
-
-}
-
-
-
 void Processor::Detector::DriverStatus::AddStatusChange(const uint8_t id, const Participant::Internal::Status newStatus) {
 
     Packet::Internal::ParticipantStatusChange* packet = new Packet::Internal::ParticipantStatusChange(0);

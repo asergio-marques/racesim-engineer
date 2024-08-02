@@ -8,6 +8,7 @@
 #include "data/holders/PositionTimingData.h"
 #include "detectors/Interface.h"
 #include "detectors/DriverStatus.h"
+#include "detectors/FinishedLap.h"
 #include "detectors/Overtake.h"
 #include "detectors/WarningPenalty.h"
 #include "detectors/Type.h"
@@ -20,7 +21,8 @@ Processor::Data::DriverState::DriverState(const uint8_t id, const uint8_t starti
     m_warnPenData(),
     m_installedOvertakeDetector(nullptr),
     m_installedPenWarnDetector(nullptr),
-    m_installedStatusDetector(nullptr) {
+    m_installedStatusDetector(nullptr),
+    m_installedFinishedLapDetector(nullptr) {
 
 
 
@@ -176,7 +178,7 @@ void Processor::Data::DriverState::updateLap(const uint8_t lapID, const Lap::Int
         finishedLap.m_totalLapTime = previousLapTime;
         finishedLap.m_sector3Time = finishedLap.m_totalLapTime - finishedLap.m_sector1Time - finishedLap.m_sector2Time;
 
-        // TODO send info about previous lap to detectors
+        m_installedFinishedLapDetector->addNewLap(it->second);
 
     }
     if (createNew) {

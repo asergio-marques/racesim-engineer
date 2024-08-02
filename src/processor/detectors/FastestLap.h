@@ -22,9 +22,6 @@ namespace Processor {
             // Returns the identifying type of this detector
             const Processor::Detector::Type GetType() const override;
 
-            // Main execution function
-            void Exec() override final;
-
         };
 
     }

@@ -81,6 +81,8 @@ void Processor::Data::Databank::installDetector(Processor::Detector::Interface* 
             // Try to add to the current records
             if (!(m_driverRecords.empty()) && m_sessionRecord) {
                 
+                detector->Init(m_sessionRecord);
+
                 for (auto entry : m_driverRecords) {
                     
                     auto record = entry.second;
@@ -126,13 +128,14 @@ void Processor::Data::Databank::createSessionInformation(const Packet::Internal:
 
         }
         if (creator) {
-
-            m_driverRecords = creator->createDriverRecords();
+            
             m_sessionRecord = creator->createSessionRecord();
+            m_driverRecords = creator->createDriverRecords();
 
             for (auto detectorEntry : m_activeDetectors) {
 
                 auto detector = detectorEntry.second;
+                detector->Init(m_sessionRecord);
 
                 for (auto driverEntry : m_driverRecords) {
 

@@ -17,3 +17,11 @@ Processor::Data::SessionState::~SessionState() {
 
 
 }
+
+
+
+void Processor::Data::SessionState::evaluateCompletedLap(const Processor::Data::LapInfo& finishedLap) {
+
+
+
+}

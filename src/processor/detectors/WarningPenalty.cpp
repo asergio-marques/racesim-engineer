@@ -16,14 +16,6 @@ const Processor::Detector::Type Processor::Detector::WarningPenalty::GetType() c
 
 
 
-void Processor::Detector::WarningPenalty::Exec() {
-
-    // Do nothing, this detector does not require parallelization
-
-}
-
-
-
 void Processor::Detector::WarningPenalty::AddWarnPenChange(const int8_t id, const int8_t diffWarns,
                 const int8_t diffTrackLims, const int32_t diffTimePens,
                 const int8_t diffStopGo, const int8_t diffDriveThrough) {

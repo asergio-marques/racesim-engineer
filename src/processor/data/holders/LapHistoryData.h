@@ -11,7 +11,7 @@ namespace Processor {
 
     namespace Detector {
 
-        class FastestLap;
+        class FinishedLap;
         class Interface;
 
     }
@@ -36,7 +36,7 @@ namespace Processor {
                 const float_t lapDistanceRun, const Lap::Internal::Time previousLapTime);
 
             private:
-            void evaluateFinishedLap(const uint8_t id, const Processor::Data::LapInfo& finishedLap);
+            void evaluateFinishedLap(const Processor::Data::LapInfo& finishedLap);
 
             // Holder of data pertaining to all laps run
             std::map<uint16_t, Processor::Data::LapInfo> m_laps;
@@ -54,7 +54,7 @@ namespace Processor {
             uint16_t m_fastestSector3LapID;
 
             // Pointer to the fastest lap detector currently installed
-            Processor::Detector::FastestLap* m_installedFastestLapDetector;
+            Processor::Detector::FinishedLap* m_installedFinishedLapDetector;
         };
 
     }

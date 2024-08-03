@@ -20,7 +20,7 @@ namespace Packet {
             ParticipantStatus           = 6,
             LapStatus                   = 7,
             Overtake                    = 101,
-            NewFastestLap               = 102,
+            FinishedLapInfo             = 102,
             PenaltyChange               = 103,
             ParticipantStatusChange     = 104
 

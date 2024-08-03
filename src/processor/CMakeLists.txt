@@ -27,8 +27,7 @@ target_sources(${PROJECT_NAME} PRIVATE
     data/holders/WarningPenaltyData.cpp
     detectors/Interface.cpp
     detectors/DriverStatus.cpp
-    detectors/FastestLap.cpp
-    
+    detectors/FinishedLap.cpp
     detectors/Overtake.cpp
     detectors/WarningPenalty.cpp)
 

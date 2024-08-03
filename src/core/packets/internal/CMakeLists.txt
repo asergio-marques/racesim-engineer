@@ -23,6 +23,7 @@ target_sources(${PROJECT_NAME} PRIVATE
     multi_use/ParticipantStatus.cpp
     multi_use/ParticipantStatusChange.cpp
     multi_use/LapStatus.cpp
+    multi_use/FinishedLapInfo.cpp
     tt_types/TimeTrialStart.cpp
     practice_types/PracticeStart.cpp
     quali_types/QualiStart.cpp

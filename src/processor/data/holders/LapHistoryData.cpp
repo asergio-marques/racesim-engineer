@@ -3,7 +3,7 @@
 #include <cstdint>
 #include <map>
 #include "data/holders/LapInfo.h"
-#include "detectors/FastestLap.h"
+#include "detectors/FinishedLap.h"
 #include "detectors/Interface.h"
 #include "detectors/Type.h"
 
@@ -15,7 +15,7 @@ Processor::Data::LapHistoryData::LapHistoryData() :
     m_fastestSector1LapID(UINT16_MAX),
     m_fastestSector2LapID(UINT16_MAX),
     m_fastestSector3LapID(UINT16_MAX),
-    m_installedFastestLapDetector(nullptr) {
+    m_installedFinishedLapDetector(nullptr) {
 
 
 
@@ -29,8 +29,8 @@ void Processor::Data::LapHistoryData::installDetector(Processor::Detector::Inter
 
     switch (detector->GetType()) {
 
-        case Processor::Detector::Type::FastestLap:
-            m_installedFastestLapDetector = dynamic_cast<Processor::Detector::FastestLap*>(detector);
+        case Processor::Detector::Type::FinishedLap:
+            m_installedFinishedLapDetector = dynamic_cast<Processor::Detector::FinishedLap*>(detector);
             break;
 
         default:
@@ -77,7 +77,7 @@ void Processor::Data::LapHistoryData::updateLap(const uint8_t id, const uint8_t 
         finishedLap.m_totalLapTime = previousLapTime;
         finishedLap.m_sector3Time = finishedLap.m_totalLapTime - finishedLap.m_sector1Time - finishedLap.m_sector2Time;
 
-        evaluateFinishedLap(id, finishedLap);
+        evaluateFinishedLap(finishedLap);
 
     }
     // Either if a new lap has just been started, or if the map is empty, we need to create a new lap entry
@@ -98,10 +98,10 @@ void Processor::Data::LapHistoryData::updateLap(const uint8_t id, const uint8_t 
 }
 
 
-void Processor::Data::LapHistoryData::evaluateFinishedLap(const uint8_t id, const Processor::Data::LapInfo& finishedLap) {
+void Processor::Data::LapHistoryData::evaluateFinishedLap(const Processor::Data::LapInfo& finishedLap) {
 
     // check if this new fastest lap is not the fastest in the session
-    if (m_installedFastestLapDetector && !m_installedFastestLapDetector->checkFastestInSession(finishedLap)) {
+    if (m_installedFinishedLapDetector && !m_installedFinishedLapDetector->checkFastestInSession(finishedLap)) {
 
         // check if this is a new personal best for this driver
         auto it = m_laps.find(m_fastestLapID);
@@ -111,7 +111,12 @@ void Processor::Data::LapHistoryData::evaluateFinishedLap(const uint8_t id, cons
             if (finishedLap.m_totalLapTime < fastestLap.m_totalLapTime) {
 
                 m_fastestLapID = finishedLap.m_lapId;
-                // TODO prepare fastest personal lap packet and send it
+                m_installedFinishedLapDetector->addFinishedLapInfo(finishedLap, Lap::Internal::InfoType::PersonalBest);
+
+            }
+            else {
+
+                m_installedFinishedLapDetector->addFinishedLapInfo(finishedLap, Lap::Internal::InfoType::LatestLap);
 
             }
 

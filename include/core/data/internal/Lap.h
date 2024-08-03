@@ -26,6 +26,15 @@ namespace Lap::Internal {
 
     };
 
+    enum class InfoType : uint8_t {
+
+        InvalidUnknown  = 0,
+        FastestLap      = 1,
+        PersonalBest    = 2,
+        LatestLap       = 3
+
+    };
+
 }
 
 

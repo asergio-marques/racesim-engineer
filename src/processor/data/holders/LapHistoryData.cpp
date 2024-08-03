@@ -100,12 +100,23 @@ void Processor::Data::LapHistoryData::updateLap(const uint8_t id, const uint8_t 
 
 void Processor::Data::LapHistoryData::evaluateFinishedLap(const uint8_t id, const Processor::Data::LapInfo& finishedLap) {
 
-    // check if the fastest lap of the session has initially been set
-    // if not, it's the first lap ever so it's the fastest
-    // if yes, then compare to check if it is the new fastest lap of the session
-    //// if yes, then send new session fastest lap packet and update data in session record
-    //// if not, then compare to check if it is a new personal best for this driver
-    ////// if yes, then send new personal best lap packet and update data in driver record
-    ////// otherwise, sit the fuck down boy
+    // check if this new fastest lap is not the fastest in the session
+    if (m_installedFastestLapDetector && !m_installedFastestLapDetector->checkFastestInSession(finishedLap)) {
+
+        // check if this is a new personal best for this driver
+        auto it = m_laps.find(m_fastestLapID);
+        if (it != m_laps.end()) {
+
+            const auto& fastestLap = it->second;
+            if (finishedLap.m_totalLapTime < fastestLap.m_totalLapTime) {
+
+                m_fastestLapID = finishedLap.m_lapId;
+                // TODO prepare fastest personal lap packet and send it
+
+            }
+
+        }
+
+    }
 
 }

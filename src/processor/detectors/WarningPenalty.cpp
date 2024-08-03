@@ -1,7 +1,5 @@
 #include "detectors/WarningPenalty.h"
 
-#include <chrono>
-#include <thread>
 #include "detectors/Interface.h"
 #include "detectors/Type.h"
 #include "packets/internal/multi_use/PenaltyChange.h"

@@ -19,7 +19,7 @@ namespace Processor {
             ~SessionState();
 
             // Checks if a newly-finished lap is a new fastest lap for the current session
-            void evaluateCompletedLap(const Processor::Data::LapInfo& finishedLap);
+            bool evaluateCompletedLap(const Processor::Data::LapInfo& finishedLap);
 
             private:
             // Records the fastest lap of the current session

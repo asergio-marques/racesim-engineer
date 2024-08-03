@@ -16,8 +16,8 @@ namespace Processor {
             // ID of the driver to which this lap belongs
             uint8_t m_driverId;
 
-            // ID of the lap performed
-            uint16_t m_lapId;
+            // ID of the lap performed (maximum by default for easy compare)
+            uint16_t m_lapId = UINT16_MAX;
 
             // Whether this lap has been completed
             bool m_isFinished;

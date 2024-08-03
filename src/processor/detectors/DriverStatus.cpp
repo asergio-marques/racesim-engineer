@@ -1,8 +1,6 @@
 #include "detectors/DriverStatus.h"
 
-#include <chrono>
 #include <cstdint>
-#include <thread>
 #include <vector>
 #include "detectors/Interface.h"
 #include "detectors/Type.h"

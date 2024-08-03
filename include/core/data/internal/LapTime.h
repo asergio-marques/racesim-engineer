@@ -14,15 +14,18 @@ namespace Lap::Internal {
         Time(const uint32_t milliseconds);
         Time(const uint8_t seconds, const uint16_t milliseconds);
         Time(const Time& other) = default;
-        Time& operator=(const Time& other) = default;
-        Time& operator+(const Time& other);
-        Time& operator-(const Time& other);
+        Time& operator=(const Time& other);
+        Time& operator+=(const Time& other);
+        Time& operator-=(const Time& other);
+        Time operator+(const Time& other);
+        Time operator-(const Time& other);
         bool operator==(const Time& other) const;
         bool operator!=(const Time& other) const;
         bool operator>(const Time& other) const;
         bool operator<(const Time& other) const;
         bool operator>=(const Time& other) const;
         bool operator<=(const Time& other) const;
+        void zero();
         const std::string formattedPrint() const;
         const bool valid() const;
 

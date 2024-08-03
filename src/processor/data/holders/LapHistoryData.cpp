@@ -42,7 +42,7 @@ void Processor::Data::LapHistoryData::installDetector(Processor::Detector::Inter
 }
 
 
-
+#include <iostream>
 void Processor::Data::LapHistoryData::updateLap(const uint8_t id, const uint8_t lapID, const Lap::Internal::Type type,
     const Lap::Internal::Status status, const std::vector<Lap::Internal::Time> sectorTimes,
     const float_t lapDistanceRun, const Lap::Internal::Time previousLapTime) {
@@ -60,8 +60,15 @@ void Processor::Data::LapHistoryData::updateLap(const uint8_t id, const uint8_t 
             lap.m_sector1Time = sectorTimes.at(0);
             lap.m_sector2Time = sectorTimes.at(1);
             lap.m_sector3Time = sectorTimes.at(2);
-            lap.m_totalLapTime = lap.m_sector1Time + lap.m_sector2Time + lap.m_sector3Time;
+            lap.m_totalLapTime.zero();
+            lap.m_totalLapTime += lap.m_sector1Time;
+            lap.m_totalLapTime += lap.m_sector2Time;
+            lap.m_totalLapTime += lap.m_sector3Time;
             lap.m_status = status;
+            if (lap.m_totalLapTime.m_seconds > 62 && lap.m_totalLapTime.m_milliseconds > 512) {
+                std::cout << "breakpoint bitch" << std::endl;
+            }
+
             lap.m_distanceFulfilled = lapDistanceRun;
 
         }
@@ -75,7 +82,9 @@ void Processor::Data::LapHistoryData::updateLap(const uint8_t id, const uint8_t 
         auto& finishedLap = it->second;
         finishedLap.m_isFinished = true;
         finishedLap.m_totalLapTime = previousLapTime;
-        finishedLap.m_sector3Time = finishedLap.m_totalLapTime - finishedLap.m_sector1Time - finishedLap.m_sector2Time;
+        finishedLap.m_sector3Time = previousLapTime;
+        finishedLap.m_sector3Time -= finishedLap.m_sector2Time;
+        finishedLap.m_sector3Time -= finishedLap.m_sector1Time;
 
         evaluateFinishedLap(finishedLap);
 
@@ -85,6 +94,7 @@ void Processor::Data::LapHistoryData::updateLap(const uint8_t id, const uint8_t 
 
         Processor::Data::LapInfo lap;
         lap.m_lapId = lapID;
+        lap.m_isFinished = false;
         lap.m_sector1Time = sectorTimes.at(0);
         lap.m_sector2Time = sectorTimes.at(1);
         lap.m_sector3Time = sectorTimes.at(2);
@@ -100,10 +110,19 @@ void Processor::Data::LapHistoryData::updateLap(const uint8_t id, const uint8_t 
 
 void Processor::Data::LapHistoryData::evaluateFinishedLap(const Processor::Data::LapInfo& finishedLap) {
 
-    // check if this new fastest lap is not the fastest in the session
-    if (m_installedFinishedLapDetector && !m_installedFinishedLapDetector->checkFastestInSession(finishedLap)) {
+    if (!m_installedFinishedLapDetector) return;
+
+    // check if this new fastest lap is the fastest in the session
+    // if it is, it's also this driver's PB
+    if (m_installedFinishedLapDetector->checkFastestInSession(finishedLap)) {
+
+        m_fastestLapID = finishedLap.m_lapId;
+
+    }
+    else {
 
         // check if this is a new personal best for this driver
+        // if there are no laps found with the ID, then it should mean that it is the first lap
         auto it = m_laps.find(m_fastestLapID);
         if (it != m_laps.end()) {
 
@@ -119,6 +138,12 @@ void Processor::Data::LapHistoryData::evaluateFinishedLap(const Processor::Data:
                 m_installedFinishedLapDetector->addFinishedLapInfo(finishedLap, Lap::Internal::InfoType::LatestLap);
 
             }
+
+        }
+        else {
+
+            m_fastestLapID = finishedLap.m_lapId;
+            m_installedFinishedLapDetector->addFinishedLapInfo(finishedLap, Lap::Internal::InfoType::PersonalBest);
 
         }
 

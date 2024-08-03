@@ -17,12 +17,12 @@ namespace Lap::Internal {
         Time& operator=(const Time& other) = default;
         Time& operator+(const Time& other);
         Time& operator-(const Time& other);
-        bool operator==(const Time& other);
-        bool operator!=(const Time& other);
-        bool operator>(const Time& other);
-        bool operator<(const Time& other);
-        bool operator>=(const Time& other);
-        bool operator<=(const Time& other);
+        bool operator==(const Time& other) const;
+        bool operator!=(const Time& other) const;
+        bool operator>(const Time& other) const;
+        bool operator<(const Time& other) const;
+        bool operator>=(const Time& other) const;
+        bool operator<=(const Time& other) const;
         const std::string formattedPrint() const;
         const bool valid() const;
 

@@ -5,21 +5,38 @@
 #include <map>
 #include "data/holders/LapInfo.h"
 
+
+
 namespace Processor {
+
+    namespace Detector {
+
+        class FastestLap;
+        class Interface;
+
+    }
 
     namespace Data {
 
-        struct LapHistoryData {
+        class LapHistoryData {
 
+            public:
             // Constructor
-            LapHistoryData() :
-                m_laps(),
-                m_fastestLapID(0),
-                m_fastestSector1LapID(0),
-                m_fastestSector2LapID(0),
-                m_fastestSector3LapID(0) {
+            LapHistoryData();
 
-            }
+            // Destructor
+            ~LapHistoryData() = default;
+
+            // Add relevant detectors to then be called when relevant
+            void installDetector(Processor::Detector::Interface* detector);
+
+            // Alter the status of the driver's most recent lap in the session
+            void updateLap(const uint8_t id, const uint8_t lapID, const Lap::Internal::Type type,
+                const Lap::Internal::Status status, const std::vector<Lap::Internal::Time> sectorTimes,
+                const float_t lapDistanceRun, const Lap::Internal::Time previousLapTime);
+
+            private:
+            void evaluateFinishedLap(const uint8_t id, const Processor::Data::LapInfo& finishedLap);
 
             // Holder of data pertaining to all laps run
             std::map<uint16_t, Processor::Data::LapInfo> m_laps;
@@ -35,6 +52,9 @@ namespace Processor {
 
             // Index of the lap in which the fastest sector 3 was driven for this driver
             uint16_t m_fastestSector3LapID;
+
+            // Pointer to the fastest lap detector currently installed
+            Processor::Detector::FastestLap* m_installedFastestLapDetector;
         };
 
     }

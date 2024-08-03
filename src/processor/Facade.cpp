@@ -4,7 +4,6 @@
 #include <vector>
 #include "data/Databank.h"
 #include "detectors/FastestLap.h"
-#include "detectors/FinishedLap.h"
 #include "detectors/Overtake.h"
 #include "detectors/WarningPenalty.h"
 #include "detectors/DriverStatus.h"
@@ -25,7 +24,6 @@ Processor::Facade::Facade() :
         m_detectors.push_back(new Processor::Detector::Overtake);
         m_detectors.push_back(new Processor::Detector::WarningPenalty);
         m_detectors.push_back(new Processor::Detector::DriverStatus);
-        m_detectors.push_back(new Processor::Detector::FinishedLap);
 
     }
 

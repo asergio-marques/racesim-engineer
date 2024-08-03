@@ -16,11 +16,7 @@ namespace Processor {
     
     namespace Detector {
 
-        class DriverStatus;
-        class FinishedLap;
         class Interface;
-        class Overtake;
-        class WarningPenalty;
 
     }
 
@@ -33,7 +29,7 @@ namespace Processor {
             DriverState(const uint8_t id, const uint8_t startingPosition);
 
             // Destructor
-            ~DriverState();
+            ~DriverState() = default;
 
             // Add relevant detectors to then be called when relevant
             void installDetector(Processor::Detector::Interface* detector);
@@ -66,18 +62,6 @@ namespace Processor {
 
             // Holder of data for all laps run for this driver in the current session
             Processor::Data::LapHistoryData m_lapData;
-
-            // Pointer to the overtake detector currently installed
-            Processor::Detector::Overtake* m_installedOvertakeDetector;
-
-            // Pointer to the penalty & warning detector currently installed
-            Processor::Detector::WarningPenalty* m_installedPenWarnDetector;
-
-            // Pointer to the status change detector currently installed
-            Processor::Detector::DriverStatus* m_installedStatusDetector;
-
-            // Pointer to the finished lap detector currently installed
-            Processor::Detector::FinishedLap* m_installedFinishedLapDetector;
 
         };
 

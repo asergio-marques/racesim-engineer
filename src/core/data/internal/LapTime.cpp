@@ -45,18 +45,16 @@ Lap::Internal::Time& Lap::Internal::Time::operator-(const Lap::Internal::Time& o
         m_seconds -= other.m_seconds - (((msSub / 1000) > 0) ? 0 : 1);
         m_milliseconds = msSub % 1000;
 
+        return *this;
     }
-    else {
 
-        throw std::underflow_error("Cannot subtract a bigger LapTime from a smaller one");
-
-    }
+    throw std::underflow_error("Cannot subtract a bigger LapTime from a smaller one");
 
 }
 
 
 
-bool Lap::Internal::Time::operator==(const Time& other) {
+bool Lap::Internal::Time::operator==(const Time& other) const {
 
     return (m_seconds == other.m_seconds) && (m_milliseconds == other.m_milliseconds);
 
@@ -64,7 +62,7 @@ bool Lap::Internal::Time::operator==(const Time& other) {
 
 
 
-bool Lap::Internal::Time::operator!=(const Time& other) {
+bool Lap::Internal::Time::operator!=(const Time& other) const {
 
     return !(*this == other);
 
@@ -72,7 +70,7 @@ bool Lap::Internal::Time::operator!=(const Time& other) {
 
 
 
-bool Lap::Internal::Time::operator>(const Time& other) {
+bool Lap::Internal::Time::operator>(const Time& other) const {
 
     return (m_seconds > other.m_seconds) ||
         ((m_seconds == other.m_seconds) && (m_milliseconds > other.m_milliseconds));
@@ -81,7 +79,7 @@ bool Lap::Internal::Time::operator>(const Time& other) {
 
 
 
-bool Lap::Internal::Time::operator<(const Time& other) {
+bool Lap::Internal::Time::operator<(const Time& other) const {
 
     return (m_seconds < other.m_seconds) ||
         ((m_seconds == other.m_seconds) && (m_milliseconds < other.m_milliseconds));
@@ -90,7 +88,7 @@ bool Lap::Internal::Time::operator<(const Time& other) {
 
 
 
-bool Lap::Internal::Time::operator>=(const Time& other) {
+bool Lap::Internal::Time::operator>=(const Time& other) const {
 
     return !(*this < other);
 
@@ -98,7 +96,7 @@ bool Lap::Internal::Time::operator>=(const Time& other) {
 
 
 
-bool Lap::Internal::Time::operator<=(const Time& other) {
+bool Lap::Internal::Time::operator<=(const Time& other) const {
 
     return !(*this > other);
 

@@ -13,6 +13,9 @@ namespace Processor {
 
         struct LapInfo {
 
+            // ID of the driver to which this lap belongs
+            uint8_t m_driverId;
+
             // ID of the lap performed
             uint16_t m_lapId;
 

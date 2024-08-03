@@ -42,7 +42,7 @@ void Processor::Data::LapHistoryData::installDetector(Processor::Detector::Inter
 }
 
 
-#include <iostream>
+
 void Processor::Data::LapHistoryData::updateLap(const uint8_t id, const uint8_t lapID, const Lap::Internal::Type type,
     const Lap::Internal::Status status, const std::vector<Lap::Internal::Time> sectorTimes,
     const float_t lapDistanceRun, const Lap::Internal::Time previousLapTime) {
@@ -65,9 +65,6 @@ void Processor::Data::LapHistoryData::updateLap(const uint8_t id, const uint8_t 
             lap.m_totalLapTime += lap.m_sector2Time;
             lap.m_totalLapTime += lap.m_sector3Time;
             lap.m_status = status;
-            if (lap.m_totalLapTime.m_seconds > 62 && lap.m_totalLapTime.m_milliseconds > 512) {
-                std::cout << "breakpoint bitch" << std::endl;
-            }
 
             lap.m_distanceFulfilled = lapDistanceRun;
 
@@ -93,6 +90,7 @@ void Processor::Data::LapHistoryData::updateLap(const uint8_t id, const uint8_t 
     if (createNew) {
 
         Processor::Data::LapInfo lap;
+        lap.m_driverId = id;
         lap.m_lapId = lapID;
         lap.m_isFinished = false;
         lap.m_sector1Time = sectorTimes.at(0);

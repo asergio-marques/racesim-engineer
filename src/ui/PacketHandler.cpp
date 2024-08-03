@@ -82,6 +82,9 @@ void UserInterface::PacketHandler::Exec() {
                 case Packet::Internal::Type::ParticipantStatusChange:
                     NotifyStatusChangeObservers(packet);
                     break;
+                case Packet::Internal::Type::FinishedLapInfo:
+                    NotifyFinishedLapObservers(packet);
+                    break;
                 default:
                     // whoopsie daisy
                     break;
@@ -204,6 +207,19 @@ void UserInterface::PacketHandler::NotifyStatusChangeObservers(Packet::Internal:
 
         packet->markAsProcessed();
         emit DriverStatusChanged(dynamic_cast<const Packet::Internal::ParticipantStatusChange*>(packet));
+
+    }
+
+}
+
+
+
+void UserInterface::PacketHandler::NotifyFinishedLapObservers(Packet::Internal::Interface* packet) {
+
+    if (packet) {
+
+        packet->markAsProcessed();
+        emit NewlyCompletedLap(dynamic_cast<const Packet::Internal::FinishedLapInfo*>(packet));
 
     }
 

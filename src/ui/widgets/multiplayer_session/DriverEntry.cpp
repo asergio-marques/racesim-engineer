@@ -197,6 +197,24 @@ void UserInterface::Widget::DriverEntry::updateStatus(const Participant::Interna
 
 
 
+
+void UserInterface::Widget::DriverEntry::toggleFastestLap() {
+
+    if (m_fastestLap && m_fastestLap->isHidden()) {
+
+        m_fastestLap->show();
+
+    }
+    else if (m_fastestLap && !m_fastestLap->isHidden()) {
+
+        m_fastestLap->hide();
+
+    }
+
+}
+
+
+
 void UserInterface::Widget::DriverEntry::move(const uint16_t x, const uint16_t y, const bool centerAlignmentX, const bool centerAlignmentY) {
 
     // TODO fix issue with wrong move point due to center

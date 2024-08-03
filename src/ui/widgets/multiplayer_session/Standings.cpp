@@ -17,6 +17,7 @@ UserInterface::Widget::Standings::Standings(QWidget* parent) :
     UserInterface::Widget::Container(UserInterface::Widget::ID::DriverStandings),
     m_parent(parent),
     m_driverData(),
+    m_currentFastestLapHolder(nullptr),
     m_initialParamsSet(false) {
 
     for (uint8_t i = 0; i < 22; ++i) {
@@ -80,6 +81,38 @@ void UserInterface::Widget::Standings::vehicleStatusChanged(const Packet::Intern
 
         UserInterface::Widget::DriverEntry* entry = m_driverData.at(dataPacket->m_index);
         if (entry) entry->updateStatus(dataPacket->m_status);
+
+    }
+
+}
+
+
+
+
+void UserInterface::Widget::Standings::newCompletedLapInfo(const Packet::Internal::FinishedLapInfo* dataPacket) {
+
+    if (dataPacket && m_initialParamsSet) {
+
+        UserInterface::Widget::DriverEntry* newFastest = m_driverData.at(dataPacket->m_index);
+        if (newFastest) {
+
+            switch (dataPacket->m_infoType) {
+
+                case Lap::Internal::InfoType::FastestLap:
+                    if (m_currentFastestLapHolder) m_currentFastestLapHolder->toggleFastestLap();
+                    newFastest->toggleFastestLap();
+                    m_currentFastestLapHolder = newFastest;
+                    break;
+                case Lap::Internal::InfoType::PersonalBest:
+                case Lap::Internal::InfoType::LatestLap:
+                    // TODO
+                    break;
+                default:
+                    break;
+
+            }
+
+        }
 
     }
 

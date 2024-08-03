@@ -15,11 +15,11 @@ namespace UserInterface {
     namespace Widget {
 
         class FastestLapIndicator;
+        class PenaltyIcon;
+        class RetirementIcon;
         class TeamIcon;
         class TextInterface;
-        class PenaltyIcon;
         class WarningContainer;
-        class RetirementIcon;
 
         class DriverEntry : public UserInterface::Widget::Container {
 
@@ -32,6 +32,7 @@ namespace UserInterface {
             void updatePosition(const uint8_t newPosition);
             void updatePenalties(const Penalty::Internal::Type type, const int32_t change);
             void updateStatus(const Participant::Internal::Status status);
+            void toggleFastestLap();
             virtual void move(const uint16_t x, const uint16_t y, const bool centerAlignmentX, const bool centerAlignmentY) override final;
             void scale(const uint8_t percent) override final;
             void scale(const uint8_t percentX, const uint8_t percentY) override final;

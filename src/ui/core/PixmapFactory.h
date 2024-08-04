@@ -21,7 +21,9 @@ namespace UserInterface {
         // Returns the pixmap requested, centralized form of pixmap fetching
         // If the pixmap cannot be loaded from a given file, a simple icon containing a question mark will be returned
         // NOTE: There's probably more performant ways to do this than to straight-out copy a QPixmap...
-        void fetchPixmap(UserInterface::Widget::StandardImage request, QPixmap& pixmap) const;
+        bool fetchPixmap(UserInterface::Widget::StandardImage request, QPixmap& pixmap) const;
+
+        // Simple converter function for converting TeamID enum into image enums
         UserInterface::Widget::StandardImage convertTeamID(Session::Internal::TeamID request) const;
 
         private:

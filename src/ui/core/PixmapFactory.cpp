@@ -7,6 +7,8 @@
 
 
 
+UserInterface::PixmapFactory* UserInterface::PixmapFactory::m_instance = new UserInterface::PixmapFactory;
+
 UserInterface::PixmapFactory* UserInterface::PixmapFactory::instance() {
 
     return m_instance;
@@ -15,14 +17,16 @@ UserInterface::PixmapFactory* UserInterface::PixmapFactory::instance() {
 
 
 
-void UserInterface::PixmapFactory::fetchPixmap(UserInterface::Widget::StandardImage request, QPixmap& pixmap) const {
+bool UserInterface::PixmapFactory::fetchPixmap(UserInterface::Widget::StandardImage request, QPixmap& pixmap) const {
 
-    // If this request was not successful, load the error icon
-    if (!internalFetching(request, pixmap)) {
+    // If request was successful, return immediately, otherwise get the error icon
+    if (internalFetching(request, pixmap)) {
 
-        internalFetching(UserInterface::Widget::StandardImage::InvalidUnknown, pixmap);
+        return true;
 
     }
+
+    return internalFetching(UserInterface::Widget::StandardImage::InvalidUnknown, pixmap);
 
 }
 

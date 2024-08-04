@@ -15,9 +15,8 @@ UserInterface::PixmapFactory* UserInterface::PixmapFactory::instance() {
 
 
 
-QPixmap UserInterface::PixmapFactory::fetchPixmapPath(UserInterface::Widget::StandardImage request) const {
+void UserInterface::PixmapFactory::fetchPixmap(UserInterface::Widget::StandardImage request, QPixmap& pixmap) const {
 
-    QPixmap pixmap;
     // If this request was not successful, load the error icon
     if (!internalFetching(request, pixmap)) {
 
@@ -25,7 +24,22 @@ QPixmap UserInterface::PixmapFactory::fetchPixmapPath(UserInterface::Widget::Sta
 
     }
 
-    return pixmap;
+}
+
+
+
+
+UserInterface::Widget::StandardImage UserInterface::PixmapFactory::convertTeamID(Session::Internal::TeamID request) const {
+
+    const auto it = m_teamIconMap.constFind(request);
+    // Check if request was valid AND if the pixmap was loaded correctly
+    if (it != m_teamIconMap.constEnd()) {
+
+        return it.value();
+
+    }
+
+    return UserInterface::Widget::StandardImage::InvalidUnknown;
 
 }
 
@@ -34,6 +48,7 @@ QPixmap UserInterface::PixmapFactory::fetchPixmapPath(UserInterface::Widget::Sta
 UserInterface::PixmapFactory::PixmapFactory() {
 
     constructConverterMap();
+    constructTeamIconMap();
 
 }
 
@@ -81,5 +96,40 @@ void UserInterface::PixmapFactory::constructConverterMap() {
     m_converterMap.insert(UserInterface::Widget::StandardImage::PenaltyTextBackground,      ":/img/icons/PenaltyIndicatorTextBG.png");
     m_converterMap.insert(UserInterface::Widget::StandardImage::TrackLimitWarning,          ":/img/icons/TrackLimitWarningIcon.png");
     m_converterMap.insert(UserInterface::Widget::StandardImage::OtherWarning,               ":/img/icons/OtherWarningIcon.png");
+
+    m_converterMap.insert(UserInterface::Widget::StandardImage::TeamIconMercedes,           ":img/teams/MercedesLogo.png");
+    m_converterMap.insert(UserInterface::Widget::StandardImage::TeamIconFerrari,            ":img/teams/FerrariLogo.png");
+    m_converterMap.insert(UserInterface::Widget::StandardImage::TeamIconRedBull,            ":img/teams/RedBullLogo.png");
+    m_converterMap.insert(UserInterface::Widget::StandardImage::TeamIconWilliams,           ":img/teams/WilliamsLogo.png");
+    m_converterMap.insert(UserInterface::Widget::StandardImage::TeamIconAstonMartin,        ":img/teams/AstonMartinLogo.png");
+    m_converterMap.insert(UserInterface::Widget::StandardImage::TeamIconAlpine,             ":img/teams/AlpineLogo.png");
+    m_converterMap.insert(UserInterface::Widget::StandardImage::TeamIconAlphaTauri,         ":img/teams/AlphaTauriLogo.png");
+    m_converterMap.insert(UserInterface::Widget::StandardImage::TeamIconHaas,               ":img/teams/HaasLogo.png");
+    m_converterMap.insert(UserInterface::Widget::StandardImage::TeamIconMcLaren,            ":img/teams/McLarenLogo.png");
+    m_converterMap.insert(UserInterface::Widget::StandardImage::TeamIconAlfaRomeo,          ":img/teams/AlfaRomeoLogo.png");
+    m_converterMap.insert(UserInterface::Widget::StandardImage::TeamIconVCARB,              ":img/teams/VCARBLogo.png");
+    m_converterMap.insert(UserInterface::Widget::StandardImage::TeamIconKickSauber,         ":img/teams/KickLogo.png");
+
+}
+
+
+
+void UserInterface::PixmapFactory::constructTeamIconMap() {
+
+    // F1 teams
+    m_teamIconMap.insert(Session::Internal::TeamID::AlfaRomeo,      UserInterface::Widget::StandardImage::TeamIconAlfaRomeo);
+    m_teamIconMap.insert(Session::Internal::TeamID::AlphaTauri,     UserInterface::Widget::StandardImage::TeamIconAlphaTauri);
+    m_teamIconMap.insert(Session::Internal::TeamID::Alpine,         UserInterface::Widget::StandardImage::TeamIconAlpine);
+    m_teamIconMap.insert(Session::Internal::TeamID::AstonMartin,    UserInterface::Widget::StandardImage::TeamIconAstonMartin);
+    m_teamIconMap.insert(Session::Internal::TeamID::Ferrari,        UserInterface::Widget::StandardImage::TeamIconFerrari);
+    m_teamIconMap.insert(Session::Internal::TeamID::Haas,           UserInterface::Widget::StandardImage::TeamIconHaas);
+    m_teamIconMap.insert(Session::Internal::TeamID::McLaren,        UserInterface::Widget::StandardImage::TeamIconMcLaren);
+    m_teamIconMap.insert(Session::Internal::TeamID::Mercedes,       UserInterface::Widget::StandardImage::TeamIconMercedes);
+    m_teamIconMap.insert(Session::Internal::TeamID::RedBull,        UserInterface::Widget::StandardImage::TeamIconRedBull);
+    m_teamIconMap.insert(Session::Internal::TeamID::Williams,       UserInterface::Widget::StandardImage::TeamIconWilliams);
+    m_teamIconMap.insert(Session::Internal::TeamID::KickSauber,     UserInterface::Widget::StandardImage::TeamIconKickSauber);
+    m_teamIconMap.insert(Session::Internal::TeamID::VCARB,          UserInterface::Widget::StandardImage::TeamIconVCARB);
+
+    // F2 teams (TBD)
 
 }

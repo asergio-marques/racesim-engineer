@@ -40,7 +40,37 @@ namespace UserInterface {
             PenaltyIcon                 = 14,
             PenaltyTextBackground       = 15,
             TrackLimitWarning           = 16,
-            OtherWarning                = 17
+            OtherWarning                = 17,
+
+            // Team icons (should always be the final member)
+            //// F1
+            TeamIconCustom              = 101,
+            TeamIconMercedes            = 102,
+            TeamIconFerrari             = 103,
+            TeamIconRedBull             = 104,
+            TeamIconWilliams            = 105,
+            TeamIconAstonMartin         = 106,
+            TeamIconAlpine              = 107,
+            TeamIconAlphaTauri          = 108,
+            TeamIconHaas                = 109,
+            TeamIconMcLaren             = 110,
+            TeamIconAlfaRomeo           = 111,
+            TeamIconVCARB               = 112,
+            TeamIconKickSauber          = 113,
+
+            // F2
+            TeamIconPrema               = 200,
+            TeamIconVirtuosi            = 201,
+            TeamIconCarlin              = 202,
+            TeamIconMPMotorsport        = 203,
+            TeamIconCharouz             = 204,
+            TeamIconDams                = 205,
+            TeamIconCampos              = 206,
+            TeamIconVanAmersfoort       = 207,
+            TeamIconTrident             = 208,
+            TeamIconHitech              = 209,
+            TeamIconArt                 = 210,
+            TeamIconPHM                 = 211
 
         };
 

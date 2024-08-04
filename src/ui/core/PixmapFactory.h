@@ -5,6 +5,7 @@
 #include <QPixmap>
 #include <QString>
 #include "Image.h"
+#include "data/internal/Session.h"
 
 
 
@@ -20,7 +21,8 @@ namespace UserInterface {
         // Returns the pixmap requested, centralized form of pixmap fetching
         // If the pixmap cannot be loaded from a given file, a simple icon containing a question mark will be returned
         // NOTE: There's probably more performant ways to do this than to straight-out copy a QPixmap...
-        QPixmap fetchPixmapPath(UserInterface::Widget::StandardImage request) const;
+        void fetchPixmap(UserInterface::Widget::StandardImage request, QPixmap& pixmap) const;
+        UserInterface::Widget::StandardImage convertTeamID(Session::Internal::TeamID request) const;
 
         private:
         // Private constructor to guarantee single instantiation
@@ -32,8 +34,10 @@ namespace UserInterface {
         bool internalFetching(UserInterface::Widget::StandardImage request, QPixmap& pixmap) const;
 
         void constructConverterMap();
+        void constructTeamIconMap();
 
         QMap<UserInterface::Widget::StandardImage, QString> m_converterMap;
+        QMap<Session::Internal::TeamID, UserInterface::Widget::StandardImage> m_teamIconMap;
 
         static UserInterface::PixmapFactory* m_instance;
 

@@ -23,7 +23,7 @@ UserInterface::Widget::LoadingIcon::LoadingIcon(QWidget* parent) :
 
         bool res = m_centerPixmap.load(":img/icons/LogoLoadingCenter.png");
         if (res) m_centerWidget->setPixmap(m_centerPixmap, true);
-
+        qDebug() << "size of pixmap class:" << sizeof(QPixmap);
         res &= m_rotatePixmap.load(":img/icons/LogoLoadingRotate.png");
         if (res) m_rotateWidget->setPixmap(m_rotatePixmap, true);
 

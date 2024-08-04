@@ -22,15 +22,12 @@ void UserInterface::Widget::TeamIcon::SetTeam(const Session::Internal::TeamID& t
 
     if (!m_isSet) {
 
-        bool res = false;
-
         UserInterface::PixmapFactory* instance = UserInterface::PixmapFactory::instance();
         Q_ASSERT(instance);
-        if (instance) {
+        if (instance && instance->fetchPixmap(instance->convertTeamID(teamID), m_pixmap)) {
 
-            bool res = instance->fetchPixmap(instance->convertTeamID(teamID), m_pixmap);
-            setPixmap(m_pixmap, res);
-            m_isSet = res;
+            setPixmap(m_pixmap, true);
+            m_isSet = true;
 
         }
 

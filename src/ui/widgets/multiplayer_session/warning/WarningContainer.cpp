@@ -38,9 +38,9 @@ UserInterface::Widget::WarningContainer::WarningContainer(const UserInterface::W
 }
 
 
-#include <chrono>
+
 void UserInterface::Widget::WarningContainer::addWarning() {
-    qDebug() << "activated at" << std::chrono::system_clock::now().time_since_epoch().count();
+
     if (m_currentlyActiveWarnings < 2) {
         UserInterface::Widget::WarningIcon* icon = m_icons.at(m_currentlyActiveWarnings);
         if (icon && icon->isHidden()) {

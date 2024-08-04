@@ -5,6 +5,8 @@
 #include <QPixmap>
 #include <QSize>
 #include <QWidget>
+#include "Image.h"
+#include "PixmapFactory.h"
 #include "base/ImageInterface.h"
 #include "base/ID.h"
 
@@ -21,24 +23,29 @@ UserInterface::Widget::LoadingIcon::LoadingIcon(QWidget* parent) :
 
     if (m_centerWidget && m_rotateWidget) {
 
-        bool res = m_centerPixmap.load(":img/icons/LogoLoadingCenter.png");
-        if (res) m_centerWidget->setPixmap(m_centerPixmap, true);
-        res &= m_rotatePixmap.load(":img/icons/LogoLoadingRotate.png");
-        if (res) m_rotateWidget->setPixmap(m_rotatePixmap, true);
+        UserInterface::PixmapFactory* instance = UserInterface::PixmapFactory::instance();
+        Q_ASSERT(instance);
+        if (instance) {
 
-        if (res && m_anim) {
+            bool res = instance->fetchPixmap(UserInterface::Widget::StandardImage::LoadingLogoCenter, m_centerPixmap);
+            m_centerWidget->setPixmap(m_centerPixmap, true);
+            res &= instance->fetchPixmap(UserInterface::Widget::StandardImage::LoadingLogoRotatingPart, m_rotatePixmap);
+            m_rotateWidget->setPixmap(m_rotatePixmap, true);
 
-            m_rotateWidget->setAlignment(Qt::AlignHCenter | Qt::AlignVCenter);
+            if (res && m_anim) {
 
-            m_anim->setTargetObject(m_rotateWidget);
-            m_anim->setDuration(4000);
-            m_anim->setStartValue(0.0f);
-            m_anim->setEndValue(360.0f);
-            m_anim->setLoopCount(-1);
-            connect(m_anim, &QVariantAnimation::valueChanged, this, &UserInterface::Widget::LoadingIcon::onAnimUpdate);
+                m_rotateWidget->setAlignment(Qt::AlignHCenter | Qt::AlignVCenter);
 
-            m_anim->start();
+                m_anim->setTargetObject(m_rotateWidget);
+                m_anim->setDuration(4000);
+                m_anim->setStartValue(0.0f);
+                m_anim->setEndValue(360.0f);
+                m_anim->setLoopCount(-1);
+                connect(m_anim, &QVariantAnimation::valueChanged, this, &UserInterface::Widget::LoadingIcon::onAnimUpdate);
 
+                m_anim->start();
+
+            }
         }
 
     }
@@ -87,11 +94,16 @@ void UserInterface::Widget::LoadingIcon::scale(const uint8_t percent) {
 
         // reloading the pixmap prevents compression artifacts from causing the distortion of the image
         // we use the saved rotation value as to avoid some slight visual bugs
-        m_rotatePixmap.load(":img/icons/LogoLoadingRotate.png");
-        m_rotatePixmap = m_rotatePixmap.scaled(newWidth, newHeight, Qt::KeepAspectRatio);
-        m_rotatePixmap = m_rotatePixmap.transformed(QTransform().rotate(m_currentRotation));
-        m_rotateWidget->setPixmap(m_rotatePixmap, false);
-        m_rotateWidget->setFixedSize(newWidth, newHeight);
+        UserInterface::PixmapFactory* instance = UserInterface::PixmapFactory::instance();
+        Q_ASSERT(instance);
+        if (instance && instance->fetchPixmap(UserInterface::Widget::StandardImage::LoadingLogoRotatingPart, m_rotatePixmap)) {
+
+            m_rotatePixmap = m_rotatePixmap.scaled(newWidth, newHeight, Qt::KeepAspectRatio);
+            m_rotatePixmap = m_rotatePixmap.transformed(QTransform().rotate(m_currentRotation));
+            m_rotateWidget->setPixmap(m_rotatePixmap, false);
+            m_rotateWidget->setFixedSize(newWidth, newHeight);
+
+        }
 
     }
 
@@ -113,11 +125,16 @@ void UserInterface::Widget::LoadingIcon::scale(const uint8_t percentX, const uin
 
         // reloading the pixmap prevents compression artifacts from causing the distortion of the image
         // we use the saved rotation value as to avoid some slight visual bugs
-        m_rotatePixmap.load(":img/icons/LogoLoadingRotate.png");
-        m_rotatePixmap = m_rotatePixmap.scaled(newWidth, newHeight, Qt::IgnoreAspectRatio);
-        m_rotatePixmap = m_rotatePixmap.transformed(QTransform().rotate(m_currentRotation));
-        m_rotateWidget->setPixmap(m_rotatePixmap, false);
-        m_rotateWidget->setFixedSize(newWidth, newHeight);
+        UserInterface::PixmapFactory* instance = UserInterface::PixmapFactory::instance();
+        Q_ASSERT(instance);
+        if (instance && instance->fetchPixmap(UserInterface::Widget::StandardImage::LoadingLogoRotatingPart, m_rotatePixmap)) {
+
+            m_rotatePixmap = m_rotatePixmap.scaled(newWidth, newHeight, Qt::IgnoreAspectRatio);
+            m_rotatePixmap = m_rotatePixmap.transformed(QTransform().rotate(m_currentRotation));
+            m_rotateWidget->setPixmap(m_rotatePixmap, false);
+            m_rotateWidget->setFixedSize(newWidth, newHeight);
+
+        }
 
     }
 

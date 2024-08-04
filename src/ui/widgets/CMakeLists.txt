@@ -62,10 +62,14 @@ qt_add_resources(${PROJECT_NAME} "ui_elements"
         ../resources/img/background/BackgroundLeft.png
         ../resources/img/background/BackgroundRight.png
         ../resources/img/background/SingleScreenBG.png
-        ../resources/img/icons/RetirementIndicator.png
         ../resources/img/icons/FastestLap.png
+        ../resources/img/icons/LapDetailsDarkGreen.png
+        ../resources/img/icons/LapDetailsLightGreen.png
+        ../resources/img/icons/LapDetailsPurple.png
+        ../resources/img/icons/LapDetailsRed.png
         ../resources/img/icons/PenaltyIndicator.png
         ../resources/img/icons/PenaltyIndicatorTextBG.png
+        ../resources/img/icons/RetirementIndicator.png
         ../resources/img/icons/TrackLimitWarningIcon.png
         ../resources/img/icons/OtherWarningIcon.png
         ../resources/img/icons/LogoLoadingCenter.png

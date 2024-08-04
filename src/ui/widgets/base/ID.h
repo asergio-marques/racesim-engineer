@@ -25,6 +25,9 @@ namespace UserInterface {
             WarningIcon             = 11,
             PenaltyIcon             = 12,
             RetirementIcon          = 13,
+            LapTimeInfo             = 14,
+            RelativeTimeInfo        = 15,
+            GapDeltaInfo            = 16
 
         };
 

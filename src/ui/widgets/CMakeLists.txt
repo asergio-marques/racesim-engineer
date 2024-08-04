@@ -46,6 +46,8 @@ target_sources(${PROJECT_NAME} PRIVATE
     multiplayer_session/warning/WarningContainer.cpp
     multiplayer_session/other/RetirementIcon.cpp
     multiplayer_session/other/RetirementIconBackground.cpp
+    multiplayer_session/timing/TimeInfoContainer.cpp
+    multiplayer_session/timing/LapInfoContainer.cpp
     )
 
 target_link_libraries(${PROJECT_NAME} PRIVATE

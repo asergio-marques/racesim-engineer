@@ -20,8 +20,8 @@ namespace UserInterface {
             public:
             enum class Type : uint8_t {
 
-                TrackLimits = 1,
-                OtherWarns = 2
+                TrackLimits     = 1,
+                OtherWarns      = 2
 
             };
 

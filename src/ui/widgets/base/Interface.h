@@ -18,7 +18,7 @@ namespace UserInterface {
                 virtual void move(const uint16_t x, const uint16_t y, const bool centerAlignmentX, const bool centerAlignmentY) = 0;
                 virtual const UserInterface::Widget::ID& GetId() const;
 
-            private:
+            protected:
                 UserInterface::Widget::ID m_id;
 
         };

@@ -3,6 +3,7 @@
 #include <QWidget>
 #include "base/Container.h"
 #include "base/TextInterface.h"
+#include "data/internal/LapTime.h"
 #include "data/internal/Participant.h"
 #include "data/internal/Penalty.h"
 #include "data/internal/Session.h"
@@ -205,6 +206,7 @@ void UserInterface::Widget::DriverEntry::updatePenalties(const Penalty::Internal
         default:
             // DO NOTHING
             break;
+
     }
 
 }
@@ -223,17 +225,55 @@ void UserInterface::Widget::DriverEntry::updateStatus(const Participant::Interna
 
 
 
+void UserInterface::Widget::DriverEntry::newSessionBestLap(const Lap::Internal::Time newLapTime, const bool isThisDrivers) {
 
-void UserInterface::Widget::DriverEntry::toggleFastestLap() {
+    if (m_fastestLap && m_personalBestLap && m_lastLap) {
 
-    if (m_fastestLap && m_fastestLap->isHidden()) {
+        if (isThisDrivers) {
 
-        m_fastestLap->show();
+            m_fastestLap->show();
+            m_personalBestLap->changeSessionBestStatus(true);
+            m_personalBestLap->updateTime(newLapTime);
+            m_lastLap->changeSessionBestStatus(true);
+            m_lastLap->updateTime(newLapTime);
+
+        }
+        else {
+
+            m_fastestLap->hide();
+            m_personalBestLap->changeSessionBestStatus(false);
+            m_lastLap->changePersonalBestStatus(true);
+
+        }
 
     }
-    else if (m_fastestLap && !m_fastestLap->isHidden()) {
 
-        m_fastestLap->hide();
+}
+
+
+
+void UserInterface::Widget::DriverEntry::newPersonalBestLap(const Lap::Internal::Time newLapTime) {
+
+    if (m_personalBestLap && m_lastLap) {
+
+        m_personalBestLap->changeSessionBestStatus(false);
+        m_personalBestLap->updateTime(newLapTime);
+
+        m_lastLap->changePersonalBestStatus(true);
+        m_lastLap->updateTime(newLapTime);
+
+    }
+
+}
+
+
+
+void UserInterface::Widget::DriverEntry::newLatestLap(const Lap::Internal::Time newLapTime) {
+
+    if (m_lastLap) {
+
+        m_lastLap->changePersonalBestStatus(false);
+        m_lastLap->updateTime(newLapTime);
 
     }
 

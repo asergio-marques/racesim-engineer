@@ -3,6 +3,7 @@
 
 #include <cstdint>
 #include "base/Container.h"
+#include "data/internal/LapTime.h"
 #include "data/internal/Participant.h"
 #include "data/internal/Penalty.h"
 #include "data/internal/Session.h"
@@ -33,7 +34,9 @@ namespace UserInterface {
             void updatePosition(const uint8_t newPosition);
             void updatePenalties(const Penalty::Internal::Type type, const int32_t change);
             void updateStatus(const Participant::Internal::Status status);
-            void toggleFastestLap();
+            void newSessionBestLap(const Lap::Internal::Time newLapTime, const bool isThisDrivers);
+            void newPersonalBestLap(const Lap::Internal::Time newLapTime);
+            void newLatestLap(const Lap::Internal::Time newLapTime);
             virtual void move(const uint16_t x, const uint16_t y, const bool centerAlignmentX, const bool centerAlignmentY) override final;
             void scale(const uint8_t percent) override final;
             void scale(const uint8_t percentX, const uint8_t percentY) override final;

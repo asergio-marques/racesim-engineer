@@ -93,19 +93,26 @@ void UserInterface::Widget::Standings::newCompletedLapInfo(const Packet::Interna
 
     if (dataPacket && m_initialParamsSet) {
 
-        UserInterface::Widget::DriverEntry* newFastest = m_driverData.at(dataPacket->m_index);
-        if (newFastest) {
+        UserInterface::Widget::DriverEntry* entry = m_driverData.at(dataPacket->m_index);
+        if (entry) {
 
             switch (dataPacket->m_infoType) {
 
                 case Lap::Internal::InfoType::FastestLap:
-                    if (m_currentFastestLapHolder) m_currentFastestLapHolder->toggleFastestLap();
-                    newFastest->toggleFastestLap();
-                    m_currentFastestLapHolder = newFastest;
+                    // update fastest lap info
+                    if (m_currentFastestLapHolder && m_currentFastestLapHolder != entry) {
+
+                        m_currentFastestLapHolder->newSessionBestLap(dataPacket->m_lapTime, false);
+
+                    }
+                    entry->newSessionBestLap(dataPacket->m_lapTime, true);
+                    m_currentFastestLapHolder = entry;
                     break;
                 case Lap::Internal::InfoType::PersonalBest:
+                    entry->newPersonalBestLap(dataPacket->m_lapTime);
+                    break;
                 case Lap::Internal::InfoType::LatestLap:
-                    // TODO
+                    entry->newLatestLap(dataPacket->m_lapTime);
                     break;
                 default:
                     break;

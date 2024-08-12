@@ -2,7 +2,7 @@
 #define USERINTERFACE_WIDGETS_INCLUDE_LAP_INFO_CONTAINER_H_
 
 #include "multiplayer_session/timing/TimeInfoContainer.h"
-
+#include "data/internal/LapTime.h"
 
 
 class QWidget;
@@ -18,6 +18,9 @@ namespace UserInterface {
             public:
             LapInfoContainer(UserInterface::Widget::TimeInfoContainer::Type type, QWidget* parent = 0);
             ~LapInfoContainer() = default;
+            void updateTime(const Lap::Internal::Time& newTime);
+            void changeSessionBestStatus(bool show);
+            void changePersonalBestStatus(bool show);
 
             private:
             UserInterface::Widget::ImageInterface* m_sessionBestIndicator;

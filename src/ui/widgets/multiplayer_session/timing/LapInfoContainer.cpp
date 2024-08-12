@@ -52,6 +52,78 @@ UserInterface::Widget::LapInfoContainer::LapInfoContainer(UserInterface::Widget:
 
         m_label->raise();
         m_time->raise();
+        // default value
+        m_time->setText("-:--.---");
+
+    }
+
+}
+
+
+
+void UserInterface::Widget::LapInfoContainer::updateTime(const Lap::Internal::Time& newTime) {
+
+    // simple validity check
+    if (newTime.m_seconds > 0) {
+        
+        // no fancy formatting needed
+        QString minutesString = QString::number(newTime.m_seconds / 60);
+
+        // format the string so that there's a leading zero so 2 digits are always displayed
+        uint16_t seconds = newTime.m_seconds % 60;
+        QString secondsString = (seconds < 10) ? "" : "0" + QString::number(seconds);
+
+        // format the string so that there's one/two leading zeros so 3 digits are always displayed
+        QString millisecondsString;
+        if (newTime.m_milliseconds < 10) {
+            millisecondsString = "00" + QString::number(newTime.m_milliseconds);
+        }
+        else if (newTime.m_milliseconds < 100) {
+            millisecondsString = "0" + QString::number(newTime.m_milliseconds);
+        }
+        else {
+            millisecondsString = QString::number(newTime.m_milliseconds);
+        }
+
+        // concatenate everything and set
+        QString formattedTime = minutesString + QLatin1String(":") + secondsString + QLatin1String(".") + millisecondsString;
+        m_time->setText(formattedTime);
+
+    }
+
+}
+
+
+
+void UserInterface::Widget::LapInfoContainer::changeSessionBestStatus(bool show) {
+    
+    // assumes that when you call it, you never want the "personal best" background to be shown
+    if (m_sessionBestIndicator) {
+
+        m_sessionBestIndicator->setVisible(show);
+
+    }
+    if (m_personalBestIndicator) {
+
+        m_personalBestIndicator->setVisible(false);
+
+    }
+
+}
+
+
+
+void UserInterface::Widget::LapInfoContainer::changePersonalBestStatus(bool show) {
+
+    // assumes that when you call it, you never want the "session best" background to be shown
+    if (m_sessionBestIndicator) {
+
+        m_sessionBestIndicator->setVisible(false);
+
+    }
+    if (m_personalBestIndicator) {
+
+        m_personalBestIndicator->setVisible(show);
 
     }
 

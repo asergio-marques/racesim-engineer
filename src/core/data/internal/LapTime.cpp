@@ -18,7 +18,7 @@ Lap::Internal::Time::Time(const uint32_t milliseconds) :
 
 Lap::Internal::Time::Time(const uint8_t seconds, const uint16_t milliseconds) :
     m_seconds(seconds),
-    m_milliseconds(milliseconds){
+    m_milliseconds(milliseconds) {
 
 
 
@@ -39,7 +39,8 @@ Lap::Internal::Time& Lap::Internal::Time::operator=(const Lap::Internal::Time& o
 
 Lap::Internal::Time& Lap::Internal::Time::operator+=(const Lap::Internal::Time& other) {
 
-    return (*this + other);
+    *this = *this + other;
+    return *this;
 
 }
 
@@ -47,7 +48,8 @@ Lap::Internal::Time& Lap::Internal::Time::operator+=(const Lap::Internal::Time& 
 
 Lap::Internal::Time& Lap::Internal::Time::operator-=(const Lap::Internal::Time& other) {
 
-    return (*this - other);
+    *this = *this - other;
+    return *this;
 
 }
 

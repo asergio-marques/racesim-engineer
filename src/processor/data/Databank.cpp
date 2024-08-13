@@ -285,6 +285,7 @@ void Processor::Data::Databank::updateLapStatus(const Packet::Internal::LapStatu
 
     if (lapPacket) {
 
+        // TODO fix this with the new presumption that all lap status update packets contain 2 laps for the same driver
         for (const auto lapData : lapPacket->GetData()) {
 
             auto entry = m_driverRecords.find(lapData.m_driverID);

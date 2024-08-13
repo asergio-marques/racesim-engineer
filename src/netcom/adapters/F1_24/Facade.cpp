@@ -123,7 +123,7 @@ Packet::Game::Interface* NetCom::Adapter::F1_24::Facade::ProcessDatagram(const c
 }
 
 
-
+#include <iostream>
 std::vector<Packet::Internal::Interface*> NetCom::Adapter::F1_24::Facade::ConvertPacket(const Packet::Game::Interface* packet) {
 
     if (!packet) {
@@ -156,6 +156,14 @@ std::vector<Packet::Internal::Interface*> NetCom::Adapter::F1_24::Facade::Conver
 
         case Packet::Game::F1_24::Type::ParticipantData:
             outputPackets = ConvertParticipantDataPacket(dynamic_cast<const Packet::Game::F1_24::ParticipantData*>(gamePacket));
+            break;
+
+        case Packet::Game::F1_24::Type::SessionHistoryData:
+            outputPackets = ConvertSessionHistoryDataPacket(dynamic_cast<const Packet::Game::F1_24::SessionHistoryData*>(gamePacket));
+            break;
+
+        default:
+            // do nothing
             break;
 
     }
@@ -202,7 +210,6 @@ std::vector<Packet::Internal::Interface*> NetCom::Adapter::F1_24::Facade::Conver
     Packet::Internal::RaceStandings* standingsPacket = new Packet::Internal::RaceStandings(inputPacket->GetHeader()->GetFrameIdentifier());
     Packet::Internal::PenaltyStatus* penaltiesPacket = new Packet::Internal::PenaltyStatus(inputPacket->GetHeader()->GetFrameIdentifier());
     Packet::Internal::ParticipantStatus* statusPacket = new Packet::Internal::ParticipantStatus(inputPacket->GetHeader()->GetFrameIdentifier());
-    Packet::Internal::LapStatus* lapPacket = new Packet::Internal::LapStatus(inputPacket->GetHeader()->GetFrameIdentifier());
     for (size_t i = 0; i < 22; ++i) {
 
         bool ok = false;
@@ -234,45 +241,20 @@ std::vector<Packet::Internal::Interface*> NetCom::Adapter::F1_24::Facade::Conver
                 case Lap::Game::F1_24::ResultStatus::DSQ:
                     status = Participant::Internal::Status::DSQ;
                     break;
+                case Lap::Game::F1_24::ResultStatus::Finished:
+                    status = Participant::Internal::Status::FinishedSession;
+                    break;
                 default:
                     status = Participant::Internal::Status::InvalidUnknown;
             }
 
             statusPacket->InsertData(i, status);
 
-            // Current lap data packet
-            Packet::Internal::LapStatus::Data lapData;
-            lapData.m_driverID = i;
-            lapData.m_lapID = lapInfo.m_currentLapNum;
-            lapData.m_status = lapInfo.m_currentLapInvalid ? Lap::Internal::Status::Invalid : Lap::Internal::Status::Valid;
-            switch (lapInfo.m_status) {
-                case Lap::Game::F1_24::VehicleStatus::OutLap:
-                    lapData.m_type = Lap::Internal::Type::OutLap;
-                    break;
-                case Lap::Game::F1_24::VehicleStatus::InLap:
-                    lapData.m_type = Lap::Internal::Type::InLap;
-                    break;
-                case Lap::Game::F1_24::VehicleStatus::FlyingLap:
-                case Lap::Game::F1_24::VehicleStatus::OnTrack:
-                    lapData.m_type = Lap::Internal::Type::FlyingLap;
-                    break;
-                default:
-                    lapData.m_type = Lap::Internal::Type::InvalidUnknown;
-            }
-            uint32_t sector1TimeMS = (lapInfo.m_sector1TimeMin * 60 * 1000) + lapInfo.m_sector1TimeRemainderMS;
-            uint32_t sector2TimeMS = (lapInfo.m_sector2TimeMin * 60 * 1000) + lapInfo.m_sector2TimeRemainderMS;
-            uint32_t sector3TimeMS = lapInfo.m_currentLapTime - sector1TimeMS - sector2TimeMS;
-            lapData.m_sectorTimes = { sector1TimeMS, sector2TimeMS, sector3TimeMS };
-            // filter for negative values as that may happen
-            lapData.m_lapDistanceRun = (lapInfo.m_lapDistance > std::numeric_limits<float_t>::epsilon() ? lapInfo.m_lapDistance : 0.0f);
-            lapData.m_previousLapTime = lapInfo.m_lastLapTime;
-            lapPacket->InsertData(lapData);
-
         }
 
     }
 
-    return { standingsPacket, penaltiesPacket, statusPacket, lapPacket };
+    return { standingsPacket, penaltiesPacket, statusPacket };
 
 }
 
@@ -367,5 +349,54 @@ std::vector<Packet::Internal::Interface*> NetCom::Adapter::F1_24::Facade::Conver
 
     }
     return{};
+
+}
+
+
+std::vector<Packet::Internal::Interface*> NetCom::Adapter::F1_24::Facade::ConvertSessionHistoryDataPacket(const Packet::Game::F1_24::SessionHistoryData* inputPacket) {
+
+    if (!inputPacket || !(inputPacket->GetHeader())) {
+
+        return {};
+
+    }
+
+    // form the new lap data packet
+    Packet::Internal::LapStatus* lapPacket = new Packet::Internal::LapStatus(inputPacket->GetHeader()->GetFrameIdentifier());
+
+    const auto* currentLapInfo = inputPacket->GetCurrentLapInfo();
+    AddLapStatusInfo(inputPacket, currentLapInfo, lapPacket);
+
+    // Add the previous lap info only if we're not on the first lap
+    if (inputPacket->GetNumLaps() > 1) {
+        const auto* previousLapInfo = inputPacket->GetPreviousLapInfo();
+        AddLapStatusInfo(inputPacket, previousLapInfo, lapPacket);
+    }
+
+    return { lapPacket };
+
+}
+
+
+
+void NetCom::Adapter::F1_24::Facade::AddLapStatusInfo(const Packet::Game::F1_24::SessionHistoryData* inputPacket,
+    const Packet::Game::F1_24::LapHistoryInfo* inputInfo,
+    Packet::Internal::Interface* outputPacket) const {
+
+    auto castOutputPacket = dynamic_cast<Packet::Internal::LapStatus*>(outputPacket);
+
+    if (inputPacket && inputInfo && castOutputPacket) {
+
+        Packet::Internal::LapStatus::Data lapData;
+        lapData.m_driverID = inputPacket->GetCarIndex();
+        lapData.m_lapID = inputPacket->GetNumLaps();
+        lapData.m_currentLapTime = inputInfo->m_lapTime;
+        uint32_t sector1TimeMS = (inputInfo->m_sector1TimeMin * 60 * 1000) + inputInfo->m_sector1TimeRemainderMS;
+        uint32_t sector2TimeMS = (inputInfo->m_sector2TimeMin * 60 * 1000) + inputInfo->m_sector2TimeRemainderMS;
+        uint32_t sector3TimeMS = (inputInfo->m_sector3TimeMin * 60 * 1000) + inputInfo->m_sector3TimeRemainderMS;
+        lapData.m_sectorTimes = { sector1TimeMS, sector2TimeMS, sector3TimeMS };
+        castOutputPacket->InsertData(lapData);
+
+    }
 
 }

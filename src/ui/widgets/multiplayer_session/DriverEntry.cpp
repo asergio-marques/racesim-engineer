@@ -346,6 +346,9 @@ void UserInterface::Widget::DriverEntry::move(const uint16_t x, const uint16_t y
         m_personalBestLap->move(x + totalWidth, y + 3, false, false);
         m_lastLap->move(x + totalWidth, y + 3 + m_personalBestLap->height(), false, false);
 
+        // Add padding again to account for the right padding
+        totalWidth += m_personalBestLap->width() + standingsStyle.PaddingReference.m_value;
+
     }
     if (m_retirement) {
 

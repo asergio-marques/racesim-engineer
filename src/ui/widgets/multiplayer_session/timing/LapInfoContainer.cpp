@@ -71,7 +71,13 @@ void UserInterface::Widget::LapInfoContainer::updateTime(const Lap::Internal::Ti
 
         // format the string so that there's a leading zero so 2 digits are always displayed
         uint16_t seconds = newTime.m_seconds % 60;
-        QString secondsString = (seconds < 10) ? "" : "0" + QString::number(seconds);
+        QString secondsString = "";
+        if (seconds < 10) {
+            secondsString = "0" + QString::number(seconds);
+        }
+        else {
+            secondsString = QString::number(seconds);
+        }
 
         // format the string so that there's one/two leading zeros so 3 digits are always displayed
         QString millisecondsString;

@@ -244,7 +244,7 @@ void UserInterface::Widget::TimeInfoContainer::move(const uint16_t x, const uint
 
     if (m_time) {
 
-        m_time->move(x + width() - m_time->width()  - 3, centerOfY, false, true);
+        m_time->move(x + width() - m_time->width() - 3, centerOfY, false, true);
 
     }
 

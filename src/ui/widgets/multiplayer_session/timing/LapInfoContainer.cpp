@@ -63,6 +63,11 @@ UserInterface::Widget::LapInfoContainer::LapInfoContainer(UserInterface::Widget:
 
 void UserInterface::Widget::LapInfoContainer::updateTime(const Lap::Internal::Time& newTime) {
 
+    Q_ASSERT(m_time);
+
+    // save the right-most point of the lap text for later use
+    const uint16_t timeMaxX = m_time->x() + m_time->width();
+
     // simple validity check
     if (newTime.m_seconds > 0) {
         
@@ -96,7 +101,9 @@ void UserInterface::Widget::LapInfoContainer::updateTime(const Lap::Internal::Ti
         m_time->setText(formattedTime);
 
     }
-
+    // calculate new x point to move the time text widget
+    const uint16_t newX = timeMaxX - m_time->width();
+    m_time->move(newX, m_time->y(), false, false);
 }
 
 

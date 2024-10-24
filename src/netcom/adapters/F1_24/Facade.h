@@ -56,7 +56,7 @@ namespace NetCom {
                 std::vector<Packet::Internal::Interface*> ConvertSessionDataPacket(const Packet::Game::F1_24::SessionData* inputPacket);
                 std::vector<Packet::Internal::Interface*> ConvertParticipantDataPacket(const Packet::Game::F1_24::ParticipantData* inputPacket);
                 std::vector<Packet::Internal::Interface*> ConvertSessionHistoryDataPacket(const Packet::Game::F1_24::SessionHistoryData* inputPacket);
-                void AddLapStatusInfo(const Packet::Game::F1_24::SessionHistoryData* inputPacket,
+                void AddLapStatusInfo(const uint8_t lapNo,
                     const Packet::Game::F1_24::LapHistoryInfo* inputInfo,
                     Packet::Internal::Interface* outputPacket) const;
 

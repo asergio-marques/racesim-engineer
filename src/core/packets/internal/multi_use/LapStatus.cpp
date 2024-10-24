@@ -9,8 +9,9 @@
 
 
 
-Packet::Internal::LapStatus::LapStatus(const uint64_t timestamp) :
-    Packet::Internal::Interface(timestamp) {
+Packet::Internal::LapStatus::LapStatus(const uint64_t timestamp, const uint8_t driverID) :
+    Packet::Internal::Interface(timestamp),
+    m_driverID(driverID) {
 
 
 

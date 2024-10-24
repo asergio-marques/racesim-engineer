@@ -285,24 +285,30 @@ void Processor::Data::Databank::updateLapStatus(const Packet::Internal::LapStatu
 
     if (lapPacket) {
 
-        // TODO fix this with the new presumption that all lap status update packets contain 2 laps for the same driver
-        for (const auto lapData : lapPacket->GetData()) {
+        auto entry = m_driverRecords.find(lapPacket->m_driverID);
+        if (entry != m_driverRecords.end()) {
 
-            auto entry = m_driverRecords.find(lapData.m_driverID);
-            if (entry != m_driverRecords.end()) {
+            auto driverData = entry->second;
 
-                auto driverData = entry->second;
-
-                if (driverData && driverData->updateLastTimestamp(lapPacket->m_timestamp)) {
-
-                    driverData->getModifiableState().updateLap(lapData.m_lapID, lapData.m_type,
-                        lapData.m_status, lapData.m_sectorTimes,
-                        lapData.m_lapDistanceRun, lapData.m_previousLapTime);
-
+            if (driverData && driverData->updateLastTimestamp(lapPacket->m_timestamp)) {
+                
+                // this is so ugly and uses so many assumptions...
+                // initialize
+                auto prevLapData = lapPacket->GetData().at(0);
+                auto currLapData = lapPacket->GetData().at(0);
+                // assume the laps are in order
+                if (lapPacket->GetData().size() > 1) {
+                    currLapData = lapPacket->GetData().at(1);
+                }
+                else {
+                    // Default it
+                    prevLapData = Packet::Internal::LapStatus::Data();
                 }
 
+                driverData->getModifiableState().updateLap(currLapData.m_lapID, currLapData.m_type,
+                        currLapData.m_status, currLapData.m_sectorTimes,
+                        currLapData.m_lapDistanceRun, prevLapData.m_currentLapTime);
             }
-
         }
 
     }

@@ -362,16 +362,19 @@ std::vector<Packet::Internal::Interface*> NetCom::Adapter::F1_24::Facade::Conver
     }
 
     // form the new lap data packet
-    Packet::Internal::LapStatus* lapPacket = new Packet::Internal::LapStatus(inputPacket->GetHeader()->GetFrameIdentifier());
-
-    const auto* currentLapInfo = inputPacket->GetCurrentLapInfo();
-    AddLapStatusInfo(inputPacket, currentLapInfo, lapPacket);
+    Packet::Internal::LapStatus* lapPacket =
+        new Packet::Internal::LapStatus(inputPacket->GetHeader()->GetFrameIdentifier(), inputPacket->GetCarIndex());
 
     // Add the previous lap info only if we're not on the first lap
+    // Do it before so you guarantee the first member is the previous lap
     if (inputPacket->GetNumLaps() > 1) {
         const auto* previousLapInfo = inputPacket->GetPreviousLapInfo();
-        AddLapStatusInfo(inputPacket, previousLapInfo, lapPacket);
+        AddLapStatusInfo(inputPacket->GetNumLaps() - 1, previousLapInfo, lapPacket);
     }
+
+    const auto* currentLapInfo = inputPacket->GetCurrentLapInfo();
+    AddLapStatusInfo(inputPacket->GetNumLaps(), currentLapInfo, lapPacket);
+
 
     return { lapPacket };
 
@@ -379,17 +382,16 @@ std::vector<Packet::Internal::Interface*> NetCom::Adapter::F1_24::Facade::Conver
 
 
 
-void NetCom::Adapter::F1_24::Facade::AddLapStatusInfo(const Packet::Game::F1_24::SessionHistoryData* inputPacket,
+void NetCom::Adapter::F1_24::Facade::AddLapStatusInfo(const uint8_t lapNo,
     const Packet::Game::F1_24::LapHistoryInfo* inputInfo,
     Packet::Internal::Interface* outputPacket) const {
 
     auto castOutputPacket = dynamic_cast<Packet::Internal::LapStatus*>(outputPacket);
 
-    if (inputPacket && inputInfo && castOutputPacket) {
+    if (inputInfo && castOutputPacket) {
 
         Packet::Internal::LapStatus::Data lapData;
-        lapData.m_driverID = inputPacket->GetCarIndex();
-        lapData.m_lapID = inputPacket->GetNumLaps();
+        lapData.m_lapID = lapNo;
         lapData.m_currentLapTime = inputInfo->m_lapTime;
         uint32_t sector1TimeMS = (inputInfo->m_sector1TimeMin * 60 * 1000) + inputInfo->m_sector1TimeRemainderMS;
         uint32_t sector2TimeMS = (inputInfo->m_sector2TimeMin * 60 * 1000) + inputInfo->m_sector2TimeRemainderMS;

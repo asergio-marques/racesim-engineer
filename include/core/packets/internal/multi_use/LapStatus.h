@@ -22,9 +22,6 @@ namespace Packet {
                 // Constructor
                 Data() = default;
 
-                // ID of the driver for which this lap is relative to
-                uint8_t m_driverID;
-
                 // ID of the lap to which this information pertains
                 uint8_t m_lapID;
 
@@ -49,7 +46,7 @@ namespace Packet {
             };
             public:
             // Packet interface constructor
-            LapStatus(const uint64_t timestamp);
+            LapStatus(const uint64_t timestamp, const uint8_t driverID);
 
             // Destructor
             virtual ~LapStatus() = default;
@@ -62,6 +59,9 @@ namespace Packet {
 
             // Retrieve status data from the packet
             const std::vector<Packet::Internal::LapStatus::Data>& GetData() const;
+
+            // ID of the driver for which this lap is relative to
+            const uint8_t m_driverID;
 
             private:
             // Holds the current status of all drivers in the session

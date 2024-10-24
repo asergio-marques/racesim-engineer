@@ -154,9 +154,9 @@ std::vector<Packet::Internal::Interface*> NetCom::Adapter::F1_23::Facade::Conver
             break;
 
         // TODO
-        /*case Packet::Game::F1_23::Type::SessionHistoryData:
+        case Packet::Game::F1_23::Type::SessionHistoryData:
             outputPackets = ConvertSessionHistoryDataPacket(dynamic_cast<const Packet::Game::F1_23::SessionHistoryData*>(gamePacket));
-            break;*/
+            break;
 
     }
 
@@ -340,5 +340,56 @@ std::vector<Packet::Internal::Interface*> NetCom::Adapter::F1_23::Facade::Conver
 
     }
     return{};
+
+}
+
+
+std::vector<Packet::Internal::Interface*> NetCom::Adapter::F1_23::Facade::ConvertSessionHistoryDataPacket(const Packet::Game::F1_23::SessionHistoryData* inputPacket) {
+
+    if (!inputPacket || !(inputPacket->GetHeader())) {
+
+        return {};
+
+    }
+
+    // form the new lap data packet
+    Packet::Internal::LapStatus* lapPacket =
+        new Packet::Internal::LapStatus(inputPacket->GetHeader()->GetFrameIdentifier(), inputPacket->GetCarIndex());
+
+    // Add the previous lap info only if we're not on the first lap
+    // Do it before so you guarantee the first member is the previous lap
+    if (inputPacket->GetNumLaps() > 1) {
+        const auto* previousLapInfo = inputPacket->GetPreviousLapInfo();
+        AddLapStatusInfo(inputPacket->GetNumLaps() - 1, previousLapInfo, lapPacket);
+    }
+
+    const auto* currentLapInfo = inputPacket->GetCurrentLapInfo();
+    AddLapStatusInfo(inputPacket->GetNumLaps(), currentLapInfo, lapPacket);
+
+
+    return { lapPacket };
+
+}
+
+
+
+void NetCom::Adapter::F1_23::Facade::AddLapStatusInfo(const uint8_t lapNo,
+    const Packet::Game::F1_23::LapHistoryInfo* inputInfo,
+    Packet::Internal::Interface* outputPacket) const {
+
+    auto castOutputPacket = dynamic_cast<Packet::Internal::LapStatus*>(outputPacket);
+
+    if (inputInfo && castOutputPacket) {
+
+        Packet::Internal::LapStatus::Data lapData;
+        lapData.m_lapID = lapNo;
+        lapData.m_currentLapTime = inputInfo->m_lapTime;
+        uint32_t sector1TimeMS = inputInfo->m_sector1TimeMS;
+        uint32_t sector2TimeMS = inputInfo->m_sector2TimeMS;
+        uint32_t sector3TimeMS = inputInfo->m_sector3TimeMS;
+        lapData.m_sectorTimes = { sector1TimeMS, sector2TimeMS, sector3TimeMS };
+        castOutputPacket->InsertData(lapData);
+
+    }
 
 }

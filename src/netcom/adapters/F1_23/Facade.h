@@ -18,8 +18,10 @@ namespace Packet {
 
             class EventData;
             class LapData;
+            struct LapHistoryInfo;
             class ParticipantData;
             class SessionData;
+            class SessionHistoryData;
 
         }
 
@@ -53,6 +55,10 @@ namespace NetCom {
                 std::vector<Packet::Internal::Interface*> ConvertEventDataPacket(const Packet::Game::F1_23::EventData* inputPacket);
                 std::vector<Packet::Internal::Interface*> ConvertSessionDataPacket(const Packet::Game::F1_23::SessionData* inputPacket);
                 std::vector<Packet::Internal::Interface*> ConvertParticipantDataPacket(const Packet::Game::F1_23::ParticipantData* inputPacket);
+                std::vector<Packet::Internal::Interface*> ConvertSessionHistoryDataPacket(const Packet::Game::F1_23::SessionHistoryData* inputPacket);
+                void AddLapStatusInfo(const uint8_t lapNo,
+                    const Packet::Game::F1_23::LapHistoryInfo* inputInfo,
+                    Packet::Internal::Interface* outputPacket) const;
 
                 NetCom::Adapter::SessionStateMachine m_sessionSM;
                 NetCom::Adapter::F1_23::SessionStartBuilder m_startPacketBuilder;

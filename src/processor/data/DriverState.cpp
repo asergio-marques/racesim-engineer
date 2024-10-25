@@ -62,9 +62,9 @@ void Processor::Data::DriverState::updateStatus(const Participant::Internal::Sta
 
 
 void Processor::Data::DriverState::updateLap(const uint8_t lapID, const Lap::Internal::Type type,
-    const Lap::Internal::Status status, const std::vector<Lap::Internal::Time> sectorTimes,
+    const Lap::Internal::Status status, const Lap::Internal::Time currentLapTime, const std::vector<Lap::Internal::Time> sectorTimes,
     const float_t lapDistanceRun, const Lap::Internal::Time previousLapTime) {
 
-    m_lapData.updateLap(m_id, lapID, type, status, sectorTimes, lapDistanceRun, previousLapTime);
+    m_lapData.updateLap(m_id, lapID, type, status, currentLapTime, sectorTimes, lapDistanceRun, previousLapTime);
 
 }

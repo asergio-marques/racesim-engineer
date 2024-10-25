@@ -383,7 +383,7 @@ void NetCom::Adapter::F1_23::Facade::AddLapStatusInfo(const uint8_t lapNo,
 
         Packet::Internal::LapStatus::Data lapData;
         lapData.m_lapID = lapNo;
-        lapData.m_currentLapTime = inputInfo->m_lapTime;
+        lapData.m_time = inputInfo->m_lapTime;
         uint32_t sector1TimeMS = inputInfo->m_sector1TimeMS;
         uint32_t sector2TimeMS = inputInfo->m_sector2TimeMS;
         uint32_t sector3TimeMS = inputInfo->m_sector3TimeMS;

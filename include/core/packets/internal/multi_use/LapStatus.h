@@ -32,13 +32,14 @@ namespace Packet {
                 Lap::Internal::Status m_status;
 
                 // Time for the current run around the track
-                Lap::Internal::Time m_currentLapTime;
+                Lap::Internal::Time m_time;
+
+                // Container for the times for each sector of the track (0 = sector 1, 1 = sector 2...)
+                std::vector<Lap::Internal::Time> m_sectorTimes;
 
                 // Container for the times for each mini-sector of the track (0 = mini-sector 1, 1 = mini-sector 2...)
                 std::vector<Lap::Internal::Time> m_miniSectorTimes;
 
-                // Container for the times for each sector of the track (0 = sector 1, 1 = sector 2...)
-                std::vector<Lap::Internal::Time> m_sectorTimes;
 
                 // Track distance the vehicle has travelled in the current lap (meters)
                 float_t m_lapDistanceRun;

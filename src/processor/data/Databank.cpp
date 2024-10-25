@@ -306,8 +306,8 @@ void Processor::Data::Databank::updateLapStatus(const Packet::Internal::LapStatu
                 }
 
                 driverData->getModifiableState().updateLap(currLapData.m_lapID, currLapData.m_type,
-                        currLapData.m_status, currLapData.m_sectorTimes,
-                        currLapData.m_lapDistanceRun, prevLapData.m_currentLapTime);
+                        currLapData.m_status, currLapData.m_time, currLapData.m_sectorTimes,
+                        currLapData.m_lapDistanceRun, prevLapData.m_time);
             }
         }
 

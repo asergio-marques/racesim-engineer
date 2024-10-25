@@ -123,7 +123,7 @@ Packet::Game::Interface* NetCom::Adapter::F1_24::Facade::ProcessDatagram(const c
 }
 
 
-#include <iostream>
+
 std::vector<Packet::Internal::Interface*> NetCom::Adapter::F1_24::Facade::ConvertPacket(const Packet::Game::Interface* packet) {
 
     if (!packet) {
@@ -375,7 +375,6 @@ std::vector<Packet::Internal::Interface*> NetCom::Adapter::F1_24::Facade::Conver
     const auto* currentLapInfo = inputPacket->GetCurrentLapInfo();
     AddLapStatusInfo(inputPacket->GetNumLaps(), currentLapInfo, lapPacket);
 
-
     return { lapPacket };
 
 }
@@ -392,7 +391,7 @@ void NetCom::Adapter::F1_24::Facade::AddLapStatusInfo(const uint8_t lapNo,
 
         Packet::Internal::LapStatus::Data lapData;
         lapData.m_lapID = lapNo;
-        lapData.m_currentLapTime = inputInfo->m_lapTime;
+        lapData.m_time = inputInfo->m_lapTime;
         uint32_t sector1TimeMS = (inputInfo->m_sector1TimeMin * 60 * 1000) + inputInfo->m_sector1TimeRemainderMS;
         uint32_t sector2TimeMS = (inputInfo->m_sector2TimeMin * 60 * 1000) + inputInfo->m_sector2TimeRemainderMS;
         uint32_t sector3TimeMS = (inputInfo->m_sector3TimeMin * 60 * 1000) + inputInfo->m_sector3TimeRemainderMS;

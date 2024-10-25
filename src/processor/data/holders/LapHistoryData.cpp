@@ -44,7 +44,7 @@ void Processor::Data::LapHistoryData::installDetector(Processor::Detector::Inter
 
 
 void Processor::Data::LapHistoryData::updateLap(const uint8_t id, const uint8_t lapID, const Lap::Internal::Type type,
-    const Lap::Internal::Status status, const std::vector<Lap::Internal::Time> sectorTimes,
+    const Lap::Internal::Status status, const Lap::Internal::Time currentLapTime, const std::vector<Lap::Internal::Time> sectorTimes,
     const float_t lapDistanceRun, const Lap::Internal::Time previousLapTime) {
 
     // new entry creation should always happen if the map is empty
@@ -104,6 +104,7 @@ void Processor::Data::LapHistoryData::updateLap(const uint8_t id, const uint8_t 
     }
 
 }
+
 
 
 void Processor::Data::LapHistoryData::evaluateFinishedLap(const Processor::Data::LapInfo& finishedLap) {

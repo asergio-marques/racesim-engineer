@@ -50,6 +50,10 @@ bool NetCom::Listener::UDPSocketWin64::Init() {
     if (m_WSAInit && !m_isSocketInit) {
     
         m_socket = socket(AF_INET, SOCK_DGRAM, 0);
+        int32_t rbufsize = INT32_MAX; // we ball
+        if (setsockopt(m_socket, SOL_SOCKET, SO_RCVBUF, (char*)&rbufsize, sizeof(rbufsize)) < 0) {
+            return false;
+        }
 
         // Check if initialization was successful, return true if so
         // Return false otherwise
@@ -121,7 +125,7 @@ void NetCom::Listener::UDPSocketWin64::Exec() {
         }
 
         // Thread is executed at 50Hz
-        std::this_thread::sleep_for(std::chrono::milliseconds(20));
+        std::this_thread::sleep_for(std::chrono::milliseconds(1));
 
     }
 

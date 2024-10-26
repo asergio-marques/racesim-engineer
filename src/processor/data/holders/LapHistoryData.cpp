@@ -45,7 +45,7 @@ void Processor::Data::LapHistoryData::installDetector(Processor::Detector::Inter
 
 void Processor::Data::LapHistoryData::updateLap(const uint8_t id, const uint8_t lapID, const Lap::Internal::Type type,
     const Lap::Internal::Status status, const Lap::Internal::Time currentLapTime, const std::vector<Lap::Internal::Time> sectorTimes,
-    const float_t lapDistanceRun, const Lap::Internal::Time previousLapTime) {
+    const float_t lapDistanceRun, const Lap::Internal::Time previousLapTime, const bool sessionFinished) {
 
     // new entry creation should always happen if the map is empty
     bool createNew = m_laps.empty();
@@ -61,12 +61,16 @@ void Processor::Data::LapHistoryData::updateLap(const uint8_t id, const uint8_t 
             lap.m_sector2Time = sectorTimes.at(1);
             lap.m_sector3Time = sectorTimes.at(2);
             lap.m_totalLapTime.zero();
-            lap.m_totalLapTime += lap.m_sector1Time;
-            lap.m_totalLapTime += lap.m_sector2Time;
-            lap.m_totalLapTime += lap.m_sector3Time;
+            lap.m_totalLapTime = currentLapTime;
             lap.m_status = status;
-
             lap.m_distanceFulfilled = lapDistanceRun;
+
+            if (sessionFinished) {
+
+                lap.m_isFinished = true;
+                evaluateFinishedLap(lap);
+
+            }
 
         }
 

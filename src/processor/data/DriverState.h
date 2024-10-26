@@ -34,6 +34,10 @@ namespace Processor {
             // Add relevant detectors to then be called when relevant
             void installDetector(Processor::Detector::Interface* detector);
 
+            // Informs the driver record that the session has ended, so that certain information only available
+            // after its end is accepted
+            void markAsFinished();
+
             // Alter the position in this driver state, and feed it to the detector
             void updateCurrentPosition(const uint8_t currentPosition);
 
@@ -53,6 +57,9 @@ namespace Processor {
             private:
             // ID of the driver associated with this state
             const uint8_t m_id;
+
+            // Denotes whether the session has ended or not, important for last lap info
+            bool m_isFinished;
 
             // Holder of all position and time gap information
             Processor::Data::PositionTimingData m_posTimeData;

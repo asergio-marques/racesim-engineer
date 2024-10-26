@@ -33,7 +33,7 @@ namespace Processor {
             // Alter the status of the driver's most recent lap in the session
             void updateLap(const uint8_t id, const uint8_t lapID, const Lap::Internal::Type type,
                 const Lap::Internal::Status status, const Lap::Internal::Time currentLapTime, const std::vector<Lap::Internal::Time> sectorTimes,
-                const float_t lapDistanceRun, const Lap::Internal::Time previousLapTime);
+                const float_t lapDistanceRun, const Lap::Internal::Time previousLapTime, const bool sessionFinished);
 
             private:
             void evaluateFinishedLap(const Processor::Data::LapInfo& finishedLap);

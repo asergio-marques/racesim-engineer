@@ -54,8 +54,8 @@ namespace Processor {
             // Creates the appropriate SessionInfoCreator depending on the type of the sessions started
             void createSessionInformation(const Packet::Internal::SessionStart* sessionStartPacket);
 
-            // Deletes the information from the current session
-            void deleteSessionInformation();
+            // Marks the session as finalized, to accept packets pertaining to the final lap
+            void markAsFinished();
 
             // Interfaces with the DriverState class to update the driver position
             void updateStandings(const Packet::Internal::RaceStandings* standingsPacket);

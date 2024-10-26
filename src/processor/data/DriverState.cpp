@@ -13,6 +13,7 @@
 
 Processor::Data::DriverState::DriverState(const uint8_t id, const uint8_t startingPosition) :
     m_id(id),
+    m_isFinished(false),
     m_posTimeData(startingPosition),
     m_warnPenData() {
 
@@ -31,6 +32,14 @@ void Processor::Data::DriverState::installDetector(Processor::Detector::Interfac
     m_posTimeData.installDetector(detector);
     m_lapData.installDetector(detector);
     m_warnPenData.installDetector(detector);
+
+}
+
+
+
+void Processor::Data::DriverState::markAsFinished() {
+
+    m_isFinished = true;
 
 }
 
@@ -65,6 +74,6 @@ void Processor::Data::DriverState::updateLap(const uint8_t lapID, const Lap::Int
     const Lap::Internal::Status status, const Lap::Internal::Time currentLapTime, const std::vector<Lap::Internal::Time> sectorTimes,
     const float_t lapDistanceRun, const Lap::Internal::Time previousLapTime) {
 
-    m_lapData.updateLap(m_id, lapID, type, status, currentLapTime, sectorTimes, lapDistanceRun, previousLapTime);
+    m_lapData.updateLap(m_id, lapID, type, status, currentLapTime, sectorTimes, lapDistanceRun, previousLapTime, m_isFinished);
 
 }

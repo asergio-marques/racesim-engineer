@@ -21,7 +21,13 @@
 
 Processor::Data::Databank::~Databank() {
 
-    deleteSessionInformation();
+    for (auto record : m_driverRecords) {
+
+        delete record.second;
+
+    }
+    m_driverRecords.clear();
+    delete m_sessionRecord;
 
 }
 
@@ -38,7 +44,7 @@ void Processor::Data::Databank::updateData(const Packet::Internal::Interface* pa
                 break;
 
             case Packet::Internal::Type::SessionEnd:
-                deleteSessionInformation();
+                markAsFinished();
                 break;
 
             case Packet::Internal::Type::Standings:
@@ -154,15 +160,15 @@ void Processor::Data::Databank::createSessionInformation(const Packet::Internal:
 
 
 
-void Processor::Data::Databank::deleteSessionInformation() {
+void Processor::Data::Databank::markAsFinished() {
 
     for (auto record : m_driverRecords) {
 
-        delete record.second;
+        record.second->markAsFinished();
 
     }
-    m_driverRecords.clear();
-    delete m_sessionRecord;
+    // TODO what would this even be for
+    // m_sessionRecord->markAsFinished();
 
 }
 

@@ -17,6 +17,7 @@ UserInterface::Widget::Standings::Standings(QWidget* parent) :
     UserInterface::Widget::Container(UserInterface::Widget::ID::DriverStandings),
     m_parent(parent),
     m_driverData(),
+    m_currentFastestLapHolder(nullptr),
     m_initialParamsSet(false) {
 
     for (uint8_t i = 0; i < 22; ++i) {
@@ -80,6 +81,45 @@ void UserInterface::Widget::Standings::vehicleStatusChanged(const Packet::Intern
 
         UserInterface::Widget::DriverEntry* entry = m_driverData.at(dataPacket->m_index);
         if (entry) entry->updateStatus(dataPacket->m_status);
+
+    }
+
+}
+
+
+
+
+void UserInterface::Widget::Standings::newCompletedLapInfo(const Packet::Internal::FinishedLapInfo* dataPacket) {
+
+    if (dataPacket && m_initialParamsSet) {
+
+        UserInterface::Widget::DriverEntry* entry = m_driverData.at(dataPacket->m_index);
+        if (entry) {
+
+            switch (dataPacket->m_infoType) {
+
+                case Lap::Internal::InfoType::FastestLap:
+                    // update fastest lap info
+                    if (m_currentFastestLapHolder && m_currentFastestLapHolder != entry) {
+
+                        m_currentFastestLapHolder->newSessionBestLap(dataPacket->m_lapTime, false);
+
+                    }
+                    entry->newSessionBestLap(dataPacket->m_lapTime, true);
+                    m_currentFastestLapHolder = entry;
+                    break;
+                case Lap::Internal::InfoType::PersonalBest:
+                    entry->newPersonalBestLap(dataPacket->m_lapTime);
+                    break;
+                case Lap::Internal::InfoType::LatestLap:
+                    entry->newLatestLap(dataPacket->m_lapTime);
+                    break;
+                default:
+                    break;
+
+            }
+
+        }
 
     }
 

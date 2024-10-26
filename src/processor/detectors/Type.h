@@ -13,7 +13,7 @@ namespace Processor {
 
             Invalid             = 0,
             Overtake            = 1,
-            FastestLap          = 2,
+            FinishedLap         = 2,
             WarningPenalty      = 3,
             ParticipantStatus   = 4
 

@@ -30,12 +30,20 @@ namespace UserInterface {
             static inline const Value DriverNameTextSize = { ValueType::Absolute, 30 };
             static inline const Value DriverNameMaxWidth = { ValueType::Absolute, 114 };
 
+            // Lap info
+            static inline const Value LapInfoIconMaxX = { ValueType::Absolute, 116 };
+            static inline const Value LapInfoIconMaxY = { ValueType::Absolute, 21 };
+            static inline const Value LapInfoIconLabelTextSize = { ValueType::Absolute, 9 };
+            static inline const Value LapInfoIconTimeTextSizeRelative = { ValueType::Absolute, 140 };
+
             // Penalty icon
             static inline const Value PenaltyIconMaxX = { ValueType::Absolute, 88 };
             static inline const Value PenaltyIconMaxY = { ValueType::Absolute, 36 };
             static inline const Value PenaltyIconTextSize = { ValueType::Absolute, 16 };
 
             // Retirement icon
+            static inline const Value RetirementIconMaxX = { ValueType::Absolute, 522 };
+            static inline const Value RetirementIconMaxY = { ValueType::Absolute, 42 };
             static inline const Value RetirementIconTextSize = { ValueType::Absolute, 24 };
 
         };

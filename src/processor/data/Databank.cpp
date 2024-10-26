@@ -12,6 +12,7 @@
 #include "packets/internal/Interface.h"
 #include "packets/internal/multi_use/SessionStart.h"
 #include "packets/internal/multi_use/ParticipantStatus.h"
+#include "packets/internal/multi_use/LapStatus.h"
 #include "packets/internal/race_types/RaceStart.h"
 #include "packets/internal/race_types/RaceStandings.h"
 #include "packets/internal/race_types/PenaltyStatus.h"
@@ -20,7 +21,13 @@
 
 Processor::Data::Databank::~Databank() {
 
-    deleteSessionInformation();
+    for (auto record : m_driverRecords) {
+
+        delete record.second;
+
+    }
+    m_driverRecords.clear();
+    delete m_sessionRecord;
 
 }
 
@@ -37,7 +44,7 @@ void Processor::Data::Databank::updateData(const Packet::Internal::Interface* pa
                 break;
 
             case Packet::Internal::Type::SessionEnd:
-                deleteSessionInformation();
+                markAsFinished();
                 break;
 
             case Packet::Internal::Type::Standings:
@@ -50,6 +57,10 @@ void Processor::Data::Databank::updateData(const Packet::Internal::Interface* pa
 
             case Packet::Internal::Type::ParticipantStatus:
                 updateParticipantStatus(dynamic_cast<const Packet::Internal::ParticipantStatus*>(packet));
+                break;
+
+            case Packet::Internal::Type::LapStatus:
+                updateLapStatus(dynamic_cast<const Packet::Internal::LapStatus*>(packet));
                 break;
 
             default:
@@ -76,6 +87,8 @@ void Processor::Data::Databank::installDetector(Processor::Detector::Interface* 
             // Try to add to the current records
             if (!(m_driverRecords.empty()) && m_sessionRecord) {
                 
+                detector->Init(m_sessionRecord);
+
                 for (auto entry : m_driverRecords) {
                     
                     auto record = entry.second;
@@ -121,13 +134,14 @@ void Processor::Data::Databank::createSessionInformation(const Packet::Internal:
 
         }
         if (creator) {
-
-            m_driverRecords = creator->createDriverRecords();
+            
             m_sessionRecord = creator->createSessionRecord();
+            m_driverRecords = creator->createDriverRecords();
 
             for (auto detectorEntry : m_activeDetectors) {
 
                 auto detector = detectorEntry.second;
+                detector->Init(m_sessionRecord);
 
                 for (auto driverEntry : m_driverRecords) {
 
@@ -146,15 +160,15 @@ void Processor::Data::Databank::createSessionInformation(const Packet::Internal:
 
 
 
-void Processor::Data::Databank::deleteSessionInformation() {
+void Processor::Data::Databank::markAsFinished() {
 
     for (auto record : m_driverRecords) {
 
-        delete record.second;
+        record.second->markAsFinished();
 
     }
-    m_driverRecords.clear();
-    delete m_sessionRecord;
+    // TODO what would this even be for
+    // m_sessionRecord->markAsFinished();
 
 }
 
@@ -240,7 +254,7 @@ void Processor::Data::Databank::updatePenalties(const Packet::Internal::PenaltyS
 void Processor::Data::Databank::updateParticipantStatus(const Packet::Internal::ParticipantStatus* statusPacket) {
 
     if (statusPacket) {
-        // for each standing data on the packet, check if the driver ID
+        // for each participant data on the packet, check if the driver ID
         // matches up with the driver ID of each of the driver records and
         // if we are not overwriting more recent data
         // once it does match, the current position in the state is updated
@@ -265,6 +279,42 @@ void Processor::Data::Databank::updateParticipantStatus(const Packet::Internal::
 
             }
 
+        }
+
+    }
+
+}
+
+
+
+void Processor::Data::Databank::updateLapStatus(const Packet::Internal::LapStatus* lapPacket) {
+
+    if (lapPacket) {
+
+        auto entry = m_driverRecords.find(lapPacket->m_driverID);
+        if (entry != m_driverRecords.end()) {
+
+            auto driverData = entry->second;
+
+            if (driverData && driverData->updateLastTimestamp(lapPacket->m_timestamp)) {
+                
+                // this is so ugly and uses so many assumptions...
+                // initialize
+                auto prevLapData = lapPacket->GetData().at(0);
+                auto currLapData = lapPacket->GetData().at(0);
+                // assume the laps are in order
+                if (lapPacket->GetData().size() > 1) {
+                    currLapData = lapPacket->GetData().at(1);
+                }
+                else {
+                    // Default it
+                    prevLapData = Packet::Internal::LapStatus::Data();
+                }
+
+                driverData->getModifiableState().updateLap(currLapData.m_lapID, currLapData.m_type,
+                        currLapData.m_status, currLapData.m_time, currLapData.m_sectorTimes,
+                        currLapData.m_lapDistanceRun, prevLapData.m_time);
+            }
         }
 
     }

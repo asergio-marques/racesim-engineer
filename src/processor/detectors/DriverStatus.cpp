@@ -1,8 +1,6 @@
 #include "detectors/DriverStatus.h"
 
-#include <chrono>
 #include <cstdint>
-#include <thread>
 #include <vector>
 #include "detectors/Interface.h"
 #include "detectors/Type.h"
@@ -13,14 +11,6 @@
 const Processor::Detector::Type Processor::Detector::DriverStatus::GetType() const {
 
     return Processor::Detector::Type::ParticipantStatus;
-
-}
-
-
-
-void Processor::Detector::DriverStatus::Exec() {
-
-    // Do nothing, this detector does not require parallelization
 
 }
 

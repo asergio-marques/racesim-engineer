@@ -35,9 +35,6 @@ namespace Processor {
             // Returns the identifying type of this detector
             const Processor::Detector::Type GetType() const override;
 
-            // Main execution function
-            void Exec() override final;
-
             // Interface function to create new packets for communicating changes to the UI
             void AddStatusChange(const uint8_t id, const Participant::Internal::Status newStatus);
 

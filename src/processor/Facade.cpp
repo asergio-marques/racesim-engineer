@@ -3,7 +3,7 @@
 #include <thread>
 #include <vector>
 #include "data/Databank.h"
-#include "detectors/FastestLap.h"
+#include "detectors/FinishedLap.h"
 #include "detectors/Overtake.h"
 #include "detectors/WarningPenalty.h"
 #include "detectors/DriverStatus.h"
@@ -20,7 +20,7 @@ Processor::Facade::Facade() :
 
     if (m_databank) {
 
-        m_detectors.push_back(new Processor::Detector::FastestLap);
+        m_detectors.push_back(new Processor::Detector::FinishedLap);
         m_detectors.push_back(new Processor::Detector::Overtake);
         m_detectors.push_back(new Processor::Detector::WarningPenalty);
         m_detectors.push_back(new Processor::Detector::DriverStatus);
@@ -32,7 +32,6 @@ Processor::Facade::Facade() :
         if (detector) {
 
             m_databank->installDetector(detector);
-            detector->Init();
 
         }
 

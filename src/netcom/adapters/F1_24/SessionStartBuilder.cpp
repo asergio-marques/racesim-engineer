@@ -93,6 +93,14 @@ void NetCom::Adapter::F1_24::SessionStartBuilder::CreateSessionPacket(const Pack
 
         }
 
+        if (m_packetBeingBuilt) {
+
+            m_packetBeingBuilt->m_sector1Distance = gamePacket->GetSector2LapDistanceStart();
+            m_packetBeingBuilt->m_sector2Distance = gamePacket->GetSector3LapDistanceStart() - m_packetBeingBuilt->m_sector1Distance;
+            // distance of sector 3 or full lap unavailable
+
+        }
+
     }
 
 }
@@ -130,7 +138,8 @@ void NetCom::Adapter::F1_24::SessionStartBuilder::AppendParticipantData(const Pa
 
 }
 
-#include <iostream>
+
+
 void NetCom::Adapter::F1_24::SessionStartBuilder::AppendLapData(const Packet::Game::F1_24::LapData* gamePacket) {
 
     // Need the indexes from the participant data to add starting positions

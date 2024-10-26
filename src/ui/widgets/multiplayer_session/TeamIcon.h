@@ -23,8 +23,6 @@ namespace UserInterface {
 
             private:
             bool m_isSet;
-            static const QMap<Session::Internal::TeamID, QString> m_teamIDFilenameMap;
-            static constexpr char m_unknownIDFilename[] = "hello";
 
         };
     }

@@ -1,7 +1,5 @@
 #include "detectors/WarningPenalty.h"
 
-#include <chrono>
-#include <thread>
 #include "detectors/Interface.h"
 #include "detectors/Type.h"
 #include "packets/internal/multi_use/PenaltyChange.h"
@@ -11,14 +9,6 @@
 const Processor::Detector::Type Processor::Detector::WarningPenalty::GetType() const {
 
     return Processor::Detector::Type::WarningPenalty;
-
-}
-
-
-
-void Processor::Detector::WarningPenalty::Exec() {
-
-    // Do nothing, this detector does not require parallelization
 
 }
 

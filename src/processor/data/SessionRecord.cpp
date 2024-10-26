@@ -23,3 +23,11 @@ Processor::Data::SessionRecord::~SessionRecord() {
 
 
 }
+
+
+
+Processor::Data::SessionState& Processor::Data::SessionRecord::getModifiableState() {
+
+    return m_state;
+
+}

@@ -6,6 +6,7 @@
 #include "packets/internal/multi_use/MPSessionStart.h"
 #include "packets/internal/multi_use/ParticipantStatusChange.h"
 #include "packets/internal/multi_use/PenaltyChange.h"
+#include "packets/internal/multi_use/FinishedLapInfo.h"
 
 
 
@@ -29,6 +30,7 @@ namespace UserInterface {
             void setStartingGrid(const Packet::Internal::MPSessionStart* dataPacket);
             void penaltyAssignedToVehicle(const Packet::Internal::PenaltyChange* dataPacket);
             void vehicleStatusChanged(const Packet::Internal::ParticipantStatusChange* dataPacket);
+            void newCompletedLapInfo(const Packet::Internal::FinishedLapInfo* dataPacket);
             void move(const uint16_t x, const uint16_t y, const bool centerAlignmentX, const bool centerAlignmentY) override final;
             void scale(const uint8_t percent) override final;
             void scale(const uint8_t percentX, const uint8_t percentY) override final;
@@ -45,6 +47,7 @@ namespace UserInterface {
             private:
             QWidget* m_parent;
             QList<UserInterface::Widget::DriverEntry*> m_driverData;
+            UserInterface::Widget::DriverEntry* m_currentFastestLapHolder;
             bool m_initialParamsSet;
 
 

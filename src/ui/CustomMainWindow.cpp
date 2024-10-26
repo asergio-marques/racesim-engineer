@@ -68,18 +68,18 @@ void UserInterface::CustomMainWindow::OnSessionEnd(bool withDelay) {
 
     // TODO figure a way to make this work so the "result screen" hangs on for 
     // a (configurable?) time at the end before switching to the loading screen
-    /*if (withDelay) {
-        QTimer::singleShot(5000, this, &UserInterface::CustomMainWindow::doSwitchScreen(UserInterface::Screen::Type::Loading));
+    if (withDelay) {
+        QTimer::singleShot(120000, this, [&]() {
+            if (doSwitchScreen(UserInterface::Screen::Type::Loading)) {
+                QCoreApplication::setApplicationName("RaceSimEngineer - Waiting for Session...");
+            };
+        });
     }
     else {
-        doSwitchScreen(UserInterface::Screen::Type::Loading);
-    }*/
-
-    if (doSwitchScreen(UserInterface::Screen::Type::Loading)) {
-        
-        // TODO: Isn't working for some reason
-        QCoreApplication::setApplicationName("RaceSimEngineer - Waiting for Session...");
-
+        if (doSwitchScreen(UserInterface::Screen::Type::Loading)) {
+            // TODO: Isn't working for some reason
+            QCoreApplication::setApplicationName("RaceSimEngineer - Waiting for Session...");
+        }
     }
 
 }

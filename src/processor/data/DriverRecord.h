@@ -28,6 +28,10 @@ namespace Processor {
             // Returns the driver ID associated with this driver record
             const uint8_t getDriverId() const;
 
+            // Informs the driver record that the session has ended, so that certain information only available
+            // after its end is accepted
+            void markAsFinished();
+
             // Exposes the internal state object for easier modification
             Processor::Data::DriverState& getModifiableState();
 
@@ -37,6 +41,9 @@ namespace Processor {
 
             // Holds the ID of the driver associated with this record
             uint8_t m_driverId;
+
+            // Denotes whether the session has ended or not, important for last lap info
+            bool m_isFinished;
 
             // Holds the full-length name of the driver associated with this record
             const std::string m_driverFullName;

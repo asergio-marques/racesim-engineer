@@ -24,6 +24,7 @@ target_sources(${PROJECT_NAME} PRIVATE
     UIStarter.cpp
     CustomMainWindow.cpp
     PacketHandler.cpp
+    core/PixmapFactory.cpp
     # panels
     panels/Interface.cpp
     panels/Loading.cpp

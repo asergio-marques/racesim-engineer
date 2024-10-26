@@ -46,6 +46,8 @@ target_sources(${PROJECT_NAME} PRIVATE
     multiplayer_session/warning/WarningContainer.cpp
     multiplayer_session/other/RetirementIcon.cpp
     multiplayer_session/other/RetirementIconBackground.cpp
+    multiplayer_session/timing/TimeInfoContainer.cpp
+    multiplayer_session/timing/LapInfoContainer.cpp
     )
 
 target_link_libraries(${PROJECT_NAME} PRIVATE
@@ -62,14 +64,19 @@ qt_add_resources(${PROJECT_NAME} "ui_elements"
         ../resources/img/background/BackgroundLeft.png
         ../resources/img/background/BackgroundRight.png
         ../resources/img/background/SingleScreenBG.png
-        ../resources/img/icons/RetirementIndicator.png
         ../resources/img/icons/FastestLap.png
-        ../resources/img/icons/PenaltyIndicator.png
-        ../resources/img/icons/PenaltyIndicatorTextBG.png
-        ../resources/img/icons/TrackLimitWarningIcon.png
-        ../resources/img/icons/OtherWarningIcon.png
+        ../resources/img/icons/LapDetailsDarkGreen.png
+        ../resources/img/icons/LapDetailsLightGreen.png
+        ../resources/img/icons/LapDetailsPurple.png
+        ../resources/img/icons/LapDetailsRed.png
         ../resources/img/icons/LogoLoadingCenter.png
         ../resources/img/icons/LogoLoadingRotate.png
+        ../resources/img/icons/OtherWarningIcon.png
+        ../resources/img/icons/PenaltyIndicator.png
+        ../resources/img/icons/PenaltyIndicatorTextBG.png
+        ../resources/img/icons/RetirementIndicator.png
+        ../resources/img/icons/TrackLimitWarningIcon.png
+        ../resources/img/icons/UnknownImageRequested.png
         ../resources/img/teams/AlfaRomeoLogo.png
         ../resources/img/teams/AlphaTauriLogo.png
         ../resources/img/teams/AlpineLogo.png

@@ -65,7 +65,6 @@ namespace Packet {
 
 
 
-            // TODO this packet is probably unnecessary, to be ignored at first
             class SessionHistoryData final : public Packet::Game::F1_23::Interface {
 
                 public:
@@ -85,6 +84,7 @@ namespace Packet {
                 inline const uint8_t GetBestSector3TimeLapNum() const { return m_bestSector3LapNum; }
                 inline const Packet::Game::F1_23::LapHistoryInfo* const GetLapHistoryInfo() const { return m_lapHistoryInfo; }
                 inline const Packet::Game::F1_23::LapHistoryInfo* const GetCurrentLapInfo() const { return &m_lapHistoryInfo[GetNumLaps()]; }
+                inline const Packet::Game::F1_23::LapHistoryInfo* const GetPreviousLapInfo() const { return &m_lapHistoryInfo[GetNumLaps() - 2]; }
                 inline const Packet::Game::F1_23::TyreStintHistoryInfo* const GetTyreStintHistoryInfo() const { return m_tyreStintHistoryInfo; }
                 inline const Packet::Game::F1_23::TyreStintHistoryInfo* const GetCurrentTyreStintInfo() const { return &m_tyreStintHistoryInfo[GetNumLaps()]; }
 

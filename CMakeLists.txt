@@ -24,6 +24,7 @@ target_sources(${PROJECT_NAME} PRIVATE src/main.cpp)
 target_link_libraries(${PROJECT_NAME} PRIVATE
     RaceSimEngineerCore
     RaceSimEngineerPacketsF123
+    RaceSimEngineerPacketsF124
     RaceSimEngineerPacketsInternal
     RaceSimEngineerNetwork
     RaceSimEngineerProcessor

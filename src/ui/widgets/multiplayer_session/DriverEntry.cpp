@@ -3,14 +3,16 @@
 #include <QWidget>
 #include "base/Container.h"
 #include "base/TextInterface.h"
+#include "data/internal/LapTime.h"
 #include "data/internal/Participant.h"
 #include "data/internal/Penalty.h"
 #include "data/internal/Session.h"
 #include "multiplayer_session/FastestLapIndicator.h"
 #include "multiplayer_session/TeamIcon.h"
 #include "multiplayer_session/penalty/PenaltyIcon.h"
-#include "multiplayer_session/warning/WarningContainer.h"
 #include "multiplayer_session/other/RetirementIcon.h"
+#include "multiplayer_session/timing/LapInfoContainer.h"
+#include "multiplayer_session/warning/WarningContainer.h"
 #include "styles/General.h"
 #include "styles/Standings.h"
 
@@ -30,6 +32,8 @@ UserInterface::Widget::DriverEntry::DriverEntry(QWidget* parent) :
         UserInterface::Widget::WarningContainer::Type::OtherWarns, parent)),
     m_teamIcon(new UserInterface::Widget::TeamIcon(parent)),
     m_driverName(new UserInterface::Widget::TextInterface(UserInterface::Widget::ID::DriverName, parent)),
+    m_personalBestLap(new UserInterface::Widget::LapInfoContainer(UserInterface::Widget::TimeInfoContainer::Type::PersonalBestTime, parent)),
+    m_lastLap(new UserInterface::Widget::LapInfoContainer(UserInterface::Widget::TimeInfoContainer::Type::LastLapTime, parent)),
     m_penalties(new UserInterface::Widget::PenaltyIcon(parent)),
     m_retirement(new UserInterface::Widget::RetirementIcon(parent)) {
 
@@ -78,6 +82,18 @@ UserInterface::Widget::DriverEntry::DriverEntry(QWidget* parent) :
 
     }
 
+    if (m_lastLap) {
+
+        m_allWidgets.append(m_lastLap);
+
+    }
+
+    if (m_personalBestLap) {
+
+        m_allWidgets.append(m_personalBestLap);
+
+    }
+
     if (m_retirement) {
 
         m_allWidgets.append(m_retirement);
@@ -121,6 +137,18 @@ void UserInterface::Widget::DriverEntry::init(const Session::Internal::Participa
         m_driverName->adjustSize();
 
     }
+    if (m_personalBestLap) {
+
+        m_personalBestLap->setSize(style.LapInfoIconMaxX.m_value, style.LapInfoIconMaxY.m_value, true);
+        m_personalBestLap->adjustSize();
+
+    }
+    if (m_lastLap) {
+
+        m_lastLap->setSize(style.LapInfoIconMaxX.m_value, style.LapInfoIconMaxY.m_value, true);
+        m_lastLap->adjustSize();
+
+    }
     if (m_penalties) {
 
         m_penalties->setSize(style.PenaltyIconMaxX.m_value, style.PenaltyIconMaxY.m_value, true);
@@ -130,10 +158,9 @@ void UserInterface::Widget::DriverEntry::init(const Session::Internal::Participa
     // needs to be the last one so that the width can be calculated okay
     if (m_retirement) {
         
-        // TODO proper calculation of width and values
-        auto retirementIconWidth = 522;
-        m_retirement->setSize(retirementIconWidth, m_fastestLap->height() - 3 - 3, false);
-        m_retirement->move(m_penalties->x(), m_penalties->y() + (m_penalties->height() / 2), false, true);
+        // TODO proper calculation of width
+        m_retirement->setSize(style.RetirementIconMaxX.m_value, style.RetirementIconMaxY.m_value, false);
+        m_retirement->setTextFontSize(style.RetirementIconTextSize.m_value);
         m_retirement->adjustSize();
 
     }
@@ -179,6 +206,7 @@ void UserInterface::Widget::DriverEntry::updatePenalties(const Penalty::Internal
         default:
             // DO NOTHING
             break;
+
     }
 
 }
@@ -190,6 +218,62 @@ void UserInterface::Widget::DriverEntry::updateStatus(const Participant::Interna
     if (m_retirement) {
 
         m_retirement->activate(status);
+
+    }
+
+}
+
+
+
+void UserInterface::Widget::DriverEntry::newSessionBestLap(const Lap::Internal::Time newLapTime, const bool isThisDrivers) {
+
+    if (m_fastestLap && m_personalBestLap && m_lastLap) {
+
+        if (isThisDrivers) {
+
+            m_fastestLap->show();
+            m_personalBestLap->changeSessionBestStatus(true);
+            m_personalBestLap->updateTime(newLapTime);
+            m_lastLap->changeSessionBestStatus(true);
+            m_lastLap->updateTime(newLapTime);
+
+        }
+        else {
+
+            m_fastestLap->hide();
+            m_personalBestLap->changeSessionBestStatus(false);
+            m_lastLap->changePersonalBestStatus(true);
+
+        }
+
+    }
+
+}
+
+
+
+void UserInterface::Widget::DriverEntry::newPersonalBestLap(const Lap::Internal::Time newLapTime) {
+
+    if (m_personalBestLap && m_lastLap) {
+
+        m_personalBestLap->changeSessionBestStatus(false);
+        m_personalBestLap->updateTime(newLapTime);
+
+        m_lastLap->changePersonalBestStatus(true);
+        m_lastLap->updateTime(newLapTime);
+
+    }
+
+}
+
+
+
+void UserInterface::Widget::DriverEntry::newLatestLap(const Lap::Internal::Time newLapTime) {
+
+    if (m_lastLap) {
+
+        m_lastLap->changePersonalBestStatus(false);
+        m_lastLap->updateTime(newLapTime);
 
     }
 
@@ -255,6 +339,17 @@ void UserInterface::Widget::DriverEntry::move(const uint16_t x, const uint16_t y
         totalWidth += standingsStyle.DriverNameMaxWidth.m_value + standingsStyle.PaddingReference.m_value;
 
     }
+    if (m_personalBestLap && m_lastLap) {
+
+        // Add the padding, again! And the maximum width for centering!
+        totalWidth += standingsStyle.PaddingReference.m_value;
+        m_personalBestLap->move(x + totalWidth, y + 3, false, false);
+        m_lastLap->move(x + totalWidth, y + 3 + m_personalBestLap->height(), false, false);
+
+        // Add padding again to account for the right padding
+        totalWidth += m_personalBestLap->width() + standingsStyle.PaddingReference.m_value;
+
+    }
     if (m_retirement) {
 
         // No need for padding as this widget is supposed to be "above" the others
@@ -317,6 +412,20 @@ void UserInterface::Widget::DriverEntry::setSize(const uint16_t newWidth, const 
 
         m_driverName->setFontSize(standingsStyle.DriverNameTextSize.m_value);
         m_driverName->adjustSize();
+
+    }
+    if (m_personalBestLap) {
+
+        m_personalBestLap->setSize(standingsStyle.LapInfoIconMaxX.m_value, standingsStyle.LapInfoIconMaxY.m_value, false);
+        m_personalBestLap->setTextFontSize(standingsStyle.LapInfoIconLabelTextSize.m_value);
+        m_personalBestLap->adjustSize();
+
+    }
+    if (m_lastLap) {
+
+        m_lastLap->setSize(standingsStyle.LapInfoIconMaxX.m_value, standingsStyle.LapInfoIconMaxY.m_value, false);
+        m_lastLap->setTextFontSize(standingsStyle.LapInfoIconLabelTextSize.m_value);
+        m_lastLap->adjustSize();
 
     }
     if (m_penalties) {

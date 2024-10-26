@@ -14,5 +14,7 @@
 #include "data/game/F1_24/Session.h"
 #include "data/game/F1_24/Status.h"
 #include "data/game/F1_24/Telemetry.h"
-#include "data/internal/Session.h"
+#include "data/internal/Lap.h"
+#include "data/internal/Participant.h"
 #include "data/internal/Penalty.h"
+#include "data/internal/Session.h"

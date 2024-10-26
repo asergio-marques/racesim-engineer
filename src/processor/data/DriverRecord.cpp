@@ -12,7 +12,8 @@ Processor::Data::DriverRecord::DriverRecord(const uint64_t initTimestamp, const 
     m_driverId(driverData.m_index),
     m_driverFullName(driverData.m_fullName),
     m_driverShortName(driverData.m_shortName),
-    m_state(driverData.m_index, driverData.m_startPosition) {
+    m_state(driverData.m_index, driverData.m_startPosition),
+    m_isFinished(false) {
 
 
 
@@ -30,7 +31,8 @@ Processor::Data::DriverRecord::~DriverRecord() {
 
 const bool Processor::Data::DriverRecord::updateLastTimestamp(const uint64_t newTimestamp) {
 
-    if (newTimestamp >= m_lastStateTimestamp) {
+    // When the session has been finalized, the timestamp might be sent as 0, so we need to take precautions regarding it
+    if ((newTimestamp >= m_lastStateTimestamp) || m_isFinished) {
 
         m_lastStateTimestamp = newTimestamp;
         return true;
@@ -46,6 +48,15 @@ const bool Processor::Data::DriverRecord::updateLastTimestamp(const uint64_t new
 const uint8_t Processor::Data::DriverRecord::getDriverId() const {
 
     return m_driverId;
+
+}
+
+
+
+void Processor::Data::DriverRecord::markAsFinished() {
+
+    m_isFinished = true;
+    m_state.markAsFinished();
 
 }
 

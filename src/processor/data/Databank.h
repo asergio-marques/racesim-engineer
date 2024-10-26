@@ -16,6 +16,7 @@ namespace Packet {
         class RaceStandings;
         class PenaltyStatus;
         class ParticipantStatus;
+        class LapStatus;
 
     }
 
@@ -53,8 +54,8 @@ namespace Processor {
             // Creates the appropriate SessionInfoCreator depending on the type of the sessions started
             void createSessionInformation(const Packet::Internal::SessionStart* sessionStartPacket);
 
-            // Deletes the information from the current session
-            void deleteSessionInformation();
+            // Marks the session as finalized, to accept packets pertaining to the final lap
+            void markAsFinished();
 
             // Interfaces with the DriverState class to update the driver position
             void updateStandings(const Packet::Internal::RaceStandings* standingsPacket);
@@ -64,6 +65,9 @@ namespace Processor {
 
             // Interfaces with the DriverState class to update the status of the session participants
             void updateParticipantStatus(const Packet::Internal::ParticipantStatus* statusPacket);
+
+            // Interfaces with the DriverState class to update the status of the session participants' laps
+            void updateLapStatus(const Packet::Internal::LapStatus* lapPacket);
 
             // Holds a list of the driver records for the current session, using the driver ID as index
             std::map<const uint8_t, Processor::Data::DriverRecord*> m_driverRecords;

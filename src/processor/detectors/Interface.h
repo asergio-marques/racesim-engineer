@@ -21,6 +21,12 @@ namespace Packet {
 
 namespace Processor {
 
+    namespace Data {
+
+        class SessionRecord;
+
+    }
+
     namespace Detector {
 
         class Interface : public Packet::Internal::Broadcaster {
@@ -33,13 +39,14 @@ namespace Processor {
             virtual ~Interface() = default;
 
             // Starts the worker thread of this detector
-            virtual void Init();
+            virtual void Init(Processor::Data::SessionRecord* record);
 
             // Returns the identifying type of this detector
             virtual const Processor::Detector::Type GetType() const = 0;
 
             // Main execution function to be overridden by all concrete detectors
-            virtual void Exec() = 0;
+            // Does nothing by default
+            virtual void Exec() {}
 
             // Exposes the list of vector currently held by the detector so that it may be sent
             virtual const std::vector<Packet::Internal::Interface*>& UnsentPackets() const;
@@ -53,6 +60,9 @@ namespace Processor {
 
             // Main execution thread
             std::thread m_workerThread;
+
+            // Data record for the current session
+            Processor::Data::SessionRecord* m_sessionRecord;
 
         };
 

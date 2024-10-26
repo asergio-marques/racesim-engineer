@@ -30,6 +30,7 @@ UserInterface::Panel::RaceRight::RaceRight(UserInterface::PacketHandler* handler
         connect(handler, &UserInterface::PacketHandler::OvertakePerformed, this, &UserInterface::Panel::RaceRight::onOvertake);
         connect(handler, &UserInterface::PacketHandler::PenaltyAssigned, m_driverStandings, &UserInterface::Widget::Standings::penaltyAssignedToVehicle);
         connect(handler, &UserInterface::PacketHandler::DriverStatusChanged, m_driverStandings, &UserInterface::Widget::Standings::vehicleStatusChanged);
+        connect(handler, &UserInterface::PacketHandler::NewlyCompletedLap, m_driverStandings, &UserInterface::Widget::Standings::newCompletedLapInfo);
 
     }
 

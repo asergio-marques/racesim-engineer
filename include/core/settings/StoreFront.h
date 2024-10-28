@@ -7,6 +7,12 @@
 
 
 
+namespace Processor {
+
+    class IFileIO;
+
+}
+
 namespace Settings {
 
     // The main entrypoint for anyone requesting settings info, singleton to avoid mismatch issues
@@ -17,7 +23,7 @@ namespace Settings {
         static Settings::StoreFront* getInstance();
 
         // Initialize the settings map by reading the config file (if available) or by filling it with the default values
-        const bool Init();
+        const bool Init(Processor::IFileIO* fileIO);
 
         // Write the changes to the config file at application close
         const bool Shutdown();

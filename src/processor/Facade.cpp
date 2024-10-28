@@ -15,6 +15,7 @@
 Processor::Facade::Facade() :
     Processor::IFacade::IFacade(),
     m_databank(new Processor::Data::Databank),
+    m_fileIO(nullptr),
     m_detectors(),
     m_workerThread() {
 
@@ -36,7 +37,6 @@ Processor::Facade::Facade() :
         }
 
     }
-    m_workerThread = std::thread(&Processor::Facade::Exec, this);
 
 }
 
@@ -57,6 +57,16 @@ void Processor::Facade::OnPacketBroadcast(Packet::Internal::Interface* packet) {
         m_databank->updateData(packet);
 
     }
+
+}
+
+
+
+
+void Processor::Facade::Init(Processor::IFileIO* fileIO) {
+
+    m_fileIO = fileIO;
+    m_workerThread = std::thread(&Processor::Facade::Exec, this);
 
 }
 

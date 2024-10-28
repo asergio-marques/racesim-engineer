@@ -32,12 +32,18 @@ namespace Processor {
             // Implements the internal packet subscriber handling function
             virtual void OnPacketBroadcast(Packet::Internal::Interface* packet) override final;
 
+            // Initializes needed member variables and starts component
+            virtual void Init(Processor::IFileIO* fileIO) override final;
+
             // Main execution loop function
             void Exec();
 
         private:
             // Main handler object for all driver and session data
             Processor::Data::Databank* const m_databank;
+
+            // Main handler object for all reading and writing of the persistence files
+            Processor::IFileIO* m_fileIO;
 
             // Holder for all detectors that will have access to the databank
             std::vector<Processor::Detector::Interface*> m_detectors;

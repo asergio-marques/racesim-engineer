@@ -9,11 +9,14 @@
 
 namespace Processor {
 
+    class IFileIO;
+
     class IFacade : public Packet::Internal::Broadcaster, public Packet::Internal::Subscriber {
 
         public:
             IFacade() = default;
             virtual ~IFacade() = default;
+            virtual void Init(Processor::IFileIO* fileIO) = 0;
 
     };
 

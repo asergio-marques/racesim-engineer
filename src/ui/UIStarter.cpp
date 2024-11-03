@@ -4,7 +4,6 @@
 #include <QGuiApplication>
 #include <QFontDatabase>
 #include <QMainWindow>
-#include <QMenuBar>
 #include <QTimer>
 #include "CustomMainWindow.h"
 #include "PacketHandler.h"
@@ -72,12 +71,6 @@ void UserInterface::UIStarter::Init(int* argc, char*** argv) {
         m_window->addScreen(new UserInterface::Screen::Qualifying(m_handler, m_window));
         m_window->addScreen(new UserInterface::Screen::Race(m_handler, m_window));
         
-        QMenuBar* menuBar = new QMenuBar(m_window);
-        if (menuBar) {
-            menuBar->addMenu(QString::fromUtf8("Settings"));
-            menuBar->addMenu(QString::fromUtf8("About"));
-            m_window->setMenuBar(menuBar);
-        }
         // start on Loading by default
         m_window->OnSessionEnd();
         m_window->show();

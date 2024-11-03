@@ -1,7 +1,12 @@
 #include "CustomMainWindow.h"
 
+#include <QAction>
 #include <QApplication>
+#include <QDialog>
+#include <QFileDialog>
 #include <QMainWindow>
+#include <QMenu>
+#include <QMenuBar>
 #include <QResizeEvent>
 #include <QTimer>
 #include <QWidget>
@@ -16,7 +21,45 @@ UserInterface::CustomMainWindow::CustomMainWindow(QWidget* parent) :
     QMainWindow(parent),
     m_screens(),
     m_activeScreen(nullptr) {
+    QMenuBar* menuBar = new QMenuBar(this);
+    Q_ASSERT(menuBar);
+    if (menuBar) {
+        QMenu* menu = menuBar->addMenu(QString::fromUtf8("RaceSimEngineer"));
+        Q_ASSERT(menu);
 
+        // export
+        QAction* exportAct = new QAction(QString::fromUtf8("Export race results"));
+        connect(exportAct, &QAction::triggered, this, [&](bool checked) {
+            QString folderPath = QFileDialog::getExistingDirectory(this, QString::fromUtf8("Choose directory to export race data"));
+            
+            });
+        menu->addAction(exportAct);
+
+        // settings
+        QAction* settingsAct = new QAction(QString::fromUtf8("Settings"));
+        Q_ASSERT(settingsAct);
+        connect(settingsAct, &QAction::triggered, this, [&](bool checked) {
+            QDialog settingsDialog;
+            settingsDialog.setFixedSize(QSize(720, 540));
+            settingsDialog.setWindowTitle(QString::fromUtf8("Settings"));
+            settingsDialog.exec();
+            });
+
+        menu->addAction(settingsAct);
+        // about
+        QAction* aboutAct = new QAction(QString::fromUtf8("About"));
+        Q_ASSERT(aboutAct);
+        connect(aboutAct, &QAction::triggered, this, [&](bool checked) {
+            QDialog aboutDialog;
+            aboutDialog.setFixedSize(QSize(540, 320));
+            aboutDialog.setWindowTitle(QString::fromUtf8("About RaceSimEngineer"));
+            aboutDialog.exec();
+            });
+        menu->addAction(aboutAct);
+
+
+        setMenuBar(menuBar);
+    }
 }
 
 

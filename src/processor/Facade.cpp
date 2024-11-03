@@ -63,7 +63,7 @@ void Processor::Facade::OnPacketBroadcast(Packet::Internal::Interface* packet) {
 
 
 
-void Processor::Facade::Init(Processor::IFileIO* fileIO) {
+void Processor::Facade::Init(Processor::IFileIO* fileIO, IPresenter* presenter) {
 
     m_fileIO = fileIO;
     m_workerThread = std::thread(&Processor::Facade::Exec, this);

@@ -5,7 +5,7 @@
 #include "packets/internal/Subscriber.h"
 
 
-
+class IPresenter;
 
 namespace Processor {
 
@@ -16,7 +16,7 @@ namespace Processor {
         public:
             IFacade() = default;
             virtual ~IFacade() = default;
-            virtual void Init(Processor::IFileIO* fileIO) = 0;
+            virtual void Init(Processor::IFileIO* fileIO, IPresenter* presenter) = 0;
 
     };
 

@@ -7,6 +7,8 @@
 
 
 
+class IPresenter;
+
 namespace Processor {
 
     class IFileIO;
@@ -23,7 +25,7 @@ namespace Settings {
         static Settings::StoreFront* getInstance();
 
         // Initialize the settings map by reading the config file (if available) or by filling it with the default values
-        const bool Init(Processor::IFileIO* fileIO);
+        const bool Init(Processor::IFileIO* fileIO, IPresenter* presenter);
 
         // Write the changes to the config file at application close
         const bool Shutdown();

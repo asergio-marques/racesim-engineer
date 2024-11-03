@@ -6,6 +6,8 @@
 #include "IFacade.h"
 
 
+class IPresenter;
+
 namespace Processor {
 
     namespace Data {
@@ -33,7 +35,7 @@ namespace Processor {
             virtual void OnPacketBroadcast(Packet::Internal::Interface* packet) override final;
 
             // Initializes needed member variables and starts component
-            virtual void Init(Processor::IFileIO* fileIO) override final;
+            virtual void Init(Processor::IFileIO* fileIO, IPresenter* presenter) override final;
 
             // Main execution loop function
             void Exec();

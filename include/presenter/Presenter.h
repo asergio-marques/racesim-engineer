@@ -1,22 +1,16 @@
 #ifndef PRESENTER_INCLUDE_PRESENTER_H_
 #define PRESENTER_INCLUDE_PRESENTER_H_
 
-#include <memory>
-#include "packets/game/Subscriber.h"
+#include "IPresenter.h"
 
 
 
-namespace Presenter {
+class Presenter : public IPresenter {
 
-    class Presenter : public Packet::Game::Subscriber {
+    public:
+    Presenter() = default;
+    virtual ~Presenter() override = default;
 
-        public:
-            Presenter() = default;
-            virtual ~Presenter() = default;
-            virtual void OnPacketBroadcast(Packet::Game::Interface* packet) override final;
-
-    };
-
-}
+};
 
 #endif // PRESENTER_INCLUDE_PRESENTER_H_

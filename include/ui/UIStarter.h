@@ -8,10 +8,9 @@
 
 
 
+class IPresenter;
 class QApplication;
 class QWidget;
-
-
 
 namespace Packet {
 
@@ -21,8 +20,6 @@ namespace Packet {
 
     }
 }
-
-
 
 namespace UserInterface {
 
@@ -34,7 +31,7 @@ namespace UserInterface {
     public:
         UIStarter();
         virtual ~UIStarter();
-        void Init(int* argc, char*** argv);
+        void Init(int* argc, char*** argv, IPresenter* presenter);
         int Run();
         void OnPacketBroadcast(Packet::Internal::Interface* packet) override final;
 

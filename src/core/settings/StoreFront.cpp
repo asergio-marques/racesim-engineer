@@ -22,7 +22,7 @@ Settings::StoreFront* Settings::StoreFront::getInstance() {
 
 
 
-const bool Settings::StoreFront::Init(Processor::IFileIO* fileIO) {
+const bool Settings::StoreFront::Init(Processor::IFileIO* fileIO, IPresenter* presenter) {
 
     // If the config file does not exist already, assign the default values for the map
     if (!std::filesystem::exists("config.xml")) {

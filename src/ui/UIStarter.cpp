@@ -49,7 +49,7 @@ void UserInterface::UIStarter::Init(int* argc, char*** argv, IPresenter* present
     font.setFamily(QFontDatabase::applicationFontFamilies(normal_id).at(0));
     font.setStyleStrategy(QFont::StyleStrategy::PreferAntialias);
     QGuiApplication::setFont(font);
-    m_window = new UserInterface::CustomMainWindow();
+    m_window = new UserInterface::CustomMainWindow(presenter);
     if (m_window && m_handler) {
 
         m_handler->connect(m_handler, &UserInterface::PacketHandler::TimeTrialStart,

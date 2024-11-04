@@ -10,6 +10,7 @@ class Presenter : public IPresenter {
     public:
     Presenter() = default;
     virtual ~Presenter() override = default;
+    virtual void exportRaceToFolder(QString folderPath) override;
 
 };
 

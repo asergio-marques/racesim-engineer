@@ -4,6 +4,8 @@ set(CMAKE_CXX_STANDARD 17)
 project(RaceSimEngineerPresenter LANGUAGES CXX)
 add_library(${PROJECT_NAME} STATIC)
 
+find_package(Qt6 REQUIRED COMPONENTS Core)
+
 # traverse the parent folders until project root is reached
 cmake_path(GET CMAKE_CURRENT_LIST_DIR PARENT_PATH PROJECT_ROOT)
 cmake_path(GET PROJECT_ROOT PARENT_PATH PROJECT_ROOT)
@@ -18,7 +20,8 @@ target_sources(${PROJECT_NAME} PRIVATE
     Presenter.cpp)
 
 target_link_libraries(${PROJECT_NAME} PRIVATE
-    RaceSimEngineerCore)
+    RaceSimEngineerCore
+    Qt6::Core)
 
 set_target_properties(${PROJECT_NAME}
 	PROPERTIES

@@ -4,10 +4,11 @@
 #include <QMainWindow>
 #include "core/ScreenType.h"
 
+
+
+class IPresenter;
 class QResizeEvent;
 class QWidget;
-
-
 
 namespace UserInterface {
 
@@ -22,7 +23,7 @@ namespace UserInterface {
         Q_OBJECT
 
         public:
-            CustomMainWindow(QWidget* parent = 0);
+            CustomMainWindow(IPresenter* presenter, QWidget* parent = 0);
             virtual ~CustomMainWindow() = default;
             void addScreen(UserInterface::Screen::Interface* newScreen);
             // TODO these functions are to take in session start internal packets,

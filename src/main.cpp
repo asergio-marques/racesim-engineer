@@ -17,13 +17,13 @@ int main(int argc, char* argv[]) {
     IPresenter* presenter = new Presenter;
     if (!presenter) return -1;
 
-    NetCom::Facade* commComponent = new NetCom::Facade;
-    if (commComponent) commComponent->Init();
-    else return -1;
-
     // Set up main components
     Settings::StoreFront* settingsStore = Settings::StoreFront::getInstance();
     if (settingsStore) settingsStore->Init(fileWorker, presenter);
+    else return -1;
+
+    NetCom::Facade* commComponent = new NetCom::Facade;
+    if (commComponent) commComponent->Init();
     else return -1;
 
     Processor::IFacade* processor = new Processor::Facade;

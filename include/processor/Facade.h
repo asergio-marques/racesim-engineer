@@ -37,8 +37,8 @@ namespace Processor {
             // Initializes needed member variables and starts component
             virtual void Init(Processor::IFileIO* fileIO, IPresenter* presenter) override final;
 
-            // Main execution loop function
-            void Exec();
+            // Trigger function for the export of the current dataset
+            virtual void ExportCurrentRaceData(std::string path) override final;
 
         private:
             // Main handler object for all driver and session data
@@ -52,6 +52,9 @@ namespace Processor {
 
             // Main execution thread
             std::thread m_workerThread;
+
+            // Main execution loop function
+            void Exec();
 
     };
 

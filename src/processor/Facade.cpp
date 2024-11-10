@@ -9,6 +9,7 @@
 #include "detectors/DriverStatus.h"
 #include "IFacade.h"
 #include "packets/internal/Subscriber.h"
+#include "IPresenter.h"
 
 
 
@@ -65,8 +66,26 @@ void Processor::Facade::OnPacketBroadcast(Packet::Internal::Interface* packet) {
 
 void Processor::Facade::Init(Processor::IFileIO* fileIO, IPresenter* presenter) {
 
-    m_fileIO = fileIO;
+    if (fileIO) {
+
+        m_fileIO = fileIO;
+    }
+
+    if (presenter) {
+
+        presenter->setProcessor(this);
+
+    }
+
     m_workerThread = std::thread(&Processor::Facade::Exec, this);
+
+}
+
+
+
+void Processor::Facade::ExportCurrentRaceData(std::string path) {
+
+    // TODO
 
 }
 

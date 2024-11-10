@@ -13,7 +13,9 @@ cmake_path(GET PROJECT_ROOT PARENT_PATH PROJECT_ROOT)
 target_include_directories(${PROJECT_NAME} PUBLIC
     "${PROJECT_ROOT}/include/core"
     "${PROJECT_ROOT}/include/presenter")
-target_include_directories(${PROJECT_NAME} PRIVATE "${PROJECT_ROOT}/src/presenter")
+target_include_directories(${PROJECT_NAME} PRIVATE
+    "${PROJECT_ROOT}/src/presenter"
+    "${PROJECT_ROOT}/include/processor")
 target_link_directories(${PROJECT_NAME} PRIVATE "${PROJECT_ROOT}/lib/")
 
 target_sources(${PROJECT_NAME} PRIVATE

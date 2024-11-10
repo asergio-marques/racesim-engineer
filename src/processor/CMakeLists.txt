@@ -11,7 +11,9 @@ cmake_path(GET PROJECT_ROOT PARENT_PATH PROJECT_ROOT)
 target_include_directories(${PROJECT_NAME} PUBLIC
     "${PROJECT_ROOT}/include/core"
     "${PROJECT_ROOT}/include/processor")
-target_include_directories(${PROJECT_NAME} PRIVATE "${PROJECT_ROOT}/src/processor")
+target_include_directories(${PROJECT_NAME} PRIVATE
+    "${PROJECT_ROOT}/include/presenter"
+    "${PROJECT_ROOT}/src/processor")
 target_link_directories(${PROJECT_NAME} PRIVATE "${PROJECT_ROOT}/lib/")
 
 target_sources(${PROJECT_NAME} PRIVATE
@@ -32,8 +34,9 @@ target_sources(${PROJECT_NAME} PRIVATE
     detectors/Overtake.cpp
     detectors/WarningPenalty.cpp)
 
-target_link_libraries(${PROJECT_NAME} PRIVATE
-    RaceSimEngineerCore)
+target_link_libraries(${PROJECT_NAME} PUBLIC
+    RaceSimEngineerCore
+    RaceSimEngineerPresenter)
 
 set_target_properties(${PROJECT_NAME}
 	PROPERTIES

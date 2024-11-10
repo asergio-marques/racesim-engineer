@@ -1,8 +1,10 @@
 #ifndef PROCESSOR_INCLUDE_IFACADE_H_
 #define PROCESSOR_INCLUDE_IFACADE_H_
 
+#include <string>
 #include "packets/internal/Broadcaster.h"
 #include "packets/internal/Subscriber.h"
+
 
 
 class IPresenter;
@@ -17,6 +19,7 @@ namespace Processor {
             IFacade() = default;
             virtual ~IFacade() = default;
             virtual void Init(Processor::IFileIO* fileIO, IPresenter* presenter) = 0;
+            virtual void ExportCurrentRaceData(std::string path) = 0;
 
     };
 

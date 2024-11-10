@@ -2,13 +2,27 @@
 #define PRESENTER_INCLUDE_IPRESENTER_H_
 
 
-#include <QString>
+
+class QString;
+
+namespace Processor {
+
+    class IFacade;
+
+}
+
+namespace Processor {
+
+    class IFacade;
+
+}
 
 class IPresenter {
 
     public:
     IPresenter() = default;
     virtual ~IPresenter() = default;
+    virtual void setProcessor(Processor::IFacade* processor) = 0;
     virtual void exportRaceToFolder(QString folderPath) = 0;
 
 };

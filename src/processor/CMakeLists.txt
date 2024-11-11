@@ -32,7 +32,8 @@ target_sources(${PROJECT_NAME} PRIVATE
     detectors/DriverStatus.cpp
     detectors/FinishedLap.cpp
     detectors/Overtake.cpp
-    detectors/WarningPenalty.cpp)
+    detectors/WarningPenalty.cpp
+    exporters/RaceSession.cpp)
 
 target_link_libraries(${PROJECT_NAME} PUBLIC
     RaceSimEngineerCore

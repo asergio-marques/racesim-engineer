@@ -7,6 +7,7 @@
 #include "detectors/Overtake.h"
 #include "detectors/WarningPenalty.h"
 #include "detectors/DriverStatus.h"
+#include "exporters/Interface.h"
 #include "IFacade.h"
 #include "packets/internal/Subscriber.h"
 #include "IPresenter.h"
@@ -85,7 +86,17 @@ void Processor::Facade::Init(Processor::IFileIO* fileIO, IPresenter* presenter) 
 
 void Processor::Facade::ExportCurrentRaceData(std::string path) {
 
-    // TODO
+    if (m_databank && m_databank->getExporter()) {
+
+        const Processor::Exporter::Interface* exporter = m_databank->getExporter();
+        exporter->Export(m_fileIO, path);
+
+    }
+    else {
+
+        // THROW ERROR
+
+    }
 
 }
 

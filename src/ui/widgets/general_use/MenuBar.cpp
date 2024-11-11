@@ -47,7 +47,6 @@ UserInterface::Widgets::MenuBar::~MenuBar() {
 void UserInterface::Widgets::MenuBar::fileExportRequested() {
 
     QString folderPath = QFileDialog::getExistingDirectory(this, QString::fromUtf8("Choose directory to export race data"));
-    qDebug() << folderPath;
     if (m_presenter) m_presenter->exportRaceToFolder(folderPath);
 
 }

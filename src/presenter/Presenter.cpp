@@ -18,6 +18,7 @@ void Presenter::setProcessor(Processor::IFacade* processor) {
 }
 
 
+
 void Presenter::exportRaceToFolder(QString folderPath) {
 
     if (m_processor) {

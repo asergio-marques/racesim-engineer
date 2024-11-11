@@ -9,6 +9,7 @@
 #include "data/creators/RaceSession.h"
 #include "detectors/Interface.h"
 #include "detectors/Type.h"
+#include "exporters/RaceSession.h"
 #include "packets/internal/Interface.h"
 #include "packets/internal/multi_use/SessionStart.h"
 #include "packets/internal/multi_use/ParticipantStatus.h"
@@ -104,6 +105,17 @@ void Processor::Data::Databank::installDetector(Processor::Detector::Interface* 
 
 }
 
+
+
+const Processor::Exporter::Interface* Processor::Data::Databank::getExporter() const {
+
+    return m_exporter;
+
+}
+
+
+
+
 void Processor::Data::Databank::createSessionInformation(const Packet::Internal::SessionStart* sessionStartPacket) {
 
     if (sessionStartPacket) {
@@ -126,6 +138,7 @@ void Processor::Data::Databank::createSessionInformation(const Packet::Internal:
             
             case Session::Internal::Type::Race:
                 creator = new Processor::Data::Creator::RaceSession(dynamic_cast<const Packet::Internal::RaceStart*>(sessionStartPacket));
+                m_exporter = new Processor::Exporter::RaceSession();
                 break;
 
             default:
@@ -137,6 +150,7 @@ void Processor::Data::Databank::createSessionInformation(const Packet::Internal:
             
             m_sessionRecord = creator->createSessionRecord();
             m_driverRecords = creator->createDriverRecords();
+            m_exporter->InjectRecords(&m_driverRecords, m_sessionRecord);
 
             for (auto detectorEntry : m_activeDetectors) {
 

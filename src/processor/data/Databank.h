@@ -30,6 +30,12 @@ namespace Processor {
 
     }
 
+    namespace Exporter {
+
+        class Interface;
+
+    }
+
     namespace Data {
 
         class DriverRecord;
@@ -49,6 +55,9 @@ namespace Processor {
 
             // Add a detector to the databank's own list of active detectors, avoiding duplicates
             void installDetector(Processor::Detector::Interface* detector);
+
+            // Exposes the exporter interface for use
+            const Processor::Exporter::Interface* getExporter() const;
 
             private:
             // Creates the appropriate SessionInfoCreator depending on the type of the sessions started
@@ -74,6 +83,9 @@ namespace Processor {
 
             // History about the current session
             Processor::Data::SessionRecord* m_sessionRecord;
+
+            // The exporter appropriate for the current session type
+            Processor::Exporter::Interface* m_exporter;
 
             // Holds a list of the currently added detectors, using the detector type as index
             std::map<Processor::Detector::Type, Processor::Detector::Interface*> m_activeDetectors;

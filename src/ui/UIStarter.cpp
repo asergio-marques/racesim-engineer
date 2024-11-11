@@ -71,8 +71,7 @@ void UserInterface::UIStarter::Init(int* argc, char*** argv, IPresenter* present
         m_window->addScreen(new UserInterface::Screen::Qualifying(m_handler, m_window));
         m_window->addScreen(new UserInterface::Screen::Race(m_handler, m_window));
         
-        // start on Loading by default
-        m_window->OnSessionEnd();
+        m_window->Startup();
         m_window->show();
 
         // delay the showing of the window slightly so it is properly stylized at startup

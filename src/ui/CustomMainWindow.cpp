@@ -15,11 +15,14 @@
 
 UserInterface::CustomMainWindow::CustomMainWindow(IPresenter* presenter, QWidget* parent) :
     QMainWindow(parent),
+    m_menuBar(nullptr),
     m_screens(),
     m_activeScreen(nullptr) {
-    QMenuBar* menuBar = new UserInterface::Widgets::MenuBar(presenter, this);
-    Q_ASSERT(menuBar);
-    if (menuBar) setMenuBar(menuBar);
+
+    m_menuBar = new UserInterface::Widgets::MenuBar(presenter, this);
+    Q_ASSERT(m_menuBar);
+    setMenuBar(m_menuBar);
+
 }
 
 
@@ -67,11 +70,20 @@ void UserInterface::CustomMainWindow::addScreen(UserInterface::Screen::Interface
 
 
 
+void UserInterface::CustomMainWindow::Startup() {
+
+    doSwitchScreen(UserInterface::Screen::Type::Loading);
+    QCoreApplication::setApplicationName("RaceSimEngineer - Waiting for Session...");
+
+}
+
+
+
 void UserInterface::CustomMainWindow::OnSessionEnd(bool withDelay) {
 
     // TODO figure a way to make this work so the "result screen" hangs on for 
     // a (configurable?) time at the end before switching to the loading screen
-    if (withDelay) {
+    /*if (withDelay) {
         QTimer::singleShot(120000, this, [&]() {
             if (doSwitchScreen(UserInterface::Screen::Type::Loading)) {
                 QCoreApplication::setApplicationName("RaceSimEngineer - Waiting for Session...");
@@ -83,7 +95,10 @@ void UserInterface::CustomMainWindow::OnSessionEnd(bool withDelay) {
             // TODO: Isn't working for some reason
             QCoreApplication::setApplicationName("RaceSimEngineer - Waiting for Session...");
         }
-    }
+    }*/
+
+    Q_ASSERT(m_menuBar);
+    m_menuBar->enableSessionActions(false);
 
 }
 
@@ -92,6 +107,9 @@ void UserInterface::CustomMainWindow::OnSessionEnd(bool withDelay) {
 void UserInterface::CustomMainWindow::OnTimeTrialStart() {
 
     if (doSwitchScreen(UserInterface::Screen::Type::TimeTrial)) {
+
+        Q_ASSERT(m_menuBar);
+        m_menuBar->enableSessionActions(true);
 
         // TODO: Isn't working for some reason
         QCoreApplication::setApplicationName("RaceSimEngineer - Time Trial");
@@ -106,6 +124,9 @@ void UserInterface::CustomMainWindow::OnFreePracticeStart() {
 
     if (doSwitchScreen(UserInterface::Screen::Type::FreePractice)) {
 
+        Q_ASSERT(m_menuBar);
+        m_menuBar->enableSessionActions(true);
+
         // TODO: Isn't working for some reason
         QCoreApplication::setApplicationName("RaceSimEngineer - Practice");
 
@@ -119,6 +140,9 @@ void UserInterface::CustomMainWindow::OnQualiStart() {
 
     if (doSwitchScreen(UserInterface::Screen::Type::Qualifying)) {
 
+        Q_ASSERT(m_menuBar);
+        m_menuBar->enableSessionActions(true);
+
         // TODO: Isn't working for some reason
         QCoreApplication::setApplicationName("RaceSimEngineer - Qualifying");
 
@@ -131,6 +155,9 @@ void UserInterface::CustomMainWindow::OnQualiStart() {
 void UserInterface::CustomMainWindow::OnRaceStart() {
 
     if (doSwitchScreen(UserInterface::Screen::Type::Race)) {
+
+        Q_ASSERT(m_menuBar);
+        m_menuBar->enableSessionActions(true);
 
         // TODO: Isn't working for some reason
         QCoreApplication::setApplicationName("RaceSimEngineer - Race");

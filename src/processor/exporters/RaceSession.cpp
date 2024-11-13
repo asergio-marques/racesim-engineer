@@ -36,12 +36,19 @@ void Processor::Exporter::RaceSession::InjectRecords(
 #include <iostream>
 void Processor::Exporter::RaceSession::Export(Processor::IFileIO* fileWriter, std::string path) const {
     
-    path += "/now.xml";
+    path = "C:/Users/dusk_/Documents/now.xml";
     std::cout << "Path for export: " << path << std::endl;
 
     pugi::xml_document doc;
-    auto node = doc.append_child("laps");
-    auto node1 = node.append_child("1");
+    pugi::xml_node rootNode = doc.append_child("race");
+
+    pugi::xml_node trackNode = rootNode.append_child("track");
+    trackNode.append_child("id").append_child(pugi::node_pcdata).set_value("1");
+    trackNode.append_child("name").append_child(pugi::node_pcdata).set_value("interlagos");
+
+    rootNode.append_child("numLaps").append_child(pugi::node_pcdata).set_value("36");
+    rootNode.append_child("completion").append_child(pugi::node_pcdata).set_value("true");
+
     std::cout << "Saving result: " << doc.save_file(path.c_str()) << std::endl;
 
 }

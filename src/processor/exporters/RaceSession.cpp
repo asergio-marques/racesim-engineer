@@ -41,13 +41,37 @@ void Processor::Exporter::RaceSession::Export(Processor::IFileIO* fileWriter, st
 
     pugi::xml_document doc;
     pugi::xml_node rootNode = doc.append_child("race");
-
-    pugi::xml_node trackNode = rootNode.append_child("track");
-    trackNode.append_child("id").append_child(pugi::node_pcdata).set_value("1");
-    trackNode.append_child("name").append_child(pugi::node_pcdata).set_value("interlagos");
-
+    rootNode.append_child("trackId").append_child(pugi::node_pcdata).set_value("1");
+    rootNode.append_child("trackName").append_child(pugi::node_pcdata).set_value("interlagos");
     rootNode.append_child("numLaps").append_child(pugi::node_pcdata).set_value("36");
+    rootNode.append_child("fastestOverallLap").append_child(pugi::node_pcdata).set_value("1:08.048");
     rootNode.append_child("completion").append_child(pugi::node_pcdata).set_value("true");
+    rootNode.append_child("gridPosition").append_child(pugi::node_pcdata).set_value("2");
+    pugi::xml_node lapsNode = rootNode.append_child("laps");
+    for (size_t i = 1; i <= 36; ++i) {
+        pugi::xml_node lapNode = lapsNode.append_child("lap");
+        lapNode.append_child("id").append_child(pugi::node_pcdata).set_value(std::to_string(i).c_str());
+        lapNode.append_child("totalLapTime").append_child(pugi::node_pcdata).set_value("1:08.048");
+        lapNode.append_child("sector1Time").append_child(pugi::node_pcdata).set_value("18.158");
+        lapNode.append_child("sector2Time").append_child(pugi::node_pcdata).set_value("33.925");
+        lapNode.append_child("sector3Time").append_child(pugi::node_pcdata).set_value("15.965");
+        lapNode.append_child("tyreType").append_child(pugi::node_pcdata).set_value("S");
+        lapNode.append_child("tyreCompound").append_child(pugi::node_pcdata).set_value("C4");
+        lapNode.append_child("energyDelta").append_child(pugi::node_pcdata).set_value("10.032");
+        lapNode.append_child("energyRechargePercent").append_child(pugi::node_pcdata).set_value("0.82");
+        lapNode.append_child("fuelDeltaKg").append_child(pugi::node_pcdata).set_value("-0.68");
+        lapNode.append_child("numDRSAct").append_child(pugi::node_pcdata).set_value("2");
+        lapNode.append_child("trackConditions").append_child(pugi::node_pcdata).set_value("Dry");
+        lapNode.append_child("deltaLeaderAtEnd").append_child(pugi::node_pcdata).set_value("0.000");
+        lapNode.append_child("deltaFrontAtEnd").append_child(pugi::node_pcdata).set_value("0.000");
+        lapNode.append_child("deltaBackAtEnd").append_child(pugi::node_pcdata).set_value("-2.315");
+        lapNode.append_child("positionAtEnd").append_child(pugi::node_pcdata).set_value("1");
+        lapNode.append_child("trackLimits").append_child(pugi::node_pcdata).set_value("1");
+        lapNode.append_child("otherWarns").append_child(pugi::node_pcdata).set_value("0");
+        lapNode.append_child("timePens").append_child(pugi::node_pcdata).set_value("0");
+        lapNode.append_child("driveThroughs").append_child(pugi::node_pcdata).set_value("0");
+        lapNode.append_child("other").append_child(pugi::node_pcdata).set_value("");
+    }
 
     std::cout << "Saving result: " << doc.save_file(path.c_str()) << std::endl;
 

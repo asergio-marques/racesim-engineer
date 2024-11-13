@@ -3,6 +3,7 @@
 #include <cstdint>
 #include <map>
 #include <string>
+#include <pugixml.hpp>
 #include "exporters/Interface.h"
 #include "FileIO.h"
 
@@ -33,8 +34,14 @@ void Processor::Exporter::RaceSession::InjectRecords(
 
 
 #include <iostream>
-void Processor::Exporter::RaceSession::Export(Processor::IFileIO* fileWriter, const std::string path) const {
-
+void Processor::Exporter::RaceSession::Export(Processor::IFileIO* fileWriter, std::string path) const {
+    
+    path += "/now.xml";
     std::cout << "Path for export: " << path << std::endl;
+
+    pugi::xml_document doc;
+    auto node = doc.append_child("laps");
+    auto node1 = node.append_child("1");
+    std::cout << "Saving result: " << doc.save_file(path.c_str()) << std::endl;
 
 }

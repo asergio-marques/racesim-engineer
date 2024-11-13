@@ -35,7 +35,7 @@ namespace Processor {
             virtual void InjectRecords(std::map<const uint8_t, Processor::Data::DriverRecord*>* driverRecords, Processor::Data::SessionRecord* sessionRecord) override final;
 
             // Parses the information from the records into a pre-defined XML schema and outputs it with the help of the IFileIO class
-            virtual void Export(Processor::IFileIO* fileWriter, const std::string path) const override final;
+            virtual void Export(Processor::IFileIO* fileWriter, std::string path) const override final;
 
             private:
             // Points to the driver records held in the databank, only valid after InjectRecords is called

@@ -23,14 +23,14 @@ UserInterface::Widgets::MenuBar::MenuBar(IPresenter* presenter, QWidget* parent)
     // export, needs to be saved so it's toggleable
     m_exportAction = new QAction(QString::fromUtf8("Export race results"));
     Q_ASSERT(m_exportAction);
-    m_exportAction->setEnabled(false);
+    m_exportAction->setEnabled(true);
     connect(m_exportAction, &QAction::triggered, this, &UserInterface::Widgets::MenuBar::fileExportRequested);
     m_mainMenu->addAction(m_exportAction);
 
     // session data clear, needs to be saved so it's toggleable
     m_sessionClearAction = new QAction(QString::fromUtf8("Clear current session data"));
     Q_ASSERT(m_sessionClearAction);
-    m_sessionClearAction->setEnabled(false);
+    m_sessionClearAction->setEnabled(true);
     connect(m_sessionClearAction, &QAction::triggered, this, &UserInterface::Widgets::MenuBar::clearCurrentSessionRequested);
     m_mainMenu->addAction(m_sessionClearAction);
 

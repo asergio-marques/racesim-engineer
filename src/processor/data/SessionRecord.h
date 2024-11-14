@@ -20,8 +20,16 @@ namespace Processor {
             // Destructor
             ~SessionRecord();
 
+            // Exposes the ID of the track the session is running on
+            const Session::Internal::Track getTrackID();
+
+            // Exposes the number of total laps to be completed
+            const uint8_t getTotalLaps();
+
             // Exposes the internal state object for easier modification
             Processor::Data::SessionState& getModifiableState();
+
+
 
             private:
             // Holds the value of the most recent timestamp

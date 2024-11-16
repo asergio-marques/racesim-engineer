@@ -22,7 +22,6 @@ target_link_directories(${PROJECT_NAME} PRIVATE "${PROJECT_ROOT}/lib/")
 
 target_sources(${PROJECT_NAME} PRIVATE
     Facade.cpp
-    FileIO.cpp
     data/Databank.cpp
     data/DriverRecord.cpp
     data/DriverState.cpp

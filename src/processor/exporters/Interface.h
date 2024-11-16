@@ -9,8 +9,6 @@
 
 namespace Processor {
 
-    class IFileIO;
-
     namespace Data {
 
         class DriverRecord;
@@ -37,9 +35,9 @@ namespace Processor {
             virtual void InjectRecords(Processor::Data::SessionRecord* sessionRecord,
                 std::map<const uint8_t, Processor::Data::DriverRecord*>* driverRecords) = 0;
 
-            // Parses the information from the records into a pre-defined XML schema and outputs it with the help of the IFileIO class
+            // Parses the information from the records into a pre-defined XML schema and outputs it
             // Returns the success of the operation
-            virtual bool Export(Processor::IFileIO* fileWriter, std::string path) const = 0;
+            virtual bool Export(std::string path) const = 0;
 
         };
 

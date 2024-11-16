@@ -2,16 +2,12 @@
 #include "settings/StoreFront.h"
 #include "netcom/Facade.h"
 #include "Presenter.h"
-#include "processor/FileIO.h"
 #include "processor/Facade.h"
 #include "ui/UIStarter.h"
 
 
 
 int main(int argc, char* argv[]) {
-
-    Processor::IFileIO* fileWorker = new Processor::FileIO;
-    if (!fileWorker) return -1;
 
     IPresenter* presenter = new Presenter;
     if (!presenter) return -1;
@@ -28,7 +24,7 @@ int main(int argc, char* argv[]) {
     UserInterface::UIStarter* starter = new UserInterface::UIStarter;
     if (!starter) return -1;
 
-    if (fileWorker && presenter && commComponent && processor && starter) {
+    if (presenter && commComponent && processor && starter) {
 
         // subscribe to packet broadcasters
         Packet::Internal::Broadcaster* internalPacketBroadcast = commComponent->exposeBroadcasterInterface();
@@ -37,9 +33,9 @@ int main(int argc, char* argv[]) {
         processor->Subscribe(starter);
 
         // init components in reverse order
-        settingsStore->Init(fileWorker, presenter);
+        settingsStore->Init(presenter);
         starter->Init(&argc, &argv, presenter);
-        processor->Init(fileWorker, presenter);
+        processor->Init(presenter);
         commComponent->Init();
 
         return starter->Run();

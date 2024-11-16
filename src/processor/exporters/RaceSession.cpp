@@ -50,7 +50,7 @@ void Processor::Exporter::RaceSession::InjectRecords(Processor::Data::SessionRec
 
 
 
-bool Processor::Exporter::RaceSession::Export(Processor::IFileIO* fileWriter, std::string path) const {
+bool Processor::Exporter::RaceSession::Export(std::string path) const {
 
     // path = "C:/Users/dusk_/Documents/now.xml";
     // actual code

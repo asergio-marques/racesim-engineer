@@ -35,7 +35,7 @@ namespace Processor {
             virtual void OnPacketBroadcast(Packet::Internal::Interface* packet) override final;
 
             // Initializes needed member variables and starts component
-            virtual void Init(Processor::IFileIO* fileIO, IPresenter* presenter) override final;
+            virtual void Init(IPresenter* presenter) override final;
 
             // Trigger function for the export of the current dataset
             virtual bool ExportCurrentRaceData(std::string path) override final;
@@ -43,9 +43,6 @@ namespace Processor {
         private:
             // Main handler object for all driver and session data
             Processor::Data::Databank* const m_databank;
-
-            // Main handler object for all reading and writing of the persistence files
-            Processor::IFileIO* m_fileIO;
 
             // Holder for all detectors that will have access to the databank
             std::vector<Processor::Detector::Interface*> m_detectors;

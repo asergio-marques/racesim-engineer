@@ -18,7 +18,6 @@
 Processor::Facade::Facade() :
     Processor::IFacade::IFacade(),
     m_databank(new Processor::Data::Databank),
-    m_fileIO(nullptr),
     m_detectors(),
     m_workerThread() {
 
@@ -66,12 +65,7 @@ void Processor::Facade::OnPacketBroadcast(Packet::Internal::Interface* packet) {
 
 
 
-void Processor::Facade::Init(Processor::IFileIO* fileIO, IPresenter* presenter) {
-
-    if (fileIO) {
-
-        m_fileIO = fileIO;
-    }
+void Processor::Facade::Init(IPresenter* presenter) {
 
     if (presenter) {
 
@@ -90,7 +84,7 @@ bool Processor::Facade::ExportCurrentRaceData(std::string path) {
     if (m_databank && m_databank->getExporter()) {
 
         const Processor::Exporter::Interface* exporter = m_databank->getExporter();
-        return exporter->Export(m_fileIO, path);
+        return exporter->Export(path);
 
     }
     else {

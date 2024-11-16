@@ -21,6 +21,9 @@ namespace Processor {
             // Checks if a newly-finished lap is a new fastest lap for the current session
             bool evaluateCompletedLap(const Processor::Data::LapInfo& finishedLap);
 
+            // Exposes the session fastest lap data
+            const Processor::Data::LapInfo& fastestLap() const;
+
             private:
             // Records the fastest lap of the current session
             Processor::Data::LapInfo m_fastestLap;

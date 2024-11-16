@@ -77,3 +77,27 @@ void Processor::Data::DriverState::updateLap(const uint8_t lapID, const Lap::Int
     m_lapData.updateLap(m_id, lapID, type, status, currentLapTime, sectorTimes, lapDistanceRun, previousLapTime, m_isFinished);
 
 }
+
+
+
+const Processor::Data::PositionTimingData& Processor::Data::DriverState::posTimeData() const {
+
+    return m_posTimeData;
+
+}
+
+
+
+const Processor::Data::WarningPenaltyData& Processor::Data::DriverState::warnPenData() const {
+
+    return m_warnPenData;
+
+}
+
+
+
+const Processor::Data::LapHistoryData& Processor::Data::DriverState::lapData() const {
+
+    return m_lapData;
+
+}

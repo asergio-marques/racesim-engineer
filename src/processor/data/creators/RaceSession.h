@@ -36,7 +36,7 @@ namespace Processor {
                 virtual ~RaceSession() = default;
 
                 // Creates driver records for all those in the race
-                std::map<const uint8_t, Processor::Data::DriverRecord*> createDriverRecords() const override final;
+                std::map<const uint8_t, Processor::Data::DriverRecord*> createDriverRecords(uint8_t& playerIndex, bool& foundPlayer) const override final;
 
                 // Creates records appropriate for the type of session taking place
                 Processor::Data::SessionRecord* createSessionRecord() const override final;

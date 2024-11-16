@@ -36,3 +36,12 @@ bool Processor::Data::SessionState::evaluateCompletedLap(const Processor::Data::
     }
 
 }
+
+
+
+
+const Processor::Data::LapInfo& Processor::Data::SessionState::fastestLap() const {
+
+    return m_fastestLap;
+
+}

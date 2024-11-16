@@ -12,12 +12,15 @@ namespace Processor {
 
                 static constexpr char* versionTag = "schemaVersion";
                 static constexpr char* version = "1";
+                static constexpr char* lapTimeSecTag = "sec";
+                static constexpr char* lapTimeMSecTag = "msec";
                 static constexpr char* trackIdTag = "trackId";
                 static constexpr char* trackNameTag = "trackName";
                 static constexpr char* numLapsTag = "numLaps";
                 static constexpr char* fastestOverallTag = "fastestOverallLap";
                 static constexpr char* completionTag = "completion";
                 static constexpr char* gridPosTag = "gridPosition";
+                static constexpr char* finishPosTag = "finishPosition";
 
             };
 

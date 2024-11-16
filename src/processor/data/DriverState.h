@@ -54,6 +54,15 @@ namespace Processor {
                 const Lap::Internal::Status status, const Lap::Internal::Time currentLapTime, const std::vector<Lap::Internal::Time> sectorTimes,
                 const float_t lapDistanceRun, const Lap::Internal::Time previousLapTime);
 
+            // Expose position and timing data
+            const Processor::Data::PositionTimingData& posTimeData() const;
+
+            // Expose warning and penalty data
+            const Processor::Data::WarningPenaltyData& warnPenData() const;
+
+            // Expose lap data
+            const Processor::Data::LapHistoryData& lapData() const;
+
             private:
             // ID of the driver associated with this state
             const uint8_t m_id;

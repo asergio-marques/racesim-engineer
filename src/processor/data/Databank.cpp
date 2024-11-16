@@ -148,9 +148,18 @@ void Processor::Data::Databank::createSessionInformation(const Packet::Internal:
         }
         if (creator) {
             
+            uint8_t playerId = 0;
+            bool foundPlayer = false;
             m_sessionRecord = creator->createSessionRecord();
-            m_driverRecords = creator->createDriverRecords();
-            m_exporter->InjectRecords(&m_driverRecords, m_sessionRecord);
+            m_driverRecords = creator->createDriverRecords(playerId, foundPlayer);
+            
+            // if a player driver was found, then inject only that record, otherwise, inject all records
+            if (foundPlayer) {
+                m_exporter->InjectRecords(m_sessionRecord, m_driverRecords.at(playerId));
+            }
+            else {
+                m_exporter->InjectRecords(m_sessionRecord, &m_driverRecords);
+            }
 
             for (auto detectorEntry : m_activeDetectors) {
 

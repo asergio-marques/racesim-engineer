@@ -56,13 +56,14 @@ bool Processor::Exporter::RaceSession::Export(Processor::IFileIO* fileWriter, st
     // actual code
     const auto now = std::chrono::system_clock::to_time_t(std::chrono::system_clock::now());
     const auto nowtm = localtime(&now);
-    std::string filename = "Race_" +
+    std::string filename = "/Race_" +
         std::to_string(nowtm->tm_year + 1900) + "_" +
         std::to_string(nowtm->tm_mon) + "_" +
         std::to_string(nowtm->tm_mday) + "_" +
         std::to_string(nowtm->tm_hour) + "_" +
-        std::to_string(nowtm->tm_mday) + "_" +
+        std::to_string(nowtm->tm_min) + "_" +
         std::to_string(nowtm->tm_sec) + ".xml";
+    path += filename;
     pugi::xml_document doc;
     pugi::xml_node rootNode = doc.append_child("race");
 
@@ -88,7 +89,7 @@ bool Processor::Exporter::RaceSession::Export(Processor::IFileIO* fileWriter, st
 
         pugi::xml_node lapsNode = rootNode.append_child("laps");
         const auto& lapData = m_playerDriverRecord->getModifiableState().lapData();
-        for (size_t i = 0; i < lapData.numLapsAvailable(); ++i) {
+        for (size_t i = 1; i <= lapData.numLapsAvailable(); ++i) {
 
             const auto* lap = lapData.getLapData(i);
             if (lap) {

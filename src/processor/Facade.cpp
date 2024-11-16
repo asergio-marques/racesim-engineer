@@ -90,7 +90,6 @@ bool Processor::Facade::ExportCurrentRaceData(std::string path) {
     if (m_databank && m_databank->getExporter()) {
 
         const Processor::Exporter::Interface* exporter = m_databank->getExporter();
-        exporter = new Processor::Exporter::RaceSession;
         return exporter->Export(m_fileIO, path);
 
     }

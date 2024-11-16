@@ -18,7 +18,7 @@ class Presenter : public IPresenter {
     Presenter() = default;
     virtual ~Presenter() override = default;
     virtual void setProcessor(Processor::IFacade* processor) override;
-    virtual void exportRaceToFolder(QString folderPath) override;
+    virtual bool exportRaceToFolder(QString folderPath) override;
 
     private:
     Processor::IFacade* m_processor;

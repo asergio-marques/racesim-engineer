@@ -47,7 +47,8 @@ namespace Processor {
                 std::map<const uint8_t, Processor::Data::DriverRecord*>* driverRecords) override final;
 
             // Parses the information from the records into a pre-defined XML schema and outputs it with the help of the IFileIO class
-            virtual void Export(Processor::IFileIO* fileWriter, std::string path) const override final;
+            // Returns the success of the operation
+            virtual bool Export(Processor::IFileIO* fileWriter, std::string path) const override final;
 
             private:
             // Auxiliary functions to add a new child node with character data

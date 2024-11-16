@@ -23,7 +23,7 @@ class IPresenter {
     IPresenter() = default;
     virtual ~IPresenter() = default;
     virtual void setProcessor(Processor::IFacade* processor) = 0;
-    virtual void exportRaceToFolder(QString folderPath) = 0;
+    virtual bool exportRaceToFolder(QString folderPath) = 0;
 
 };
 

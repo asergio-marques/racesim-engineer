@@ -111,6 +111,29 @@ void Processor::Data::LapHistoryData::updateLap(const uint8_t id, const uint8_t 
 
 
 
+const Processor::Data::LapInfo* Processor::Data::LapHistoryData::getLapData(const uint16_t lapID) const {
+
+    auto it = m_laps.find(lapID);
+    if (it != m_laps.end()) {
+
+        return &(it->second);
+
+    }
+    
+    return nullptr;
+
+}
+
+
+
+const uint16_t Processor::Data::LapHistoryData::numLapsAvailable() const {
+
+    return m_laps.size();
+
+}
+
+
+
 void Processor::Data::LapHistoryData::evaluateFinishedLap(const Processor::Data::LapInfo& finishedLap) {
 
     if (!m_installedFinishedLapDetector) return;

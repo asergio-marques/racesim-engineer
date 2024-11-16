@@ -35,6 +35,12 @@ namespace Processor {
                 const Lap::Internal::Status status, const Lap::Internal::Time currentLapTime, const std::vector<Lap::Internal::Time> sectorTimes,
                 const float_t lapDistanceRun, const Lap::Internal::Time previousLapTime, const bool sessionFinished);
 
+            // Exposes the data of a single lap
+            const Processor::Data::LapInfo* getLapData(const uint16_t lapID) const;
+
+            // Exposes the number of laps for which data is available for this driver
+            const uint16_t numLapsAvailable() const;
+
             private:
             void evaluateFinishedLap(const Processor::Data::LapInfo& finishedLap);
 

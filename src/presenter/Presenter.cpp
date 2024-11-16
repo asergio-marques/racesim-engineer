@@ -19,12 +19,14 @@ void Presenter::setProcessor(Processor::IFacade* processor) {
 
 
 
-void Presenter::exportRaceToFolder(QString folderPath) {
+bool Presenter::exportRaceToFolder(QString folderPath) {
 
     if (m_processor) {
 
-        m_processor->ExportCurrentRaceData(folderPath.toStdString());
+        return m_processor->ExportCurrentRaceData(folderPath.toStdString());
 
     }
+
+    return false;
 
 }

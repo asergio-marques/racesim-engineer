@@ -8,6 +8,7 @@
 #include "detectors/WarningPenalty.h"
 #include "detectors/DriverStatus.h"
 #include "exporters/Interface.h"
+#include "exporters/RaceSession.h"
 #include "IFacade.h"
 #include "packets/internal/Subscriber.h"
 #include "IPresenter.h"
@@ -83,18 +84,19 @@ void Processor::Facade::Init(Processor::IFileIO* fileIO, IPresenter* presenter) 
 }
 
 
-#include "exporters/RaceSession.h"
-void Processor::Facade::ExportCurrentRaceData(std::string path) {
+
+bool Processor::Facade::ExportCurrentRaceData(std::string path) {
 
     if (m_databank && m_databank->getExporter()) {
 
         const Processor::Exporter::Interface* exporter = m_databank->getExporter();
         exporter = new Processor::Exporter::RaceSession;
-        exporter->Export(m_fileIO, path);
+        return exporter->Export(m_fileIO, path);
 
     }
     else {
 
+        return false;
         // THROW ERROR
 
     }

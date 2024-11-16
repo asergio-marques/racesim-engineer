@@ -38,7 +38,7 @@ namespace Processor {
             virtual void Init(Processor::IFileIO* fileIO, IPresenter* presenter) override final;
 
             // Trigger function for the export of the current dataset
-            virtual void ExportCurrentRaceData(std::string path) override final;
+            virtual bool ExportCurrentRaceData(std::string path) override final;
 
         private:
             // Main handler object for all driver and session data

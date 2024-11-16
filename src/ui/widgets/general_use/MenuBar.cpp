@@ -71,7 +71,16 @@ void UserInterface::Widgets::MenuBar::enableSessionActions(bool enabled) {
 void UserInterface::Widgets::MenuBar::fileExportRequested() {
 
     QString folderPath = QFileDialog::getExistingDirectory(this, QString::fromUtf8("Choose directory to export race data"));
-    if (m_presenter) m_presenter->exportRaceToFolder(folderPath);
+    bool retval = false;
+    if (m_presenter) {
+        retval = m_presenter->exportRaceToFolder(folderPath);
+    }
+    if (!retval) {
+        QDialog dialog;
+        dialog.setFixedSize(QSize(300, 200));
+        dialog.setWindowTitle(QString::fromUtf8("Error saving export!"));
+        dialog.exec();
+    }
 
 }
 

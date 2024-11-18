@@ -15,7 +15,9 @@ target_include_directories(${PROJECT_NAME} PUBLIC
     "${PROJECT_ROOT}/include/presenter")
 target_include_directories(${PROJECT_NAME} PRIVATE
     "${PROJECT_ROOT}/src/presenter"
-    "${PROJECT_ROOT}/include/processor")
+    "${PROJECT_ROOT}/include/netcom"
+    "${PROJECT_ROOT}/include/processor"
+    "${PROJECT_ROOT}/include/settings")
 target_link_directories(${PROJECT_NAME} PRIVATE "${PROJECT_ROOT}/lib/")
 
 target_sources(${PROJECT_NAME} PRIVATE

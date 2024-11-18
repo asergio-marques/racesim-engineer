@@ -10,7 +10,9 @@ cmake_path(GET PROJECT_ROOT PARENT_PATH PROJECT_ROOT)
 target_include_directories(${PROJECT_NAME} PUBLIC
     "${PROJECT_ROOT}/include/core"
     "${PROJECT_ROOT}/include/netcom")
-target_include_directories(${PROJECT_NAME} PRIVATE "${PROJECT_ROOT}/src/netcom")
+target_include_directories(${PROJECT_NAME} PRIVATE
+    "${PROJECT_ROOT}/include/presenter"
+    "${PROJECT_ROOT}/src/netcom")
 target_link_directories(${PROJECT_NAME} PRIVATE "${PROJECT_ROOT}/lib/")
 
 target_sources(${PROJECT_NAME} PRIVATE

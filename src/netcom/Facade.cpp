@@ -10,7 +10,8 @@
 NetCom::Facade::Facade() :
     m_director(new NetCom::Listener::Director),
     m_packetGeneralizer(new NetCom::Converter::PacketGeneralizer),
-    m_gameAdapter(nullptr) {
+    m_gameAdapter(nullptr),
+    m_presenter(nullptr) {
 
     if (m_director && m_packetGeneralizer) {
     
@@ -29,7 +30,13 @@ NetCom::Facade::~Facade() {
 
 
 
-void NetCom::Facade::Init() {
+void NetCom::Facade::Init(Presenter::ICompFacade* presenter) {
+
+    if (presenter) {
+
+        m_presenter = presenter;
+
+    }
 
     // TODO Game is always F1 23 right now
     //if (getGame() == Settings::Game::F1_23) {
@@ -41,7 +48,7 @@ void NetCom::Facade::Init() {
 
             m_director->setGameAdapter(m_gameAdapter);
             m_packetGeneralizer->setGameAdapter(m_gameAdapter);
-            m_director->Init();
+            m_director->Init(presenter);
 
         }
 

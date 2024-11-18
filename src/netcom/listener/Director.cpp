@@ -1,13 +1,14 @@
 #include "listener/Director.h"
 
 #include <functional>
+#include "ICompFacade.h"
+#include "ISettings.h"
 #include "adapters/Interface.h"
 #include "packets/game/Broadcaster.h"
 #include "packets/game/Interface.h"
 #include "listener/ISocket.h"
 #include "listener/UDPSocketWin64.h"
 #include "settings/Game.h"
-#include "settings/StoreFront.h"
 
 
 
@@ -30,8 +31,14 @@ NetCom::Listener::Director::~Director() {
 
 
 
-void NetCom::Listener::Director::Init() {
+void NetCom::Listener::Director::Init(Presenter::ICompFacade* presenter) {
     
+    if (presenter) {
+
+        m_presenter = presenter;
+
+    }
+
     #ifndef LINUX
         NetCom::Listener::ISocket* socket = new NetCom::Listener::UDPSocketWin64;
     #else
@@ -53,14 +60,13 @@ bool NetCom::Listener::Director::setSocket(NetCom::Listener::ISocket* socket) {
         m_socket = socket;
         m_socket->RegisterFunction(std::bind(&NetCom::Listener::Director::OnNewDatagramAvailable, this, std::placeholders::_1, std::placeholders::_2));
         
-        if (m_socket->Init()) {
+        if (m_socket->Init() && m_presenter) {
 
-            Settings::StoreFront* settingsStore = Settings::StoreFront::getInstance();
-
-            if (settingsStore) {
+            auto settingsPresenter = dynamic_cast<Presenter::ISettings*>(m_presenter);
+            if (settingsPresenter) {
 
                 bool ok;
-                int64_t port = settingsStore->getSettingValue(Settings::Key::SocketPort, ok);
+                int64_t port = settingsPresenter->getSettingValue(Settings::Key::SocketPort, ok);
 
                 if (ok) {
 

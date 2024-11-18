@@ -5,6 +5,15 @@
 #include <list>
 #include "packets/game/Broadcaster.h"
 
+
+
+namespace Presenter {
+
+    class ICompFacade;
+
+}
+
+
 namespace NetCom {
 
     namespace Adapter {
@@ -24,7 +33,7 @@ namespace NetCom {
             ~Director();
 
             // Initialize the socket and start the reading thread
-            void Init();
+            void Init(Presenter::ICompFacade* presenter);
 
             // Inject the type of socket intended to be used, automatically tries to initialize it and bind it to the user-input port
             bool setSocket(NetCom::Listener::ISocket* socket);
@@ -35,6 +44,9 @@ namespace NetCom {
             private:
             // Function to be registered into the socket for the purpose of forwarding received datagrams to the game adapter
             void OnNewDatagramAvailable(const char* datagram, const uint16_t datagramSize);
+
+            // Interface object to access settings
+            Presenter::ICompFacade* m_presenter;
 
             // Internal socket wrapper object
             NetCom::Listener::ISocket* m_socket;

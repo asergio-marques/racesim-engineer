@@ -1,10 +1,12 @@
 #include "Presenter.h"
 
+#include <cstdint>
 #include <iostream>
 #include <thread>
 #include <future>
 #include <QString>
 #include "IFacade.h"
+#include "IStore.h"
 
 
 
@@ -43,6 +45,33 @@ bool Presenter::Facade::exportRaceToFolder(QString folderPath) {
 
         std::future<bool> ret = std::async(std::launch::async, &Processor::IFacade::ExportCurrentRaceData, m_processor, folderPath.toStdString());
         return ret.get();
+
+    }
+
+    return false;
+
+}
+
+
+const int64_t Presenter::Facade::getSettingValue(const Settings::Key& key, bool& ok) const {
+
+    if (m_settings) {
+
+        return m_settings->getSettingValue(key, ok);
+
+    }
+
+    return -1;
+
+}
+
+
+
+const bool Presenter::Facade::setSettingValue(const Settings::Key& key, const int64_t value) {
+
+    if (m_settings) {
+
+        return m_settings->setSettingValue(key, value);
 
     }
 

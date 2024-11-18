@@ -1,16 +1,19 @@
-#include "Storefront.h"
+#include "Store.h"
 
+#include <cstdint>
 #include <filesystem>
 #include <fstream>
 #include <iostream>
 #include <map>
+#include "IStore.h"
 #include "settings/Game.h"
 #include "settings/Key.h"
 #include "settings/WindowNumber.h"
 
 
 
-Settings::StoreFront::StoreFront() :
+Settings::Store::Store() :
+    Settings::IStore(),
     m_isInit(false),
     m_settingsMap() {
 
@@ -20,7 +23,7 @@ Settings::StoreFront::StoreFront() :
 
 
 
-const bool Settings::StoreFront::Init(Presenter::ICompFacade* presenter) {
+const bool Settings::Store::Init(Presenter::ICompFacade* presenter) {
 
     // If the config file does not exist already, assign the default values for the map
     if (!std::filesystem::exists("config.xml")) {
@@ -39,7 +42,7 @@ const bool Settings::StoreFront::Init(Presenter::ICompFacade* presenter) {
 
 
 
-const bool Settings::StoreFront::Shutdown() {
+const bool Settings::Store::Shutdown() {
 
     std::fstream fs;
     fs.open("config.xml", std::fstream::in | std::fstream::out | std::fstream::trunc);
@@ -54,7 +57,7 @@ const bool Settings::StoreFront::Shutdown() {
 
 
 
-const int64_t Settings::StoreFront::getSettingValue(const Settings::Key& key, bool& ok) const {
+const int64_t Settings::Store::getSettingValue(const Settings::Key& key, bool& ok) const {
 
     if (m_isInit) {
 
@@ -78,7 +81,7 @@ const int64_t Settings::StoreFront::getSettingValue(const Settings::Key& key, bo
 
 
 
-const bool Settings::StoreFront::setSettingValue(const Settings::Key& key, const int64_t value) {
+const bool Settings::Store::setSettingValue(const Settings::Key& key, const int64_t value) {
 
     if (m_isInit) {
 
@@ -101,7 +104,7 @@ const bool Settings::StoreFront::setSettingValue(const Settings::Key& key, const
 
 
 
-const bool Settings::StoreFront::readConfig() {
+const bool Settings::Store::readConfig() {
 
     std::fstream fs;
     fs.open("config.xml", std::fstream::in | std::fstream::out | std::fstream::app);

@@ -2,7 +2,7 @@
 #include "presenter/Presenter.h"
 #include "processor/Facade.h"
 #include "netcom/Facade.h"
-#include "settings/StoreFront.h"
+#include "settings/Store.h"
 #include "ui/UIStarter.h"
 
 
@@ -12,7 +12,7 @@ int main(int argc, char* argv[]) {
     Presenter::ICompFacade* presenter = new Presenter::Facade;
     if (!presenter) return -1;
 
-    Settings::StoreFront* settingsStore = new Settings::StoreFront;
+    Settings::IStore* settingsStore = new Settings::Store;
     if (!settingsStore) return -1;
 
     NetCom::Facade* commComponent = new NetCom::Facade;
@@ -36,7 +36,7 @@ int main(int argc, char* argv[]) {
         settingsStore->Init(presenter);
         starter->Init(&argc, &argv, presenter);
         processor->Init(presenter);
-        commComponent->Init();
+        commComponent->Init(presenter);
 
         return starter->Run();
 

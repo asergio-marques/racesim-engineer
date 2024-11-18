@@ -13,6 +13,12 @@ namespace Packet {
 
 }
 
+namespace Presenter {
+
+    class ICompFacade;
+
+}
+
 namespace NetCom {
 
     namespace Listener {
@@ -38,13 +44,14 @@ namespace NetCom {
         public:
             Facade();
             virtual ~Facade();
-            void Init();
+            void Init(Presenter::ICompFacade* presenter);
             Packet::Internal::Broadcaster* exposeBroadcasterInterface() const;
 
         private:
             NetCom::Listener::Director* m_director;
             NetCom::Converter::PacketGeneralizer* m_packetGeneralizer;
             NetCom::Adapter::Interface* m_gameAdapter;
+            Presenter::ICompFacade* m_presenter;
 
 
     };

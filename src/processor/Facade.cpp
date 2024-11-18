@@ -10,8 +10,8 @@
 #include "exporters/Interface.h"
 #include "exporters/RaceSession.h"
 #include "IFacade.h"
+#include "ICompFacade.h"
 #include "packets/internal/Subscriber.h"
-#include "IPresenter.h"
 
 
 
@@ -65,7 +65,7 @@ void Processor::Facade::OnPacketBroadcast(Packet::Internal::Interface* packet) {
 
 
 
-void Processor::Facade::Init(IPresenter* presenter) {
+void Processor::Facade::Init(Presenter::ICompFacade* presenter) {
 
     if (presenter) {
 

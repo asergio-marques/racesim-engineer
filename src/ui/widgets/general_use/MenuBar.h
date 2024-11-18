@@ -8,7 +8,11 @@
 
 
 
-class IPresenter;
+namespace Presenter {
+
+    class ICompFacade;
+
+}
 
 namespace UserInterface {
 
@@ -19,7 +23,7 @@ namespace UserInterface {
             Q_OBJECT
 
             public:
-            MenuBar(IPresenter* presenter, QWidget* parent = 0);
+            MenuBar(Presenter::ICompFacade* presenter, QWidget* parent = 0);
             ~MenuBar();
             void enableSessionActions(bool enabled);
 
@@ -30,7 +34,7 @@ namespace UserInterface {
             void aboutRequested();
 
             private:
-            IPresenter* const m_presenter;
+            Presenter::ICompFacade* const m_presenter;
             QMenu* m_mainMenu;
             QAction* m_exportAction;
             QAction* m_sessionClearAction;

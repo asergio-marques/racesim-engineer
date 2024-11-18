@@ -6,7 +6,11 @@
 #include "IFacade.h"
 
 
-class IPresenter;
+namespace Presenter {
+
+    class ICompFacade;
+
+}
 
 namespace Processor {
 
@@ -35,7 +39,7 @@ namespace Processor {
             virtual void OnPacketBroadcast(Packet::Internal::Interface* packet) override final;
 
             // Initializes needed member variables and starts component
-            virtual void Init(IPresenter* presenter) override final;
+            virtual void Init(Presenter::ICompFacade* presenter) override final;
 
             // Trigger function for the export of the current dataset
             virtual bool ExportCurrentRaceData(std::string path) override final;

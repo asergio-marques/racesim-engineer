@@ -1,5 +1,5 @@
-#ifndef GENERAL_SETTINGS_INCLUDE_STOREFRONT_H_
-#define GENERAL_SETTINGS_INCLUDE_STOREFRONT_H_
+#ifndef SETTINGS_INCLUDE_STOREFRONT_H_
+#define SETTINGS_INCLUDE_STOREFRONT_H_
 
 #include <map>
 #include <string>
@@ -7,11 +7,9 @@
 
 
 
-class IPresenter;
+namespace Presenter {
 
-namespace Processor {
-
-    class IFileIO;
+    class ICompFacade;
 
 }
 
@@ -21,11 +19,14 @@ namespace Settings {
     class StoreFront {
 
     public:
-        // Get the one single instance of this class
-        static Settings::StoreFront* getInstance();
+        // Constructor
+        StoreFront();
+
+        // Destructor
+        virtual ~StoreFront() = default;
 
         // Initialize the settings map by reading the config file (if available) or by filling it with the default values
-        const bool Init(IPresenter* presenter);
+        const bool Init(Presenter::ICompFacade* presenter);
 
         // Write the changes to the config file at application close
         const bool Shutdown();
@@ -37,19 +38,11 @@ namespace Settings {
         const bool setSettingValue(const Settings::Key& key, const int64_t value);
 
     private:
-        // Singleton private constructor, does nothing
-        StoreFront();
-
-        virtual ~StoreFront() = default;
-
         // Specialized function for reading the configuration file once determined it exists
         const bool readConfig();
 
         // Whether the settings map has been initialized
         bool m_isInit;
-
-        // Singleton pointer
-        static Settings::StoreFront* m_p;
 
         // Map storing all the active configurations
         std::map<Settings::Key, int64_t> m_settingsMap;
@@ -59,4 +52,4 @@ namespace Settings {
 }
 
 
-#endif // GENERAL_SETTINGS_INCLUDE_STOREFRONT_H_
+#endif // SETTINGS_INCLUDE_STOREFRONT_H_

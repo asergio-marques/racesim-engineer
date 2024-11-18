@@ -11,6 +11,7 @@ add_subdirectory("${CMAKE_CURRENT_SOURCE_DIR}/src/core/packets/internal" ${CMAKE
 add_subdirectory("${CMAKE_CURRENT_SOURCE_DIR}/src/netcom/" ${CMAKE_CURRENT_BINARY_DIR}/netcom)
 add_subdirectory("${CMAKE_CURRENT_SOURCE_DIR}/src/processor/" ${CMAKE_CURRENT_BINARY_DIR}/processor)
 add_subdirectory("${CMAKE_CURRENT_SOURCE_DIR}/src/presenter/" ${CMAKE_CURRENT_BINARY_DIR}/presenter)
+add_subdirectory("${CMAKE_CURRENT_SOURCE_DIR}/src/settings/" ${CMAKE_CURRENT_BINARY_DIR}/settings)
 add_subdirectory("${CMAKE_CURRENT_SOURCE_DIR}/src/ui/" ${CMAKE_CURRENT_BINARY_DIR}/ui)
 add_subdirectory("${CMAKE_CURRENT_SOURCE_DIR}/src/ui/widgets" ${CMAKE_CURRENT_BINARY_DIR}/ui/widgets)
 
@@ -29,6 +30,7 @@ target_link_libraries(${PROJECT_NAME} PRIVATE
     RaceSimEngineerNetwork
     RaceSimEngineerProcessor
     RaceSimEngineerPresenter
+    RaceSimEngineerSettings
     RaceSimEngineerUIWidgets
     RaceSimEngineerUI)
 

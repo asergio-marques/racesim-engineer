@@ -9,7 +9,7 @@
 
 
 
-void Presenter::setProcessor(Processor::IFacade* processor) {
+void Presenter::Facade::setProcessor(Processor::IFacade* processor) {
 
     if (processor) {
 
@@ -21,7 +21,23 @@ void Presenter::setProcessor(Processor::IFacade* processor) {
 
 
 
-bool Presenter::exportRaceToFolder(QString folderPath) {
+void Presenter::Facade::setSettingsStore(Settings::IStore* settings) {
+
+
+
+}
+
+
+
+void Presenter::Facade::setNetCom(NetCom::IFacade* netCom) {
+
+
+
+}
+
+
+
+bool Presenter::Facade::exportRaceToFolder(QString folderPath) {
 
     if (m_processor) {
 

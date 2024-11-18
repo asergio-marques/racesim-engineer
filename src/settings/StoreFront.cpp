@@ -1,4 +1,4 @@
-#include "settings/Storefront.h"
+#include "Storefront.h"
 
 #include <filesystem>
 #include <fstream>
@@ -10,19 +10,17 @@
 
 
 
-Settings::StoreFront* Settings::StoreFront::m_p = new Settings::StoreFront;
+Settings::StoreFront::StoreFront() :
+    m_isInit(false),
+    m_settingsMap() {
 
 
-
-Settings::StoreFront* Settings::StoreFront::getInstance() {
-
-    return m_p;
 
 }
 
 
 
-const bool Settings::StoreFront::Init(IPresenter* presenter) {
+const bool Settings::StoreFront::Init(Presenter::ICompFacade* presenter) {
 
     // If the config file does not exist already, assign the default values for the map
     if (!std::filesystem::exists("config.xml")) {
@@ -98,16 +96,6 @@ const bool Settings::StoreFront::setSettingValue(const Settings::Key& key, const
     }
 
     return false;
-
-}
-
-
-
-Settings::StoreFront::StoreFront() :
-    m_isInit(false),
-    m_settingsMap() {
-
-
 
 }
 

@@ -7,7 +7,11 @@
 
 
 
-class IPresenter;
+namespace Presenter {
+
+    class ICompFacade;
+
+}
 
 namespace Processor {
 
@@ -16,7 +20,7 @@ namespace Processor {
         public:
             IFacade() = default;
             virtual ~IFacade() = default;
-            virtual void Init(IPresenter* presenter) = 0;
+            virtual void Init(Presenter::ICompFacade* presenter) = 0;
             virtual bool ExportCurrentRaceData(std::string path) = 0;
 
     };

@@ -6,11 +6,12 @@
 #include <QMenu>
 #include <QMenuBar>
 #include <QWidget>
-#include "IPresenter.h"
+#include "ICompFacade.h"
+#include "IProcessor.h"
 
 
 
-UserInterface::Widgets::MenuBar::MenuBar(IPresenter* presenter, QWidget* parent) :
+UserInterface::Widgets::MenuBar::MenuBar(Presenter::ICompFacade* presenter, QWidget* parent) :
     QMenuBar(parent),
     m_presenter(presenter),
     m_mainMenu(nullptr),
@@ -73,7 +74,14 @@ void UserInterface::Widgets::MenuBar::fileExportRequested() {
     QString folderPath = QFileDialog::getExistingDirectory(this, QString::fromUtf8("Choose directory to export race data"));
     bool retval = false;
     if (m_presenter) {
-        retval = m_presenter->exportRaceToFolder(folderPath);
+
+        auto procPresenter = dynamic_cast<Presenter::IProcessor*>(m_presenter);
+        if (procPresenter) {
+
+            retval = procPresenter->exportRaceToFolder(folderPath);
+
+        }
+
     }
     if (!retval) {
         QDialog dialog;

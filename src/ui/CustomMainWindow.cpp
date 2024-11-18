@@ -13,7 +13,7 @@
 
 
 
-UserInterface::CustomMainWindow::CustomMainWindow(IPresenter* presenter, QWidget* parent) :
+UserInterface::CustomMainWindow::CustomMainWindow(Presenter::ICompFacade* presenter, QWidget* parent) :
     QMainWindow(parent),
     m_menuBar(nullptr),
     m_screens(),

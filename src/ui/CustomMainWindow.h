@@ -6,9 +6,14 @@
 
 
 
-class IPresenter;
 class QResizeEvent;
 class QWidget;
+
+namespace Presenter {
+
+    class ICompFacade;
+
+}
 
 namespace UserInterface {
 
@@ -29,7 +34,7 @@ namespace UserInterface {
         Q_OBJECT
 
         public:
-            CustomMainWindow(IPresenter* presenter, QWidget* parent = 0);
+            CustomMainWindow(Presenter::ICompFacade* presenter, QWidget* parent = 0);
             virtual ~CustomMainWindow() = default;
             void addScreen(UserInterface::Screen::Interface* newScreen);
             void Startup();

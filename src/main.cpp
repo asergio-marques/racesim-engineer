@@ -1,18 +1,18 @@
 #include "packets/internal/Broadcaster.h"
-#include "settings/StoreFront.h"
-#include "netcom/Facade.h"
-#include "Presenter.h"
+#include "presenter/Presenter.h"
 #include "processor/Facade.h"
+#include "netcom/Facade.h"
+#include "settings/StoreFront.h"
 #include "ui/UIStarter.h"
 
 
 
 int main(int argc, char* argv[]) {
 
-    IPresenter* presenter = new Presenter;
+    Presenter::ICompFacade* presenter = new Presenter::Facade;
     if (!presenter) return -1;
 
-    Settings::StoreFront* settingsStore = Settings::StoreFront::getInstance();
+    Settings::StoreFront* settingsStore = new Settings::StoreFront;
     if (!settingsStore) return -1;
 
     NetCom::Facade* commComponent = new NetCom::Facade;
@@ -32,7 +32,7 @@ int main(int argc, char* argv[]) {
         internalPacketBroadcast->Subscribe(starter);
         processor->Subscribe(starter);
 
-        // init components in reverse order
+        // init components
         settingsStore->Init(presenter);
         starter->Init(&argc, &argv, presenter);
         processor->Init(presenter);

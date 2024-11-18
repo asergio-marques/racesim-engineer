@@ -34,7 +34,7 @@ UserInterface::UIStarter::~UIStarter() {
 
 
 
-void UserInterface::UIStarter::Init(int* argc, char*** argv, IPresenter* presenter) {
+void UserInterface::UIStarter::Init(int* argc, char*** argv, Presenter::ICompFacade* presenter) {
 
     m_app = new QApplication(*argc, *argv);
     QCoreApplication::setOrganizationName("Sérgio Marques");

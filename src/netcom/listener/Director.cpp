@@ -65,12 +65,12 @@ bool NetCom::Listener::Director::setSocket(NetCom::Listener::ISocket* socket) {
             auto settingsPresenter = dynamic_cast<Presenter::ISettings*>(m_presenter);
             if (settingsPresenter) {
 
-                bool ok;
-                int64_t port = settingsPresenter->getSettingValue(Settings::Key::SocketPort, ok);
+                bool ok = true;
+                uint16_t port = static_cast<uint16_t>(settingsPresenter->getSettingValue(Settings::Key::SocketPort, ok));
 
                 if (ok) {
 
-                    if (m_socket->Bind(static_cast<uint16_t>(port))) {
+                    if (m_socket->Bind(port)) {
 
                         return true;
 

@@ -11,8 +11,9 @@ namespace Settings {
 
         InvalidUnknown = 0,
         F1_23 = 1,
+        F1_24 = 2,
         // Other games go here
-        DEFAULT = F1_23
+        DEFAULT = F1_24
 
     };
 

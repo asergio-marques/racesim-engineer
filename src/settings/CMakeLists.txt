@@ -12,8 +12,10 @@ cmake_path(GET PROJECT_ROOT PARENT_PATH PROJECT_ROOT)
 
 target_include_directories(${PROJECT_NAME} PUBLIC
     "${PROJECT_ROOT}/include/core"
-    "${PROJECT_ROOT}/include/settings")
+    "${PROJECT_ROOT}/include/settings"
+    "${PROJECT_ROOT}/src/settings")
 target_include_directories(${PROJECT_NAME} PRIVATE
+    "${PROJECT_ROOT}/include/presenter"
     "${PROJECT_ROOT}/include/settings")
 target_link_directories(${PROJECT_NAME} PRIVATE "${PROJECT_ROOT}/lib/")
 
@@ -21,8 +23,7 @@ target_sources(${PROJECT_NAME} PRIVATE
     Store.cpp)
 
 target_link_libraries(${PROJECT_NAME} PRIVATE
-    RaceSimEngineerCore
-    Qt6::Core)
+    RaceSimEngineerCore)
 
 set_target_properties(${PROJECT_NAME}
 	PROPERTIES

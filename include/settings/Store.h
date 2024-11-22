@@ -5,6 +5,7 @@
 #include <map>
 #include <string>
 #include "IStore.h"
+#include "Schema.h"
 #include "settings/Key.h"
 
 
@@ -43,11 +44,20 @@ namespace Settings {
         // Specialized function for reading the configuration file once determined it exists
         const bool readConfig();
 
+        // Specialized function for writing the configuration file
+        const bool writeConfig();
+
         // Whether the settings map has been initialized
         bool m_isInit;
 
         // Map storing all the active configurations
         std::map<Settings::Key, int64_t> m_settingsMap;
+
+        // Element containing the schema for V1 of the settings
+        static Settings::Schema::v1 m_schemaV1;
+
+        // Interface to the presenter for direct communication with other modules
+        Presenter::ICompFacade* m_presenter;
 
     };
 

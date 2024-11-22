@@ -5,7 +5,10 @@
 #include <fstream>
 #include <iostream>
 #include <map>
+#include "Defaults.h"
+#include "ICompFacade.h"
 #include "IStore.h"
+#include "Schema.h"
 #include "settings/Game.h"
 #include "settings/Key.h"
 #include "settings/WindowNumber.h"
@@ -15,9 +18,8 @@
 Settings::Store::Store() :
     Settings::IStore(),
     m_isInit(false),
-    m_settingsMap() {
-
-
+    m_settingsMap(),
+    m_presenter(nullptr) {
 
 }
 
@@ -25,12 +27,24 @@ Settings::Store::Store() :
 
 const bool Settings::Store::Init(Presenter::ICompFacade* presenter) {
 
+    if (presenter) {
+
+        m_presenter = presenter;
+        presenter->setSettingsStore(this);
+
+    }
+
     // If the config file does not exist already, assign the default values for the map
     if (!std::filesystem::exists("config.xml")) {
 
-        m_settingsMap.emplace(Settings::Key::Game, static_cast<int64_t>(Settings::Game::DEFAULT));
-        m_settingsMap.emplace(Settings::Key::WindowNumber, static_cast<int64_t>(Settings::WindowNumber::DEFAULT));
-        m_settingsMap.emplace(Settings::Key::SocketPort, 20777);
+        static Settings::Defaults m_defaults;
+
+        m_settingsMap.emplace(Settings::Key::Game, static_cast<int64_t>(m_defaults.gameDefault));
+        m_settingsMap.emplace(Settings::Key::WindowNumber, static_cast<int64_t>(m_defaults.windowNumDefault));
+        m_settingsMap.emplace(Settings::Key::SocketPort, m_defaults.portDefault);
+        m_settingsMap.emplace(Settings::Key::AutoExportWhenSessionEnd, m_defaults.autoExportDefault);
+
+        writeConfig();
 
         m_isInit = true;
         return m_isInit;
@@ -111,5 +125,13 @@ const bool Settings::Store::readConfig() {
 
     m_isInit = true;
     return m_isInit;
+
+}
+
+
+
+const bool Settings::Store::writeConfig() {
+
+    return true;
 
 }

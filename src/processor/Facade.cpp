@@ -70,6 +70,8 @@ void Processor::Facade::Init(Presenter::ICompFacade* presenter) {
     if (presenter) {
 
         presenter->setProcessor(this);
+        m_presenter = presenter;
+        m_databank->Init(presenter);
 
     }
 

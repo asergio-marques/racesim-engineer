@@ -1,7 +1,11 @@
 #include "data/Databank.h"
 
 #include <cstdint>
+#include <future>
 #include <map>
+#include <thread>
+#include "ICompFacade.h"
+#include "ISettings.h"
 #include "data/DriverRecord.h"
 #include "data/SessionRecord.h"
 #include "data/internal/Participant.h"
@@ -34,6 +38,19 @@ Processor::Data::Databank::~Databank() {
 
 
 
+void Processor::Data::Databank::Init(Presenter::ICompFacade* presenter) {
+
+    if (presenter) {
+
+        m_presenter = presenter;
+
+    }
+
+}
+
+
+
+
 void Processor::Data::Databank::updateData(const Packet::Internal::Interface* packet) {
 
     if (packet) {
@@ -45,7 +62,7 @@ void Processor::Data::Databank::updateData(const Packet::Internal::Interface* pa
                 break;
 
             case Packet::Internal::Type::SessionEnd:
-                markAsFinished();
+                finishSession();
                 break;
 
             case Packet::Internal::Type::Standings:
@@ -182,16 +199,37 @@ void Processor::Data::Databank::createSessionInformation(const Packet::Internal:
 }
 
 
-
-void Processor::Data::Databank::markAsFinished() {
+#include <iostream>
+void Processor::Data::Databank::finishSession() {
 
     for (auto record : m_driverRecords) {
 
         record.second->markAsFinished();
 
     }
+        
     // TODO what would this even be for
     // m_sessionRecord->markAsFinished();
+
+    // Check if the user has activated the auto export option, and export if so
+    if (m_presenter) {
+
+        auto settingsPresenter = dynamic_cast<Presenter::ISettings*>(m_presenter);
+        if (settingsPresenter) {
+
+            bool ok = true;
+            bool autoExportActive = settingsPresenter->getSettingValue(Settings::Key::AutoExportWhenSessionEnd, ok) > 0;
+
+            if (ok && autoExportActive && m_exporter) {
+
+                std::future<bool> ret = std::async(std::launch::async, &Processor::Exporter::Interface::Export, m_exporter, "C:\\test.xml");
+                std::cout << "export result = " << ret.get() << std::endl;
+
+            }
+        
+        }
+
+    }
 
 }
 

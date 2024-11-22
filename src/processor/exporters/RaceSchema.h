@@ -2,6 +2,7 @@
 #define PROCESSOR_EXPORTER_INCLUDE_RACE_SCHEMA_H_
 
 
+
 namespace Processor {
 
     namespace Exporter {
@@ -11,44 +12,44 @@ namespace Processor {
             struct v1 {
 
                 // General session info
-                static constexpr char* versionTag = "schemaVersion";
-                static constexpr char* version = "1";
-                static constexpr char* lapTimeSecTag = "sec";
-                static constexpr char* lapTimeMSecTag = "msec";
-                static constexpr char* trackIdTag = "trackId";
-                static constexpr char* trackNameTag = "trackName";
-                static constexpr char* numLapsTag = "numLaps";
-                static constexpr char* fastestOverallTag = "fastestOverallLap";
-                static constexpr char* completionTag = "completion";
-                static constexpr char* gridPosTag = "gridPosition";
-                static constexpr char* finishPosTag = "finishPosition";
+                static const constexpr char* versionTag = "schemaVersion";
+                static const constexpr char* version = "1";
+                static const constexpr char* lapTimeSecTag = "sec";
+                static const constexpr char* lapTimeMSecTag = "msec";
+                static const constexpr char* trackIdTag = "trackId";
+                static const constexpr char* trackNameTag = "trackName";
+                static const constexpr char* numLapsTag = "numLaps";
+                static const constexpr char* fastestOverallTag = "fastestOverallLap";
+                static const constexpr char* completionTag = "completion";
+                static const constexpr char* gridPosTag = "gridPosition";
+                static const constexpr char* finishPosTag = "finishPosition";
 
                 // Lap data
-                static constexpr char* lapIdTag = "id";
-                static constexpr char* lapTimeTag = "totalLapTime";
-                static constexpr char* sector1TimeTag = "sector1Time";
-                static constexpr char* sector2TimeTag = "sector2Time";
-                static constexpr char* sector3TimeTag = "sector3Time";
+                static const constexpr char* lapIdTag = "id";
+                static const constexpr char* lapTimeTag = "totalLapTime";
+                static const constexpr char* sector1TimeTag = "sector1Time";
+                static const constexpr char* sector2TimeTag = "sector2Time";
+                static const constexpr char* sector3TimeTag = "sector3Time";
                 // unused for now
-                static constexpr char* tyreVisualTag = "tyreType";
-                static constexpr char* tyreCompoundTag = "tyreCompound";
-                static constexpr char* energyDeltaTag = "energyDeltaJ";
-                static constexpr char* energyRechargeTag = "energyRechargedJ";
-                static constexpr char* energyAllowanceTag = "energyAllowanceUnusedJ";
-                static constexpr char* fuelDeltaTag = "fuelDeltaKg";
-                static constexpr char* drsActTag = "numDRSAct";
-                static constexpr char* trackCondTag = "trackConditions";
-                static constexpr char* timeDeltaLeaderTag = "deltaLeaderAtEnd";
-                static constexpr char* timeDeltaFrontTag = "deltaFrontAtEnd";
-                static constexpr char* timeDeltaBehindTag = "deltaBehindAtEnd";
-                static constexpr char* lapPosTag = "positionAtEnd";
-                static constexpr char* numTrackLimTag = "trackLimits";
-                static constexpr char* numOtherWarnTag = "otherWarns";
-                static constexpr char* numLapTimePensTag = "timePensLap";
-                static constexpr char* numTotalTimePensTag = "timePensTotal";
-                static constexpr char* numLapDTTag = "driveThroughLap";
-                static constexpr char* numTotalDTTag = "driveThroughTotal";
-                static constexpr char* otherTag = "other";
+                static const constexpr char* tyreVisualTag = "tyreType";
+                static const constexpr char* tyreCompoundTag = "tyreCompound";
+                static const constexpr char* energyDeltaTag = "energyDeltaJ";
+                static const constexpr char* energyRechargeTag = "energyRechargedJ";
+                static const constexpr char* energyAllowanceTag = "energyAllowanceUnusedJ";
+                static const constexpr char* fuelDeltaTag = "fuelDeltaKg";
+                static const constexpr char* drsActTag = "numDRSAct";
+                static const constexpr char* trackCondTag = "trackConditions";
+                static const constexpr char* timeDeltaLeaderTag = "deltaLeaderAtEnd";
+                static const constexpr char* timeDeltaFrontTag = "deltaFrontAtEnd";
+                static const constexpr char* timeDeltaBehindTag = "deltaBehindAtEnd";
+                static const constexpr char* lapPosTag = "positionAtEnd";
+                static const constexpr char* numTrackLimTag = "trackLimits";
+                static const constexpr char* numOtherWarnTag = "otherWarns";
+                static const constexpr char* numLapTimePensTag = "timePensLap";
+                static const constexpr char* numTotalTimePensTag = "timePensTotal";
+                static const constexpr char* numLapDTTag = "driveThroughLap";
+                static const constexpr char* numTotalDTTag = "driveThroughTotal";
+                static const constexpr char* otherTag = "other";
             };
 
         };

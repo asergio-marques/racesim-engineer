@@ -1,9 +1,9 @@
 #include "Presenter.h"
 
 #include <cstdint>
+#include <future>
 #include <iostream>
 #include <thread>
-#include <future>
 #include <QString>
 #include "IFacade.h"
 #include "IStore.h"
@@ -25,7 +25,11 @@ void Presenter::Facade::setProcessor(Processor::IFacade* processor) {
 
 void Presenter::Facade::setSettingsStore(Settings::IStore* settings) {
 
+    if (settings) {
 
+        m_settings = settings;
+
+    }
 
 }
 
@@ -33,7 +37,11 @@ void Presenter::Facade::setSettingsStore(Settings::IStore* settings) {
 
 void Presenter::Facade::setNetCom(NetCom::IFacade* netCom) {
 
+    if (netCom) {
 
+        m_netCom = netCom;
+
+    }
 
 }
 

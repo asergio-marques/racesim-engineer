@@ -22,6 +22,12 @@ namespace Packet {
 
 }
 
+namespace Presenter {
+
+    class ICompFacade;
+
+}
+
 namespace Processor {
 
     namespace Detector {
@@ -50,6 +56,9 @@ namespace Processor {
             // Destructor
             ~Databank();
 
+            // Initializes needed member variables and starts component
+            void Init(Presenter::ICompFacade* presenter);
+
             // Main entry function for new packets
             void updateData(const Packet::Internal::Interface* packet);
 
@@ -63,8 +72,8 @@ namespace Processor {
             // Creates the appropriate SessionInfoCreator depending on the type of the sessions started
             void createSessionInformation(const Packet::Internal::SessionStart* sessionStartPacket);
 
-            // Marks the session as finalized, to accept packets pertaining to the final lap
-            void markAsFinished();
+            // Closes down the session, marking the session as finalized, to accept packets pertaining to the final lap
+            void finishSession();
 
             // Interfaces with the DriverState class to update the driver position
             void updateStandings(const Packet::Internal::RaceStandings* standingsPacket);
@@ -77,6 +86,9 @@ namespace Processor {
 
             // Interfaces with the DriverState class to update the status of the session participants' laps
             void updateLapStatus(const Packet::Internal::LapStatus* lapPacket);
+
+            // General interface for communicating with other modules
+            Presenter::ICompFacade* m_presenter;
 
             // Holds a list of the driver records for the current session, using the driver ID as index
             std::map<const uint8_t, Processor::Data::DriverRecord*> m_driverRecords;

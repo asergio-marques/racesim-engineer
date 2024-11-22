@@ -6,6 +6,7 @@
 #include "IFacade.h"
 
 
+
 namespace Presenter {
 
     class ICompFacade;
@@ -50,6 +51,9 @@ namespace Processor {
 
             // Holder for all detectors that will have access to the databank
             std::vector<Processor::Detector::Interface*> m_detectors;
+
+            // General interface for communicating with other modules
+            Presenter::ICompFacade* m_presenter;
 
             // Main execution thread
             std::thread m_workerThread;

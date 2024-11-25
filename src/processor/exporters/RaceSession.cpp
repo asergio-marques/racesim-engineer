@@ -52,18 +52,22 @@ void Processor::Exporter::RaceSession::InjectRecords(Processor::Data::SessionRec
 
 bool Processor::Exporter::RaceSession::Export(std::string path) const {
 
-    // path = "C:/Users/dusk_/Documents/now.xml";
     // actual code
     const auto now = std::chrono::system_clock::to_time_t(std::chrono::system_clock::now());
     const auto nowtm = localtime(&now);
-    std::string filename = "/Race_" +
+    std::string filename = "Race_" +
         std::to_string(nowtm->tm_year + 1900) + "_" +
         std::to_string(nowtm->tm_mon) + "_" +
         std::to_string(nowtm->tm_mday) + "_" +
         std::to_string(nowtm->tm_hour) + "_" +
         std::to_string(nowtm->tm_min) + "_" +
         std::to_string(nowtm->tm_sec) + ".xml";
-    path += filename;
+    if (path.at(path.size() - 1) == '\\') {
+        path += filename;
+    }
+    else {
+        path += "\\" + filename;
+    }
     pugi::xml_document doc;
     pugi::xml_node rootNode = doc.append_child("race");
 
@@ -133,6 +137,7 @@ bool Processor::Exporter::RaceSession::Export(std::string path) const {
     return doc.save_file(path.c_str());
 
 }
+
 
 
 void Processor::Exporter::RaceSession::addChildNodeCharacterData(pugi::xml_node* parentNode, const char* tag, const char* value)  const {

@@ -73,7 +73,10 @@ namespace Processor {
             void createSessionInformation(const Packet::Internal::SessionStart* sessionStartPacket);
 
             // Closes down the session, marking the session as finalized, to accept packets pertaining to the final lap
-            void finishSession();
+            void markAsFinished();
+
+            // Checks the auto export user setting and outputs the session data if so
+            void triggerAutoExport();
 
             // Interfaces with the DriverState class to update the driver position
             void updateStandings(const Packet::Internal::RaceStandings* standingsPacket);

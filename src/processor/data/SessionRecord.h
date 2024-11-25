@@ -29,8 +29,6 @@ namespace Processor {
             // Exposes the internal state object for easier modification
             Processor::Data::SessionState& getModifiableState();
 
-
-
             private:
             // Holds the value of the most recent timestamp
             uint64_t m_lastStateTimestamp;

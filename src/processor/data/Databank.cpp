@@ -23,6 +23,10 @@
 #include "packets/internal/race_types/PenaltyStatus.h"
 
 
+#ifndef LINUX
+#include <windows.h>
+#endif
+
 
 Processor::Data::Databank::~Databank() {
 
@@ -62,7 +66,7 @@ void Processor::Data::Databank::updateData(const Packet::Internal::Interface* pa
                 break;
 
             case Packet::Internal::Type::SessionEnd:
-                finishSession();
+                markAsFinished();
                 break;
 
             case Packet::Internal::Type::Standings:
@@ -199,8 +203,8 @@ void Processor::Data::Databank::createSessionInformation(const Packet::Internal:
 }
 
 
-#include <iostream>
-void Processor::Data::Databank::finishSession() {
+
+void Processor::Data::Databank::markAsFinished() {
 
     for (auto record : m_driverRecords) {
 
@@ -210,6 +214,12 @@ void Processor::Data::Databank::finishSession() {
         
     // TODO what would this even be for
     // m_sessionRecord->markAsFinished();
+
+}
+
+
+
+void Processor::Data::Databank::triggerAutoExport() {
 
     // Check if the user has activated the auto export option, and export if so
     if (m_presenter) {
@@ -222,11 +232,25 @@ void Processor::Data::Databank::finishSession() {
 
             if (ok && autoExportActive && m_exporter) {
 
-                std::future<bool> ret = std::async(std::launch::async, &Processor::Exporter::Interface::Export, m_exporter, "C:\\test.xml");
-                std::cout << "export result = " << ret.get() << std::endl;
-
+                std::string folderPath = "";
+                #ifndef LINUX
+                    TCHAR szExeFileName[MAX_PATH];
+                    GetModuleFileName(NULL, szExeFileName, MAX_PATH);
+                    folderPath = szExeFileName;
+                #elif
+                    // TODO LINUX
+                #endif
+                // TODO automatic export default path
+                std::filesystem::path path(folderPath);
+                path = path.remove_filename();
+                if (!path.has_filename()) {
+                    // not working, returning 0
+                    std::future<bool> ret = std::async(std::launch::async, &Processor::Exporter::Interface::Export, m_exporter, path.string());
+                    ret.get();
+                }
+                // TODO error handling
             }
-        
+
         }
 
     }
@@ -372,10 +396,25 @@ void Processor::Data::Databank::updateLapStatus(const Packet::Internal::LapStatu
                     prevLapData = Packet::Internal::LapStatus::Data();
                 }
 
-                driverData->getModifiableState().updateLap(currLapData.m_lapID, currLapData.m_type,
+                auto lapEntryCompleted = driverData->getModifiableState().updateLap(currLapData.m_lapID, currLapData.m_type,
                         currLapData.m_status, currLapData.m_time, currLapData.m_sectorTimes,
                         currLapData.m_lapDistanceRun, prevLapData.m_time);
+
+                if (m_sessionRecord && lapEntryCompleted) {
+
+                    bool allDriversComplete =
+                        m_sessionRecord->getModifiableState().updateDriverStatus(lapPacket->m_driverID, lapEntryCompleted);
+
+                    if (allDriversComplete) {
+
+                        triggerAutoExport();
+
+                    }
+
+                }
+
             }
+
         }
 
     }

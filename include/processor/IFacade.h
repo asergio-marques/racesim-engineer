@@ -1,11 +1,17 @@
 #ifndef PROCESSOR_INCLUDE_IFACADE_H_
 #define PROCESSOR_INCLUDE_IFACADE_H_
 
+#include <string>
 #include "packets/internal/Broadcaster.h"
 #include "packets/internal/Subscriber.h"
 
 
 
+namespace Presenter {
+
+    class ICompFacade;
+
+}
 
 namespace Processor {
 
@@ -14,6 +20,8 @@ namespace Processor {
         public:
             IFacade() = default;
             virtual ~IFacade() = default;
+            virtual void Init(Presenter::ICompFacade* presenter) = 0;
+            virtual bool ExportCurrentRaceData(std::string path) = 0;
 
     };
 

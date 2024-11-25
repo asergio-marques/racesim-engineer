@@ -1,20 +1,47 @@
 #ifndef PRESENTER_INCLUDE_PRESENTER_H_
 #define PRESENTER_INCLUDE_PRESENTER_H_
 
-#include <memory>
-#include "packets/game/Subscriber.h"
+#include <cstdint>
+#include <QString>
+#include "ICompFacade.h"
+#include "IProcessor.h"
+#include "ISettings.h"
+#include "IUserInterface.h"
 
 
+
+namespace Processor {
+
+    class IFacade;
+
+}
 
 namespace Presenter {
 
-    class Presenter : public Packet::Game::Subscriber {
+    class Facade : public ICompFacade, public IProcessor, public ISettings, public IUserInterface {
 
         public:
-            Presenter() = default;
-            virtual ~Presenter() = default;
-            virtual void OnPacketBroadcast(Packet::Game::Interface* packet) override final;
+        Facade() = default;
+        virtual ~Facade() = default;
 
+        // ICompFacade
+        void setProcessor(Processor::IFacade* processor) override final;
+        void setSettingsStore(Settings::IStore* settings) override final;
+        void setNetCom(NetCom::IFacade* netCom) override final;
+
+        // IProcessor
+        bool exportRaceToFolder(QString folderPath) override final;
+
+        // ISettings
+        const int64_t getSettingValue(const Settings::Key& key, bool& ok) const override final;
+        const bool setSettingValue(const Settings::Key& key, const int64_t value) override final;
+
+        // IUserInterface
+
+        private:
+        NetCom::IFacade* m_netCom;
+        Processor::IFacade* m_processor;
+        Settings::IStore* m_settings;
     };
 
 }

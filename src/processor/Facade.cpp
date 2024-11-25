@@ -7,7 +7,10 @@
 #include "detectors/Overtake.h"
 #include "detectors/WarningPenalty.h"
 #include "detectors/DriverStatus.h"
+#include "exporters/Interface.h"
+#include "exporters/RaceSession.h"
 #include "IFacade.h"
+#include "ICompFacade.h"
 #include "packets/internal/Subscriber.h"
 
 
@@ -36,7 +39,6 @@ Processor::Facade::Facade() :
         }
 
     }
-    m_workerThread = std::thread(&Processor::Facade::Exec, this);
 
 }
 
@@ -55,6 +57,42 @@ void Processor::Facade::OnPacketBroadcast(Packet::Internal::Interface* packet) {
     if (m_databank && packet) {
 
         m_databank->updateData(packet);
+
+    }
+
+}
+
+
+
+
+void Processor::Facade::Init(Presenter::ICompFacade* presenter) {
+
+    if (presenter) {
+
+        presenter->setProcessor(this);
+        m_presenter = presenter;
+        m_databank->Init(presenter);
+
+    }
+
+    m_workerThread = std::thread(&Processor::Facade::Exec, this);
+
+}
+
+
+
+bool Processor::Facade::ExportCurrentRaceData(std::string path) {
+
+    if (m_databank && m_databank->getExporter()) {
+
+        const Processor::Exporter::Interface* exporter = m_databank->getExporter();
+        return exporter->Export(path);
+
+    }
+    else {
+
+        return false;
+        // THROW ERROR
 
     }
 

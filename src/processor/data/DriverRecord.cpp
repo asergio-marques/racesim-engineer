@@ -67,3 +67,11 @@ Processor::Data::DriverState& Processor::Data::DriverRecord::getModifiableState(
     return m_state;
 
 }
+
+
+
+const bool Processor::Data::DriverRecord::isFinished() const {
+
+    return m_isFinished;
+
+}

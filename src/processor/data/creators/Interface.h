@@ -26,7 +26,7 @@ namespace Processor {
 
                 // Inheritable function that is to create the driver records
                 // appropriate for the session taking place
-                virtual std::map<const uint8_t, Processor::Data::DriverRecord*> createDriverRecords() const = 0;
+                virtual std::map<const uint8_t, Processor::Data::DriverRecord*> createDriverRecords(uint8_t& playerIndex, bool& foundPlayer) const = 0;
 
                 // Inheritable function that is to create the session records
                 // appropriate for the type of session taking place

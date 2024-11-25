@@ -19,8 +19,7 @@ target_include_directories(${PROJECT_NAME} PUBLIC
     "${PROJECT_ROOT}/src/ui/core"
     "${PROJECT_ROOT}/src/ui/widgets")
 target_include_directories(${PROJECT_NAME} PRIVATE
-    "${PROJECT_ROOT}/src/ui/core"
-    "${PROJECT_ROOT}/src/ui/widgets")
+    "${PROJECT_ROOT}/include/presenter")
 target_link_directories(${PROJECT_NAME} PRIVATE "${PROJECT_ROOT}/lib/")
 
 target_sources(${PROJECT_NAME} PRIVATE
@@ -30,6 +29,7 @@ target_sources(${PROJECT_NAME} PRIVATE
     base/ImageInterface.cpp
     base/TextInterface.cpp
     base/packets/PacketInterfaces.cpp
+    general_use/MenuBar.cpp
     general_use/BackgroundLeft.cpp
     general_use/BackgroundRight.cpp
     general_use/BackgroundFullScreen.cpp
@@ -53,6 +53,7 @@ target_sources(${PROJECT_NAME} PRIVATE
 target_link_libraries(${PROJECT_NAME} PRIVATE
     RaceSimEngineerCore
     RaceSimEngineerPacketsInternal
+    RaceSimEngineerPresenter
     Qt6::Core
     Qt6::Widgets
 )

@@ -13,7 +13,8 @@ namespace Settings {
         InvalidUnknown = 0,
         WindowNumber = 1,
         Game = 2,
-        SocketPort = 3
+        SocketPort = 3,
+        AutoExportWhenSessionEnd = 4
 
     };
 

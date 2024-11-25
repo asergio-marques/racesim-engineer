@@ -35,6 +35,9 @@ namespace Processor {
             // Exposes the internal state object for easier modification
             Processor::Data::DriverState& getModifiableState();
 
+            // Exposes the finished status of this driver
+            const bool isFinished() const;
+
             private:
             // Holds the value of the most recent timestamp
             uint64_t m_lastStateTimestamp;

@@ -139,9 +139,44 @@ void Lap::Internal::Time::zero() {
 
 
 
-const std::string Lap::Internal::Time::formattedPrint() const {
+const std::string Lap::Internal::Time::formattedPrint(bool minutes) const {
 
-    return std::to_string(m_seconds) + "." + std::to_string(m_milliseconds);
+    std::string minutesString = "";
+    std::string secondsString = "";
+    std::string millisecondsString = "";
+    uint8_t seconds = m_seconds;
+
+    // Prepare minutes if needed
+    if (minutes) {
+        std::string minutesString = std::to_string(m_seconds / 60);
+        seconds = m_seconds % 60;
+    }
+
+    // format the string so that there's a leading zero so 2 digits are always displayed
+    if (seconds < 10) {
+        secondsString = "0" + std::to_string(seconds);
+    }
+    else {
+        secondsString = std::to_string(seconds);
+    }
+
+    // format the string so that there's one/two leading zeros so 3 digits are always displayed
+    if (m_milliseconds < 10) {
+        millisecondsString = "00" + std::to_string(m_milliseconds);
+    }
+    else if (m_milliseconds < 100) {
+        millisecondsString = "0" + std::to_string(m_milliseconds);
+    }
+    else {
+        millisecondsString = std::to_string(m_milliseconds);
+    
+    }
+
+    // return the appropriate value
+    if (minutes) {
+        return minutesString + ":" + secondsString + "." + millisecondsString;
+    }    
+    return secondsString + "." + millisecondsString;
 
 }
 

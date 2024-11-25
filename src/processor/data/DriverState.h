@@ -6,6 +6,7 @@
 #include <math.h>
 #include <vector>
 #include "data/internal/Lap.h"
+#include "data/internal/Participant.h"
 #include "data/holders/LapHistoryData.h"
 #include "data/holders/WarningPenaltyData.h"
 #include "data/holders/PositionTimingData.h"
@@ -36,6 +37,7 @@ namespace Processor {
 
             // Informs the driver record that the session has ended, so that certain information only available
             // after its end is accepted
+            // Note that the driver status does not change, and hence the driver is not yet officially finished!
             void markAsFinished();
 
             // Alter the position in this driver state, and feed it to the detector
@@ -50,9 +52,19 @@ namespace Processor {
             void updateStatus(const Participant::Internal::Status status);
 
             // Alter the status of the driver's most recent lap in the session
-            void updateLap(const uint8_t lapID, const Lap::Internal::Type type,
+            // Returns true if this update has "completed" the lap entry database
+            bool updateLap(const uint8_t lapID, const Lap::Internal::Type type,
                 const Lap::Internal::Status status, const Lap::Internal::Time currentLapTime, const std::vector<Lap::Internal::Time> sectorTimes,
                 const float_t lapDistanceRun, const Lap::Internal::Time previousLapTime);
+
+            // Expose position and timing data
+            const Processor::Data::PositionTimingData& posTimeData() const;
+
+            // Expose warning and penalty data
+            const Processor::Data::WarningPenaltyData& warnPenData() const;
+
+            // Expose lap data
+            const Processor::Data::LapHistoryData& lapData() const;
 
             private:
             // ID of the driver associated with this state

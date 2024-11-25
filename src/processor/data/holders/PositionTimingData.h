@@ -34,10 +34,13 @@ namespace Processor {
             // Alter the position in this driver state, and feed it to the detector
             void updateCurrentPosition(const uint8_t id, const uint8_t currentPosition);
 
-            private:
+            // Denotes whether this driver has finished all his laps, or can no longer continue
+            const bool isFinishedStatus() const;
+
             // Starting position for this vehicle
             const uint8_t m_startingPosition;
 
+            private:
             // Current position for this vehicle
             uint8_t m_currentPosition;
 

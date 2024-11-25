@@ -4,10 +4,16 @@
 #include <QMainWindow>
 #include "core/ScreenType.h"
 
+
+
 class QResizeEvent;
 class QWidget;
 
+namespace Presenter {
 
+    class ICompFacade;
+
+}
 
 namespace UserInterface {
 
@@ -17,14 +23,21 @@ namespace UserInterface {
 
     }
 
+    namespace Widgets {
+
+        class MenuBar;
+
+    }
+
     class CustomMainWindow : public QMainWindow {
 
         Q_OBJECT
 
         public:
-            CustomMainWindow(QWidget* parent = 0);
+            CustomMainWindow(Presenter::ICompFacade* presenter, QWidget* parent = 0);
             virtual ~CustomMainWindow() = default;
             void addScreen(UserInterface::Screen::Interface* newScreen);
+            void Startup();
             // TODO these functions are to take in session start internal packets,
             // but these are yet to be implemented
             void OnSessionEnd(bool withDelay = false);
@@ -42,6 +55,7 @@ namespace UserInterface {
         private:
             void doAddScreen(UserInterface::Screen::Interface* newScreen);
             bool doSwitchScreen(const UserInterface::Screen::Type type);
+            UserInterface::Widgets::MenuBar* m_menuBar;
             std::list<UserInterface::Screen::Interface*> m_screens;
             UserInterface::Screen::Interface* m_activeScreen;
 

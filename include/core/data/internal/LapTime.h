@@ -26,7 +26,7 @@ namespace Lap::Internal {
         bool operator>=(const Time& other) const;
         bool operator<=(const Time& other) const;
         void zero();
-        const std::string formattedPrint() const;
+        const std::string formattedPrint(bool minutes = false) const;
         const bool valid() const;
 
         uint8_t m_seconds;

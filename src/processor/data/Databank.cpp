@@ -1,7 +1,11 @@
 #include "data/Databank.h"
 
 #include <cstdint>
+#include <future>
 #include <map>
+#include <thread>
+#include "ICompFacade.h"
+#include "ISettings.h"
 #include "data/DriverRecord.h"
 #include "data/SessionRecord.h"
 #include "data/internal/Participant.h"
@@ -9,6 +13,7 @@
 #include "data/creators/RaceSession.h"
 #include "detectors/Interface.h"
 #include "detectors/Type.h"
+#include "exporters/RaceSession.h"
 #include "packets/internal/Interface.h"
 #include "packets/internal/multi_use/SessionStart.h"
 #include "packets/internal/multi_use/ParticipantStatus.h"
@@ -17,6 +22,10 @@
 #include "packets/internal/race_types/RaceStandings.h"
 #include "packets/internal/race_types/PenaltyStatus.h"
 
+
+#ifndef LINUX
+#include <windows.h>
+#endif
 
 
 Processor::Data::Databank::~Databank() {
@@ -30,6 +39,19 @@ Processor::Data::Databank::~Databank() {
     delete m_sessionRecord;
 
 }
+
+
+
+void Processor::Data::Databank::Init(Presenter::ICompFacade* presenter) {
+
+    if (presenter) {
+
+        m_presenter = presenter;
+
+    }
+
+}
+
 
 
 
@@ -104,6 +126,17 @@ void Processor::Data::Databank::installDetector(Processor::Detector::Interface* 
 
 }
 
+
+
+const Processor::Exporter::Interface* Processor::Data::Databank::getExporter() const {
+
+    return m_exporter;
+
+}
+
+
+
+
 void Processor::Data::Databank::createSessionInformation(const Packet::Internal::SessionStart* sessionStartPacket) {
 
     if (sessionStartPacket) {
@@ -126,6 +159,7 @@ void Processor::Data::Databank::createSessionInformation(const Packet::Internal:
             
             case Session::Internal::Type::Race:
                 creator = new Processor::Data::Creator::RaceSession(dynamic_cast<const Packet::Internal::RaceStart*>(sessionStartPacket));
+                m_exporter = new Processor::Exporter::RaceSession();
                 break;
 
             default:
@@ -135,8 +169,18 @@ void Processor::Data::Databank::createSessionInformation(const Packet::Internal:
         }
         if (creator) {
             
+            uint8_t playerId = 0;
+            bool foundPlayer = false;
             m_sessionRecord = creator->createSessionRecord();
-            m_driverRecords = creator->createDriverRecords();
+            m_driverRecords = creator->createDriverRecords(playerId, foundPlayer);
+            
+            // if a player driver was found, then inject only that record, otherwise, inject all records
+            if (foundPlayer) {
+                m_exporter->InjectRecords(m_sessionRecord, m_driverRecords.at(playerId));
+            }
+            else {
+                m_exporter->InjectRecords(m_sessionRecord, &m_driverRecords);
+            }
 
             for (auto detectorEntry : m_activeDetectors) {
 
@@ -167,8 +211,49 @@ void Processor::Data::Databank::markAsFinished() {
         record.second->markAsFinished();
 
     }
+        
     // TODO what would this even be for
     // m_sessionRecord->markAsFinished();
+
+}
+
+
+
+void Processor::Data::Databank::triggerAutoExport() {
+
+    // Check if the user has activated the auto export option, and export if so
+    if (m_presenter) {
+
+        auto settingsPresenter = dynamic_cast<Presenter::ISettings*>(m_presenter);
+        if (settingsPresenter) {
+
+            bool ok = true;
+            bool autoExportActive = settingsPresenter->getSettingValue(Settings::Key::AutoExportWhenSessionEnd, ok) > 0;
+
+            if (ok && autoExportActive && m_exporter) {
+
+                std::string folderPath = "";
+                #ifndef LINUX
+                    TCHAR szExeFileName[MAX_PATH];
+                    GetModuleFileName(NULL, szExeFileName, MAX_PATH);
+                    folderPath = szExeFileName;
+                #elif
+                    // TODO LINUX
+                #endif
+                // TODO automatic export default path
+                std::filesystem::path path(folderPath);
+                path = path.remove_filename();
+                if (!path.has_filename()) {
+                    // not working, returning 0
+                    std::future<bool> ret = std::async(std::launch::async, &Processor::Exporter::Interface::Export, m_exporter, path.string());
+                    ret.get();
+                }
+                // TODO error handling
+            }
+
+        }
+
+    }
 
 }
 
@@ -311,10 +396,25 @@ void Processor::Data::Databank::updateLapStatus(const Packet::Internal::LapStatu
                     prevLapData = Packet::Internal::LapStatus::Data();
                 }
 
-                driverData->getModifiableState().updateLap(currLapData.m_lapID, currLapData.m_type,
+                auto lapEntryCompleted = driverData->getModifiableState().updateLap(currLapData.m_lapID, currLapData.m_type,
                         currLapData.m_status, currLapData.m_time, currLapData.m_sectorTimes,
                         currLapData.m_lapDistanceRun, prevLapData.m_time);
+
+                if (m_sessionRecord && lapEntryCompleted) {
+
+                    bool allDriversComplete =
+                        m_sessionRecord->getModifiableState().updateDriverStatus(lapPacket->m_driverID, lapEntryCompleted);
+
+                    if (allDriversComplete) {
+
+                        triggerAutoExport();
+
+                    }
+
+                }
+
             }
+
         }
 
     }

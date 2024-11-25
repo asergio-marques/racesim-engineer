@@ -6,6 +6,13 @@
 #include "IFacade.h"
 
 
+
+namespace Presenter {
+
+    class ICompFacade;
+
+}
+
 namespace Processor {
 
     namespace Data {
@@ -32,8 +39,11 @@ namespace Processor {
             // Implements the internal packet subscriber handling function
             virtual void OnPacketBroadcast(Packet::Internal::Interface* packet) override final;
 
-            // Main execution loop function
-            void Exec();
+            // Initializes needed member variables and starts component
+            virtual void Init(Presenter::ICompFacade* presenter) override final;
+
+            // Trigger function for the export of the current dataset
+            virtual bool ExportCurrentRaceData(std::string path) override final;
 
         private:
             // Main handler object for all driver and session data
@@ -42,8 +52,14 @@ namespace Processor {
             // Holder for all detectors that will have access to the databank
             std::vector<Processor::Detector::Interface*> m_detectors;
 
+            // General interface for communicating with other modules
+            Presenter::ICompFacade* m_presenter;
+
             // Main execution thread
             std::thread m_workerThread;
+
+            // Main execution loop function
+            void Exec();
 
     };
 

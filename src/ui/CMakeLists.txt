@@ -15,7 +15,6 @@ cmake_path(GET PROJECT_ROOT PARENT_PATH PROJECT_ROOT)
 
 target_include_directories(${PROJECT_NAME} PUBLIC
     "${PROJECT_ROOT}/include/core"
-    "${PROJECT_ROOT}/include/netcom"
     "${PROJECT_ROOT}/include/ui")
 target_include_directories(${PROJECT_NAME} PRIVATE "${PROJECT_ROOT}/src/ui")
 target_link_directories(${PROJECT_NAME} PRIVATE "${PROJECT_ROOT}/lib/")

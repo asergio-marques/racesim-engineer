@@ -83,3 +83,13 @@ void Processor::Data::PositionTimingData::updateCurrentPosition(const uint8_t id
     }
 
 }
+
+
+
+const bool Processor::Data::PositionTimingData::isFinishedStatus() const {
+
+    return m_status == Participant::Internal::Status::FinishedSession ||
+        m_status == Participant::Internal::Status::DSQ ||
+        m_status == Participant::Internal::Status::DNF;
+
+}

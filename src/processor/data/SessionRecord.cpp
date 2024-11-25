@@ -21,6 +21,21 @@ Processor::Data::SessionRecord::~SessionRecord() {
 
 
 
+}
+
+
+
+const Session::Internal::Track Processor::Data::SessionRecord::getTrackID() {
+
+    return m_trackID;
+
+}
+
+
+
+const uint8_t Processor::Data::SessionRecord::getTotalLaps() {
+
+    return m_totalLaps;
 
 }
 

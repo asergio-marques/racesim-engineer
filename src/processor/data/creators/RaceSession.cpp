@@ -20,7 +20,7 @@ Processor::Data::Creator::RaceSession::RaceSession(const Packet::Internal::RaceS
 
 
 
-std::map<const uint8_t, Processor::Data::DriverRecord*> Processor::Data::Creator::RaceSession::createDriverRecords() const {
+std::map<const uint8_t, Processor::Data::DriverRecord*> Processor::Data::Creator::RaceSession::createDriverRecords(uint8_t& playerIndex, bool& foundPlayer) const {
 
     std::map<const uint8_t, Processor::Data::DriverRecord*> driverRecord;
     if (m_packet)
@@ -31,6 +31,12 @@ std::map<const uint8_t, Processor::Data::DriverRecord*> Processor::Data::Creator
             if (record) {
 
                 driverRecord.emplace(record->getDriverId(), record);
+                if (driver.m_isPlayer) {
+
+                    playerIndex = record->getDriverId();
+                    foundPlayer = true;
+
+                }
 
             }
             

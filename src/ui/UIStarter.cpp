@@ -4,7 +4,6 @@
 #include <QGuiApplication>
 #include <QFontDatabase>
 #include <QMainWindow>
-#include <QMenuBar>
 #include <QTimer>
 #include "CustomMainWindow.h"
 #include "PacketHandler.h"
@@ -35,7 +34,7 @@ UserInterface::UIStarter::~UIStarter() {
 
 
 
-void UserInterface::UIStarter::Init(int* argc, char*** argv) {
+void UserInterface::UIStarter::Init(int* argc, char*** argv, Presenter::ICompFacade* presenter) {
 
     m_app = new QApplication(*argc, *argv);
     QCoreApplication::setOrganizationName("Sérgio Marques");
@@ -50,7 +49,7 @@ void UserInterface::UIStarter::Init(int* argc, char*** argv) {
     font.setFamily(QFontDatabase::applicationFontFamilies(normal_id).at(0));
     font.setStyleStrategy(QFont::StyleStrategy::PreferAntialias);
     QGuiApplication::setFont(font);
-    m_window = new UserInterface::CustomMainWindow();
+    m_window = new UserInterface::CustomMainWindow(presenter);
     if (m_window && m_handler) {
 
         m_handler->connect(m_handler, &UserInterface::PacketHandler::TimeTrialStart,
@@ -72,14 +71,7 @@ void UserInterface::UIStarter::Init(int* argc, char*** argv) {
         m_window->addScreen(new UserInterface::Screen::Qualifying(m_handler, m_window));
         m_window->addScreen(new UserInterface::Screen::Race(m_handler, m_window));
         
-        QMenuBar* menuBar = new QMenuBar(m_window);
-        if (menuBar) {
-            menuBar->addMenu(QString::fromUtf8("Settings"));
-            menuBar->addMenu(QString::fromUtf8("About"));
-            m_window->setMenuBar(menuBar);
-        }
-        // start on Loading by default
-        m_window->OnSessionEnd();
+        m_window->Startup();
         m_window->show();
 
         // delay the showing of the window slightly so it is properly stylized at startup

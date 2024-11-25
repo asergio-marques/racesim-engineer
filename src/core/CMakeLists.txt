@@ -16,8 +16,7 @@ target_sources(${PROJECT_NAME} PRIVATE
     data/GeneralData.cpp
     data/internal/LapTime.cpp
     packets/game/Broadcaster.cpp
-    packets/game/Helper.cpp
-    settings/StoreFront.cpp)
+    packets/game/Helper.cpp)
 
 target_link_libraries(${PROJECT_NAME} PRIVATE
     RaceSimEngineerPacketsF123

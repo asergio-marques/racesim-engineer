@@ -8,6 +8,7 @@
 #include <QWidget>
 #include "ICompFacade.h"
 #include "IProcessor.h"
+#include "general_use/SettingsDialog.h"
 
 
 
@@ -102,9 +103,7 @@ void UserInterface::Widgets::MenuBar::clearCurrentSessionRequested() {
 
 void UserInterface::Widgets::MenuBar::settingsRequested() {
 
-    QDialog settingsDialog;
-    settingsDialog.setFixedSize(QSize(720, 540));
-    settingsDialog.setWindowTitle(QString::fromUtf8("Settings"));
+    UserInterface::Widgets::SettingsDialog settingsDialog(m_presenter, parentWidget());
     settingsDialog.exec();
 
 }

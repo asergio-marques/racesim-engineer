@@ -29,11 +29,12 @@ target_sources(${PROJECT_NAME} PRIVATE
     base/ImageInterface.cpp
     base/TextInterface.cpp
     base/packets/PacketInterfaces.cpp
-    general_use/MenuBar.cpp
     general_use/BackgroundLeft.cpp
     general_use/BackgroundRight.cpp
     general_use/BackgroundFullScreen.cpp
+    general_use/MenuBar.cpp
     general_use/ScreenTitle.cpp
+    general_use/SettingsDialog.cpp
     specific/LoadingIcon.cpp
     multiplayer_session/DriverEntry.cpp
     multiplayer_session/FastestLapIndicator.cpp

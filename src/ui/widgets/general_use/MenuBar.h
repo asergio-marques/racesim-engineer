@@ -23,7 +23,7 @@ namespace UserInterface {
             Q_OBJECT
 
             public:
-            MenuBar(Presenter::ICompFacade* presenter, QWidget* parent = 0);
+            MenuBar(Presenter::ICompFacade* presenter, QWidget* parent = nullptr);
             ~MenuBar();
             void enableSessionActions(bool enabled);
 

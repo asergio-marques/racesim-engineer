@@ -61,6 +61,23 @@ bool Presenter::Facade::exportRaceToFolder(QString folderPath) {
 }
 
 
+
+const Settings::Key Presenter::Facade::activeSettingAtIndex(const uint8_t index) const {
+
+    return Settings::Key::InvalidUnknown;
+
+}
+
+
+
+const uint8_t Presenter::Facade::numActiveSettings() const {
+
+    return 0;
+
+}
+
+
+
 const int64_t Presenter::Facade::getSettingValue(const Settings::Key& key, bool& ok) const {
 
     if (m_settings) {

@@ -1,32 +1,21 @@
 #ifndef USERINTERFACE_WIDGETS_INCLUDE_SCREEN_TITLE_H_
 #define USERINTERFACE_WIDGETS_INCLUDE_SCREEN_TITLE_H_
 
+#include <QLabel>
 #include "ScreenType.h"
-#include "base/TextInterface.h"
-#include "base/ID.h"
 
 
-
-namespace Packet {
-
-    namespace Internal {
-
-        class Interface;
-
-    }
-
-}
 
 namespace UserInterface {
 
     namespace Widget {
 
-        class ScreenTitle final : public UserInterface::Widget::TextInterface {
+        class ScreenTitle final : public QLabel {
 
             Q_OBJECT
 
             public:
-                ScreenTitle(UserInterface::Widget::ID id, QWidget* parent = 0);
+                ScreenTitle(QWidget* parent = 0);
                 virtual ~ScreenTitle() = default;
                 void setTitle(UserInterface::Screen::Type type);
 

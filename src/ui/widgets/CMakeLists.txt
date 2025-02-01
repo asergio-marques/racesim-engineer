@@ -23,12 +23,6 @@ target_include_directories(${PROJECT_NAME} PRIVATE
 target_link_directories(${PROJECT_NAME} PRIVATE "${PROJECT_ROOT}/lib/")
 
 target_sources(${PROJECT_NAME} PRIVATE
-    base/Container.cpp
-    base/Interface.cpp
-    base/ButtonInterface.cpp
-    base/ImageInterface.cpp
-    base/TextInterface.cpp
-    base/packets/PacketInterfaces.cpp
     general_use/MenuBar.cpp
     general_use/BackgroundLeft.cpp
     general_use/BackgroundRight.cpp

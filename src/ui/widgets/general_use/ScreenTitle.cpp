@@ -1,21 +1,23 @@
 #include "general_use/ScreenTitle.h"
 
-#include <QFont>
-#include <QFontDatabase>
 #include <QLabel>
-#include <QString>
 #include <QWidget>
 #include "ScreenType.h"
-#include "base/TextInterface.h"
-#include "base/ID.h"
+#include "StyleSheetFactory.h"
 
 
 
 
-UserInterface::Widget::ScreenTitle::ScreenTitle(UserInterface::Widget::ID id, QWidget* parent) :
-    UserInterface::Widget::TextInterface(id, parent) {
+UserInterface::Widget::ScreenTitle::ScreenTitle(QWidget* parent) :
+    QLabel(parent) {
 
-    setFontThickness(UserInterface::Widget::FontThickness::ExtraBold);
+    UserInterface::StyleSheetFactory* instance = UserInterface::StyleSheetFactory::instance();
+    Q_ASSERT(instance);
+    if (instance) {
+
+        setStyleSheet(instance->requestByColorAndThickness(UserInterface::StyleSheetFactory::FontThickness::ExtraBold));
+
+    }
 
 }
 

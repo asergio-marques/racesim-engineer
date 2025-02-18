@@ -4,12 +4,12 @@
 #include <QPixmap>
 #include "Image.h"
 #include "PixmapFactory.h"
-#include "base/ImageInterface.h"
+#include <QWidget>
 
 
 
 UserInterface::Widget::FastestLapIndicator::FastestLapIndicator(QWidget* parent) :
-    UserInterface::Widget::ImageInterface(UserInterface::Widget::ID::FastestLapIcon, parent) {
+    QWidget(parent) {
 
     UserInterface::PixmapFactory* instance = UserInterface::PixmapFactory::instance();
     Q_ASSERT(instance);

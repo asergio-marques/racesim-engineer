@@ -4,8 +4,8 @@
 #include "Image.h"
 #include "PixmapFactory.h"
 #include "TimeInfoContainer.h"
-#include "base/ImageInterface.h"
-#include "base/TextInterface.h"
+#include <QWidget>
+#include <QWidget>
 
 
 

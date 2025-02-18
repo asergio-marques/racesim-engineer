@@ -1,17 +1,16 @@
 #ifndef USERINTERFACE_WIDGETS_INCLUDE_FASTEST_LAP_INDICATOR_H_
 #define USERINTERFACE_WIDGETS_INCLUDE_FASTEST_LAP_INDICATOR_H_
 
-#include "base/ImageInterface.h"
+#include <QWidget>
 
 
 
-class QWidget;
 
 namespace UserInterface {
 
     namespace Widget {
 
-        class FastestLapIndicator : public UserInterface::Widget::ImageInterface {
+        class FastestLapIndicator : public QWidget {
 
             public:
             FastestLapIndicator(QWidget* parent = 0);

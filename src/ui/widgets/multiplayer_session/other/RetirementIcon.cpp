@@ -1,5 +1,5 @@
 #include "multiplayer_session/other/RetirementIcon.h"
-#include "base/TextInterface.h"
+#include <QWidget>
 #include "data/internal/Participant.h"
 #include "multiplayer_session/other/RetirementIconBackground.h"
 

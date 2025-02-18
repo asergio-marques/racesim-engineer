@@ -1,5 +1,5 @@
 #include "multiplayer_session/penalty/PenaltyIcon.h"
-#include "base/TextInterface.h"
+#include <QWidget>
 #include "multiplayer_session/penalty/PenaltyFlag.h"
 #include "multiplayer_session/penalty/PenaltyTextBackground.h"
 

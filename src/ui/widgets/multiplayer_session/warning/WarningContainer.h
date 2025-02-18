@@ -3,11 +3,10 @@
 
 #include <cstdint>
 #include <QList>
-#include "base/Container.h"
+#include <QWidget>
 
 
 
-class QWidget;
 
 namespace UserInterface {
 
@@ -15,7 +14,7 @@ namespace UserInterface {
 
         class WarningIcon;
 
-        class WarningContainer final : public UserInterface::Widget::Container {
+        class WarningContainer final : public QWidget {
 
             public:
             enum class Type : uint8_t {
@@ -28,18 +27,6 @@ namespace UserInterface {
             WarningContainer(const UserInterface::Widget::WarningContainer::Type type, QWidget* parent = 0);
             ~WarningContainer() = default;
             void addWarning();
-            virtual void move(const uint16_t x, const uint16_t y, const bool centerAlignmentX, const bool centerAlignmentY) override final;
-            void scale(const uint8_t percent) override final;
-            void scale(const uint8_t percentX, const uint8_t percentY) override final;
-            void setSize(const uint16_t newWidth, const uint16_t newHeight, const bool keepAspectRatio) override final;
-            void raise() override final;
-            void lower() override final;
-
-            // Getters
-            virtual const int16_t width() const override final;
-            virtual const int16_t height() const override final;
-            virtual const int16_t x() const override final;
-            virtual const int16_t y() const override final;
 
             private:
             QList<UserInterface::Widget::WarningIcon*> m_icons;

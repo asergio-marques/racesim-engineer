@@ -1,7 +1,7 @@
 #ifndef USERINTERFACE_WIDGETS_INCLUDE_PENALTY_FLAG_H_
 #define USERINTERFACE_WIDGETS_INCLUDE_PENALTY_FLAG_H_
 
-#include "base/ImageInterface.h"
+#include <QWidget>
 
 
 

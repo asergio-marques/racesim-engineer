@@ -1,20 +1,18 @@
 #ifndef USERINTERFACE_WIDGETS_INCLUDE_TEAM_ICON_H_
 #define USERINTERFACE_WIDGETS_INCLUDE_TEAM_ICON_H_
 
-#include <QMap>
-#include <QString>
-#include "base/ImageInterface.h"
+#include <QPixmap>
+#include <QLabel>
 #include "data/internal/Session.h"
 
 
 
-class QWidget;
 
 namespace UserInterface {
 
     namespace Widget {
 
-        class TeamIcon : public UserInterface::Widget::ImageInterface {
+        class TeamIcon : public QLabel {
 
             public:
             TeamIcon(QWidget* parent = 0);
@@ -23,6 +21,7 @@ namespace UserInterface {
 
             private:
             bool m_isSet;
+            QPixmap m_pixmap;
 
         };
     }

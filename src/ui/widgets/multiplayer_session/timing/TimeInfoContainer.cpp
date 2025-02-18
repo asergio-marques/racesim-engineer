@@ -1,8 +1,8 @@
 ﻿#include "multiplayer_session/timing/TimeInfoContainer.h"
 
-#include "base/Container.h"
-#include "base/ImageInterface.h"
-#include "base/TextInterface.h"
+#include <QWidget>
+#include <QWidget>
+#include <QWidget>
 #include "styles/Standings.h"
 
 

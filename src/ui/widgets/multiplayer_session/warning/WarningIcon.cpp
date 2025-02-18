@@ -4,7 +4,7 @@
 #include "Image.h"
 #include "PixmapFactory.h"
 #include "base/ID.h"
-#include "base/ImageInterface.h"
+#include <QWidget>
 
 
 

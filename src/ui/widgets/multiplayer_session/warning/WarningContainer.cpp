@@ -2,7 +2,7 @@
 
 #include <QWidget>
 #include "base/ID.h"
-#include "base/ImageInterface.h"
+#include <QWidget>
 #include "multiplayer_session/warning/WarningIcon.h"
 
 

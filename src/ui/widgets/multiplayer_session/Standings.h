@@ -2,7 +2,7 @@
 #define USERINTERFACE_WIDGETS_INCLUDE_STANDINGS_H_
 
 #include <QList>
-#include "base/Container.h"
+#include <QWidget>
 #include "packets/internal/multi_use/MPSessionStart.h"
 #include "packets/internal/multi_use/ParticipantStatusChange.h"
 #include "packets/internal/multi_use/PenaltyChange.h"
@@ -18,7 +18,7 @@ namespace UserInterface {
 
         class DriverEntry;
 
-        class Standings final : public UserInterface::Widget::Container {
+        class Standings final : public QWidget {
 
             Q_OBJECT
 
@@ -31,18 +31,6 @@ namespace UserInterface {
             void penaltyAssignedToVehicle(const Packet::Internal::PenaltyChange* dataPacket);
             void vehicleStatusChanged(const Packet::Internal::ParticipantStatusChange* dataPacket);
             void newCompletedLapInfo(const Packet::Internal::FinishedLapInfo* dataPacket);
-            void move(const uint16_t x, const uint16_t y, const bool centerAlignmentX, const bool centerAlignmentY) override final;
-            void scale(const uint8_t percent) override final;
-            void scale(const uint8_t percentX, const uint8_t percentY) override final;
-            void setSize(const uint16_t newWidth, const uint16_t newHeight, const bool keepAspectRatio) override final;
-            void raise() override final;
-            void lower() override final;
-
-            // Getters
-            const int16_t width() const override final;
-            const int16_t height() const override final;
-            const int16_t x() const override final;
-            const int16_t y() const override final;
 
             private:
             QWidget* m_parent;

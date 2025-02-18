@@ -1,7 +1,7 @@
 #ifndef USERINTERFACE_WIDGETS_INCLUDE_WARNING_ICON_H_
 #define USERINTERFACE_WIDGETS_INCLUDE_WARNING_ICON_H_
 
-#include "base/ImageInterface.h"
+#include <QWidget>
 
 
 

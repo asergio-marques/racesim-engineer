@@ -10,9 +10,7 @@
 UserInterface::Panel::FreePracticeRight::FreePracticeRight(UserInterface::PacketHandler* handler, QWidget* parent) :
     UserInterface::Panel::Interface(handler, parent) {
         
-    m_background = new UserInterface::Widget::BackgroundRight(UserInterface::Widget::ID::Background, this);
-
-    RegisterWidget(m_background);
+    m_background = new UserInterface::Widget::BackgroundRight(this);
 
 }
 

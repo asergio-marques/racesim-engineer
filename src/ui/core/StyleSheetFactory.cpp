@@ -18,14 +18,14 @@ UserInterface::StyleSheetFactory* UserInterface::StyleSheetFactory::instance() {
 QString UserInterface::StyleSheetFactory::requestByColorAndThickness(UserInterface::StyleSheetFactory::FontThickness boldness,
     UserInterface::StyleSheetFactory::FontColor color) const {
 
-    QString styleString, color, font = "";
+    QString styleString, colorString, font = "";
     switch (boldness) {
 
-        case Bold:
+        case UserInterface::StyleSheetFactory::FontThickness::Bold:
             font = "Manrope Bold";
             break;
 
-        case ExtraBold:
+        case UserInterface::StyleSheetFactory::FontThickness::ExtraBold:
             font = "Manrope ExtraBold";
             break;
 
@@ -36,8 +36,8 @@ QString UserInterface::StyleSheetFactory::requestByColorAndThickness(UserInterfa
 
     }
     // no colors aside from white available atm
-    color = "white";
-    styleString = "QLabel { color : " + color + "; font: " + font + " }";
+    colorString = "white";
+    styleString = "QLabel { color : " + colorString + "; font: " + font + " }";
     return styleString;
 
 }

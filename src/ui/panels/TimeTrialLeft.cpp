@@ -1,6 +1,7 @@
 #include "panels/TimeTrialLeft.h"
 
 #include <QSize>
+#include <QLabel>
 #include <QWidget>
 #include "panels/Interface.h"
 #include "core/ScreenType.h"
@@ -13,11 +14,8 @@ UserInterface::Panel::TimeTrialLeft::TimeTrialLeft(UserInterface::PacketHandler*
     UserInterface::Panel::Interface(handler, parent),
     m_screenTitle(nullptr) {
         
-    m_background = new UserInterface::Widget::BackgroundLeft(UserInterface::Widget::ID::Background, this);
-    m_screenTitle = new UserInterface::Widget::ScreenTitle(UserInterface::Widget::ID::ScreenTitle, this);
-
-    RegisterWidget(m_background);
-    RegisterWidget(m_screenTitle);
+    m_background = new UserInterface::Widget::BackgroundLeft(this);
+    m_screenTitle = new UserInterface::Widget::ScreenTitle(this);
 
     if (m_screenTitle) {
 
@@ -42,8 +40,10 @@ void UserInterface::Panel::TimeTrialLeft::ResizePanel(const QSize& newPanelSize)
     if (m_screenTitle && generalStyle.ScreenTitleFontSize.IsValid()) {
 
         const uint16_t newFontSize = generalStyle.ScreenTitleFontSize.Interpolate(height);
-        m_screenTitle->setFontSize(newFontSize);
-        m_screenTitle->move(generalStyle.HorizontalEdgeBorder.Calculate(width), generalStyle.VerticalEdgeBorder.Calculate(height), false, false);
+        QFont font = m_screenTitle->font();
+        font.setPointSize(newFontSize);
+        m_screenTitle->setFont(font);
+        m_screenTitle->move(generalStyle.HorizontalEdgeBorder.Calculate(width), generalStyle.VerticalEdgeBorder.Calculate(height));
 
     }
 

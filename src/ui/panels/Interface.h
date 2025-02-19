@@ -5,6 +5,7 @@
 #include <QWidget>
 
 
+class QLabel;
 
 namespace Packet {
 
@@ -20,13 +21,6 @@ namespace UserInterface {
 
     class PacketHandler;
 
-    namespace Widget {
-
-        class Interface;
-        class ImageInterface;
-
-    }
-
     namespace Panel {
 
         class Interface : public QWidget {
@@ -38,11 +32,7 @@ namespace UserInterface {
                 virtual ~Interface() = default;
                 virtual void ResizePanel(const QSize& newPanelSize);
 
-            protected:
-                bool RegisterWidget(UserInterface::Widget::Interface* widget);
-                std::map<UserInterface::Widget::ID, UserInterface::Widget::Interface*> m_widgets;
-
-                UserInterface::Widget::ImageInterface* m_background;
+                QLabel* m_background;
                 UserInterface::PacketHandler* m_handler;
         };
 

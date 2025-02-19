@@ -15,17 +15,15 @@ UserInterface::Panel::RaceRight::RaceRight(UserInterface::PacketHandler* handler
     UserInterface::Panel::Interface(handler, parent),
     m_driverStandings(nullptr) {
         
-    m_background = new UserInterface::Widget::BackgroundRight(UserInterface::Widget::ID::Background, this);
+    m_background = new UserInterface::Widget::BackgroundRight(this);
     if (m_background) {
 
         m_background->lower();
-        RegisterWidget(m_background);
 
     }
     m_driverStandings = new UserInterface::Widget::Standings(this);
     if (m_driverStandings) {
 
-        RegisterWidget(m_driverStandings);
         connect(handler, &UserInterface::PacketHandler::RaceStart, m_driverStandings, &UserInterface::Widget::Standings::setStartingGrid);
         connect(handler, &UserInterface::PacketHandler::OvertakePerformed, this, &UserInterface::Panel::RaceRight::onOvertake);
         connect(handler, &UserInterface::PacketHandler::PenaltyAssigned, m_driverStandings, &UserInterface::Widget::Standings::penaltyAssignedToVehicle);
@@ -54,8 +52,8 @@ void UserInterface::Panel::RaceRight::ResizePanel(const QSize& newPanelSize) {
         auto newWidth = static_cast<uint16_t>(newPanelSize.width()) - (2 * horizontalBorder);
         auto newHeight = static_cast<uint16_t>(newPanelSize.height()) - (2 * verticalBorder);
 
-        m_driverStandings->setSize(newWidth, newHeight, false);
-        m_driverStandings->move(generalStyle.HorizontalEdgeBorder.m_value, generalStyle.VerticalEdgeBorder.m_value, false, false);
+        m_driverStandings->resize(newWidth, newHeight);
+        m_driverStandings->move(generalStyle.HorizontalEdgeBorder.m_value, generalStyle.VerticalEdgeBorder.m_value);
 
     }
 

@@ -9,13 +9,13 @@
 
 
 UserInterface::Widget::FastestLapIndicator::FastestLapIndicator(QWidget* parent) :
-    QWidget(parent) {
+    QLabel(parent) {
 
     UserInterface::PixmapFactory* instance = UserInterface::PixmapFactory::instance();
     Q_ASSERT(instance);
     if (instance &&
         instance->fetchPixmap(UserInterface::Widget::StandardImage::FastestLapIcon, m_pixmap)) {
-        setPixmap(m_pixmap, true);
+        setPixmap(m_pixmap);
 
     }
 

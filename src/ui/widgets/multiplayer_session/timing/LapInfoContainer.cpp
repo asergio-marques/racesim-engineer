@@ -5,7 +5,7 @@
 #include "PixmapFactory.h"
 #include "TimeInfoContainer.h"
 #include <QWidget>
-#include <QWidget>
+#include <QLabel>
 
 
 
@@ -21,23 +21,23 @@ UserInterface::Widget::LapInfoContainer::LapInfoContainer(UserInterface::Widget:
 
         bool res = false;
 
-        m_sessionBestIndicator = new UserInterface::Widget::ImageInterface(m_id, parent);
+        m_sessionBestIndicator = new QLabel(this);
         Q_ASSERT(m_sessionBestIndicator);
         if (m_sessionBestIndicator) {
 
             res &= instance->fetchPixmap(UserInterface::Widget::StandardImage::LapDetailsSessionFastest, pm1);
-            m_sessionBestIndicator->setPixmap(pm1, true);
+            m_sessionBestIndicator->setPixmap(pm1);
             m_sessionBestIndicator->hide();
 
         }
 
-        m_personalBestIndicator = new UserInterface::Widget::ImageInterface(m_id, parent);
+        m_personalBestIndicator = new QLabel(this);
 
         Q_ASSERT(m_personalBestIndicator);
         if (m_personalBestIndicator) {
 
             res &= instance->fetchPixmap(UserInterface::Widget::StandardImage::LapDetailsPersonalBest, pm2);
-            m_personalBestIndicator->setPixmap(pm2, true);
+            m_personalBestIndicator->setPixmap(pm2);
             m_personalBestIndicator->hide();
 
         }
@@ -103,7 +103,7 @@ void UserInterface::Widget::LapInfoContainer::updateTime(const Lap::Internal::Ti
     }
     // calculate new x point to move the time text widget
     const uint16_t newX = timeMaxX - m_time->width();
-    m_time->move(newX, m_time->y(), false, false);
+    m_time->move(newX, m_time->y());
 }
 
 

@@ -1,7 +1,7 @@
 #ifndef USERINTERFACE_WIDGETS_INCLUDE_WARNING_ICON_H_
 #define USERINTERFACE_WIDGETS_INCLUDE_WARNING_ICON_H_
 
-#include <QWidget>
+#include <QLabel>
 
 
 
@@ -11,7 +11,7 @@ namespace UserInterface {
 
     namespace Widget {
 
-        class WarningIcon : public UserInterface::Widget::ImageInterface {
+        class WarningIcon : public QLabel {
 
             public:
             WarningIcon(QWidget* parent = 0);
@@ -20,6 +20,7 @@ namespace UserInterface {
             void SetOtherWarningsType();
 
             private:
+            QPixmap m_pixmap;
             bool m_isTypeSet;
 
         };

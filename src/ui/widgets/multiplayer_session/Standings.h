@@ -33,7 +33,6 @@ namespace UserInterface {
             void newCompletedLapInfo(const Packet::Internal::FinishedLapInfo* dataPacket);
 
             private:
-            QWidget* m_parent;
             QList<UserInterface::Widget::DriverEntry*> m_driverData;
             UserInterface::Widget::DriverEntry* m_currentFastestLapHolder;
             bool m_initialParamsSet;

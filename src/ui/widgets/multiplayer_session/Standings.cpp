@@ -2,8 +2,6 @@
 
 #include <QList>
 #include <QWidget>
-#include <QWidget>
-#include "base/packets/MPSessionStartInterface.h"
 #include "multiplayer_session/DriverEntry.h"
 #include "packets/internal/multi_use/MPSessionStart.h"
 #include "packets/internal/multi_use/PenaltyChange.h"
@@ -14,15 +12,14 @@
 
 
 UserInterface::Widget::Standings::Standings(QWidget* parent) :
-    UserInterface::Widget::Container(UserInterface::Widget::ID::DriverStandings),
-    m_parent(parent),
+    QWidget(parent),
     m_driverData(),
     m_currentFastestLapHolder(nullptr),
     m_initialParamsSet(false) {
 
     for (uint8_t i = 0; i < 22; ++i) {
 
-        UserInterface::Widget::DriverEntry* newEntry = new UserInterface::Widget::DriverEntry(m_parent);
+        UserInterface::Widget::DriverEntry* newEntry = new UserInterface::Widget::DriverEntry(this);
         if (newEntry) {
 
             m_driverData.append(newEntry);
@@ -127,84 +124,6 @@ void UserInterface::Widget::Standings::newCompletedLapInfo(const Packet::Interna
 
 
 
-void UserInterface::Widget::Standings::move(const uint16_t x, const uint16_t y, const bool centerAlignmentX, const bool centerAlignmentY) {
-
-    for (auto driver : m_driverData) {
-
-        if (driver) {
-
-            // alignment inputs deliberately ignored
-            driver->move(x, y + ((driver->GetCurrentPosition() - 1) * 48), false, false);
-
-        }
-
-    }
-
-}
-
-
-
-void UserInterface::Widget::Standings::scale(const uint8_t percent) {
-
-    // TODO
-
-}
-
-
-
-void UserInterface::Widget::Standings::scale(const uint8_t percentX, const uint8_t percentY) {
-
-    // TODO
-
-}
-
-
-
-void UserInterface::Widget::Standings::setSize(const uint16_t newWidth, const uint16_t newHeight, const bool keepAspectRatio) {
-
-    // remove the padding
-    UserInterface::Style::General genStyle;
-    const uint16_t newHeightWidget = newHeight - (2 * genStyle.VerticalEdgeBorder.m_value);
-
-    for (const auto driver : m_driverData) {
-
-        if (driver) {
-
-            // 20 entries maximum
-            driver->setSize(newWidth, (newHeight / 20), false);
-            reorderStandings();
-        }
-
-    }
-
-}
-
-
-
-void UserInterface::Widget::Standings::raise() {
-
-    for (auto entry : m_driverData) {
-
-        if (entry) entry->raise();
-
-    }
-
-}
-
-
-
-void UserInterface::Widget::Standings::lower() {
-
-    for (auto entry : m_driverData) {
-
-        if (entry) entry->lower();
-
-    }
-
-}
-
-
-
 void UserInterface::Widget::Standings::reorderStandings() {
 
     UserInterface::Style::General style;
@@ -216,7 +135,7 @@ void UserInterface::Widget::Standings::reorderStandings() {
             // take into account the position order
             // TODO height hard-coded!!
             uint16_t newY = style.VerticalEdgeBorder.m_value + ((driver->GetCurrentPosition() - 1) * 48);
-            driver->move(style.HorizontalEdgeBorder.m_value, newY, false, false);
+            driver->move(style.HorizontalEdgeBorder.m_value, newY);
 
         }
 
@@ -238,81 +157,5 @@ void UserInterface::Widget::Standings::positionChange(const uint8_t id, const ui
         }
 
     }
-
-}
-
-
-
-const int16_t UserInterface::Widget::Standings::width() const {
-
-    int16_t width = 0;
-    for (auto driver : m_driverData) {
-
-        if (driver) {
-
-            width = std::max(width, driver->width());
-
-        }
-
-    }
-
-    return width;
-
-}
-
-
-
-const int16_t UserInterface::Widget::Standings::height() const {
-
-    int16_t maxY = 0;
-    for (auto driver : m_driverData) {
-
-        if (driver) {
-
-            maxY = std::max(maxY, driver->y());
-
-        }
-
-    }
-
-    return maxY - y();
-
-}
-
-
-
-const int16_t UserInterface::Widget::Standings::x() const {
-
-    int16_t minX = INT_MAX;
-    for (auto driver : m_driverData) {
-
-        if (driver) {
-
-            minX = std::min(minX, driver->x());
-
-        }
-
-    }
-
-    return minX;
-
-}
-
-
-
-const int16_t UserInterface::Widget::Standings::y() const {
-
-    int16_t minY = INT_MAX;
-    for (auto driver : m_driverData) {
-
-        if (driver) {
-
-            minY = std::min(minY, driver->y());
-
-        }
-
-    }
-
-    return minY;
 
 }

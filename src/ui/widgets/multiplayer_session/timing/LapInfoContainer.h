@@ -6,6 +6,7 @@
 
 
 class QWidget;
+class QLabel;
 
 namespace UserInterface {
 
@@ -23,8 +24,8 @@ namespace UserInterface {
             void changePersonalBestStatus(bool show);
 
             private:
-            UserInterface::Widget::ImageInterface* m_sessionBestIndicator;
-            UserInterface::Widget::ImageInterface* m_personalBestIndicator;
+            QLabel* m_sessionBestIndicator;
+            QLabel* m_personalBestIndicator;
 
         };
     }

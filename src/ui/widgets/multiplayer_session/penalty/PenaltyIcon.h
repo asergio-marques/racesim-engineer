@@ -5,6 +5,8 @@
 
 
 
+class QLabel;
+
 namespace UserInterface {
 
     namespace Widget {
@@ -26,9 +28,9 @@ namespace UserInterface {
             void checkDisplayStatus();
             const QString generateText();
 
-            UserInterface::Widget::PenaltyFlag* m_flagIcon;
-            UserInterface::Widget::PenaltyTextBackground* m_textBackground;
-            UserInterface::Widget::TextInterface* m_text;
+            QLabel* m_flagIcon;
+            QLabel* m_textBackground;
+            QLabel* m_text;
 
             // Whether this icon is active and being displayed
             bool m_active;

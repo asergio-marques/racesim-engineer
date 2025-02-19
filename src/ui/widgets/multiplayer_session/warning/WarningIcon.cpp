@@ -3,13 +3,12 @@
 #include <QWidget>
 #include "Image.h"
 #include "PixmapFactory.h"
-#include "base/ID.h"
 #include <QWidget>
 
 
 
 UserInterface::Widget::WarningIcon::WarningIcon(QWidget* parent) :
-    UserInterface::Widget::ImageInterface(UserInterface::Widget::ID::WarningIcon, parent),
+    QLabel(parent),
     m_isTypeSet(false) {
 
 }
@@ -25,7 +24,7 @@ void UserInterface::Widget::WarningIcon::SetTrackLimitType() {
         if (instance &&
             instance->fetchPixmap(UserInterface::Widget::StandardImage::TrackLimitWarning, m_pixmap)) {
 
-            setPixmap(m_pixmap, true);
+            setPixmap(m_pixmap);
             m_isTypeSet = true;
 
         }
@@ -46,7 +45,7 @@ void UserInterface::Widget::WarningIcon::SetOtherWarningsType() {
         if (instance &&
             instance->fetchPixmap(UserInterface::Widget::StandardImage::OtherWarning, m_pixmap)) {
 
-            setPixmap(m_pixmap, true);
+            setPixmap(m_pixmap);
             m_isTypeSet = true;
 
         }

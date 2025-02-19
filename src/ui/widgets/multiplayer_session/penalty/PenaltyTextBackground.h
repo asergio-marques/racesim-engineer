@@ -1,7 +1,7 @@
 #ifndef USERINTERFACE_WIDGETS_INCLUDE_PENALTY_TEXT_BACKGROUND_H_
 #define USERINTERFACE_WIDGETS_INCLUDE_PENALTY_TEXT_BACKGROUND_H_
 
-#include <QWidget>
+#include <QLabel>
 
 
 
@@ -11,11 +11,14 @@ namespace UserInterface {
 
     namespace Widget {
 
-        class PenaltyTextBackground : public UserInterface::Widget::ImageInterface {
+        class PenaltyTextBackground : public QLabel {
 
             public:
             PenaltyTextBackground(QWidget* parent = 0);
             ~PenaltyTextBackground() = default;
+
+            private:
+            QPixmap m_pixmap;
 
         };
     }

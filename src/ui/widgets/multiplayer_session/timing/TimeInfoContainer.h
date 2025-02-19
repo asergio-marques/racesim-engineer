@@ -6,13 +6,11 @@
 
 
 
+class QLabel;
 
 namespace UserInterface {
 
     namespace Widget {
-
-        class ImageInterface;
-        class TextInterface;
 
         class TimeInfoContainer : public QWidget {
 
@@ -34,10 +32,10 @@ namespace UserInterface {
             protected:
             UserInterface::Widget::TimeInfoContainer::Type m_type;
 
-            UserInterface::Widget::TextInterface* m_label;
-            UserInterface::Widget::TextInterface* m_time;
+            QLabel* m_label;
+            QLabel* m_time;
 
-            QList<UserInterface::Widget::ImageInterface*> m_backgrounds;
+            QList<QLabel*> m_backgrounds;
 
         };
     }

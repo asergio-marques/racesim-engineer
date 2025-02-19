@@ -12,7 +12,7 @@
 
 
 UserInterface::Widget::LoadingIcon::LoadingIcon(QWidget* parent) :
-    QWidget(this),
+    QWidget(parent),
     m_centerWidget(new QLabel(this)),
     m_rotateWidget(new QLabel(this)),
     m_centerPixmap(),

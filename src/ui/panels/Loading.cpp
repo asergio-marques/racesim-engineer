@@ -18,6 +18,13 @@ UserInterface::Panel::Loading::Loading(UserInterface::PacketHandler* handler, QW
     m_loadingText(nullptr) {
         
     m_background = new UserInterface::Widget::BackgroundFullScreen(this);
+    Q_ASSERT(m_background);
+    if (m_background) {
+
+        m_background->setAlignment(Qt::AlignLeft | Qt::AlignTop);
+
+    }
+
     m_loadingIcon = new UserInterface::Widget::LoadingIcon(this);
     m_loadingText = new UserInterface::Widget::ScreenTitle(this);
 

@@ -17,9 +17,7 @@ UserInterface::Widget::BackgroundFullScreen::BackgroundFullScreen(QWidget* paren
     if (instance &&
         instance->fetchPixmap(UserInterface::Widget::StandardImage::PanelBackgroundFull, pm)) {
 
-        setPixmap(pm.scaled(QSize(1920, 1080), Qt::IgnoreAspectRatio));
-        setBaseSize(1920, 1080);
-        setMinimumSize(1920, 1080);
+        setPixmap(pm);
 
     }
 

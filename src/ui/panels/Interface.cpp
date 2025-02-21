@@ -18,9 +18,10 @@ UserInterface::Panel::Interface::Interface(UserInterface::PacketHandler* handler
 
 void UserInterface::Panel::Interface::ResizePanel(const QSize& newPanelSize) {
 
+    resize(newPanelSize);
+
     if (m_background) {
 
-        // aspect ratio cannot be kept due to the title and menu bars occupying vertical space
         m_background->resize(newPanelSize.width(), newPanelSize.height());
 
     }

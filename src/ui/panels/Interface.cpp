@@ -23,6 +23,7 @@ void UserInterface::Panel::Interface::ResizePanel(const QSize& newPanelSize) {
     if (m_background) {
 
         m_background->resize(newPanelSize.width(), newPanelSize.height());
+        m_background->setPixmap(m_background->pixmap().scaled(newPanelSize, Qt::IgnoreAspectRatio));
 
     }
 

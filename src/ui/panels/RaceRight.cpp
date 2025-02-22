@@ -16,11 +16,14 @@ UserInterface::Panel::RaceRight::RaceRight(UserInterface::PacketHandler* handler
     m_driverStandings(nullptr) {
         
     m_background = new UserInterface::Widget::BackgroundRight(this);
+    Q_ASSERT(m_background);
     if (m_background) {
 
         m_background->lower();
+        m_background->setAlignment(Qt::AlignLeft | Qt::AlignTop);
 
     }
+
     m_driverStandings = new UserInterface::Widget::Standings(this);
     if (m_driverStandings) {
 

@@ -17,9 +17,7 @@ UserInterface::Widget::BackgroundLeft::BackgroundLeft(QWidget* parent) :
     if (instance &&
         instance->fetchPixmap(UserInterface::Widget::StandardImage::PanelBackgroundLeft, pm)) {
 
-        setPixmap(pm.scaled(QSize(960, 1080), Qt::IgnoreAspectRatio));
-        setBaseSize(960, 1080);
-        setMinimumSize(960, 1080);
+        setPixmap(pm);
 
     }
 

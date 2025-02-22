@@ -11,6 +11,12 @@ UserInterface::Panel::TimeTrialRight::TimeTrialRight(UserInterface::PacketHandle
     UserInterface::Panel::Interface(handler, parent) {
         
     m_background = new UserInterface::Widget::BackgroundRight(this);
+    Q_ASSERT(m_background);
+    if (m_background) {
+
+        m_background->setAlignment(Qt::AlignLeft | Qt::AlignTop);
+
+    }
 
 }
 

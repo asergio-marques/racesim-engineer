@@ -14,8 +14,15 @@ UserInterface::Panel::FreePracticeLeft::FreePracticeLeft(UserInterface::PacketHa
     m_screenTitle(nullptr) {
         
     m_background = new UserInterface::Widget::BackgroundLeft(this);
-    m_screenTitle = new UserInterface::Widget::ScreenTitle(this);
+    Q_ASSERT(m_background);
+    if (m_background) {
 
+        m_background->setAlignment(Qt::AlignLeft | Qt::AlignTop);
+
+    }
+
+    m_screenTitle = new UserInterface::Widget::ScreenTitle(this);
+    Q_ASSERT(m_screenTitle);
     if (m_screenTitle) {
 
         m_screenTitle->setTitle(UserInterface::Screen::Type::FreePractice);

@@ -23,20 +23,17 @@ UserInterface::Screen::DualPanelInterface::DualPanelInterface(QWidget* parent) :
 void UserInterface::Screen::DualPanelInterface::Initialize() {
 
     Q_ASSERT(m_panelLeft);
-    Q_ASSERT(m_panelRight);
     if (m_panelLeft) {
 
-        // put right panel to the right
-        m_panelLeft->setBaseSize(960, 1080);
-        m_panelLeft->setMinimumSize(960, 1080);
+        // guarantee left panel is always on the left
+        m_panelLeft->move(0, 0);
 
     }
+    Q_ASSERT(m_panelRight);
     if (m_panelRight) {
 
         // put right panel to the right
-        m_panelRight->move(960, 0);
-        m_panelRight->setBaseSize(960, 1080);
-        m_panelRight->setMinimumSize(960, 1080);
+        m_panelRight->move(width()/2, 0);
 
     }
 
@@ -50,8 +47,18 @@ void UserInterface::Screen::DualPanelInterface::handleResizeEvent(QResizeEvent* 
 
         QSize newScreenSize = event->size();
         QSize newPanelSize(newScreenSize.width() / 2, newScreenSize.height());
-        if (m_panelLeft) m_panelLeft->ResizePanel(newPanelSize);
-        if (m_panelRight) m_panelRight->ResizePanel(newPanelSize);
+        if (m_panelLeft) {
+            
+            m_panelLeft->ResizePanel(newPanelSize);
+            m_panelLeft->move(0, 0);
+
+        }
+        if (m_panelRight) {
+
+            m_panelRight->ResizePanel(newPanelSize);
+            m_panelRight->move(newPanelSize.width(), 0);
+
+        }
 
     }
 

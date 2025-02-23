@@ -1,7 +1,10 @@
 #include "panels/Loading.h"
 
 #include <QResizeEvent>
+#include <QGridLayout>
+#include <QHBoxLayout>
 #include <QTimer>
+#include <QVBoxLayout>
 #include <QWidget>
 #include "panels/Interface.h"
 #include "core/ScreenType.h"
@@ -9,7 +12,6 @@
 #include "widgets/general_use/BackgroundFullScreen.h"
 #include "widgets/general_use/ScreenTitle.h"
 #include "widgets/specific/LoadingIcon.h"
-
 
 
 UserInterface::Panel::Loading::Loading(UserInterface::PacketHandler* handler, QWidget* parent) :
@@ -26,50 +28,62 @@ UserInterface::Panel::Loading::Loading(UserInterface::PacketHandler* handler, QW
     }
 
     m_loadingIcon = new UserInterface::Widget::LoadingIcon(this);
-    m_loadingText = new UserInterface::Widget::ScreenTitle(this);
+    Q_ASSERT(m_loadingIcon);
+    if (m_loadingIcon) {
 
+        m_loadingIcon->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
+        m_loadingIcon->setMinimumSize(86, 86);
+        m_loadingIcon->setMaximumSize(344, 344);
+
+    }
+
+    m_loadingText = new UserInterface::Widget::ScreenTitle(this);
+    Q_ASSERT(m_loadingText);
     if (m_loadingText) {
 
         m_loadingText->setTitle(UserInterface::Screen::Type::Loading);
+        m_loadingText->setAlignment(Qt::AlignCenter);
 
     }
+    QGridLayout* layout = new QGridLayout(this);
+    // center the loading icon
+    QVBoxLayout* vlayout = new QVBoxLayout;
+    vlayout->addWidget(m_loadingIcon);
+    QHBoxLayout* hlayout = new QHBoxLayout;
+    hlayout->addStretch();
+    hlayout->addLayout(vlayout);
+    hlayout->addStretch();
+    layout->addLayout(hlayout, 2, 1);
 
-}
+    // center the loading text
+    vlayout = new QVBoxLayout;
+    vlayout->addWidget(m_loadingText);
+    hlayout = new QHBoxLayout;
+    hlayout->addStretch();
+    hlayout->addLayout(vlayout);
+    hlayout->addStretch();
+    layout->addLayout(hlayout, 3, 1);
 
+    // add spacers
+    layout->addItem(new QSpacerItem(64, 64, QSizePolicy::Expanding, QSizePolicy::Expanding), 0, 0);
+    layout->addItem(new QSpacerItem(64, 64, QSizePolicy::Expanding, QSizePolicy::Expanding), 0, 1);
+    layout->addItem(new QSpacerItem(64, 64, QSizePolicy::Expanding, QSizePolicy::Expanding), 0, 2);
 
+    layout->addItem(new QSpacerItem(64, 64, QSizePolicy::Expanding, QSizePolicy::Expanding), 1, 0);
+    layout->addItem(new QSpacerItem(64, 64, QSizePolicy::Expanding, QSizePolicy::Expanding), 1, 1);
+    layout->addItem(new QSpacerItem(64, 64, QSizePolicy::Expanding, QSizePolicy::Expanding), 1, 2);
 
-void UserInterface::Panel::Loading::ResizePanel(const QSize& newPanelSize) {
+    layout->addItem(new QSpacerItem(64, 64, QSizePolicy::Expanding, QSizePolicy::Expanding), 2, 0);
+    layout->addItem(new QSpacerItem(64, 64, QSizePolicy::Expanding, QSizePolicy::Expanding), 2, 2);
 
-    // call overridden function to resize background
-    UserInterface::Panel::Interface::ResizePanel(newPanelSize);
+    layout->addItem(new QSpacerItem(64, 64, QSizePolicy::Expanding, QSizePolicy::Expanding), 3, 0);
+    layout->addItem(new QSpacerItem(64, 64, QSizePolicy::Expanding, QSizePolicy::Expanding), 3, 2);
 
-    UserInterface::Style::General generalStyle;
-    UserInterface::Style::Loading loadingStyle;
+    layout->addItem(new QSpacerItem(64, 64, QSizePolicy::Expanding, QSizePolicy::Expanding), 4, 0);
+    layout->addItem(new QSpacerItem(64, 64, QSizePolicy::Expanding, QSizePolicy::Expanding), 4, 1);
+    layout->addItem(new QSpacerItem(64, 64, QSizePolicy::Expanding, QSizePolicy::Expanding), 4, 2);
 
-    const int16_t width = newPanelSize.width();
-    const int16_t height = newPanelSize.height();
-
-    if (m_loadingIcon && loadingStyle.LoadingIconScale.IsValid() && loadingStyle.LoadingIconYDiffCenter.IsValid()) {
-
-        // loading icon is square
-        m_loadingIcon->resize(loadingStyle.LoadingIconScale.Interpolate(height), loadingStyle.LoadingIconScale.Interpolate(height));
-
-        // calc the vertical offset from the center of the panel
-        const uint16_t newY = (height / 2) - loadingStyle.LoadingIconYDiffCenter.Interpolate(height);
-        m_loadingIcon->move(loadingStyle.LoadingIconX.Calculate(width), newY);
-
-    }
-    if (m_loadingText && generalStyle.ScreenTitleFontSize.IsValid() && loadingStyle.LoadingTextYDiffCenter.IsValid()) {
-
-        const uint16_t newFontSize = generalStyle.ScreenTitleFontSize.Interpolate(height);
-        QFont font = m_loadingText->font();
-        font.setPointSize(newFontSize);
-        m_loadingText->setFont(font);
-
-        // calc the vertical offset from the center of the panel
-        const uint16_t newY = (height / 2) + loadingStyle.LoadingTextYDiffCenter.Interpolate(height);
-        m_loadingText->move(loadingStyle.LoadingTextX.Calculate(width), newY);
-
-    }
+    layout->setSizeConstraint(QLayout::SetMinimumSize);
+    setLayout(layout);
 
 }

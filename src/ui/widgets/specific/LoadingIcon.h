@@ -9,16 +9,7 @@
 
 class QPropertyAnimation;
 class QLabel;
-
-namespace Packet {
-
-    namespace Internal {
-
-        class Interface;
-
-    }
-
-}
+class QResizeEvent;
 
 namespace UserInterface {
 
@@ -37,6 +28,9 @@ namespace UserInterface {
             QPixmap m_rotatePixmap;
             QPropertyAnimation* m_anim;
             qreal m_currentRotation;
+
+            public slots:
+            virtual void resizeEvent(QResizeEvent* event) override;
 
             private slots:
             void onAnimUpdate(const QVariant& value);

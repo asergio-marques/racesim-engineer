@@ -8,7 +8,6 @@ add_library(${PROJECT_NAME} STATIC)
 cmake_path(GET CMAKE_CURRENT_LIST_DIR PARENT_PATH PROJECT_ROOT)
 cmake_path(GET PROJECT_ROOT PARENT_PATH PROJECT_ROOT)
 
-list(APPEND CMAKE_PREFIX_PATH "${PROJECT_ROOT}/external/pugixml/")
 find_package(pugixml)
 
 target_include_directories(${PROJECT_NAME} PUBLIC
@@ -16,8 +15,7 @@ target_include_directories(${PROJECT_NAME} PUBLIC
     "${PROJECT_ROOT}/include/processor")
 target_include_directories(${PROJECT_NAME} PRIVATE
     "${PROJECT_ROOT}/include/presenter"
-    "${PROJECT_ROOT}/src/processor"
-    "${PROJECT_ROOT}/external/pugixml/src")
+    "${PROJECT_ROOT}/src/processor")
 target_link_directories(${PROJECT_NAME} PRIVATE "${PROJECT_ROOT}/lib/")
 
 target_sources(${PROJECT_NAME} PRIVATE
@@ -40,7 +38,9 @@ target_sources(${PROJECT_NAME} PRIVATE
 
 target_link_libraries(${PROJECT_NAME} PUBLIC
     RaceSimEngineerCore
-    RaceSimEngineerPresenter)
+    RaceSimEngineerPresenter
+    PRIVATE
+    pugixml)
 
 set_target_properties(${PROJECT_NAME}
 	PROPERTIES

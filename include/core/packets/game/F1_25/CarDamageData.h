@@ -28,6 +28,9 @@ namespace Packet {
                 // Brake damage (percentage)
                 uint8_t m_brakesDamage[4];
 
+                // Tyre blistering (percentage)
+                uint8_t m_tyreBlisteringDamage[4];
+
                 // Front left wing damage (percentage)
                 uint8_t m_frontLeftWingDamage;
 
@@ -71,7 +74,7 @@ namespace Packet {
                 uint8_t m_iceWear;
 
                 // MGU-K wear (percentage)
-                uint8_t m_emgukWear;
+                uint8_t m_mgukWear;
 
                 // Turbo charger wear (percentage)
                 uint8_t m_turboWear;

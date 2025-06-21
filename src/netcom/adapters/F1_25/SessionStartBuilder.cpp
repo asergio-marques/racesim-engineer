@@ -330,7 +330,7 @@ NetCom::Adapter::F1_25::SessionStartBuilder::GetSingleParticipantData(const Pack
     auto driverIt = NetCom::Adapter::F1_25::DataConversionMaps::DRIVER_SHORTHAND_MAP.find(rawInfo.m_driverId);
     if (driverIt != NetCom::Adapter::F1_25::DataConversionMaps::DRIVER_SHORTHAND_MAP.end() &&
         std::strcmp(driverIt->second, "")) {
-        convertedInfo.m_shortName = ShortenDriverName(driverIt->second);
+        convertedInfo.m_shortName = driverIt->second;
     }
     else {
         convertedInfo.m_shortName = ShortenDriverName(rawInfo.m_name);

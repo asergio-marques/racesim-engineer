@@ -18,6 +18,19 @@ namespace Packet {
             class Header;
 
             #pragma pack(push, 1)
+            struct LiveryColor {
+
+                // the red component in RGB
+                uint8_t m_red;
+
+                // the green component in RGB
+                uint8_t m_green;
+
+                // the blue component in RGB
+                uint8_t m_blue;
+
+            };
+
             struct ParticipantInfo {
 
                 // Whether the vehicle is AI controlled
@@ -43,7 +56,7 @@ namespace Packet {
 
                 // Name of the participant, null terminated (UTF-8 format)
                 // Will be truncated with … (U+2026) if too long
-                char m_name[48];
+                char m_name[32];
 
                 // Whether the player's UDP telemetry is public
                 bool m_playerTelemetry;
@@ -56,6 +69,9 @@ namespace Packet {
 
                 // Platform on which this participant is playing from
                 Player::Game::F1_25::Platform m_platform;
+
+                // Four primary colors for this car's livery
+                LiveryColor m_colors[4];
 
             };
             #pragma pack(pop)

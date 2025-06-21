@@ -25,12 +25,37 @@ namespace Event::F1_25 {
         StartLightsOut      = 13,
         DriveThroughServed  = 14,
         StopGoServed        = 15,
-        FlashbackActivated  = 16,
+        RewindActivated     = 16,
         ButtonStatus        = 17,
         RedFlagWaved        = 18,
         OvertakePerformed   = 19,
         SafetyCarActivated  = 20,
         CollisionOccurred   = 21
+
+    };
+
+    enum class RetirementReason : uint8_t {
+
+        InvalidUnknown      = 0,
+        Voluntary           = 1,
+        FinishedRace        = 2,
+        TerminalDamage      = 3,
+        Inactivity          = 4,
+        NotEnoughLaps       = 5,
+        Disqualified        = 6,
+        RedFlagged          = 7,
+        MechanicalFailure   = 8,
+        SkippedSession      = 9,
+        SimulatedSession    = 10,
+
+    };
+
+    enum class DRSDisabledReason : uint8_t {
+
+        WetTrack                = 0,
+        SafetyCar               = 1,
+        RedFlag                 = 2,
+        MinimumLapsNotReached   = 3
 
     };
 

@@ -36,6 +36,16 @@ namespace Packet {
                 // Index of car retiring
                 uint8_t m_carIndex;
 
+                // Reason for the retirement
+                Event::F1_25::RetirementReason m_reason;
+
+            };
+
+            struct DRSDisabledEvent {
+
+                // Reason for the disabling of DRS
+                Event::F1_25::DRSDisabledReason m_reason;
+
             };
 
             struct TeammateInPitsEvent {
@@ -122,13 +132,13 @@ namespace Packet {
 
             };
 
-            struct FlashbackEvent {
+            struct RewindEvent {
 
-                // Identifier of the target frame of the flashback
-                uint32_t m_flashbackFrameIdentifier;
+                // Identifier of the target frame of the rewind
+                uint32_t m_rewindFrameIdentifier;
 
-                // Target time of the flashback
-                float m_flashbackSessionTime;
+                // Target time of the rewind
+                float m_rewindSessionTime;
 
             };
 
@@ -185,6 +195,7 @@ namespace Packet {
                 inline const Event::F1_25::Type& GetEventType() const { return m_eventType; }
                 inline const FastestLapEvent& GetFastestLapData() const { return m_fastestLapData; }
                 inline const CarRetirementEvent& GetCarRetirementData() const { return m_carRetirementData; }
+                inline const DRSDisabledEvent& GetDRSDisablingData() const { return m_drsDisablingData; }
                 inline const TeammateInPitsEvent& GetTeammateInPitsData() const { return m_teammateInPitsData; }
                 inline const RaceWinnerEvent& GetRaceWinnerData() const { return m_raceWinnerData; }
                 inline const PenaltyEvent& GetPenaltyData() const { return m_penaltyData; }
@@ -192,7 +203,7 @@ namespace Packet {
                 inline const StartLightsEvent& GetStartLightsData() const { return m_startLightsData; }
                 inline const DTPenaltyServedEvent& GetDTPenaltyServedData() const { return m_DTPenaltyServedData; }
                 inline const StopGoPenaltyServedEvent& GetStopGoPenaltyServedData() const { return m_stopGoPenaltyServedData; }
-                inline const FlashbackEvent& GetFlashbackData() const { return m_flashbackData; }
+                inline const RewindEvent& GetFlashbackData() const { return m_rewindData; }
                 inline const ButtonEvent& GetButtonData() const { return m_buttonData; }
                 inline const OvertakeEvent& GetOvertakeData() const { return m_overtakeData; }
                 inline const SafetyCarEvent& GetSafetyCarData() const { return m_safetyCarData; }
@@ -216,6 +227,8 @@ namespace Packet {
 
                 CarRetirementEvent m_carRetirementData;
 
+                DRSDisabledEvent m_drsDisablingData;
+
                 TeammateInPitsEvent m_teammateInPitsData;
 
                 RaceWinnerEvent m_raceWinnerData;
@@ -230,7 +243,7 @@ namespace Packet {
 
                 StopGoPenaltyServedEvent m_stopGoPenaltyServedData;
 
-                FlashbackEvent m_flashbackData;
+                RewindEvent m_rewindData;
 
                 ButtonEvent m_buttonData;
 

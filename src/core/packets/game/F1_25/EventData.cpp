@@ -30,7 +30,7 @@ std::map<std::string, Event::F1_25::Type> Packet::Game::F1_25::EventData::m_even
     { std::string("LGOT"), Event::F1_25::Type::StartLightsOut },
     { std::string("DTSV"), Event::F1_25::Type::DriveThroughServed },
     { std::string("SGSV"), Event::F1_25::Type::StopGoServed },
-    { std::string("FLBK"), Event::F1_25::Type::FlashbackActivated },
+    { std::string("FLBK"), Event::F1_25::Type::RewindActivated },
     { std::string("BUTN"), Event::F1_25::Type::ButtonStatus },
     { std::string("RDFL"), Event::F1_25::Type::RedFlagWaved },
     { std::string("OVTK"), Event::F1_25::Type::OvertakePerformed },
@@ -53,7 +53,7 @@ Packet::Game::F1_25::EventData::EventData(const char* packetInfo, const Packet::
     m_startLightsData(),
     m_DTPenaltyServedData(),
     m_stopGoPenaltyServedData(),
-    m_flashbackData(),
+    m_rewindData(),
     m_buttonData(),
     m_overtakeData(),
     m_safetyCarData(),
@@ -158,6 +158,10 @@ void Packet::Game::F1_25::EventData::BuildPacket(const char* packetInfo, Packet:
             helper->getVariableFromByteStream<>(packetInfo, &m_carRetirementData, arrayStatus);
             break;
 
+        case Event::F1_25::Type::DRSDisabled:
+            helper->getVariableFromByteStream<>(packetInfo, &m_drsDisablingData, arrayStatus);
+            break;
+
         case Event::F1_25::Type::TeammateInPits:
             helper->getVariableFromByteStream<>(packetInfo, &m_teammateInPitsData, arrayStatus);
             break;
@@ -186,8 +190,8 @@ void Packet::Game::F1_25::EventData::BuildPacket(const char* packetInfo, Packet:
             helper->getVariableFromByteStream<>(packetInfo, &m_stopGoPenaltyServedData, arrayStatus);
             break;
 
-        case Event::F1_25::Type::FlashbackActivated:
-            helper->getVariableFromByteStream<>(packetInfo, &m_flashbackData, arrayStatus);
+        case Event::F1_25::Type::RewindActivated:
+            helper->getVariableFromByteStream<>(packetInfo, &m_rewindData, arrayStatus);
             break;
 
         case Event::F1_25::Type::ButtonStatus:

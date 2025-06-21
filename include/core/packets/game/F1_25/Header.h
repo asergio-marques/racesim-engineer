@@ -41,14 +41,12 @@ namespace Packet {
                 void Print() const;
                 #endif // NDEBUG
 
-                // "2023" for F1 23
-
 
                 private:
-                // "2023" for F1 23
+                // "2025" for F1 25
                 uint16_t m_packetFormat;
 
-                // Game year - last two digits e.g. 23
+                // Game year - last two digits e.g. 25
                 uint8_t m_gameYear;
 
                 // Game major version - "X.00"

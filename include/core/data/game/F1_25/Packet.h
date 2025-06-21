@@ -24,7 +24,8 @@ namespace Packet::Game::F1_25 {
         TyreSetData         = 12,
         MotionExtendedData  = 13,   // To be ignored, unused
         TimeTrialData       = 14,
-        InvalidUnknown      = 15    // Additional error type
+        LapPositionsData    = 15,
+        InvalidUnknown      = 16    // Additional error type
 
     };
 

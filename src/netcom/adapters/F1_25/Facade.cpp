@@ -44,10 +44,10 @@ NetCom::Adapter::F1_25::Facade::Facade() :
 
 Packet::Game::Interface* NetCom::Adapter::F1_25::Facade::ProcessDatagram(const char* datagram) {
 
-    // Generate F1 23 packet header
+    // Generate F1 25 packet header
     Packet::Game::F1_25::Header* header = new Packet::Game::F1_25::Header(datagram, new Packet::Game::Helper);
     
-    // If packet is valid, create F1 23-specific packet object depending on packet type read from the header
+    // If packet is valid, create F1 25-specific packet object depending on packet type read from the header
     // In case of any error, return nullptr
     if (header && header->IsWellFormed()) {
 

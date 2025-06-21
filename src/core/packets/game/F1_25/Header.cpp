@@ -63,8 +63,8 @@ Packet::Game::F1_25::Header::Header(const char* packetInfo, Packet::Game::Helper
 
 const bool Packet::Game::F1_25::Header::IsWellFormed() const {
 
-    if ((GetPacketFormat() == 2024) &&
-        (GetGameYear() == 0x18) &&
+    if ((GetPacketFormat() == 2025) &&
+        (GetGameYear() == 25) &&
         (GetPacketVersion() > 0) &&
         (GetPacketType() != Packet::Game::F1_25::Type::InvalidUnknown)) {
 

@@ -77,12 +77,12 @@ namespace Packet {
                 // Index of the vehicle this data relates to
                 uint8_t m_carIndex;
 
-                // Index of the tyre set that is currently fitted on this car
-                uint8_t m_fittedSetIndex;
-
                 // Tyre set data for this car
                 // First 13 array members are dry compound tyres, following 7 are wet compound tyres
                 TyreSetInfo m_tyreSets[20];
+
+                // Index of the tyre set that is currently fitted on this car
+                uint8_t m_fittedSetIndex;
 
             };
 

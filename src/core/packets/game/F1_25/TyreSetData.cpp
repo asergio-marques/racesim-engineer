@@ -66,7 +66,7 @@ void Packet::Game::F1_25::TyreSetData::BuildPacket(const char* packetInfo, Packe
     // Start at the end of the header
     size_t arrayStatus = static_cast<size_t>(Packet::Game::F1_25::LengthBytes::Header);
     helper->getVariableFromByteStream<>(packetInfo, &m_carIndex, arrayStatus);
-    helper->getVariableFromByteStream<>(packetInfo, &m_fittedSetIndex, arrayStatus);
     helper->getVariableArrayFromByteStream<>(packetInfo, m_tyreSets, 20, arrayStatus);
+    helper->getVariableFromByteStream<>(packetInfo, &m_fittedSetIndex, arrayStatus);
 
 }

@@ -3,6 +3,7 @@
 
 #include <cstdint>
 #include "data/game/F1_25/Packet.h"
+#include "data/game/F1_25/Participant.h"
 #include "packets/game/F1_25/Interface.h"
 
 namespace Packet {
@@ -21,8 +22,8 @@ namespace Packet {
                 // Index of the car this data relates to
                 uint8_t m_carIdx;                   
                 
-                // Team id - see appendix
-                uint8_t m_teamId;                   
+                // ID of the team whose car was used to set this lap
+                Participant::Game::F1_25::TeamID m_teamId;
                 
                 // Lap time in milliseconds
                 uint32_t m_lapTimeInMS;              
@@ -36,22 +37,22 @@ namespace Packet {
                 // Sector 3 time in milliseconds
                 uint32_t m_sector3TimeInMS;          
                 
-                // 0 = off, 1 = medium, 2 = full
-                uint8_t m_tractionControl;
+                // Whether the traction control assist was enabled for this lap
+                bool m_tractionControl;
                 
-                // 1 = manual, 2 = manual & suggested gear, 3 = auto
-                uint8_t m_gearboxAssist;
+                // Whether a gearbox control assist was enabled for this lap
+                bool m_gearboxAssist;
                 
-                // 0 (off) - 1 (on)
-                uint8_t m_antiLockBrakes;
+                // Whether the ABS assist was enabled for this lap
+                bool m_antiLockBrakes;
                 
-                // 0 = Realistic, 1 = Equal
+                // Whether equal car performance was enabled for this lap
                 uint8_t m_equalCarPerformance;
                 
-                // 0 = No, 1 = Yes
+                // Whether this lap was attained while using a custom setup
                 uint8_t m_customSetup;
                 
-                // 0 = invalid, 1 = valid
+                // Whether this lap was valid or not
                 uint8_t m_valid;
 
             };

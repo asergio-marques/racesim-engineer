@@ -121,7 +121,7 @@ namespace Packet {
                 inline const uint8_t GetNumRedFlagPeriods() const { return m_numRedFlagPeriods;}
                 inline const bool GetEqualCarPerformanceOn() const { return m_equalCarPerformanceOn; }
                 inline const Session::Game::F1_25::RecoveryMode GetRecoveryMode() const { return m_recoveryMode; }
-                inline const Session::Game::F1_25::FlashbackLimit GetFlashbackLimit() const { return m_flashbackLimit; }
+                inline const Session::Game::F1_25::RewindLimit GetRewindLimit() const { return m_rewindLimit; }
                 inline const bool GetSurfaceTypeRealistic() const { return m_surfaceTypeRealistic; }
                 inline const bool GetLowFuelModeHard() const { return m_lowFuelModeHard; }
                 inline const bool GetRaceStartMode() const { return m_raceStartMode; }
@@ -137,9 +137,9 @@ namespace Packet {
                 inline const bool GetParcFermeOn() const { return m_parcFermeOn; }
                 inline const Session::Game::F1_25::ExperienceSetting GetPitStopSetting() const { return m_pitStopSetting; }
                 inline const Session::Game::F1_25::EventRate4State GetSafetyCarRate() const { return m_safetyCarRate; }
-                inline const bool GetSafetyCarAIDriven() const { return m_safetyCarAIDriven; }
+                inline const bool GetSafetyCarPlayerDriven() const { return m_safetyCarPlayerDriven; }
                 inline const bool GetFormationLapOn() const { return m_formationLapOn; }
-                inline const bool GetFormationLapAIDriven() const { return m_formationLapAIDriven; }
+                inline const bool GetFormationLapPlayerDriven() const { return m_formationLapPlayerDriven; }
                 inline const Session::Game::F1_25::EventRate4State GetRedFlagRate() const { return m_redFlagRate; }
                 inline const bool GetGffectsLicenceLevelSolo() const { return m_affectsLicenceLevelSolo; }
                 inline const bool GetAffectsLicenceLevelMP() const { return m_affectsLicenceLevelMP; }
@@ -311,7 +311,7 @@ namespace Packet {
                 Session::Game::F1_25::RecoveryMode m_recoveryMode;
 
                 // Settings for the number of flashbacks available to the player to make use of
-                Session::Game::F1_25::FlashbackLimit m_flashbackLimit;
+                Session::Game::F1_25::RewindLimit m_rewindLimit;
 
                 // Whether the currently active surface type is set to "realistic";
                 // if false, is set to "simplified"
@@ -363,16 +363,16 @@ namespace Packet {
                 // Rate at which safety cars and virtual safety cars are called by the game
                 Session::Game::F1_25::EventRate4State m_safetyCarRate;
                 
-                // Whether the drivers' cars are projected to be taken over by
-                // the AI during a safety car period
-                bool m_safetyCarAIDriven;
+                // Whether the drivers' cars are projected to be driven by the
+                // player during a safety car period
+                bool m_safetyCarPlayerDriven;
                 
                 // Whether the formation lap will be taking place before the race start
                 bool m_formationLapOn;
                 
-                // Whether the drivers' cars are projected to be taken over by
-                // the AI during the formation lap
-                bool m_formationLapAIDriven;
+                // Whether the drivers' cars are projected to be driven by the
+                // player during the formation lap
+                bool m_formationLapPlayerDriven;
                 
                 // Rate at which red flags are called by the game
                 Session::Game::F1_25::EventRate4State m_redFlagRate;

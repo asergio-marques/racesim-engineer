@@ -65,7 +65,7 @@ Packet::Game::F1_25::SessionData::SessionData(const char* packetInfo, const Pack
     m_numRedFlagPeriods(0),
     m_equalCarPerformanceOn(0),
     m_recoveryMode(Session::Game::F1_25::RecoveryMode::InvalidUnknown),
-    m_flashbackLimit(Session::Game::F1_25::FlashbackLimit::InvalidUnknown),
+    m_rewindLimit(Session::Game::F1_25::RewindLimit::InvalidUnknown),
     m_surfaceTypeRealistic(0),
     m_lowFuelModeHard(0),
     m_raceStartMode(0),
@@ -81,9 +81,9 @@ Packet::Game::F1_25::SessionData::SessionData(const char* packetInfo, const Pack
     m_parcFermeOn(0),
     m_pitStopSetting(Session::Game::F1_25::ExperienceSetting::InvalidUnknown),
     m_safetyCarRate(Session::Game::F1_25::EventRate4State::InvalidUnknown),
-    m_safetyCarAIDriven(0),
+    m_safetyCarPlayerDriven(0),
     m_formationLapOn(0),
-    m_formationLapAIDriven(0),
+    m_formationLapPlayerDriven(0),
     m_redFlagRate(Session::Game::F1_25::EventRate4State::InvalidUnknown),
     m_affectsLicenceLevelSolo(0),
     m_affectsLicenceLevelMP(0),
@@ -192,7 +192,7 @@ void Packet::Game::F1_25::SessionData::BuildPacket(const char* packetInfo, Packe
     helper->getVariableFromByteStream<>(packetInfo, &m_numRedFlagPeriods, arrayStatus);
     helper->getVariableFromByteStream<>(packetInfo, &m_equalCarPerformanceOn, arrayStatus);
     helper->getVariableFromByteStream<>(packetInfo, &m_recoveryMode, arrayStatus);
-    helper->getVariableFromByteStream<>(packetInfo, &m_flashbackLimit, arrayStatus);
+    helper->getVariableFromByteStream<>(packetInfo, &m_rewindLimit, arrayStatus);
     helper->getVariableFromByteStream<>(packetInfo, &m_surfaceTypeRealistic, arrayStatus);
     helper->getVariableFromByteStream<>(packetInfo, &m_lowFuelModeHard, arrayStatus);
     helper->getVariableFromByteStream<>(packetInfo, &m_raceStartMode, arrayStatus);
@@ -208,9 +208,9 @@ void Packet::Game::F1_25::SessionData::BuildPacket(const char* packetInfo, Packe
     helper->getVariableFromByteStream<>(packetInfo, &m_parcFermeOn, arrayStatus);
     helper->getVariableFromByteStream<>(packetInfo, &m_pitStopSetting, arrayStatus);
     helper->getVariableFromByteStream<>(packetInfo, &m_safetyCarRate, arrayStatus);
-    helper->getVariableFromByteStream<>(packetInfo, &m_safetyCarAIDriven, arrayStatus);
+    helper->getVariableFromByteStream<>(packetInfo, &m_safetyCarPlayerDriven, arrayStatus);
     helper->getVariableFromByteStream<>(packetInfo, &m_formationLapOn, arrayStatus);
-    helper->getVariableFromByteStream<>(packetInfo, &m_formationLapAIDriven, arrayStatus);
+    helper->getVariableFromByteStream<>(packetInfo, &m_formationLapPlayerDriven, arrayStatus);
     helper->getVariableFromByteStream<>(packetInfo, &m_redFlagRate, arrayStatus);
     helper->getVariableFromByteStream<>(packetInfo, &m_affectsLicenceLevelSolo, arrayStatus);
     helper->getVariableFromByteStream<>(packetInfo, &m_affectsLicenceLevelMP, arrayStatus);

@@ -22,9 +22,9 @@ namespace Status::Game::F1_25 {
 
         Lean            = 0,
         Standard        = 1,
-        Rich            = 3,
-        Maximum         = 4,
-        InvalidUnknown  = 5
+        Rich            = 2,
+        Maximum         = 3,
+        InvalidUnknown  = 4
 
     };
 
@@ -44,7 +44,8 @@ namespace Status::Game::F1_25 {
         ModernF1_C3             = 18,
         ModernF1_C2             = 19,
         ModernF1_C1             = 20,
-        ModernF1_C0             = 21
+        ModernF1_C0             = 21,
+        ModernF1_C6             = 22
 
     };
 

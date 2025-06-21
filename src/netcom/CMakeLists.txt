@@ -22,7 +22,10 @@ target_sources(${PROJECT_NAME} PRIVATE
     adapters/F1_23/SessionStartBuilder.cpp
     adapters/F1_24/Facade.cpp
     adapters/F1_24/DataConversionMaps.cpp
-    adapters/F1_24/SessionStartBuilder.cpp      
+    adapters/F1_24/SessionStartBuilder.cpp
+    adapters/F1_25/Facade.cpp
+    adapters/F1_25/DataConversionMaps.cpp
+    adapters/F1_25/SessionStartBuilder.cpp
     listener/Director.cpp
     listener/SocketBase.cpp
     listener/UDPSocketWin64.cpp

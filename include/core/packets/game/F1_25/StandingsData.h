@@ -22,7 +22,7 @@ namespace Packet {
             struct SessionResultInfo {
 
                 // Position at the end of the session
-                uint8_t m_enWdPosition;
+                uint8_t m_endPosition;
 
                 // Number of laps completed in the session
                 uint8_t m_numLaps;
@@ -38,6 +38,9 @@ namespace Packet {
 
                 // Vehicle result in the session
                 Lap::Game::F1_25::ResultStatus m_resultStatus;
+
+                // Reason for the result of this vehicle
+                Lap::Game::F1_25::ResultReason m_resultReason;
 
                 // Best lap time of the session for this vehicle (millisseconds)
                 uint32_t m_bestLapTime;
@@ -77,6 +80,8 @@ namespace Packet {
                 // Returns the length of the packet in bytes, including header
                 const Packet::Game::F1_25::LengthBytes GetLength() const override;
 
+                inline const uint8_t GetNumCars() const { return m_numCars; }
+
                 // Get the setup info for a specific array member
                 const Packet::Game::F1_25::SessionResultInfo GetSessionResult(const size_t index, bool& ok) const;
 
@@ -87,6 +92,9 @@ namespace Packet {
                 private:
                 // Separate function to build the packet, making the code more readable
                 void BuildPacket(const char* packetInfo, Packet::Game::Helper* helper) override final;
+
+                // Number of cars in the session
+                uint8_t m_numCars;
 
                 // Final standings for all cars in session
                 SessionResultInfo m_sessionResults[22];

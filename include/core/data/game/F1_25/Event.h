@@ -34,22 +34,6 @@ namespace Event::F1_25 {
 
     };
 
-    enum class RetirementReason : uint8_t {
-
-        InvalidUnknown      = 0,
-        Voluntary           = 1,
-        FinishedRace        = 2,
-        TerminalDamage      = 3,
-        Inactivity          = 4,
-        NotEnoughLaps       = 5,
-        Disqualified        = 6,
-        RedFlagged          = 7,
-        MechanicalFailure   = 8,
-        SkippedSession      = 9,
-        SimulatedSession    = 10,
-
-    };
-
     enum class DRSDisabledReason : uint8_t {
 
         WetTrack                = 0,

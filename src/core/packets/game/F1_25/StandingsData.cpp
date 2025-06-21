@@ -82,5 +82,6 @@ void Packet::Game::F1_25::StandingsData::BuildPacket(const char* packetInfo, Pac
     // Start at the end of the header
     size_t arrayStatus = static_cast<size_t>(Packet::Game::F1_25::LengthBytes::Header);
     helper->getVariableArrayFromByteStream<>(packetInfo, m_sessionResults, 22, arrayStatus);
+    helper->getVariableFromByteStream<>(packetInfo, &m_numCars, arrayStatus);
 
 }

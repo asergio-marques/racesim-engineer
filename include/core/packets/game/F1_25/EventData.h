@@ -6,6 +6,7 @@
 #include <math.h>
 #include <string>
 #include "data/game/F1_25/Event.h"
+#include "data/game/F1_25/Lap.h"
 #include "data/game/F1_25/Packet.h"
 #include "data/game/F1_25/Session.h"
 #include "packets/game/F1_25/Interface.h"
@@ -37,7 +38,7 @@ namespace Packet {
                 uint8_t m_carIndex;
 
                 // Reason for the retirement
-                Event::F1_25::RetirementReason m_reason;
+                Lap::Game::F1_25::ResultReason m_reason;
 
             };
 

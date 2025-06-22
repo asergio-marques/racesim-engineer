@@ -35,6 +35,8 @@ namespace Session::Internal {
         AlfaRomeo       = 11,
         VCARB           = 12,
         KickSauber      = 13,
+        Konnersport     = 14,
+        APXGP           = 15,
 
         // F2 teams 2022+
         Prema           = 100,
@@ -48,7 +50,9 @@ namespace Session::Internal {
         Trident         = 108,
         Hitech          = 109,
         Art             = 110,
-        PHM             = 111
+        PHM             = 111,
+        Rodin           = 112,
+        AIX             = 113
 
     };
 

@@ -1,20 +1,20 @@
-#include "packets/game/F1_23/Header.h"
+#include "packets/game/F1_25/Header.h"
 
 #include <cstdint>
 #include <iostream>
 #include <math.h>
-#include "data/game/F1_23/Packet.h"
+#include "data/game/F1_25/Packet.h"
 #include "packets/game/Helper.h"
 
 
 
-Packet::Game::F1_23::Header::Header(const char* packetInfo, Packet::Game::Helper* helper) :
+Packet::Game::F1_25::Header::Header(const char* packetInfo, Packet::Game::Helper* helper) :
     m_packetFormat(0), 
     m_gameYear(0),
     m_gameMajorVersion(0),
     m_gameMinorVersion(0),
     m_packetVersion(0),
-    m_packetType(Packet::Game::F1_23::Type::InvalidUnknown),
+    m_packetType(Packet::Game::F1_25::Type::InvalidUnknown),
     m_sessionUID(0),
     m_sessionTime(0.0f),
     m_frameIdentifier(0),
@@ -24,7 +24,7 @@ Packet::Game::F1_23::Header::Header(const char* packetInfo, Packet::Game::Helper
 
     if (packetInfo && helper) {
 
-        helper->SetPacketLength(static_cast<size_t>(Packet::Game::F1_23::LengthBytes::Header));
+        helper->SetPacketLength(static_cast<size_t>(Packet::Game::F1_25::LengthBytes::Header));
 
         // Current position in the array
         size_t arrayStatus = 0;
@@ -61,11 +61,12 @@ Packet::Game::F1_23::Header::Header(const char* packetInfo, Packet::Game::Helper
 
 
 
-const bool Packet::Game::F1_23::Header::IsWellFormed() const {
+const bool Packet::Game::F1_25::Header::IsWellFormed() const {
 
-    if ((GetPacketFormat() == 2023) &&
+    if ((GetPacketFormat() == 2025) &&
+        (GetGameYear() == 25) &&
         (GetPacketVersion() > 0) &&
-        (GetPacketType() != Packet::Game::F1_23::Type::InvalidUnknown)) {
+        (GetPacketType() != Packet::Game::F1_25::Type::InvalidUnknown)) {
 
         return true;
 
@@ -78,7 +79,7 @@ const bool Packet::Game::F1_23::Header::IsWellFormed() const {
 
 
 #ifndef NDEBUG
-void Packet::Game::F1_23::Header::Print() const {
+void Packet::Game::F1_25::Header::Print() const {
     
     std::cout << "--------------------------------------------" << std::endl;
     std::cout << "\tHeader info" << std::endl;

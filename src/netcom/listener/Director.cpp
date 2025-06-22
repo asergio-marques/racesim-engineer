@@ -14,6 +14,7 @@
 
 NetCom::Listener::Director::Director() :
     Packet::Game::Broadcaster(),
+    m_presenter(nullptr),
     m_socket(nullptr),
     m_gameAdapter(nullptr),
     m_shutdown(false),

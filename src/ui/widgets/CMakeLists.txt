@@ -49,7 +49,7 @@ target_sources(${PROJECT_NAME} PRIVATE
     multiplayer_session/timing/TimeInfoContainer.cpp
     multiplayer_session/timing/LapInfoContainer.cpp
     multiplayer_session/tyres/TyreIcon.cpp
-    multiplayer_session/tyres/TyreInfo.cpp
+    multiplayer_session/tyres/TyreInfoArray.cpp
     multiplayer_session/tyres/TyreInfoContainer.cpp
     )
 

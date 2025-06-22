@@ -28,7 +28,7 @@ namespace UserInterface {
             LapTimeInfo             = 14,
             RelativeTimeInfo        = 15,
             GapDeltaInfo            = 16,
-            TyreIcon                = 17
+            TyreInfo                = 17
 
         };
 

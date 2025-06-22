@@ -8,15 +8,15 @@
 
 
 
-UserInterface::Widget::TyreIcon::TyreIcon(QWidget* parent) :
-    UserInterface::Widget::ImageInterface(UserInterface::Widget::ID::TyreIcon, parent),
+UserInterface::Widget::TyreIcon::TyreIcon(UserInterface::Widget::ID id, QWidget* parent) :
+    UserInterface::Widget::ImageInterface(id, parent),
     m_isTypeSet(false) {
 
 }
 
 
 
-void UserInterface::Widget::TyreIcon::SetType(UserInterface::Widget::TyreIcon::Type type) {
+void UserInterface::Widget::TyreIcon::SetType(Tyre::Internal::Visual type) {
 
     if (!m_isTypeSet) {
 
@@ -28,23 +28,23 @@ void UserInterface::Widget::TyreIcon::SetType(UserInterface::Widget::TyreIcon::T
 
             switch (type) {
 
-                case UserInterface::Widget::TyreIcon::Type::Soft:
+                case Tyre::Internal::Visual::Soft:
                     res = instance->fetchPixmap(UserInterface::Widget::StandardImage::SoftTyres, m_pixmap);
                     break;
 
-                case UserInterface::Widget::TyreIcon::Type::Medium:
+                case Tyre::Internal::Visual::Medium:
                     res = instance->fetchPixmap(UserInterface::Widget::StandardImage::MediumTyres, m_pixmap);
                     break;
 
-                case UserInterface::Widget::TyreIcon::Type::Hard:
+                case Tyre::Internal::Visual::Hard:
                     res = instance->fetchPixmap(UserInterface::Widget::StandardImage::HardTyres, m_pixmap);
                     break;
 
-                case UserInterface::Widget::TyreIcon::Type::Inter:
+                case Tyre::Internal::Visual::Intermediate:
                     res = instance->fetchPixmap(UserInterface::Widget::StandardImage::IntermediateTyres, m_pixmap);
                     break;
 
-                case UserInterface::Widget::TyreIcon::Type::Wet:
+                case Tyre::Internal::Visual::ExtremeWet:
                     res = instance->fetchPixmap(UserInterface::Widget::StandardImage::WetTyres, m_pixmap);
                     break;
 

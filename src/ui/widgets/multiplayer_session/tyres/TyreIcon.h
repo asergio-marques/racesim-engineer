@@ -2,6 +2,7 @@
 #define USERINTERFACE_WIDGETS_INCLUDE_TYRE_ICON_H_
 
 #include "base/ImageInterface.h"
+#include "data/internal/Tyre.h"
 
 
 
@@ -27,9 +28,9 @@ namespace UserInterface {
 
             };
 
-            TyreIcon(QWidget* parent = 0);
+            TyreIcon(UserInterface::Widget::ID id, QWidget* parent = 0);
             ~TyreIcon() = default;
-            void SetType(Type type);
+            void SetType(Tyre::Internal::Visual type);
 
             private:
             bool m_isTypeSet;

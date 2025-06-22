@@ -1,7 +1,5 @@
 #include "Facade.h"
 
-#include "adapters/F1_23/Facade.h"
-#include "adapters/F1_24/Facade.h"
 #include "adapters/F1_25/Facade.h"
 #include "listener/Director.h"
 #include "converter/PacketGeneralizer.h"

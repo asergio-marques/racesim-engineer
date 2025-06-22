@@ -4,8 +4,6 @@
 #include <cstring>
 #include <exception>
 
-#include "data/game/F1_23/Packet.h"
-
 namespace Packet {
 
     namespace Game {

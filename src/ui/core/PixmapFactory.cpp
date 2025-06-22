@@ -101,6 +101,12 @@ void UserInterface::PixmapFactory::constructConverterMap() {
     m_converterMap.insert(UserInterface::Widget::StandardImage::TrackLimitWarning,          ":/img/icons/TrackLimitWarningIcon.png");
     m_converterMap.insert(UserInterface::Widget::StandardImage::OtherWarning,               ":/img/icons/OtherWarningIcon.png");
 
+    m_converterMap.insert(UserInterface::Widget::StandardImage::HardTyres,                  ":/img/icons/tyres/Hards.png");
+    m_converterMap.insert(UserInterface::Widget::StandardImage::IntermediateTyres,          ":/img/icons/tyres/Inters.png");
+    m_converterMap.insert(UserInterface::Widget::StandardImage::MediumTyres,                ":/img/icons/tyres/Mediums.png");
+    m_converterMap.insert(UserInterface::Widget::StandardImage::SoftTyres,                  ":/img/icons/tyres/Softs.png");
+    m_converterMap.insert(UserInterface::Widget::StandardImage::WetTyres,                   ":/img/icons/tyres/Wets.png");
+
     m_converterMap.insert(UserInterface::Widget::StandardImage::TeamIconMercedes,           ":img/teams/MercedesLogo.png");
     m_converterMap.insert(UserInterface::Widget::StandardImage::TeamIconFerrari,            ":img/teams/FerrariLogo.png");
     m_converterMap.insert(UserInterface::Widget::StandardImage::TeamIconRedBull,            ":img/teams/RedBullLogo.png");

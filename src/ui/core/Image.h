@@ -42,6 +42,13 @@ namespace UserInterface {
             TrackLimitWarning           = 16,
             OtherWarning                = 17,
 
+            // Tyre icons
+            HardTyres                   = 18,
+            IntermediateTyres           = 19,
+            MediumTyres                 = 20,
+            SoftTyres                   = 21,
+            WetTyres                    = 22,
+
             // Team icons (should always be the final member)
             //// F1
             TeamIconCustom              = 101,

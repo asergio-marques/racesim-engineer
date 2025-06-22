@@ -78,6 +78,11 @@ qt_add_resources(${PROJECT_NAME} "ui_elements"
         ../resources/img/icons/RetirementIndicator.png
         ../resources/img/icons/TrackLimitWarningIcon.png
         ../resources/img/icons/UnknownImageRequested.png
+        ../resources/img/icons/tyres/Hards.png
+        ../resources/img/icons/tyres/Inters.png
+        ../resources/img/icons/tyres/Mediums.png
+        ../resources/img/icons/tyres/Softs.png
+        ../resources/img/icons/tyres/Wets.png
         ../resources/img/teams/AlfaRomeoLogo.png
         ../resources/img/teams/AlphaTauriLogo.png
         ../resources/img/teams/AlpineLogo.png

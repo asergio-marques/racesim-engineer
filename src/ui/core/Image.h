@@ -44,10 +44,13 @@ namespace UserInterface {
 
             // Tyre icons
             HardTyres                   = 18,
-            IntermediateTyres           = 19,
-            MediumTyres                 = 20,
-            SoftTyres                   = 21,
-            WetTyres                    = 22,
+            HyperSoftTyres              = 19,
+            IntermediateTyres           = 20,
+            MediumTyres                 = 21,
+            SoftTyres                   = 22,
+            SuperSoftTyres              = 23,
+            WetTyres                    = 24,
+            UnknownTyres                = 25,
 
             // Team icons (should always be the final member)
             //// F1

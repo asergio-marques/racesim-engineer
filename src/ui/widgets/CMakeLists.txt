@@ -48,6 +48,9 @@ target_sources(${PROJECT_NAME} PRIVATE
     multiplayer_session/other/RetirementIconBackground.cpp
     multiplayer_session/timing/TimeInfoContainer.cpp
     multiplayer_session/timing/LapInfoContainer.cpp
+    multiplayer_session/tyres/TyreIcon.cpp
+    multiplayer_session/tyres/TyreInfo.cpp
+    multiplayer_session/tyres/TyreInfoContainer.cpp
     )
 
 target_link_libraries(${PROJECT_NAME} PRIVATE

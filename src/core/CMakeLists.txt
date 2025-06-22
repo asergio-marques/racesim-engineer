@@ -16,11 +16,6 @@ target_sources(${PROJECT_NAME} PRIVATE
     packets/game/Broadcaster.cpp
     packets/game/Helper.cpp)
 
-target_link_libraries(${PROJECT_NAME} PRIVATE
-    RaceSimEngineerPacketsF123
-    RaceSimEngineerPacketsF124
-    RaceSimEngineerPacketsInternal)
-
 set_target_properties(${PROJECT_NAME}
 	PROPERTIES
 	ARCHIVE_OUTPUT_DIRECTORY	"${PROJECT_ROOT}/lib/${TARGET_ARCH}/$<CONFIG>"

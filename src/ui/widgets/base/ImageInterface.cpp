@@ -1,6 +1,7 @@
 #include "base/ImageInterface.h"
 
 #include <QLabel>
+#include <QResizeEvent>
 #include <QSize>
 #include <QWidget>
 #include "base/ID.h"
@@ -12,6 +13,7 @@ UserInterface::Widget::ImageInterface::ImageInterface(UserInterface::Widget::ID 
     QLabel(parent),
     UserInterface::Widget::Interface(id),
     m_pixmap(),
+    m_keepsAspectRatio(false),
     m_originalSize(QSize(0, 0)) {
     
 }
@@ -89,5 +91,27 @@ void UserInterface::Widget::ImageInterface::setPixmap(const QPixmap& pixmap, con
 const QSize& UserInterface::Widget::ImageInterface::originalSize() const {
 
     return m_originalSize;
+
+}
+
+void UserInterface::Widget::ImageInterface::setKeepAspectRatio(bool keepAspectRatio) {
+
+    m_keepsAspectRatio = keepAspectRatio;
+
+}
+
+void UserInterface::Widget::ImageInterface::resizeEvent(QResizeEvent* event) {
+
+    if (event) {
+
+        if (m_keepsAspectRatio) {
+
+            QLabel::setPixmap(m_pixmap.scaled(event->size().width(), event->size().height(), Qt::KeepAspectRatio));
+
+        }
+
+        QLabel::resizeEvent(event);
+
+    }
 
 }

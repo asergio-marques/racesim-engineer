@@ -1,6 +1,9 @@
 ﻿#include "multiplayer_session/tyres/TyreInfoContainer.h"
 
+#include <cstdint>
 #include <QString>
+#include <QGridLayout>
+#include <QWidget>
 #include "base/Container.h"
 #include "base/TextInterface.h"
 #include "multiplayer_session/tyres/TyreIcon.h"
@@ -8,37 +11,57 @@
 
 
 UserInterface::Widget::TyreInfoContainer::TyreInfoContainer(QWidget* parent) :
-    UserInterface::Widget::Container(UserInterface::Widget::ID::TyreInfo),
+    QWidget(parent),
     m_visualCompoundIcon(nullptr),
     m_actualCompoundText(nullptr),
     m_lapsText(nullptr),
     m_numLaps(0) {
 
-    m_visualCompoundIcon = new UserInterface::Widget::TyreIcon(m_id, parent);
+    m_visualCompoundIcon = new UserInterface::Widget::TyreIcon(UserInterface::Widget::ID::TyreInfo, parent);
     Q_ASSERT(m_visualCompoundIcon);
     if (m_visualCompoundIcon) {
 
+        m_visualCompoundIcon->setAlignment(Qt::AlignCenter);
+        m_visualCompoundIcon->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
+        m_visualCompoundIcon->setScaledContents(true);
+        m_visualCompoundIcon->setKeepAspectRatio(true);
         m_visualCompoundIcon->hide();
 
     }
-    m_actualCompoundText = new UserInterface::Widget::TextInterface(m_id, parent);
+    m_actualCompoundText = new UserInterface::Widget::TextInterface(UserInterface::Widget::ID::TyreInfo, parent);
     Q_ASSERT(m_actualCompoundText);
     if (m_actualCompoundText) {
 
         m_actualCompoundText->setAlignment(Qt::AlignCenter);
-        m_actualCompoundText->hide();
+        m_actualCompoundText->setFontThickness(UserInterface::Widget::FontThickness::ExtraBold);
+        m_actualCompoundText->setFontSize(12);
         m_actualCompoundText->setText("?");
+        m_actualCompoundText->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
+        m_actualCompoundText->setScaledContents(true);
+        m_actualCompoundText->hide();
 
     }
-    m_lapsText = new UserInterface::Widget::TextInterface(m_id, parent);
+    m_lapsText = new UserInterface::Widget::TextInterface(UserInterface::Widget::ID::TyreInfo, parent);
     Q_ASSERT(m_lapsText);
     if (m_lapsText) {
 
-        m_lapsText->setAlignment(Qt::AlignRight | Qt::AlignVCenter);
-        m_lapsText->hide();
+        m_lapsText->setAlignment(Qt::AlignLeft | Qt::AlignVCenter);
+        m_actualCompoundText->setFontThickness(UserInterface::Widget::FontThickness::ExtraBold);
+        m_lapsText->setFontSize(18);
         m_lapsText->setText(QString::number(m_numLaps));
+        m_lapsText->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
+        m_lapsText->setScaledContents(true);
+        m_lapsText->hide();
 
     }
+
+    QGridLayout* layout = new QGridLayout;
+    setLayout(layout);
+    layout->addWidget(m_visualCompoundIcon, 0, 0, Qt::AlignCenter);
+    layout->addWidget(m_actualCompoundText, 0, 0, Qt::AlignCenter);
+    layout->addWidget(m_lapsText, 0, 1, Qt::AlignLeft | Qt::AlignVCenter);
+    setMaximumWidth(120);
+    setMaximumHeight(48);
 
 }
 
@@ -99,13 +122,15 @@ void UserInterface::Widget::TyreInfoContainer::Init(Tyre::Internal::Actual actua
 
         }
 
+        m_actualCompoundText->show();
+
     }
 
     if (m_visualCompoundIcon) {
 
         m_visualCompoundIcon->SetType(visualTyreCompound);
         m_visualCompoundIcon->show();
-         
+
     }
 
     m_numLaps = numLapsAtStart;
@@ -113,6 +138,7 @@ void UserInterface::Widget::TyreInfoContainer::Init(Tyre::Internal::Actual actua
     if (m_lapsText) {
 
         m_lapsText->setText(QString::number(m_numLaps));
+        m_lapsText->show();
 
     }
 
@@ -127,78 +153,5 @@ void UserInterface::Widget::TyreInfoContainer::IncrementLap() {
         m_lapsText->setText(QString::number(m_numLaps));
 
     }
-
-}
-
-
-void UserInterface::Widget::TyreInfoContainer::scale(const uint8_t percentX, const uint8_t percentY) {
-
-}
-
-
-
-void UserInterface::Widget::TyreInfoContainer::scale(const uint8_t percent) {
-
-}
-
-
-
-void UserInterface::Widget::TyreInfoContainer::setSize(const uint16_t newWidth, const uint16_t newHeight, const bool keepAspectRatio) {
-
-}
-
-
-
-void UserInterface::Widget::TyreInfoContainer::raise(void) {
-
-}
-
-
-
-void UserInterface::Widget::TyreInfoContainer::lower(void) {
-
-}
-
-
-
-void UserInterface::Widget::TyreInfoContainer::setTextFontSize(const uint16_t size) {
-
-}
-
-
-
-const int16_t UserInterface::Widget::TyreInfoContainer::width(void) const {
-
-    return 0;
-
-}
-
-
-
-const int16_t UserInterface::Widget::TyreInfoContainer::height(void) const {
-
-    return 0;
-
-}
-
-
-
-const int16_t UserInterface::Widget::TyreInfoContainer::x(void) const {
-
-    return 0;
-
-}
-
-
-
-const int16_t UserInterface::Widget::TyreInfoContainer::y(void) const {
-
-    return 0;
-
-}
-
-
-
-void UserInterface::Widget::TyreInfoContainer::move(const uint16_t x, const uint16_t y, const bool centerX, const bool centerY) {
 
 }

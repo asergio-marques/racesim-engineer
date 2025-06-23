@@ -30,12 +30,15 @@ namespace UserInterface {
                 void scale(const uint8_t percentX, const uint8_t percentY);
                 void setSize(const uint16_t newWidth, const uint16_t newHeight, const bool keepAspectRatio);
                 void setPixmap(const QPixmap& pixmap, const bool overwriteOriginal);
+                void setKeepAspectRatio(bool keepAspectRatio);
                 const QSize& originalSize() const;
+
+                void resizeEvent(QResizeEvent* event) override;
 
             protected:
             QPixmap m_pixmap;
+            bool m_keepsAspectRatio;
             QSize m_originalSize;
-                
 
         };
 

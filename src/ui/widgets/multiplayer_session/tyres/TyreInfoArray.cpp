@@ -1,30 +1,37 @@
 #include "multiplayer_session/tyres/TyreInfoArray.h"
 #include "multiplayer_session/tyres/TyreInfoContainer.h"
 
-#include <QHBoxLayout>
+#include <QGridLayout>
 #include <QList>
 
 UserInterface::Widget::TyreInfoArray::TyreInfoArray(QWidget* parent) :
     QWidget(parent),
     m_tyres(),
-    m_stintIndex(-1) {
+    m_stintIndex(-1),
+    m_gridLayout(nullptr) {
 
-    QHBoxLayout* layout = new QHBoxLayout;
+    m_gridLayout = new QGridLayout;
+    Q_ASSERT(m_gridLayout);
+    if (m_gridLayout) {
 
-    for (size_t i = 0; i < 5; ++i) {
+        for (size_t i = 0; i < 5; ++i) {
 
-        auto* tyre = new UserInterface::Widget::TyreInfoContainer(this);
-        Q_ASSERT(tyre);
-        if (tyre) {
+            auto* tyre = new UserInterface::Widget::TyreInfoContainer(this);
+            Q_ASSERT(tyre);
+            if (tyre) {
 
-            layout->addWidget(tyre);
-            tyre->hide();
+                tyre->setSizePolicy(QSizePolicy::Maximum, QSizePolicy::Expanding);
+                m_tyres.push_back(tyre);
+                m_gridLayout->addWidget(tyre, 0, i, Qt::AlignLeft | Qt::AlignVCenter);
+                tyre->hide();
+
+            }
 
         }
 
-    }
+        setLayout(m_gridLayout);
 
-    setLayout(layout);
+    }
 
 }
 
@@ -39,10 +46,11 @@ void UserInterface::Widget::TyreInfoArray::TyreChange(Tyre::Internal::Actual act
     // always take heed of the maximum of 5 tyres to be displayed, and the fact this has been incremented already
     // this logic gets index 0, 1, etc when stint index < 5 correctly
     // once we reach stint index = 5 (stint 6), we reset the "old" stint info in the display
-    auto* tyre = m_tyres[m_stintIndex % 5];
+    uint8_t index = m_stintIndex % 5;
+    auto* tyre = m_tyres[index];
     if (tyre) {
 
-        tyre->Init(actualTyreCompound, visualTyreCompound, tyreAge);
+        tyre->Init(actualTyreCompound, visualTyreCompound, tyreAge, m_stintIndex + 1);
         tyre->show();
 
     }
@@ -66,25 +74,25 @@ void UserInterface::Widget::TyreInfoArray::LapCompletedWithTyre() {
 void UserInterface::Widget::TyreInfoArray::CycleLayout() {
 
     if (m_stintIndex == 0) {
-        
-        // do nothing, as we don't have to cycle things when doing the first stint widgets, saves extra processing
+
         return;
 
     }
+    // remove all widgets
+    for (uint8_t i = 0; i < 5; ++i) {
 
-    // invalidate previous layout, construct new
-    QHBoxLayout* layout = new QHBoxLayout;
-    for (size_t i = 0; i < 5; ++i) {
+        m_gridLayout->removeWidget(m_tyres[i]);
+
+    }
+    for (uint8_t i = 0; i < 5; ++i) {
 
         // When m_stintIndex is 0 (1st stint), this means the layout will have widgets in index 0, 4, 3, 2, 1, in this order.
         // When m_stintIndex is 1 (2nd stint), this means the layout will have widgets in index 1, 0, 4, 3, 2, in this order.
         // When m_stintIndex is 5 (6th stint), this means the layout will have widgets in index 0, 4, 3, 2, 1, in this order.
-        auto* tyre = m_tyres[(m_stintIndex + 5 - i) % 5];
-        layout->addWidget(tyre);
+        size_t index = (m_stintIndex + 5 - i) % 5;
+        auto* tyre = m_tyres[index];
+        m_gridLayout->addWidget(tyre, 0, i, Qt::AlignLeft | Qt::AlignVCenter);
 
     }
-
-    setLayout(layout);
-
 
 }

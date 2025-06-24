@@ -19,7 +19,7 @@ namespace UserInterface {
             public:
             TyreInfoContainer(QWidget* parent = 0);
             ~TyreInfoContainer() = default;
-            void Init(Tyre::Internal::Actual actualTyreCompound, Tyre::Internal::Visual visualTyreCompound, uint8_t numLapsAtStart);
+            void Init(Tyre::Internal::Actual actualTyreCompound, Tyre::Internal::Visual visualTyreCompound, uint8_t numLapsAtStart, uint8_t stintNo);
             void IncrementLap();
 
             protected:

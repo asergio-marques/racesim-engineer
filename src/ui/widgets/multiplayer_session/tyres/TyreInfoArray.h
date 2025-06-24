@@ -8,6 +8,8 @@
 
 
 
+class QGridLayout;
+
 namespace UserInterface {
 
     namespace Widget {
@@ -25,8 +27,10 @@ namespace UserInterface {
             void CycleLayout();
 
             // index 0 represents the first stint, index 1 the second, etc
+            // cycle back every 5 stints, the implementation hinges on a maximum of 5 widgets
             QList<TyreInfoContainer*> m_tyres;
             uint8_t m_stintIndex;
+            QGridLayout* m_gridLayout;
 
         };
     }

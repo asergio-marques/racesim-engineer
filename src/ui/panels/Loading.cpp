@@ -10,7 +10,7 @@
 #include "widgets/general_use/BackgroundFullScreen.h"
 #include "widgets/general_use/ScreenTitle.h"
 #include "widgets/specific/LoadingIcon.h"
-#include "widgets/multiplayer_session/tyres/TyreInfoContainer.h"
+#include "widgets/multiplayer_session/tyres/TyreInfoArray.h"
 
 class TestClass : public QWidget {
     public:
@@ -19,8 +19,12 @@ class TestClass : public QWidget {
         auto* layout = new QVBoxLayout;
         for (size_t i = 0; i < 20; ++i) {
 
-            auto* test = new UserInterface::Widget::TyreInfoContainer(this);
-            test->Init(static_cast<Tyre::Internal::Actual>((i % 7) + 1), static_cast<Tyre::Internal::Visual>((i % 5) + 3), i);
+            auto* test = new UserInterface::Widget::TyreInfoArray(this);
+            for (size_t j = 0; j < i; ++j) {
+
+                test->TyreChange(static_cast<Tyre::Internal::Actual>((i % 7) + 1), static_cast<Tyre::Internal::Visual>((i % 5) + 3), i + j, false);
+
+            }
             layout->addWidget(test, Qt::AlignLeft | Qt::AlignVCenter);
 
         }

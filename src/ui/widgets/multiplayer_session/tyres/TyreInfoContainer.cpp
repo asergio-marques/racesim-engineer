@@ -67,11 +67,11 @@ UserInterface::Widget::TyreInfoContainer::TyreInfoContainer(QWidget* parent) :
 
 
 
-void UserInterface::Widget::TyreInfoContainer::Init(Tyre::Internal::Actual actualTyreCompound, Tyre::Internal::Visual visualTyreCompound, uint8_t numLapsAtStart) {
+void UserInterface::Widget::TyreInfoContainer::Init(Tyre::Internal::Actual actualTyreCompound, Tyre::Internal::Visual visualTyreCompound, uint8_t numLapsAtStart, uint8_t stintNo) {
 
     if (m_actualCompoundText) {
 
-        switch (actualTyreCompound) {
+        /*switch (actualTyreCompound) {
 
             case Tyre::Internal::Actual::F1_C6:
                 m_actualCompoundText->setText("C6");
@@ -120,7 +120,8 @@ void UserInterface::Widget::TyreInfoContainer::Init(Tyre::Internal::Actual actua
             default:
                 m_actualCompoundText->setText("?");
 
-        }
+        }*/
+        m_actualCompoundText->setText(QString::number(stintNo));
 
         m_actualCompoundText->show();
 

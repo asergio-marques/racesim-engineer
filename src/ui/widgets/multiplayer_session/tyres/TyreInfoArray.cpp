@@ -4,15 +4,20 @@
 #include <QGridLayout>
 #include <QList>
 
+
+
+
 UserInterface::Widget::TyreInfoArray::TyreInfoArray(QWidget* parent) :
     QWidget(parent),
     m_tyres(),
-    m_stintIndex(-1),
+    m_stintIndex(UINT8_MAX),
     m_gridLayout(nullptr) {
 
     m_gridLayout = new QGridLayout;
     Q_ASSERT(m_gridLayout);
     if (m_gridLayout) {
+
+        m_gridLayout->setSpacing(0);
 
         for (size_t i = 0; i < 5; ++i) {
 
@@ -20,7 +25,7 @@ UserInterface::Widget::TyreInfoArray::TyreInfoArray(QWidget* parent) :
             Q_ASSERT(tyre);
             if (tyre) {
 
-                tyre->setSizePolicy(QSizePolicy::Maximum, QSizePolicy::Expanding);
+                tyre->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
                 m_tyres.push_back(tyre);
                 m_gridLayout->addWidget(tyre, 0, i, Qt::AlignLeft | Qt::AlignVCenter);
                 tyre->hide();
@@ -61,9 +66,10 @@ void UserInterface::Widget::TyreInfoArray::TyreChange(Tyre::Internal::Actual act
 }
 
 
+
 void UserInterface::Widget::TyreInfoArray::LapCompletedWithTyre() {
-    
-    auto* tyre = m_tyres[m_stintIndex];
+
+    auto* tyre = m_tyres[m_stintIndex % 5];
     if (tyre) {
 
         tyre->IncrementLap();
@@ -71,6 +77,9 @@ void UserInterface::Widget::TyreInfoArray::LapCompletedWithTyre() {
     }
 
 }
+
+
+
 void UserInterface::Widget::TyreInfoArray::CycleLayout() {
 
     if (m_stintIndex == 0) {
@@ -78,21 +87,37 @@ void UserInterface::Widget::TyreInfoArray::CycleLayout() {
         return;
 
     }
-    // remove all widgets
-    for (uint8_t i = 0; i < 5; ++i) {
+    // remove all widgets and items
+    while (QLayoutItem* item = m_gridLayout->takeAt(0)) {
 
-        m_gridLayout->removeWidget(m_tyres[i]);
+        if (item->widget()) {
+
+            item->widget()->hide(); // Hide widgets not in use
+
+        }
+
+        delete item;
 
     }
-    for (uint8_t i = 0; i < 5; ++i) {
-
-        // When m_stintIndex is 0 (1st stint), this means the layout will have widgets in index 0, 4, 3, 2, 1, in this order.
-        // When m_stintIndex is 1 (2nd stint), this means the layout will have widgets in index 1, 0, 4, 3, 2, in this order.
-        // When m_stintIndex is 5 (6th stint), this means the layout will have widgets in index 0, 4, 3, 2, 1, in this order.
+    // don't ask me why it only works like this, if activeStints actually represents how many stint icons
+    // are active, this all goes tits up
+    uint8_t activeStints = std::min<uint8_t>(m_stintIndex, 4);
+    for (uint8_t i = 0; i < activeStints + 1; ++i) {
         size_t index = (m_stintIndex + 5 - i) % 5;
+
         auto* tyre = m_tyres[index];
+        tyre->show();
         m_gridLayout->addWidget(tyre, 0, i, Qt::AlignLeft | Qt::AlignVCenter);
 
     }
+    if (activeStints < 4) {
+
+        // one spacer item with the width of the leftover columns coming right up
+        m_gridLayout->addItem(new QSpacerItem(1, 1, QSizePolicy::Expanding, QSizePolicy::Minimum), 0, activeStints, 1, 5 - activeStints);
+
+    }
+
+    m_gridLayout->invalidate();
+    updateGeometry();
 
 }

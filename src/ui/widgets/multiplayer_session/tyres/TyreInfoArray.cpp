@@ -82,17 +82,18 @@ void UserInterface::Widget::TyreInfoArray::LapCompletedWithTyre() {
 
 void UserInterface::Widget::TyreInfoArray::CycleLayout() {
 
+    // no need for evil operations when there's only a single stint
     if (m_stintIndex == 0) {
 
         return;
 
     }
-    // remove all widgets and items
+    // hide widgets not in use, and delete items in the layout for a complete reset
     while (QLayoutItem* item = m_gridLayout->takeAt(0)) {
 
-        if (item->widget()) {
+        if (item && item->widget()) {
 
-            item->widget()->hide(); // Hide widgets not in use
+            item->widget()->hide(); 
 
         }
 
@@ -103,6 +104,8 @@ void UserInterface::Widget::TyreInfoArray::CycleLayout() {
     // are active, this all goes tits up
     uint8_t activeStints = std::min<uint8_t>(m_stintIndex, 4);
     for (uint8_t i = 0; i < activeStints + 1; ++i) {
+
+        // evil but genius; adding 5 does nothing to the final result, and prevents (m_stintIndex - i) from underflowing
         size_t index = (m_stintIndex + 5 - i) % 5;
 
         auto* tyre = m_tyres[index];

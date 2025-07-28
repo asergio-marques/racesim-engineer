@@ -28,6 +28,7 @@ UserInterface::Widget::TyreInfoArray::TyreInfoArray(QWidget* parent) :
                 tyre->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
                 m_tyres.push_back(tyre);
                 m_gridLayout->addWidget(tyre, 0, i, Qt::AlignLeft | Qt::AlignVCenter);
+                tyre->raise();
                 tyre->hide();
 
             }
@@ -55,8 +56,12 @@ void UserInterface::Widget::TyreInfoArray::TyreChange(Tyre::Internal::Actual act
     auto* tyre = m_tyres[index];
     if (tyre) {
 
+        qDebug() << "is this tyre hidden? " << (tyre->isHidden() ? "yes" : "no");
         tyre->Init(actualTyreCompound, visualTyreCompound, tyreAge, m_stintIndex + 1);
         tyre->show();
+        qDebug() << "is this tyre hidden? " << (tyre->isHidden() ? "yes" : "no");
+        qDebug() << "\twidth " << (tyre->width() ? "yes" : "no");
+        qDebug() << "\theight " << (tyre->height() ? "yes" : "no");
 
     }
 

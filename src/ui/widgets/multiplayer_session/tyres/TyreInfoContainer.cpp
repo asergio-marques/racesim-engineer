@@ -15,7 +15,8 @@ UserInterface::Widget::TyreInfoContainer::TyreInfoContainer(QWidget* parent) :
     m_visualCompoundIcon(nullptr),
     m_actualCompoundText(nullptr),
     m_lapsText(nullptr),
-    m_numLaps(0) {
+    m_numLaps(0),
+    m_stintNo(0) {
 
     m_visualCompoundIcon = new UserInterface::Widget::TyreIcon(UserInterface::Widget::ID::TyreInfo, parent);
     Q_ASSERT(m_visualCompoundIcon);
@@ -71,7 +72,7 @@ void UserInterface::Widget::TyreInfoContainer::Init(Tyre::Internal::Actual actua
 
     if (m_actualCompoundText) {
 
-        /*switch (actualTyreCompound) {
+        switch (actualTyreCompound) {
 
             case Tyre::Internal::Actual::F1_C6:
                 m_actualCompoundText->setText("C6");
@@ -120,8 +121,7 @@ void UserInterface::Widget::TyreInfoContainer::Init(Tyre::Internal::Actual actua
             default:
                 m_actualCompoundText->setText("?");
 
-        }*/
-        m_actualCompoundText->setText(QString::number(stintNo));
+        }
 
         m_actualCompoundText->show();
 
@@ -143,6 +143,8 @@ void UserInterface::Widget::TyreInfoContainer::Init(Tyre::Internal::Actual actua
 
     }
 
+    m_stintNo = stintNo;
+
 }
 
 
@@ -154,5 +156,19 @@ void UserInterface::Widget::TyreInfoContainer::IncrementLap() {
         m_lapsText->setText(QString::number(m_numLaps));
 
     }
+
+}
+
+
+#include <QMoveEvent>
+void UserInterface::Widget::TyreInfoContainer::moveEvent(QMoveEvent* event) {
+
+    qDebug() << "move event for tyre widget of stint " << QString::number(m_stintNo);
+    qDebug() << "\told x = " << QString::number(event->oldPos().x());
+    qDebug() << "\told y = " << QString::number(event->oldPos().y());
+    qDebug() << "\tnew x = " << QString::number(event->pos().x());
+    qDebug() << "\tnew y = " << QString::number(event->pos().y());
+
+    QWidget::moveEvent(event);
 
 }

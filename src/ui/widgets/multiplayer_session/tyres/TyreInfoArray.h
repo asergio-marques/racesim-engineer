@@ -17,6 +17,8 @@ namespace UserInterface {
 
         class TyreInfoArray : public QWidget {
 
+            Q_OBJECT
+
             public:
             TyreInfoArray(QWidget* parent = 0);
             ~TyreInfoArray() = default;

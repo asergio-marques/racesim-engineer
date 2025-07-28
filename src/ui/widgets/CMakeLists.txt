@@ -33,6 +33,7 @@ target_sources(${PROJECT_NAME} PRIVATE
     general_use/BackgroundLeft.cpp
     general_use/BackgroundRight.cpp
     general_use/BackgroundFullScreen.cpp
+    general_use/PositionMultiInd.cpp
     general_use/ScreenTitle.cpp
     specific/LoadingIcon.cpp
     multiplayer_session/DriverEntry.cpp

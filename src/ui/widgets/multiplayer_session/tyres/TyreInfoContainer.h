@@ -27,6 +27,9 @@ namespace UserInterface {
             UserInterface::Widget::TextInterface* m_actualCompoundText;
             UserInterface::Widget::TextInterface* m_lapsText;
             uint8_t m_numLaps;
+            uint8_t m_stintNo;
+
+            void moveEvent(QMoveEvent* event) override;
 
         };
     }

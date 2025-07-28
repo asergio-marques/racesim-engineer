@@ -39,15 +39,15 @@ void UserInterface::Widget::Standings::setStartingGrid(const Packet::Internal::M
 
     if (dataPacket && !m_initialParamsSet) {
 
-        uint8_t initPosition = 1;
+        uint8_t pos = 0;
 
         for (const auto driverInfo : dataPacket->m_participants) {
 
-            UserInterface::Widget::DriverEntry* entry = m_driverData.at(initPosition - 1);
+            UserInterface::Widget::DriverEntry* entry = m_driverData.at(pos);
             if (entry) {
 
-                entry->init(driverInfo, initPosition);
-                ++initPosition;
+                entry->init(driverInfo);
+                ++pos;
 
             }
 
@@ -134,7 +134,7 @@ void UserInterface::Widget::Standings::move(const uint16_t x, const uint16_t y, 
         if (driver) {
 
             // alignment inputs deliberately ignored
-            driver->move(x, y + ((driver->GetCurrentPosition() - 1) * 48), false, false);
+            driver->move(x, y + ((driver->GetCurrentPosition() - 1) * 48));
 
         }
 
@@ -171,7 +171,7 @@ void UserInterface::Widget::Standings::setSize(const uint16_t newWidth, const ui
         if (driver) {
 
             // 20 entries maximum
-            driver->setSize(newWidth, (newHeight / 20), false);
+            driver->setFixedSize(newWidth, (newHeight / 20));
             reorderStandings();
         }
 
@@ -216,7 +216,7 @@ void UserInterface::Widget::Standings::reorderStandings() {
             // take into account the position order
             // TODO height hard-coded!!
             uint16_t newY = style.VerticalEdgeBorder.m_value + ((driver->GetCurrentPosition() - 1) * 48);
-            driver->move(style.HorizontalEdgeBorder.m_value, newY, false, false);
+            driver->move(style.HorizontalEdgeBorder.m_value, newY);
 
         }
 
@@ -250,7 +250,7 @@ const int16_t UserInterface::Widget::Standings::width() const {
 
         if (driver) {
 
-            width = std::max(width, driver->width());
+            width = qMax(width, driver->width());
 
         }
 
@@ -269,7 +269,7 @@ const int16_t UserInterface::Widget::Standings::height() const {
 
         if (driver) {
 
-            maxY = std::max(maxY, driver->y());
+            maxY = qMax(maxY, driver->y());
 
         }
 
@@ -288,7 +288,7 @@ const int16_t UserInterface::Widget::Standings::x() const {
 
         if (driver) {
 
-            minX = std::min(minX, driver->x());
+            minX = qMin(minX, driver->x());
 
         }
 
@@ -307,7 +307,7 @@ const int16_t UserInterface::Widget::Standings::y() const {
 
         if (driver) {
 
-            minY = std::min(minY, driver->y());
+            minY = qMin(minY, driver->y());
 
         }
 

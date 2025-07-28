@@ -58,7 +58,7 @@ void Processor::Data::Databank::Init(Presenter::ICompFacade* presenter) {
 
 void Processor::Data::Databank::updateData(const Packet::Internal::Interface* packet) {
 
-    if (packet) {
+    if (packet && m_listening) {
 
         switch (packet->packetType()) {
 
@@ -159,6 +159,7 @@ void Processor::Data::Databank::createSessionInformation(const Packet::Internal:
                 break;
             
             case Session::Internal::Type::Race:
+                m_listening = true;
                 creator = new Processor::Data::Creator::RaceSession(dynamic_cast<const Packet::Internal::RaceStart*>(sessionStartPacket));
                 m_exporter = new Processor::Exporter::RaceSession();
                 break;

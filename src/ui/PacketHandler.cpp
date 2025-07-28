@@ -131,17 +131,17 @@ void UserInterface::PacketHandler::NotifySessionStartObservers(Packet::Internal:
 
             case Session::Internal::Type::TimeTrial:
                 sessionStartPacket->markAsProcessed();
-                emit TimeTrialStart(dynamic_cast<const Packet::Internal::TimeTrialStart*>(sessionStartPacket));
+                //emit TimeTrialStart(dynamic_cast<const Packet::Internal::TimeTrialStart*>(sessionStartPacket));
                 break;
 
             case Session::Internal::Type::FreePractice:
                 sessionStartPacket->markAsProcessed();
-                emit PracticeStart(dynamic_cast<const Packet::Internal::PracticeStart*>(sessionStartPacket));
+                //emit PracticeStart(dynamic_cast<const Packet::Internal::PracticeStart*>(sessionStartPacket));
                 break;
 
             case Session::Internal::Type::Qualifying:
                 sessionStartPacket->markAsProcessed();
-                emit QualiStart(dynamic_cast<const Packet::Internal::QualiStart*>(sessionStartPacket));
+                //emit QualiStart(dynamic_cast<const Packet::Internal::QualiStart*>(sessionStartPacket));
                 break;
 
             case Session::Internal::Type::Race:

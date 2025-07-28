@@ -105,6 +105,7 @@ namespace Processor {
             // Holds a list of the currently added detectors, using the detector type as index
             std::map<Processor::Detector::Type, Processor::Detector::Interface*> m_activeDetectors;
 
+            bool m_listening = false;
         };
 
     }

@@ -9,7 +9,7 @@
 #include "data/internal/Session.h"
 
 
-class QVBoxLayout;
+class QGridLayout;
 
 namespace UserInterface {
 
@@ -40,7 +40,7 @@ namespace UserInterface {
             const uint8_t GetCurrentPosition() const;
 
             private:
-            QVBoxLayout* m_layout;
+            QGridLayout* m_layout;
             uint8_t m_driverIndex;
             bool m_isPlayer;
             UserInterface::Widget::PositionMultiIndicator* m_posIndicator;

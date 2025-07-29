@@ -1,6 +1,6 @@
 #include "multiplayer_session/DriverEntry.h"
 
-#include <QVBoxLayout>
+#include <QGridLayout>
 #include <QWidget>
 #include "base/Container.h"
 #include "base/TextInterface.h"
@@ -21,7 +21,7 @@
 
 UserInterface::Widget::DriverEntry::DriverEntry(QWidget* parent) :
     QWidget(this),
-    m_layout(new QVBoxLayout),
+    m_layout(new QGridLayout),
     m_driverIndex(),
     m_isPlayer(),
     m_posIndicator(new UserInterface::Widget::PositionMultiIndicator(this)),
@@ -35,21 +35,52 @@ UserInterface::Widget::DriverEntry::DriverEntry(QWidget* parent) :
 
     if (m_layout) {
 
-        m_layout->setSpacing(6);
+        // the layout is a x by 2 grid, as the time trackers require 2 rows; this means that the majority of widgets should span 2 rows
+        m_layout->setHorizontalSpacing(6);
+        m_layout->setVerticalSpacing(0);
 
-        //m_layout->
+        if (m_posIndicator) {
+
+            m_posIndicator->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
+            m_layout->addWidget(m_posIndicator, 0, 0, 2, 1);
+
+        }
+
+        if (m_teamIcon) {
+
+            m_teamIcon->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
+            m_layout->addWidget(m_teamIcon, 0, 1, 2, 1);
+
+        }
 
         if (m_driverName) {
 
             m_driverName->setFontThickness(UserInterface::Widget::FontThickness::Regular);
+            m_layout->addWidget(m_driverName, 0, 2, 2, 1);
+
+        }
+
+        if (m_lastLap) {
+
+            m_layout->addWidget(m_lastLap, 0, 3, 1, 1);
+
+        }
+
+        if (m_personalBestLap) {
+
+            m_layout->addWidget(m_personalBestLap, 1, 3, 1, 1);
 
         }
 
         if (m_retirement) {
 
             m_retirement->raise();
+            // covers gap/interval tracker, tyre tracker and penalties; only the latter 2 are implemented right now
+            // so the column span is only 2
+            m_layout->addWidget(m_retirement, 0, 4, 2, 2);
 
         }
+
         setLayout(m_layout);
 
     }
@@ -96,11 +127,11 @@ void UserInterface::Widget::DriverEntry::init(const Session::Internal::Participa
     if (m_tyreArray) {
 
         m_tyreArray->setFixedWidth(400);
-        
+
         // TODO this isn't rendering right, not showing whereas it is showing right in the loading... layout missing? parenting? positioning?
         for (size_t i = 0; i < 5; ++i) {
-            
-            m_tyreArray->TyreChange(Tyre::Internal::Actual::F1_C4, Tyre::Internal::Visual::Medium, i^2, false);
+
+            m_tyreArray->TyreChange(Tyre::Internal::Actual::F1_C4, Tyre::Internal::Visual::Medium, i ^ 2, false);
 
         }
         qDebug() << "m_tyreArray is hidden? " << (m_tyreArray->isHidden() ? "yes" : "no");
@@ -116,7 +147,7 @@ void UserInterface::Widget::DriverEntry::init(const Session::Internal::Participa
     }
     // needs to be the last one so that the width can be calculated okay
     if (m_retirement) {
-        
+
         // TODO proper calculation of width
         m_retirement->setSize(style.RetirementIconMaxX.m_value, style.RetirementIconMaxY.m_value, false);
         m_retirement->setTextFontSize(style.RetirementIconTextSize.m_value);
@@ -146,8 +177,8 @@ void UserInterface::Widget::DriverEntry::updatePenalties(const Penalty::Internal
     switch (type) {
 
         case Penalty::Internal::Type::Warning:
-                // only track limits tracked at the moment
-                if (m_posIndicator) m_posIndicator->updateWarnings(true, change);
+            // only track limits tracked at the moment
+            if (m_posIndicator) m_posIndicator->updateWarnings(true, change);
             break;
 
         case Penalty::Internal::Type::Time:
@@ -191,7 +222,7 @@ void UserInterface::Widget::DriverEntry::newSessionBestLap(const Lap::Internal::
         m_posIndicator->sessionBestChange(isThisDrivers);
 
         if (isThisDrivers) {
-            
+
             m_personalBestLap->changeSessionBestStatus(true);
             m_personalBestLap->updateTime(newLapTime);
             m_lastLap->changeSessionBestStatus(true);

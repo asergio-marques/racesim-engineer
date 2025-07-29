@@ -35,49 +35,76 @@ UserInterface::Widget::DriverEntry::DriverEntry(QWidget* parent) :
 
     if (m_layout) {
 
-        // the layout is a x by 2 grid, as the time trackers require 2 rows; this means that the majority of widgets should span 2 rows
+        // the layout is a 6 by 2 grid, as the time trackers require 2 rows; this means that the majority of widgets should span 2 rows
+        // TODO when gap/interval trackers are introduced, the grid will be 7 by 2
+        // these stretches are magical numbers I pulled from the concept based on pixel width/height, but may need to be adjusted
+        // move these onto a const or something, or a style sheet where it's easier to get this out from
         m_layout->setHorizontalSpacing(6);
         m_layout->setVerticalSpacing(0);
+        m_layout->setColumnStretch(0, 54);
+        m_layout->setColumnStretch(1, 36);
+        m_layout->setColumnStretch(2, 96);
+        m_layout->setColumnStretch(3, 116);
+        m_layout->setColumnStretch(4, 400);
+        m_layout->setColumnStretch(5, 88);
 
         if (m_posIndicator) {
 
             m_posIndicator->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
-            m_layout->addWidget(m_posIndicator, 0, 0, 2, 1);
+            m_layout->addWidget(m_posIndicator, 0, 0, 2, 1, Qt::AlignVCenter | Qt::AlignLeft);
 
         }
 
         if (m_teamIcon) {
 
             m_teamIcon->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
-            m_layout->addWidget(m_teamIcon, 0, 1, 2, 1);
+            m_layout->addWidget(m_teamIcon, 0, 1, 2, 1, Qt::AlignVCenter | Qt::AlignLeft);
 
         }
 
         if (m_driverName) {
 
+            m_driverName->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
             m_driverName->setFontThickness(UserInterface::Widget::FontThickness::Regular);
-            m_layout->addWidget(m_driverName, 0, 2, 2, 1);
+            m_layout->addWidget(m_driverName, 0, 2, 2, 1, Qt::AlignVCenter | Qt::AlignLeft);
 
         }
 
         if (m_lastLap) {
 
-            m_layout->addWidget(m_lastLap, 0, 3, 1, 1);
+            m_lastLap->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
+            m_layout->addWidget(m_lastLap, 0, 3, 1, 1, Qt::AlignVCenter | Qt::AlignLeft);
 
         }
 
         if (m_personalBestLap) {
 
-            m_layout->addWidget(m_personalBestLap, 1, 3, 1, 1);
+            m_personalBestLap->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
+            m_layout->addWidget(m_personalBestLap, 1, 3, 1, 1, Qt::AlignVCenter | Qt::AlignLeft);
+
+        }
+
+        if (m_tyreArray) {
+
+            m_tyreArray->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
+            m_layout->addWidget(m_tyreArray, 0, 4, 2, 1, Qt::AlignVCenter | Qt::AlignLeft);
+
+        }
+
+        if (m_penalties) {
+
+            m_penalties->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
+            m_layout->addWidget(m_penalties, 0, 5, 2, 1, Qt::AlignVCenter | Qt::AlignLeft);
 
         }
 
         if (m_retirement) {
 
+            m_retirement->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
             m_retirement->raise();
             // covers gap/interval tracker, tyre tracker and penalties; only the latter 2 are implemented right now
             // so the column span is only 2
-            m_layout->addWidget(m_retirement, 0, 4, 2, 2);
+            m_layout->addWidget(m_retirement, 0, 4, 2, 2, Qt::AlignVCenter | Qt::AlignLeft);
 
         }
 

@@ -14,7 +14,8 @@ UserInterface::Widget::PositionMultiIndicator::PositionMultiIndicator(QWidget* p
     m_position(new UserInterface::Widget::TextInterface(UserInterface::Widget::ID::DriverPosition, this)),
     m_fastestLap(new UserInterface::Widget::FastestLapIndicator),
     m_trackLimWarn(new UserInterface::Widget::WarningContainer(UserInterface::Widget::WarningContainer::Type::TrackLimits, this)),
-    m_otherWarn(new UserInterface::Widget::WarningContainer(UserInterface::Widget::WarningContainer::Type::OtherWarns, this)) {
+    m_otherWarn(new UserInterface::Widget::WarningContainer(UserInterface::Widget::WarningContainer::Type::OtherWarns, this)),
+    m_currentPosition(0) {
 
     QGridLayout* generalLayout = new QGridLayout(this);
     QHBoxLayout* warnLayout = new QHBoxLayout(this);
@@ -63,21 +64,46 @@ void UserInterface::Widget::PositionMultiIndicator::init(const uint8_t& initPosi
 
     }
 
+    m_currentPosition = initPosition;
+
 }
 
 
 
 void UserInterface::Widget::PositionMultiIndicator::updatePosition(const uint8_t newPosition) {
 
+    m_currentPosition = newPosition;
+    if (m_position) {
 
+        m_position->setText(QString::number(newPosition));
+        m_position->adjustSize();
+
+    }
 
 }
 
 
 
-void UserInterface::Widget::PositionMultiIndicator::updatePenalties(bool isTrackLim, const int32_t change) {
+void UserInterface::Widget::PositionMultiIndicator::updateWarnings(bool isTrackLim, const int32_t change) {
 
+    if (isTrackLim && m_trackLimWarn) {
 
+        for (size_t i = 0; i < change; ++i) {
+
+            m_trackLimWarn->addWarning();
+
+        }
+
+    }
+    else if (!isTrackLim && m_otherWarn) {
+
+        for (size_t i = 0; i < change; ++i) {
+
+            m_otherWarn->addWarning();
+
+        }
+
+    }
 
 }
 
@@ -85,6 +111,23 @@ void UserInterface::Widget::PositionMultiIndicator::updatePenalties(bool isTrack
 
 void UserInterface::Widget::PositionMultiIndicator::sessionBestChange(bool gainOrLoss) {
 
+    if (gainOrLoss) {
 
+        m_fastestLap->show();
+
+    }
+    else {
+
+        m_fastestLap->hide();
+
+    }
+
+}
+
+
+
+const uint8_t UserInterface::Widget::PositionMultiIndicator::getCurrentPosition() const {
+
+    return m_currentPosition;
 
 }

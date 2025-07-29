@@ -22,14 +22,17 @@ namespace UserInterface {
             ~PositionMultiIndicator() = default;
             void init(const uint8_t& initPosition);
             void updatePosition(const uint8_t newPosition);
-            void updatePenalties(bool isTrackLim, const int32_t change);
+            void updateWarnings(bool isTrackLim, const int32_t change);
             void sessionBestChange(bool gainOrLoss);
+            const uint8_t getCurrentPosition() const;
 
             private:
             UserInterface::Widget::TextInterface* m_position;
             UserInterface::Widget::WarningContainer* m_trackLimWarn;
             UserInterface::Widget::WarningContainer* m_otherWarn;
             UserInterface::Widget::FastestLapIndicator* m_fastestLap;
+
+            uint8_t m_currentPosition;
 
         };
     }

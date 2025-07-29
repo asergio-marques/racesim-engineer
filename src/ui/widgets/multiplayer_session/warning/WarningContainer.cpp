@@ -1,7 +1,7 @@
 #include "multiplayer_session/warning/WarningContainer.h"
 
+#include <QVBoxLayout>
 #include <QWidget>
-#include "base/ID.h"
 #include "base/ImageInterface.h"
 #include "multiplayer_session/warning/WarningIcon.h"
 
@@ -9,27 +9,33 @@
 
 
 UserInterface::Widget::WarningContainer::WarningContainer(const UserInterface::Widget::WarningContainer::Type type, QWidget* parent) :
-    UserInterface::Widget::Container(UserInterface::Widget::ID::WarningIcon),
+    QWidget(parent),
     m_currentlyActiveWarnings(0) {
 
-    for (uint8_t i = 0; i < 2; ++i) {
+    QVBoxLayout* layout = new QVBoxLayout(this);
+    Q_ASSERT(layout);
+    if (layout) {
 
-        if (type == UserInterface::Widget::WarningContainer::Type::TrackLimits) {
+        layout->setSpacing(2);
 
-            UserInterface::Widget::WarningIcon* icon = new UserInterface::Widget::WarningIcon(parent);
-            Q_ASSERT(icon);
-            icon->SetTrackLimitType();
-            icon->hide();
-            m_icons.push_back(icon);
+        for (uint8_t i = 0; i < 2; ++i) {
 
-        }
-        else if (type == UserInterface::Widget::WarningContainer::Type::OtherWarns) {
+            // need to do it like this to guarantee we're adding the widgets to the layout in the inverse order they're in the array
+            UserInterface::Widget::WarningIcon* iconLow = new UserInterface::Widget::WarningIcon(this);
+            UserInterface::Widget::WarningIcon* iconMid = new UserInterface::Widget::WarningIcon(this);
+            UserInterface::Widget::WarningIcon* iconHigh = new UserInterface::Widget::WarningIcon(this);
+            Q_ASSERT(iconLow && iconMid && iconHigh);
+            if (iconLow && iconMid && iconHigh) {
 
-            UserInterface::Widget::WarningIcon* icon = new UserInterface::Widget::WarningIcon(parent);
-            Q_ASSERT(icon);
-            icon->SetOtherWarningsType();
-            icon->hide();
-            m_icons.push_back(icon);
+                prepareIcon(iconLow, type);
+                prepareIcon(iconMid, type);
+                prepareIcon(iconHigh, type);
+
+                layout->addWidget(iconHigh, Qt::AlignCenter);
+                layout->addWidget(iconMid, Qt::AlignCenter);
+                layout->addWidget(iconLow, Qt::AlignCenter);
+
+            }
 
         }
 
@@ -42,32 +48,32 @@ UserInterface::Widget::WarningContainer::WarningContainer(const UserInterface::W
 void UserInterface::Widget::WarningContainer::addWarning() {
 
     if (m_currentlyActiveWarnings < 2) {
+
         UserInterface::Widget::WarningIcon* icon = m_icons.at(m_currentlyActiveWarnings);
+
         if (icon && icon->isHidden()) {
+
             icon->show();
             ++m_currentlyActiveWarnings;
+
         }
+
     }
     else {
+
         for (uint16_t i = 0; i < m_icons.size(); ++i) {
+
             UserInterface::Widget::WarningIcon* icon = m_icons.at(i);
+
             if (icon && !(icon->isHidden())) {
+
                 icon->hide();
+
             }
+
         }
+
         m_currentlyActiveWarnings = 0;
-    }
-}
-
-
-
-void UserInterface::Widget::WarningContainer::move(const uint16_t x, const uint16_t y, const bool centerAlignmentX, const bool centerAlignmentY) {
-
-    for (uint16_t i = 0; i < m_icons.size(); ++i) {
-
-        UserInterface::Widget::WarningIcon* icon = m_icons.at(i);
-        if (!icon) continue;
-        icon->move(x, y + i * (icon->height() + HEIGHT_SPACER), centerAlignmentX, centerAlignmentY);
 
     }
 
@@ -75,138 +81,24 @@ void UserInterface::Widget::WarningContainer::move(const uint16_t x, const uint1
 
 
 
-void UserInterface::Widget::WarningContainer::scale(const uint8_t percent) {
+void UserInterface::Widget::WarningContainer::prepareIcon(UserInterface::Widget::WarningIcon* icon, const UserInterface::Widget::WarningContainer::Type type) {
 
+    icon->hide();
+    m_icons.push_back(icon);
 
+    switch (type) {
 
-}
+        case UserInterface::Widget::WarningContainer::Type::TrackLimits:
+            icon->SetTrackLimitType();
+            break;
 
+        case UserInterface::Widget::WarningContainer::Type::OtherWarns:
+            icon->SetOtherWarningsType();
+            break;
 
-
-void UserInterface::Widget::WarningContainer::scale(const uint8_t percentX, const uint8_t percentY) {
-
-
-
-}
-
-
-
-void UserInterface::Widget::WarningContainer::setSize(const uint16_t newWidth, const uint16_t newHeight, const bool keepAspectRatio) {
-
-
-
-}
-
-
-
-void UserInterface::Widget::WarningContainer::raise() {
-
-    for (auto icon : m_icons) {
-
-        if (icon) icon->raise();
+        default:
+            icon->SetOtherWarningsType();
 
     }
-
-}
-
-
-
-void UserInterface::Widget::WarningContainer::lower() {
-
-    for (auto icon : m_icons) {
-
-        if (icon) icon->lower();
-
-    }
-
-}
-
-
-
-const int16_t UserInterface::Widget::WarningContainer::width() const {
-
-    const int16_t xMin = x();
-    int16_t xMax = xMin;
-
-    for (const auto icon : m_icons) {
-
-        if (icon) {
-
-            const auto max = icon->x() + icon->width();
-            if (max > xMax) {
-
-                xMax = max;
-
-            }
-
-        }
-
-    }
-
-    return xMax - xMin;
-
-}
-
-
-
-const int16_t UserInterface::Widget::WarningContainer::height() const {
-    
-    const int16_t yMin = y();
-    int16_t yMax = yMin;
-
-    for (const auto icon : m_icons) {
-
-        if (icon) {
-
-            const auto max = icon->y() + icon->height();
-            if (max > yMax) {
-
-                yMax = max;
-
-            }
-
-        }
-
-    }
-
-    return yMax - yMin;
-
-}
-
-
-
-const int16_t UserInterface::Widget::WarningContainer::x() const {
-
-    int16_t xMin = INT16_MAX;
-    for (const auto icon : m_icons) {
-
-        if (icon && (icon->x() < xMin)) {
-
-            xMin = icon->x();
-
-        }
-
-    }
-
-    return xMin;
-
-}
-
-
-
-const int16_t UserInterface::Widget::WarningContainer::y() const {
-
-    int16_t yMin = INT16_MAX;
-    for (const auto icon : m_icons) {
-
-        if (icon && (icon->y() < yMin)) {
-
-            yMin = icon->y();
-
-        }
-
-    }
-
-    return yMin;
 
 }

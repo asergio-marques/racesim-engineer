@@ -8,13 +8,12 @@
 #include "data/internal/Participant.h"
 #include "data/internal/Penalty.h"
 #include "data/internal/Session.h"
-#include "multiplayer_session/FastestLapIndicator.h"
+#include "general_use/PositionMultiInd.h"
 #include "multiplayer_session/TeamIcon.h"
 #include "multiplayer_session/penalty/PenaltyIcon.h"
 #include "multiplayer_session/other/RetirementIcon.h"
 #include "multiplayer_session/timing/LapInfoContainer.h"
 #include "multiplayer_session/tyres/TyreInfoArray.h"
-#include "multiplayer_session/warning/WarningContainer.h"
 #include "styles/General.h"
 #include "styles/Standings.h"
 
@@ -24,14 +23,8 @@ UserInterface::Widget::DriverEntry::DriverEntry(QWidget* parent) :
     QWidget(this),
     m_layout(new QVBoxLayout),
     m_driverIndex(),
-    m_currentPosition(),
     m_isPlayer(),
-    m_fastestLap(new UserInterface::Widget::FastestLapIndicator(this)),
-    m_position(new UserInterface::Widget::TextInterface(UserInterface::Widget::ID::DriverPosition, this)),
-    m_trackLimWarn(new UserInterface::Widget::WarningContainer(
-        UserInterface::Widget::WarningContainer::Type::TrackLimits, this)),
-    m_otherWarn(new UserInterface::Widget::WarningContainer(
-        UserInterface::Widget::WarningContainer::Type::OtherWarns, this)),
+    m_posIndicator(new UserInterface::Widget::PositionMultiIndicator(this)),
     m_teamIcon(new UserInterface::Widget::TeamIcon(this)),
     m_driverName(new UserInterface::Widget::TextInterface(UserInterface::Widget::ID::DriverName, this)),
     m_personalBestLap(new UserInterface::Widget::LapInfoContainer(UserInterface::Widget::TimeInfoContainer::Type::PersonalBestTime, this)),
@@ -45,13 +38,6 @@ UserInterface::Widget::DriverEntry::DriverEntry(QWidget* parent) :
         m_layout->setSpacing(6);
 
         //m_layout->
-
-        if (m_position) {
-
-            m_position->setFontThickness(UserInterface::Widget::FontThickness::ExtraBold);
-            m_position->setAlignment(Qt::AlignCenter);
-
-        }
 
         if (m_driverName) {
 
@@ -76,18 +62,10 @@ void UserInterface::Widget::DriverEntry::init(const Session::Internal::Participa
     UserInterface::Style::Standings style;
 
     m_driverIndex = dataPacket.m_index;
-    m_currentPosition = dataPacket.m_startPosition;
     m_isPlayer = dataPacket.m_isPlayer;
-    if (m_fastestLap) {
+    if (m_posIndicator) {
 
-        // hidden by default
-        m_fastestLap->hide();
-
-    }
-    if (m_position) {
-
-        m_position->setText(QString::number(dataPacket.m_startPosition));
-        m_position->adjustSize();
+        m_posIndicator->init(dataPacket.m_startPosition);
 
     }
     if (m_teamIcon) {
@@ -152,10 +130,10 @@ void UserInterface::Widget::DriverEntry::init(const Session::Internal::Participa
 
 void UserInterface::Widget::DriverEntry::updatePosition(const uint8_t newPosition) {
 
-    m_currentPosition = newPosition;
-    if (m_position) {
-        m_position->setText(QString::number(newPosition));
-        m_position->adjustSize();
+    if (m_posIndicator) {
+
+        m_posIndicator->updatePosition(newPosition);
+
     }
 
 }
@@ -168,8 +146,8 @@ void UserInterface::Widget::DriverEntry::updatePenalties(const Penalty::Internal
     switch (type) {
 
         case Penalty::Internal::Type::Warning:
-            for (size_t i = 0; i < change; ++i)
-                if (m_trackLimWarn) m_trackLimWarn->addWarning();
+                // only track limits tracked at the moment
+                if (m_posIndicator) m_posIndicator->updateWarnings(true, change);
             break;
 
         case Penalty::Internal::Type::Time:
@@ -208,11 +186,12 @@ void UserInterface::Widget::DriverEntry::updateStatus(const Participant::Interna
 
 void UserInterface::Widget::DriverEntry::newSessionBestLap(const Lap::Internal::Time newLapTime, const bool isThisDrivers) {
 
-    if (m_fastestLap && m_personalBestLap && m_lastLap) {
+    if (m_posIndicator && m_personalBestLap && m_lastLap) {
+
+        m_posIndicator->sessionBestChange(isThisDrivers);
 
         if (isThisDrivers) {
-
-            m_fastestLap->show();
+            
             m_personalBestLap->changeSessionBestStatus(true);
             m_personalBestLap->updateTime(newLapTime);
             m_lastLap->changeSessionBestStatus(true);
@@ -221,7 +200,6 @@ void UserInterface::Widget::DriverEntry::newSessionBestLap(const Lap::Internal::
         }
         else {
 
-            m_fastestLap->hide();
             m_personalBestLap->changeSessionBestStatus(false);
             m_lastLap->changePersonalBestStatus(true);
 
@@ -264,6 +242,12 @@ void UserInterface::Widget::DriverEntry::newLatestLap(const Lap::Internal::Time 
 
 const uint8_t UserInterface::Widget::DriverEntry::GetCurrentPosition() const {
 
-    return m_currentPosition;
+    if (m_posIndicator) {
+
+        return m_posIndicator->getCurrentPosition();
+
+    }
+
+    return 0;
 
 }

@@ -15,14 +15,13 @@ namespace UserInterface {
 
     namespace Widget {
 
-        class FastestLapIndicator;
         class LapInfoContainer;
         class PenaltyIcon;
+        class PositionMultiIndicator;
         class RetirementIcon;
         class TeamIcon;
         class TextInterface;
         class TyreInfoArray;
-        class WarningContainer;
 
         class DriverEntry : public QWidget {
 
@@ -43,12 +42,8 @@ namespace UserInterface {
             private:
             QVBoxLayout* m_layout;
             uint8_t m_driverIndex;
-            uint8_t m_currentPosition;
             bool m_isPlayer;
-            UserInterface::Widget::FastestLapIndicator* m_fastestLap;
-            UserInterface::Widget::TextInterface* m_position;
-            UserInterface::Widget::WarningContainer* m_trackLimWarn;
-            UserInterface::Widget::WarningContainer* m_otherWarn;
+            UserInterface::Widget::PositionMultiIndicator* m_posIndicator;
             UserInterface::Widget::TeamIcon* m_teamIcon;
             UserInterface::Widget::TextInterface* m_driverName;
             UserInterface::Widget::LapInfoContainer* m_personalBestLap;

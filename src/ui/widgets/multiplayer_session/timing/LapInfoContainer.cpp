@@ -1,5 +1,6 @@
 ﻿#include "multiplayer_session/timing/LapInfoContainer.h"
 
+#include <QGridLayout>
 #include <QList>
 #include "Image.h"
 #include "PixmapFactory.h"
@@ -21,30 +22,28 @@ UserInterface::Widget::LapInfoContainer::LapInfoContainer(UserInterface::Widget:
 
         bool res = false;
 
-        m_sessionBestIndicator = new UserInterface::Widget::ImageInterface(m_id, parent);
-        Q_ASSERT(m_sessionBestIndicator);
-        if (m_sessionBestIndicator) {
+        m_sessionBestIndicator = new UserInterface::Widget::ImageInterface(m_label->GetId(), this);
+
+        m_personalBestIndicator = new UserInterface::Widget::ImageInterface(m_label->GetId(), this);
+        Q_ASSERT(m_sessionBestIndicator && m_personalBestIndicator);
+        if (m_sessionBestIndicator && m_personalBestIndicator) {
 
             res &= instance->fetchPixmap(UserInterface::Widget::StandardImage::LapDetailsSessionFastest, pm1);
             m_sessionBestIndicator->setPixmap(pm1, true);
             m_sessionBestIndicator->hide();
 
-        }
-
-        m_personalBestIndicator = new UserInterface::Widget::ImageInterface(m_id, parent);
-
-        Q_ASSERT(m_personalBestIndicator);
-        if (m_personalBestIndicator) {
-
             res &= instance->fetchPixmap(UserInterface::Widget::StandardImage::LapDetailsPersonalBest, pm2);
             m_personalBestIndicator->setPixmap(pm2, true);
             m_personalBestIndicator->hide();
 
-        }
+            if (m_layout) {
 
-        // Add to list so it's easier to move and scale them
-        m_backgrounds.push_back(m_sessionBestIndicator);
-        m_backgrounds.push_back(m_personalBestIndicator);
+                m_layout->addWidget(m_sessionBestIndicator, 0, 0, 1, 2, Qt::AlignCenter);
+                m_layout->addWidget(m_personalBestIndicator, 0, 0, 1, 2, Qt::AlignCenter);
+
+            }
+
+        }
 
     }
 

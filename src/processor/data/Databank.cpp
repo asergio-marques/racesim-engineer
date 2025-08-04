@@ -58,7 +58,7 @@ void Processor::Data::Databank::Init(Presenter::ICompFacade* presenter) {
 
 void Processor::Data::Databank::updateData(const Packet::Internal::Interface* packet) {
 
-    if (packet && m_listening) {
+    if (packet) {
 
         switch (packet->packetType()) {
 
@@ -263,7 +263,7 @@ void Processor::Data::Databank::triggerAutoExport() {
 
 void Processor::Data::Databank::updateStandings(const Packet::Internal::RaceStandings* standingsPacket) {
 
-    if (standingsPacket) {
+    if (standingsPacket && m_listening) {
 
         // for each standing data on the packet, check if the driver ID
         // matches up with the driver ID of each of the driver records and
@@ -300,7 +300,7 @@ void Processor::Data::Databank::updateStandings(const Packet::Internal::RaceStan
 
 void Processor::Data::Databank::updatePenalties(const Packet::Internal::PenaltyStatus* penaltyPacket) {
 
-    if (penaltyPacket) {
+    if (penaltyPacket && m_listening) {
         // for each standing data on the packet, check if the driver ID
         // matches up with the driver ID of each of the driver records and
         // if we are not overwriting more recent data
@@ -340,7 +340,7 @@ void Processor::Data::Databank::updatePenalties(const Packet::Internal::PenaltyS
 
 void Processor::Data::Databank::updateParticipantStatus(const Packet::Internal::ParticipantStatus* statusPacket) {
 
-    if (statusPacket) {
+    if (statusPacket && m_listening) {
         // for each participant data on the packet, check if the driver ID
         // matches up with the driver ID of each of the driver records and
         // if we are not overwriting more recent data
@@ -376,7 +376,7 @@ void Processor::Data::Databank::updateParticipantStatus(const Packet::Internal::
 
 void Processor::Data::Databank::updateLapStatus(const Packet::Internal::LapStatus* lapPacket) {
 
-    if (lapPacket) {
+    if (lapPacket && m_listening) {
 
         auto entry = m_driverRecords.find(lapPacket->m_driverID);
         if (entry != m_driverRecords.end()) {

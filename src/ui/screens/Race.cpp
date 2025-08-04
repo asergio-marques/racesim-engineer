@@ -11,10 +11,8 @@
 UserInterface::Screen::Race::Race(UserInterface::PacketHandler* handler, QWidget* parent) :
     UserInterface::Screen::DualPanelInterface(parent) {
 
-    m_panelLeft = new UserInterface::Panel::RaceRight(handler, this);
-    //m_panelLeft = new UserInterface::Panel::RaceLeft(handler, this);
-    m_panelRight = new UserInterface::Panel::RaceLeft(handler, this);
-    //m_panelRight = new UserInterface::Panel::RaceRight(handler, this);
+    m_panelLeft = new UserInterface::Panel::RaceLeft(handler, this);
+    m_panelRight = new UserInterface::Panel::RaceRight(handler, this);
 
 }
 

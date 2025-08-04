@@ -24,8 +24,8 @@ void UserInterface::Screen::SinglePanelInterface::Initialize() {
     Q_ASSERT(m_panel);
     if (m_panel) {
 
-        m_panel->setBaseSize(1920, 1080);
-        m_panel->setMinimumSize(1920, 1080);
+        m_panel->setBaseSize(2560, 1440);
+        m_panel->setMinimumSize(2560, 1440);
 
     }
 

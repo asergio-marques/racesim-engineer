@@ -27,16 +27,16 @@ void UserInterface::Screen::DualPanelInterface::Initialize() {
     if (m_panelLeft) {
 
         // put right panel to the right
-        m_panelLeft->setBaseSize(960, 1080);
-        m_panelLeft->setMinimumSize(960, 1080);
+        m_panelLeft->setBaseSize(1280, 1440);
+        m_panelLeft->setMinimumSize(1280, 1440);
 
     }
     if (m_panelRight) {
 
         // put right panel to the right
-        m_panelRight->move(960, 0);
-        m_panelRight->setBaseSize(960, 1080);
-        m_panelRight->setMinimumSize(960, 1080);
+        m_panelRight->move(1280, 0);
+        m_panelRight->setBaseSize(1280, 1440);
+        m_panelRight->setMinimumSize(1280, 1440);
 
     }
 

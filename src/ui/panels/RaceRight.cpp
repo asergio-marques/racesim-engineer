@@ -55,7 +55,7 @@ void UserInterface::Panel::RaceRight::ResizePanel(const QSize& newPanelSize) {
         auto newHeight = static_cast<uint16_t>(newPanelSize.height()) - (2 * verticalBorder);
 
         m_driverStandings->setSize(newWidth, newHeight, false);
-        m_driverStandings->move(generalStyle.HorizontalEdgeBorder.m_value, generalStyle.VerticalEdgeBorder.m_value, false, false);
+        m_driverStandings->move(generalStyle.HorizontalEdgeBorder.m_value, height() - (48 * 20) - generalStyle.VerticalEdgeBorder.m_value, false, false);
 
     }
 

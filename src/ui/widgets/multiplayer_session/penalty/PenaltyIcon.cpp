@@ -1,4 +1,5 @@
 #include "multiplayer_session/penalty/PenaltyIcon.h"
+
 #include "base/TextInterface.h"
 #include "multiplayer_session/penalty/PenaltyFlag.h"
 #include "multiplayer_session/penalty/PenaltyTextBackground.h"
@@ -6,7 +7,7 @@
 
 
 UserInterface::Widget::PenaltyIcon::PenaltyIcon(QWidget* parent) : 
-    UserInterface::Widget::Container(UserInterface::Widget::ID::PenaltyIcon),
+    QWidget(parent),
     m_flagIcon(new UserInterface::Widget::PenaltyFlag(parent)),
     m_textBackground(new UserInterface::Widget::PenaltyTextBackground(parent)),
     m_text(new UserInterface::Widget::TextInterface(UserInterface::Widget::ID::PenaltyIcon, parent)),
@@ -61,132 +62,6 @@ void UserInterface::Widget::PenaltyIcon::addStopGo(const int32_t change) {
 
     m_stopGos += change;
     checkDisplayStatus();
-
-}
-
-
-
-void UserInterface::Widget::PenaltyIcon::move(const uint16_t x, const uint16_t y, const bool centerAlignmentX, const bool centerAlignmentY) {
-
-    if (m_flagIcon && m_textBackground && m_text) {
-
-        m_flagIcon->move(x, y, centerAlignmentX, centerAlignmentY);
-
-        const uint16_t baseX = m_flagIcon->x() + (m_flagIcon->width() / 2);
-        const uint16_t baseY = m_flagIcon->y() + (m_flagIcon->height() / 2);
-        m_text->move(baseX, baseY, true, true);
-
-        if (m_text->getTextWidth() > 0) {
-
-            m_textBackground->resize(m_text->getTextWidth() + (HORIZONTAL_OFFSET * 2),
-                m_text->getTextHeight() + (VERTICAL_OFFSET * 2));
-            m_textBackground->move(baseX, baseY, true, true);
-
-        }
-    
-    }
-
-}
-
-
-void UserInterface::Widget::PenaltyIcon::scale(const uint8_t percent) {
-
-    // TODO
-
-}
-
-
-
-void UserInterface::Widget::PenaltyIcon::scale(const uint8_t percentX, const uint8_t percentY) {
-
-    // TODO
-
-}
-
-
-
-void UserInterface::Widget::PenaltyIcon::setSize(const uint16_t newWidth, const uint16_t newHeight, const bool keepAspectRatio) {
-
-    if (m_flagIcon && m_text && m_textBackground) {
-
-        m_flagIcon->setSize(newWidth, newHeight, keepAspectRatio);
-        if (m_text->getTextHeight() >= (newHeight - (VERTICAL_OFFSET * 2))) {
-
-            m_text->setFontSize(m_text->font().pointSize() - 4);
-            m_text->adjustSize();
-            m_textBackground->resize(m_text->getTextWidth() + (HORIZONTAL_OFFSET * 2),
-                m_text->getTextHeight() + (VERTICAL_OFFSET * 2));
-
-        }
-
-    }
-
-}
-
-
-
-void UserInterface::Widget::PenaltyIcon::raise() {
-
-    if (m_flagIcon) {
-        m_flagIcon->raise();
-    }
-    if (m_textBackground) {
-        m_textBackground->raise();
-    }
-    if (m_text) {
-        m_text->raise();
-    }
-}
-
-
-
-void UserInterface::Widget::PenaltyIcon::lower() {
-
-    if (m_text) {
-        m_text->lower();
-    }
-    if (m_textBackground) {
-        m_textBackground->lower();
-    }
-    if (m_flagIcon) {
-        m_flagIcon->lower();
-    }
-
-}
-
-
-
-const int16_t UserInterface::Widget::PenaltyIcon::width() const {
-
-    if (m_flagIcon) return m_flagIcon->width();
-    else return 0;
-
-}
-
-
-
-const int16_t UserInterface::Widget::PenaltyIcon::height() const {
-
-    if (m_flagIcon) return m_flagIcon->height();
-    else return 0;
-
-}
-
-
-
-const int16_t UserInterface::Widget::PenaltyIcon::x() const {
-
-    if (m_flagIcon) return m_flagIcon->x();
-    else return 0;
-
-}
-
-
-
-const int16_t UserInterface::Widget::PenaltyIcon::y() const {
-
-    if (m_flagIcon) return m_flagIcon->y();
-    else return 0;
 
 }
 
@@ -256,39 +131,5 @@ const QString UserInterface::Widget::PenaltyIcon::generateText() {
     }
 
     return text;
-
-}
-
-
-
-void UserInterface::Widget::PenaltyIcon::setTextFontSize(const uint16_t size) {
-
-    if (m_text) {
-
-        m_text->setFontSize(size);
-
-    }
-
-}
-
-
-
-void UserInterface::Widget::PenaltyIcon::adjustSize() {
-
-    if (m_flagIcon) {
-
-        m_flagIcon->adjustSize();
-
-    }
-    if (m_textBackground) {
-
-        m_textBackground->adjustSize();
-
-    }
-    if (m_text) {
-
-        m_text->adjustSize();
-
-    }
 
 }

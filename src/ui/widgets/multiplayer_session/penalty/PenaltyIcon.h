@@ -1,11 +1,9 @@
 #ifndef USERINTERFACE_WIDGETS_INCLUDE_PENALTY_ICON_H_
 #define USERINTERFACE_WIDGETS_INCLUDE_PENALTY_ICON_H_
 
-#include "base/Container.h"
+#include <QWidget>
 
 
-
-class QWidget;
 
 namespace UserInterface {
 
@@ -15,7 +13,7 @@ namespace UserInterface {
         class PenaltyTextBackground;
         class TextInterface;
 
-        class PenaltyIcon : public UserInterface::Widget::Container {
+        class PenaltyIcon : public QWidget {
 
             public:
             PenaltyIcon(QWidget* parent = 0);
@@ -23,20 +21,6 @@ namespace UserInterface {
             void addTimePenalty(const int32_t change);
             void addDriveThrough(const int32_t change);
             void addStopGo(const int32_t change);
-            void move(const uint16_t x, const uint16_t y, const bool centerAlignmentX, const bool centerAlignmentY) override;
-            void scale(const uint8_t percent) override;
-            void scale(const uint8_t percentX, const uint8_t percentY) override;
-            void setSize(const uint16_t newWidth, const uint16_t newHeight, const bool keepAspectRatio) override;
-            void raise() override final;
-            void lower() override final;
-            void setTextFontSize(const uint16_t size) override final;
-            void adjustSize() override final;
-
-            // Getters
-            const int16_t width() const override;
-            const int16_t height() const override;
-            const int16_t x() const override;
-            const int16_t y() const override;
 
             private:
             void checkDisplayStatus();

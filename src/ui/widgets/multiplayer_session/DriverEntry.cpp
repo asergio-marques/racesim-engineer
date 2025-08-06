@@ -141,13 +141,13 @@ void UserInterface::Widget::DriverEntry::init(const Session::Internal::Participa
     }
     if (m_personalBestLap) {
 
-        m_personalBestLap->setSize(style.LapInfoIconMaxX.m_value, style.LapInfoIconMaxY.m_value, true);
+        m_personalBestLap->setFixedSize(style.LapInfoIconMaxX.m_value, style.LapInfoIconMaxY.m_value);
         m_personalBestLap->adjustSize();
 
     }
     if (m_lastLap) {
 
-        m_lastLap->setSize(style.LapInfoIconMaxX.m_value, style.LapInfoIconMaxY.m_value, true);
+        m_lastLap->setFixedSize(style.LapInfoIconMaxX.m_value, style.LapInfoIconMaxY.m_value);
         m_lastLap->adjustSize();
 
     }
@@ -168,7 +168,7 @@ void UserInterface::Widget::DriverEntry::init(const Session::Internal::Participa
     }
     if (m_penalties) {
 
-        m_penalties->setSize(style.PenaltyIconMaxX.m_value, style.PenaltyIconMaxY.m_value, true);
+        m_penalties->setFixedSize(style.PenaltyIconMaxX.m_value, style.PenaltyIconMaxY.m_value);
         m_penalties->adjustSize();
 
     }
@@ -176,8 +176,7 @@ void UserInterface::Widget::DriverEntry::init(const Session::Internal::Participa
     if (m_retirement) {
 
         // TODO proper calculation of width
-        m_retirement->setSize(style.RetirementIconMaxX.m_value, style.RetirementIconMaxY.m_value, false);
-        m_retirement->setTextFontSize(style.RetirementIconTextSize.m_value);
+        m_retirement->setFixedSize(style.RetirementIconMaxX.m_value, style.RetirementIconMaxY.m_value);
         m_retirement->adjustSize();
 
     }

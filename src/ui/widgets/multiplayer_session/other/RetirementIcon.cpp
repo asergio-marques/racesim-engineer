@@ -1,5 +1,8 @@
 #include "multiplayer_session/other/RetirementIcon.h"
 
+#include <QHBoxLayout>
+#include <QPixmap>
+#include "PixmapFactory.h"
 #include "base/TextInterface.h"
 #include "data/internal/Participant.h"
 #include "multiplayer_session/other/RetirementIconBackground.h"
@@ -7,23 +10,34 @@
 
 
 UserInterface::Widget::RetirementIcon::RetirementIcon(QWidget* parent) : 
-    QWidget(parent),
-    m_background(new UserInterface::Widget::RetirementIconBackground(parent)),
-    m_text(new UserInterface::Widget::TextInterface(UserInterface::Widget::ID::RetirementIcon, parent)) {
+    UserInterface::Widget::ImageInterface(UserInterface::Widget::ID::RetirementIcon, parent),
+    m_text(new UserInterface::Widget::TextInterface(UserInterface::Widget::ID::RetirementIcon, this)) {
 
-    if (m_background) {
+    UserInterface::PixmapFactory* instance = UserInterface::PixmapFactory::instance();
+    Q_ASSERT(instance);
+    if (instance &&
+        instance->fetchPixmap(UserInterface::Widget::StandardImage::RetirementBox, m_pixmap)) {
 
-        m_background->hide();
+        setPixmap(m_pixmap, true);
 
     }
 
+	QHBoxLayout* layout = new QHBoxLayout(this);
+
     if (m_text) {
 
-        m_text->hide();
+		m_text->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
         m_text->setFontThickness(UserInterface::Widget::FontThickness::Bold);
         m_text->setAlignment(Qt::AlignCenter);
 
     }
+
+    if (layout) {
+
+        layout->setContentsMargins(HORIZONTAL_OFFSET, VERTICAL_OFFSET, 0, VERTICAL_OFFSET);
+        layout->setSpacing(0);
+        layout->addWidget(m_text);
+	}
 
 }
 
@@ -35,20 +49,17 @@ void UserInterface::Widget::RetirementIcon::activate(const Participant::Internal
     switch (status) {
 
         case Participant::Internal::Status::Active:
-            m_background->hide();
-            m_text->hide();
+            hide();
             break;
 
         case Participant::Internal::Status::DNF:
-            m_background->show();
+            show();
             m_text->setText("DID NOT FINISH");
-            m_text->show();
             break;
 
         case Participant::Internal::Status::DSQ:
-            m_background->show();
+            show();
             m_text->setText("DISQUALIFIED");
-            m_text->show();
             break;
 
         default:

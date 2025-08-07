@@ -1,7 +1,7 @@
 #ifndef USERINTERFACE_WIDGETS_INCLUDE_RETIREMENT_ICON_H_
 #define USERINTERFACE_WIDGETS_INCLUDE_RETIREMENT_ICON_H_
 
-#include <QWidget>
+#include "base/ImageInterface.h"
 #include "data/internal/Participant.h"
 
 
@@ -14,14 +14,13 @@ namespace UserInterface {
         class RetirementIconBackground;
         class TextInterface;
 
-        class RetirementIcon : public QWidget {
+        class RetirementIcon : public UserInterface::Widget::ImageInterface {
 
             public:
             RetirementIcon(QWidget* parent = 0);
             ~RetirementIcon() = default;
             void activate(const Participant::Internal::Status status);
 
-            UserInterface::Widget::RetirementIconBackground* m_background;
             UserInterface::Widget::TextInterface* m_text;
 
             static constexpr uint8_t HORIZONTAL_OFFSET = 24;

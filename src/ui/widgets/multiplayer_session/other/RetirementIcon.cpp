@@ -1,7 +1,8 @@
 #include "multiplayer_session/other/RetirementIcon.h"
 
-#include <QHBoxLayout>
+#include <QGridLayout>
 #include <QPixmap>
+#include <QWidget>
 #include "PixmapFactory.h"
 #include "base/TextInterface.h"
 #include "data/internal/Participant.h"
@@ -10,19 +11,11 @@
 
 
 UserInterface::Widget::RetirementIcon::RetirementIcon(QWidget* parent) : 
-    UserInterface::Widget::ImageInterface(UserInterface::Widget::ID::RetirementIcon, parent),
-    m_text(new UserInterface::Widget::TextInterface(UserInterface::Widget::ID::RetirementIcon, this)) {
+    QWidget(parent),
+    m_text(new UserInterface::Widget::TextInterface(UserInterface::Widget::ID::RetirementIcon, this)),
+    m_background(new UserInterface::Widget::RetirementIconBackground(this)) {
 
-    UserInterface::PixmapFactory* instance = UserInterface::PixmapFactory::instance();
-    Q_ASSERT(instance);
-    if (instance &&
-        instance->fetchPixmap(UserInterface::Widget::StandardImage::RetirementBox, m_pixmap)) {
-
-        setPixmap(m_pixmap, true);
-
-    }
-
-	QHBoxLayout* layout = new QHBoxLayout(this);
+    QGridLayout* layout = new QGridLayout(this);
 
     if (m_text) {
 
@@ -34,11 +27,18 @@ UserInterface::Widget::RetirementIcon::RetirementIcon(QWidget* parent) :
 
     if (layout) {
 
-        layout->setContentsMargins(HORIZONTAL_OFFSET, VERTICAL_OFFSET, 0, VERTICAL_OFFSET);
+        layout->setContentsMargins(0, 0, 0, 0);
         layout->setSpacing(0);
-        layout->addWidget(m_text);
+        layout->addWidget(m_background, 0, 0, 1, 2, Qt::AlignCenter);
+		layout->addItem(new QSpacerItem(1, 1, QSizePolicy::Expanding, QSizePolicy::Minimum), 0, 0, 1, 1);
+        layout->addWidget(m_text, 0, 1, 1, 1, Qt::AlignLeft | Qt::AlignVCenter);
+        layout->setColumnStretch(0, 4);
+		layout->setColumnMinimumWidth(0, 24);
+        layout->setColumnStretch(1, 79);
+
 	}
 
+    setLayout(layout);
 }
 
 

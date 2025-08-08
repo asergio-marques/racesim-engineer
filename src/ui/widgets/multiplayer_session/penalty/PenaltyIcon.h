@@ -42,8 +42,7 @@ namespace UserInterface {
             // Total amount of stop-go penalties to be served
             uint32_t m_stopGos;
 
-            static constexpr uint8_t HORIZONTAL_OFFSET = 3;
-            static constexpr uint8_t VERTICAL_OFFSET = 3;
+            static constexpr uint8_t SPACING_OFFSET = 3;
 
         };
     }

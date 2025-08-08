@@ -21,7 +21,13 @@ UserInterface::Widget::RetirementIcon::RetirementIcon(QWidget* parent) :
 
 		m_text->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
         m_text->setFontThickness(UserInterface::Widget::FontThickness::Bold);
-        m_text->setAlignment(Qt::AlignCenter);
+        m_text->setAlignment(Qt::AlignLeft | Qt::AlignVCenter);
+
+    }
+
+    if (m_background) {
+
+        m_background->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
 
     }
 

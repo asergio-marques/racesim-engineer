@@ -1,5 +1,6 @@
 #include "multiplayer_session/penalty/PenaltyIcon.h"
 
+#include <QGridLayout>
 #include "base/TextInterface.h"
 #include "multiplayer_session/penalty/PenaltyFlag.h"
 #include "multiplayer_session/penalty/PenaltyTextBackground.h"
@@ -16,23 +17,63 @@ UserInterface::Widget::PenaltyIcon::PenaltyIcon(QWidget* parent) :
     m_driveThroughs(0),
     m_stopGos(0) {
 
+	QGridLayout* layout = new QGridLayout(this);
+	// The layout is a bit complicated but it shall be constructed as follows, where TXBG is the background of the text and TXPN is the text, the rest being just the flag icon
+    //          | col0 | col1 | col2 | col3 | col4 |
+    // row 0 =  | ---- | ---- | ---- | ---- | ---- |
+    // row 1 =  | ---- | TXBG | TXBG | TXBG | ---- |
+    // row 2 =  | ---- | TXBG | TXPN | TXBG | ---- |
+    // row 3 =  | ---- | TXBG | TXBG | TXBG | ---- |
+    // row 4 =  | ---- | ---- | ---- | ---- | ---- |
+    // rows 0, 1, 3 and 4, and cols 1 and 3, are a fixed size spacing equivalent to TEXT_BACKGROUND_OFFSET
+
     if (m_flagIcon) {
 
-        m_flagIcon->hide();
+		m_flagIcon->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
 
     }
 
     if (m_textBackground) {
 
-        m_textBackground->hide();
+        m_textBackground->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
 
     }
 
     if (m_text) {
 
-        m_text->hide();
+        m_text->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
         m_text->setFontThickness(UserInterface::Widget::FontThickness::Bold);
         m_text->setAlignment(Qt::AlignCenter);
+
+    }
+
+    if (layout) {
+
+        // cols 1 and 3 should never stretch and should always have 3 pixels of width
+        layout->setColumnMinimumWidth(1, SPACING_OFFSET);
+        layout->setColumnStretch(1, 0);
+        layout->setColumnMinimumWidth(3, SPACING_OFFSET);
+        layout->setColumnStretch(3, 0);
+
+        // rows 0, 1, 3 and 4 should never stretch and should always have 3 pixels of height
+        layout->setRowMinimumHeight(0, SPACING_OFFSET);
+        layout->setRowStretch(0, 0);
+        layout->setRowMinimumHeight(1, SPACING_OFFSET);
+        layout->setRowStretch(1, 0);
+        layout->setRowMinimumHeight(3, SPACING_OFFSET);
+        layout->setRowStretch(1, 0);
+        layout->setRowMinimumHeight(4, SPACING_OFFSET);
+        layout->setRowStretch(4, 0);
+
+        // the cell at col 2/row 2 is what has the penalty text, so it should use as much space as possible
+		layout->setColumnStretch(2, 5);
+		layout->setRowStretch(2, 5);
+
+		layout->setContentsMargins(0, 0, 0, 0);
+        layout->setSpacing(0);
+		layout->addWidget(m_flagIcon, 0, 0, 5, 5, Qt::AlignCenter);
+        layout->addWidget(m_textBackground, 1, 1, 3, 3, Qt::AlignCenter);
+		layout->addWidget(m_text, 2, 2, 1, 1, Qt::AlignCenter);
 
     }
 
@@ -77,28 +118,15 @@ void UserInterface::Widget::PenaltyIcon::checkDisplayStatus() {
         // If deactivated now, reset status to default
         if (!m_active && previousActiveStatus) {
 
-            m_text->hide();
-            m_textBackground->hide();
-            m_flagIcon->hide();
+            hide();
 
         }
-        // If activated now, or if just values updated, set text, resize the background, and display
+        // If activated now, or if just values updated, set text, adjust sizes and show
         else if (m_active) {
 
-            m_flagIcon->show();
-
-            const uint16_t baseX = m_flagIcon->x() + (m_flagIcon->width() / 2);
-            const uint16_t baseY = m_flagIcon->y() + (m_flagIcon->height() / 2);
-
             m_text->setText(generateText());
-            m_text->show();
-            m_text->move(baseX, baseY, true, true);
-
-            m_textBackground->show();
-            m_textBackground->setSize(m_text->getTextWidth() + (HORIZONTAL_OFFSET * 2),
-                m_text->getTextHeight() + (VERTICAL_OFFSET * 2), false);
-            m_textBackground->move(baseX, baseY, true, true);
-
+            adjustSize();
+            show();
 
         }
 

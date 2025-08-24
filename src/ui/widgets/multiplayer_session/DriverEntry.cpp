@@ -12,6 +12,7 @@
 #include "multiplayer_session/penalty/PenaltyIcon.h"
 #include "multiplayer_session/other/RetirementIcon.h"
 #include "multiplayer_session/timing/LapInfoContainer.h"
+#include "multiplayer_session/tyres/TyreInfoArray.h"
 #include "multiplayer_session/warning/WarningContainer.h"
 #include "styles/General.h"
 #include "styles/Standings.h"
@@ -34,6 +35,7 @@ UserInterface::Widget::DriverEntry::DriverEntry(QWidget* parent) :
     m_driverName(new UserInterface::Widget::TextInterface(UserInterface::Widget::ID::DriverName, parent)),
     m_personalBestLap(new UserInterface::Widget::LapInfoContainer(UserInterface::Widget::TimeInfoContainer::Type::PersonalBestTime, parent)),
     m_lastLap(new UserInterface::Widget::LapInfoContainer(UserInterface::Widget::TimeInfoContainer::Type::LastLapTime, parent)),
+    m_tyreInfo(new UserInterface::Widget::TyreInfoArray(parent)),
     m_penalties(new UserInterface::Widget::PenaltyIcon(parent)),
     m_retirement(new UserInterface::Widget::RetirementIcon(parent)) {
 
@@ -76,12 +78,6 @@ UserInterface::Widget::DriverEntry::DriverEntry(QWidget* parent) :
 
     }
 
-    if (m_penalties) {
-
-        m_allWidgets.append(m_penalties);
-
-    }
-
     if (m_lastLap) {
 
         m_allWidgets.append(m_lastLap);
@@ -91,6 +87,18 @@ UserInterface::Widget::DriverEntry::DriverEntry(QWidget* parent) :
     if (m_personalBestLap) {
 
         m_allWidgets.append(m_personalBestLap);
+
+    }
+
+    if (m_tyreArray) {
+
+        m_allWidgets.append(m_tyreArray);
+
+    }
+
+    if (m_penalties) {
+
+        m_allWidgets.append(m_penalties);
 
     }
 

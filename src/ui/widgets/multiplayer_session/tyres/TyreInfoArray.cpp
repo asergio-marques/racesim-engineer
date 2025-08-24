@@ -1,42 +1,32 @@
 #include "multiplayer_session/tyres/TyreInfoArray.h"
 #include "multiplayer_session/tyres/TyreInfoContainer.h"
 
-#include <QGridLayout>
+#include <cstdint>
 #include <QList>
+#include "base/Container.h"
+#include "data/internal/Tyre.h"
 
 
 
 
 UserInterface::Widget::TyreInfoArray::TyreInfoArray(QWidget* parent) :
-    QWidget(parent),
-    m_tyres(),
-    m_stintIndex(UINT8_MAX),
-    m_gridLayout(nullptr) {
+	UserInterface::Widget::Container(UserInterface::Widget::ID::TyreInfo, parent),
+	m_tyres(),
+	m_stintIndex(UINT8_MAX) {
 
-    m_gridLayout = new QGridLayout;
-    Q_ASSERT(m_gridLayout);
-    if (m_gridLayout) {
+	for (size_t i = 0; i < 5; ++i) {
 
-        m_gridLayout->setSpacing(0);
+		auto* tyre = new UserInterface::Widget::TyreInfoContainer(this);
+		Q_ASSERT(tyre);
+		if (tyre) {
 
-        for (size_t i = 0; i < 5; ++i) {
+			tyre->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
+			m_tyres.push_back(tyre);
+			tyre->hide();
 
-            auto* tyre = new UserInterface::Widget::TyreInfoContainer(this);
-            Q_ASSERT(tyre);
-            if (tyre) {
+		}
 
-                tyre->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
-                m_tyres.push_back(tyre);
-                m_gridLayout->addWidget(tyre, 0, i, Qt::AlignLeft | Qt::AlignVCenter);
-                tyre->hide();
-
-            }
-
-        }
-
-        setLayout(m_gridLayout);
-
-    }
+	}
 
 }
 
@@ -44,24 +34,21 @@ UserInterface::Widget::TyreInfoArray::TyreInfoArray(QWidget* parent) :
 
 void UserInterface::Widget::TyreInfoArray::TyreChange(Tyre::Internal::Actual actualTyreCompound, Tyre::Internal::Visual visualTyreCompound, uint8_t tyreAge, bool pitBeforeLine) {
 
-    // increment the index, as this member starts at UINT8_MAX, it'll go to 0 for stint number 1
-    ++m_stintIndex;
+	// increment the index, as this member starts at UINT8_MAX, it'll go to 0 for stint number 1
+	++m_stintIndex;
 
-    // TODO implement logic related to pitBeforeLine
-    // always take heed of the maximum of 5 tyres to be displayed, and the fact this has been incremented already
-    // this logic gets index 0, 1, etc when stint index < 5 correctly
-    // once we reach stint index = 5 (stint 6), we reset the "old" stint info in the display
-    uint8_t index = m_stintIndex % 5;
-    auto* tyre = m_tyres[index];
-    if (tyre) {
+	// TODO implement logic related to pitBeforeLine
+	auto* tyre = new UserInterface::Widget::TyreInfoContainer(this);
+	Q_ASSERT(tyre);
+	if (tyre) {
 
-        tyre->Init(actualTyreCompound, visualTyreCompound, tyreAge, m_stintIndex + 1);
-        tyre->show();
+		m_tyres.push_back(tyre);
+		tyre->Init(actualTyreCompound, visualTyreCompound, tyreAge, m_stintIndex + 1);
 
-    }
+	}
 
-    // cycle the layout, moving all entries one to the right
-    CycleLayout();
+	// cycle the layout, moving all entries one to the right
+	RedoDisplay();
 
 }
 
@@ -69,58 +56,31 @@ void UserInterface::Widget::TyreInfoArray::TyreChange(Tyre::Internal::Actual act
 
 void UserInterface::Widget::TyreInfoArray::LapCompletedWithTyre() {
 
-    auto* tyre = m_tyres[m_stintIndex % 5];
-    if (tyre) {
+	// always update the last tyre in the list, as it is the one that was used for the lap
+	auto* tyre = m_tyres.last();
+	if (tyre) {
 
-        tyre->IncrementLap();
+		tyre->IncrementLap();
 
-    }
+	}
 
 }
 
 
 
-void UserInterface::Widget::TyreInfoArray::CycleLayout() {
+void UserInterface::Widget::TyreInfoArray::RedoDisplay() {
 
-    // no need for evil operations when there's only a single stint
-    if (m_stintIndex == 0) {
+	// no need for anything if there have been no stints
+	if (m_stintIndex == UINT8_MAX) {
 
-        return;
+		return;
 
-    }
-    // hide widgets not in use, and delete items in the layout for a complete reset
-    while (QLayoutItem* item = m_gridLayout->takeAt(0)) {
+	}
+	for (size_t i = m_tyres.size() - 1; i > 0; --i) {
 
-        if (item && item->widget()) {
+		auto* tyre = m_tyres[i];
+		tyre->move(x(), y())
 
-            item->widget()->hide(); 
-
-        }
-
-        delete item;
-
-    }
-    // don't ask me why it only works like this, if activeStints actually represents how many stint icons
-    // are active, this all goes tits up
-    uint8_t activeStints = std::min<uint8_t>(m_stintIndex, 4);
-    for (uint8_t i = 0; i < activeStints + 1; ++i) {
-
-        // evil but genius; adding 5 does nothing to the final result, and prevents (m_stintIndex - i) from underflowing
-        size_t index = (m_stintIndex + 5 - i) % 5;
-
-        auto* tyre = m_tyres[index];
-        tyre->show();
-        m_gridLayout->addWidget(tyre, 0, i, Qt::AlignLeft | Qt::AlignVCenter);
-
-    }
-    if (activeStints < 4) {
-
-        // one spacer item with the width of the leftover columns coming right up
-        m_gridLayout->addItem(new QSpacerItem(1, 1, QSizePolicy::Expanding, QSizePolicy::Minimum), 0, activeStints, 1, 5 - activeStints);
-
-    }
-
-    m_gridLayout->invalidate();
-    updateGeometry();
+	}
 
 }

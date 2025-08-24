@@ -36,6 +36,15 @@ namespace UserInterface {
             static inline const Value LapInfoIconLabelTextSize = { ValueType::Absolute, 9 };
             static inline const Value LapInfoIconTimeTextSizeRelative = { ValueType::Absolute, 140 };
 
+            // Tyre info
+            static inline const Value TyreInfoContainerMaxX = { ValueType::Absolute, 116 };
+            static inline const Value TyreInfoContainerMaxY = { ValueType::Absolute, 36 };
+            static inline const Value TyreInfoTyreIconMaxXY = TyreInfoContainerMaxY;
+            static inline const Value TyreInfoTyreCompoundTextSize = { ValueType::Absolute, 14 };
+            static inline const Value TyreInfoTyreAgeTextSize = { ValueType::Absolute, 26 };
+			static inline const Value TyreInfoIconAgeTextGap = { ValueType::Absolute, 6 };
+
+
             // Penalty icon
             static inline const Value PenaltyIconMaxX = { ValueType::Absolute, 88 };
             static inline const Value PenaltyIconMaxY = { ValueType::Absolute, 36 };

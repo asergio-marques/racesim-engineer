@@ -7,11 +7,13 @@
 #include "base/Container.h"
 #include "base/TextInterface.h"
 #include "multiplayer_session/tyres/TyreIcon.h"
+#include "styles/Standings.h"
+
 
 
 
 UserInterface::Widget::TyreInfoContainer::TyreInfoContainer(QWidget* parent) :
-    QWidget(parent),
+    UserInterface::Widget::Container(UserInterface::Widget::ID::TyreInfo),
     m_visualCompoundIcon(nullptr),
     m_actualCompoundText(nullptr),
     m_lapsText(nullptr),
@@ -55,13 +57,168 @@ UserInterface::Widget::TyreInfoContainer::TyreInfoContainer(QWidget* parent) :
 
     }
 
-    QGridLayout* layout = new QGridLayout;
-    setLayout(layout);
-    layout->addWidget(m_visualCompoundIcon, 0, 0, Qt::AlignCenter);
-    layout->addWidget(m_actualCompoundText, 0, 0, Qt::AlignCenter);
-    layout->addWidget(m_lapsText, 0, 1, Qt::AlignLeft | Qt::AlignVCenter);
-    setMaximumWidth(120);
-    setMaximumHeight(48);
+}
+
+void UserInterface::Widget::TyreInfoContainer::move(const uint16_t x, const uint16_t y, const bool centerAlignmentX, const bool centerAlignmentY) {
+
+    if (m_visualCompoundIcon && m_actualCompoundText && m_lapsText) {
+
+        UserInterface::Style::Standings style;
+
+		m_visualCompoundIcon->move(x, y, centerAlignmentX, centerAlignmentY);
+
+        // center compound text in relation to the compound icon
+        const uint16_t baseXCompound = m_visualCompoundIcon->x() + (m_visualCompoundIcon->width() / 2);
+        const uint16_t baseY = m_visualCompoundIcon->y() + (m_visualCompoundIcon->height() / 2);
+		m_actualCompoundText->move(baseXCompound, baseY, true, true);
+
+		// age text is centered vertically to the icon, and placed to the right of it with a small gap
+        const uint16_t baseXAge = m_visualCompoundIcon->x() + m_visualCompoundIcon->width() +
+            UserInterface::Style::Standings::TyreInfoIconAgeTextGap.m_value;
+        m_lapsText->move(baseXAge, baseY, false, true);
+
+    }
+
+}
+
+
+
+void UserInterface::Widget::TyreInfoContainer::scale(const uint8_t percent) {
+
+    // TODO
+
+}
+
+
+
+void UserInterface::Widget::TyreInfoContainer::scale(const uint8_t percentX, const uint8_t percentY) {
+
+    // TODO
+
+}
+
+
+
+void UserInterface::Widget::TyreInfoContainer::setSize(const uint16_t newWidth, const uint16_t newHeight, const bool keepAspectRatio) {
+
+    // TODO ignoring parameters for the time being, I just want this base working...
+    if (m_visualCompoundIcon && m_actualCompoundText && m_lapsText) {
+
+        UserInterface::Style::Standings standingsStyle;
+
+        m_visualCompoundIcon->setSize(standingsStyle.TyreInfoTyreIconMaxXY.m_value,
+			standingsStyle.TyreInfoTyreIconMaxXY.m_value, true);
+        m_visualCompoundIcon->adjustSize();
+
+        m_actualCompoundText->setFontSize(standingsStyle.TyreInfoTyreCompoundTextSize.m_value);
+        m_actualCompoundText->adjustSize();
+
+        m_lapsText->setFontSize(standingsStyle.TyreInfoTyreAgeTextSize.m_value);
+		m_lapsText->adjustSize();
+
+    }
+
+}
+
+
+
+void UserInterface::Widget::TyreInfoContainer::raise() {
+
+    // TODO
+
+}
+
+
+
+void UserInterface::Widget::TyreInfoContainer::lower() {
+
+    // TODO
+
+}
+
+const int16_t UserInterface::Widget::TyreInfoContainer::width() const {
+
+    if (!m_visualCompoundIcon || !m_actualCompoundText || !m_lapsText) {
+        return 0;
+    }
+
+	// awful, also ignore the actual compound text since it's "inside" the visual icon
+    int16_t xMin = INT16_MAX;
+    int16_t xMax = INT16_MIN;
+    int16_t lastWidth = INT16_MIN;
+    if (m_visualCompoundIcon) {
+        xMin = qMin(xMin, m_visualCompoundIcon->x());
+        xMax = qMax(xMax, m_visualCompoundIcon->x());
+        if (xMax == m_visualCompoundIcon->x()) {
+            lastWidth = m_visualCompoundIcon->width();
+        }
+    }
+
+    if (m_lapsText) {
+        xMin = qMin(xMin, m_lapsText->x());
+        xMax = qMax(xMax, m_lapsText->x());
+        if (xMax == m_lapsText->x()) {
+            lastWidth = m_lapsText->width();
+        }
+    }
+
+    return xMax - xMin + lastWidth;
+
+}
+
+
+
+const int16_t UserInterface::Widget::TyreInfoContainer::height() const {
+
+    if (!m_visualCompoundIcon || !m_actualCompoundText || !m_lapsText) {
+        return 0;
+    }
+
+    // awful, also ignore the actual compound text since it's "inside" the visual icon
+    int16_t yMin = INT16_MAX;
+    int16_t yMax = INT16_MIN;
+    int16_t lastHeight = INT16_MIN;
+    if (m_visualCompoundIcon) {
+        yMin = qMin(yMin, m_visualCompoundIcon->y());
+        yMax = qMax(yMax, m_visualCompoundIcon->y());
+        if (yMax == m_visualCompoundIcon->y()) {
+            lastHeight = m_visualCompoundIcon->height();
+        }
+    }
+
+    if (m_lapsText) {
+        yMin = qMin(yMin, m_lapsText->y());
+        yMax = qMax(yMax, m_lapsText->y());
+        if (yMax == m_lapsText->y()) {
+            lastHeight = m_lapsText->height();
+        }
+    }
+
+    return yMax - yMin + lastHeight;
+
+}
+
+
+
+const int16_t UserInterface::Widget::TyreInfoContainer::x() const {
+
+    if (!m_visualCompoundIcon || !m_actualCompoundText || !m_lapsText) {
+        return 0;
+    }
+    // this is always meant to be the left-most widget
+	return m_actualCompoundText->x();
+
+}
+
+
+
+const int16_t UserInterface::Widget::TyreInfoContainer::y() const {
+
+    if (!m_visualCompoundIcon || !m_actualCompoundText || !m_lapsText) {
+        return 0;
+    }
+    // this is always meant to be the top-most widget
+    return m_actualCompoundText->y();
 
 }
 

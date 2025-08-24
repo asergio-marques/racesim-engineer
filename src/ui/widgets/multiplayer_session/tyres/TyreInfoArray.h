@@ -3,19 +3,19 @@
 
 #include <cstdint>
 #include <QList>
-#include <QWidget>
+#include "base/Container.h"
 #include "data/internal/Tyre.h"
 
 
 
-class QGridLayout;
 
 namespace UserInterface {
 
     namespace Widget {
+
         class TyreInfoContainer;
 
-        class TyreInfoArray : public QWidget {
+        class TyreInfoArray : public UserInterface::Widget::Container {
 
             public:
             TyreInfoArray(QWidget* parent = 0);
@@ -24,13 +24,11 @@ namespace UserInterface {
             void LapCompletedWithTyre();
 
             protected:
-            void CycleLayout();
+            void RedoDisplay();
 
-            // index 0 represents the first stint, index 1 the second, etc
-            // cycle back every 5 stints, the implementation hinges on a maximum of 5 widgets
             QList<TyreInfoContainer*> m_tyres;
             uint8_t m_stintIndex;
-            QGridLayout* m_gridLayout;
+			static constexpr uint8_t MAX_STINTS_DISPLAY = 5;
 
         };
     }

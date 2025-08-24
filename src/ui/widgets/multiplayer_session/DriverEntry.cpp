@@ -35,7 +35,7 @@ UserInterface::Widget::DriverEntry::DriverEntry(QWidget* parent) :
     m_driverName(new UserInterface::Widget::TextInterface(UserInterface::Widget::ID::DriverName, parent)),
     m_personalBestLap(new UserInterface::Widget::LapInfoContainer(UserInterface::Widget::TimeInfoContainer::Type::PersonalBestTime, parent)),
     m_lastLap(new UserInterface::Widget::LapInfoContainer(UserInterface::Widget::TimeInfoContainer::Type::LastLapTime, parent)),
-    m_tyreInfo(new UserInterface::Widget::TyreInfoArray(parent)),
+    m_tyreArray(new UserInterface::Widget::TyreInfoArray(parent)),
     m_penalties(new UserInterface::Widget::PenaltyIcon(parent)),
     m_retirement(new UserInterface::Widget::RetirementIcon(parent)) {
 
@@ -155,6 +155,15 @@ void UserInterface::Widget::DriverEntry::init(const Session::Internal::Participa
 
         m_lastLap->setSize(style.LapInfoIconMaxX.m_value, style.LapInfoIconMaxY.m_value, true);
         m_lastLap->adjustSize();
+
+    }
+    if (m_tyreArray) {
+
+        m_tyreArray->setSize(style.TyreInfoContainerMaxX.m_value * 3, style.TyreInfoContainerMaxY.m_value, false);
+        m_tyreArray->adjustSize();
+		m_tyreArray->TyreChange(Tyre::Internal::Actual::F1_C0, Tyre::Internal::Visual::Hard, 0, false);
+		m_tyreArray->TyreChange(Tyre::Internal::Actual::F1_C3, Tyre::Internal::Visual::Medium, 1, false);
+		m_tyreArray->TyreChange(Tyre::Internal::Actual::F1_ExtremeWet, Tyre::Internal::Visual::ExtremeWet, 2, false);
 
     }
     if (m_penalties) {
@@ -358,6 +367,15 @@ void UserInterface::Widget::DriverEntry::move(const uint16_t x, const uint16_t y
         totalWidth += m_personalBestLap->width() + standingsStyle.PaddingReference.m_value;
 
     }
+    if (m_tyreArray) {
+        // Add the padding, again! And the maximum width for centering!
+        totalWidth += standingsStyle.PaddingReference.m_value;
+        m_tyreArray->move(x + totalWidth, centerY, false, true);
+
+        // Add padding again to account for the right padding
+        totalWidth += m_tyreArray->width() + standingsStyle.PaddingReference.m_value;
+
+	}
     if (m_retirement) {
 
         // No need for padding as this widget is supposed to be "above" the others
@@ -436,6 +454,12 @@ void UserInterface::Widget::DriverEntry::setSize(const uint16_t newWidth, const 
         m_lastLap->adjustSize();
 
     }
+    if (m_tyreArray) {
+
+        m_tyreArray->setSize(standingsStyle.TyreInfoContainerMaxX.m_value * 3, standingsStyle.TyreInfoContainerMaxY.m_value, false);
+        m_tyreArray->adjustSize();
+
+	}
     if (m_penalties) {
 
         m_penalties->setTextFontSize(standingsStyle.PenaltyIconTextSize.m_value);
@@ -458,6 +482,9 @@ void UserInterface::Widget::DriverEntry::raise() {
     if (m_position) m_position->raise();
     if (m_teamIcon) m_teamIcon->raise();
     if (m_driverName) m_driverName->raise();
+    if (m_personalBestLap) m_driverName->raise();
+    if (m_lastLap) m_driverName->raise();
+    if (m_tyreArray) m_tyreArray->raise();
     if (m_penalties) m_penalties->raise();
     if (m_retirement) m_retirement->raise();
 
@@ -471,6 +498,9 @@ void UserInterface::Widget::DriverEntry::lower() {
     if (m_position) m_position->lower();
     if (m_teamIcon) m_teamIcon->lower();
     if (m_driverName) m_driverName->lower();
+    if (m_personalBestLap) m_driverName->lower();
+    if (m_lastLap) m_driverName->lower();
+    if (m_tyreArray) m_tyreArray->lower();
     if (m_penalties) m_penalties->lower();
     if (m_retirement) m_retirement->lower();
 

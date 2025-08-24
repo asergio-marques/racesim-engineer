@@ -12,28 +12,7 @@
 #include "widgets/specific/LoadingIcon.h"
 #include "widgets/multiplayer_session/tyres/TyreInfoArray.h"
 
-class TestClass : public QWidget {
-    public:
-    TestClass(QWidget* parent) : QWidget(parent) {
 
-        auto* layout = new QVBoxLayout;
-        for (size_t i = 0; i < 20; ++i) {
-
-            auto* test = new UserInterface::Widget::TyreInfoArray(this);
-            for (size_t j = 0; j < i; ++j) {
-
-                test->TyreChange(static_cast<Tyre::Internal::Actual>((i % 7) + 1), static_cast<Tyre::Internal::Visual>((i % 5) + 3), i + j, false);
-
-            }
-            layout->addWidget(test, Qt::AlignLeft | Qt::AlignVCenter);
-
-        }
-
-        setLayout(layout);
-
-    }
-
-};
 
 UserInterface::Panel::Loading::Loading(UserInterface::PacketHandler* handler, QWidget* parent) :
     UserInterface::Panel::Interface(handler, parent),
@@ -53,8 +32,6 @@ UserInterface::Panel::Loading::Loading(UserInterface::PacketHandler* handler, QW
         m_loadingText->setTitle(UserInterface::Screen::Type::Loading);
 
     }
-
-    auto* test = new TestClass(this);
 
 }
 

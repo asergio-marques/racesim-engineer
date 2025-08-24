@@ -23,8 +23,6 @@ UserInterface::Widget::TyreInfoContainer::TyreInfoContainer(QWidget* parent) :
     Q_ASSERT(m_visualCompoundIcon);
     if (m_visualCompoundIcon) {
 
-        m_visualCompoundIcon->setAlignment(Qt::AlignCenter);
-        m_visualCompoundIcon->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
         m_visualCompoundIcon->setScaledContents(true);
         m_visualCompoundIcon->setKeepAspectRatio(true);
         m_visualCompoundIcon->hide();
@@ -34,11 +32,9 @@ UserInterface::Widget::TyreInfoContainer::TyreInfoContainer(QWidget* parent) :
     Q_ASSERT(m_actualCompoundText);
     if (m_actualCompoundText) {
 
-        m_actualCompoundText->setAlignment(Qt::AlignCenter);
         m_actualCompoundText->setFontThickness(UserInterface::Widget::FontThickness::ExtraBold);
         m_actualCompoundText->setFontSize(12);
         m_actualCompoundText->setText("?");
-        m_actualCompoundText->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
         m_actualCompoundText->setScaledContents(true);
         m_actualCompoundText->hide();
 
@@ -46,18 +42,17 @@ UserInterface::Widget::TyreInfoContainer::TyreInfoContainer(QWidget* parent) :
     m_lapsText = new UserInterface::Widget::TextInterface(UserInterface::Widget::ID::TyreInfo, parent);
     Q_ASSERT(m_lapsText);
     if (m_lapsText) {
-
-        m_lapsText->setAlignment(Qt::AlignLeft | Qt::AlignVCenter);
         m_actualCompoundText->setFontThickness(UserInterface::Widget::FontThickness::ExtraBold);
         m_lapsText->setFontSize(18);
         m_lapsText->setText(QString::number(m_numLaps));
-        m_lapsText->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
         m_lapsText->setScaledContents(true);
         m_lapsText->hide();
 
     }
 
 }
+
+
 
 void UserInterface::Widget::TyreInfoContainer::move(const uint16_t x, const uint16_t y, const bool centerAlignmentX, const bool centerAlignmentY) {
 
@@ -135,6 +130,8 @@ void UserInterface::Widget::TyreInfoContainer::lower() {
     // TODO
 
 }
+
+
 
 const int16_t UserInterface::Widget::TyreInfoContainer::width() const {
 

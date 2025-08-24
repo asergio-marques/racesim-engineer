@@ -37,9 +37,9 @@ namespace UserInterface {
             static inline const Value LapInfoIconTimeTextSizeRelative = { ValueType::Absolute, 140 };
 
             // Tyre info
-            static inline const Value TyreInfoContainerMaxX = { ValueType::Absolute, 116 };
-            static inline const Value TyreInfoContainerMaxY = { ValueType::Absolute, 36 };
-            static inline const Value TyreInfoTyreIconMaxXY = TyreInfoContainerMaxY;
+            static inline const Value TyreInfoContainerMaxX = { ValueType::Absolute, 100 };
+            static inline const Value TyreInfoContainerMaxY = { ValueType::Absolute, 48 };
+            static inline const Value TyreInfoTyreIconMaxXY = { ValueType::Absolute, 36 };
             static inline const Value TyreInfoTyreCompoundTextSize = { ValueType::Absolute, 14 };
             static inline const Value TyreInfoTyreAgeTextSize = { ValueType::Absolute, 26 };
 			static inline const Value TyreInfoIconAgeTextGap = { ValueType::Absolute, 6 };

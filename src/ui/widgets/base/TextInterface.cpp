@@ -67,7 +67,6 @@ void UserInterface::Widget::TextInterface::setText(const char* text) {
 
 void UserInterface::Widget::TextInterface::setFontSize(const uint16_t size) {
 
-
     // TODO fix the issue where the text disappears entirely
     // if it is wider than the window itself
     QFont font = QLabel::font();

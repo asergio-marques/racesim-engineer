@@ -58,6 +58,8 @@ void UserInterface::Widget::ImageInterface::scale(const uint8_t percentX, const 
 
 void UserInterface::Widget::ImageInterface::setSize(const uint16_t newWidth, const uint16_t newHeight, const bool keepAspectRatio) {
 
+	//if (m_pixmap.isNull()) return;
+
     if (keepAspectRatio) {
 
         QLabel::setPixmap(m_pixmap.scaled(newWidth, newHeight, Qt::KeepAspectRatio));

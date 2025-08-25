@@ -161,9 +161,6 @@ void UserInterface::Widget::DriverEntry::init(const Session::Internal::Participa
 
         m_tyreArray->setSize(style.TyreInfoContainerMaxX.m_value * 3, style.TyreInfoContainerMaxY.m_value, false);
         m_tyreArray->adjustSize();
-		m_tyreArray->TyreChange(Tyre::Internal::Actual::F1_C0, Tyre::Internal::Visual::Hard, 0, false);
-		m_tyreArray->TyreChange(Tyre::Internal::Actual::F1_C3, Tyre::Internal::Visual::Medium, 1, false);
-		m_tyreArray->TyreChange(Tyre::Internal::Actual::F1_ExtremeWet, Tyre::Internal::Visual::ExtremeWet, 2, false);
 
     }
     if (m_penalties) {
@@ -370,10 +367,11 @@ void UserInterface::Widget::DriverEntry::move(const uint16_t x, const uint16_t y
     if (m_tyreArray) {
         // Add the padding, again! And the maximum width for centering!
         totalWidth += standingsStyle.PaddingReference.m_value;
-        m_tyreArray->move(x + totalWidth, centerY, false, true);
+        m_tyreArray->move(x + totalWidth, y + 6, false, false);
 
         // Add padding again to account for the right padding
-        totalWidth += m_tyreArray->width() + standingsStyle.PaddingReference.m_value;
+        totalWidth += (standingsStyle.TyreInfoContainerMaxX.m_value * standingsStyle.TyreInfoArrayMaxNum.m_value)
+            + standingsStyle.PaddingReference.m_value;
 
 	}
     if (m_retirement) {

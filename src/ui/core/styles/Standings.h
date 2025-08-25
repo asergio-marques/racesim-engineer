@@ -38,10 +38,11 @@ namespace UserInterface {
 
             // Tyre info
             static inline const Value TyreInfoContainerMaxX = { ValueType::Absolute, 100 };
+            static inline const Value TyreInfoArrayMaxNum = { ValueType::Absolute, 3 };
             static inline const Value TyreInfoContainerMaxY = { ValueType::Absolute, 48 };
             static inline const Value TyreInfoTyreIconMaxXY = { ValueType::Absolute, 36 };
             static inline const Value TyreInfoTyreCompoundTextSize = { ValueType::Absolute, 14 };
-            static inline const Value TyreInfoTyreAgeTextSize = { ValueType::Absolute, 26 };
+            static inline const Value TyreInfoTyreAgeTextSize = { ValueType::Absolute, 22 };
 			static inline const Value TyreInfoIconAgeTextGap = { ValueType::Absolute, 6 };
 
 

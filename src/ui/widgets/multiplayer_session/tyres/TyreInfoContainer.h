@@ -32,6 +32,7 @@ namespace UserInterface {
 
             void Init(Tyre::Internal::Actual actualTyreCompound, Tyre::Internal::Visual visualTyreCompound, uint8_t numLapsAtStart, uint8_t stintNo);
             void IncrementLap();
+            void Hide();
 
             protected:
             UserInterface::Widget::TyreIcon* m_visualCompoundIcon;

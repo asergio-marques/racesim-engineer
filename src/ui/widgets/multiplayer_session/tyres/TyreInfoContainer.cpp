@@ -19,10 +19,14 @@ UserInterface::Widget::TyreInfoContainer::TyreInfoContainer(QWidget* parent) :
     m_lapsText(nullptr),
     m_numLaps(0) {
 
+    UserInterface::Style::Standings style;
+
     m_visualCompoundIcon = new UserInterface::Widget::TyreIcon(UserInterface::Widget::ID::TyreInfo, parent);
     Q_ASSERT(m_visualCompoundIcon);
     if (m_visualCompoundIcon) {
 
+        m_visualCompoundIcon->setSize(style.TyreInfoTyreIconMaxXY.m_value,
+            style.TyreInfoTyreIconMaxXY.m_value, true);
         m_visualCompoundIcon->setScaledContents(true);
         m_visualCompoundIcon->setKeepAspectRatio(true);
         m_visualCompoundIcon->hide();
@@ -33,7 +37,7 @@ UserInterface::Widget::TyreInfoContainer::TyreInfoContainer(QWidget* parent) :
     if (m_actualCompoundText) {
 
         m_actualCompoundText->setFontThickness(UserInterface::Widget::FontThickness::ExtraBold);
-        m_actualCompoundText->setFontSize(12);
+        m_actualCompoundText->setFontSize(style.TyreInfoTyreCompoundTextSize.m_value);
         m_actualCompoundText->setText("?");
         m_actualCompoundText->setScaledContents(true);
         m_actualCompoundText->hide();
@@ -42,8 +46,9 @@ UserInterface::Widget::TyreInfoContainer::TyreInfoContainer(QWidget* parent) :
     m_lapsText = new UserInterface::Widget::TextInterface(UserInterface::Widget::ID::TyreInfo, parent);
     Q_ASSERT(m_lapsText);
     if (m_lapsText) {
+
         m_actualCompoundText->setFontThickness(UserInterface::Widget::FontThickness::ExtraBold);
-        m_lapsText->setFontSize(18);
+        m_lapsText->setFontSize(style.TyreInfoTyreAgeTextSize.m_value);
         m_lapsText->setText(QString::number(m_numLaps));
         m_lapsText->setScaledContents(true);
         m_lapsText->hide();
@@ -99,16 +104,16 @@ void UserInterface::Widget::TyreInfoContainer::setSize(const uint16_t newWidth, 
     // TODO ignoring parameters for the time being, I just want this base working...
     if (m_visualCompoundIcon && m_actualCompoundText && m_lapsText) {
 
-        UserInterface::Style::Standings standingsStyle;
+        UserInterface::Style::Standings style;
 
-        m_visualCompoundIcon->setSize(standingsStyle.TyreInfoTyreIconMaxXY.m_value,
-			standingsStyle.TyreInfoTyreIconMaxXY.m_value, true);
+        m_visualCompoundIcon->setSize(style.TyreInfoTyreIconMaxXY.m_value,
+			style.TyreInfoTyreIconMaxXY.m_value, true);
         m_visualCompoundIcon->adjustSize();
 
-        m_actualCompoundText->setFontSize(standingsStyle.TyreInfoTyreCompoundTextSize.m_value);
+        m_actualCompoundText->setFontSize(style.TyreInfoTyreCompoundTextSize.m_value);
         m_actualCompoundText->adjustSize();
 
-        m_lapsText->setFontSize(standingsStyle.TyreInfoTyreAgeTextSize.m_value);
+        m_lapsText->setFontSize(style.TyreInfoTyreAgeTextSize.m_value);
 		m_lapsText->adjustSize();
 
     }
@@ -225,7 +230,7 @@ void UserInterface::Widget::TyreInfoContainer::Init(Tyre::Internal::Actual actua
 
     if (m_actualCompoundText) {
 
-        /*switch (actualTyreCompound) {
+        switch (actualTyreCompound) {
 
             case Tyre::Internal::Actual::F1_C6:
                 m_actualCompoundText->setText("C6");
@@ -274,8 +279,7 @@ void UserInterface::Widget::TyreInfoContainer::Init(Tyre::Internal::Actual actua
             default:
                 m_actualCompoundText->setText("?");
 
-        }*/
-        m_actualCompoundText->setText(QString::number(stintNo));
+        }
 
         m_actualCompoundText->show();
 
@@ -306,6 +310,30 @@ void UserInterface::Widget::TyreInfoContainer::IncrementLap() {
     if (m_lapsText) {
 
         m_lapsText->setText(QString::number(m_numLaps));
+
+    }
+
+}
+
+
+
+
+void UserInterface::Widget::TyreInfoContainer::Hide() {
+
+    if (m_visualCompoundIcon && m_actualCompoundText && m_lapsText) {
+
+        m_visualCompoundIcon->hide();
+        m_actualCompoundText->hide();
+		m_lapsText->hide();
+
+		m_visualCompoundIcon->deleteLater();
+		m_visualCompoundIcon = nullptr;
+
+        m_actualCompoundText->deleteLater();
+        m_actualCompoundText = nullptr;
+
+        m_lapsText->deleteLater();
+        m_lapsText = nullptr;
 
     }
 

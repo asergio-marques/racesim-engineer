@@ -35,11 +35,10 @@ namespace UserInterface {
 
             protected:
             void RedoDisplay();
+            void RedoDisplay(const uint16_t x, const uint16_t y);
 
 			QWidget* m_widgetParent;
             QList<TyreInfoContainer*> m_tyres;
-            uint8_t m_stintIndex;
-			static constexpr uint8_t MAX_STINTS_DISPLAY = 5;
 
         };
     }

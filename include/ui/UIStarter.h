@@ -38,7 +38,7 @@ namespace UserInterface {
         virtual ~UIStarter();
         void Init(int* argc, char*** argv, Presenter::ICompFacade* presenter);
         int Run();
-        void OnPacketBroadcast(Packet::Internal::Interface* packet) override final;
+        void OnPacketBundleBroadcast(std::vector<Packet::Internal::Interface*> packets) override final;
 
     private:
         void packetProcessingExec();

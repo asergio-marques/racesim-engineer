@@ -12,11 +12,14 @@ target_include_directories(${PROJECT_NAME} PUBLIC
     "${PROJECT_ROOT}/include/core"
     "${PROJECT_ROOT}/include/generalizer")
 target_include_directories(${PROJECT_NAME} PRIVATE
-    "${PROJECT_ROOT}/include/generalizer")
+    "${PROJECT_ROOT}/src/generalizer")
 target_link_directories(${PROJECT_NAME} PRIVATE "${PROJECT_ROOT}/lib/")
 
 target_sources(${PROJECT_NAME} PRIVATE
-    Facade.cpp "adapters/Interface.h" "adapters/F1_25.cpp" "adapters/F1_25.h")
+    Facade.cpp
+    adapters/Interface.h
+    adapters/F1_25.cpp
+    adapters/F1_25.h)
 
 target_link_libraries(${PROJECT_NAME} PUBLIC
     RaceSimEngineerCore

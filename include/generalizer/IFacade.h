@@ -1,15 +1,25 @@
 #ifndef GENERALIZER_INCLUDE_IFACADE_H_
 #define GENERALIZER_INCLUDE_IFACADE_H_
 
-#include "packets/internal/Broadcaster.h"
 #include "packets/game/Subscriber.h"
+#include "packets/internal/Broadcaster.h"
 
 
 
+
+namespace Packet {
+
+    namespace Internal {
+
+        class Broadcaster;
+
+    }
+
+}
 
 namespace Generalizer {
 
-    class IFacade : public Packet::Game::Subscriber {
+    class IFacade : public Packet::Game::Subscriber, public Packet::Internal::Broadcaster {
 
         public:
         IFacade() = default;

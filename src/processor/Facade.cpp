@@ -52,11 +52,19 @@ Processor::Facade::~Facade() {
 
 
 
-void Processor::Facade::OnPacketBroadcast(Packet::Internal::Interface* packet) {
+void Processor::Facade::OnPacketBundleBroadcast(std::vector<Packet::Internal::Interface*> packets) {
 
-    if (m_databank && packet) {
+    if (m_databank && !packets.empty()) {
 
-        m_databank->updateData(packet);
+        for (const auto packet : packets) {
+
+            if (packet) {
+
+                m_databank->updateData(packet);
+
+            }
+
+        }
 
     }
 
@@ -122,11 +130,7 @@ void Processor::Facade::Exec() {
 
         }
 
-        for (auto packet : packetsToSend) {
-
-            Broadcast(packet);
-
-        }
+        Broadcast(packetsToSend);
 
         // Thread runs at 10Hz
         std::this_thread::sleep_for(std::chrono::milliseconds(100));

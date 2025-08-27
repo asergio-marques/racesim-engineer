@@ -97,11 +97,15 @@ int UserInterface::UIStarter::Run() {
 
 
 
-void UserInterface::UIStarter::OnPacketBroadcast(Packet::Internal::Interface* packet) {
+void UserInterface::UIStarter::OnPacketBundleBroadcast(std::vector<Packet::Internal::Interface*> packets) {
 
-    if (packet && m_handler) {
+    for (auto packet : packets) {
 
-        m_handler->AcceptPacket(packet);
+        if (packet && m_handler) {
+
+            m_handler->AcceptPacket(packet);
+
+        }
 
     }
 

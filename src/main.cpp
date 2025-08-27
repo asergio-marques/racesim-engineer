@@ -38,7 +38,7 @@ int main(int argc, char* argv[]) {
 
         // the generalizer component only converts game packets to internal packets, sending them to the processor
 		Packet::Internal::Broadcaster* internalBroadcast = generalizer->exposeBroadcasterInterface();
-        //internalBroadcast->Subscribe(processor);
+        internalBroadcast->Subscribe(processor);
 
         // the processor component processes internal packets and converts them to UI packets, sending them to the UI
 		//Packet::UI::Broadcaster* uiBroadcast = processor->exposeBroadcasterInterface();

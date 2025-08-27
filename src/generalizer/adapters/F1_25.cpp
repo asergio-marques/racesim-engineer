@@ -9,7 +9,7 @@
 #include "packets/internal/Interface.h"
 #include "packets/internal/ParticipantStatus.h"
 #include "packets/internal/LapStatus.h"
-#include "packets/internal/RaceStandings.h"
+#include "packets/internal/Standings.h"
 #include "packets/internal/PenaltyStatus.h"
 #include "packets/game/F1_25/Interface.h"
 #include "packets/game/F1_25/Header.h"
@@ -84,7 +84,7 @@ std::vector<Packet::Internal::Interface*> Generalizer::Adapter::F1_25::ConvertLa
 
     }
 
-    Packet::Internal::RaceStandings* standingsPacket = new Packet::Internal::RaceStandings(inputPacket->GetHeader()->GetFrameIdentifier());
+    Packet::Internal::Standings* standingsPacket = new Packet::Internal::Standings(inputPacket->GetHeader()->GetFrameIdentifier());
     Packet::Internal::PenaltyStatus* penaltiesPacket = new Packet::Internal::PenaltyStatus(inputPacket->GetHeader()->GetFrameIdentifier());
     Packet::Internal::ParticipantStatus* statusPacket = new Packet::Internal::ParticipantStatus(inputPacket->GetHeader()->GetFrameIdentifier());
     for (size_t i = 0; i < 22; ++i) {

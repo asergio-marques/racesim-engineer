@@ -16,12 +16,10 @@
 #include "detectors/Type.h"
 #include "exporters/RaceSession.h"
 #include "packets/internal/Interface.h"
-#include "packets/internal/multi_use/SessionStart.h"
-#include "packets/internal/multi_use/ParticipantStatus.h"
-#include "packets/internal/multi_use/LapStatus.h"
-#include "packets/internal/race_types/RaceStart.h"
-#include "packets/internal/race_types/RaceStandings.h"
-#include "packets/internal/race_types/PenaltyStatus.h"
+#include "packets/internal/ParticipantStatus.h"
+#include "packets/internal/LapStatus.h"
+#include "packets/internal/Standings.h"
+#include "packets/internal/PenaltyStatus.h"
 
 
 #ifndef LINUX
@@ -62,16 +60,8 @@ void Processor::Data::Databank::updateData(const Packet::Internal::Interface* pa
 
         switch (packet->packetType()) {
 
-            case Packet::Internal::Type::SessionStart:
-                createSessionInformation(dynamic_cast<const Packet::Internal::SessionStart*>(packet));
-                break;
-
-            case Packet::Internal::Type::SessionEnd:
-                markAsFinished();
-                break;
-
             case Packet::Internal::Type::Standings:
-                updateStandings(dynamic_cast<const Packet::Internal::RaceStandings*>(packet));
+                updateStandings(dynamic_cast<const Packet::Internal::Standings*>(packet));
                 break;
 
             case Packet::Internal::Type::PenaltyStatus:
@@ -137,74 +127,6 @@ const Processor::Exporter::Interface* Processor::Data::Databank::getExporter() c
 
 
 
-
-void Processor::Data::Databank::createSessionInformation(const Packet::Internal::SessionStart* sessionStartPacket) {
-
-    if (sessionStartPacket) {
-
-        Processor::Data::Creator::Interface* creator = nullptr;
-
-        switch (sessionStartPacket->m_sessionType) {
-
-            case Session::Internal::Type::TimeTrial:
-                // TODO implement
-                break;
-
-            case Session::Internal::Type::FreePractice:
-                // TODO implement
-                break;
-
-            case Session::Internal::Type::Qualifying:
-                // TODO implement
-                break;
-            
-            case Session::Internal::Type::Race:
-                creator = new Processor::Data::Creator::RaceSession(dynamic_cast<const Packet::Internal::RaceStart*>(sessionStartPacket));
-                m_exporter = new Processor::Exporter::RaceSession();
-                break;
-
-            default:
-                // TODO implement
-                break;
-
-        }
-        if (creator) {
-            
-            uint8_t playerId = 0;
-            bool foundPlayer = false;
-            m_sessionRecord = creator->createSessionRecord();
-            m_driverRecords = creator->createDriverRecords(playerId, foundPlayer);
-            
-            // if a player driver was found, then inject only that record, otherwise, inject all records
-            if (foundPlayer) {
-                m_exporter->InjectRecords(m_sessionRecord, m_driverRecords.at(playerId));
-            }
-            else {
-                m_exporter->InjectRecords(m_sessionRecord, &m_driverRecords);
-            }
-
-            for (auto detectorEntry : m_activeDetectors) {
-
-                auto detector = detectorEntry.second;
-                detector->Init(m_sessionRecord);
-
-                for (auto driverEntry : m_driverRecords) {
-
-                    auto record = driverEntry.second;
-                    if (record) record->getModifiableState().installDetector(detector);
-
-                }
-
-            }
-
-        }
-
-    }
-
-}
-
-
-
 void Processor::Data::Databank::markAsFinished() {
 
     for (auto record : m_driverRecords) {
@@ -260,7 +182,7 @@ void Processor::Data::Databank::triggerAutoExport() {
 
 
 
-void Processor::Data::Databank::updateStandings(const Packet::Internal::RaceStandings* standingsPacket) {
+void Processor::Data::Databank::updateStandings(const Packet::Internal::Standings* standingsPacket) {
 
     if (standingsPacket) {
 

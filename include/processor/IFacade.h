@@ -22,6 +22,7 @@ namespace Processor {
             virtual ~IFacade() = default;
             virtual void Init(Presenter::ICompFacade* presenter) = 0;
             virtual bool ExportCurrentRaceData(std::string path) = 0;
+            virtual Packet::Event::Broadcaster* exposeBroadcasterInterface() = 0;
 
     };
 

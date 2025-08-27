@@ -12,8 +12,7 @@ namespace Packet {
     namespace Internal {
 
         class Interface;
-        class SessionStart;
-        class RaceStandings;
+        class Standings;
         class PenaltyStatus;
         class ParticipantStatus;
         class LapStatus;
@@ -69,9 +68,6 @@ namespace Processor {
             const Processor::Exporter::Interface* getExporter() const;
 
             private:
-            // Creates the appropriate SessionInfoCreator depending on the type of the sessions started
-            void createSessionInformation(const Packet::Internal::SessionStart* sessionStartPacket);
-
             // Closes down the session, marking the session as finalized, to accept packets pertaining to the final lap
             void markAsFinished();
 
@@ -79,7 +75,7 @@ namespace Processor {
             void triggerAutoExport();
 
             // Interfaces with the DriverState class to update the driver position
-            void updateStandings(const Packet::Internal::RaceStandings* standingsPacket);
+            void updateStandings(const Packet::Internal::Standings* standingsPacket);
 
             // Interfaces with the DriverState class to update the penalties and warnings
             void updatePenalties(const Packet::Internal::PenaltyStatus* penaltyPacket);

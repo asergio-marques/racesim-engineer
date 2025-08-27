@@ -40,9 +40,9 @@ int main(int argc, char* argv[]) {
 		Packet::Internal::Broadcaster* internalBroadcast = generalizer->exposeBroadcasterInterface();
         internalBroadcast->Subscribe(processor);
 
-        // the processor component processes internal packets and converts them to UI packets, sending them to the UI
-		//Packet::UI::Broadcaster* uiBroadcast = processor->exposeBroadcasterInterface();
-        //uiBroadcast->Subscribe(starter);
+        // the processor component processes internal packets and converts them to event packets, sending them to the UI
+		Packet::Event::Broadcaster* eventBroadcast = processor->exposeBroadcasterInterface();
+        eventBroadcast->Subscribe(starter);
 
         // init components
         settingsStore->Init(presenter);

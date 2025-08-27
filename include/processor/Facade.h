@@ -42,6 +42,9 @@ namespace Processor {
             // Initializes needed member variables and starts component
             virtual void Init(Presenter::ICompFacade* presenter) override final;
 
+            // Exposes the event packet output interface
+            Packet::Event::Broadcaster* exposeBroadcasterInterface() override final;
+
             // Trigger function for the export of the current dataset
             virtual bool ExportCurrentRaceData(std::string path) override final;
 

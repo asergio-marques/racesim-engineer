@@ -89,6 +89,16 @@ void Processor::Facade::Init(Presenter::ICompFacade* presenter) {
 
 
 
+
+
+Packet::Event::Broadcaster* Processor::Facade::exposeBroadcasterInterface() {
+
+    return this;
+
+}
+
+
+
 bool Processor::Facade::ExportCurrentRaceData(std::string path) {
 
     if (m_databank && m_databank->getExporter()) {

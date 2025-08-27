@@ -1,5 +1,5 @@
-#ifndef PACKETS_INTERNAL_RACE_INCLUDE_RACE_STANDINGS_H_
-#define PACKETS_INTERNAL_RACE_INCLUDE_RACE_STANDINGS_H_
+#ifndef PACKETS_INTERNAL_INCLUDE_STANDINGS_H_
+#define PACKETS_INTERNAL_INCLUDE_STANDINGS_H_
 
 #include <cstdint>
 #include <vector>
@@ -12,7 +12,7 @@ namespace Packet {
 
     namespace Internal {
 
-        struct RaceStandings : public Packet::Internal::Interface {
+        struct Standings : public Packet::Internal::Interface {
 
             struct Data {
 
@@ -30,10 +30,10 @@ namespace Packet {
 
             public:
             // Packet constructor
-            RaceStandings(const uint64_t timestamp);
+            Standings(const uint64_t timestamp);
 
             // Destructor
-            virtual ~RaceStandings() = default;
+            virtual ~Standings() = default;
 
             // Type identifier for the packet
             const Packet::Internal::Type packetType() const override final;
@@ -42,11 +42,11 @@ namespace Packet {
             void InsertData(const uint8_t driverID, const uint8_t position);
 
             // Retrieve standings data from the packet
-            const std::vector<Packet::Internal::RaceStandings::Data>& GetData() const;
+            const std::vector<Packet::Internal::Standings::Data>& GetData() const;
 
             private:
             // Holds the current position of all drivers in the session
-            std::vector<Packet::Internal::RaceStandings::Data> m_fullStandingsData;
+            std::vector<Packet::Internal::Standings::Data> m_fullStandingsData;
 
         };
 
@@ -54,4 +54,4 @@ namespace Packet {
 
 }
 
-#endif  //  PACKETS_INTERNAL_RACE_INCLUDE_RACE_STANDINGS_H_
+#endif  //  PACKETS_INTERNAL_INCLUDE_STANDINGS_H_

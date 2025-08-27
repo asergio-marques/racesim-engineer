@@ -16,20 +16,15 @@ target_include_directories(${PROJECT_NAME} PRIVATE
 target_link_directories(${PROJECT_NAME} PRIVATE "${PROJECT_ROOT}/lib/")
 
 target_sources(${PROJECT_NAME} PRIVATE
-    adapters/SessionStateMachine.cpp
-    adapters/F1_25/Facade.cpp
-    adapters/F1_25/DataConversionMaps.cpp
-    adapters/F1_25/SessionStartBuilder.cpp
+    adapters/F1_25.cpp
     listener/Director.cpp
     listener/SocketBase.cpp
     listener/UDPSocketWin64.cpp
-    converter/PacketGeneralizer.cpp
     Facade.cpp)
 
 target_link_libraries(${PROJECT_NAME} PRIVATE
     RaceSimEngineerCore
     RaceSimEngineerPacketsF125
-    RaceSimEngineerPacketsInternal
 )
 
 if (WIN32)

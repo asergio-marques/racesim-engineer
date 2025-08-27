@@ -5,6 +5,7 @@ project(RaceSimEngineer LANGUAGES CXX)
 add_executable(${PROJECT_NAME})
 
 add_subdirectory("${CMAKE_CURRENT_SOURCE_DIR}/src/core/" ${CMAKE_CURRENT_BINARY_DIR}/core)
+add_subdirectory("${CMAKE_CURRENT_SOURCE_DIR}/src/generalizer/" ${CMAKE_CURRENT_BINARY_DIR}/generalizer)
 add_subdirectory("${CMAKE_CURRENT_SOURCE_DIR}/src/core/packets/game/F1_25" ${CMAKE_CURRENT_BINARY_DIR}/core/packets/game/F1_25)
 add_subdirectory("${CMAKE_CURRENT_SOURCE_DIR}/src/core/packets/internal" ${CMAKE_CURRENT_BINARY_DIR}/core/packets/internal)
 add_subdirectory("${CMAKE_CURRENT_SOURCE_DIR}/src/netcom/" ${CMAKE_CURRENT_BINARY_DIR}/netcom)
@@ -23,11 +24,11 @@ target_sources(${PROJECT_NAME} PRIVATE src/main.cpp)
 
 target_link_libraries(${PROJECT_NAME} PRIVATE
     RaceSimEngineerCore
+    RaceSimEngineerGeneralizer
     RaceSimEngineerPacketsF125
     RaceSimEngineerPacketsInternal
     RaceSimEngineerNetwork
     RaceSimEngineerProcessor
-    RaceSimEngineerPresenter
     RaceSimEngineerSettings
     RaceSimEngineerUIWidgets
     RaceSimEngineerUI)

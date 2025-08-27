@@ -1,25 +1,19 @@
 #include "Facade.h"
 
-#include "adapters/F1_25/Facade.h"
+#include "adapters/F1_25.h"
 #include "listener/Director.h"
-#include "converter/PacketGeneralizer.h"
 
 
 
 NetCom::Facade::Facade() :
     m_director(new NetCom::Listener::Director),
-    m_packetGeneralizer(new NetCom::Converter::PacketGeneralizer),
     m_gameAdapter(nullptr),
     m_presenter(nullptr) {
 
-    if (m_director && m_packetGeneralizer) {
-    
-        m_director->Subscribe(m_packetGeneralizer);
-    
-    }
-
 
 }
+
+
 
 NetCom::Facade::~Facade() {
 
@@ -31,20 +25,23 @@ NetCom::Facade::~Facade() {
 
 void NetCom::Facade::Init(Presenter::ICompFacade* presenter) {
 
-    if (presenter) {
+    if (!presenter) {
 
-        m_presenter = presenter;
+        return;
 
     }
 
+    m_presenter = presenter;
+
     // TODO Game is always F1 25 right now
-    //if (getGame() == Settings::Game::F1_25) {
+    //if (m_presenter->GetGame() == Settings::Game::F1_25) {
     if (true) {
-        m_gameAdapter = new NetCom::Adapter::F1_25::Facade;
-        if (m_gameAdapter && m_director && m_packetGeneralizer) {
+
+        m_gameAdapter = new NetCom::Adapter::F1_25;
+
+        if (m_gameAdapter && m_director) {
 
             m_director->setGameAdapter(m_gameAdapter);
-            m_packetGeneralizer->setGameAdapter(m_gameAdapter);
             m_director->Init(presenter);
 
         }
@@ -54,8 +51,8 @@ void NetCom::Facade::Init(Presenter::ICompFacade* presenter) {
 }
 
 
-Packet::Internal::Broadcaster* NetCom::Facade::exposeBroadcasterInterface() const {
+Packet::Game::Broadcaster* NetCom::Facade::exposeBroadcasterInterface() const {
 
-    return m_packetGeneralizer;
+    return m_director;
 
 }

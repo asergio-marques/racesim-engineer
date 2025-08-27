@@ -114,6 +114,10 @@ namespace Session::Internal {
 
         // Starting compound for this participant
         Tyre::Internal::Actual m_startTyreActual = Tyre::Internal::Actual::InvalidUnknown;
+
+		// Tyre set ID in use at start of session
+		uint8_t m_startTyreSetID = 0;
+
     };
 
 }

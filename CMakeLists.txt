@@ -8,6 +8,7 @@ add_subdirectory("${CMAKE_CURRENT_SOURCE_DIR}/src/core/" ${CMAKE_CURRENT_BINARY_
 add_subdirectory("${CMAKE_CURRENT_SOURCE_DIR}/src/generalizer/" ${CMAKE_CURRENT_BINARY_DIR}/generalizer)
 add_subdirectory("${CMAKE_CURRENT_SOURCE_DIR}/src/core/packets/game/F1_25" ${CMAKE_CURRENT_BINARY_DIR}/core/packets/game/F1_25)
 add_subdirectory("${CMAKE_CURRENT_SOURCE_DIR}/src/core/packets/internal" ${CMAKE_CURRENT_BINARY_DIR}/core/packets/internal)
+add_subdirectory("${CMAKE_CURRENT_SOURCE_DIR}/src/core/packets/event" ${CMAKE_CURRENT_BINARY_DIR}/core/packets/event)
 add_subdirectory("${CMAKE_CURRENT_SOURCE_DIR}/src/netcom/" ${CMAKE_CURRENT_BINARY_DIR}/netcom)
 add_subdirectory("${CMAKE_CURRENT_SOURCE_DIR}/src/processor/" ${CMAKE_CURRENT_BINARY_DIR}/processor)
 add_subdirectory("${CMAKE_CURRENT_SOURCE_DIR}/src/presenter/" ${CMAKE_CURRENT_BINARY_DIR}/presenter)
@@ -27,6 +28,7 @@ target_link_libraries(${PROJECT_NAME} PRIVATE
     RaceSimEngineerGeneralizer
     RaceSimEngineerPacketsF125
     RaceSimEngineerPacketsInternal
+    RaceSimEngineerPacketsEvent
     RaceSimEngineerNetwork
     RaceSimEngineerProcessor
     RaceSimEngineerSettings

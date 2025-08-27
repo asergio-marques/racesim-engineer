@@ -4,7 +4,7 @@
 #include <memory>
 #include <QList>
 #include <QThread>
-#include "packets/internal/Subscriber.h"
+#include "packets/event/Subscriber.h"
 
 
 
@@ -31,14 +31,14 @@ namespace UserInterface {
     class CustomMainWindow;
     class PacketHandler;
 
-    class UIStarter : public Packet::Internal::Subscriber {
+    class UIStarter : public Packet::Event::Subscriber {
 
     public:
         UIStarter();
         virtual ~UIStarter();
         void Init(int* argc, char*** argv, Presenter::ICompFacade* presenter);
         int Run();
-        void OnPacketBundleBroadcast(std::vector<Packet::Internal::Interface*> packets) override final;
+        void OnPacketBundleBroadcast(std::vector<Packet::Event::Interface*> packets) override final;
 
     private:
         void packetProcessingExec();

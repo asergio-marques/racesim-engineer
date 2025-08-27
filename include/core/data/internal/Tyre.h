@@ -17,15 +17,16 @@ namespace Tyre::Internal {
         F1_C2               = 5,
         F1_C1               = 6,
         F1_C0               = 7,
-        F1_Intermediate     = 8,
-        F1_ExtremeWet       = 9,
-        F2_HyperSoft        = 10,
-        F2_SuperSoft        = 11,
-        F2_Soft             = 12,
-        F2_Medium           = 13,
-        F2_Hard             = 14,
-        F2_Intermediate     = 15,
-        F2_ExtremeWet       = 16
+        F1_ClassicDrys      = 8,
+        F1_Intermediate     = 9,
+        F1_ExtremeWet       = 10,
+        F2_HyperSoft        = 11,
+        F2_SuperSoft        = 12,
+        F2_Soft             = 13,
+        F2_Medium           = 14,
+        F2_Hard             = 15,
+        F2_Intermediate     = 16,
+        F2_ExtremeWet       = 17
 
     };
 

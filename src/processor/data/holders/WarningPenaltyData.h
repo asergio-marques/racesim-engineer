@@ -10,7 +10,7 @@ namespace Processor {
     namespace Detector {
 
         class Interface;
-        class WarningPenalty;
+        class PenaltyReceived;
 
     }
 
@@ -48,7 +48,7 @@ namespace Processor {
             uint8_t m_numDriveThrough;
 
             // Pointer to the penalty & warning detector currently installed
-            Processor::Detector::WarningPenalty* m_installedPenWarnDetector;
+            Processor::Detector::PenaltyReceived* m_installedPenWarnDetector;
 
         };
 

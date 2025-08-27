@@ -3,7 +3,7 @@
 #include <cstdint>
 #include "detectors/Interface.h"
 #include "detectors/Type.h"
-#include "detectors/WarningPenalty.h"
+#include "detectors/PenaltyReceived.h"
 
 
 
@@ -14,8 +14,8 @@ void Processor::Data::WarningPenaltyData::installDetector(Processor::Detector::I
 
     switch (detector->GetType()) {
 
-        case Processor::Detector::Type::WarningPenalty:
-            m_installedPenWarnDetector = dynamic_cast<Processor::Detector::WarningPenalty*>(detector);
+        case Processor::Detector::Type::PenaltyReceived:
+            m_installedPenWarnDetector = dynamic_cast<Processor::Detector::PenaltyReceived*>(detector);
             break;
 
         default:

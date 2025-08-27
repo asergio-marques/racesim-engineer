@@ -6,7 +6,7 @@
 #include <vector>
 #include "detectors/Interface.h"
 #include "detectors/Type.h"
-#include "packets/internal/race_types/Overtake.h"
+#include "packets/event/Overtake.h"
 
 
 
@@ -33,7 +33,7 @@ void Processor::Detector::Overtake::Exec() {
                 bool alreadyAdded = false;
                 for (auto packet : m_packetsToBeProcessed) {
 
-                    auto castPacket = dynamic_cast<Packet::Internal::Overtake*>(packet);
+                    auto castPacket = dynamic_cast<Packet::Event::Overtake*>(packet);
                     if (castPacket) {
 
                         for (const auto data : castPacket->GetData()) {
@@ -87,7 +87,7 @@ void Processor::Detector::Overtake::AddPositionChange(const uint8_t id, const ui
 void Processor::Detector::Overtake::CreateNewPacket(const Processor::Detector::Overtake::PositionChange& changeInfo) {
 
     // timestamp can be 0 as the UI isn't supposed to check on this I think maybe perhaps
-    Packet::Internal::Overtake* packet = new Packet::Internal::Overtake(0);
+    Packet::Event::Overtake* packet = new Packet::Event::Overtake(0);
     if (packet) {
 
         packet->InsertData(changeInfo.m_id, changeInfo.m_newPosition,

@@ -1,5 +1,5 @@
-#ifndef PROCESSOR_DETECTOR_INCLUDE_DRIVER_STATUS_H_
-#define PROCESSOR_DETECTOR_INCLUDE_DRIVER_STATUS_H_
+#ifndef PROCESSOR_DETECTOR_INCLUDE_PARTICIPANT_STATUS_CHANGED_H_
+#define PROCESSOR_DETECTOR_INCLUDE_PARTICIPANT_STATUS_CHANGED_H_
 
 #include <cstdint>
 #include <vector>
@@ -13,24 +13,14 @@ namespace Processor {
 
     namespace Detector {
 
-        class DriverStatus final : public Processor::Detector::Interface {
-
-            struct StatusChange {
-
-                // ID of the vehicle with the changed status
-                const uint8_t m_id;
-
-                // New status for this vehicle
-                const Participant::Internal::Status m_status;
-
-            };
+        class ParticipantStatusChanged final : public Processor::Detector::Interface {
 
             public:
             // Default constructor
-            DriverStatus() = default;
+            ParticipantStatusChanged() = default;
 
             // Default destructor
-            ~DriverStatus() = default;
+            ~ParticipantStatusChanged() = default;
 
             // Returns the identifying type of this detector
             const Processor::Detector::Type GetType() const override;
@@ -44,4 +34,4 @@ namespace Processor {
 
 }
 
-#endif // PROCESSOR_DETECTOR_INCLUDE_OVERTAKE_H_
+#endif // PROCESSOR_DETECTOR_INCLUDE_PARTICIPANT_STATUS_CHANGED_H_

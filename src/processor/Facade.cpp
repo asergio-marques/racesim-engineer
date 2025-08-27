@@ -3,10 +3,11 @@
 #include <thread>
 #include <vector>
 #include "data/Databank.h"
-#include "detectors/FinishedLap.h"
+#include "detectors/LapFinished.h"
 #include "detectors/Overtake.h"
-#include "detectors/WarningPenalty.h"
-#include "detectors/DriverStatus.h"
+#include "detectors/PenaltyReceived.h"
+#include "detectors/ParticipantStatusChanged.h"
+#include "detectors/SessionStartDataReady.h"
 #include "exporters/Interface.h"
 #include "exporters/RaceSession.h"
 #include "IFacade.h"
@@ -23,10 +24,11 @@ Processor::Facade::Facade() :
 
     if (m_databank) {
 
-        m_detectors.push_back(new Processor::Detector::FinishedLap);
+        m_detectors.push_back(new Processor::Detector::SessionStartDataReady);
+        m_detectors.push_back(new Processor::Detector::LapFinished);
         m_detectors.push_back(new Processor::Detector::Overtake);
-        m_detectors.push_back(new Processor::Detector::WarningPenalty);
-        m_detectors.push_back(new Processor::Detector::DriverStatus);
+        m_detectors.push_back(new Processor::Detector::PenaltyReceived);
+        m_detectors.push_back(new Processor::Detector::ParticipantStatusChanged);
 
     }
 
@@ -122,7 +124,7 @@ void Processor::Facade::Exec() {
 
     while (true) {
 
-        std::vector<Packet::Internal::Interface*> packetsToSend;
+        std::vector<Packet::Event::Interface*> packetsToSend;
 
         // Get all unsent packets from detectors
         for (auto detector : m_detectors) {
@@ -140,7 +142,7 @@ void Processor::Facade::Exec() {
 
         }
 
-        //Broadcast(packetsToSend);
+        Broadcast(packetsToSend);
 
         // Thread runs at 10Hz
         std::this_thread::sleep_for(std::chrono::milliseconds(100));

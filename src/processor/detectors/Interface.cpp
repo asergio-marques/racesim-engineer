@@ -5,7 +5,6 @@
 #include "data/DriverRecord.h"
 #include "data/DriverState.h"
 #include "detectors/Type.h"
-#include "packets/internal/Broadcaster.h"
 
 
 
@@ -18,7 +17,7 @@ void Processor::Detector::Interface::Init(Processor::Data::SessionRecord* sessio
 
 
 
-const std::vector<Packet::Internal::Interface*>& Processor::Detector::Interface::UnsentPackets() const {
+const std::vector<Packet::Event::Interface*>& Processor::Detector::Interface::UnsentPackets() const {
 
     return m_packetsToBeProcessed;
 

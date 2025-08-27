@@ -4,13 +4,12 @@
 #include <thread>
 #include <vector>
 #include "detectors/Type.h"
-#include "packets/internal/Broadcaster.h"
 
 
 
 namespace Packet {
 
-    namespace Internal {
+    namespace Event {
 
         class Interface;
 
@@ -29,7 +28,7 @@ namespace Processor {
 
     namespace Detector {
 
-        class Interface : public Packet::Internal::Broadcaster {
+        class Interface {
 
             public:
             // Default constructor
@@ -49,14 +48,14 @@ namespace Processor {
             virtual void Exec() {}
 
             // Exposes the list of vector currently held by the detector so that it may be sent
-            virtual const std::vector<Packet::Internal::Interface*>& UnsentPackets() const;
+            virtual const std::vector<Packet::Event::Interface*>& UnsentPackets() const;
 
             // Cleans up the list of packets
             virtual bool ClearPacketList();
 
             protected:
             // Holds all the internal packets that are yet to be sent to subscribers
-            std::vector<Packet::Internal::Interface*> m_packetsToBeProcessed;
+            std::vector<Packet::Event::Interface*> m_packetsToBeProcessed;
 
             // Main execution thread
             std::thread m_workerThread;

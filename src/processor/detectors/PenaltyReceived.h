@@ -1,5 +1,5 @@
-#ifndef PROCESSOR_DETECTOR_INCLUDE_WARNING_PENALTY_H_
-#define PROCESSOR_DETECTOR_INCLUDE_WARNING_PENALTY_H_
+#ifndef PROCESSOR_DETECTOR_INCLUDE_PENALTY_RECEIVED_H_
+#define PROCESSOR_DETECTOR_INCLUDE_PENALTY_RECEIVED_H_
 
 #include "detectors/Interface.h"
 #include "detectors/Type.h"
@@ -10,14 +10,14 @@ namespace Processor {
 
     namespace Detector {
 
-        class WarningPenalty final : public Processor::Detector::Interface {
+        class PenaltyReceived final : public Processor::Detector::Interface {
 
             public:
             // Default constructor
-            WarningPenalty() = default;
+            PenaltyReceived() = default;
 
             // Default destructor
-            ~WarningPenalty() = default;
+            ~PenaltyReceived() = default;
 
             // Returns the identifying type of this detector
             const Processor::Detector::Type GetType() const override;
@@ -33,4 +33,4 @@ namespace Processor {
 
 }
 
-#endif // PROCESSOR_DETECTOR_INCLUDE_WARNING_PENALTY_H_
+#endif // PROCESSOR_DETECTOR_INCLUDE_PENALTY_RECEIVED_H_

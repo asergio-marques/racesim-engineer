@@ -1,5 +1,5 @@
-#ifndef PROCESSOR_DETECTOR_INCLUDE_FINISHED_LAP_H_
-#define PROCESSOR_DETECTOR_INCLUDE_FINISHED_LAP_H_
+#ifndef PROCESSOR_DETECTOR_INCLUDE_LAP_FINISHED_H_
+#define PROCESSOR_DETECTOR_INCLUDE_LAP_FINISHED_H_
 
 #include "data/holders/LapInfo.h"
 #include "detectors/Interface.h"
@@ -11,14 +11,14 @@ namespace Processor {
 
     namespace Detector {
 
-        class FinishedLap final : public Processor::Detector::Interface {
+        class LapFinished final : public Processor::Detector::Interface {
 
             public:
             // Default constructor
-            FinishedLap() = default;
+            LapFinished() = default;
 
             // Default destructor
-            ~FinishedLap() = default;
+            ~LapFinished() = default;
 
             // Returns the identifying type of this detector
             const Processor::Detector::Type GetType() const override;
@@ -36,4 +36,4 @@ namespace Processor {
 
 }
 
-#endif // PROCESSOR_DETECTOR_INCLUDE_FINISHED_LAP_H_
+#endif // PROCESSOR_DETECTOR_INCLUDE_LAP_FINISHED_H_

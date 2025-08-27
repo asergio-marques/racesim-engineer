@@ -32,10 +32,11 @@ target_sources(${PROJECT_NAME} PRIVATE
     data/holders/PositionTimingData.cpp
     data/holders/WarningPenaltyData.cpp
     detectors/Interface.cpp
-    detectors/DriverStatus.cpp
-    detectors/FinishedLap.cpp
+    detectors/LapFinished.cpp
     detectors/Overtake.cpp
-    detectors/WarningPenalty.cpp
+    detectors/ParticipantStatusChanged.cpp
+    detectors/PenaltyReceived.cpp
+    detectors/SessionStartDataReady.cpp
     exporters/RaceSession.cpp)
 
 target_link_libraries(${PROJECT_NAME} PUBLIC

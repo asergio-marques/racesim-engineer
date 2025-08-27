@@ -3,6 +3,7 @@
 
 #include <cstdint>
 #include <string>
+#include "data/internal/Tyre.h"
 
 
 
@@ -108,6 +109,11 @@ namespace Session::Internal {
         // Starting position for this participant
         uint8_t m_startPosition = 0;
 
+        // Starting tyre for this participant
+		Tyre::Internal::Visual m_startTyreVisual = Tyre::Internal::Visual::InvalidUnknown;
+
+        // Starting compound for this participant
+        Tyre::Internal::Actual m_startTyreActual = Tyre::Internal::Actual::InvalidUnknown;
     };
 
 }

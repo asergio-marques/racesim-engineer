@@ -1,18 +1,18 @@
-#ifndef PACKETS_INTERNAL_RACE_INCLUDE_OVERTAKE_H_
-#define PACKETS_INTERNAL_RACE_INCLUDE_OVERTAKE_H_
+#ifndef PACKETS_EVENT_RACE_INCLUDE_OVERTAKE_H_
+#define PACKETS_EVENT_RACE_INCLUDE_OVERTAKE_H_
 
 #include <cstdint>
 #include <vector>
-#include "packets/internal/Interface.h"
-#include "packets/internal/Type.h"
+#include "packets/event/Interface.h"
+#include "packets/event/Type.h"
 
 
 
 namespace Packet {
 
-    namespace Internal {
+    namespace Event {
 
-        struct Overtake : public Packet::Internal::Interface {
+        struct Overtake : public Packet::Event::Interface {
 
             struct Data {
 
@@ -39,17 +39,17 @@ namespace Packet {
             virtual ~Overtake() = default;
 
             // Type identifier for the packet
-            const Packet::Internal::Type packetType() const override final;
+            const Packet::Event::Type packetType() const override final;
 
             // Adds overtake data into the packet
             void InsertData(const uint8_t driverID, const uint8_t newPosition, const bool positionUp);
 
             // Retrieves the overtake data in the packet
-            const std::vector<Packet::Internal::Overtake::Data>& GetData() const;
+            const std::vector<Packet::Event::Overtake::Data>& GetData() const;
 
             private:
             // Holds all the data with the drivers involved in an overtake
-            std::vector<Packet::Internal::Overtake::Data> m_fullOvertakeData;
+            std::vector<Packet::Event::Overtake::Data> m_fullOvertakeData;
 
         };
 
@@ -57,4 +57,4 @@ namespace Packet {
 
 }
 
-#endif  //  PACKETS_INTERNAL_RACE_INCLUDE_OVERTAKE_H_
+#endif  //  PACKETS_EVENT_RACE_INCLUDE_OVERTAKE_H_

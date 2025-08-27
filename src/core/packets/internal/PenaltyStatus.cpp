@@ -1,4 +1,4 @@
-#include "packets/internal/race_types/PenaltyStatus.h"
+#include "packets/internal/PenaltyStatus.h"
 
 #include <cstdint>
 #include <vector>

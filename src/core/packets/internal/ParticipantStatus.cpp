@@ -1,4 +1,4 @@
-#include "packets/internal/multi_use/ParticipantStatus.h"
+#include "packets/internal/ParticipantStatus.h"
 
 #include <cstdint>
 #include <vector>

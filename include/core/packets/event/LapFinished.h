@@ -1,30 +1,29 @@
-#ifndef PACKETS_INTERNAL_INCLUDE_FINISHED_LAP_INFO_H_
-#define PACKETS_INTERNAL_INCLUDE_FINISHED_LAP_INFO_H_
+#ifndef PACKETS_EVENT_INCLUDE_LAP_FINISHED_H_
+#define PACKETS_EVENT_INCLUDE_LAP_FINISHED_H_
 
 #include <cstdint>
-#include <vector>
 #include "data/internal/Lap.h"
 #include "data/internal/LapTime.h"
-#include "packets/internal/Interface.h"
-#include "packets/internal/Type.h"
+#include "packets/event/Interface.h"
+#include "packets/event/Type.h"
 
 
 
 namespace Packet {
 
-    namespace Internal {
+    namespace Event {
 
-        struct FinishedLapInfo : public Packet::Internal::Interface {
+        struct LapFinished : public Packet::Event::Interface {
 
             public:
             // Packet interface constructor
-            FinishedLapInfo(const uint64_t timestamp);
+            LapFinished(const uint64_t timestamp);
 
             // Destructor
-            virtual ~FinishedLapInfo() = default;
+            virtual ~LapFinished() = default;
 
             // Type identifier for the packet
-            const Packet::Internal::Type packetType() const override final;
+            const Packet::Event::Type packetType() const override final;
 
             // Index for this participant
             uint8_t m_index;
@@ -41,4 +40,4 @@ namespace Packet {
 
 }
 
-#endif  //  PACKETS_INTERNAL_INCLUDE_FINISHED_LAP_INFO_H_
+#endif  //  PACKETS_EVENT_INCLUDE_LAP_FINISHED_H_

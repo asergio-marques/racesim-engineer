@@ -1,27 +1,27 @@
-#ifndef PACKETS_INTERNAL_INCLUDE_PENALTY_GIVEN_H_
-#define PACKETS_INTERNAL_INCLUDE_PENALTY_GIVEN_H_
+#ifndef PACKETS_EVENT_INCLUDE_PENALTY_RECEIVED_H_
+#define PACKETS_EVENT_INCLUDE_PENALTY_RECEIVED_H_
 
 #include <cstdint>
 #include "data/internal/Penalty.h"
-#include "packets/internal/Interface.h"
-#include "packets/internal/Type.h"
+#include "packets/event/Interface.h"
+#include "packets/event/Type.h"
 
 
 namespace Packet {
 
-    namespace Internal {
+    namespace Event {
 
-        struct PenaltyChange : public Packet::Internal::Interface {
+        struct PenaltyReceived : public Packet::Event::Interface {
 
             public:
             // Packet interface constructor
-            PenaltyChange(const uint64_t timestamp);
+            PenaltyReceived(const uint64_t timestamp);
 
             // Destructor
-            virtual ~PenaltyChange() = default;
+            virtual ~PenaltyReceived() = default;
 
             // Type identifier for the packet
-            const Packet::Internal::Type packetType() const override final;
+            const Packet::Event::Type packetType() const override final;
 
             // Index for this participant
             uint8_t m_index;
@@ -39,4 +39,4 @@ namespace Packet {
 
 }
 
-#endif  //  PACKETS_INTERNAL_INCLUDE_PENALTY_GIVEN_H_
+#endif  //  PACKETS_EVENT_INCLUDE_PENALTY_RECEIVED_H_

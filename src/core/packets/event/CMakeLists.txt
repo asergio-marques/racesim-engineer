@@ -14,7 +14,17 @@ target_include_directories(${PROJECT_NAME} PRIVATE "${PROJECT_ROOT}/src/core")
 
 target_sources(${PROJECT_NAME} PRIVATE
     Broadcaster.cpp
-    Interface.cpp)
+	LapFinished.cpp
+    Interface.cpp
+	Overtake.cpp
+	ParticipantStatusChanged.cpp
+	PenaltyReceived.cpp
+	PracticeStart.cpp
+	QualiStart.cpp
+	RaceStart.cpp
+	RoundSessionEnd.cpp
+	TimeTrialEnd.cpp
+	TimeTrialStart.cpp)
 
 set_target_properties(${PROJECT_NAME}
 	PROPERTIES

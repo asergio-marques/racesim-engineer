@@ -18,11 +18,7 @@ namespace Packet {
             LapFinished                 = 4,
             PenaltyStatus               = 5,
             ParticipantStatus           = 6,
-            LapStatus                   = 7,
-            Overtake                    = 101,
-            FinishedLapInfo             = 102,
-            PenaltyChange               = 103,
-            ParticipantStatusChange     = 104
+            LapStatus                   = 7
 
         };
     

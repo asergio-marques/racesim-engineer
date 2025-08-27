@@ -1,5 +1,5 @@
-#ifndef PACKETS_INTERNAL_INCLUDE_TYPE_H_
-#define PACKETS_INTERNAL_INCLUDE_TYPE_H_
+#ifndef PACKETS_EVENT_INCLUDE_TYPE_H_
+#define PACKETS_EVENT_INCLUDE_TYPE_H_
 
 #include <cstdint>
 
@@ -12,17 +12,16 @@ namespace Packet {
         enum class Type : uint8_t {
 
             UnknownInvalid              = 0,
-            SessionStart                = 1,
-            SessionEnd                  = 2,
-            Standings                   = 3,
-            LapFinished                 = 4,
-            PenaltyStatus               = 5,
-            ParticipantStatus           = 6,
-            LapStatus                   = 7,
-            Overtake                    = 101,
-            FinishedLapInfo             = 102,
-            PenaltyChange               = 103,
-            ParticipantStatusChange     = 104
+            PracticeStart               = 1,
+            QualiStart                  = 2,
+            RaceStart                   = 3,
+            TimeTrialStart              = 4,
+            RoundSessionEnd             = 5,
+            TimeTrialEnd                = 6,
+            Overtake                    = 7,
+            ParticipantStatusChanged    = 8,
+            LapFinished                 = 9,
+            PenaltyReceived             = 10
 
         };
     
@@ -30,4 +29,4 @@ namespace Packet {
 
 }
 
-#endif // PACKETS_INTERNAL_INCLUDE_TYPE_H_
+#endif // PACKETS_EVENT_INCLUDE_TYPE_H_

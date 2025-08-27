@@ -1,4 +1,4 @@
-#include "packets/internal/multi_use/LapStatus.h"
+#include "packets/internal/LapStatus.h"
 
 #include <cstdint>
 #include <vector>

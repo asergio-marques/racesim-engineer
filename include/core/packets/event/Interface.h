@@ -2,7 +2,7 @@
 #define PACKETS_EVENT_INCLUDE_INTERFACE_H_
 
 #include <cstdint>
-#include "packets/internal/Type.h"
+#include "packets/event/Type.h"
 
 
 

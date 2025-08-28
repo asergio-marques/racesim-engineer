@@ -18,7 +18,8 @@ target_sources(${PROJECT_NAME} PRIVATE
     ParticipantStatus.cpp
     LapStatus.cpp
     PenaltyStatus.cpp
-    Standings.cpp)
+    Standings.cpp
+    SessionParticipants.cpp)
 
 set_target_properties(${PROJECT_NAME}
 	PROPERTIES

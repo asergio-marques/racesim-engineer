@@ -8,7 +8,9 @@
 
 Packet::Event::QualiStart::QualiStart(const uint64_t timestamp, uint8_t carsClassifiedAtEnd) :
     Packet::Event::Interface(timestamp),
-    m_carsClassifiedAtEnd(carsClassifiedAtEnd) {
+    m_noActiveParticipants(carsClassifiedAtEnd),
+    m_noNextSessionParticipants(carsClassifiedAtEnd),
+    m_duration(0) {
 
 
 

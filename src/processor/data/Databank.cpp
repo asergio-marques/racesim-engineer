@@ -58,27 +58,36 @@ void Processor::Data::Databank::updateData(const Packet::Internal::Interface* pa
 
     if (packet) {
 
-        switch (packet->packetType()) {
+        if (!m_sessionRecord && m_driverRecords.empty()) {
 
-            case Packet::Internal::Type::Standings:
-                updateStandings(dynamic_cast<const Packet::Internal::Standings*>(packet));
-                break;
+            Processor::Data::Creator::Interface* creator = nullptr;
 
-            case Packet::Internal::Type::PenaltyStatus:
-                updatePenalties(dynamic_cast<const Packet::Internal::PenaltyStatus*>(packet));
-                break;
+        }
+        else {
 
-            case Packet::Internal::Type::ParticipantStatus:
-                updateParticipantStatus(dynamic_cast<const Packet::Internal::ParticipantStatus*>(packet));
-                break;
+            switch (packet->packetType()) {
 
-            case Packet::Internal::Type::LapStatus:
-                updateLapStatus(dynamic_cast<const Packet::Internal::LapStatus*>(packet));
-                break;
+                case Packet::Internal::Type::Standings:
+                    updateStandings(dynamic_cast<const Packet::Internal::Standings*>(packet));
+                    break;
 
-            default:
-                // do nothing
-                break;
+                case Packet::Internal::Type::PenaltyStatus:
+                    updatePenalties(dynamic_cast<const Packet::Internal::PenaltyStatus*>(packet));
+                    break;
+
+                case Packet::Internal::Type::ParticipantStatus:
+                    updateParticipantStatus(dynamic_cast<const Packet::Internal::ParticipantStatus*>(packet));
+                    break;
+
+                case Packet::Internal::Type::LapStatus:
+                    updateLapStatus(dynamic_cast<const Packet::Internal::LapStatus*>(packet));
+                    break;
+
+                default:
+                    // do nothing
+                    break;
+
+            }
 
         }
 

@@ -18,6 +18,17 @@ namespace Session::Internal {
         Race            = 4
 
     };
+    enum class LimitType : uint8_t {
+
+        InvalidUnknown  = 0,
+        LapNumber       = 1,
+        TimeElapsed     = 2,
+        LapsOverTime    = 3     // for cases where laps are the primary
+                                // indicator, but the session may not take
+                                // more than a certain amount of time if the
+                                // total number of laps is not met
+
+    };
 
     enum class TeamID : uint8_t {
 
@@ -122,6 +133,9 @@ namespace Session::Internal {
 
     struct Settings {
 
+        //
+        Session::Internal::LimitType m_sessionLimit = Session::Internal::LimitType::InvalidUnknown;
+
         // Determines how long does the session last for (seconds)
         uint32_t m_sessionDurationTime = 0;
 
@@ -130,9 +144,6 @@ namespace Session::Internal {
 
         // Determines the type of the session taking place
         Session::Internal::Type m_sessionType = Session::Internal::Type::InvalidUnknown;
-
-        // How many participants at the top of the session are promoted at the end
-        uint8_t m_promotionZone = 0;
 
         // How many participants at the bottom of the session are eliminated at the end
         uint8_t m_dropZone = 0;
@@ -149,16 +160,16 @@ namespace Session::Internal {
         Session::Internal::Track m_sessionTrack = Session::Internal::Track::Unknown;
 
         // Total distance for a single lap at the track, if available (meters)
-        float_t m_lapDistanceTotal = 0.0f;
+        uint16_t m_lapDistanceTotal = 0.0f;
 
         // Distance of Sector 1, if available (meters)
-        float_t m_sector1Distance = 0.0f;
+        uint16_t m_sector1Distance = 0.0f;
 
         // Distance of Sector 2, if available (meters)
-        float_t m_sector2Distance = 0.0f;
+        uint16_t m_sector2Distance = 0.0f;
 
         // Distance of Sector 3, if available (meters)
-        float_t m_sector3Distance = 0.0f;
+        uint16_t m_sector3Distance = 0.0f;
 
     };
 

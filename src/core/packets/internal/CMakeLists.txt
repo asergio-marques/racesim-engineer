@@ -20,7 +20,7 @@ target_sources(${PROJECT_NAME} PRIVATE
     PenaltyStatus.cpp
     Standings.cpp
     SessionParticipants.cpp
-    SessionStartSettings.cpp)
+    SessionSettings.cpp)
 
 set_target_properties(${PROJECT_NAME}
 	PROPERTIES

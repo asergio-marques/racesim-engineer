@@ -12,7 +12,7 @@ namespace Packet {
         enum class Type : uint8_t {
 
             UnknownInvalid          = 0,
-            SessionStartSettings    = 1,
+            SessionSettings         = 1,
             SessionParticipants     = 2,
             Standings               = 3,
             ParticipantStatus       = 4,

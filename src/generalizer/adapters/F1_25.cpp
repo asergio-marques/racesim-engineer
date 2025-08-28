@@ -15,7 +15,7 @@
 #include "packets/internal/ParticipantStatus.h"
 #include "packets/internal/PenaltyStatus.h"
 #include "packets/internal/SessionParticipants.h"
-#include "packets/internal/SessionStartSettings.h"
+#include "packets/internal/SessionSettings.h"
 #include "packets/internal/Standings.h"
 #include "packets/game/F1_25/Interface.h"
 #include "packets/game/F1_25/Header.h"
@@ -157,14 +157,11 @@ Generalizer::Adapter::F1_25::ConvertSessionDataPacket(const Packet::Game::F1_25:
 
     }
 
-    Packet::Internal::SessionStartSettings* sessionDataPacket =
-        new Packet::Internal::SessionStartSettings(inputPacket->GetHeader()->GetFrameIdentifier());
-
     Session::Internal::TrackInfo trackInfo;
     Session::Internal::Settings settings;
     ExtractSessionSettings(inputPacket, trackInfo, settings);
-
-    // TODO insert info in SessionDataPacket
+    Packet::Internal::SessionSettings* sessionDataPacket =
+        new Packet::Internal::SessionSettings(inputPacket->GetHeader()->GetFrameIdentifier(), trackInfo, settings);
 
     return { sessionDataPacket };
 
@@ -291,8 +288,7 @@ Generalizer::Adapter::F1_25::GetSingleParticipantData(const Packet::Game::F1_25:
 
 
 
-void
-Generalizer::Adapter::F1_25::ExtractSessionSettings(const Packet::Game::F1_25::SessionData* inputPacket,
+void Generalizer::Adapter::F1_25::ExtractSessionSettings(const Packet::Game::F1_25::SessionData* inputPacket,
     Session::Internal::TrackInfo& trackInfo,
     Session::Internal::Settings& settings) {
 
@@ -303,7 +299,78 @@ Generalizer::Adapter::F1_25::ExtractSessionSettings(const Packet::Game::F1_25::S
             trackInfo.m_sessionTrack = it->second;
 
         }
-        // no need for else; default is already "Unknown" track
+        trackInfo.m_lapDistanceTotal = inputPacket->GetTrackLength();
+        trackInfo.m_sector1Distance = inputPacket->GetSector2LapDistanceStart();
+        trackInfo.m_sector2Distance = inputPacket->GetSector3LapDistanceStart();
+        trackInfo.m_sector3Distance = trackInfo.m_lapDistanceTotal - trackInfo.m_sector1Distance - trackInfo.m_sector2Distance;
+
+        switch (inputPacket->GetSessionType()) {
+
+            case Session::Game::F1_25::Type::FreePractice1:
+            case Session::Game::F1_25::Type::FreePractice2:
+            case Session::Game::F1_25::Type::FreePractice3:
+            case Session::Game::F1_25::Type::ShortPractice:
+                settings.m_sessionLimit = Session::Internal::LimitType::TimeElapsed;
+                settings.m_sessionType = Session::Internal::Type::FreePractice;
+                settings.m_sessionDurationTime = inputPacket->GetSessionDuration();
+                break;
+
+            case Session::Game::F1_25::Type::Qualifying1:
+            case Session::Game::F1_25::Type::Qualifying2:
+            case Session::Game::F1_25::Type::Qualifying3:
+            case Session::Game::F1_25::Type::SprintShootout1:
+            case Session::Game::F1_25::Type::SprintShootout2:
+            case Session::Game::F1_25::Type::SprintShootout3:
+            case Session::Game::F1_25::Type::ShortQualifying:
+            case Session::Game::F1_25::Type::ShortSprintShootout:
+                settings.m_sessionLimit = Session::Internal::LimitType::TimeElapsed;
+                settings.m_sessionType = Session::Internal::Type::Qualifying;
+                settings.m_sessionDurationTime = inputPacket->GetSessionDuration();
+                break;
+
+            case Session::Game::F1_25::Type::OneShotQualifying:
+            case Session::Game::F1_25::Type::OneShotSprintShootout:
+                settings.m_sessionLimit = Session::Internal::LimitType::LapNumber;
+                settings.m_sessionType = Session::Internal::Type::Qualifying;
+                settings.m_sessionDurationLaps = 1;
+                break;
+            case Session::Game::F1_25::Type::TimeTrial:
+                break;
+
+            case Session::Game::F1_25::Type::Race1:
+            case Session::Game::F1_25::Type::Race2:
+            case Session::Game::F1_25::Type::Race3:
+                // TODO check if there is a time limit in the F1 game races as well
+                settings.m_sessionLimit = Session::Internal::LimitType::LapNumber;
+                settings.m_sessionType = Session::Internal::Type::Race;
+                settings.m_sessionDurationLaps = inputPacket->GetTotalLaps();
+                break;
+
+            default:
+                break;
+
+        }
+
+        if (inputPacket->GetFormula() == Session::Game::F1_25::Formula::F2) {
+
+            // TODO check which one of these is actually used by F2 lmao
+            if (inputPacket->GetSessionType() == Session::Game::F1_25::Type::Qualifying1 ||
+                inputPacket->GetSessionType() == Session::Game::F1_25::Type::Qualifying2 ||
+                inputPacket->GetSessionType() == Session::Game::F1_25::Type::Qualifying3 ||
+                inputPacket->GetSessionType() == Session::Game::F1_25::Type::ShortQualifying) {
+
+                settings.m_reverseZone = 10;
+
+            }
+
+        } else if (inputPacket->GetSessionType() == Session::Game::F1_25::Type::Qualifying1 ||
+            inputPacket->GetSessionType() == Session::Game::F1_25::Type::Qualifying2 ||
+            inputPacket->GetSessionType() == Session::Game::F1_25::Type::SprintShootout1 ||
+            inputPacket->GetSessionType() == Session::Game::F1_25::Type::SprintShootout2) {
+
+            settings.m_dropZone = 5;
+
+        }
 
     }
 

@@ -2,6 +2,7 @@
 
 #include <cstdint>
 #include <map>
+#include "data/internal/Session.h"
 #include "data/DriverRecord.h"
 #include "data/SessionRecord.h"
 #include "packets/internal/GridPosition.h"
@@ -63,7 +64,7 @@ void Processor::Data::RecordCreator::Init(const Packet::Internal::SessionPartici
 
     if (!packet) return;
 
-    const std::vector<Packet::Internal::SessionParticipants::Data> participantData = packet->GetData();
+    const std::vector<Session::Internal::Participant> participantData = packet->GetData();
 
     if (m_driverRecords.empty()) {
 
@@ -74,7 +75,7 @@ void Processor::Data::RecordCreator::Init(const Packet::Internal::SessionPartici
             m_driverRecords.emplace(record->getDriverId(), record);
             if (data.m_isPlayer) {
 
-                m_playerId = data.m_driverID;
+                m_playerId = data.m_index;
 
             }
 

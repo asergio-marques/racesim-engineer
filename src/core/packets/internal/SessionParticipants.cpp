@@ -9,17 +9,6 @@
 
 
 
-Packet::Internal::SessionParticipants::Data::Data(const uint8_t driverID, const bool isPlayer,
-    const std::string fullName, std::string shortName, const Session::Internal::TeamID teamID) :
-    m_driverID(driverID),
-    m_isPlayer(isPlayer),
-    m_fullName(fullName),
-    m_shortName(shortName),
-    m_teamID(teamID) {
-
-}
-
-
 
 Packet::Internal::SessionParticipants::SessionParticipants(const uint64_t timestamp, const uint8_t totalParticipants) :
     Packet::Internal::Interface(timestamp),
@@ -40,10 +29,9 @@ const Packet::Internal::Type Packet::Internal::SessionParticipants::packetType()
 
 
 
-void Packet::Internal::SessionParticipants::InsertData(const uint8_t driverID, const bool isPlayer, const std::string fullName,
-                    const std::string shortName, const Session::Internal::TeamID teamID) {
+void Packet::Internal::SessionParticipants::InsertData(const Session::Internal::Participant input) {
 
-    m_fullParticipantData.push_back(Packet::Internal::SessionParticipants::Data(driverID, isPlayer, fullName, shortName, teamID));
+    m_fullParticipantData.push_back(input);
 
 }
 
@@ -56,7 +44,7 @@ const uint8_t Packet::Internal::SessionParticipants::GetTotalParticipants() cons
 
 
 
-const std::vector<Packet::Internal::SessionParticipants::Data>& Packet::Internal::SessionParticipants::GetData() const {
+const std::vector<Session::Internal::Participant>& Packet::Internal::SessionParticipants::GetData() const {
 
     return m_fullParticipantData;
 

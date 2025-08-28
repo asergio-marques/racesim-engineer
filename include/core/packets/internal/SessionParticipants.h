@@ -14,31 +14,10 @@ namespace Packet {
 
     namespace Internal {
 
+        struct Participant;
+
         struct SessionParticipants : public Packet::Internal::Interface {
 
-            struct Data {
-
-                public:
-                // Constructor
-                Data(const uint8_t driverID, const bool isPlayer, const std::string fullName,
-                    std::string shortName, const Session::Internal::TeamID teamID);
-
-                // ID of the driver for which this status is relative to
-                const uint8_t m_driverID;
-
-                // Whether this participant data corresponds to the player
-                const bool m_isPlayer;
-
-                // Full nickname for logging
-                std::string m_fullName = "????????????";
-
-                // 3-letter name for display
-                std::string m_shortName = "???";
-
-                // Which team icon ought be displayed
-                Session::Internal::TeamID m_teamID = Session::Internal::TeamID::Unknown;
-
-            };
             public:
             // Packet interface constructor
             SessionParticipants(const uint64_t timestamp, const uint8_t totalParticipants);
@@ -50,21 +29,20 @@ namespace Packet {
             const Packet::Internal::Type packetType() const override final;
 
             // Adds participant data into the packet
-            void InsertData(const uint8_t driverID, const bool isPlayer, const std::string fullName,
-                    const std::string shortName, const Session::Internal::TeamID teamID);
+            void InsertData(const Session::Internal::Participant input);
 
             // Retrieve number of total participants from the packet
             const uint8_t GetTotalParticipants() const;
 
             // Retrieve participant data from the packet
-            const std::vector<Packet::Internal::SessionParticipants::Data>& GetData() const;
+            const std::vector<Session::Internal::Participant>& GetData() const;
 
             private:
             // How many participants are there in total
             const uint8_t m_totalParticipants;
 
             // Holds the base data of all drivers in the session
-            std::vector<Packet::Internal::SessionParticipants::Data> m_fullParticipantData;
+            std::vector<Session::Internal::Participant> m_fullParticipantData;
 
         };
 

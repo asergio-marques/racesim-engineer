@@ -191,8 +191,7 @@ Generalizer::Adapter::F1_25::ConvertParticipantDataPacket(const Packet::Game::F1
         const Packet::Game::F1_25::ParticipantInfo rawInfo = inputPacket->GetParticipantInfo(i, ok);
         if (ok) {
 
-            auto data = GetSingleParticipantData(rawInfo, i, playerIndex);
-            participantsPacket->InsertData(data.m_index, data.m_isPlayer, data.m_fullName, data.m_shortName, data.m_TeamIcon);
+            participantsPacket->InsertData(GetSingleParticipantData(rawInfo, i, playerIndex));
 
         }
 

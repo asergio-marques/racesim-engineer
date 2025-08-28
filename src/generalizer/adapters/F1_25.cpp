@@ -1,16 +1,20 @@
 #include "adapters/F1_25.h"
 
+#include <string>
 #include <limits>
 #include <vector>
+#include "adapters/Interface.h"
 #include "data/game/F1_25/Event.h"
 #include "data/internal/Participant.h"
+#include "data/internal/Session.h"
 #include "packets/game/Helper.h"
 #include "packets/game/Interface.h"
 #include "packets/internal/Interface.h"
-#include "packets/internal/ParticipantStatus.h"
 #include "packets/internal/LapStatus.h"
-#include "packets/internal/Standings.h"
+#include "packets/internal/ParticipantStatus.h"
 #include "packets/internal/PenaltyStatus.h"
+#include "packets/internal/SessionParticipants.h"
+#include "packets/internal/Standings.h"
 #include "packets/game/F1_25/Interface.h"
 #include "packets/game/F1_25/Header.h"
 #include "packets/game/F1_25/CarMotionData.h"
@@ -145,6 +149,8 @@ std::vector<Packet::Internal::Interface*> Generalizer::Adapter::F1_25::ConvertSe
 
     }
 
+
+
     return {};
 
 }
@@ -155,6 +161,20 @@ std::vector<Packet::Internal::Interface*> Generalizer::Adapter::F1_25::ConvertPa
     if (!inputPacket) {
 
         return {};
+
+    }
+
+    Packet::Internal::SessionParticipants* participantsPacket = new Packet::Internal::SessionParticipants(inputPacket->GetHeader()->GetFrameIdentifier());
+    auto playerIndex = inputPacket->GetHeader()->GetCarIndexPlayer1();
+    for (size_t i = 0; i < inputPacket->GetNumActiveCars(); ++i) {
+
+        bool ok = false;
+        const Packet::Game::F1_25::ParticipantInfo rawInfo = inputPacket->GetParticipantInfo(i, ok);
+        if (ok) {
+
+            participantsPacket->InsertData(GetSingleParticipantData(rawInfo, i, playerIndex));
+
+        }
 
     }
 
@@ -209,5 +229,43 @@ void Generalizer::Adapter::F1_25::AddLapStatusInfo(const uint8_t lapNo,
         castOutputPacket->InsertData(lapData);
 
     }
+
+}
+
+
+
+const Session::Internal::Participant
+Generalizer::Adapter::F1_25::GetSingleParticipantData(const Packet::Game::F1_25::ParticipantInfo& rawInfo,
+    const uint8_t& arrayIndex,
+    const uint8_t& playerIndex) {
+
+    Session::Internal::Participant convertedInfo;
+    convertedInfo.m_index = arrayIndex;
+    convertedInfo.m_isPlayer = (arrayIndex == playerIndex);
+
+    // This is probably inefficient in cases where the driver is not a "preset" one, but...
+    // Attempt to look up the 3-letter version of a predefined game driver, if human player,
+    // Then the string will be empty and the game will be forced to "shorten" the username
+    // 
+    // NOTE: Problems with the shortening method may arise in the case of things like clan tags
+    auto driverIt = NetCom::Adapter::F1_25::DataConversionMaps::DRIVER_SHORTHAND_MAP.find(rawInfo.m_driverId);
+    if (driverIt != NetCom::Adapter::F1_25::DataConversionMaps::DRIVER_SHORTHAND_MAP.end() &&
+        std::strcmp(driverIt->second, "")) {
+        convertedInfo.m_shortName = driverIt->second;
+    }
+    else {
+        convertedInfo.m_shortName = ShortenDriverName(rawInfo.m_name);
+    }
+    convertedInfo.m_fullName = rawInfo.m_name;
+
+    // Find team to be used as reference in UI
+    auto teamIt = NetCom::Adapter::F1_25::DataConversionMaps::TEAM_ID_MAP.find(rawInfo.m_teamId);
+    if (teamIt != NetCom::Adapter::F1_25::DataConversionMaps::TEAM_ID_MAP.end()) {
+
+        convertedInfo.m_TeamIcon = teamIt->second;
+
+    }
+
+    return convertedInfo;
 
 }

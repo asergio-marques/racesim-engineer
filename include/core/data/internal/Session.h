@@ -120,6 +120,25 @@ namespace Session::Internal {
 
     };
 
+    struct TrackInfo {
+
+        // The track at which the session is taking place
+        Session::Internal::Track m_sessionTrack;
+
+        // Total distance for a single lap at the track, if available (meters)
+        float_t m_lapDistanceTotal;
+
+        // Distance of Sector 1, if available (meters)
+        float_t m_sector1Distance;
+
+        // Distance of Sector 2, if available (meters)
+        float_t m_sector2Distance;
+
+        // Distance of Sector 3, if available (meters)
+        float_t m_sector3Distance;
+
+    };
+
 }
 
 #endif // DATA_INTERNAL_INCLUDE_SESSION_H_

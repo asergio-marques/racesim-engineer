@@ -1,8 +1,10 @@
 #ifndef GENERALIZER_ADAPTERS_INCLUDE_F1_25_H_
 #define GENERALIZER_ADAPTERS_INCLUDE_F1_25_H_
 
+#include <string>
 #include <vector>
 #include "adapters/Interface.h"
+#include "data/internal/Session.h"
 
 
 
@@ -52,6 +54,11 @@ namespace Generalizer {
 			void AddLapStatusInfo(const uint8_t lapNo,
 				const Packet::Game::F1_25::LapHistoryInfo* inputInfo,
 				Packet::Internal::Interface* outputPacket) const;
+
+			const std::string ShortenDriverName(const char* originalName);
+			const Session::Internal::Participant GetSingleParticipantData(const Packet::Game::F1_25::ParticipantInfo& rawInfo,
+				const uint8_t& arrayIndex,
+				const uint8_t& playerIndex);
 
 		};
 

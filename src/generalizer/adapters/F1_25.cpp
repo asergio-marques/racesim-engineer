@@ -10,6 +10,7 @@
 #include "maps/F1_25.h"
 #include "packets/game/Helper.h"
 #include "packets/game/Interface.h"
+#include "packets/internal/GridPosition.h"
 #include "packets/internal/Interface.h"
 #include "packets/internal/LapStatus.h"
 #include "packets/internal/ParticipantStatus.h"
@@ -92,6 +93,9 @@ Generalizer::Adapter::F1_25::ConvertLapDataPacket(const Packet::Game::F1_25::Lap
 
     }
 
+    // TODO it doesn't make sense to be creating a gridpacket every time we get a lapdata packet...
+    Packet::Internal::GridPosition* gridPacket = 
+        new Packet::Internal::GridPosition(inputPacket->GetHeader()->GetFrameIdentifier());
     Packet::Internal::Standings* standingsPacket =
         new Packet::Internal::Standings(inputPacket->GetHeader()->GetFrameIdentifier());
     Packet::Internal::PenaltyStatus* penaltiesPacket =
@@ -104,6 +108,7 @@ Generalizer::Adapter::F1_25::ConvertLapDataPacket(const Packet::Game::F1_25::Lap
         const auto lapInfo = inputPacket->GetLapInfo(i, ok);
         if (ok) {
 
+            gridPacket->InsertData(i, lapInfo.m_gridPositionStart);
             standingsPacket->InsertData(i, lapInfo.m_carPosition);
             penaltiesPacket->InsertData(i, lapInfo.m_numTotalWarn,
                 lapInfo.m_numCornerCutWarn,
@@ -142,7 +147,7 @@ Generalizer::Adapter::F1_25::ConvertLapDataPacket(const Packet::Game::F1_25::Lap
 
     }
 
-    return { standingsPacket, penaltiesPacket, statusPacket };
+    return { gridPacket, standingsPacket, penaltiesPacket, statusPacket };
 
 }
 

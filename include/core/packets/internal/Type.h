@@ -14,10 +14,11 @@ namespace Packet {
             UnknownInvalid          = 0,
             SessionSettings         = 1,
             SessionParticipants     = 2,
-            Standings               = 3,
-            ParticipantStatus       = 4,
-            LapStatus               = 5,
-            PenaltyStatus           = 6
+            GridPosition            = 3,
+            Standings               = 4,
+            ParticipantStatus       = 5,
+            LapStatus               = 6,
+            PenaltyStatus           = 7
 
         };
     

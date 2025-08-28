@@ -14,6 +14,7 @@ target_include_directories(${PROJECT_NAME} PRIVATE "${PROJECT_ROOT}/src/core")
 
 target_sources(${PROJECT_NAME} PRIVATE
     Broadcaster.cpp
+    GridPosition.cpp
     Interface.cpp
     ParticipantStatus.cpp
     LapStatus.cpp

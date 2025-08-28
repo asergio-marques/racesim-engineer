@@ -13,11 +13,14 @@
 #include "detectors/Interface.h"
 #include "detectors/Type.h"
 #include "exporters/RaceSession.h"
+#include "packets/internal/GridPosition.h"
 #include "packets/internal/Interface.h"
 #include "packets/internal/ParticipantStatus.h"
 #include "packets/internal/LapStatus.h"
 #include "packets/internal/Standings.h"
 #include "packets/internal/PenaltyStatus.h"
+#include "packets/internal/SessionParticipants.h"
+#include "packets/internal/SessionSettings.h"
 
 
 #ifndef LINUX
@@ -77,6 +80,19 @@ void Processor::Data::Databank::updateData(const Packet::Internal::Interface* pa
             // if there are records, check against the new data validity and if different, create them anew
             // the SessionStartDataReady detector should detect when all the necessary data is in place
             // to then send the appropriate session start event packet
+            switch (packet->packetType()) {
+
+                case Packet::Internal::Type::GridPosition:
+                    dynamic_cast<const Packet::Internal::GridPosition*>(packet);
+                    break;
+                case Packet::Internal::Type::SessionSettings:
+                    dynamic_cast<const Packet::Internal::SessionSettings*>(packet);
+                    break;
+                case Packet::Internal::Type::SessionParticipants:
+                    dynamic_cast<const Packet::Internal::SessionParticipants*>(packet);
+                    break;
+
+            }
 
         }
         else {

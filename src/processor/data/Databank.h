@@ -74,6 +74,9 @@ namespace Processor {
             // Checks the auto export user setting and outputs the session data if so
             void triggerAutoExport();
 
+            // Triggered when a session is started or ended
+            void OnSessionStateChange(bool sessionStateChangedTo);
+
             // Interfaces with the DriverState class to update the driver position
             void updateStandings(const Packet::Internal::Standings* standingsPacket);
 

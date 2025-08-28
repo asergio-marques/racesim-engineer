@@ -10,8 +10,6 @@
 #include "data/DriverRecord.h"
 #include "data/SessionRecord.h"
 #include "data/internal/Participant.h"
-#include "data/creators/Interface.h"
-#include "data/creators/RaceSession.h"
 #include "detectors/Interface.h"
 #include "detectors/Type.h"
 #include "exporters/RaceSession.h"
@@ -60,7 +58,7 @@ void Processor::Data::Databank::updateData(const Packet::Internal::Interface* pa
 
         if (!m_sessionRecord && m_driverRecords.empty()) {
 
-            Processor::Data::Creator::Interface* creator = nullptr;
+            // take the lack of session records and driver records as a sign that a session hasn't been started
 
         }
         else {
@@ -103,6 +101,8 @@ void Processor::Data::Databank::installDetector(Processor::Detector::Interface* 
         const auto it = m_activeDetectors.find(detector->GetType());
         if (it == m_activeDetectors.cend()) {
             
+            detector->RegisterFunction(std::bind(&Processor::Data::Databank::OnSessionStateChange, this, std::placeholders::_1));
+
             // Add to vector
             m_activeDetectors.emplace(detector->GetType(), detector);
 
@@ -186,6 +186,24 @@ void Processor::Data::Databank::triggerAutoExport() {
         }
 
     }
+
+}
+
+
+
+void Processor::Data::Databank::OnSessionStateChange(bool sessionStateChangedTo) {
+        
+    for (auto detector : m_activeDetectors) {
+
+        if (detector.second) {
+
+            // share the information about a session being officially started or not, to enable the "capture" of information
+            detector.second->Enable(sessionStateChangedTo);
+
+        }
+
+    }
+    
 
 }
 

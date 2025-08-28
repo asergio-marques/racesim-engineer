@@ -353,7 +353,7 @@ void Generalizer::Adapter::F1_25::ExtractSessionSettings(const Packet::Game::F1_
 
         if (inputPacket->GetFormula() == Session::Game::F1_25::Formula::F2) {
 
-            // TODO check which one of these is actually used by F2 lmao
+            // TODO check which ones of these are actually used by F2 lmao
             if (inputPacket->GetSessionType() == Session::Game::F1_25::Type::Qualifying1 ||
                 inputPacket->GetSessionType() == Session::Game::F1_25::Type::Qualifying2 ||
                 inputPacket->GetSessionType() == Session::Game::F1_25::Type::Qualifying3 ||

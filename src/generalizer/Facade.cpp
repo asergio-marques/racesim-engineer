@@ -26,6 +26,8 @@ void Generalizer::Facade::OnPacketBroadcast(Packet::Game::Interface* packet) {
 	if (m_gameAdapter) {
 
 		std::vector<Packet::Internal::Interface*> internalPackets = m_gameAdapter->ConvertPacket(packet);
+		
+		// TODO delete packet
 
 		Broadcast(internalPackets);
 

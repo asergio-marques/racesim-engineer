@@ -20,6 +20,7 @@ Processor::Facade::Facade() :
     Processor::IFacade::IFacade(),
     m_databank(new Processor::Data::Databank),
     m_detectors(),
+    m_presenter(nullptr),
     m_workerThread() {
 
     if (m_databank) {
@@ -67,6 +68,8 @@ void Processor::Facade::OnPacketBundleBroadcast(std::vector<Packet::Internal::In
             }
 
         }
+
+        // TODO delete packets and clear vector
 
     }
 

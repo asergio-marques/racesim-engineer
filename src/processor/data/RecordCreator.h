@@ -56,6 +56,9 @@ namespace Processor {
             // History about the current session
             Processor::Data::SessionRecord* m_sessionRecord;
 
+            // Records the total of participants detected in the session, useful for validation at the start
+            uint8_t m_totalParticipants;
+
             // Records the ID of the player, if anything; 255 if the local player is not participating
             uint8_t m_playerId;
 

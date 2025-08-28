@@ -15,6 +15,7 @@
 Processor::Data::RecordCreator::RecordCreator() :
     m_driverRecords(),
     m_sessionRecord(nullptr),
+    m_totalParticipants(0),
     m_playerId(UINT8_MAX) {
 
 
@@ -46,7 +47,23 @@ void Processor::Data::RecordCreator::Init(const Packet::Internal::GridPosition* 
 
     if (!packet || m_driverRecords.empty()) return;
 
-    // TODO
+    auto gridData = packet->GetData();
+    for (auto data : gridData) {
+
+        auto entry = m_driverRecords.find(data.m_driverID);
+        if (entry != m_driverRecords.end()) {
+
+            auto driverData = entry->second;
+
+            if (driverData) {
+
+                driverData->getModifiableState().setGridPosition(data.m_position);
+
+            }
+
+        }
+
+    }
 
 }
 
@@ -64,7 +81,8 @@ void Processor::Data::RecordCreator::Init(const Packet::Internal::SessionPartici
 
     if (!packet) return;
 
-    const std::vector<Session::Internal::Participant> participantData = packet->GetData();
+    m_totalParticipants = packet->GetTotalParticipants();
+    auto participantData = packet->GetData();
 
     if (m_driverRecords.empty()) {
 
@@ -85,6 +103,19 @@ void Processor::Data::RecordCreator::Init(const Packet::Internal::SessionPartici
     else if (m_driverRecords.size() != packet->GetTotalParticipants()) {
 
         // case in which someone joins halfway through a session
+        // assume they're appended to the end of the participant list, but this still needs testing
+        for (size_t i = m_driverRecords.size(); i < packet->GetTotalParticipants(); ++i) {
+
+            auto data = participantData[i];
+            Processor::Data::DriverRecord* record = new Processor::Data::DriverRecord(packet->m_timestamp, data);
+            m_driverRecords.emplace(record->getDriverId(), record);
+            if (data.m_isPlayer) {
+
+                m_playerId = data.m_index;
+
+            }
+
+        }
 
     }
 

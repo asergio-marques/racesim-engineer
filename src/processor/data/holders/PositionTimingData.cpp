@@ -2,7 +2,7 @@
 
 #include <cstdint>
 #include "data/internal/Participant.h"
-#include "detectors/DriverStatus.h"
+#include "detectors/ParticipantStatusChanged.h"
 #include "detectors/Interface.h"
 #include "detectors/Overtake.h"
 #include "detectors/Type.h"
@@ -10,6 +10,8 @@
 
 
 Processor::Data::PositionTimingData::PositionTimingData(const uint8_t startingPosition) :
+    m_isGridPositionSet(false),
+    m_gridPosition(0),
     m_currentPosition(startingPosition),
     m_startingPosition(startingPosition),
     m_status(Participant::Internal::Status::InvalidUnknown),
@@ -32,8 +34,8 @@ void Processor::Data::PositionTimingData::installDetector(Processor::Detector::I
             m_installedOvertakeDetector = dynamic_cast<Processor::Detector::Overtake*>(detector);
             break;
 
-        case Processor::Detector::Type::ParticipantStatus:
-            m_installedStatusDetector = dynamic_cast<Processor::Detector::DriverStatus*>(detector);
+        case Processor::Detector::Type::ParticipantStatusChanged:
+            m_installedStatusDetector = dynamic_cast<Processor::Detector::ParticipantStatusChanged*>(detector);
             break;
 
         default:
@@ -62,6 +64,16 @@ void Processor::Data::PositionTimingData::updateStatus(const uint8_t id, const P
         }
 
     }
+
+}
+
+
+
+void Processor::Data::PositionTimingData::setGridPosition(const uint8_t gridPosition) {
+
+    m_currentPosition = gridPosition;
+    m_gridPosition = gridPosition;
+    m_isGridPositionSet = true;
 
 }
 

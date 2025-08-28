@@ -40,6 +40,9 @@ namespace Processor {
             // Note that the driver status does not change, and hence the driver is not yet officially finished!
             void markAsFinished();
 
+            // Set the initial grid position of the driver at the start of the session
+            void setGridPosition(const uint8_t gridPosition);
+
             // Alter the position in this driver state, and feed it to the detector
             void updateCurrentPosition(const uint8_t currentPosition);
 

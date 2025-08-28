@@ -45,6 +45,14 @@ void Processor::Data::DriverState::markAsFinished() {
 
 
 
+void Processor::Data::DriverState::setGridPosition(const uint8_t gridPosition) {
+
+    m_posTimeData.setGridPosition(gridPosition);
+
+}
+
+
+
 void Processor::Data::DriverState::updateCurrentPosition(const uint8_t currentPosition) {
 
     m_posTimeData.updateCurrentPosition(m_id, currentPosition);

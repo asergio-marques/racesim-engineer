@@ -22,6 +22,9 @@ namespace Packet {
             // Type identifier for the packet
             const Packet::Event::Type packetType() const override final;
 
+            // Structure containing all relevant data about the track the session is taking place at
+            Session::Internal::TrackInfo m_trackInfo;
+
         };
 
     }

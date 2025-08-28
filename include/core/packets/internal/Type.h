@@ -11,11 +11,12 @@ namespace Packet {
 
         enum class Type : uint8_t {
 
-            UnknownInvalid      = 0,
-            ParticipantStatus   = 1,
-            Standings           = 2,
-            LapStatus           = 3,
-            PenaltyStatus       = 4
+            UnknownInvalid          = 0,
+            SessionParticipants     = 2,
+            Standings               = 2,
+            ParticipantStatus       = 3,
+            LapStatus               = 4,
+            PenaltyStatus           = 5
 
         };
     

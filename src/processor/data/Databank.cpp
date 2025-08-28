@@ -8,6 +8,7 @@
 #include "ICompFacade.h"
 #include "ISettings.h"
 #include "data/DriverRecord.h"
+#include "data/RecordCreator.h"
 #include "data/SessionRecord.h"
 #include "data/internal/Participant.h"
 #include "detectors/Interface.h"
@@ -28,9 +29,10 @@
 #endif
 
 
-Processor::Data::Databank::Databank() : 
+Processor::Data::Databank::Databank() :
     m_isWorking(false),
     m_presenter(nullptr),
+    m_creator(new Processor::Data::RecordCreator),
     m_driverRecords(),
     m_sessionRecord(nullptr),
     m_exporter(nullptr),
@@ -73,7 +75,7 @@ void Processor::Data::Databank::updateData(const Packet::Internal::Interface* pa
 
     if (packet) {
 
-        if (!m_isWorking) {
+        if (m_creator && !m_isWorking) {
 
             // if the databank is not working, then the existing records should be verified
             // if there are no records, we create them anew
@@ -83,15 +85,17 @@ void Processor::Data::Databank::updateData(const Packet::Internal::Interface* pa
             switch (packet->packetType()) {
 
                 case Packet::Internal::Type::GridPosition:
-                    dynamic_cast<const Packet::Internal::GridPosition*>(packet);
+                    m_creator->Init(dynamic_cast<const Packet::Internal::GridPosition*>(packet));
                     break;
                 case Packet::Internal::Type::SessionSettings:
-                    dynamic_cast<const Packet::Internal::SessionSettings*>(packet);
+                    m_creator->Init(dynamic_cast<const Packet::Internal::SessionSettings*>(packet));
                     break;
                 case Packet::Internal::Type::SessionParticipants:
-                    dynamic_cast<const Packet::Internal::SessionParticipants*>(packet);
+                    m_creator->Init(dynamic_cast<const Packet::Internal::SessionParticipants*>(packet));
                     break;
-
+                default:
+                    // do nothing
+                    break;
             }
 
         }
@@ -134,7 +138,7 @@ void Processor::Data::Databank::installDetector(Processor::Detector::Interface* 
         // Search the type of the detector being added to avoid duplicates
         const auto it = m_activeDetectors.find(detector->GetType());
         if (it == m_activeDetectors.cend()) {
-            
+
             detector->RegisterFunction(std::bind(&Processor::Data::Databank::OnSessionStateChange, this, std::placeholders::_1));
 
             // Add to vector
@@ -142,11 +146,11 @@ void Processor::Data::Databank::installDetector(Processor::Detector::Interface* 
 
             // Try to add to the current records
             if (!(m_driverRecords.empty()) && m_sessionRecord) {
-                
+
                 detector->Init(m_sessionRecord);
 
                 for (auto entry : m_driverRecords) {
-                    
+
                     auto record = entry.second;
                     if (record) record->getModifiableState().installDetector(detector);
 
@@ -177,7 +181,7 @@ void Processor::Data::Databank::markAsFinished() {
         record.second->markAsFinished();
 
     }
-        
+
     // TODO what would this even be for
     // m_sessionRecord->markAsFinished();
 
@@ -200,11 +204,11 @@ void Processor::Data::Databank::triggerAutoExport() {
 
                 std::string folderPath = "";
                 #ifndef LINUX
-                    TCHAR szExeFileName[MAX_PATH];
-                    GetModuleFileName(NULL, szExeFileName, MAX_PATH);
-                    folderPath = szExeFileName;
+                TCHAR szExeFileName[MAX_PATH];
+                GetModuleFileName(NULL, szExeFileName, MAX_PATH);
+                folderPath = szExeFileName;
                 #elif
-                    // TODO LINUX
+                // TODO LINUX
                 #endif
                 // TODO automatic export default path
                 std::filesystem::path path(folderPath);
@@ -239,7 +243,38 @@ void Processor::Data::Databank::OnSessionStateChange(bool sessionStateChangedTo)
         }
 
     }
-    
+
+    if (m_creator) {
+
+        if (sessionStateChangedTo) {
+
+            // session started, inject records into exporter
+            uint8_t playerId = UINT8_MAX;
+            if (m_creator->FoundPlayer(playerId)) {
+
+                m_exporter->InjectRecords(m_sessionRecord, m_driverRecords.at(playerId));
+
+            }
+            else {
+
+                m_exporter->InjectRecords(m_sessionRecord, &m_driverRecords);
+
+            }
+
+        }
+        else {
+
+            // session ended, notify the creator to ready itself for a new session
+            m_creator->ClearRecords();
+
+            // TODO ready the exporter once more
+
+        }
+
+    }
+
+    m_isWorking = sessionStateChangedTo;
+
 
 }
 
@@ -304,9 +339,9 @@ void Processor::Data::Databank::updatePenalties(const Packet::Internal::PenaltyS
                 if (driverData && driverData->updateLastTimestamp(penaltyPacket->m_timestamp)) {
 
                     driverData->getModifiableState().updateWarningPenalties(penaltyData.m_totalWarns,
-                        penaltyData.m_numTrackLimits, 
-                        penaltyData.m_timePenMS, 
-                        penaltyData.m_numStopGo, 
+                        penaltyData.m_numTrackLimits,
+                        penaltyData.m_timePenMS,
+                        penaltyData.m_numStopGo,
                         penaltyData.m_numDriveThrough);
 
 
@@ -368,7 +403,7 @@ void Processor::Data::Databank::updateLapStatus(const Packet::Internal::LapStatu
             auto driverData = entry->second;
 
             if (driverData && driverData->updateLastTimestamp(lapPacket->m_timestamp)) {
-                
+
                 // this is so ugly and uses so many assumptions...
                 // initialize
                 auto prevLapData = lapPacket->GetData().at(0);

@@ -44,6 +44,7 @@ namespace Processor {
     namespace Data {
 
         class DriverRecord;
+        class RecordCreator;
         class SessionRecord;
 
         class Databank {
@@ -94,6 +95,9 @@ namespace Processor {
 
             // General interface for communicating with other modules
             Presenter::ICompFacade* m_presenter;
+
+            // Dedicated object to hold all the relevant data at session start to create the records
+            Processor::Data::RecordCreator* m_creator;
 
             // Holds a list of the driver records for the current session, using the driver ID as index
             std::map<const uint8_t, Processor::Data::DriverRecord*> m_driverRecords;

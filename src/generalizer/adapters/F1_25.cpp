@@ -183,7 +183,7 @@ Generalizer::Adapter::F1_25::ConvertParticipantDataPacket(const Packet::Game::F1
     }
 
     Packet::Internal::SessionParticipants* participantsPacket =
-        new Packet::Internal::SessionParticipants(inputPacket->GetHeader()->GetFrameIdentifier());
+        new Packet::Internal::SessionParticipants(inputPacket->GetHeader()->GetFrameIdentifier(), inputPacket->GetNumActiveCars());
     auto playerIndex = inputPacket->GetHeader()->GetCarIndexPlayer1();
     for (size_t i = 0; i < inputPacket->GetNumActiveCars(); ++i) {
 

@@ -133,7 +133,7 @@ namespace Session::Internal {
 
     struct Settings {
 
-        //
+        // What determines the end of this session
         Session::Internal::LimitType m_sessionLimit = Session::Internal::LimitType::InvalidUnknown;
 
         // Determines how long does the session last for (seconds)

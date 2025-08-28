@@ -41,7 +41,7 @@ namespace Packet {
             };
             public:
             // Packet interface constructor
-            SessionParticipants(const uint64_t timestamp);
+            SessionParticipants(const uint64_t timestamp, const uint8_t totalParticipants);
 
             // Destructor
             virtual ~SessionParticipants() = default;
@@ -53,10 +53,16 @@ namespace Packet {
             void InsertData(const uint8_t driverID, const bool isPlayer, const std::string fullName,
                     const std::string shortName, const Session::Internal::TeamID teamID);
 
+            // Retrieve number of total participants from the packet
+            const uint8_t GetTotalParticipants() const;
+
             // Retrieve participant data from the packet
             const std::vector<Packet::Internal::SessionParticipants::Data>& GetData() const;
 
             private:
+            // How many participants are there in total
+            const uint8_t m_totalParticipants;
+
             // Holds the base data of all drivers in the session
             std::vector<Packet::Internal::SessionParticipants::Data> m_fullParticipantData;
 

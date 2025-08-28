@@ -7,6 +7,7 @@
 #include "data/game/F1_25/Event.h"
 #include "data/internal/Participant.h"
 #include "data/internal/Session.h"
+#include "maps/F1_25.h"
 #include "packets/game/Helper.h"
 #include "packets/game/Interface.h"
 #include "packets/internal/Interface.h"
@@ -14,6 +15,7 @@
 #include "packets/internal/ParticipantStatus.h"
 #include "packets/internal/PenaltyStatus.h"
 #include "packets/internal/SessionParticipants.h"
+#include "packets/internal/SessionStartSettings.h"
 #include "packets/internal/Standings.h"
 #include "packets/game/F1_25/Interface.h"
 #include "packets/game/F1_25/Header.h"
@@ -34,7 +36,8 @@
 
 
 
-std::vector<Packet::Internal::Interface*> Generalizer::Adapter::F1_25::ConvertPacket(const Packet::Game::Interface* packet) {
+std::vector<Packet::Internal::Interface*>
+Generalizer::Adapter::F1_25::ConvertPacket(const Packet::Game::Interface* packet) {
 
     if (!packet) {
 
@@ -80,7 +83,8 @@ std::vector<Packet::Internal::Interface*> Generalizer::Adapter::F1_25::ConvertPa
 
 
 
-std::vector<Packet::Internal::Interface*> Generalizer::Adapter::F1_25::ConvertLapDataPacket(const Packet::Game::F1_25::LapData* inputPacket) {
+std::vector<Packet::Internal::Interface*>
+Generalizer::Adapter::F1_25::ConvertLapDataPacket(const Packet::Game::F1_25::LapData* inputPacket) {
 
     if (!inputPacket || !(inputPacket->GetHeader())) {
 
@@ -88,9 +92,12 @@ std::vector<Packet::Internal::Interface*> Generalizer::Adapter::F1_25::ConvertLa
 
     }
 
-    Packet::Internal::Standings* standingsPacket = new Packet::Internal::Standings(inputPacket->GetHeader()->GetFrameIdentifier());
-    Packet::Internal::PenaltyStatus* penaltiesPacket = new Packet::Internal::PenaltyStatus(inputPacket->GetHeader()->GetFrameIdentifier());
-    Packet::Internal::ParticipantStatus* statusPacket = new Packet::Internal::ParticipantStatus(inputPacket->GetHeader()->GetFrameIdentifier());
+    Packet::Internal::Standings* standingsPacket =
+        new Packet::Internal::Standings(inputPacket->GetHeader()->GetFrameIdentifier());
+    Packet::Internal::PenaltyStatus* penaltiesPacket =
+        new Packet::Internal::PenaltyStatus(inputPacket->GetHeader()->GetFrameIdentifier());
+    Packet::Internal::ParticipantStatus* statusPacket =
+        new Packet::Internal::ParticipantStatus(inputPacket->GetHeader()->GetFrameIdentifier());
     for (size_t i = 0; i < 22; ++i) {
 
         bool ok = false;
@@ -141,7 +148,8 @@ std::vector<Packet::Internal::Interface*> Generalizer::Adapter::F1_25::ConvertLa
 
 
 
-std::vector<Packet::Internal::Interface*> Generalizer::Adapter::F1_25::ConvertSessionDataPacket(const Packet::Game::F1_25::SessionData* inputPacket) {
+std::vector<Packet::Internal::Interface*>
+Generalizer::Adapter::F1_25::ConvertSessionDataPacket(const Packet::Game::F1_25::SessionData* inputPacket) {
 
     if (!inputPacket) {
 
@@ -149,14 +157,22 @@ std::vector<Packet::Internal::Interface*> Generalizer::Adapter::F1_25::ConvertSe
 
     }
 
+    Packet::Internal::SessionStartSettings* sessionDataPacket =
+        new Packet::Internal::SessionStartSettings(inputPacket->GetHeader()->GetFrameIdentifier());
 
+    Session::Internal::TrackInfo trackInfo;
+    Session::Internal::Settings settings;
+    ExtractSessionSettings(inputPacket, trackInfo, settings);
 
-    return {};
+    // TODO insert info in SessionDataPacket
+
+    return { sessionDataPacket };
 
 }
 
 
-std::vector<Packet::Internal::Interface*> Generalizer::Adapter::F1_25::ConvertParticipantDataPacket(const Packet::Game::F1_25::ParticipantData* inputPacket) {
+std::vector<Packet::Internal::Interface*>
+Generalizer::Adapter::F1_25::ConvertParticipantDataPacket(const Packet::Game::F1_25::ParticipantData* inputPacket) {
 
     if (!inputPacket) {
 
@@ -164,7 +180,8 @@ std::vector<Packet::Internal::Interface*> Generalizer::Adapter::F1_25::ConvertPa
 
     }
 
-    Packet::Internal::SessionParticipants* participantsPacket = new Packet::Internal::SessionParticipants(inputPacket->GetHeader()->GetFrameIdentifier());
+    Packet::Internal::SessionParticipants* participantsPacket =
+        new Packet::Internal::SessionParticipants(inputPacket->GetHeader()->GetFrameIdentifier());
     auto playerIndex = inputPacket->GetHeader()->GetCarIndexPlayer1();
     for (size_t i = 0; i < inputPacket->GetNumActiveCars(); ++i) {
 
@@ -172,18 +189,20 @@ std::vector<Packet::Internal::Interface*> Generalizer::Adapter::F1_25::ConvertPa
         const Packet::Game::F1_25::ParticipantInfo rawInfo = inputPacket->GetParticipantInfo(i, ok);
         if (ok) {
 
-            participantsPacket->InsertData(GetSingleParticipantData(rawInfo, i, playerIndex));
+            auto data = GetSingleParticipantData(rawInfo, i, playerIndex);
+            participantsPacket->InsertData(data.m_index, data.m_isPlayer, data.m_fullName, data.m_shortName, data.m_TeamIcon);
 
         }
 
     }
 
-    return{};
+    return { participantsPacket };
 
 }
 
 
-std::vector<Packet::Internal::Interface*> Generalizer::Adapter::F1_25::ConvertSessionHistoryDataPacket(const Packet::Game::F1_25::SessionHistoryData* inputPacket) {
+std::vector<Packet::Internal::Interface*>
+Generalizer::Adapter::F1_25::ConvertSessionHistoryDataPacket(const Packet::Game::F1_25::SessionHistoryData* inputPacket) {
 
     if (!inputPacket || !(inputPacket->GetHeader())) {
 
@@ -248,8 +267,8 @@ Generalizer::Adapter::F1_25::GetSingleParticipantData(const Packet::Game::F1_25:
     // Then the string will be empty and the game will be forced to "shorten" the username
     // 
     // NOTE: Problems with the shortening method may arise in the case of things like clan tags
-    auto driverIt = NetCom::Adapter::F1_25::DataConversionMaps::DRIVER_SHORTHAND_MAP.find(rawInfo.m_driverId);
-    if (driverIt != NetCom::Adapter::F1_25::DataConversionMaps::DRIVER_SHORTHAND_MAP.end() &&
+    auto driverIt = Generalizer::Maps::F1_25::DRIVER_SHORTHAND_MAP.find(rawInfo.m_driverId);
+    if (driverIt != Generalizer::Maps::F1_25::DRIVER_SHORTHAND_MAP.end() &&
         std::strcmp(driverIt->second, "")) {
         convertedInfo.m_shortName = driverIt->second;
     }
@@ -259,13 +278,33 @@ Generalizer::Adapter::F1_25::GetSingleParticipantData(const Packet::Game::F1_25:
     convertedInfo.m_fullName = rawInfo.m_name;
 
     // Find team to be used as reference in UI
-    auto teamIt = NetCom::Adapter::F1_25::DataConversionMaps::TEAM_ID_MAP.find(rawInfo.m_teamId);
-    if (teamIt != NetCom::Adapter::F1_25::DataConversionMaps::TEAM_ID_MAP.end()) {
+    auto teamIt = Generalizer::Maps::F1_25::TEAM_ID_MAP.find(rawInfo.m_teamId);
+    if (teamIt != Generalizer::Maps::F1_25::TEAM_ID_MAP.end()) {
 
         convertedInfo.m_TeamIcon = teamIt->second;
 
     }
 
     return convertedInfo;
+
+}
+
+
+
+void
+Generalizer::Adapter::F1_25::ExtractSessionSettings(const Packet::Game::F1_25::SessionData* inputPacket,
+    Session::Internal::TrackInfo& trackInfo,
+    Session::Internal::Settings& settings) {
+
+    if (inputPacket) {
+        auto it = Generalizer::Maps::F1_25::TRACK_ID_MAP.find(inputPacket->GetTrackId());
+        if (it != Generalizer::Maps::F1_25::TRACK_ID_MAP.end()) {
+
+            trackInfo.m_sessionTrack = it->second;
+
+        }
+        // no need for else; default is already "Unknown" track
+
+    }
 
 }

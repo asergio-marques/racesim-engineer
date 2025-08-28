@@ -120,22 +120,45 @@ namespace Session::Internal {
 
     };
 
+    struct Settings {
+
+        // Determines how long does the session last for (seconds)
+        uint32_t m_sessionDurationTime = 0;
+
+        // Determines how many laps are in a session until its conclusion
+        uint8_t m_sessionDurationLaps = 0;
+
+        // Determines the type of the session taking place
+        Session::Internal::Type m_sessionType = Session::Internal::Type::InvalidUnknown;
+
+        // How many participants at the top of the session are promoted at the end
+        uint8_t m_promotionZone = 0;
+
+        // How many participants at the bottom of the session are eliminated at the end
+        uint8_t m_dropZone = 0;
+
+        // How many participants at the top of the session have their positions reversed
+        // at the end
+        uint8_t m_reverseZone = 0;
+
+    };
+
     struct TrackInfo {
 
         // The track at which the session is taking place
-        Session::Internal::Track m_sessionTrack;
+        Session::Internal::Track m_sessionTrack = Session::Internal::Track::Unknown;
 
         // Total distance for a single lap at the track, if available (meters)
-        float_t m_lapDistanceTotal;
+        float_t m_lapDistanceTotal = 0.0f;
 
         // Distance of Sector 1, if available (meters)
-        float_t m_sector1Distance;
+        float_t m_sector1Distance = 0.0f;
 
         // Distance of Sector 2, if available (meters)
-        float_t m_sector2Distance;
+        float_t m_sector2Distance = 0.0f;
 
         // Distance of Sector 3, if available (meters)
-        float_t m_sector3Distance;
+        float_t m_sector3Distance = 0.0f;
 
     };
 

@@ -17,9 +17,8 @@ target_link_directories(${PROJECT_NAME} PRIVATE "${PROJECT_ROOT}/lib/")
 
 target_sources(${PROJECT_NAME} PRIVATE
     Facade.cpp
-    adapters/Interface.h
     adapters/F1_25.cpp
-    adapters/F1_25.h)
+    maps/F1_25.cpp)
 
 target_link_libraries(${PROJECT_NAME} PUBLIC
     RaceSimEngineerCore

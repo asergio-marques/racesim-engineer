@@ -25,6 +25,20 @@
 #endif
 
 
+Processor::Data::Databank::Databank() : 
+    m_isWorking(false),
+    m_presenter(nullptr),
+    m_driverRecords(),
+    m_sessionRecord(nullptr),
+    m_exporter(nullptr),
+    m_activeDetectors() {
+
+
+
+}
+
+
+
 Processor::Data::Databank::~Databank() {
 
     for (auto record : m_driverRecords) {
@@ -56,9 +70,13 @@ void Processor::Data::Databank::updateData(const Packet::Internal::Interface* pa
 
     if (packet) {
 
-        if (!m_sessionRecord && m_driverRecords.empty()) {
+        if (!m_isWorking) {
 
-            // take the lack of session records and driver records as a sign that a session hasn't been started
+            // if the databank is not working, then the existing records should be verified
+            // if there are no records, we create them anew
+            // if there are records, check against the new data validity and if different, create them anew
+            // the SessionStartDataReady detector should detect when all the necessary data is in place
+            // to then send the appropriate session start event packet
 
         }
         else {
@@ -192,7 +210,9 @@ void Processor::Data::Databank::triggerAutoExport() {
 
 
 void Processor::Data::Databank::OnSessionStateChange(bool sessionStateChangedTo) {
-        
+
+    m_isWorking = sessionStateChangedTo;
+
     for (auto detector : m_activeDetectors) {
 
         if (detector.second) {

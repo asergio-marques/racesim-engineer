@@ -23,11 +23,10 @@ void Generalizer::Facade::OnPacketBroadcast(Packet::Game::Interface* packet) {
 
 	// TODO Game is always F1 25 right now
 	//if (m_presenter->GetGame() == Settings::Game::F1_25) {
-	if (m_gameAdapter) {
+	if (m_gameAdapter && packet) {
 
-		std::vector<Packet::Internal::Interface*> internalPackets = m_gameAdapter->ConvertPacket(packet);
-		
-		// TODO delete packet
+		std::vector<Packet::Internal::Interface*> internalPackets = m_gameAdapter->ConvertPacket(packet);	
+		delete packet;
 
 		Broadcast(internalPackets);
 

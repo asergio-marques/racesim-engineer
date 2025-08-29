@@ -64,12 +64,13 @@ void Processor::Facade::OnPacketBundleBroadcast(std::vector<Packet::Internal::In
             if (packet) {
 
                 m_databank->updateData(packet);
+                delete packet;
 
             }
 
         }
 
-        // TODO delete packets and clear vector
+        packets.clear();
 
     }
 

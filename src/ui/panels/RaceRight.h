@@ -10,7 +10,7 @@ class QWidget;
 
 namespace Packet {
 
-    namespace Internal {
+    namespace Event {
 
         class Overtake;
 
@@ -40,7 +40,7 @@ namespace UserInterface {
             virtual void ResizePanel(const QSize& newPanelSize) override final;
 
             private:
-            void onOvertake(const Packet::Internal::Overtake* packet);
+            void onOvertake(const Packet::Event::Overtake* packet);
             UserInterface::Widget::Standings* m_driverStandings;
 
         };

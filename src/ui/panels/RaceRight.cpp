@@ -63,7 +63,7 @@ void UserInterface::Panel::RaceRight::ResizePanel(const QSize& newPanelSize) {
 
 
 
-void UserInterface::Panel::RaceRight::onOvertake(const Packet::Internal::Overtake* packet) {
+void UserInterface::Panel::RaceRight::onOvertake(const Packet::Event::Overtake* packet) {
 
     if (packet && m_driverStandings) {
 

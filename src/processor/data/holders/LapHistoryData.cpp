@@ -4,7 +4,7 @@
 #include <map>
 #include "data/holders/LapInfo.h"
 #include "data/internal/Participant.h"
-#include "detectors/FinishedLap.h"
+#include "detectors/LapFinished.h"
 #include "detectors/Interface.h"
 #include "detectors/Type.h"
 
@@ -31,8 +31,8 @@ void Processor::Data::LapHistoryData::installDetector(Processor::Detector::Inter
 
     switch (detector->GetType()) {
 
-        case Processor::Detector::Type::FinishedLap:
-            m_installedFinishedLapDetector = dynamic_cast<Processor::Detector::FinishedLap*>(detector);
+        case Processor::Detector::Type::LapFinished:
+            m_installedFinishedLapDetector = dynamic_cast<Processor::Detector::LapFinished*>(detector);
             break;
 
         default:

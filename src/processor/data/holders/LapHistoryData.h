@@ -12,7 +12,7 @@ namespace Processor {
 
     namespace Detector {
 
-        class FinishedLap;
+        class LapFinished;
         class Interface;
 
     }
@@ -65,7 +65,7 @@ namespace Processor {
             uint16_t m_fastestSector3LapID;
 
             // Pointer to the fastest lap detector currently installed
-            Processor::Detector::FinishedLap* m_installedFinishedLapDetector;
+            Processor::Detector::LapFinished* m_installedFinishedLapDetector;
         };
 
     }

@@ -2,6 +2,7 @@
 #define PROCESSOR_DATA_INCLUDE_RECORD_CREATOR_H_
 
 #include <cstdint>
+#include <functional>
 #include <map>
 #include "data/DriverRecord.h"
 #include "data/SessionRecord.h"
@@ -34,6 +35,14 @@ namespace Processor {
             // Destructor
             ~RecordCreator() = default;
 
+            // Registers a function for any sort of special signalling 
+            bool RegisterFunction(std::function<void(Processor::Data::SessionRecord*,
+                std::map<const uint8_t, Processor::Data::DriverRecord*>&)> f);
+            bool RegisterFunction(std::function<void(Processor::Data::DriverRecord*)> f);
+
+            // Deregisters all previously registered function
+            void DeregisterFunctions();
+
             // Clears the member variables to signal it is ready to start building records again, only to be called once a session is declared ended
             void ClearRecords();
 
@@ -55,6 +64,13 @@ namespace Processor {
 
             // History about the current session
             Processor::Data::SessionRecord* m_sessionRecord;
+
+            // Function object for the function registered to be called when new full records are ready
+            std::function<void(Processor::Data::SessionRecord*,
+                std::map<const uint8_t, Processor::Data::DriverRecord*>&)> m_regFullRecordsFunc;
+
+            // Function object for the function registered to be called when a new driver record is ready
+            std::function<void(Processor::Data::DriverRecord*)> m_regNewDriverFunc;
 
             // Records the total of participants detected in the session, useful for validation at the start
             uint8_t m_totalParticipants;

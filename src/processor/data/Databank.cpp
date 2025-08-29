@@ -38,7 +38,12 @@ Processor::Data::Databank::Databank() :
     m_exporter(nullptr),
     m_activeDetectors() {
 
+    if (m_creator) {
 
+        m_creator->RegisterFunction(std::bind(&Processor::Data::Databank::OnCreatorReady, this, std::placeholders::_1, std::placeholders::_2));
+        m_creator->RegisterFunction(std::bind(&Processor::Data::Databank::OnNewDriverRecord, this, std::placeholders::_1));
+
+    }
 
 }
 
@@ -139,14 +144,13 @@ void Processor::Data::Databank::installDetector(Processor::Detector::Interface* 
         const auto it = m_activeDetectors.find(detector->GetType());
         if (it == m_activeDetectors.cend()) {
 
-            detector->RegisterFunction(std::bind(&Processor::Data::Databank::OnSessionStateChange, this, std::placeholders::_1));
-
             // Add to vector
             m_activeDetectors.emplace(detector->GetType(), detector);
 
             // Try to add to the current records
             if (!(m_driverRecords.empty()) && m_sessionRecord) {
 
+                detector->Enable(true);
                 detector->Init(m_sessionRecord);
 
                 for (auto entry : m_driverRecords) {
@@ -229,52 +233,86 @@ void Processor::Data::Databank::triggerAutoExport() {
 
 
 
-void Processor::Data::Databank::OnSessionStateChange(bool sessionStateChangedTo) {
+void Processor::Data::Databank::OnCreatorReady(Processor::Data::SessionRecord* sessionRecord,
+    std::map<const uint8_t, Processor::Data::DriverRecord*>& driverRecords) {
 
-    m_isWorking = sessionStateChangedTo;
+    // validate information first and foremost
+    bool recordsOk = (sessionRecord != nullptr);
+    for (const auto& driverRecord : driverRecords) {
 
-    for (auto detector : m_activeDetectors) {
+        if (!driverRecord.second) {
 
-        if (detector.second) {
-
-            // share the information about a session being officially started or not, to enable the "capture" of information
-            detector.second->Enable(sessionStateChangedTo);
+            recordsOk = false;
+            break;
 
         }
+
+    }
+    if (!recordsOk) return;
+
+    // feed records to detectors
+    m_sessionRecord = sessionRecord;
+    m_driverRecords = driverRecords;
+
+    for (auto detectorEntry : m_activeDetectors) {
+
+        auto detector = detectorEntry.second;
+        detector->Init(sessionRecord);
+
+        for (auto driverEntry : m_driverRecords) {
+
+            auto record = driverEntry.second;
+            if (record) record->getModifiableState().installDetector(detector);
+
+        }
+
+        // share the information about a session being officially started or not, to enable the "capture" of information
+        detector->Enable(true);
 
     }
 
     if (m_creator) {
 
-        if (sessionStateChangedTo) {
+        // session started, inject records into exporter
+        uint8_t playerId = UINT8_MAX;
+        if (m_creator->FoundPlayer(playerId)) {
 
-            // session started, inject records into exporter
-            uint8_t playerId = UINT8_MAX;
-            if (m_creator->FoundPlayer(playerId)) {
-
-                m_exporter->InjectRecords(m_sessionRecord, m_driverRecords.at(playerId));
-
-            }
-            else {
-
-                m_exporter->InjectRecords(m_sessionRecord, &m_driverRecords);
-
-            }
+            m_exporter->InjectRecords(m_sessionRecord, m_driverRecords.at(playerId));
 
         }
         else {
 
-            // session ended, notify the creator to ready itself for a new session
-            m_creator->ClearRecords();
-
-            // TODO ready the exporter once more
+            m_exporter->InjectRecords(m_sessionRecord, &m_driverRecords);
 
         }
 
     }
 
-    m_isWorking = sessionStateChangedTo;
+}
 
+
+
+void Processor::Data::Databank::OnNewDriverRecord(Processor::Data::DriverRecord* record) {
+
+    if (!record) return;
+
+    for (auto detectorEntry : m_activeDetectors) {
+
+        if (detectorEntry.second) {
+
+            record->getModifiableState().installDetector(detectorEntry.second);
+
+        }
+
+    }
+
+    // check if the local player is actually participating in the session
+    uint8_t playerId = UINT8_MAX;
+    if (m_creator && m_creator->FoundPlayer(playerId)) {
+
+        m_exporter->InjectRecords(m_sessionRecord, m_driverRecords.at(playerId));
+
+    }
 
 }
 

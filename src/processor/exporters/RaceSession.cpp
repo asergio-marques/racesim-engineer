@@ -26,10 +26,15 @@ Processor::Exporter::RaceSession::RaceSession() :
 
 void Processor::Exporter::RaceSession::InjectRecords(Processor::Data::SessionRecord* sessionRecord, Processor::Data::DriverRecord* driverRecord) {
 
-    if (driverRecord && sessionRecord) {
+    // double check if what we are trying to insert is the same as before, no point if it is
+    if (driverRecord && (driverRecord != m_playerDriverRecord)) {
+
+        m_playerDriverRecord = driverRecord;
+
+    }
+    if (sessionRecord && (sessionRecord != sessionRecord)) {
 
         m_sessionRecord = sessionRecord;
-        m_playerDriverRecord = driverRecord;
 
     }
 

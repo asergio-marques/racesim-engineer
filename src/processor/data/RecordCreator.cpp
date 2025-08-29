@@ -24,6 +24,52 @@ Processor::Data::RecordCreator::RecordCreator() :
 
 
 
+bool Processor::Data::RecordCreator::RegisterFunction(
+    std::function<void(Processor::Data::SessionRecord*,
+        std::map<const uint8_t, Processor::Data::DriverRecord*>&)> f) {
+
+    // Validate function pointer received
+    if (f) {
+
+        // Always overwrite the already-existing pointer
+        m_regFullRecordsFunc = f;
+        return true;
+
+    }
+
+    return false;
+
+}
+
+
+
+bool Processor::Data::RecordCreator::RegisterFunction(
+    std::function<void(Processor::Data::DriverRecord*)> f) {
+
+    // Validate function pointer received
+    if (f) {
+
+        // Always overwrite the already-existing pointer
+        m_regNewDriverFunc = f;
+        return true;
+
+    }
+
+    return false;
+
+}
+
+
+
+void Processor::Data::RecordCreator::DeregisterFunctions() {
+
+    m_regFullRecordsFunc = nullptr;
+    m_regNewDriverFunc = nullptr;
+
+}
+
+
+
 void Processor::Data::RecordCreator::ClearRecords() {
 
     m_driverRecords.clear();
@@ -71,7 +117,6 @@ void Processor::Data::RecordCreator::Init(const Packet::Internal::GridPosition* 
 
 void Processor::Data::RecordCreator::Init(const Packet::Internal::SessionSettings* packet) {
 
-    // TODO
     if (!packet || m_sessionRecord) return;
 
     m_sessionRecord = new Processor::Data::SessionRecord(packet->m_timestamp, packet->m_settings, packet->m_track);

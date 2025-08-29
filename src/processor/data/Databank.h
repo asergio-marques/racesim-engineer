@@ -75,8 +75,11 @@ namespace Processor {
             // Checks the auto export user setting and outputs the session data if so
             void triggerAutoExport();
 
-            // Triggered when a session is started or ended
-            void OnSessionStateChange(bool sessionStateChangedTo);
+            // Triggered when the creator notes that all of the records have been initialized
+            void OnCreatorReady(Processor::Data::SessionRecord* sessionRecord, std::map<const uint8_t, Processor::Data::DriverRecord*>& driverRecords);
+
+            // Triggered when the creator detects a new participant has joined and creates a new driver record
+            void OnNewDriverRecord(Processor::Data::DriverRecord* record);
 
             // Interfaces with the DriverState class to update the driver position
             void updateStandings(const Packet::Internal::Standings* standingsPacket);

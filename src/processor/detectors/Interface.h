@@ -1,7 +1,6 @@
 #ifndef PROCESSOR_DETECTOR_INCLUDE_INTERFACE_H_
 #define PROCESSOR_DETECTOR_INCLUDE_INTERFACE_H_
 
-#include <functional>
 #include <thread>
 #include <vector>
 #include "detectors/Type.h"
@@ -56,12 +55,6 @@ namespace Processor {
 
             // Cleans up the list of packets
             virtual bool ClearPacketList();
-
-            // Registers a function for any sort of special signalling 
-            virtual bool RegisterFunction(std::function<void(bool)> f) { return false; };
-
-            // Deregisters a previously registered function
-            virtual void DeregisterFunction() {};
 
             protected:
             // Holds all the internal packets that are yet to be sent to subscribers

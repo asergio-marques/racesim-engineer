@@ -32,7 +32,7 @@ namespace Processor {
 
             public:
             // Default constructor
-            Interface() = default;
+            Interface();
 
             // Default destructor
             virtual ~Interface() = default;
@@ -40,11 +40,11 @@ namespace Processor {
             // Starts the worker thread of this detector
             virtual void Init(Processor::Data::SessionRecord* record);
 
+            // Informs the detector with the success of its installation in driver records
+            virtual void InstalledInDriverRecords(bool success);
+
             // Returns the identifying type of this detector
             virtual const Processor::Detector::Type GetType() const = 0;
-
-            // Changes the state of the detector, allowing or stopping it from fulfilling its task
-            virtual void Enable(bool enabled) { m_enabled = enabled; }
 
             // Main execution function to be overridden by all concrete detectors
             // Does nothing by default
@@ -60,14 +60,14 @@ namespace Processor {
             // Holds all the internal packets that are yet to be sent to subscribers
             std::vector<Packet::Event::Interface*> m_packetsToBeProcessed;
 
-            // Whether this detector is enabled for work or not
-            bool m_enabled = false;
+            // Whether this detector is able to adquire information from driver records
+            bool m_installedInDriverRecords;
 
             // Main execution thread
             std::thread m_workerThread;
 
             // Data record for the current session
-            Processor::Data::SessionRecord* m_sessionRecord = nullptr;
+            Processor::Data::SessionRecord* m_sessionRecord;
 
         };
 

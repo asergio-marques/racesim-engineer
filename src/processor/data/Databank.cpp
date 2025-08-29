@@ -150,15 +150,21 @@ void Processor::Data::Databank::installDetector(Processor::Detector::Interface* 
             // Try to add to the current records
             if (!(m_driverRecords.empty()) && m_sessionRecord) {
 
-                detector->Enable(true);
                 detector->Init(m_sessionRecord);
 
+                bool installed = true;
                 for (auto entry : m_driverRecords) {
 
                     auto record = entry.second;
-                    if (record) record->getModifiableState().installDetector(detector);
+                    if (record) {
+
+                        installed &= record->getModifiableState().installDetector(detector);
+
+                    }
 
                 }
+
+                detector->InstalledInDriverRecords(installed);
 
             }
 
@@ -259,15 +265,20 @@ void Processor::Data::Databank::OnCreatorReady(Processor::Data::SessionRecord* s
         auto detector = detectorEntry.second;
         detector->Init(sessionRecord);
 
+        bool installed = true;
         for (auto driverEntry : m_driverRecords) {
 
             auto record = driverEntry.second;
-            if (record) record->getModifiableState().installDetector(detector);
+            if (record) {
+
+                installed &= record->getModifiableState().installDetector(detector);
+
+            }
 
         }
 
         // share the information about a session being officially started or not, to enable the "capture" of information
-        detector->Enable(true);
+        detector->InstalledInDriverRecords(installed);
 
     }
 
@@ -298,9 +309,11 @@ void Processor::Data::Databank::OnNewDriverRecord(Processor::Data::DriverRecord*
 
     for (auto detectorEntry : m_activeDetectors) {
 
-        if (detectorEntry.second) {
+        auto detector = detectorEntry.second;
+        if (detector) {
 
-            record->getModifiableState().installDetector(detectorEntry.second);
+            bool installed = record->getModifiableState().installDetector(detector);
+            detector->InstalledInDriverRecords(installed);
 
         }
 

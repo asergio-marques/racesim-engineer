@@ -8,10 +8,35 @@
 
 
 
+
+Processor::Detector::Interface::Interface() :
+    m_packetsToBeProcessed(),
+    m_installedInDriverRecords(false),
+    m_workerThread(),
+    m_sessionRecord(nullptr) {
+
+
+
+}
+
+
+
 void Processor::Detector::Interface::Init(Processor::Data::SessionRecord* sessionRecord) {
 
-    m_workerThread = std::thread(&Processor::Detector::Interface::Exec, this);
-    m_sessionRecord = sessionRecord;
+    if (sessionRecord) {
+
+        m_sessionRecord = sessionRecord;
+        m_workerThread = std::thread(&Processor::Detector::Interface::Exec, this);
+
+    }
+
+}
+
+
+
+void Processor::Detector::Interface::InstalledInDriverRecords(bool success) {
+
+    m_installedInDriverRecords = success;
 
 }
 

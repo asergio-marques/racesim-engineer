@@ -25,19 +25,19 @@ Processor::Data::LapHistoryData::LapHistoryData() :
 
 
 
-void Processor::Data::LapHistoryData::installDetector(Processor::Detector::Interface* detector) {
+bool Processor::Data::LapHistoryData::installDetector(Processor::Detector::Interface* detector) {
 
-    if (!detector) return;
+    if (!detector) return false;
 
     switch (detector->GetType()) {
 
         case Processor::Detector::Type::LapFinished:
             m_installedFinishedLapDetector = dynamic_cast<Processor::Detector::LapFinished*>(detector);
-            break;
+            return true;
 
         default:
             // do nothing
-            break;
+            return false;
 
     }
 

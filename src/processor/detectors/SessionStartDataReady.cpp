@@ -6,7 +6,7 @@
 
 
 Processor::Detector::SessionStartDataReady::SessionStartDataReady() :
-    Processor::Detector::Interface::Interface(),
+    Processor::Detector::Interface(),
     m_sentSessionStart(false) {
 
 
@@ -26,7 +26,11 @@ void Processor::Detector::SessionStartDataReady::Exec() {
 
     while (!m_sentSessionStart) {
 
-        // TODO check for all the data having been "readied", then prepare the adequate event packet
+        if (m_installedInDriverRecords && m_sessionRecord) {
+
+            // TODO prepare event packet
+
+        }
         // Thread is executed at 10Hz
         std::this_thread::sleep_for(std::chrono::milliseconds(100));
 

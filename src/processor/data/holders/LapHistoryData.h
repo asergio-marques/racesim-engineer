@@ -29,7 +29,7 @@ namespace Processor {
             ~LapHistoryData() = default;
 
             // Add relevant detectors to then be called when relevant
-            void installDetector(Processor::Detector::Interface* detector);
+            bool installDetector(Processor::Detector::Interface* detector);
 
             // Alter the status of the driver's most recent lap in the session
             // Returns true if the lap data is regarded as complete

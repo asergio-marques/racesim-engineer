@@ -33,7 +33,7 @@ namespace Processor {
             ~DriverState() = default;
 
             // Add relevant detectors to then be called when relevant
-            void installDetector(Processor::Detector::Interface* detector);
+            bool installDetector(Processor::Detector::Interface* detector);
 
             // Informs the driver record that the session has ended, so that certain information only available
             // after its end is accepted

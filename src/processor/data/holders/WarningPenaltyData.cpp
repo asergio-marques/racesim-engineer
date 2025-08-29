@@ -8,19 +8,19 @@
 
 
 // Add relevant detectors to then be called when relevant
-void Processor::Data::WarningPenaltyData::installDetector(Processor::Detector::Interface* detector) {
+bool Processor::Data::WarningPenaltyData::installDetector(Processor::Detector::Interface* detector) {
 
-    if (!detector) return;
+    if (!detector) return false;
 
     switch (detector->GetType()) {
 
         case Processor::Detector::Type::PenaltyReceived:
             m_installedPenWarnDetector = dynamic_cast<Processor::Detector::PenaltyReceived*>(detector);
-            break;
+            return true;
 
         default:
             // do nothing
-            break;
+            return false;
 
     }
 

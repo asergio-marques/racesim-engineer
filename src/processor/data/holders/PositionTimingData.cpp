@@ -24,23 +24,23 @@ Processor::Data::PositionTimingData::PositionTimingData(const uint8_t startingPo
 
 
 // Add relevant detectors to then be called when relevant
-void Processor::Data::PositionTimingData::installDetector(Processor::Detector::Interface* detector) {
+bool Processor::Data::PositionTimingData::installDetector(Processor::Detector::Interface* detector) {
 
-    if (!detector) return;
+    if (!detector) return false;
 
     switch (detector->GetType()) {
 
         case Processor::Detector::Type::Overtake:
             m_installedOvertakeDetector = dynamic_cast<Processor::Detector::Overtake*>(detector);
-            break;
+            return true;
 
         case Processor::Detector::Type::ParticipantStatusChanged:
             m_installedStatusDetector = dynamic_cast<Processor::Detector::ParticipantStatusChanged*>(detector);
-            break;
+            return true;
 
         default:
             // do nothing
-            break;
+            return false;
 
     }
 

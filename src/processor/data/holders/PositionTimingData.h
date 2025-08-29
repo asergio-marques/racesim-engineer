@@ -26,7 +26,7 @@ namespace Processor {
             ~PositionTimingData() = default;
 
             // Add relevant detectors to then be called when relevant
-            void installDetector(Processor::Detector::Interface* detector);
+            bool installDetector(Processor::Detector::Interface* detector);
 
             // Alter the status of the driver itself in the session, and feed it to the detector
             void updateStatus(const uint8_t id, const Participant::Internal::Status status);

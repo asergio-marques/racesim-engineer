@@ -24,14 +24,18 @@ Processor::Data::DriverState::DriverState(const uint8_t id, const uint8_t starti
 
 
 
-void Processor::Data::DriverState::installDetector(Processor::Detector::Interface* detector) {
+bool Processor::Data::DriverState::installDetector(Processor::Detector::Interface* detector) {
 
-    if (!detector) return;
+    bool installed = false;
+
+    if (!detector) return installed;
 
     // not this class's responsibility to check types, let the holders sort it out
-    m_posTimeData.installDetector(detector);
-    m_lapData.installDetector(detector);
-    m_warnPenData.installDetector(detector);
+    installed |= m_posTimeData.installDetector(detector);
+    installed |= m_lapData.installDetector(detector);
+    installed |= m_warnPenData.installDetector(detector);
+
+    return installed;
 
 }
 

@@ -24,7 +24,7 @@ namespace Processor {
             ~WarningPenaltyData() = default;
 
             // Add relevant detectors to then be called when relevant
-            void installDetector(Processor::Detector::Interface* detector);
+            bool installDetector(Processor::Detector::Interface* detector);
 
             // Alter the status of warnings and penalties, and feed it to the detector
             void updateWarningPenalties(const int8_t id, const uint8_t totalWarnings,

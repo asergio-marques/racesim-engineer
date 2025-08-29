@@ -43,6 +43,9 @@ namespace Processor {
             // Deregisters all previously registered function
             void DeregisterFunctions();
 
+            // Exposes the information of whether the full records have been created or not
+            const bool IsWorking() const;
+
             // Clears the member variables to signal it is ready to start building records again, only to be called once a session is declared ended
             void ClearRecords();
 
@@ -59,6 +62,10 @@ namespace Processor {
             void Init(const Packet::Internal::SessionParticipants* packet);
 
             private:
+            // Auxiliary function to be called whenever the full suite of driver records, or the session record, has been prepared
+            // Verifies that both have been properly initialized, and calls the relevant function pointer
+            void VerifyAndPropagate();
+
             // Holds a list of the driver records for the current session, using the driver ID as index
             std::map<const uint8_t, Processor::Data::DriverRecord*> m_driverRecords;
 
@@ -71,6 +78,9 @@ namespace Processor {
 
             // Function object for the function registered to be called when a new driver record is ready
             std::function<void(Processor::Data::DriverRecord*)> m_regNewDriverFunc;
+
+            // Whether the full records have been created or not
+            bool m_workComplete;
 
             // Records the total of participants detected in the session, useful for validation at the start
             uint8_t m_totalParticipants;

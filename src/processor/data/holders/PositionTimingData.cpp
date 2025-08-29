@@ -5,18 +5,15 @@
 #include "detectors/ParticipantStatusChanged.h"
 #include "detectors/Interface.h"
 #include "detectors/Overtake.h"
-#include "detectors/SessionStartDataReady.h"
 #include "detectors/Type.h"
 
 
 
-Processor::Data::PositionTimingData::PositionTimingData(const uint8_t startingPosition) :
+Processor::Data::PositionTimingData::PositionTimingData() :
     m_isGridPositionSet(false),
     m_gridPosition(0),
-    m_currentPosition(startingPosition),
-    m_startingPosition(startingPosition),
+    m_currentPosition(0),
     m_status(Participant::Internal::Status::InvalidUnknown),
-    m_installedSessionStartDetector(nullptr),
     m_installedOvertakeDetector(nullptr),
     m_installedStatusDetector(nullptr) {
 
@@ -31,10 +28,6 @@ bool Processor::Data::PositionTimingData::installDetector(Processor::Detector::I
     if (!detector) return false;
 
     switch (detector->GetType()) {
-
-        case Processor::Detector::Type::SessionStartDataReady:
-            m_installedSessionStartDetector = dynamic_cast<Processor::Detector::SessionStartDataReady*>(detector);
-            break;
 
         case Processor::Detector::Type::Overtake:
             m_installedOvertakeDetector = dynamic_cast<Processor::Detector::Overtake*>(detector);
@@ -81,11 +74,13 @@ void Processor::Data::PositionTimingData::setGridPosition(const uint8_t gridPosi
     m_gridPosition = gridPosition;
     m_isGridPositionSet = true;
 
-    if (m_installedSessionStartDetector) {
+}
 
-        //m_installedSessionStartDetector->RecordParticipant()
 
-    }
+
+const uint8_t Processor::Data::PositionTimingData::getGridPosition() const {
+
+    return m_gridPosition;
 
 }
 

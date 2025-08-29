@@ -34,6 +34,9 @@ namespace Processor {
             // Default destructor
             ~Overtake() = default;
 
+            // Initializes the session record, and utilizes the worker thread
+            void Init(Processor::Data::SessionRecord* record) override final;
+
             // Returns the identifying type of this detector
             const Processor::Detector::Type GetType() const override;
 

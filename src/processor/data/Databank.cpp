@@ -31,7 +31,6 @@
 
 
 Processor::Data::Databank::Databank() :
-    m_isWorking(false),
     m_presenter(nullptr),
     m_creator(new Processor::Data::RecordCreator),
     m_driverRecords(),
@@ -59,6 +58,13 @@ Processor::Data::Databank::~Databank() {
     }
     m_driverRecords.clear();
     delete m_sessionRecord;
+    
+    if (m_creator) {
+
+        m_creator->DeregisterFunctions();
+        delete m_creator;
+
+    }
 
 }
 
@@ -81,7 +87,7 @@ void Processor::Data::Databank::updateData(const Packet::Internal::Interface* pa
 
     if (packet) {
 
-        if (m_creator && !m_isWorking) {
+        if (m_creator && m_creator->IsWorking()) {
 
             // if the databank is not working, then the existing records should be verified
             // if there are no records, we create them anew
@@ -275,7 +281,6 @@ void Processor::Data::Databank::OnCreatorReady(Processor::Data::SessionRecord* s
     for (auto detectorEntry : m_activeDetectors) {
 
         auto detector = detectorEntry.second;
-        detector->Init(sessionRecord);
 
         bool installed = true;
         for (auto driverEntry : m_driverRecords) {
@@ -288,13 +293,39 @@ void Processor::Data::Databank::OnCreatorReady(Processor::Data::SessionRecord* s
             }
 
         }
+        detector->Init(sessionRecord);        
 
         // share the information about a session being officially started or not, to enable the "capture" of information
         detector->InstalledInDriverRecords(installed);
 
+        // TODO this feels extremely hack-ish but I don't know an alternative...
+        // In sum the session start detector is a special detector which needs access to the records rather than the states
+        // Therefore we need to cast, then say it's installed
+        if (detector->GetType() == Processor::Detector::Type::SessionStartDataReady) {
+
+            auto sessionStartDetector = dynamic_cast<Processor::Detector::SessionStartDataReady*>(detector);
+            bool installed = sessionStartDetector->InstallDriverRecords(&m_driverRecords);
+            detector->InstalledInDriverRecords(installed);
+
+        }
+
     }
 
-    if (m_creator) {
+    // sessionRecord validity already checked above, no need to redo it
+    // initialize appropriate exporter
+    switch (m_sessionRecord->getSessionSettings().m_sessionType) {
+
+        case Session::Internal::Type::Race:
+            m_exporter = new Processor::Exporter::RaceSession;
+            break;
+
+        default:
+            // do nothing, other exporters are not finalized
+            break;
+
+
+    }
+    if (m_exporter && m_creator) {
 
         // session started, inject records into exporter
         uint8_t playerId = UINT8_MAX;
@@ -328,6 +359,8 @@ void Processor::Data::Databank::OnNewDriverRecord(Processor::Data::DriverRecord*
             detector->InstalledInDriverRecords(installed);
 
         }
+
+        // TODO new driver detector and packet to be sent
 
     }
 

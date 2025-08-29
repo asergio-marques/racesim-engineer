@@ -94,7 +94,7 @@ bool Processor::Exporter::RaceSession::Export(std::string path) const {
         addChildNodeCharacterData(&rootNode, m_schemaV1.completionTag,
             m_playerDriverRecord->isFinished());
         addChildNodeCharacterData(&rootNode, m_schemaV1.gridPosTag,
-            m_playerDriverRecord->getModifiableState().posTimeData().m_startingPosition);
+            m_playerDriverRecord->getModifiableState().posTimeData().getGridPosition());
 
         pugi::xml_node lapsNode = rootNode.append_child("laps");
         const auto& lapData = m_playerDriverRecord->getModifiableState().lapData();

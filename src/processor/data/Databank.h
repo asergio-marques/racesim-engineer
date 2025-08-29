@@ -93,9 +93,6 @@ namespace Processor {
             // Interfaces with the DriverState class to update the status of the session participants' laps
             void updateLapStatus(const Packet::Internal::LapStatus* lapPacket);
 
-            // Whether the databank is working, meaning that a session has been noted as being on-going
-            bool m_isWorking;
-
             // General interface for communicating with other modules
             Presenter::ICompFacade* m_presenter;
 

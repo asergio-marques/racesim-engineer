@@ -18,6 +18,24 @@ const Processor::Detector::Type Processor::Detector::Overtake::GetType() const {
 
 
 
+void Processor::Detector::Overtake::Init(Processor::Data::SessionRecord* record) {
+
+    // TODO this will disable graceful closing and reinit once another session is started
+    // no need to do anything if we already have the record
+    if (m_sessionRecord) return;
+
+    Processor::Detector::Interface::Init(record);
+
+    if (m_sessionRecord) {
+
+        m_workerThread = std::thread(&Processor::Detector::Overtake::Exec, this);
+
+    }
+
+}
+
+
+
 void Processor::Detector::Overtake::Exec() {
 
     while (m_installedInDriverRecords && m_sessionRecord) {

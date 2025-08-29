@@ -12,7 +12,6 @@
 Processor::Detector::Interface::Interface() :
     m_packetsToBeProcessed(),
     m_installedInDriverRecords(false),
-    m_workerThread(),
     m_sessionRecord(nullptr) {
 
 
@@ -26,7 +25,6 @@ void Processor::Detector::Interface::Init(Processor::Data::SessionRecord* sessio
     if (sessionRecord) {
 
         m_sessionRecord = sessionRecord;
-        m_workerThread = std::thread(&Processor::Detector::Interface::Exec, this);
 
     }
 

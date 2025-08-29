@@ -16,11 +16,31 @@
 
 Processor::Detector::SessionStartDataReady::SessionStartDataReady() :
     Processor::Detector::Interface(),
-    m_sentSessionStart(false) {
+    m_sentSessionStart(false),
+    m_driverRecords(nullptr) {
 
 
 
 }
+
+
+
+void Processor::Detector::SessionStartDataReady::Init(Processor::Data::SessionRecord* record) {
+
+    // TODO this will disable graceful closing and reinit once another session is started
+    // no need to do anything if we already have the record
+    if (m_sessionRecord) return;
+
+    Processor::Detector::Interface::Init(record);
+
+    if (m_sessionRecord) {
+
+        m_workerThread = std::thread(&Processor::Detector::SessionStartDataReady::Exec, this);
+
+    }
+
+}
+
 
 
 const Processor::Detector::Type Processor::Detector::SessionStartDataReady::GetType() const {
@@ -124,7 +144,7 @@ void Processor::Detector::SessionStartDataReady::BuildRaceStartPacket() {
             participant.m_teamID = record->m_info.m_teamID;
 
             const auto state = record->getModifiableState();
-            participant.m_startPosition = state.posTimeData().m_startingPosition;
+            participant.m_startPosition = state.posTimeData().getGridPosition();
             // TODO now get starting tyres which is why you're actually doing all this work, u egg
 
             packet->m_participants.push_back(participant);

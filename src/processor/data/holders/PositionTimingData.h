@@ -12,7 +12,6 @@ namespace Processor {
         class ParticipantStatusChanged;
         class Interface;
         class Overtake;
-        class SessionStartDataReady;
 
     }
 
@@ -22,7 +21,7 @@ namespace Processor {
 
             public:
             // Constructor
-            PositionTimingData(const uint8_t startingPosition);
+            PositionTimingData();
 
             ~PositionTimingData() = default;
 
@@ -35,14 +34,14 @@ namespace Processor {
             // Set the initial grid position of the driver at the start of the session
             void setGridPosition(const uint8_t currentPosition);
 
+            // Exposes the initial grid position of the driver at the start of the session
+            const uint8_t getGridPosition() const;
+
             // Alter the position in this driver state, and feed it to the detector
             void updateCurrentPosition(const uint8_t id, const uint8_t currentPosition);
 
             // Denotes whether this driver has finished all his laps, or can no longer continue
             const bool isFinishedStatus() const;
-
-            // Starting position for this vehicle
-            const uint8_t m_startingPosition;
 
             private:
             // Whether the grid position for this vehicle has been initialized or not
@@ -56,9 +55,6 @@ namespace Processor {
 
             // Status of the vehicle
             Participant::Internal::Status m_status;
-
-            // Pointer to the session start data ready detector currently installed
-            Processor::Detector::SessionStartDataReady* m_installedSessionStartDetector;
 
             // Pointer to the overtake detector currently installed
             Processor::Detector::Overtake* m_installedOvertakeDetector;

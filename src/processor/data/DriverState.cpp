@@ -14,7 +14,7 @@
 Processor::Data::DriverState::DriverState(const uint8_t id, const uint8_t startingPosition) :
     m_id(id),
     m_isFinished(false),
-    m_posTimeData(startingPosition),
+    m_posTimeData(),
     m_warnPenData() {
 
 

@@ -13,6 +13,7 @@
 
 
 Processor::Data::RecordCreator::RecordCreator() :
+    m_workComplete(false),
     m_driverRecords(),
     m_sessionRecord(nullptr),
     m_totalParticipants(0),
@@ -70,6 +71,14 @@ void Processor::Data::RecordCreator::DeregisterFunctions() {
 
 
 
+const bool Processor::Data::RecordCreator::IsWorking() const {
+
+    return !m_workComplete;
+
+}
+
+
+
 void Processor::Data::RecordCreator::ClearRecords() {
 
     m_driverRecords.clear();
@@ -111,6 +120,8 @@ void Processor::Data::RecordCreator::Init(const Packet::Internal::GridPosition* 
 
     }
 
+    VerifyAndPropagate();
+
 }
 
 
@@ -121,6 +132,7 @@ void Processor::Data::RecordCreator::Init(const Packet::Internal::SessionSetting
 
     m_sessionRecord = new Processor::Data::SessionRecord(packet->m_timestamp, packet->m_settings, packet->m_track);
 
+    VerifyAndPropagate();
 
 }
 
@@ -148,9 +160,10 @@ void Processor::Data::RecordCreator::Init(const Packet::Internal::SessionPartici
 
         }
 
+        // no need to verify and propagate here; driver information is not finalized here, but with the GridPosition
+        // TODO, maybe we should have a way of asking each record if it's been properly initialized?
+
     }
-    // TODO technically speaking, wouldn't the case in which we just
-    // got a valid packet at app startup (m_driverRecords.empty() also end up in this branch?
     else if (m_driverRecords.size() != packet->GetTotalParticipants()) {
 
         // case in which someone joins halfway through a session
@@ -166,7 +179,23 @@ void Processor::Data::RecordCreator::Init(const Packet::Internal::SessionPartici
 
             }
 
+            m_regNewDriverFunc(record);
+
         }
+
+    }
+
+}
+
+
+
+void Processor::Data::RecordCreator::VerifyAndPropagate() {
+
+    if (!m_workComplete && m_sessionRecord && !(m_driverRecords.empty()) &&
+    (m_driverRecords.size() == m_totalParticipants)) {
+
+        m_regFullRecordsFunc(m_sessionRecord, m_driverRecords);
+        m_workComplete = true;
 
     }
 

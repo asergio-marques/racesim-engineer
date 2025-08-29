@@ -37,7 +37,8 @@ namespace Processor {
             // Default destructor
             virtual ~Interface() = default;
 
-            // Starts the worker thread of this detector
+            // Initializes the session record
+            // To be overridden if the worker thread is to be used
             virtual void Init(Processor::Data::SessionRecord* record);
 
             // Informs the detector with the success of its installation in driver records

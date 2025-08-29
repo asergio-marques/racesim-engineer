@@ -20,7 +20,7 @@ const Processor::Detector::Type Processor::Detector::Overtake::GetType() const {
 
 void Processor::Detector::Overtake::Exec() {
 
-    while (true) {
+    while (m_installedInDriverRecords && m_sessionRecord) {
 
         // As long as there are position changes to be sent to the UI, they
         // will be added to the list of packets to be sent

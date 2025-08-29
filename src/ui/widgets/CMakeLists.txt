@@ -28,7 +28,6 @@ target_sources(${PROJECT_NAME} PRIVATE
     base/ButtonInterface.cpp
     base/ImageInterface.cpp
     base/TextInterface.cpp
-    base/packets/PacketInterfaces.cpp
     general_use/MenuBar.cpp
     general_use/BackgroundLeft.cpp
     general_use/BackgroundRight.cpp

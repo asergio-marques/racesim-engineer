@@ -94,7 +94,7 @@ Generalizer::Adapter::F1_25::ConvertLapDataPacket(const Packet::Game::F1_25::Lap
     }
 
     // TODO it doesn't make sense to be creating a gridpacket every time we get a lapdata packet...
-    Packet::Internal::GridPosition* gridPacket = 
+    Packet::Internal::GridPosition* gridPacket =
         new Packet::Internal::GridPosition(inputPacket->GetHeader()->GetFrameIdentifier());
     Packet::Internal::Standings* standingsPacket =
         new Packet::Internal::Standings(inputPacket->GetHeader()->GetFrameIdentifier());
@@ -254,6 +254,46 @@ void Generalizer::Adapter::F1_25::AddLapStatusInfo(const uint8_t lapNo,
 
 
 
+
+const std::string Generalizer::Adapter::F1_25::ShortenDriverName(const char* originalName) {
+
+    const std::string originalNameStr{ originalName };
+    if (originalNameStr.length() == 0) {
+
+        return "???";
+
+    }
+    else if (originalNameStr.length() <= 3) {
+
+        return originalNameStr;
+
+    }
+
+    // Use only the first 3 consonants
+    std::string shortName = "";
+    for (const char character : originalNameStr) {
+
+        // holy hell this is damn ugly
+        if (character != 'A' &&
+            character != 'E' &&
+            character != 'I' &&
+            character != 'O' &&
+            character != 'U') {
+
+            shortName.push_back(character);
+            if (shortName.length() == 3) {
+                break;
+            }
+
+        }
+
+    }
+    return shortName;
+
+}
+
+
+
 const Session::Internal::Participant
 Generalizer::Adapter::F1_25::GetSingleParticipantData(const Packet::Game::F1_25::ParticipantInfo& rawInfo,
     const uint8_t& arrayIndex,
@@ -367,10 +407,11 @@ void Generalizer::Adapter::F1_25::ExtractSessionSettings(const Packet::Game::F1_
 
             }
 
-        } else if (inputPacket->GetSessionType() == Session::Game::F1_25::Type::Qualifying1 ||
-            inputPacket->GetSessionType() == Session::Game::F1_25::Type::Qualifying2 ||
-            inputPacket->GetSessionType() == Session::Game::F1_25::Type::SprintShootout1 ||
-            inputPacket->GetSessionType() == Session::Game::F1_25::Type::SprintShootout2) {
+        }
+        else if (inputPacket->GetSessionType() == Session::Game::F1_25::Type::Qualifying1 ||
+         inputPacket->GetSessionType() == Session::Game::F1_25::Type::Qualifying2 ||
+         inputPacket->GetSessionType() == Session::Game::F1_25::Type::SprintShootout1 ||
+         inputPacket->GetSessionType() == Session::Game::F1_25::Type::SprintShootout2) {
 
             settings.m_dropZone = 5;
 

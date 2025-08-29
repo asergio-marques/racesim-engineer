@@ -16,7 +16,7 @@ namespace Packet {
         struct QualiStart : public Packet::Event::Interface {
 
             // Packet constructor
-            QualiStart(const uint64_t timestamp, uint8_t carsClassifiedAtEnd);
+            QualiStart(uint8_t carsClassifiedAtEnd);
 
             // Destructor
             virtual ~QualiStart() = default;

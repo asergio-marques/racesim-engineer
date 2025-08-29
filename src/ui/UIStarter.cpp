@@ -103,7 +103,7 @@ void UserInterface::UIStarter::OnPacketBundleBroadcast(std::vector<Packet::Event
 
         if (packet && m_handler) {
 
-            //m_handler->AcceptPacket(packet);
+            m_handler->AcceptPacket(packet);
 
         }
 

@@ -33,7 +33,7 @@ namespace Packet {
 
             public:
             // Packet constructor
-            Overtake(const uint64_t timestamp);
+            Overtake();
 
             // Destructor
             virtual ~Overtake() = default;

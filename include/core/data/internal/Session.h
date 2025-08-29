@@ -114,8 +114,8 @@ namespace Session::Internal {
         // 3-letter name for display
         std::string m_shortName = "???";
 
-        // Which team icon ought be displayed
-        Session::Internal::TeamID m_TeamIcon = Session::Internal::TeamID::Unknown;
+        // The ID of the team to which this participant belongs to
+        Session::Internal::TeamID m_teamID = Session::Internal::TeamID::Unknown;
 
         // Starting position for this participant
         uint8_t m_startPosition = 0;

@@ -18,7 +18,7 @@ const Processor::Detector::Type Processor::Detector::ParticipantStatusChanged::G
 
 void Processor::Detector::ParticipantStatusChanged::AddStatusChange(const uint8_t id, const Participant::Internal::Status newStatus) {
 
-    Packet::Event::ParticipantStatusChanged* packet = new Packet::Event::ParticipantStatusChanged(0);
+    Packet::Event::ParticipantStatusChanged* packet = new Packet::Event::ParticipantStatusChanged();
     packet->m_index = id;
     packet->m_status = newStatus;
     m_packetsToBeProcessed.push_back(packet);

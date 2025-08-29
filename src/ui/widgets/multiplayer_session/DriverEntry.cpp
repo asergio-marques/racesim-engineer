@@ -134,7 +134,7 @@ void UserInterface::Widget::DriverEntry::init(const Session::Internal::Participa
     }
     if (m_teamIcon) {
 
-        m_teamIcon->SetTeam(dataPacket.m_TeamIcon);
+        m_teamIcon->SetTeam(dataPacket.m_teamID);
         m_teamIcon->setSize(style.TeamLogoMaxXY.m_value, style.TeamLogoMaxXY.m_value, true);
         m_teamIcon->adjustSize();
 

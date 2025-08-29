@@ -15,7 +15,7 @@ namespace Packet {
 
             public:
             // Packet interface constructor
-            PenaltyReceived(const uint64_t timestamp);
+            PenaltyReceived();
 
             // Destructor
             virtual ~PenaltyReceived() = default;

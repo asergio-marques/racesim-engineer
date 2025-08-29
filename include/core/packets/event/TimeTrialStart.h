@@ -14,7 +14,7 @@ namespace Packet {
 
             public:
             // Packet interface constructor
-            TimeTrialStart(const uint64_t timestamp);
+            TimeTrialStart();
 
             // Destructor
             virtual ~TimeTrialStart() = default;

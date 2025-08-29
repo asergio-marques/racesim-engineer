@@ -7,8 +7,8 @@
 
 
 
-Packet::Event::PenaltyReceived::PenaltyReceived(const uint64_t timestamp) :
-    Packet::Event::Interface(timestamp),
+Packet::Event::PenaltyReceived::PenaltyReceived() :
+    Packet::Event::Interface(),
     m_index(0),
     m_type(Penalty::Internal::Type::InvalidUnknown),
     m_delta(0) {

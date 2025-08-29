@@ -16,7 +16,7 @@ namespace Packet {
 
             public:
             // Packet interface constructor
-            RaceStart(const uint64_t timestamp, uint8_t numLaps);
+            RaceStart();
 
             // Destructor
             virtual ~RaceStart() = default;
@@ -27,11 +27,11 @@ namespace Packet {
 			// Structure containing all relevant data about the track the session is taking place at
 			Session::Internal::TrackInfo m_trackInfo;
 
+            // Structure containing all relevant data about the session taking place
+            Session::Internal::Settings m_settings;
+
             // List containing the initial data for all session participants
             std::vector<Session::Internal::Participant> m_participants;
-
-            // Number of laps in the race
-            const uint8_t m_numLaps;
 
         };
 

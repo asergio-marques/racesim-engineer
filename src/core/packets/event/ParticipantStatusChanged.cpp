@@ -7,8 +7,8 @@
 
 
 
-Packet::Event::ParticipantStatusChanged::ParticipantStatusChanged(const uint64_t timestamp) :
-    Packet::Event::Interface(timestamp),
+Packet::Event::ParticipantStatusChanged::ParticipantStatusChanged() :
+    Packet::Event::Interface(),
     m_index(0),
     m_status(Participant::Internal::Status::InvalidUnknown) {
 

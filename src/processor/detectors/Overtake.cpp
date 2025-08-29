@@ -86,8 +86,7 @@ void Processor::Detector::Overtake::AddPositionChange(const uint8_t id, const ui
 
 void Processor::Detector::Overtake::CreateNewPacket(const Processor::Detector::Overtake::PositionChange& changeInfo) {
 
-    // timestamp can be 0 as the UI isn't supposed to check on this I think maybe perhaps
-    Packet::Event::Overtake* packet = new Packet::Event::Overtake(0);
+    Packet::Event::Overtake* packet = new Packet::Event::Overtake();
     if (packet) {
 
         packet->InsertData(changeInfo.m_id, changeInfo.m_newPosition,

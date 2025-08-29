@@ -12,6 +12,7 @@ namespace Processor {
         class ParticipantStatusChanged;
         class Interface;
         class Overtake;
+        class SessionStartDataReady;
 
     }
 
@@ -55,6 +56,9 @@ namespace Processor {
 
             // Status of the vehicle
             Participant::Internal::Status m_status;
+
+            // Pointer to the session start data ready detector currently installed
+            Processor::Detector::SessionStartDataReady* m_installedSessionStartDetector;
 
             // Pointer to the overtake detector currently installed
             Processor::Detector::Overtake* m_installedOvertakeDetector;

@@ -8,8 +8,8 @@
 
 
 
-Packet::Event::LapFinished::LapFinished(const uint64_t timestamp) :
-    Packet::Event::Interface(timestamp),
+Packet::Event::LapFinished::LapFinished() :
+    Packet::Event::Interface(),
     m_index(0),
     m_lapTime(),
     m_infoType(Lap::Internal::InfoType::InvalidUnknown) {

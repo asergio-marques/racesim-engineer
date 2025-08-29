@@ -6,8 +6,8 @@
 
 
 
-Packet::Event::TimeTrialEnd::TimeTrialEnd(const uint64_t timestamp) :
-    Packet::Event::Interface(timestamp) {
+Packet::Event::TimeTrialEnd::TimeTrialEnd() :
+    Packet::Event::Interface() {
 
 
 

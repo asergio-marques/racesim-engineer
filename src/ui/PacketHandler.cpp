@@ -38,7 +38,7 @@ UserInterface::PacketHandler::~PacketHandler() {
 
 
 
-void UserInterface::PacketHandler::AcceptPacket(Packet::Internal::Interface* packet) {
+void UserInterface::PacketHandler::AcceptPacket(Packet::Event::Interface* packet) {
 
     if (packet) {
 
@@ -67,23 +67,27 @@ void UserInterface::PacketHandler::Exec() {
 
             switch (packet->packetType()) {
 
-                case Packet::Internal::Type::SessionStart:
+                case Packet::Event::Type::PracticeStart:
+                case Packet::Event::Type::QualiStart:
+                case Packet::Event::Type::RaceStart:
+                case Packet::Event::Type::TimeTrialStart:
                     NotifySessionStartObservers(packet);
                     break;
-                case Packet::Internal::Type::SessionEnd:
+                case Packet::Event::Type::RoundSessionEnd:
+                case Packet::Event::Type::TimeTrialEnd:
                     NotifySessionEndObservers(packet);
                     break;
-                case Packet::Internal::Type::Overtake:
+                case Packet::Event::Type::Overtake:
                     NotifyOvertakeObservers(packet);
                     break;
-                case Packet::Internal::Type::PenaltyChange:
-                    NotifyPenaltyChangeObservers(packet);
+                case Packet::Event::Type::PenaltyReceived:
+                    NotifyPenaltyObservers(packet);
                     break;
-                case Packet::Internal::Type::ParticipantStatusChange:
+                case Packet::Event::Type::ParticipantStatusChanged:
                     NotifyStatusChangeObservers(packet);
                     break;
-                case Packet::Internal::Type::FinishedLapInfo:
-                    NotifyFinishedLapObservers(packet);
+                case Packet::Event::Type::LapFinished:
+                    NotifyLapObservers(packet);
                     break;
                 default:
                     // whoopsie daisy
@@ -121,32 +125,31 @@ void UserInterface::PacketHandler::CleanupList() {
 }
 
 
-void UserInterface::PacketHandler::NotifySessionStartObservers(Packet::Internal::Interface* packet) {
+void UserInterface::PacketHandler::NotifySessionStartObservers(Packet::Event::Interface* packet) {
 
     // no need to check for nullptr
-    auto sessionStartPacket = dynamic_cast<Packet::Internal::SessionStart*>(packet);
-    if (sessionStartPacket) {
+    if (packet) {
 
-        switch (sessionStartPacket->m_sessionType) {
+        switch (packet->packetType()) {
 
-            case Session::Internal::Type::TimeTrial:
-                sessionStartPacket->markAsProcessed();
-                emit TimeTrialStart(dynamic_cast<const Packet::Internal::TimeTrialStart*>(sessionStartPacket));
+            case Packet::Event::Type::PracticeStart:
+                packet->markAsProcessed();
+                emit PracticeStart(dynamic_cast<const Packet::Event::PracticeStart*>(packet));
                 break;
 
-            case Session::Internal::Type::FreePractice:
-                sessionStartPacket->markAsProcessed();
-                emit PracticeStart(dynamic_cast<const Packet::Internal::PracticeStart*>(sessionStartPacket));
+            case Packet::Event::Type::QualiStart:
+                packet->markAsProcessed();
+                emit QualiStart(dynamic_cast<const Packet::Event::QualiStart*>(packet));
                 break;
 
-            case Session::Internal::Type::Qualifying:
-                sessionStartPacket->markAsProcessed();
-                emit QualiStart(dynamic_cast<const Packet::Internal::QualiStart*>(sessionStartPacket));
+            case Packet::Event::Type::RaceStart:
+                packet->markAsProcessed();
+                emit RaceStart(dynamic_cast<const Packet::Event::RaceStart*>(packet));
                 break;
 
-            case Session::Internal::Type::Race:
-                sessionStartPacket->markAsProcessed();
-                emit RaceStart(dynamic_cast<const Packet::Internal::RaceStart*>(sessionStartPacket));
+            case Packet::Event::Type::TimeTrialStart:
+                packet->markAsProcessed();
+                emit TimeTrialStart(dynamic_cast<const Packet::Event::TimeTrialStart*>(packet));
                 break;
 
             default:
@@ -161,7 +164,7 @@ void UserInterface::PacketHandler::NotifySessionStartObservers(Packet::Internal:
 
 
 
-void UserInterface::PacketHandler::NotifySessionEndObservers(Packet::Internal::Interface* packet) {
+void UserInterface::PacketHandler::NotifySessionEndObservers(Packet::Event::Interface* packet) {
 
     // information from packet not needed for the time being
     if (packet) {
@@ -175,12 +178,12 @@ void UserInterface::PacketHandler::NotifySessionEndObservers(Packet::Internal::I
 
 
 
-void UserInterface::PacketHandler::NotifyOvertakeObservers(Packet::Internal::Interface* packet) {
+void UserInterface::PacketHandler::NotifyOvertakeObservers(Packet::Event::Interface* packet) {
 
     if (packet) {
 
         packet->markAsProcessed();
-        emit OvertakePerformed(dynamic_cast<const Packet::Internal::Overtake*>(packet));
+        emit OvertakePerformed(dynamic_cast<const Packet::Event::Overtake*>(packet));
 
     }
 
@@ -188,12 +191,12 @@ void UserInterface::PacketHandler::NotifyOvertakeObservers(Packet::Internal::Int
 
 
 
-void UserInterface::PacketHandler::NotifyPenaltyChangeObservers(Packet::Internal::Interface* packet) {
+void UserInterface::PacketHandler::NotifyPenaltyObservers(Packet::Event::Interface* packet) {
 
     if (packet) {
 
         packet->markAsProcessed();
-        emit PenaltyAssigned(dynamic_cast<const Packet::Internal::PenaltyChange*>(packet));
+        emit PenaltyReceived(dynamic_cast<const Packet::Event::PenaltyReceived*>(packet));
 
     }
 
@@ -201,12 +204,12 @@ void UserInterface::PacketHandler::NotifyPenaltyChangeObservers(Packet::Internal
 
 
 
-void UserInterface::PacketHandler::NotifyStatusChangeObservers(Packet::Internal::Interface* packet) {
+void UserInterface::PacketHandler::NotifyStatusChangeObservers(Packet::Event::Interface* packet) {
 
     if (packet) {
 
         packet->markAsProcessed();
-        emit DriverStatusChanged(dynamic_cast<const Packet::Internal::ParticipantStatusChange*>(packet));
+        emit ParticipantStatusChanged(dynamic_cast<const Packet::Event::ParticipantStatusChanged*>(packet));
 
     }
 
@@ -214,12 +217,12 @@ void UserInterface::PacketHandler::NotifyStatusChangeObservers(Packet::Internal:
 
 
 
-void UserInterface::PacketHandler::NotifyFinishedLapObservers(Packet::Internal::Interface* packet) {
+void UserInterface::PacketHandler::NotifyLapObservers(Packet::Event::Interface* packet) {
 
     if (packet) {
 
         packet->markAsProcessed();
-        emit NewlyCompletedLap(dynamic_cast<const Packet::Internal::FinishedLapInfo*>(packet));
+        emit LapFinished(dynamic_cast<const Packet::Event::LapFinished*>(packet));
 
     }
 

@@ -4,6 +4,7 @@
 #include <cstdint>
 #include <string>
 #include "data/DriverState.h"
+#include "data/holders/DriverInfo.h"
 #include "data/internal/Session.h"
 
 
@@ -38,21 +39,15 @@ namespace Processor {
             // Exposes the finished status of this driver
             const bool isFinished() const;
 
+            // Data structure holding the immutable information about this driver, exposed as it is immutable
+            const Processor::Data::DriverInfo m_info;
+
             private:
             // Holds the value of the most recent timestamp
             uint64_t m_lastStateTimestamp;
 
-            // Holds the ID of the driver associated with this record
-            uint8_t m_driverId;
-
             // Denotes whether the session has ended or not, important for last lap info
             bool m_isFinished;
-
-            // Holds the full-length name of the driver associated with this record
-            const std::string m_driverFullName;
-
-            // Holds the 3-character-length name of the driver associated with this record
-            const std::string m_driverShortName;
 
             // Internal state of the driver record, where all changes to the state in the race are made
             Processor::Data::DriverState m_state;

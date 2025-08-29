@@ -3,11 +3,14 @@
 #include <QList>
 #include <QWidget>
 #include "base/Container.h"
-#include "base/packets/MPSessionStartInterface.h"
 #include "multiplayer_session/DriverEntry.h"
-#include "packets/internal/multi_use/MPSessionStart.h"
-#include "packets/internal/multi_use/PenaltyChange.h"
-#include "packets/internal/race_types/RaceStandings.h"
+#include "packets/event/LapFinished.h"
+#include "packets/event/ParticipantStatusChanged.h"
+#include "packets/event/PenaltyReceived.h"
+#include "packets/event/PracticeStart.h"
+#include "packets/event/QualiStart.h"
+#include "packets/event/RaceStart.h"
+#include "packets/event/TimeTrialStart.h"
 #include "styles/Standings.h"
 #include "styles/General.h"
 
@@ -35,7 +38,7 @@ UserInterface::Widget::Standings::Standings(QWidget* parent) :
 
 
 
-void UserInterface::Widget::Standings::setStartingGrid(const Packet::Internal::MPSessionStart* dataPacket) {
+void UserInterface::Widget::Standings::setStartingGrid(const Packet::Event::RaceStart* dataPacket) {
 
     if (dataPacket && !m_initialParamsSet) {
 
@@ -62,7 +65,7 @@ void UserInterface::Widget::Standings::setStartingGrid(const Packet::Internal::M
 
 
 
-void UserInterface::Widget::Standings::penaltyAssignedToVehicle(const Packet::Internal::PenaltyChange* dataPacket) {
+void UserInterface::Widget::Standings::onPenaltyReceived(const Packet::Event::PenaltyReceived* dataPacket) {
 
     if (dataPacket && m_initialParamsSet) {
 
@@ -75,7 +78,7 @@ void UserInterface::Widget::Standings::penaltyAssignedToVehicle(const Packet::In
 
 
 
-void UserInterface::Widget::Standings::vehicleStatusChanged(const Packet::Internal::ParticipantStatusChange* dataPacket) {
+void UserInterface::Widget::Standings::onParticipantStatusChanged(const Packet::Event::ParticipantStatusChanged* dataPacket) {
 
     if (dataPacket && m_initialParamsSet) {
 
@@ -89,7 +92,7 @@ void UserInterface::Widget::Standings::vehicleStatusChanged(const Packet::Intern
 
 
 
-void UserInterface::Widget::Standings::newCompletedLapInfo(const Packet::Internal::FinishedLapInfo* dataPacket) {
+void UserInterface::Widget::Standings::onLapFinished(const Packet::Event::LapFinished* dataPacket) {
 
     if (dataPacket && m_initialParamsSet) {
 

@@ -21,8 +21,7 @@ void Processor::Detector::PenaltyReceived::AddWarnPenChange(const int8_t id, con
     // do nothing for now, I don't know if needed
     /*if (diffWarns != 0) {
 
-        // timestamp can be 0 as the UI isn't supposed to check on this I think maybe perhaps
-        Packet::Internal::PenaltyChange* packet = new Packet::Internal::PenaltyChange(0);
+        Packet::Internal::PenaltyChange* packet = new Packet::Internal::PenaltyChange();
         packet->m_type = Penalty::Internal::Type::Warning;
         packet->m_delta = diffWarns;
         m_packetsToBeProcessed.push_back(packet);
@@ -31,8 +30,7 @@ void Processor::Detector::PenaltyReceived::AddWarnPenChange(const int8_t id, con
 
     if (diffTrackLims != 0) {
 
-        // timestamp can be 0 as the UI isn't supposed to check on this I think maybe perhaps
-        Packet::Event::PenaltyReceived* packet = new Packet::Event::PenaltyReceived(0);
+        Packet::Event::PenaltyReceived* packet = new Packet::Event::PenaltyReceived();
         packet->m_type = Penalty::Internal::Type::Warning;
         packet->m_index = id;
         packet->m_delta = diffTrackLims;
@@ -42,8 +40,7 @@ void Processor::Detector::PenaltyReceived::AddWarnPenChange(const int8_t id, con
 
     if (diffTimePens != 0) {
 
-        // timestamp can be 0 as the UI isn't supposed to check on this I think maybe perhaps
-        Packet::Event::PenaltyReceived* packet = new Packet::Event::PenaltyReceived(0);
+        Packet::Event::PenaltyReceived* packet = new Packet::Event::PenaltyReceived();
         packet->m_type = Penalty::Internal::Type::Time;
         packet->m_index = id;
         packet->m_delta = diffTimePens;
@@ -53,8 +50,7 @@ void Processor::Detector::PenaltyReceived::AddWarnPenChange(const int8_t id, con
 
     if (diffStopGo != 0) {
 
-        // timestamp can be 0 as the UI isn't supposed to check on this I think maybe perhaps
-        Packet::Event::PenaltyReceived* packet = new Packet::Event::PenaltyReceived(0);
+        Packet::Event::PenaltyReceived* packet = new Packet::Event::PenaltyReceived();
         packet->m_type = Penalty::Internal::Type::StopGo;
         packet->m_index = id;
         packet->m_delta = diffStopGo;
@@ -64,8 +60,7 @@ void Processor::Detector::PenaltyReceived::AddWarnPenChange(const int8_t id, con
 
     if (diffDriveThrough != 0) {
 
-        // timestamp can be 0 as the UI isn't supposed to check on this I think maybe perhaps
-        Packet::Event::PenaltyReceived* packet = new Packet::Event::PenaltyReceived(0);
+        Packet::Event::PenaltyReceived* packet = new Packet::Event::PenaltyReceived();
         packet->m_type = Penalty::Internal::Type::DriveThrough;
         packet->m_index = id;
 

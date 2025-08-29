@@ -15,7 +15,7 @@ namespace Packet {
 
             public:
             // Packet interface constructor
-            ParticipantStatusChanged(const uint64_t timestamp);
+            ParticipantStatusChanged();
 
             // Destructor
             virtual ~ParticipantStatusChanged() = default;

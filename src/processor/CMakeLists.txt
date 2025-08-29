@@ -38,7 +38,7 @@ target_sources(${PROJECT_NAME} PRIVATE
     detectors/PenaltyReceived.cpp
     detectors/SessionStartDataReady.cpp
     exporters/RaceSession.cpp 
-    )
+     "data/holders/DriverInfo.h")
 
 target_link_libraries(${PROJECT_NAME} PUBLIC
     RaceSimEngineerCore

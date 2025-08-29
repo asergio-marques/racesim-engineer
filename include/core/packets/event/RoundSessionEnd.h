@@ -14,7 +14,7 @@ namespace Packet {
 
             public:
             // Packet interface constructor
-            RoundSessionEnd(const uint64_t timestamp);
+            RoundSessionEnd();
 
             // Destructor
             virtual ~RoundSessionEnd() = default;

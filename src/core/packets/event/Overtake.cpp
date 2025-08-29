@@ -16,8 +16,8 @@ Packet::Event::Overtake::Data::Data(const uint8_t driverID, const uint8_t newPos
 
 
 
-Packet::Event::Overtake::Overtake(const uint64_t timestamp) :
-    Packet::Event::Interface(timestamp),
+Packet::Event::Overtake::Overtake() :
+    Packet::Event::Interface(),
     m_fullOvertakeData() {
 
 }

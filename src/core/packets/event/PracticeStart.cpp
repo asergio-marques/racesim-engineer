@@ -6,8 +6,8 @@
 
 
 
-Packet::Event::PracticeStart::PracticeStart(const uint64_t timestamp) :
-    Packet::Event::Interface(timestamp),
+Packet::Event::PracticeStart::PracticeStart() :
+    Packet::Event::Interface(),
     m_duration(0) {
 
 

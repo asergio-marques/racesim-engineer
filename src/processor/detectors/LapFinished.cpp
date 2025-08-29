@@ -22,8 +22,7 @@ bool Processor::Detector::LapFinished::checkFastestInSession(const Processor::Da
 
     if (m_sessionRecord->getModifiableState().evaluateCompletedLap(finishedLap)) {
 
-        // timestamp can be 0 as the UI isn't supposed to check on this I think maybe perhaps
-        Packet::Event::LapFinished* packet = new Packet::Event::LapFinished(0);
+        Packet::Event::LapFinished* packet = new Packet::Event::LapFinished();
         packet->m_index = finishedLap.m_driverId;
         packet->m_infoType = Lap::Internal::InfoType::FastestLap;
         packet->m_lapTime = finishedLap.m_totalLapTime;
@@ -40,8 +39,7 @@ bool Processor::Detector::LapFinished::checkFastestInSession(const Processor::Da
 
 void Processor::Detector::LapFinished::addFinishedLapInfo(const Processor::Data::LapInfo& finishedLap, const Lap::Internal::InfoType infoType) {
 
-    // timestamp can be 0 as the UI isn't supposed to check on this I think maybe perhaps
-    Packet::Event::LapFinished* packet = new Packet::Event::LapFinished(0);
+    Packet::Event::LapFinished* packet = new Packet::Event::LapFinished();
     packet->m_index = finishedLap.m_driverId;
     packet->m_infoType = infoType;
     packet->m_lapTime = finishedLap.m_totalLapTime;

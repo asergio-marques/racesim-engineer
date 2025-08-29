@@ -6,8 +6,8 @@
 
 
 
-Packet::Event::RoundSessionEnd::RoundSessionEnd(const uint64_t timestamp) :
-    Packet::Event::Interface(timestamp) {
+Packet::Event::RoundSessionEnd::RoundSessionEnd() :
+    Packet::Event::Interface() {
 
 
 

@@ -6,9 +6,8 @@
 #include "packets/event/Type.h"
 
 
-Packet::Event::RaceStart::RaceStart(const uint64_t timestamp, uint8_t numLaps) :
-    Packet::Event::Interface(timestamp),
-    m_numLaps(numLaps) {
+Packet::Event::RaceStart::RaceStart() :
+    Packet::Event::Interface() {
 
 
 

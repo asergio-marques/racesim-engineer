@@ -1,19 +1,18 @@
-#include "packets/internal/Interface.h"
+#include "packets/event/Interface.h"
 
 #include <cstdint>
-#include "packets/internal/Type.h"
+#include "packets/event/Type.h"
 
 
 
-Packet::Internal::Interface::Interface(const uint64_t timestamp) :
-    m_timestamp(timestamp),
+Packet::Event::Interface::Interface() :
     m_processed(false) {
 
 }
 
 
 
-const bool Packet::Internal::Interface::isProcessed() const {
+const bool Packet::Event::Interface::isProcessed() const {
 
     return m_processed;
 
@@ -21,7 +20,7 @@ const bool Packet::Internal::Interface::isProcessed() const {
 
 
 
-void Packet::Internal::Interface::markAsProcessed() {
+void Packet::Event::Interface::markAsProcessed() {
 
     m_processed = true;
 

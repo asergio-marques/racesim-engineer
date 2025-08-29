@@ -5,6 +5,7 @@
 #include "detectors/ParticipantStatusChanged.h"
 #include "detectors/Interface.h"
 #include "detectors/Overtake.h"
+#include "detectors/SessionStartDataReady.h"
 #include "detectors/Type.h"
 
 
@@ -15,8 +16,9 @@ Processor::Data::PositionTimingData::PositionTimingData(const uint8_t startingPo
     m_currentPosition(startingPosition),
     m_startingPosition(startingPosition),
     m_status(Participant::Internal::Status::InvalidUnknown),
-    m_installedOvertakeDetector(),
-    m_installedStatusDetector() {
+    m_installedSessionStartDetector(nullptr),
+    m_installedOvertakeDetector(nullptr),
+    m_installedStatusDetector(nullptr) {
 
 
 }
@@ -29,6 +31,10 @@ bool Processor::Data::PositionTimingData::installDetector(Processor::Detector::I
     if (!detector) return false;
 
     switch (detector->GetType()) {
+
+        case Processor::Detector::Type::SessionStartDataReady:
+            m_installedSessionStartDetector = dynamic_cast<Processor::Detector::SessionStartDataReady*>(detector);
+            break;
 
         case Processor::Detector::Type::Overtake:
             m_installedOvertakeDetector = dynamic_cast<Processor::Detector::Overtake*>(detector);
@@ -74,6 +80,12 @@ void Processor::Data::PositionTimingData::setGridPosition(const uint8_t gridPosi
     m_currentPosition = gridPosition;
     m_gridPosition = gridPosition;
     m_isGridPositionSet = true;
+
+    if (m_installedSessionStartDetector) {
+
+        //m_installedSessionStartDetector->RecordParticipant()
+
+    }
 
 }
 

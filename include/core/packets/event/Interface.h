@@ -14,7 +14,7 @@ namespace Packet {
 
             public:
             // Packet interface constructor
-            Interface(const uint64_t timestamp);
+            Interface();
 
             // Destructor
             virtual ~Interface() = default;
@@ -27,9 +27,6 @@ namespace Packet {
 
             // Marks this packet has having been fully processed
             virtual inline void markAsProcessed();
-
-            // Ingame timestamp that identifies the packet
-            const uint64_t m_timestamp;
 
             private:
             // Whether the packet has been processed

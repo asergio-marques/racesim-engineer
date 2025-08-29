@@ -17,7 +17,7 @@ namespace Packet {
 
             public:
             // Packet interface constructor
-            LapFinished(const uint64_t timestamp);
+            LapFinished();
 
             // Destructor
             virtual ~LapFinished() = default;

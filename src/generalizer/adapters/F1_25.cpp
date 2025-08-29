@@ -282,7 +282,7 @@ Generalizer::Adapter::F1_25::GetSingleParticipantData(const Packet::Game::F1_25:
     auto teamIt = Generalizer::Maps::F1_25::TEAM_ID_MAP.find(rawInfo.m_teamId);
     if (teamIt != Generalizer::Maps::F1_25::TEAM_ID_MAP.end()) {
 
-        convertedInfo.m_TeamIcon = teamIt->second;
+        convertedInfo.m_teamID = teamIt->second;
 
     }
 

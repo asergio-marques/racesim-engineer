@@ -13,6 +13,7 @@
 #include "data/internal/Participant.h"
 #include "detectors/Interface.h"
 #include "detectors/Type.h"
+#include "detectors/SessionStartDataReady.h"
 #include "exporters/RaceSession.h"
 #include "packets/internal/GridPosition.h"
 #include "packets/internal/Interface.h"
@@ -165,6 +166,17 @@ void Processor::Data::Databank::installDetector(Processor::Detector::Interface* 
                 }
 
                 detector->InstalledInDriverRecords(installed);
+
+                // TODO this feels extremely hack-ish but I don't know an alternative...
+                // In sum the session start detector is a special detector which needs access to the records rather than the states
+                // Therefore we need to cast, then say it's installed
+                if (detector->GetType() == Processor::Detector::Type::SessionStartDataReady) {
+
+                    auto sessionStartDetector = dynamic_cast<Processor::Detector::SessionStartDataReady*>(detector);
+                    bool installed = sessionStartDetector->InstallDriverRecords(&m_driverRecords);
+                    detector->InstalledInDriverRecords(installed);
+
+                }
 
             }
 

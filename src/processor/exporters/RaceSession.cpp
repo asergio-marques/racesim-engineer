@@ -76,11 +76,11 @@ bool Processor::Exporter::RaceSession::Export(std::string path) const {
         addChildNodeCharacterData(&rootNode, m_schemaV1.versionTag,
             m_schemaV1.version);
         addChildNodeCharacterData(&rootNode, m_schemaV1.trackIdTag,
-            static_cast<uint8_t>(m_sessionRecord->getTrackID()));
+            static_cast<uint8_t>(m_sessionRecord->getTrackInfo().m_sessionTrack));
         // TODO: converter map
         // addChildNodeCharacterData(&rootNode, m_schemaV1.trackNameTag, ConvertTrackId(m_sessionRecord->getTrackID()));
         addChildNodeCharacterData(&rootNode, m_schemaV1.numLapsTag,
-            static_cast<uint8_t>(m_sessionRecord->getTotalLaps()));
+            static_cast<uint8_t>(m_sessionRecord->getSessionSettings().m_sessionDurationLaps));
         addChildNodeCharacterData(&rootNode, m_schemaV1.fastestOverallTag,
             m_sessionRecord->getModifiableState().fastestLap().m_totalLapTime);
 

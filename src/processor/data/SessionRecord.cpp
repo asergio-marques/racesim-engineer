@@ -6,11 +6,11 @@
 
 
 
-Processor::Data::SessionRecord::SessionRecord(const uint64_t initTimestamp, const Session::Internal::Type sessionType, const Session::Internal::Track trackID, const uint8_t numLaps) :
+Processor::Data::SessionRecord::SessionRecord(const uint64_t initTimestamp, const Session::Internal::Settings settings,
+    const Session::Internal::TrackInfo trackInfo) :
     m_lastStateTimestamp(initTimestamp),
-    m_type(sessionType),
-    m_trackID(trackID),
-    m_totalLaps(numLaps) {
+    m_settings(settings),
+    m_trackInfo(trackInfo) {
 
 
 }
@@ -25,17 +25,17 @@ Processor::Data::SessionRecord::~SessionRecord() {
 
 
 
-const Session::Internal::Track Processor::Data::SessionRecord::getTrackID() {
+const Session::Internal::Settings& Processor::Data::SessionRecord::getSessionSettings() {
 
-    return m_trackID;
+    return m_settings;
 
 }
 
 
 
-const uint8_t Processor::Data::SessionRecord::getTotalLaps() {
+const Session::Internal::TrackInfo& Processor::Data::SessionRecord::getTrackInfo() {
 
-    return m_totalLaps;
+    return m_trackInfo;
 
 }
 

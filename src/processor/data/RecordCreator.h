@@ -40,13 +40,13 @@ namespace Processor {
             // Indicates whether a record corresponding to the player has been found, passing the ID by reference
             bool FoundPlayer(uint8_t& playerId);
 
-            // 
+            // Initializes grid position data to the driver records
             void Init(const Packet::Internal::GridPosition* packet);
 
-            // 
+            // Initializes session records
             void Init(const Packet::Internal::SessionSettings* packet);
 
-            // 
+            // Initializes driver records
             void Init(const Packet::Internal::SessionParticipants* packet);
 
             private:

@@ -72,6 +72,10 @@ void Processor::Data::RecordCreator::Init(const Packet::Internal::GridPosition* 
 void Processor::Data::RecordCreator::Init(const Packet::Internal::SessionSettings* packet) {
 
     // TODO
+    if (!packet || m_sessionRecord) return;
+
+    m_sessionRecord = new Processor::Data::SessionRecord(packet->m_timestamp, packet->m_settings, packet->m_track);
+
 
 }
 
@@ -100,6 +104,8 @@ void Processor::Data::RecordCreator::Init(const Packet::Internal::SessionPartici
         }
 
     }
+    // TODO technically speaking, wouldn't the case in which we just
+    // got a valid packet at app startup (m_driverRecords.empty() also end up in this branch?
     else if (m_driverRecords.size() != packet->GetTotalParticipants()) {
 
         // case in which someone joins halfway through a session

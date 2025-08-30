@@ -63,6 +63,9 @@ namespace Processor {
             // The actual tyre compound on which the majority of the lap was raced
             Tyre::Internal::Actual m_actualTyre = Tyre::Internal::Actual::InvalidUnknown;
 
+            // Number of laps done on the tyre set on which the majority of the lap was raced
+            uint8_t m_tyreAge = UINT8_MAX;
+
             // Energy available in the battery at the start of the lap (J)
             float_t m_ersEnergyAtStart = 0.0f;
 

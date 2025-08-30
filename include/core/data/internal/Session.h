@@ -126,6 +126,9 @@ namespace Session::Internal {
         // Starting compound for this participant
         Tyre::Internal::Actual m_startTyreActual = Tyre::Internal::Actual::InvalidUnknown;
 
+        // Number of laps done on the starting tyre for this participant
+        uint8_t m_startTyreAge = UINT8_MAX;
+
     };
 
     struct Settings {

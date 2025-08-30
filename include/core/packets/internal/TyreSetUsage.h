@@ -33,6 +33,8 @@ namespace Packet {
                 // Visual compound of all tyres currently in use by this participant's car
                 Tyre::Internal::Visual m_visualTyreCompound;
 
+                // Number of laps done on the tyre set currently in use by this participant's car
+                uint8_t m_tyreAge = UINT8_MAX;
             };
 
             public:

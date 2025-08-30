@@ -161,6 +161,7 @@ void UserInterface::Widget::DriverEntry::init(const Session::Internal::Participa
 
         m_tyreArray->setSize(style.TyreInfoContainerMaxX.m_value * 3, style.TyreInfoContainerMaxY.m_value, false);
         m_tyreArray->adjustSize();
+        m_tyreArray->TyreChange(dataPacket.m_startTyreActual, dataPacket.m_startTyreVisual, dataPacket.m_startTyreAge, false);
 
     }
     if (m_penalties) {

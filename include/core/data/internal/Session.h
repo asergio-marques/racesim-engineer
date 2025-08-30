@@ -33,7 +33,7 @@ namespace Session::Internal {
     enum class TeamID : uint8_t {
 
         // F1 teams 2021+
-        Unknown         = 0,
+        InvalidUnknown  = 0,
         Custom          = 1,
         Mercedes        = 2,
         Ferrari         = 3,
@@ -70,7 +70,7 @@ namespace Session::Internal {
 
     enum class Track : uint8_t {
 
-        Unknown             = 0,
+        InvalidUnknown      = 0,
         AUS_Melbourne       = 1,
         AUT_RedBullRing     = 2,
         AZE_Baku            = 3,
@@ -115,7 +115,7 @@ namespace Session::Internal {
         std::string m_shortName = "???";
 
         // The ID of the team to which this participant belongs to
-        Session::Internal::TeamID m_teamID = Session::Internal::TeamID::Unknown;
+        Session::Internal::TeamID m_teamID = Session::Internal::TeamID::InvalidUnknown;
 
         // Starting position for this participant
         uint8_t m_startPosition = 0;
@@ -157,7 +157,7 @@ namespace Session::Internal {
     struct TrackInfo {
 
         // The track at which the session is taking place
-        Session::Internal::Track m_sessionTrack = Session::Internal::Track::Unknown;
+        Session::Internal::Track m_sessionTrack = Session::Internal::Track::InvalidUnknown;
 
         // Total distance for a single lap at the track, if available (meters)
         uint16_t m_lapDistanceTotal = 0.0f;

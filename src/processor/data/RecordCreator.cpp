@@ -223,8 +223,30 @@ void Processor::Data::RecordCreator::VerifyAndPropagate() {
     if (!m_workComplete && m_sessionRecord && !(m_driverRecords.empty()) &&
     (m_driverRecords.size() == m_totalParticipants)) {
 
-        //m_regFullRecordsFunc(m_sessionRecord, m_driverRecords);
-        //m_workComplete = true;
+        bool initialized = m_sessionRecord->Initialized();
+
+        for (const auto& driverEntry : m_driverRecords) {
+
+            if (driverEntry.second) {
+
+                initialized &= driverEntry.second->Initialized();
+
+            }
+            else {
+
+                initialized = false;
+                break;
+
+            }
+
+        }
+
+        if (initialized) {
+
+            m_regFullRecordsFunc(m_sessionRecord, m_driverRecords);
+            m_workComplete = true;
+
+        }
 
     }
 

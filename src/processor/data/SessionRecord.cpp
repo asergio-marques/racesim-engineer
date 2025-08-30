@@ -32,6 +32,19 @@ const Session::Internal::Settings& Processor::Data::SessionRecord::getSessionSet
 }
 
 
+const bool Processor::Data::SessionRecord::Initialized() const {
+
+    const bool sessionLimitSet = (m_settings.m_sessionDurationTime != 0) ||
+        (m_settings.m_sessionDurationLaps != 0);
+
+    return (m_trackInfo.m_sessionTrack != Session::Internal::Track::InvalidUnknown) &&
+        (m_settings.m_sessionLimit != Session::Internal::LimitType::InvalidUnknown) &&
+        sessionLimitSet &&
+        (m_settings.m_sessionType != Session::Internal::Type::InvalidUnknown);
+
+}
+
+
 
 const Session::Internal::TrackInfo& Processor::Data::SessionRecord::getTrackInfo() {
 

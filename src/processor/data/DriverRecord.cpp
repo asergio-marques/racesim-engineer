@@ -27,6 +27,15 @@ Processor::Data::DriverRecord::~DriverRecord() {
 
 
 
+const bool Processor::Data::DriverRecord::Initialized() const {
+
+    // TODO
+    return false;
+
+}
+
+
+
 const bool Processor::Data::DriverRecord::updateLastTimestamp(const uint64_t newTimestamp) {
 
     // When the session has been finalized, the timestamp might be sent as 0, so we need to take precautions regarding it

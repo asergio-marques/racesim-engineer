@@ -11,7 +11,7 @@
 
 const std::map<Session::Game::F1_25::Track, Session::Internal::Track>
 Generalizer::Maps::F1_25::TRACK_ID_MAP = {
-    { Session::Game::F1_25::Track::InvalidUnknown           , Session::Internal::Track::Unknown },
+    { Session::Game::F1_25::Track::InvalidUnknown           , Session::Internal::Track::InvalidUnknown },
     { Session::Game::F1_25::Track::AUS_Melbourne            , Session::Internal::Track::AUS_Melbourne },
     { Session::Game::F1_25::Track::CHI_Shanghai             , Session::Internal::Track::CHI_Shanghai },
     { Session::Game::F1_25::Track::BAH_Sakhir               , Session::Internal::Track::BAH_Sakhir },
@@ -42,6 +42,7 @@ Generalizer::Maps::F1_25::TRACK_ID_MAP = {
 
 const std::map<Participant::Game::F1_25::TeamID, Session::Internal::TeamID>
 Generalizer::Maps::F1_25::TEAM_ID_MAP = {
+    { Participant::Game::F1_25::TeamID::InvalidUnknown      , Session::Internal::TeamID::InvalidUnknown },
     { Participant::Game::F1_25::TeamID::Mercedes            , Session::Internal::TeamID::Mercedes },
     { Participant::Game::F1_25::TeamID::Ferrari             , Session::Internal::TeamID::Ferrari },
     { Participant::Game::F1_25::TeamID::RedBull             , Session::Internal::TeamID::RedBull },

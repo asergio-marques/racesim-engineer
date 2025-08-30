@@ -22,6 +22,9 @@ namespace Processor {
             // Destructor
             ~DriverRecord();
 
+            // Validates the internal information and returns true if it meets the conditions for the start of a session
+            const bool Initialized() const;
+
             // Checks if the new timestamp is equal or more recent than the last one registered,
             // validating access to the DriverState for alteration
             const bool updateLastTimestamp(const uint64_t newTimestamp);

@@ -20,6 +20,9 @@ namespace Processor {
             // Destructor
             ~SessionRecord();
 
+            // Validates the internal information and returns true if it meets the conditions for the start of a session
+            const bool Initialized() const;
+
             // Exposes the full info of the track the session is running on
             const Session::Internal::TrackInfo& getTrackInfo();
 

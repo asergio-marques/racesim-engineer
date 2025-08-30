@@ -29,7 +29,7 @@ namespace Processor {
             // How much time this lap has taken
             // Note: If the lap has not been completed, then this denotes the current time of the lap
             Lap::Internal::Time m_totalLapTime{};
-            
+
             // How much time Sector 1 of the lap has taken
             // Note: If the sector has not been completed, then this denotes the current time of the sector
             Lap::Internal::Time m_sector1Time{};

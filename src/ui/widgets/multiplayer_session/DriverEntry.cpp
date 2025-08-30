@@ -113,7 +113,7 @@ UserInterface::Widget::DriverEntry::DriverEntry(QWidget* parent) :
 
 
 
-void UserInterface::Widget::DriverEntry::init(const Session::Internal::Participant& dataPacket, const uint8_t& initPosition) {
+void UserInterface::Widget::DriverEntry::init(const Session::Internal::Participant& dataPacket) {
 
     UserInterface::Style::Standings style;
 

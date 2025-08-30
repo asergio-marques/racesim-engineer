@@ -31,7 +31,7 @@ namespace UserInterface {
             public:
             DriverEntry(QWidget* parent = 0);
             virtual ~DriverEntry() = default;
-            void init(const Session::Internal::Participant& dataPacket, const uint8_t& initPosition);
+            void init(const Session::Internal::Participant& dataPacket);
             void updatePosition(const uint8_t newPosition);
             void updatePenalties(const Penalty::Internal::Type type, const int32_t change);
             void updateStatus(const Participant::Internal::Status status);

@@ -145,9 +145,16 @@ void Processor::Detector::SessionStartDataReady::BuildRaceStartPacket() {
 
             const auto state = record->getModifiableState();
             participant.m_startPosition = state.posTimeData().getGridPosition();
-            // TODO now get starting tyres which is why you're actually doing all this work, u egg
+            const Processor::Data::LapInfo* lapInfo = state.lapData().getLapData(0);
+            if (lapInfo) {
 
-            packet->m_participants.push_back(participant);
+                participant.m_startTyreVisual = lapInfo->m_visualTyre;
+                participant.m_startTyreActual = lapInfo->m_actualTyre;
+
+                // makes sense to guard this only if the starting tyre info was initialized properly
+                packet->m_participants.push_back(participant);
+
+            }
 
         }
 

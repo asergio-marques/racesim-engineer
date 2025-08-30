@@ -42,15 +42,12 @@ void UserInterface::Widget::Standings::setStartingGrid(const Packet::Event::Race
 
     if (dataPacket && !m_initialParamsSet) {
 
-        uint8_t initPosition = 1;
-
         for (const auto driverInfo : dataPacket->m_participants) {
 
-            UserInterface::Widget::DriverEntry* entry = m_driverData.at(initPosition - 1);
+            UserInterface::Widget::DriverEntry* entry = m_driverData.at(driverInfo.m_index);
             if (entry) {
 
-                entry->init(driverInfo, initPosition);
-                ++initPosition;
+                entry->init(driverInfo);
 
             }
 

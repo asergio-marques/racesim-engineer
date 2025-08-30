@@ -8,12 +8,11 @@
 
 
 
-Packet::Internal::TyreSetUsage::Data::Data(const uint8_t driverID, const uint8_t tyreSetID,
-                    const Tyre::Internal::Actual actualTyreCompound, const Tyre::Internal::Visual visualTyreCompound) :
-    m_driverID(driverID),
-    m_tyreSetID(tyreSetID),
-    m_actualTyreCompound(actualTyreCompound),
-    m_visualTyreCompound(visualTyreCompound) {
+Packet::Internal::TyreSetUsage::Data::Data() :
+    m_driverID(UINT8_MAX),
+    m_tyreSetID(UINT8_MAX),
+    m_actualTyreCompound(Tyre::Internal::Actual::InvalidUnknown),
+    m_visualTyreCompound(Tyre::Internal::Visual::InvalidUnknown) {
 
 }
 

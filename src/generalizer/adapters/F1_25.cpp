@@ -18,6 +18,7 @@
 #include "packets/internal/SessionParticipants.h"
 #include "packets/internal/SessionSettings.h"
 #include "packets/internal/Standings.h"
+#include "packets/internal/TyreSetUsage.h"
 #include "packets/game/F1_25/Interface.h"
 #include "packets/game/F1_25/Header.h"
 #include "packets/game/F1_25/CarMotionData.h"
@@ -70,6 +71,10 @@ Generalizer::Adapter::F1_25::ConvertPacket(const Packet::Game::Interface* packet
 
         case Packet::Game::F1_25::Type::SessionHistoryData:
             outputPackets = ConvertSessionHistoryDataPacket(dynamic_cast<const Packet::Game::F1_25::SessionHistoryData*>(gamePacket));
+            break;
+
+        case Packet::Game::F1_25::Type::TyreSetData:
+            outputPackets = ConvertTyreSetDataPacket(dynamic_cast<const Packet::Game::F1_25::TyreSetData*>(gamePacket));
             break;
 
         default:
@@ -226,6 +231,41 @@ Generalizer::Adapter::F1_25::ConvertSessionHistoryDataPacket(const Packet::Game:
     AddLapStatusInfo(inputPacket->GetNumLaps(), currentLapInfo, lapPacket);
 
     return { lapPacket };
+
+}
+
+
+
+std::vector<Packet::Internal::Interface*> Generalizer::Adapter::F1_25::ConvertTyreSetDataPacket(const Packet::Game::F1_25::TyreSetData* inputPacket) {
+
+    if (!inputPacket || !(inputPacket->GetHeader())) {
+
+        return {};
+
+    }
+
+    Packet::Internal::TyreSetUsage* tyrePacket =
+        new Packet::Internal::TyreSetUsage(inputPacket->GetHeader()->GetFrameIdentifier());
+
+    Packet::Internal::TyreSetUsage::Data data;
+    data.m_driverID = inputPacket->GetCarIndex();
+    data.m_tyreSetID = inputPacket->GetFittedSetIndex();
+    const auto& rawInfo = inputPacket->GetTyreSetInfo()[data.m_tyreSetID];
+    auto actualIt = Generalizer::Maps::F1_25::ACTUAL_TYRE_MAP.find(rawInfo.m_actualTyreCompound);
+    if (actualIt != Generalizer::Maps::F1_25::ACTUAL_TYRE_MAP.end()) {
+
+        data.m_actualTyreCompound = actualIt->second;
+
+    }
+    auto visualIt = Generalizer::Maps::F1_25::VISUAL_TYRE_MAP.find(rawInfo.m_visualTyreCompound);
+    if (visualIt != Generalizer::Maps::F1_25::VISUAL_TYRE_MAP.end()) {
+
+        data.m_visualTyreCompound = visualIt->second;
+
+    }
+    tyrePacket->InsertData(data);
+
+    return { tyrePacket };
 
 }
 

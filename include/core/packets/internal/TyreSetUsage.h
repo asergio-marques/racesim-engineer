@@ -19,20 +19,19 @@ namespace Packet {
 
                 public:
                 // Constructor
-                Data(const uint8_t driverID, const uint8_t tyreSetID,
-                    const Tyre::Internal::Actual actualTyreCompound, const Tyre::Internal::Visual visualTyreCompound);
+                Data();
 
                 // ID of the driver for which this standing is relative to
-                const uint8_t m_driverID;
+                uint8_t m_driverID;
 
                 // ID of the tyre set current in use by this participant's car
-                const uint8_t m_tyreSetID;
+                uint8_t m_tyreSetID;
 
                 // Actual compound of all tyres currently in use by this participant's car
-                const Tyre::Internal::Actual m_actualTyreCompound;
+                Tyre::Internal::Actual m_actualTyreCompound;
 
                 // Visual compound of all tyres currently in use by this participant's car
-                const Tyre::Internal::Visual m_visualTyreCompound;
+                Tyre::Internal::Visual m_visualTyreCompound;
 
             };
 

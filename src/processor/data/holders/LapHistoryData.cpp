@@ -58,22 +58,53 @@ const bool Processor::Data::LapHistoryData::Initialized() const {
         (it->second.m_tyreSetID != UINT8_MAX) &&
         (it->second.m_lapId != UINT16_MAX) &&
         (it->second.m_actualTyre != Tyre::Internal::Actual::InvalidUnknown) &&
-        (it->second.m_visualTyre != Tyre::Internal::Visual::InvalidUnknown);
+        (it->second.m_visualTyre != Tyre::Internal::Visual::InvalidUnknown) &&
+        (it->second.m_tyreAge != UINT8_MAX);
 
 }
 
 
 
-void Processor::Data::LapHistoryData::initialize(const uint8_t driverID, const uint8_t tyreSetID,
-    const Tyre::Internal::Actual actualCompound, const Tyre::Internal::Visual visualCompound) {
+void Processor::Data::LapHistoryData::initialize(const uint8_t driverID, const bool hasTyreID,
+    const uint8_t tyreSetID, const Tyre::Internal::Actual actualCompound,
+    const Tyre::Internal::Visual visualCompound, const uint8_t tyreAgeLaps) {
 
-    Processor::Data::LapInfo lap;
-    lap.m_driverId = driverID;
-    lap.m_lapId = 0;
-    lap.m_tyreSetID = tyreSetID;
-    lap.m_actualTyre = actualCompound;
-    lap.m_visualTyre = visualCompound;
-    m_laps.emplace(lap.m_lapId, lap);
+    // create new lap entry
+    if (hasTyreID) {
+
+        Processor::Data::LapInfo lap;
+        lap.m_driverId = driverID;
+        lap.m_lapId = 0;
+        lap.m_tyreSetID = tyreSetID;
+        lap.m_actualTyre = actualCompound;
+        lap.m_visualTyre = visualCompound;
+        if (tyreAgeLaps != UINT8_MAX) {
+
+            lap.m_tyreAge = tyreAgeLaps;
+
+        }
+        m_laps.emplace(lap.m_lapId, lap);
+
+    }
+    else {
+
+        // only append tyre age information, do nothing if there are no laps in the container
+        const auto it = m_laps.find(0);
+        if (it == m_laps.end())
+            return;
+
+        // validate to the best possible that these are the same tyres
+        if (it->second.m_driverId == driverID &&
+            it->second.m_actualTyre == actualCompound &&
+            it->second.m_visualTyre == visualCompound &&
+            it->second.m_actualTyre != Tyre::Internal::Actual::InvalidUnknown &&
+            it->second.m_visualTyre != Tyre::Internal::Visual::InvalidUnknown) {
+
+            it->second.m_tyreAge = tyreAgeLaps;
+
+        }
+
+    }
 
 }
 

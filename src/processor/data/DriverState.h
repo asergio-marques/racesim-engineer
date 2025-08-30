@@ -45,8 +45,8 @@ namespace Processor {
             void setGridPosition(const uint8_t gridPosition);
 
             // Initialize tyre data at the start of the session
-            void setStartingTyreData(const uint8_t tyreSetID,
-                const Tyre::Internal::Actual actualCompound, const Tyre::Internal::Visual visualCompound);
+            void setStartingTyreData(const bool hasTyreID, const uint8_t tyreSetID, const Tyre::Internal::Actual actualCompound,
+                const Tyre::Internal::Visual visualCompound, const uint8_t tyreAgeLaps);
 
             // Alter the position in this driver state, and feed it to the detector
             void updateCurrentPosition(const uint8_t currentPosition);

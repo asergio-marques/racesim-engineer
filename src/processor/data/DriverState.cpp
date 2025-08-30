@@ -57,10 +57,10 @@ void Processor::Data::DriverState::setGridPosition(const uint8_t gridPosition) {
 
 
 
-void Processor::Data::DriverState::setStartingTyreData(const uint8_t tyreSetID,
-    const Tyre::Internal::Actual actualCompound, const Tyre::Internal::Visual visualCompound) {
+void Processor::Data::DriverState::setStartingTyreData(const bool hasTyreID, const uint8_t tyreSetID,
+    const Tyre::Internal::Actual actualCompound, const Tyre::Internal::Visual visualCompound, const uint8_t tyreAgeLaps) {
 
-    m_lapData.initialize(m_id, tyreSetID, actualCompound, visualCompound);
+    m_lapData.initialize(m_id, hasTyreID, tyreSetID, actualCompound, visualCompound, tyreAgeLaps);
 
 }
 

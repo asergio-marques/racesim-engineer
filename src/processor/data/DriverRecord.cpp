@@ -10,7 +10,7 @@
 Processor::Data::DriverRecord::DriverRecord(const uint64_t initTimestamp, const Session::Internal::Participant& driverData) :
     m_lastStateTimestamp(initTimestamp),
     m_info(driverData),
-    m_state(driverData.m_index, driverData.m_startPosition),
+    m_state(m_info.m_driverID, driverData.m_startPosition),
     m_isFinished(false) {
 
 

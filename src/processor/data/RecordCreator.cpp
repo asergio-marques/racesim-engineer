@@ -204,7 +204,7 @@ void Processor::Data::RecordCreator::Init(const Packet::Internal::TyreSetUsage* 
 
             if (driverData) {
 
-                driverData->getModifiableState().setStartingTyreData(data.m_tyreSetID, data.m_actualTyreCompound, data.m_visualTyreCompound);
+                driverData->getModifiableState().setStartingTyreData(data.m_hasSetId, data.m_tyreSetID, data.m_actualTyreCompound, data.m_visualTyreCompound, data.m_tyreAgeLaps);
 
             }
 

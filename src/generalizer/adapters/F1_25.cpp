@@ -57,16 +57,20 @@ Generalizer::Adapter::F1_25::ConvertPacket(const Packet::Game::Interface* packet
     std::vector<Packet::Internal::Interface*> outputPackets;
     switch (gamePacket->GetHeader()->GetPacketType()) {
 
-        case Packet::Game::F1_25::Type::LapData:
-            outputPackets = ConvertLapDataPacket(dynamic_cast<const Packet::Game::F1_25::LapData*>(gamePacket));
-            break;
-
         case Packet::Game::F1_25::Type::SessionData:
             outputPackets = ConvertSessionDataPacket(dynamic_cast<const Packet::Game::F1_25::SessionData*>(gamePacket));
             break;
 
+        case Packet::Game::F1_25::Type::LapData:
+            outputPackets = ConvertLapDataPacket(dynamic_cast<const Packet::Game::F1_25::LapData*>(gamePacket));
+            break;
+
         case Packet::Game::F1_25::Type::ParticipantData:
             outputPackets = ConvertParticipantDataPacket(dynamic_cast<const Packet::Game::F1_25::ParticipantData*>(gamePacket));
+            break;
+
+        case Packet::Game::F1_25::Type::CarStatusData:
+            outputPackets = ConvertCarStatusDataPacket(dynamic_cast<const Packet::Game::F1_25::CarStatusData*>(gamePacket));
             break;
 
         case Packet::Game::F1_25::Type::SessionHistoryData:
@@ -84,6 +88,27 @@ Generalizer::Adapter::F1_25::ConvertPacket(const Packet::Game::Interface* packet
     }
 
     return outputPackets;
+
+}
+
+
+
+std::vector<Packet::Internal::Interface*>
+Generalizer::Adapter::F1_25::ConvertSessionDataPacket(const Packet::Game::F1_25::SessionData* inputPacket) {
+
+    if (!inputPacket) {
+
+        return {};
+
+    }
+
+    Session::Internal::TrackInfo trackInfo;
+    Session::Internal::Settings settings;
+    ExtractSessionSettings(inputPacket, trackInfo, settings);
+    Packet::Internal::SessionSettings* sessionDataPacket =
+        new Packet::Internal::SessionSettings(inputPacket->GetHeader()->GetFrameIdentifier(), trackInfo, settings);
+
+    return { sessionDataPacket };
 
 }
 
@@ -159,23 +184,46 @@ Generalizer::Adapter::F1_25::ConvertLapDataPacket(const Packet::Game::F1_25::Lap
 
 
 std::vector<Packet::Internal::Interface*>
-Generalizer::Adapter::F1_25::ConvertSessionDataPacket(const Packet::Game::F1_25::SessionData* inputPacket) {
+Generalizer::Adapter::F1_25::ConvertCarStatusDataPacket(const Packet::Game::F1_25::CarStatusData* inputPacket) {
 
     if (!inputPacket) {
 
         return {};
 
     }
+    Packet::Internal::TyreSetUsage* tyrePacket = new Packet::Internal::TyreSetUsage(inputPacket->GetHeader()->GetFrameIdentifier());
+    for (size_t i = 0; i < 22; ++i) {
 
-    Session::Internal::TrackInfo trackInfo;
-    Session::Internal::Settings settings;
-    ExtractSessionSettings(inputPacket, trackInfo, settings);
-    Packet::Internal::SessionSettings* sessionDataPacket =
-        new Packet::Internal::SessionSettings(inputPacket->GetHeader()->GetFrameIdentifier(), trackInfo, settings);
+        bool ok = false;
+        const auto carStatusInfo = inputPacket->GetCarStatusInfo(i, ok);
 
-    return { sessionDataPacket };
+        if (ok) {
+
+            Packet::Internal::TyreSetUsage::Data data(false);
+            data.m_driverID = i;
+            auto actualIt = Generalizer::Maps::F1_25::ACTUAL_TYRE_MAP.find(carStatusInfo.m_actualTyres);
+            if (actualIt != Generalizer::Maps::F1_25::ACTUAL_TYRE_MAP.end()) {
+
+                data.m_actualTyreCompound = actualIt->second;
+
+            }
+            auto visualIt = Generalizer::Maps::F1_25::VISUAL_TYRE_MAP.find(carStatusInfo.m_visualTyres);
+            if (visualIt != Generalizer::Maps::F1_25::VISUAL_TYRE_MAP.end()) {
+
+                data.m_visualTyreCompound = visualIt->second;
+
+            }
+            data.m_tyreAgeLaps = carStatusInfo.m_tyreLaps;
+            tyrePacket->InsertData(data);
+
+        }
+
+    }
+
+    return { tyrePacket };
 
 }
+
 
 
 std::vector<Packet::Internal::Interface*>
@@ -247,7 +295,7 @@ std::vector<Packet::Internal::Interface*> Generalizer::Adapter::F1_25::ConvertTy
     Packet::Internal::TyreSetUsage* tyrePacket =
         new Packet::Internal::TyreSetUsage(inputPacket->GetHeader()->GetFrameIdentifier());
 
-    Packet::Internal::TyreSetUsage::Data data;
+    Packet::Internal::TyreSetUsage::Data data(true);
     data.m_driverID = inputPacket->GetCarIndex();
     data.m_tyreSetID = inputPacket->GetFittedSetIndex();
     const auto& rawInfo = inputPacket->GetTyreSetInfo()[data.m_tyreSetID];

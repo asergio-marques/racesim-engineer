@@ -16,7 +16,7 @@ namespace Packet {
 
         namespace F1_25 {
 
-            class EventData;
+            class CarStatusData;
             class LapData;
             struct LapHistoryInfo;
             class ParticipantData;
@@ -49,8 +49,9 @@ namespace Generalizer {
             std::vector<Packet::Internal::Interface*> ConvertPacket(const Packet::Game::Interface* packet) override final;
 
             private:
-            std::vector<Packet::Internal::Interface*> ConvertLapDataPacket(const Packet::Game::F1_25::LapData* inputPacket);
             std::vector<Packet::Internal::Interface*> ConvertSessionDataPacket(const Packet::Game::F1_25::SessionData* inputPacket);
+            std::vector<Packet::Internal::Interface*> ConvertLapDataPacket(const Packet::Game::F1_25::LapData* inputPacket);
+            std::vector<Packet::Internal::Interface*> ConvertCarStatusDataPacket(const Packet::Game::F1_25::CarStatusData* inputPacket);
             std::vector<Packet::Internal::Interface*> ConvertParticipantDataPacket(const Packet::Game::F1_25::ParticipantData* inputPacket);
             std::vector<Packet::Internal::Interface*> ConvertSessionHistoryDataPacket(const Packet::Game::F1_25::SessionHistoryData* inputPacket);
             std::vector<Packet::Internal::Interface*> ConvertTyreSetDataPacket(const Packet::Game::F1_25::TyreSetData* inputPacket);

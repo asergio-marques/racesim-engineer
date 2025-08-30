@@ -8,11 +8,13 @@
 
 
 
-Packet::Internal::TyreSetUsage::Data::Data() :
+Packet::Internal::TyreSetUsage::Data::Data(const bool hasSetId) :
     m_driverID(UINT8_MAX),
+    m_hasSetId(hasSetId),
     m_tyreSetID(UINT8_MAX),
     m_actualTyreCompound(Tyre::Internal::Actual::InvalidUnknown),
-    m_visualTyreCompound(Tyre::Internal::Visual::InvalidUnknown) {
+    m_visualTyreCompound(Tyre::Internal::Visual::InvalidUnknown),
+    m_tyreAgeLaps(UINT8_MAX) {
 
 }
 

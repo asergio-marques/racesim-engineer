@@ -8,6 +8,7 @@
 #include "packets/internal/GridPosition.h"
 #include "packets/internal/SessionParticipants.h"
 #include "packets/internal/SessionSettings.h"
+#include "packets/internal/TyreSetUsage.h"
 
 
 
@@ -189,13 +190,41 @@ void Processor::Data::RecordCreator::Init(const Packet::Internal::SessionPartici
 
 
 
+void Processor::Data::RecordCreator::Init(const Packet::Internal::TyreSetUsage* packet) {
+
+    if (!packet || m_driverRecords.empty()) return;
+
+    auto tyreData = packet->GetData();
+    for (auto data : tyreData) {
+
+        auto entry = m_driverRecords.find(data.m_driverID);
+        if (entry != m_driverRecords.end()) {
+
+            auto driverData = entry->second;
+
+            if (driverData) {
+
+                driverData->getModifiableState().setStartingTyreData(data.m_tyreSetID, data.m_actualTyreCompound, data.m_visualTyreCompound);
+
+            }
+
+        }
+
+    }
+
+    VerifyAndPropagate();
+
+}
+
+
+
 void Processor::Data::RecordCreator::VerifyAndPropagate() {
 
     if (!m_workComplete && m_sessionRecord && !(m_driverRecords.empty()) &&
     (m_driverRecords.size() == m_totalParticipants)) {
 
-        m_regFullRecordsFunc(m_sessionRecord, m_driverRecords);
-        m_workComplete = true;
+        //m_regFullRecordsFunc(m_sessionRecord, m_driverRecords);
+        //m_workComplete = true;
 
     }
 

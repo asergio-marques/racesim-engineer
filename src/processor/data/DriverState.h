@@ -7,6 +7,7 @@
 #include <vector>
 #include "data/internal/Lap.h"
 #include "data/internal/Participant.h"
+#include "data/internal/Tyre.h"
 #include "data/holders/LapHistoryData.h"
 #include "data/holders/WarningPenaltyData.h"
 #include "data/holders/PositionTimingData.h"
@@ -42,6 +43,10 @@ namespace Processor {
 
             // Set the initial grid position of the driver at the start of the session
             void setGridPosition(const uint8_t gridPosition);
+
+            // Initialize tyre data at the start of the session
+            void setStartingTyreData(const uint8_t tyreSetID,
+                const Tyre::Internal::Actual actualCompound, const Tyre::Internal::Visual visualCompound);
 
             // Alter the position in this driver state, and feed it to the detector
             void updateCurrentPosition(const uint8_t currentPosition);

@@ -5,6 +5,7 @@
 #include <map>
 #include "data/holders/LapInfo.h"
 #include "data/internal/Participant.h"
+#include "data/internal/Tyre.h"
 
 
 
@@ -30,6 +31,10 @@ namespace Processor {
 
             // Add relevant detectors to then be called when relevant
             bool installDetector(Processor::Detector::Interface* detector);
+
+            // Creates a record for the first lap of the session, initializing tyre data
+            void initialize(const uint8_t driverID, const uint8_t tyreSetID,
+                const Tyre::Internal::Actual actualCompound, const Tyre::Internal::Visual visualCompound);
 
             // Alter the status of the driver's most recent lap in the session
             // Returns true if the lap data is regarded as complete

@@ -57,6 +57,15 @@ void Processor::Data::DriverState::setGridPosition(const uint8_t gridPosition) {
 
 
 
+void Processor::Data::DriverState::setStartingTyreData(const uint8_t tyreSetID,
+    const Tyre::Internal::Actual actualCompound, const Tyre::Internal::Visual visualCompound) {
+
+    m_lapData.initialize(m_id, tyreSetID, actualCompound, visualCompound);
+
+}
+
+
+
 void Processor::Data::DriverState::updateCurrentPosition(const uint8_t currentPosition) {
 
     m_posTimeData.updateCurrentPosition(m_id, currentPosition);

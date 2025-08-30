@@ -17,6 +17,7 @@ namespace Packet {
         class GridPosition;
         class SessionSettings;
         class SessionParticipants;
+        class TyreSetUsage;
 
        }
 
@@ -60,6 +61,9 @@ namespace Processor {
 
             // Initializes driver records
             void Init(const Packet::Internal::SessionParticipants* packet);
+
+            // Initializes starting tyre data to the driver records
+            void Init(const Packet::Internal::TyreSetUsage* packet);
 
             private:
             // Auxiliary function to be called whenever the full suite of driver records, or the session record, has been prepared

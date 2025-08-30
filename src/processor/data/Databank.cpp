@@ -23,6 +23,7 @@
 #include "packets/internal/PenaltyStatus.h"
 #include "packets/internal/SessionParticipants.h"
 #include "packets/internal/SessionSettings.h"
+#include "packets/internal/TyreSetUsage.h"
 
 
 #ifndef LINUX
@@ -104,6 +105,9 @@ void Processor::Data::Databank::updateData(const Packet::Internal::Interface* pa
                     break;
                 case Packet::Internal::Type::SessionParticipants:
                     m_creator->Init(dynamic_cast<const Packet::Internal::SessionParticipants*>(packet));
+                    break;
+                case Packet::Internal::Type::TyreSetUsage:
+                    m_creator->Init(dynamic_cast<const Packet::Internal::TyreSetUsage*>(packet));
                     break;
                 default:
                     // do nothing

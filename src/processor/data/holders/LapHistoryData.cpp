@@ -4,6 +4,7 @@
 #include <map>
 #include "data/holders/LapInfo.h"
 #include "data/internal/Participant.h"
+#include "data/internal/Tyre.h"
 #include "detectors/LapFinished.h"
 #include "detectors/Interface.h"
 #include "detectors/Type.h"
@@ -40,6 +41,21 @@ bool Processor::Data::LapHistoryData::installDetector(Processor::Detector::Inter
             return false;
 
     }
+
+}
+
+
+
+void Processor::Data::LapHistoryData::initialize(const uint8_t driverID, const uint8_t tyreSetID,
+    const Tyre::Internal::Actual actualCompound, const Tyre::Internal::Visual visualCompound) {
+
+    Processor::Data::LapInfo lap;
+    lap.m_driverId = driverID;
+    lap.m_lapId = 0;
+    lap.m_tyreSetID = tyreSetID;
+    lap.m_actualTyre = actualCompound;
+    lap.m_visualTyre = visualCompound;
+    m_laps.emplace(lap.m_lapId, lap);
 
 }
 

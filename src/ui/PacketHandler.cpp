@@ -95,6 +95,8 @@ void UserInterface::PacketHandler::Exec() {
 
             }
 
+            // TODO figure out how to clean processed packets
+
         }
 
     }

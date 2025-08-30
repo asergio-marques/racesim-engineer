@@ -21,7 +21,8 @@ target_sources(${PROJECT_NAME} PRIVATE
     PenaltyStatus.cpp
     Standings.cpp
     SessionParticipants.cpp
-    SessionSettings.cpp)
+    SessionSettings.cpp
+    TyreSetUsage.cpp)
 
 set_target_properties(${PROJECT_NAME}
 	PROPERTIES

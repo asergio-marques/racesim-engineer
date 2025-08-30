@@ -29,8 +29,9 @@ Processor::Data::DriverRecord::~DriverRecord() {
 
 const bool Processor::Data::DriverRecord::Initialized() const {
 
-    // TODO
-    return false;
+    // driver info should be always valid as it's statically initialized when the driver record is as well
+    // warning data is always blank at the start
+    return m_state.lapData().Initialized() && m_state.posTimeData().Initialized();
 
 }
 

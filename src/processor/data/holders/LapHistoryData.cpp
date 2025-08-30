@@ -46,6 +46,24 @@ bool Processor::Data::LapHistoryData::installDetector(Processor::Detector::Inter
 
 
 
+const bool Processor::Data::LapHistoryData::Initialized() const {
+
+    // initial settings should always have the ID of 0
+    const auto it = m_laps.find(0);
+    if (it == m_laps.end())
+        return false;
+
+    // check if the lap's settings diverge from default values
+    return (it->second.m_driverId != UINT8_MAX) &&
+        (it->second.m_tyreSetID != UINT8_MAX) &&
+        (it->second.m_lapId != UINT16_MAX) &&
+        (it->second.m_actualTyre != Tyre::Internal::Actual::InvalidUnknown) &&
+        (it->second.m_visualTyre != Tyre::Internal::Visual::InvalidUnknown);
+
+}
+
+
+
 void Processor::Data::LapHistoryData::initialize(const uint8_t driverID, const uint8_t tyreSetID,
     const Tyre::Internal::Actual actualCompound, const Tyre::Internal::Visual visualCompound) {
 
@@ -162,7 +180,7 @@ const uint16_t Processor::Data::LapHistoryData::numLapsAvailable() const {
 
 void Processor::Data::LapHistoryData::evaluateFinishedLap(const Processor::Data::LapInfo& finishedLap) {
 
-    if (!m_installedFinishedLapDetector) return;
+    if (!m_installedFinishedLapDetector || finishedLap.m_lapId == 0) return;
 
     // check if this new fastest lap is the fastest in the session
     // if it is, it's also this driver's PB

@@ -47,6 +47,14 @@ bool Processor::Data::PositionTimingData::installDetector(Processor::Detector::I
 
 
 
+const bool Processor::Data::PositionTimingData::Initialized() const {
+
+    return m_isGridPositionSet && (m_gridPosition != 0) && (m_gridPosition == m_currentPosition);
+
+}
+
+
+
 void Processor::Data::PositionTimingData::updateStatus(const uint8_t id, const Participant::Internal::Status status) {
 
     if (m_status != status &&
@@ -87,6 +95,9 @@ const uint8_t Processor::Data::PositionTimingData::getGridPosition() const {
 
 
 void Processor::Data::PositionTimingData::updateCurrentPosition(const uint8_t id, const uint8_t currentPosition) {
+
+    // validate start positions
+    if (!m_isGridPositionSet || m_gridPosition == 0) return;
 
     // Only add a position change if it actually exists
     if (m_currentPosition != currentPosition) {

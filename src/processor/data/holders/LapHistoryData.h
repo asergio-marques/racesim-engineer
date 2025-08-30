@@ -32,6 +32,9 @@ namespace Processor {
             // Add relevant detectors to then be called when relevant
             bool installDetector(Processor::Detector::Interface* detector);
 
+            // Validates the internal information and returns true if it meets the conditions for the start of a session
+            const bool Initialized() const;
+
             // Creates a record for the first lap of the session, initializing tyre data
             void initialize(const uint8_t driverID, const uint8_t tyreSetID,
                 const Tyre::Internal::Actual actualCompound, const Tyre::Internal::Visual visualCompound);

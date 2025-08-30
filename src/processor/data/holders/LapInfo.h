@@ -55,13 +55,13 @@ namespace Processor {
             std::vector<Lap::Internal::Time> m_sector3MiniSectorsTime{};
 
             // ID of the tyre set on which the majority of the lap was raced
-            uint8_t m_tyreSetID;
+            uint8_t m_tyreSetID = UINT8_MAX;
 
             // The visual tyre compound on which the majority of the lap was raced
-            Tyre::Internal::Visual m_visualTyre;
+            Tyre::Internal::Visual m_visualTyre = Tyre::Internal::Visual::InvalidUnknown;
 
             // The actual tyre compound on which the majority of the lap was raced
-            Tyre::Internal::Actual m_actualTyre;
+            Tyre::Internal::Actual m_actualTyre = Tyre::Internal::Actual::InvalidUnknown;
 
             // Energy available in the battery at the start of the lap (J)
             float_t m_ersEnergyAtStart = 0.0f;

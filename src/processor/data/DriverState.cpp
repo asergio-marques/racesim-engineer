@@ -58,9 +58,9 @@ void Processor::Data::DriverState::setGridPosition(const uint8_t gridPosition) {
 
 
 void Processor::Data::DriverState::setStartingTyreData(const bool hasTyreID, const uint8_t tyreSetID,
-    const Tyre::Internal::Actual actualCompound, const Tyre::Internal::Visual visualCompound, const uint8_t tyreAgeLaps) {
+    const Tyre::Internal::Actual actualCompound, const Tyre::Internal::Visual visualCompound, const bool hasTyreAge, const uint8_t tyreAgeLaps) {
 
-    m_lapData.initialize(m_id, hasTyreID, tyreSetID, actualCompound, visualCompound, tyreAgeLaps);
+    m_lapData.initialize(m_id, hasTyreID, tyreSetID, actualCompound, visualCompound, hasTyreAge, tyreAgeLaps);
 
 }
 
@@ -100,6 +100,15 @@ bool Processor::Data::DriverState::updateLap(const uint8_t lapID, const Lap::Int
     const bool driverFinished = m_isFinished || m_posTimeData.isFinishedStatus();
     auto newDriverStatus = m_lapData.updateLap(m_id, lapID, type, status, currentLapTime, sectorTimes, lapDistanceRun, previousLapTime, driverFinished);
     return newDriverStatus;
+
+}
+
+
+
+void Processor::Data::DriverState::updateCurrentTyre(const uint8_t driverID, const bool hasTyreID, const uint8_t tyreSetID,
+    const Tyre::Internal::Actual actualCompound, const Tyre::Internal::Visual visualCompound, const bool hasTyreAge, const uint8_t tyreAgeLaps) {
+
+    m_lapData.updateTyre(driverID, hasTyreID, tyreSetID, actualCompound, visualCompound, hasTyreAge, tyreAgeLaps);
 
 }
 

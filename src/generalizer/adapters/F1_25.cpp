@@ -199,7 +199,7 @@ Generalizer::Adapter::F1_25::ConvertCarStatusDataPacket(const Packet::Game::F1_2
 
         if (ok) {
 
-            Packet::Internal::TyreSetUsage::Data data(false);
+            Packet::Internal::TyreSetUsage::Data data(false, true);
             data.m_driverID = i;
             auto actualIt = Generalizer::Maps::F1_25::ACTUAL_TYRE_MAP.find(carStatusInfo.m_actualTyres);
             if (actualIt != Generalizer::Maps::F1_25::ACTUAL_TYRE_MAP.end()) {
@@ -295,7 +295,7 @@ std::vector<Packet::Internal::Interface*> Generalizer::Adapter::F1_25::ConvertTy
     Packet::Internal::TyreSetUsage* tyrePacket =
         new Packet::Internal::TyreSetUsage(inputPacket->GetHeader()->GetFrameIdentifier());
 
-    Packet::Internal::TyreSetUsage::Data data(true);
+    Packet::Internal::TyreSetUsage::Data data(true, false);
     data.m_driverID = inputPacket->GetCarIndex();
     data.m_tyreSetID = inputPacket->GetFittedSetIndex();
     const auto& rawInfo = inputPacket->GetTyreSetInfo()[data.m_tyreSetID];

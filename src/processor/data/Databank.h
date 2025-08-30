@@ -16,6 +16,7 @@ namespace Packet {
         class PenaltyStatus;
         class ParticipantStatus;
         class LapStatus;
+        class TyreSetUsage;
 
     }
 
@@ -92,6 +93,9 @@ namespace Processor {
 
             // Interfaces with the DriverState class to update the status of the session participants' laps
             void updateLapStatus(const Packet::Internal::LapStatus* lapPacket);
+
+            // Interfaces with the DriverState class to update the current tyre usage of the session participants
+            void updateCurrentTyreUsage(const Packet::Internal::TyreSetUsage* tyrePacket);
 
             // General interface for communicating with other modules
             Presenter::ICompFacade* m_presenter;

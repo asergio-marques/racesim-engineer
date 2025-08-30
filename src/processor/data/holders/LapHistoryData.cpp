@@ -54,12 +54,11 @@ const bool Processor::Data::LapHistoryData::Initialized() const {
         return false;
 
     // check if the lap's settings diverge from default values
-    return (it->second.m_driverId != UINT8_MAX) &&
-        (it->second.m_tyreSetID != UINT8_MAX) &&
+    return it->second.m_tyreSetIDInit && it->second.m_tyreAgeInit &&
+        (it->second.m_driverId != UINT8_MAX) &&
         (it->second.m_lapId != UINT16_MAX) &&
         (it->second.m_actualTyre != Tyre::Internal::Actual::InvalidUnknown) &&
-        (it->second.m_visualTyre != Tyre::Internal::Visual::InvalidUnknown) &&
-        (it->second.m_tyreAge != UINT8_MAX);
+        (it->second.m_visualTyre != Tyre::Internal::Visual::InvalidUnknown);
 
 }
 
@@ -67,7 +66,7 @@ const bool Processor::Data::LapHistoryData::Initialized() const {
 
 void Processor::Data::LapHistoryData::initialize(const uint8_t driverID, const bool hasTyreID,
     const uint8_t tyreSetID, const Tyre::Internal::Actual actualCompound,
-    const Tyre::Internal::Visual visualCompound, const uint8_t tyreAgeLaps) {
+    const Tyre::Internal::Visual visualCompound, const bool hasTyreAge, const uint8_t tyreAgeLaps) {
 
     // create new lap entry
     if (hasTyreID) {
@@ -75,6 +74,7 @@ void Processor::Data::LapHistoryData::initialize(const uint8_t driverID, const b
         Processor::Data::LapInfo lap;
         lap.m_driverId = driverID;
         lap.m_lapId = 0;
+        lap.m_tyreSetIDInit = hasTyreID;
         lap.m_tyreSetID = tyreSetID;
         lap.m_actualTyre = actualCompound;
         lap.m_visualTyre = visualCompound;
@@ -86,7 +86,7 @@ void Processor::Data::LapHistoryData::initialize(const uint8_t driverID, const b
         m_laps.emplace(lap.m_lapId, lap);
 
     }
-    else {
+    else if (hasTyreAge) {
 
         // only append tyre age information, do nothing if there are no laps in the container
         const auto it = m_laps.find(0);
@@ -101,6 +101,7 @@ void Processor::Data::LapHistoryData::initialize(const uint8_t driverID, const b
             it->second.m_visualTyre != Tyre::Internal::Visual::InvalidUnknown) {
 
             it->second.m_tyreAge = tyreAgeLaps;
+            it->second.m_tyreAgeInit = hasTyreAge;
 
         }
 
@@ -181,6 +182,42 @@ bool Processor::Data::LapHistoryData::updateLap(const uint8_t id, const uint8_t 
     }
 
     return m_isComplete;
+
+}
+
+
+
+void Processor::Data::LapHistoryData::updateTyre(const uint8_t driverID, const bool hasTyreID, const uint8_t tyreSetID,
+    const Tyre::Internal::Actual actualCompound, const Tyre::Internal::Visual visualCompound, const bool hasTyreAge, const uint8_t tyreAgeLaps) {
+
+    // We always update the latest lap
+    auto it = m_laps.find(m_laps.size() - 1);
+    if (it != m_laps.end()) {
+
+        auto& currentLap = it->second;
+
+        // TODO there is a problem in Codemasters games (lol of course): right after a tyre change, a first packet will be sent either with only the tyre age
+        // or only with the tyre change, and the other piece of information will only be transmitted in subsequent packets
+        // this is an extreme problem in the case the tyre age is received first, as it will be applied to the "old" tyre
+        // there must be a way to guarantee that the tyre change packet is constructed only once after both m_tyreSetIDInit && m_tyreAgeInit are true
+        // there must be a way to guarantee that tyre age packets are constructed only after a tyre change packet is emitted for a given lap
+        // perhaps the best way is to create a new data struct class with some logic to validate this...
+
+        if (currentLap.m_tyreSetIDInit && hasTyreID &&
+            currentLap.m_tyreSetID != tyreSetID) {
+
+            // tyre change happened, update data and inform detector
+            // TODO, how to detect the sector 3/sector 1 pitlane issue?
+
+        }
+        if (currentLap.m_tyreAgeInit && hasTyreAge &&
+            currentLap.m_tyreAge != tyreAgeLaps) {
+
+            // tyre aged (likely a single lap), update data and inform detector
+
+        }
+
+    }
 
 }
 

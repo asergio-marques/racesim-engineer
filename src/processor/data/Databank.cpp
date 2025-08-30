@@ -135,6 +135,10 @@ void Processor::Data::Databank::updateData(const Packet::Internal::Interface* pa
                     updateLapStatus(dynamic_cast<const Packet::Internal::LapStatus*>(packet));
                     break;
 
+                case Packet::Internal::Type::TyreSetUsage:
+                    updateCurrentTyreUsage(dynamic_cast<const Packet::Internal::TyreSetUsage*>(packet));
+                    break;
+
                 default:
                     // do nothing
                     break;
@@ -531,6 +535,36 @@ void Processor::Data::Databank::updateLapStatus(const Packet::Internal::LapStatu
                         triggerAutoExport();
 
                     }
+
+                }
+
+            }
+
+        }
+
+    }
+
+}
+
+
+
+
+void Processor::Data::Databank::updateCurrentTyreUsage(const Packet::Internal::TyreSetUsage* tyrePacket) {
+
+    if (tyrePacket) {
+
+        for (const auto& tyreData : tyrePacket->GetData()) {
+
+            auto entry = m_driverRecords.find(tyreData.m_driverID);
+            if (entry != m_driverRecords.end()) {
+
+                auto driverData = entry->second;
+
+                if (driverData && driverData->updateLastTimestamp(tyrePacket->m_timestamp)) {
+
+                        driverData->getModifiableState().updateCurrentTyre(tyreData.m_driverID, tyreData.m_hasSetId,
+                            tyreData.m_tyreSetID, tyreData.m_actualTyreCompound, tyreData.m_visualTyreCompound,
+                            tyreData.m_tyreAgeLaps, tyreData.m_hasAge);
 
                 }
 

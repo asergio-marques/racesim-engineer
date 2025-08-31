@@ -21,12 +21,6 @@
 
 namespace UserInterface {
 
-    namespace Widget {
-
-        class MPSessionStartInterface;
-
-    }
-
     class PacketHandler : public QObject {
 
         Q_OBJECT
@@ -63,7 +57,6 @@ namespace UserInterface {
         void NotifyTyreObservers(Packet::Event::Interface* packet);
 
         QList<Packet::Event::Interface*> m_packetList;
-        QList<UserInterface::Widget::MPSessionStartInterface*> m_mpSessionStartObservers;
         QThread m_workerThread;
         QTimer m_execTimer;
 

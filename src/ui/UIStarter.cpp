@@ -7,6 +7,7 @@
 #include <QTimer>
 #include "CustomMainWindow.h"
 #include "PacketHandler.h"
+#include "EventAnnouncer.h"
 #include "screens/Loading.h"
 #include "screens/TimeTrial.h"
 #include "screens/FreePractice.h"
@@ -18,7 +19,8 @@
 UserInterface::UIStarter::UIStarter() :
     m_app(nullptr),
     m_window(nullptr),
-    m_handler(new UserInterface::PacketHandler) {
+    m_handler(nullptr),
+    m_announcer(new UserInterface::EventAnnouncer) {
 
 
 
@@ -50,8 +52,12 @@ void UserInterface::UIStarter::Init(int* argc, char*** argv, Presenter::ICompFac
     font.setStyleStrategy(QFont::StyleStrategy::PreferAntialias);
     QGuiApplication::setFont(font);
     m_window = new UserInterface::CustomMainWindow(presenter);
-    if (m_window && m_handler) {
+    m_handler = new UserInterface::PacketHandler;
+    if (m_window && m_handler && m_announcer) {
 
+        m_announcer->Init();
+
+        // connect handler signals to main window
         m_handler->connect(m_handler, &UserInterface::PacketHandler::TimeTrialStart,
             m_window, &UserInterface::CustomMainWindow::OnTimeTrialStart);
         m_handler->connect(m_handler, &UserInterface::PacketHandler::PracticeStart,
@@ -62,6 +68,12 @@ void UserInterface::UIStarter::Init(int* argc, char*** argv, Presenter::ICompFac
             m_window, &UserInterface::CustomMainWindow::OnRaceStart);
         m_handler->connect(m_handler, &UserInterface::PacketHandler::SessionEnd,
             m_window, &UserInterface::CustomMainWindow::OnSessionEnd);
+
+        // connect handler signals to announcer
+        m_handler->connect(m_handler, &UserInterface::PacketHandler::LapFinished,
+            m_announcer, &UserInterface::EventAnnouncer::AnnounceFinishedLap);
+        m_handler->connect(m_handler, &UserInterface::PacketHandler::TyreChanged,
+            m_announcer, &UserInterface::EventAnnouncer::AnnounceTyreChanged);
 
         m_window->setMinimumSize(480, 360);
         m_window->setBaseSize(1920, 1040);

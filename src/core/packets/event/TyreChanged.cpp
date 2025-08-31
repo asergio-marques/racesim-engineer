@@ -11,6 +11,8 @@
 Packet::Event::TyreChanged::TyreChanged() :
     Packet::Event::Interface(),
     m_index(0),
+    m_fullName(""),
+    m_position(0),
     m_tyreInfo() {
 
 

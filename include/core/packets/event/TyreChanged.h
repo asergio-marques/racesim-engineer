@@ -2,6 +2,7 @@
 #define PACKETS_EVENT_INCLUDE_TYRE_CHANGED_H_
 
 #include <cstdint>
+#include <string>
 #include "data/internal/TyreData.h"
 #include "packets/event/Interface.h"
 #include "packets/event/Type.h"
@@ -27,7 +28,13 @@ namespace Packet {
             // Index for this participant
             uint8_t m_index;
 
-            // Time for this newly-finished lap
+            // Full name of this participant
+            std::string m_fullName;
+
+            // Position of this participant at the time of the tyre change
+            uint8_t m_position;
+
+            // Info for the new tyres
             Tyre::Internal::Data m_tyreInfo;
 
         };

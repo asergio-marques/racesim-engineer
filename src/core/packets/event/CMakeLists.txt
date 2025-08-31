@@ -24,7 +24,8 @@ target_sources(${PROJECT_NAME} PRIVATE
 	RaceStart.cpp
 	RoundSessionEnd.cpp
 	TimeTrialEnd.cpp
-	TimeTrialStart.cpp)
+	TimeTrialStart.cpp
+	TyreChanged.cpp)
 
 set_target_properties(${PROJECT_NAME}
 	PROPERTIES

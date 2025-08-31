@@ -76,7 +76,7 @@ Generalizer::Maps::F1_25::TEAM_ID_MAP = {
 
 const std::map<Participant::Game::F1_25::DriverID, const char*>
 Generalizer::Maps::F1_25::DRIVER_SHORTHAND_MAP = {
-    { Participant::Game::F1_25::DriverID::NetworkHuman              , "" },     // Deliberately empty
+    // NetworkHuman enum member deliberately omitted deliberately empty
     { Participant::Game::F1_25::DriverID::CarlosSainz               , "SAI" },
     { Participant::Game::F1_25::DriverID::DanielRicciardo           , "RIC" },
     { Participant::Game::F1_25::DriverID::FernandoAlonso            , "ALO" },

@@ -36,9 +36,18 @@ void UserInterface::EventAnnouncer::Init() {
             m_speechEngine->setLocale(locale);
 
         }
+        for (const auto& v : m_speechEngine->availableVoices()) {
+
+            if (v.gender() == QVoice::Female && v.locale() == locale) {
+
+                m_speechEngine->setVoice(v);
+                break;
+
+            }
+        }
 
         // set volume to 50%
-        m_speechEngine->setVolume(0.5);
+        m_speechEngine->setVolume(100);
 
     }
 
@@ -57,12 +66,14 @@ void UserInterface::EventAnnouncer::AnnounceFinishedLap(const Packet::Event::Lap
 void UserInterface::EventAnnouncer::AnnounceTyreChanged(const Packet::Event::TyreChanged* tyre) {
 
     // no need to inform if it was the player changing tyres
-    if (m_speechEngine && tyre && !(tyre->m_isPlayer)) {
+    //if (m_speechEngine && tyre && !(tyre->m_isPlayer)) {
+    if (m_speechEngine && tyre) {
 
         // TODO proper logic, like inserting in a FIFO queue to manage this overall
         if (m_speechEngine->state() == QTextToSpeech::State::Speaking) {
             m_speechEngine->stop();
         }
+
 
         QString fullAnnouncement("Driver ");
 

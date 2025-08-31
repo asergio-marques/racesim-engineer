@@ -359,7 +359,7 @@ const std::string Generalizer::Adapter::F1_25::ShortenDriverName(const char* ori
         return originalNameStr;
 
     }
-    else if (originalNameStr.compare("Player")) {
+    else if (originalNameStr == "Player") {
 
         // clear name if it's default, nothing can be done here
         return "";
@@ -400,23 +400,22 @@ Generalizer::Adapter::F1_25::GetSingleParticipantData(const Packet::Game::F1_25:
     convertedInfo.m_isPlayer = (arrayIndex == playerIndex);
 
     // This is probably inefficient in cases where the driver is not a "preset" one, but...
-    // Attempt to look up the 3-letter version of a predefined game driver, if human player,
-    // Then the string will be empty and the game will be forced to "shorten" the username
+    // Attempt to look up the 3-letter version of a predefined game driver
+    // If human player, then it will not be found and we'll use the other branch to shorten the username
     // 
     // NOTE: Problems with the shortening method may arise in the case of things like clan tags
     auto driverIt = Generalizer::Maps::F1_25::DRIVER_SHORTHAND_MAP.find(rawInfo.m_driverId);
-    if (driverIt != Generalizer::Maps::F1_25::DRIVER_SHORTHAND_MAP.end() &&
-        std::strcmp(driverIt->second, "")) {
+    if (driverIt != Generalizer::Maps::F1_25::DRIVER_SHORTHAND_MAP.end()) {
+
         convertedInfo.m_shortName = driverIt->second;
+
     }
     else {
+
         convertedInfo.m_shortName = ShortenDriverName(rawInfo.m_name);
+
     }
     convertedInfo.m_fullName = rawInfo.m_name;
-    if (convertedInfo.m_fullName.compare("Player")) {
-        // clear name if it's default, nothing can be done here
-        convertedInfo.m_fullName.clear();
-    }
 
     // Find team to be used as reference in UI
     auto teamIt = Generalizer::Maps::F1_25::TEAM_ID_MAP.find(rawInfo.m_teamId);

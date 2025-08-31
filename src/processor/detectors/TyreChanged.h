@@ -40,7 +40,7 @@ namespace Processor {
             
             private:
             // Pointer to the currently active driver records
-            std::map<const uint8_t, Processor::Data::DriverRecord*>* m_driverRecords;
+            std::map<const uint8_t, Processor::Data::DriverRecord*>* m_driverRecords = nullptr;
 
         };
 

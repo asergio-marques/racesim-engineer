@@ -31,6 +31,8 @@ bool Processor::Detector::TyreChanged::InstallDriverRecords(std::map<const uint8
 
 void Processor::Detector::TyreChanged::addTyreChangeInfo(const uint8_t driverID, const Tyre::Internal::Data newTyreData) {
 
+    if (!m_installedInDriverRecords || !m_driverRecords) return;
+
     auto it = m_driverRecords->find(driverID);
     if (it != m_driverRecords->end()) {
 

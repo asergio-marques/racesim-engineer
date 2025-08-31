@@ -189,7 +189,7 @@ void Processor::Data::RecordCreator::Init(const Packet::Internal::SessionPartici
 }
 
 
-
+#include <iostream>
 void Processor::Data::RecordCreator::Init(const Packet::Internal::TyreSetUsage* packet) {
 
     if (!packet || m_driverRecords.empty()) return;
@@ -197,12 +197,28 @@ void Processor::Data::RecordCreator::Init(const Packet::Internal::TyreSetUsage* 
     auto tyreData = packet->GetData();
     for (auto data : tyreData) {
 
+
+
         auto entry = m_driverRecords.find(data.m_driverID);
         if (entry != m_driverRecords.end()) {
 
             const auto driverData = entry->second;
 
             if (driverData) {
+
+                // TODO there's a problem in MP sessions if they're not full; there will be driver records that are not
+                // fully initialized as the packet with the tyre ID does not necessarily cover them
+                if (data.m_info.m_hasAge) {
+
+                    std::cout << "here" << std::endl;
+
+                }
+
+                if (data.m_info.m_hasID) {
+
+                    std::cout << "here" << std::endl;
+
+                }
 
                 driverData->getModifiableState().setStartingTyreData(data.m_info);
 

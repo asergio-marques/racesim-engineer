@@ -175,13 +175,11 @@ void Processor::Data::Databank::installDetector(Processor::Detector::Interface* 
                     auto record = entry.second;
                     if (record) {
 
-                        installed &= record->getModifiableState().installDetector(detector);
+                        installed = record->getModifiableState().installDetector(detector);
 
                     }
 
                 }
-
-                detector->InstalledInDriverRecords(installed);
 
                 // TODO this feels extremely hack-ish but I don't know an alternative...
                 // In sum the session start detector is a special detector which needs access to the records rather than the states
@@ -190,15 +188,15 @@ void Processor::Data::Databank::installDetector(Processor::Detector::Interface* 
 
                     auto sessionStartDetector = dynamic_cast<Processor::Detector::SessionStartDataReady*>(detector);
                     installed = sessionStartDetector->InstallDriverRecords(&m_driverRecords);
-                    detector->InstalledInDriverRecords(installed);
 
                 }
                 else if (detector->GetType() == Processor::Detector::Type::TyreChanged) {
                     auto tyreChangeDetector = dynamic_cast<Processor::Detector::TyreChanged*>(detector);
                     installed = tyreChangeDetector->InstallDriverRecords(&m_driverRecords);
-                    detector->InstalledInDriverRecords(installed);
 
                 }
+
+                detector->InstalledInDriverRecords(installed);
 
             }
 
@@ -304,15 +302,12 @@ void Processor::Data::Databank::OnCreatorReady(Processor::Data::SessionRecord* s
             auto record = driverEntry.second;
             if (record) {
 
-                installed &= record->getModifiableState().installDetector(detector);
+                installed = record->getModifiableState().installDetector(detector);
 
             }
 
         }
         detector->Init(sessionRecord);
-
-        // share the information about a session being officially started or not, to enable the "capture" of information
-        detector->InstalledInDriverRecords(installed);
 
         // TODO this feels extremely hack-ish but I don't know an alternative...
         // In sum the session start detector is a special detector which needs access to the records rather than the states
@@ -320,10 +315,16 @@ void Processor::Data::Databank::OnCreatorReady(Processor::Data::SessionRecord* s
         if (detector->GetType() == Processor::Detector::Type::SessionStartDataReady) {
 
             auto sessionStartDetector = dynamic_cast<Processor::Detector::SessionStartDataReady*>(detector);
-            bool installed = sessionStartDetector->InstallDriverRecords(&m_driverRecords);
-            detector->InstalledInDriverRecords(installed);
+            installed = sessionStartDetector->InstallDriverRecords(&m_driverRecords);
+
+        } else if (detector->GetType() == Processor::Detector::Type::TyreChanged) {
+            auto tyreChangeDetector = dynamic_cast<Processor::Detector::TyreChanged*>(detector);
+            installed = tyreChangeDetector->InstallDriverRecords(&m_driverRecords);
 
         }
+
+        // share the information about a session being officially started or not, to enable the "capture" of information
+        detector->InstalledInDriverRecords(installed);
 
     }
 

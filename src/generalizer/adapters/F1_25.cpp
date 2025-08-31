@@ -351,7 +351,7 @@ const std::string Generalizer::Adapter::F1_25::ShortenDriverName(const char* ori
     const std::string originalNameStr{ originalName };
     if (originalNameStr.length() == 0) {
 
-        return "???";
+        return "";
 
     }
     else if (originalNameStr.length() <= 3) {
@@ -359,7 +359,12 @@ const std::string Generalizer::Adapter::F1_25::ShortenDriverName(const char* ori
         return originalNameStr;
 
     }
+    else if (originalNameStr.compare("Player")) {
 
+        // clear name if it's default, nothing can be done here
+        return "";
+
+    }
     // Use only the first 3 consonants
     std::string shortName = "";
     for (const char character : originalNameStr) {
@@ -408,6 +413,10 @@ Generalizer::Adapter::F1_25::GetSingleParticipantData(const Packet::Game::F1_25:
         convertedInfo.m_shortName = ShortenDriverName(rawInfo.m_name);
     }
     convertedInfo.m_fullName = rawInfo.m_name;
+    if (convertedInfo.m_fullName.compare("Player")) {
+        // clear name if it's default, nothing can be done here
+        convertedInfo.m_fullName.clear();
+    }
 
     // Find team to be used as reference in UI
     auto teamIt = Generalizer::Maps::F1_25::TEAM_ID_MAP.find(rawInfo.m_teamId);

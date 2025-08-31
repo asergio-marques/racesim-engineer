@@ -56,8 +56,14 @@ void UserInterface::EventAnnouncer::AnnounceFinishedLap(const Packet::Event::Lap
 
 void UserInterface::EventAnnouncer::AnnounceTyreChanged(const Packet::Event::TyreChanged* tyre) {
 
-    if (m_speechEngine && tyre) {
-        
+    // no need to inform if it was the player changing tyres
+    if (m_speechEngine && tyre && !(tyre->m_isPlayer)) {
+
+        // TODO proper logic, like inserting in a FIFO queue to manage this overall
+        if (m_speechEngine->state() == QTextToSpeech::State::Speaking) {
+            m_speechEngine->stop();
+        }
+
         QString fullAnnouncement("Driver ");
 
         if (!(tyre->m_fullName.empty())) {
@@ -78,8 +84,11 @@ void UserInterface::EventAnnouncer::AnnounceTyreChanged(const Packet::Event::Tyr
         fullAnnouncement.append(" has pitted for ");
         fullAnnouncement.append(convertVisualTyres(tyre->m_tyreInfo.m_visualTyre));
         fullAnnouncement.append(" tyres.");
+        if (m_speechEngine->state() == QTextToSpeech::State::Ready) {
 
-        m_speechEngine->say(fullAnnouncement);
+            m_speechEngine->say(fullAnnouncement);
+
+        }
 
     }
 

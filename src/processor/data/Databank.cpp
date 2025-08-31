@@ -15,6 +15,7 @@
 #include "detectors/Interface.h"
 #include "detectors/Type.h"
 #include "detectors/SessionStartDataReady.h"
+#include "detectors/TyreChanged.h"
 #include "exporters/RaceSession.h"
 #include "packets/internal/GridPosition.h"
 #include "packets/internal/Interface.h"
@@ -60,7 +61,7 @@ Processor::Data::Databank::~Databank() {
     }
     m_driverRecords.clear();
     delete m_sessionRecord;
-    
+
     if (m_creator) {
 
         m_creator->DeregisterFunctions();
@@ -188,7 +189,13 @@ void Processor::Data::Databank::installDetector(Processor::Detector::Interface* 
                 if (detector->GetType() == Processor::Detector::Type::SessionStartDataReady) {
 
                     auto sessionStartDetector = dynamic_cast<Processor::Detector::SessionStartDataReady*>(detector);
-                    bool installed = sessionStartDetector->InstallDriverRecords(&m_driverRecords);
+                    installed = sessionStartDetector->InstallDriverRecords(&m_driverRecords);
+                    detector->InstalledInDriverRecords(installed);
+
+                }
+                else if (detector->GetType() == Processor::Detector::Type::TyreChanged) {
+                    auto tyreChangeDetector = dynamic_cast<Processor::Detector::TyreChanged*>(detector);
+                    installed = tyreChangeDetector->InstallDriverRecords(&m_driverRecords);
                     detector->InstalledInDriverRecords(installed);
 
                 }
@@ -302,7 +309,7 @@ void Processor::Data::Databank::OnCreatorReady(Processor::Data::SessionRecord* s
             }
 
         }
-        detector->Init(sessionRecord);        
+        detector->Init(sessionRecord);
 
         // share the information about a session being officially started or not, to enable the "capture" of information
         detector->InstalledInDriverRecords(installed);
@@ -563,7 +570,7 @@ void Processor::Data::Databank::updateCurrentTyreUsage(const Packet::Internal::T
 
                 if (driverData && driverData->updateLastTimestamp(tyrePacket->m_timestamp)) {
 
-                        driverData->getModifiableState().updateCurrentTyre(tyreData.m_driverID, tyreData.m_info);
+                    driverData->getModifiableState().updateCurrentTyre(tyreData.m_driverID, tyreData.m_info);
 
                 }
 

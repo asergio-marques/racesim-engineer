@@ -40,6 +40,9 @@ namespace Processor {
             // Exposes the initial grid position of the driver at the start of the session
             const uint8_t getGridPosition() const;
 
+            // Exposes the current position of the driver
+            const uint8_t getCurrentPosition() const;
+
             // Alter the position in this driver state, and feed it to the detector
             void updateCurrentPosition(const uint8_t id, const uint8_t currentPosition);
 

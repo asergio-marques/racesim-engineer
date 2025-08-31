@@ -94,6 +94,14 @@ const uint8_t Processor::Data::PositionTimingData::getGridPosition() const {
 
 
 
+const uint8_t Processor::Data::PositionTimingData::getCurrentPosition() const {
+
+    return m_currentPosition;
+
+}
+
+
+
 void Processor::Data::PositionTimingData::updateCurrentPosition(const uint8_t id, const uint8_t currentPosition) {
 
     // validate start positions

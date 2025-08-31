@@ -28,6 +28,9 @@ namespace Packet {
             // Index for this participant
             uint8_t m_index;
 
+            // Whether this tyre change was done by the player or not
+            bool m_isPlayer;
+
             // Full name of this participant
             std::string m_fullName;
 

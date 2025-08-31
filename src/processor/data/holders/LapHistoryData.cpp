@@ -105,8 +105,8 @@ void Processor::Data::LapHistoryData::initialize(const uint8_t driverID, const T
             it->second.m_tyre.m_actualTyre != Tyre::Internal::Actual::InvalidUnknown &&
             it->second.m_tyre.m_visualTyre != Tyre::Internal::Visual::InvalidUnknown) {
 
-            it->second.m_tyre.m_ageLaps = data.m_hasAge;
-            it->second.m_tyre.m_hasAge = data.m_ageLaps;
+            it->second.m_tyre.m_ageLaps = data.m_ageLaps;
+            it->second.m_tyre.m_hasAge = data.m_hasAge;
 
         }
 

@@ -153,7 +153,7 @@ const int16_t UserInterface::Widget::TyreInfoArray::x() const {
 	int16_t xMin = INT16_MAX;
 	for (const auto tyre : m_tyres) {
 
-		if (tyre) {
+		if (tyre && tyre->HasBeenRedoneAtLeastOnce()) {
 
 			xMin = qMin(xMin, tyre->x());
 
@@ -172,7 +172,7 @@ const int16_t UserInterface::Widget::TyreInfoArray::y() const {
 	int16_t yMin = INT16_MAX;
 	for (const auto tyre : m_tyres) {
 
-		if (tyre) {
+		if (tyre && tyre->HasBeenRedoneAtLeastOnce()) {
 
 			yMin = qMin(yMin, tyre->y());
 
@@ -194,7 +194,7 @@ void UserInterface::Widget::TyreInfoArray::TyreChange(Tyre::Internal::Actual act
 	if (tyre) {
 
 		m_tyres.push_back(tyre);
-		tyre->Init(actualTyreCompound, visualTyreCompound, tyreAge, m_tyres.size());
+		tyre->Init(actualTyreCompound, visualTyreCompound, tyreAge);
 
 	}
 
@@ -226,7 +226,7 @@ void UserInterface::Widget::TyreInfoArray::RedoDisplay() {
 }
 
 
-
+#include <QDebug>
 void UserInterface::Widget::TyreInfoArray::RedoDisplay(const uint16_t x, const uint16_t y) {
 
 	// no need for anything if there have been no stints
@@ -244,6 +244,7 @@ void UserInterface::Widget::TyreInfoArray::RedoDisplay(const uint16_t x, const u
 		uint16_t baseX = x + (displayCount * style.TyreInfoContainerMaxX.m_value);
 		auto* tyre = m_tyres[i];
 		tyre->move(baseX, y, false, false);
+		tyre->RedoneOnce();
 
 		if (i == 0) break;
 

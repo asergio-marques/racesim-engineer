@@ -17,7 +17,8 @@ UserInterface::Widget::TyreInfoContainer::TyreInfoContainer(QWidget* parent) :
     m_visualCompoundIcon(nullptr),
     m_actualCompoundText(nullptr),
     m_lapsText(nullptr),
-    m_numLaps(0) {
+    m_numLaps(0),
+    m_redone(false) {
 
     UserInterface::Style::Standings style;
 
@@ -226,7 +227,7 @@ const int16_t UserInterface::Widget::TyreInfoContainer::y() const {
 
 
 
-void UserInterface::Widget::TyreInfoContainer::Init(Tyre::Internal::Actual actualTyreCompound, Tyre::Internal::Visual visualTyreCompound, uint8_t numLapsAtStart, uint8_t stintNo) {
+void UserInterface::Widget::TyreInfoContainer::Init(Tyre::Internal::Actual actualTyreCompound, Tyre::Internal::Visual visualTyreCompound, uint8_t numLapsAtStart) {
 
     if (m_actualCompoundText) {
 
@@ -336,5 +337,21 @@ void UserInterface::Widget::TyreInfoContainer::Hide() {
         m_lapsText = nullptr;
 
     }
+
+}
+
+
+
+void UserInterface::Widget::TyreInfoContainer::RedoneOnce() {
+
+    m_redone = true;
+
+}
+
+
+
+bool UserInterface::Widget::TyreInfoContainer::HasBeenRedoneAtLeastOnce() const {
+
+    return m_redone;
 
 }

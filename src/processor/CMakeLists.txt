@@ -37,6 +37,7 @@ target_sources(${PROJECT_NAME} PRIVATE
     detectors/ParticipantStatusChanged.cpp
     detectors/PenaltyReceived.cpp
     detectors/SessionStartDataReady.cpp
+    detectors/TyreChanged.cpp
     exporters/RaceSession.cpp)
 
 target_link_libraries(${PROJECT_NAME} PUBLIC

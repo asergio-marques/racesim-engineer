@@ -16,7 +16,8 @@ namespace Processor {
             ParticipantStatusChanged    = 2,
             Overtake                    = 3,
             LapFinished                 = 4,
-            PenaltyReceived             = 5
+            PenaltyReceived             = 5,
+            TyreChanged                 = 6
 
         };
 

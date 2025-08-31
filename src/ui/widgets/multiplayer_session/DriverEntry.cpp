@@ -301,6 +301,18 @@ void UserInterface::Widget::DriverEntry::newLatestLap(const Lap::Internal::Time 
 
 
 
+void UserInterface::Widget::DriverEntry::newTyres(const Tyre::Internal::Actual actualTyre, const Tyre::Internal::Visual visualTyre, const uint8_t tyreAge) {
+
+    if (m_tyreArray) {
+
+        m_tyreArray->TyreChange(actualTyre, visualTyre, tyreAge, false);
+
+    }
+
+}
+
+
+
 void UserInterface::Widget::DriverEntry::move(const uint16_t x, const uint16_t y, const bool centerAlignmentX, const bool centerAlignmentY) {
 
     // TODO fix issue with wrong move point due to center

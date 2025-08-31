@@ -8,13 +8,14 @@
 #include <QTimer>
 // packet headers need to be added here for signals to work
 #include "packets/event/LapFinished.h"
-#include "packets/event/PenaltyReceived.h"
 #include "packets/event/ParticipantStatusChanged.h"
-#include "packets/event/TimeTrialStart.h"
+#include "packets/event/PenaltyReceived.h"
 #include "packets/event/PracticeStart.h"
+#include "packets/event/Overtake.h"
 #include "packets/event/QualiStart.h"
 #include "packets/event/RaceStart.h"
-#include "packets/event/Overtake.h"
+#include "packets/event/TimeTrialStart.h"
+#include "packets/event/TyreChanged.h"
 
 
 
@@ -45,6 +46,7 @@ namespace UserInterface {
         void PenaltyReceived(const Packet::Event::PenaltyReceived*);
         void ParticipantStatusChanged(const Packet::Event::ParticipantStatusChanged*);
         void LapFinished(const Packet::Event::LapFinished*);
+        void TyreChanged(const Packet::Event::TyreChanged*);
 
         private:
         void StartTimer();
@@ -58,6 +60,7 @@ namespace UserInterface {
         void NotifyPenaltyObservers(Packet::Event::Interface* packet);
         void NotifyStatusChangeObservers(Packet::Event::Interface* packet);
         void NotifyLapObservers(Packet::Event::Interface* packet);
+        void NotifyTyreObservers(Packet::Event::Interface* packet);
 
         QList<Packet::Event::Interface*> m_packetList;
         QList<UserInterface::Widget::MPSessionStartInterface*> m_mpSessionStartObservers;

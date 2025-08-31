@@ -31,6 +31,7 @@ UserInterface::Panel::RaceRight::RaceRight(UserInterface::PacketHandler* handler
         connect(handler, &UserInterface::PacketHandler::PenaltyReceived, m_driverStandings, &UserInterface::Widget::Standings::onPenaltyReceived);
         connect(handler, &UserInterface::PacketHandler::ParticipantStatusChanged, m_driverStandings, &UserInterface::Widget::Standings::onParticipantStatusChanged);
         connect(handler, &UserInterface::PacketHandler::LapFinished, m_driverStandings, &UserInterface::Widget::Standings::onLapFinished);
+        connect(handler, &UserInterface::PacketHandler::TyreChanged, m_driverStandings, &UserInterface::Widget::Standings::onTyreChanged);
 
     }
 

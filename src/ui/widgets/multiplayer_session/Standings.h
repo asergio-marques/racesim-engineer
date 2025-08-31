@@ -10,6 +10,7 @@
 #include "packets/event/QualiStart.h"
 #include "packets/event/RaceStart.h"
 #include "packets/event/TimeTrialStart.h"
+#include "packets/event/TyreChanged.h"
 
 
 
@@ -34,6 +35,7 @@ namespace UserInterface {
             void onPenaltyReceived(const Packet::Event::PenaltyReceived* dataPacket);
             void onParticipantStatusChanged(const Packet::Event::ParticipantStatusChanged* dataPacket);
             void onLapFinished(const Packet::Event::LapFinished* dataPacket);
+            void onTyreChanged(const Packet::Event::TyreChanged* dataPacket);
             void move(const uint16_t x, const uint16_t y, const bool centerAlignmentX, const bool centerAlignmentY) override final;
             void scale(const uint8_t percent) override final;
             void scale(const uint8_t percentX, const uint8_t percentY) override final;

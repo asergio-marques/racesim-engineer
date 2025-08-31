@@ -89,6 +89,8 @@ void UserInterface::PacketHandler::Exec() {
                 case Packet::Event::Type::LapFinished:
                     NotifyLapObservers(packet);
                     break;
+                case Packet::Event::Type::TyreChanged:
+                    NotifyTyreObservers(packet);
                 default:
                     // whoopsie daisy
                     break;
@@ -225,6 +227,19 @@ void UserInterface::PacketHandler::NotifyLapObservers(Packet::Event::Interface* 
 
         packet->markAsProcessed();
         emit LapFinished(dynamic_cast<const Packet::Event::LapFinished*>(packet));
+
+    }
+
+}
+
+
+
+void UserInterface::PacketHandler::NotifyTyreObservers(Packet::Event::Interface* packet) {
+
+    if (packet) {
+
+        packet->markAsProcessed();
+        emit TyreChanged(dynamic_cast<const Packet::Event::TyreChanged*>(packet));
 
     }
 

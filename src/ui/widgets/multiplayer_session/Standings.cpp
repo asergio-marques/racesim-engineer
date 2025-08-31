@@ -127,6 +127,25 @@ void UserInterface::Widget::Standings::onLapFinished(const Packet::Event::LapFin
 
 
 
+void UserInterface::Widget::Standings::onTyreChanged(const Packet::Event::TyreChanged* dataPacket) {
+
+    if (dataPacket && m_initialParamsSet) {
+
+        UserInterface::Widget::DriverEntry* entry = m_driverData.at(dataPacket->m_index);
+        if (entry) {
+
+            entry->newTyres(dataPacket->m_tyreInfo.m_actualTyre,
+                dataPacket->m_tyreInfo.m_visualTyre,
+                dataPacket->m_tyreInfo.m_ageLaps);
+
+        }
+
+    }
+
+}
+
+
+
 void UserInterface::Widget::Standings::move(const uint16_t x, const uint16_t y, const bool centerAlignmentX, const bool centerAlignmentY) {
 
     for (auto driver : m_driverData) {

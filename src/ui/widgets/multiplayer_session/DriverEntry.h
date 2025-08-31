@@ -7,6 +7,7 @@
 #include "data/internal/Participant.h"
 #include "data/internal/Penalty.h"
 #include "data/internal/Session.h"
+#include "data/internal/Tyre.h"
 
 
 class QWidget;
@@ -38,6 +39,7 @@ namespace UserInterface {
             void newSessionBestLap(const Lap::Internal::Time newLapTime, const bool isThisDrivers);
             void newPersonalBestLap(const Lap::Internal::Time newLapTime);
             void newLatestLap(const Lap::Internal::Time newLapTime);
+            void newTyres(const Tyre::Internal::Actual actualTyre, const Tyre::Internal::Visual visualTyre, const uint8_t tyreAge);
             virtual void move(const uint16_t x, const uint16_t y, const bool centerAlignmentX, const bool centerAlignmentY) override final;
             void scale(const uint8_t percent) override final;
             void scale(const uint8_t percentX, const uint8_t percentY) override final;

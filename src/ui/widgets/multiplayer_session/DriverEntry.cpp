@@ -291,6 +291,11 @@ void UserInterface::Widget::DriverEntry::newLatestLap(const Lap::Internal::Time 
         m_lastLap->updateTime(newLapTime);
 
     }
+    if (m_tyreArray) {
+
+        m_tyreArray->LapCompletedWithTyre();
+
+    }
 
 }
 

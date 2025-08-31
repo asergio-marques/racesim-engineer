@@ -15,6 +15,7 @@ namespace Processor {
 
         class LapFinished;
         class Interface;
+        class TyreChanged;
 
     }
 
@@ -56,6 +57,8 @@ namespace Processor {
             private:
             void evaluateFinishedLap(const Processor::Data::LapInfo& finishedLap);
 
+            void evaluateTyreDataChanged(const Processor::Data::LapInfo& currentLap);
+
             // Holder of data pertaining to all laps run
             std::map<uint16_t, Processor::Data::LapInfo> m_laps;
 
@@ -76,6 +79,9 @@ namespace Processor {
 
             // Pointer to the fastest lap detector currently installed
             Processor::Detector::LapFinished* m_installedFinishedLapDetector;
+
+            // Pointer to the tyre changed detector currently installed
+            Processor::Detector::TyreChanged* m_installedTyreChangeDetector;
         };
 
     }

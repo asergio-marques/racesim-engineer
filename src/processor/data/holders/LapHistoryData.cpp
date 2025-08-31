@@ -8,6 +8,7 @@
 #include "detectors/LapFinished.h"
 #include "detectors/Interface.h"
 #include "detectors/Type.h"
+#include "detectors/TyreChanged.h"
 
 
 
@@ -18,7 +19,8 @@ Processor::Data::LapHistoryData::LapHistoryData() :
     m_fastestSector1LapID(UINT16_MAX),
     m_fastestSector2LapID(UINT16_MAX),
     m_fastestSector3LapID(UINT16_MAX),
-    m_installedFinishedLapDetector(nullptr) {
+    m_installedFinishedLapDetector(nullptr),
+    m_installedTyreChangeDetector(nullptr) {
 
 
 
@@ -34,6 +36,10 @@ bool Processor::Data::LapHistoryData::installDetector(Processor::Detector::Inter
 
         case Processor::Detector::Type::LapFinished:
             m_installedFinishedLapDetector = dynamic_cast<Processor::Detector::LapFinished*>(detector);
+            return true;
+
+        case Processor::Detector::Type::TyreChanged:
+            m_installedTyreChangeDetector = dynamic_cast<Processor::Detector::TyreChanged*>(detector);
             return true;
 
         default:
@@ -177,9 +183,11 @@ bool Processor::Data::LapHistoryData::updateLap(const uint8_t id, const uint8_t 
             lap.m_totalLapTime = lap.m_sector1Time + lap.m_sector2Time + lap.m_sector3Time;
             lap.m_status = status;
             lap.m_distanceFulfilled = lapDistanceRun;
-            
+
             // increment tyre age before setting it
+            // note that the ID has not been set just to guarantee comparison when tyre data is received
             ++tyreData.m_ageLaps;
+            tyreData.m_hasID = false;
             lap.m_tyre = tyreData;
 
             m_laps.emplace(lap.m_lapId, lap);
@@ -198,28 +206,39 @@ void Processor::Data::LapHistoryData::updateTyre(const uint8_t driverID, const T
 
     // We always update the latest lap
     auto it = m_laps.find(m_laps.size() - 1);
-    if (it != m_laps.end()) {
+    if (it == m_laps.end()) return;
 
-        auto& currentLap = it->second;
 
-        // TODO there is a problem in Codemasters games (lol of course): right after a tyre change, a first packet will be sent either with only the tyre age
-        // or only with the tyre change, and the other piece of information will only be transmitted in subsequent packets
-        // this is an extreme problem in the case the tyre age is received first, as it will be applied to the "old" tyre
-        // there must be a way to guarantee that the tyre change packet is constructed only once after both m_tyreSetIDInit && m_tyreAgeInit are true
-        // there must be a way to guarantee that tyre age packets are constructed only after a tyre change packet is emitted for a given lap
-        // perhaps the best way is to create a new data struct class with some logic to validate this...
+    auto& currentLap = it->second;
 
-        if (currentLap.m_tyre.m_hasID && data.m_hasID &&
-            currentLap.m_tyre.m_setID != data.m_setID) {
+    // if the current lap does not have a set ID, then the info was carried over from the previous lap
+    // meaning, if there was a tyre change, the incoming data must have the set ID to reset the info
+    if (!currentLap.m_tyre.m_hasID) {
 
-            // tyre change happened, update data and inform detector
-            // TODO, how to detect the sector 3/sector 1 pitlane issue?
+        if (data.m_hasID && (currentLap.m_tyre.m_setID != data.m_setID)) {
+
+            currentLap.m_tyre = data;
+            evaluateTyreDataChanged(currentLap);
 
         }
-        if (currentLap.m_tyre.m_hasAge && data.m_hasAge &&
-            currentLap.m_tyre.m_ageLaps != data.m_ageLaps) {
 
-            // tyre aged (likely a single lap), update data and inform detector
+    }
+
+    // only if the tyre ID is set, should we try to update its age, with a packet only being sent if everything is set
+    // TODO, how to detect the sector 3/sector 1 pitlane issue that influences perceived tyre age?
+    if (currentLap.m_tyre.m_hasID && !currentLap.m_tyre.m_hasAge && data.m_hasAge) {
+
+        // append age information only after validating that the tyres are the same to the best we can
+        bool canCompareID = currentLap.m_tyre.m_hasID && data.m_hasID;
+        bool sameID = canCompareID && (currentLap.m_tyre.m_setID == data.m_setID);
+        if ((sameID || !canCompareID) &&
+            (driverID == currentLap.m_driverId) &&
+            (currentLap.m_tyre.m_actualTyre == data.m_actualTyre) &&
+            (currentLap.m_tyre.m_visualTyre == data.m_visualTyre)) {
+
+            currentLap.m_tyre.m_hasAge = data.m_hasAge;
+            currentLap.m_tyre.m_ageLaps = data.m_ageLaps;
+            evaluateTyreDataChanged(currentLap);
 
         }
 
@@ -237,7 +256,7 @@ const Processor::Data::LapInfo* Processor::Data::LapHistoryData::getLapData(cons
         return &(it->second);
 
     }
-    
+
     return nullptr;
 
 }
@@ -290,6 +309,18 @@ void Processor::Data::LapHistoryData::evaluateFinishedLap(const Processor::Data:
             m_installedFinishedLapDetector->addFinishedLapInfo(finishedLap, Lap::Internal::InfoType::PersonalBest);
 
         }
+
+    }
+
+}
+
+
+
+void Processor::Data::LapHistoryData::evaluateTyreDataChanged(const Processor::Data::LapInfo& currentLap) {
+
+    if (m_installedTyreChangeDetector && currentLap.m_tyre.m_hasID && currentLap.m_tyre.m_hasAge) {
+
+        m_installedTyreChangeDetector->addTyreChangeInfo(currentLap.m_driverId, currentLap.m_tyre);
 
     }
 

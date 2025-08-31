@@ -24,6 +24,9 @@ namespace Processor {
             // Returns the identifying type of this detector
             const Processor::Detector::Type GetType() const override;
 
+            // Prepares a packet informing that a change of tyres was performed
+            void addTyreChangeInfo(const uint8_t driverID, const Tyre::Internal::Data newTyreData);
+
         };
 
     }

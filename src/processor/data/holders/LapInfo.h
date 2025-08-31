@@ -4,8 +4,10 @@
 #include <cstdint>
 #include <vector>
 #include "data/internal/Lap.h"
-#include "data/internal/Tyre.h"
 #include "data/internal/LapTime.h"
+#include "data/internal/TyreData.h"
+
+
 
 
 namespace Processor {
@@ -54,23 +56,8 @@ namespace Processor {
             // Note: If a mini sector has not been completed, then the current time of the mini sector will be noted down
             std::vector<Lap::Internal::Time> m_sector3MiniSectorsTime{};
 
-            // Whether the ID of the tyre set in use for the majority of the lap has been initialized
-            bool m_tyreSetIDInit = false;
-
-            // ID of the tyre set on which the majority of the lap was raced
-            uint8_t m_tyreSetID = UINT8_MAX;
-
-            // The visual tyre compound on which the majority of the lap was raced
-            Tyre::Internal::Visual m_visualTyre = Tyre::Internal::Visual::InvalidUnknown;
-
-            // The actual tyre compound on which the majority of the lap was raced
-            Tyre::Internal::Actual m_actualTyre = Tyre::Internal::Actual::InvalidUnknown;
-
-            // Whether the age of the tyre set in use for the majority of the lap has been initialized
-            bool m_tyreAgeInit = false;
-
-            // Number of laps done on the tyre set on which the majority of the lap was raced
-            uint8_t m_tyreAge = UINT8_MAX;
+            // Data structure holding all relevant information
+            Tyre::Internal::Data m_tyre;
 
             // Energy available in the battery at the start of the lap (J)
             float_t m_ersEnergyAtStart = 0.0f;

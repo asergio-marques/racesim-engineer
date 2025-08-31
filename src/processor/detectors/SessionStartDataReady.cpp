@@ -148,9 +148,9 @@ void Processor::Detector::SessionStartDataReady::BuildRaceStartPacket() {
             const Processor::Data::LapInfo* lapInfo = state.lapData().getLapData(0);
             if (lapInfo) {
 
-                participant.m_startTyreVisual = lapInfo->m_visualTyre;
-                participant.m_startTyreActual = lapInfo->m_actualTyre;
-                participant.m_startTyreAge = lapInfo->m_tyreAge;
+                participant.m_startTyreVisual = lapInfo->m_tyre.m_visualTyre;
+                participant.m_startTyreActual = lapInfo->m_tyre.m_actualTyre;
+                participant.m_startTyreAge = lapInfo->m_tyre.m_ageLaps;
 
                 // makes sense to guard this only if the starting tyre info was initialized properly
                 packet->m_participants.push_back(participant);

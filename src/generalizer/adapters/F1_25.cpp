@@ -7,6 +7,7 @@
 #include "data/game/F1_25/Event.h"
 #include "data/internal/Participant.h"
 #include "data/internal/Session.h"
+#include "data/internal/TyreData.h"
 #include "maps/F1_25.h"
 #include "packets/game/Helper.h"
 #include "packets/game/Interface.h"
@@ -199,22 +200,23 @@ Generalizer::Adapter::F1_25::ConvertCarStatusDataPacket(const Packet::Game::F1_2
 
         if (ok) {
 
-            Packet::Internal::TyreSetUsage::Data data(false, true);
-            data.m_driverID = i;
+            Tyre::Internal::Data data;
+            data.m_hasID = false;
             auto actualIt = Generalizer::Maps::F1_25::ACTUAL_TYRE_MAP.find(carStatusInfo.m_actualTyres);
             if (actualIt != Generalizer::Maps::F1_25::ACTUAL_TYRE_MAP.end()) {
 
-                data.m_actualTyreCompound = actualIt->second;
+                data.m_actualTyre = actualIt->second;
 
             }
             auto visualIt = Generalizer::Maps::F1_25::VISUAL_TYRE_MAP.find(carStatusInfo.m_visualTyres);
             if (visualIt != Generalizer::Maps::F1_25::VISUAL_TYRE_MAP.end()) {
 
-                data.m_visualTyreCompound = visualIt->second;
+                data.m_visualTyre = visualIt->second;
 
             }
-            data.m_tyreAgeLaps = carStatusInfo.m_tyreLaps;
-            tyrePacket->InsertData(data);
+            data.m_hasAge = true;
+            data.m_ageLaps = carStatusInfo.m_tyreLaps;
+            tyrePacket->InsertData(i, data);
 
         }
 
@@ -295,23 +297,24 @@ std::vector<Packet::Internal::Interface*> Generalizer::Adapter::F1_25::ConvertTy
     Packet::Internal::TyreSetUsage* tyrePacket =
         new Packet::Internal::TyreSetUsage(inputPacket->GetHeader()->GetFrameIdentifier());
 
-    Packet::Internal::TyreSetUsage::Data data(true, false);
-    data.m_driverID = inputPacket->GetCarIndex();
-    data.m_tyreSetID = inputPacket->GetFittedSetIndex();
-    const auto& rawInfo = inputPacket->GetTyreSetInfo()[data.m_tyreSetID];
+    Tyre::Internal::Data data;
+    data.m_hasID = true;
+    data.m_setID = inputPacket->GetFittedSetIndex();
+    const auto& rawInfo = inputPacket->GetTyreSetInfo()[data.m_setID];
     auto actualIt = Generalizer::Maps::F1_25::ACTUAL_TYRE_MAP.find(rawInfo.m_actualTyreCompound);
     if (actualIt != Generalizer::Maps::F1_25::ACTUAL_TYRE_MAP.end()) {
 
-        data.m_actualTyreCompound = actualIt->second;
+        data.m_actualTyre = actualIt->second;
 
     }
     auto visualIt = Generalizer::Maps::F1_25::VISUAL_TYRE_MAP.find(rawInfo.m_visualTyreCompound);
     if (visualIt != Generalizer::Maps::F1_25::VISUAL_TYRE_MAP.end()) {
 
-        data.m_visualTyreCompound = visualIt->second;
+        data.m_visualTyre = visualIt->second;
 
     }
-    tyrePacket->InsertData(data);
+    data.m_hasAge = false;
+    tyrePacket->InsertData(inputPacket->GetCarIndex(), data);
 
     return { tyrePacket };
 

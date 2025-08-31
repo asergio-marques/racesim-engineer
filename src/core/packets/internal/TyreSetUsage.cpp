@@ -8,14 +8,9 @@
 
 
 
-Packet::Internal::TyreSetUsage::Data::Data(const bool hasSetId, const bool hasAge) :
+Packet::Internal::TyreSetUsage::Data::Data() :
     m_driverID(UINT8_MAX),
-    m_hasSetId(hasSetId),
-    m_tyreSetID(UINT8_MAX),
-    m_actualTyreCompound(Tyre::Internal::Actual::InvalidUnknown),
-    m_visualTyreCompound(Tyre::Internal::Visual::InvalidUnknown),
-    m_tyreAgeLaps(UINT8_MAX),
-    m_hasAge(hasAge) {
+    m_info() {
 
 }
 
@@ -37,7 +32,11 @@ const Packet::Internal::Type Packet::Internal::TyreSetUsage::packetType() const 
 
 
 
-void Packet::Internal::TyreSetUsage::InsertData(const Packet::Internal::TyreSetUsage::Data& data) {
+void Packet::Internal::TyreSetUsage::InsertData(const uint8_t driverID, Tyre::Internal::Data tyreData) {
+
+    Packet::Internal::TyreSetUsage::Data data;
+    data.m_driverID = driverID;
+    data.m_info = tyreData;
 
     m_fullData.push_back(data);
 

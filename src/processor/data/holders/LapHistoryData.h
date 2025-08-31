@@ -36,9 +36,7 @@ namespace Processor {
             const bool Initialized() const;
 
             // Creates a record for the first lap of the session, initializing tyre data
-            void initialize(const uint8_t driverID, const bool hasTyreID, const uint8_t tyreSetID,
-                const Tyre::Internal::Actual actualCompound, const Tyre::Internal::Visual visualCompound,
-                const bool hasTyreAge, const uint8_t tyreAgeLaps);
+            void initialize(const uint8_t driverID, const Tyre::Internal::Data data);
 
             // Alter the status of the driver's most recent lap in the session
             // Returns true if the lap data is regarded as complete
@@ -47,9 +45,7 @@ namespace Processor {
                 const float_t lapDistanceRun, const Lap::Internal::Time previousLapTime, const bool driverFinished);
 
             // Alter the tyre data of the driver's most recent lap
-            void updateTyre(const uint8_t driverID, const bool hasTyreID, const uint8_t tyreSetID,
-                const Tyre::Internal::Actual actualCompound, const Tyre::Internal::Visual visualCompound,
-                const bool hasTyreAge, const uint8_t tyreAgeLaps);
+            void updateTyre(const uint8_t driverID, const Tyre::Internal::Data data);
 
             // Exposes the data of a single lap
             const Processor::Data::LapInfo* getLapData(const uint16_t lapID) const;

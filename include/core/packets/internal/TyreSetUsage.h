@@ -4,6 +4,7 @@
 #include <cstdint>
 #include <vector>
 #include "data/internal/Tyre.h"
+#include "data/internal/TyreData.h"
 #include "packets/internal/Interface.h"
 #include "packets/internal/Type.h"
 
@@ -19,28 +20,13 @@ namespace Packet {
 
                 public:
                 // Constructor
-                Data(const bool hasSetId, const bool hasAge);
+                Data();
 
                 // ID of the driver for which this standing is relative to
                 uint8_t m_driverID;
 
-                // Whether this packet had its tyre set ID initialized
-                const bool m_hasSetId;
-
-                // ID of the tyre set current in use by this participant's car
-                uint8_t m_tyreSetID;
-
-                // Actual compound of all tyres currently in use by this participant's car
-                Tyre::Internal::Actual m_actualTyreCompound;
-
-                // Visual compound of all tyres currently in use by this participant's car
-                Tyre::Internal::Visual m_visualTyreCompound;
-
-                // Whether this packet had its tyre age initialized
-                const bool m_hasAge;
-
-                // Age in laps of the set of tyres currently in use by this participant's car
-                uint8_t m_tyreAgeLaps;
+                // The full set of tyre information
+                Tyre::Internal::Data m_info;
 
             };
 
@@ -54,8 +40,8 @@ namespace Packet {
             // Type identifier for the packet
             const Packet::Internal::Type packetType() const override final;
 
-            // Adds grid position data into the packet
-            void InsertData(const Packet::Internal::TyreSetUsage::Data& data);
+            // Adds tyre data for a given driver ID into the packet
+            void InsertData(const uint8_t driverID, Tyre::Internal::Data tyreData);
 
             // Retrieve grid position data from the packet
             const std::vector<Packet::Internal::TyreSetUsage::Data>& GetData() const;

@@ -11,6 +11,7 @@
 #include "data/RecordCreator.h"
 #include "data/SessionRecord.h"
 #include "data/internal/Participant.h"
+#include "data/internal/TyreData.h"
 #include "detectors/Interface.h"
 #include "detectors/Type.h"
 #include "detectors/SessionStartDataReady.h"
@@ -562,9 +563,7 @@ void Processor::Data::Databank::updateCurrentTyreUsage(const Packet::Internal::T
 
                 if (driverData && driverData->updateLastTimestamp(tyrePacket->m_timestamp)) {
 
-                        driverData->getModifiableState().updateCurrentTyre(tyreData.m_driverID, tyreData.m_hasSetId,
-                            tyreData.m_tyreSetID, tyreData.m_actualTyreCompound, tyreData.m_visualTyreCompound,
-                            tyreData.m_tyreAgeLaps, tyreData.m_hasAge);
+                        driverData->getModifiableState().updateCurrentTyre(tyreData.m_driverID, tyreData.m_info);
 
                 }
 

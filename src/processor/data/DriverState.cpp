@@ -57,10 +57,9 @@ void Processor::Data::DriverState::setGridPosition(const uint8_t gridPosition) {
 
 
 
-void Processor::Data::DriverState::setStartingTyreData(const bool hasTyreID, const uint8_t tyreSetID,
-    const Tyre::Internal::Actual actualCompound, const Tyre::Internal::Visual visualCompound, const bool hasTyreAge, const uint8_t tyreAgeLaps) {
+void Processor::Data::DriverState::setStartingTyreData(const Tyre::Internal::Data tyreData) {
 
-    m_lapData.initialize(m_id, hasTyreID, tyreSetID, actualCompound, visualCompound, hasTyreAge, tyreAgeLaps);
+    m_lapData.initialize(m_id, tyreData);
 
 }
 
@@ -105,10 +104,9 @@ bool Processor::Data::DriverState::updateLap(const uint8_t lapID, const Lap::Int
 
 
 
-void Processor::Data::DriverState::updateCurrentTyre(const uint8_t driverID, const bool hasTyreID, const uint8_t tyreSetID,
-    const Tyre::Internal::Actual actualCompound, const Tyre::Internal::Visual visualCompound, const bool hasTyreAge, const uint8_t tyreAgeLaps) {
+void Processor::Data::DriverState::updateCurrentTyre(const uint8_t driverID, const Tyre::Internal::Data data) {
 
-    m_lapData.updateTyre(driverID, hasTyreID, tyreSetID, actualCompound, visualCompound, hasTyreAge, tyreAgeLaps);
+    m_lapData.updateTyre(driverID, data);
 
 }
 

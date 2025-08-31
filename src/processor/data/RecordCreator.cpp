@@ -200,11 +200,11 @@ void Processor::Data::RecordCreator::Init(const Packet::Internal::TyreSetUsage* 
         auto entry = m_driverRecords.find(data.m_driverID);
         if (entry != m_driverRecords.end()) {
 
-            auto driverData = entry->second;
+            const auto driverData = entry->second;
 
             if (driverData) {
 
-                driverData->getModifiableState().setStartingTyreData(data.m_hasSetId, data.m_tyreSetID, data.m_actualTyreCompound, data.m_visualTyreCompound, data.m_hasAge, data.m_tyreAgeLaps);
+                driverData->getModifiableState().setStartingTyreData(data.m_info);
 
             }
 

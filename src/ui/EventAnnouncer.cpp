@@ -158,27 +158,35 @@ void UserInterface::EventAnnouncer::AnnouncePenaltyReceived(const Packet::Event:
 
             case Penalty::Internal::Type::Warning:
                 if (pen->m_delta < 1) return; // likely warnings traded for time penalty, do not announce
-                else if (pen->m_delta == 1) penDescription = QString("has received a warning");
-                else if (pen->m_delta > 1) penDescription = QString("has received %1 warnings")
+                else if (pen->m_delta == 1) penDescription = QString("received a warning");
+                else if (pen->m_delta > 1) penDescription = QString("received %1 warnings")
                     .arg(QString::number(pen->m_delta));
                 break;
 
-            case Penalty::Internal::Type::Time:
             case Penalty::Internal::Type::StopGo:
-                if (pen->m_delta > 1) {
-                    penDescription = QString("has received a %1 second time penalty").arg(QString::number(pen->m_delta));
+                if (pen->m_delta > 0) {
+                    penDescription = QString("received a %1 second time penalty that can be served").arg(QString::number(pen->m_delta / 1000));
                 }
-                else if (pen->m_delta < -1) {
-                    penDescription = QString("has served a %1 second time penalty").arg(QString::number(pen->m_delta * -1));
+                else if (pen->m_delta < 0) {
+                    penDescription = QString("served a %1 second time penalty").arg(QString::number(pen->m_delta / -1000));
+                }
+                break;
+
+            case Penalty::Internal::Type::Time:
+                if (pen->m_delta > 0) {
+                    penDescription = QString("received a %1 second time penalty").arg(QString::number(pen->m_delta / 1000));
+                }
+                else if (pen->m_delta < 0) {
+                    penDescription = QString("served a %1 second time penalty").arg(QString::number(pen->m_delta / -1000));
                 }
                 break;
 
             case Penalty::Internal::Type::DriveThrough:
-                if (pen->m_delta < -1)  penDescription = QString("has served %1 drive through penalties")
+                if (pen->m_delta < -1)  penDescription = QString("served %1 drive through penalties")
                     .arg(QString::number(pen->m_delta));
-                if (pen->m_delta == -1) penDescription = QString("has served a drive through penalty");
-                else if (pen->m_delta == 1) penDescription = QString("has received a drive through penalty");
-                else if (pen->m_delta > 1) penDescription = QString("has received %1 drive through penalties")
+                if (pen->m_delta == -1) penDescription = QString("served a drive through penalty");
+                else if (pen->m_delta == 1) penDescription = QString("received a drive through penalty");
+                else if (pen->m_delta > 1) penDescription = QString("received %1 drive through penalties")
                     .arg(QString::number(pen->m_delta));
                 break;
 
@@ -188,11 +196,11 @@ void UserInterface::EventAnnouncer::AnnouncePenaltyReceived(const Packet::Event:
                 return;
 
             default:
-                penDescription.append("has received an unknown penalty");
+                penDescription.append("received an unknown penalty");
 
 
         }
-
+        std::cout << "penDescription = " << penDescription.toStdString() << std::endl;
         if (pen->m_isPlayer) {
 
             QString ownAnnouncement = QString("You have %1.").arg(penDescription);

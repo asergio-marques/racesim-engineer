@@ -60,7 +60,51 @@ void UserInterface::EventAnnouncer::Init() {
 
 void UserInterface::EventAnnouncer::AnnounceFinishedLap(const Packet::Event::LapFinished* lap) {
 
-    // TODO
+    if (m_speechEngine && lap &&
+        (lap->m_infoType == Lap::Internal::InfoType::FastestLap)) {
+
+        QString minutes = QString::number(lap->m_lapTime.m_seconds / 60);
+        QString secondsPartial = QString::number(lap->m_lapTime.m_seconds % 60);
+        QString hundreths = QString::number(lap->m_lapTime.m_milliseconds / 100);
+
+        if (lap->m_isPlayer) {
+
+            QString ownAnnouncement = QString("You have done the fastest lap with a %1 %2 point %3.")
+                .arg(minutes).arg(secondsPartial).arg(hundreths);
+
+            m_speechEngine->enqueue(ownAnnouncement);
+
+        }
+
+
+        if (!(lap->m_fullName.empty())) {
+
+            QString nameAnnouncement = QString("Driver %1 has done the fastest lap with a %2 %3 point %4.")
+                .arg(QString::fromStdString(lap->m_fullName))
+                .arg(minutes).arg(secondsPartial).arg(hundreths);
+
+            m_speechEngine->enqueue(nameAnnouncement);
+
+        }
+        else if (lap->m_currentPosition != UINT8_MAX) {
+
+            QString positionAnnouncement = QString("Driver in P %1 has done the fastest lap with a %2 %3 point %4.")
+                .arg(QString::number(lap->m_currentPosition))
+                .arg(minutes).arg(secondsPartial).arg(hundreths);
+
+            m_speechEngine->enqueue(positionAnnouncement);
+
+        }
+        else {
+
+            QString unknownAnnouncement = QString("Unknown driver has done the fastest lap with a %1 %2 point %3.")
+                .arg(minutes).arg(secondsPartial).arg(hundreths);
+
+            m_speechEngine->enqueue(unknownAnnouncement);
+
+        }
+
+    }
 
 }
 
@@ -69,10 +113,7 @@ void UserInterface::EventAnnouncer::AnnounceFinishedLap(const Packet::Event::Lap
 void UserInterface::EventAnnouncer::AnnounceTyreChanged(const Packet::Event::TyreChanged* tyre) {
 
     // no need to inform if it was the player changing tyres
-    //if (m_speechEngine && tyre && !(tyre->m_isPlayer)) {
-    if (m_speechEngine && tyre) {
-
-        // TODO proper logic, like inserting in a FIFO queue to manage this overall
+    if (m_speechEngine && tyre && !(tyre->m_isPlayer)) {
 
         if (!(tyre->m_fullName.empty())) {
 
@@ -109,7 +150,85 @@ void UserInterface::EventAnnouncer::AnnounceTyreChanged(const Packet::Event::Tyr
 
 void UserInterface::EventAnnouncer::AnnouncePenaltyReceived(const Packet::Event::PenaltyReceived* pen) {
 
-    // TODO
+    if (m_speechEngine && pen) {
+
+        QString penDescription;
+
+        switch (pen->m_type) {
+
+            case Penalty::Internal::Type::Warning:
+                if (pen->m_delta < 1) return; // likely warnings traded for time penalty, do not announce
+                else if (pen->m_delta == 1) penDescription = QString("has received a warning");
+                else if (pen->m_delta > 1) penDescription = QString("has received %1 warnings")
+                    .arg(QString::number(pen->m_delta));
+                break;
+
+            case Penalty::Internal::Type::Time:
+            case Penalty::Internal::Type::StopGo:
+                if (pen->m_delta > 1) {
+                    penDescription = QString("has received a %1 second time penalty").arg(QString::number(pen->m_delta));
+                }
+                else if (pen->m_delta < -1) {
+                    penDescription = QString("has served a %1 second time penalty").arg(QString::number(pen->m_delta * -1));
+                }
+                break;
+
+            case Penalty::Internal::Type::DriveThrough:
+                if (pen->m_delta < -1)  penDescription = QString("has served %1 drive through penalties")
+                    .arg(QString::number(pen->m_delta));
+                if (pen->m_delta == -1) penDescription = QString("has served a drive through penalty");
+                else if (pen->m_delta == 1) penDescription = QString("has received a drive through penalty");
+                else if (pen->m_delta > 1) penDescription = QString("has received %1 drive through penalties")
+                    .arg(QString::number(pen->m_delta));
+                break;
+
+            case Penalty::Internal::Type::CurrentLapInvalid:
+            case Penalty::Internal::Type::CurrentNextLapInvalid:
+                // do not announce
+                return;
+
+            default:
+                penDescription.append("has received an unknown penalty");
+
+
+        }
+
+        if (pen->m_isPlayer) {
+
+            QString ownAnnouncement = QString("You have %1.").arg(penDescription);
+            m_speechEngine->enqueue(ownAnnouncement);
+
+        }
+
+
+        if (!(pen->m_fullName.empty())) {
+
+            QString nameAnnouncement = QString("Driver %1 has %2.")
+                .arg(QString::fromStdString(pen->m_fullName))
+                .arg(penDescription);
+
+            m_speechEngine->enqueue(nameAnnouncement);
+
+        }
+        else if (pen->m_currentPosition != UINT8_MAX) {
+
+            QString positionAnnouncement = QString("Driver in P %1 has %2.")
+                .arg(QString::number(pen->m_currentPosition))
+                .arg(penDescription);
+
+            m_speechEngine->enqueue(positionAnnouncement);
+
+        }
+        else {
+
+            QString unknownAnnouncement = QString("Unknown driver has %1.")
+                .arg(penDescription);
+
+            m_speechEngine->enqueue(unknownAnnouncement);
+
+        }
+
+    }
 
 }
 

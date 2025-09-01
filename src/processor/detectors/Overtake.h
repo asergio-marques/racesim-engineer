@@ -10,6 +10,13 @@
 
 namespace Processor {
 
+    namespace Data {
+
+        class DriverRecord;
+        class SessionRecord;
+
+    }
+
     namespace Detector {
 
         class Overtake final : public Processor::Detector::Interface {
@@ -35,18 +42,19 @@ namespace Processor {
             ~Overtake() = default;
 
             // Initializes the session record, and utilizes the worker thread
-            void Init(Processor::Data::SessionRecord* record) override final;
+            void Init(Processor::Data::SessionRecord* sessionRecord,
+                std::map<const uint8_t, Processor::Data::DriverRecord*>* driverRecords) override final;
 
             // Returns the identifying type of this detector
             const Processor::Detector::Type GetType() const override;
-
-            // Main execution function
-            void Exec() override final;
 
             // Interface function to add position change data
             void AddPositionChange(const uint8_t id, const uint8_t oldPosition, const uint8_t newPosition);
 
             private:
+            // Main execution function
+            void Exec() override final;
+
             // Creates a brand new packet using a set of position change info
             void CreateNewPacket(const Processor::Detector::Overtake::PositionChange& changeInfo);
 

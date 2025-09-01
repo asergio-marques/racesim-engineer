@@ -113,7 +113,7 @@ void Processor::Data::RecordCreator::Init(const Packet::Internal::GridPosition* 
 
             if (driverData) {
 
-                driverData->getModifiableState().setGridPosition(data.m_position);
+                driverData->getModifiableState()->setGridPosition(data.m_position);
 
             }
 
@@ -152,6 +152,7 @@ void Processor::Data::RecordCreator::Init(const Packet::Internal::SessionPartici
 
             auto data = participantData[i];
             Processor::Data::DriverRecord* record = new Processor::Data::DriverRecord(packet->m_timestamp, data);
+            record->Init(data.m_startPosition);
             m_driverRecords.emplace(record->getDriverId(), record);
             if (data.m_isPlayer) {
 
@@ -173,14 +174,20 @@ void Processor::Data::RecordCreator::Init(const Packet::Internal::SessionPartici
 
             auto data = participantData[i];
             Processor::Data::DriverRecord* record = new Processor::Data::DriverRecord(packet->m_timestamp, data);
-            m_driverRecords.emplace(record->getDriverId(), record);
-            if (data.m_isPlayer) {
+            if (record) {
 
-                m_playerId = data.m_index;
+                record->Init(data.m_startPosition);
+                m_driverRecords.emplace(record->getDriverId(), record);
+
+                if (data.m_isPlayer) {
+
+                    m_playerId = data.m_index;
+
+                }
+
+                m_regNewDriverFunc(record);
 
             }
-
-            m_regNewDriverFunc(record);
 
         }
 
@@ -206,7 +213,7 @@ void Processor::Data::RecordCreator::Init(const Packet::Internal::TyreSetUsage* 
 
             if (driverData) {
 
-                driverData->getModifiableState().setStartingTyreData(data.m_info);
+                driverData->getModifiableState()->setStartingTyreData(data.m_info);
 
             }
 

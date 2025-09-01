@@ -15,6 +15,7 @@ namespace Processor {
     namespace Data {
 
         class DriverRecord;
+        class SessionRecord;
 
     }
 
@@ -32,15 +33,16 @@ namespace Processor {
             // Returns the identifying type of this detector
             const Processor::Detector::Type GetType() const override;
 
-            // Special function to inject the driver records into this detector, rather than the other way around
-            bool InstallDriverRecords(std::map<const uint8_t, Processor::Data::DriverRecord*>* driverRecords);
+            // Initializes the session record, forgoing the worker thread as it is not necessary
+            virtual void Init(Processor::Data::SessionRecord* sessionRecord,
+                std::map<const uint8_t, Processor::Data::DriverRecord*>* driverRecords) override final;
 
             // Prepares a packet informing that a change of tyres was performed
             void addTyreChangeInfo(const uint8_t driverID, const Tyre::Internal::Data newTyreData);
-            
+
             private:
-            // Pointer to the currently active driver records
-            std::map<const uint8_t, Processor::Data::DriverRecord*>* m_driverRecords = nullptr;
+            // Main execution function (does nothing)
+            void Exec() override final {};
 
         };
 

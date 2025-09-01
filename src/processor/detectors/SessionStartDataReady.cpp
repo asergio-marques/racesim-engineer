@@ -16,28 +16,9 @@
 
 Processor::Detector::SessionStartDataReady::SessionStartDataReady() :
     Processor::Detector::Interface(),
-    m_sentSessionStart(false),
-    m_driverRecords(nullptr) {
+    m_sentSessionStart(false) {
 
 
-
-}
-
-
-
-void Processor::Detector::SessionStartDataReady::Init(Processor::Data::SessionRecord* record) {
-
-    // TODO this will disable graceful closing and reinit once another session is started
-    // no need to do anything if we already have the record
-    if (m_sessionRecord) return;
-
-    Processor::Detector::Interface::Init(record);
-
-    if (m_sessionRecord) {
-
-        m_workerThread = std::thread(&Processor::Detector::SessionStartDataReady::Exec, this);
-
-    }
 
 }
 
@@ -51,13 +32,20 @@ const Processor::Detector::Type Processor::Detector::SessionStartDataReady::GetT
 
 
 
-bool Processor::Detector::SessionStartDataReady::InstallDriverRecords(std::map<const uint8_t, Processor::Data::DriverRecord*>* driverRecords) {
+void Processor::Detector::SessionStartDataReady::Init(Processor::Data::SessionRecord* sessionRecord,
+                std::map<const uint8_t, Processor::Data::DriverRecord*>* driverRecords) {
 
-    if (!driverRecords) return false;
+    // TODO this will disable graceful closing and reinit once another session is started
+    // no need to do anything if we already have the record
+    if (m_sessionRecord && m_driverRecords) return;
 
-    m_driverRecords = driverRecords;
+    Processor::Detector::Interface::doInit(sessionRecord, driverRecords);
 
-    return true;
+    if (m_sessionRecord && m_driverRecords) {
+
+        m_workerThread = std::thread(&Processor::Detector::SessionStartDataReady::Exec, this);
+
+    }
 
 }
 
@@ -67,7 +55,7 @@ void Processor::Detector::SessionStartDataReady::Exec() {
 
     while (!m_sentSessionStart) {
 
-        if (m_installedInDriverRecords && m_sessionRecord && m_driverRecords) {
+        if (m_sessionRecord && m_driverRecords) {
 
             // TODO prepare event packet
             switch (m_sessionRecord->getSessionSettings().m_sessionType) {
@@ -92,8 +80,6 @@ void Processor::Detector::SessionStartDataReady::Exec() {
                     break;
             }
 
-            // guarantee we don't have driver records lingering about, keep usage at a minimum
-            m_driverRecords = nullptr;
             m_sentSessionStart = true;
 
         }
@@ -134,7 +120,7 @@ void Processor::Detector::SessionStartDataReady::BuildRaceStartPacket() {
     for (const auto& recordEntry : *m_driverRecords) {
 
         const auto record = recordEntry.second;
-        if (record) {
+        if (record && record->getModifiableState()) {
 
             Session::Internal::Participant participant;
             participant.m_index = record->m_info.m_driverID;
@@ -144,8 +130,8 @@ void Processor::Detector::SessionStartDataReady::BuildRaceStartPacket() {
             participant.m_teamID = record->m_info.m_teamID;
 
             const auto state = record->getModifiableState();
-            participant.m_startPosition = state.posTimeData().getGridPosition();
-            const Processor::Data::LapInfo* lapInfo = state.lapData().getLapData(0);
+            participant.m_startPosition = state->posTimeData().getGridPosition();
+            const Processor::Data::LapInfo* lapInfo = state->lapData().getLapData(0);
             if (lapInfo) {
 
                 participant.m_startTyreVisual = lapInfo->m_tyre.m_visualTyre;

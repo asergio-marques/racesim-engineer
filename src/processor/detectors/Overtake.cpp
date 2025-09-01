@@ -18,15 +18,12 @@ const Processor::Detector::Type Processor::Detector::Overtake::GetType() const {
 
 
 
-void Processor::Detector::Overtake::Init(Processor::Data::SessionRecord* record) {
+void Processor::Detector::Overtake::Init(Processor::Data::SessionRecord* sessionRecord,
+                std::map<const uint8_t, Processor::Data::DriverRecord*>* driverRecords) {
 
-    // TODO this will disable graceful closing and reinit once another session is started
-    // no need to do anything if we already have the record
-    if (m_sessionRecord) return;
+    Processor::Detector::Interface::doInit(sessionRecord, driverRecords);
 
-    Processor::Detector::Interface::Init(record);
-
-    if (m_sessionRecord) {
+    if (m_sessionRecord && m_driverRecords) {
 
         m_workerThread = std::thread(&Processor::Detector::Overtake::Exec, this);
 
@@ -36,9 +33,17 @@ void Processor::Detector::Overtake::Init(Processor::Data::SessionRecord* record)
 
 
 
+void Processor::Detector::Overtake::AddPositionChange(const uint8_t id, const uint8_t oldPosition, const uint8_t newPosition) {
+
+    m_positionChanges.push_back({ id, oldPosition, newPosition });
+
+}
+
+
+
 void Processor::Detector::Overtake::Exec() {
 
-    while (m_installedInDriverRecords && m_sessionRecord) {
+    while (m_sessionRecord && m_driverRecords) {
 
         // As long as there are position changes to be sent to the UI, they
         // will be added to the list of packets to be sent
@@ -67,7 +72,7 @@ void Processor::Detector::Overtake::Exec() {
                             }
 
                         }
-                        
+
                         // Break the already-existing packet loop
                         if (alreadyAdded) break;
 
@@ -89,14 +94,6 @@ void Processor::Detector::Overtake::Exec() {
         std::this_thread::sleep_for(std::chrono::milliseconds(100));
 
     }
-
-}
-
-
-
-void Processor::Detector::Overtake::AddPositionChange(const uint8_t id, const uint8_t oldPosition, const uint8_t newPosition) {
-
-    m_positionChanges.push_back({ id, oldPosition, newPosition });
 
 }
 

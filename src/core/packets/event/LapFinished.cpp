@@ -8,8 +8,8 @@
 
 
 
-Packet::Event::LapFinished::LapFinished() :
-    Packet::Event::Interface(),
+Packet::Event::LapFinished::LapFinished(const bool isPlayer, const std::string fullName, const uint8_t currentPosition) :
+    Packet::Event::Interface(isPlayer, fullName, currentPosition),
     m_index(0),
     m_lapTime(),
     m_infoType(Lap::Internal::InfoType::InvalidUnknown) {

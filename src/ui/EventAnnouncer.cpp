@@ -83,10 +83,10 @@ void UserInterface::EventAnnouncer::AnnounceTyreChanged(const Packet::Event::Tyr
             m_speechEngine->enqueue(nameAnnouncement);
 
         }
-        else if (tyre->m_position != UINT8_MAX) {
+        else if (tyre->m_currentPosition != UINT8_MAX) {
 
             QString positionAnnouncement = QString("Driver in P %1 has pitted for %2 tyres.")
-                .arg(QString::number(tyre->m_position))
+                .arg(QString::number(tyre->m_currentPosition))
                 .arg(convertVisualTyres(tyre->m_tyreInfo.m_visualTyre));
 
             m_speechEngine->enqueue(positionAnnouncement);

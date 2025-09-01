@@ -15,7 +15,7 @@ namespace Packet {
 
             public:
             // Packet interface constructor
-            PenaltyReceived();
+            PenaltyReceived(const bool isPlayer, const std::string fullName, const uint8_t currentPosition);
 
             // Destructor
             virtual ~PenaltyReceived() = default;

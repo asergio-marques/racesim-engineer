@@ -11,30 +11,10 @@
 
 Processor::Detector::Interface::Interface() :
     m_packetsToBeProcessed(),
-    m_installedInDriverRecords(false),
-    m_sessionRecord(nullptr) {
+    m_sessionRecord(nullptr),
+    m_driverRecords(nullptr) {
 
 
-
-}
-
-
-
-void Processor::Detector::Interface::Init(Processor::Data::SessionRecord* sessionRecord) {
-
-    if (sessionRecord) {
-
-        m_sessionRecord = sessionRecord;
-
-    }
-
-}
-
-
-
-void Processor::Detector::Interface::InstalledInDriverRecords(bool success) {
-
-    m_installedInDriverRecords = success;
 
 }
 
@@ -52,5 +32,24 @@ bool Processor::Detector::Interface::ClearPacketList() {
 
     m_packetsToBeProcessed.clear();
     return m_packetsToBeProcessed.empty();
+
+}
+
+
+
+void Processor::Detector::Interface::doInit(Processor::Data::SessionRecord* sessionRecord,
+    std::map<const uint8_t, Processor::Data::DriverRecord*>* driverRecords) {
+
+    if (sessionRecord) {
+
+        m_sessionRecord = sessionRecord;
+
+    }
+
+    if (driverRecords) {
+
+        m_driverRecords = driverRecords;
+
+    }
 
 }

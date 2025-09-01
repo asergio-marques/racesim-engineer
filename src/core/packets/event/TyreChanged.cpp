@@ -8,12 +8,9 @@
 
 
 
-Packet::Event::TyreChanged::TyreChanged() :
-    Packet::Event::Interface(),
+Packet::Event::TyreChanged::TyreChanged(const bool isPlayer, const std::string fullName, const uint8_t currentPosition) :
+    Packet::Event::Interface(isPlayer, fullName, currentPosition),
     m_index(0),
-    m_fullName(""),
-    m_isPlayer(false),
-    m_position(0),
     m_tyreInfo() {
 
 

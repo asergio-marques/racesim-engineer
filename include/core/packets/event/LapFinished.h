@@ -17,7 +17,7 @@ namespace Packet {
 
             public:
             // Packet interface constructor
-            LapFinished();
+            LapFinished(const bool isPlayer, const std::string fullName, const uint8_t currentPosition);
 
             // Destructor
             virtual ~LapFinished() = default;

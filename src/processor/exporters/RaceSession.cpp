@@ -87,17 +87,17 @@ bool Processor::Exporter::RaceSession::Export(std::string path) const {
         addChildNodeCharacterData(&rootNode, m_schemaV1.numLapsTag,
             static_cast<uint8_t>(m_sessionRecord->getSessionSettings().m_sessionDurationLaps));
         addChildNodeCharacterData(&rootNode, m_schemaV1.fastestOverallTag,
-            m_sessionRecord->getModifiableState().fastestLap().m_totalLapTime);
+            m_sessionRecord->getModifiableState()->fastestLap().m_totalLapTime);
 
     }
     if (m_playerDriverRecord) {
         addChildNodeCharacterData(&rootNode, m_schemaV1.completionTag,
             m_playerDriverRecord->isFinished());
         addChildNodeCharacterData(&rootNode, m_schemaV1.gridPosTag,
-            m_playerDriverRecord->getModifiableState().posTimeData().getGridPosition());
+            m_playerDriverRecord->getModifiableState()->posTimeData().getGridPosition());
 
         pugi::xml_node lapsNode = rootNode.append_child("laps");
-        const auto& lapData = m_playerDriverRecord->getModifiableState().lapData();
+        const auto& lapData = m_playerDriverRecord->getModifiableState()->lapData();
         for (size_t i = 1; i <= lapData.numLapsAvailable(); ++i) {
 
             const auto* lap = lapData.getLapData(i);

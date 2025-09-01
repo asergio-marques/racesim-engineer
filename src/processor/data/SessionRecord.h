@@ -30,7 +30,7 @@ namespace Processor {
             const Session::Internal::Settings& getSessionSettings();
 
             // Exposes the internal state object for easier modification
-            Processor::Data::SessionState& getModifiableState();
+            Processor::Data::SessionState* getModifiableState();
 
             private:
             // Holds the value of the most recent timestamp
@@ -43,7 +43,7 @@ namespace Processor {
             const Session::Internal::TrackInfo m_trackInfo;
 
             // Internal state of the session record, where all changes to the state of the session are made
-            Processor::Data::SessionState m_state;
+            Processor::Data::SessionState* m_state;
 
         };
 

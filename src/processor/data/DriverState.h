@@ -25,11 +25,13 @@ namespace Processor {
 
     namespace Data {
 
+        class DriverRecord;
+
         class DriverState {
 
             public:
             // Constructor
-            DriverState(const uint8_t id, const uint8_t startingPosition);
+            DriverState(const Processor::Data::DriverRecord* const parent, const uint8_t startingPosition);
 
             // Destructor
             ~DriverState() = default;
@@ -78,8 +80,8 @@ namespace Processor {
             const Processor::Data::LapHistoryData& lapData() const;
 
             private:
-            // ID of the driver associated with this state
-            const uint8_t m_id;
+            // Pointer to the driver record holding this state
+            const Processor::Data::DriverRecord* const m_parentRecord;
 
             // Denotes whether the session has ended or not, important for last lap info
             bool m_isFinished;

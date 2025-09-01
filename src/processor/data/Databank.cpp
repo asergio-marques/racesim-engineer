@@ -167,7 +167,7 @@ void Processor::Data::Databank::installDetector(Processor::Detector::Interface* 
             // Try to add to the current records
             if (!(m_driverRecords.empty()) && m_sessionRecord) {
 
-                detector->Init(m_sessionRecord);
+                detector->Init(m_sessionRecord, &m_driverRecords);
 
                 bool installed = true;
                 for (auto entry : m_driverRecords) {
@@ -175,28 +175,11 @@ void Processor::Data::Databank::installDetector(Processor::Detector::Interface* 
                     auto record = entry.second;
                     if (record) {
 
-                        installed = record->getModifiableState().installDetector(detector);
+                        installed = record->getModifiableState()->installDetector(detector);
 
                     }
 
                 }
-
-                // TODO this feels extremely hack-ish but I don't know an alternative...
-                // In sum the session start detector is a special detector which needs access to the records rather than the states
-                // Therefore we need to cast, then say it's installed
-                if (detector->GetType() == Processor::Detector::Type::SessionStartDataReady) {
-
-                    auto sessionStartDetector = dynamic_cast<Processor::Detector::SessionStartDataReady*>(detector);
-                    installed = sessionStartDetector->InstallDriverRecords(&m_driverRecords);
-
-                }
-                else if (detector->GetType() == Processor::Detector::Type::TyreChanged) {
-                    auto tyreChangeDetector = dynamic_cast<Processor::Detector::TyreChanged*>(detector);
-                    installed = tyreChangeDetector->InstallDriverRecords(&m_driverRecords);
-
-                }
-
-                detector->InstalledInDriverRecords(installed);
 
             }
 
@@ -302,29 +285,13 @@ void Processor::Data::Databank::OnCreatorReady(Processor::Data::SessionRecord* s
             auto record = driverEntry.second;
             if (record) {
 
-                installed = record->getModifiableState().installDetector(detector);
+                installed = record->getModifiableState()->installDetector(detector);
 
             }
 
         }
-        detector->Init(sessionRecord);
 
-        // TODO this feels extremely hack-ish but I don't know an alternative...
-        // In sum the session start detector is a special detector which needs access to the records rather than the states
-        // Therefore we need to cast, then say it's installed
-        if (detector->GetType() == Processor::Detector::Type::SessionStartDataReady) {
-
-            auto sessionStartDetector = dynamic_cast<Processor::Detector::SessionStartDataReady*>(detector);
-            installed = sessionStartDetector->InstallDriverRecords(&m_driverRecords);
-
-        } else if (detector->GetType() == Processor::Detector::Type::TyreChanged) {
-            auto tyreChangeDetector = dynamic_cast<Processor::Detector::TyreChanged*>(detector);
-            installed = tyreChangeDetector->InstallDriverRecords(&m_driverRecords);
-
-        }
-
-        // share the information about a session being officially started or not, to enable the "capture" of information
-        detector->InstalledInDriverRecords(installed);
+        detector->Init(sessionRecord, &m_driverRecords);
 
     }
 
@@ -372,8 +339,7 @@ void Processor::Data::Databank::OnNewDriverRecord(Processor::Data::DriverRecord*
         auto detector = detectorEntry.second;
         if (detector) {
 
-            bool installed = record->getModifiableState().installDetector(detector);
-            detector->InstalledInDriverRecords(installed);
+            bool installed = record->getModifiableState()->installDetector(detector);
 
         }
 
@@ -415,7 +381,7 @@ void Processor::Data::Databank::updateStandings(const Packet::Internal::Standing
 
                 if (driverData && driverData->updateLastTimestamp(standingsPacket->m_timestamp)) {
 
-                    driverData->getModifiableState().updateCurrentPosition(standing.m_position);
+                    driverData->getModifiableState()->updateCurrentPosition(standing.m_position);
 
 
                 }
@@ -451,7 +417,7 @@ void Processor::Data::Databank::updatePenalties(const Packet::Internal::PenaltyS
 
                 if (driverData && driverData->updateLastTimestamp(penaltyPacket->m_timestamp)) {
 
-                    driverData->getModifiableState().updateWarningPenalties(penaltyData.m_totalWarns,
+                    driverData->getModifiableState()->updateWarningPenalties(penaltyData.m_totalWarns,
                         penaltyData.m_numTrackLimits,
                         penaltyData.m_timePenMS,
                         penaltyData.m_numStopGo,
@@ -491,7 +457,7 @@ void Processor::Data::Databank::updateParticipantStatus(const Packet::Internal::
 
                 if (driverData && driverData->updateLastTimestamp(statusPacket->m_timestamp)) {
 
-                    driverData->getModifiableState().updateStatus(statusData.m_status);
+                    driverData->getModifiableState()->updateStatus(statusData.m_status);
 
 
                 }
@@ -530,14 +496,14 @@ void Processor::Data::Databank::updateLapStatus(const Packet::Internal::LapStatu
                     prevLapData = Packet::Internal::LapStatus::Data();
                 }
 
-                auto lapEntryCompleted = driverData->getModifiableState().updateLap(currLapData.m_lapID, currLapData.m_type,
+                auto lapEntryCompleted = driverData->getModifiableState()->updateLap(currLapData.m_lapID, currLapData.m_type,
                         currLapData.m_status, currLapData.m_time, currLapData.m_sectorTimes,
                         currLapData.m_lapDistanceRun, prevLapData.m_time);
 
                 if (m_sessionRecord && lapEntryCompleted) {
 
                     bool allDriversComplete =
-                        m_sessionRecord->getModifiableState().updateDriverStatus(lapPacket->m_driverID, lapEntryCompleted);
+                        m_sessionRecord->getModifiableState()->updateDriverStatus(lapPacket->m_driverID, lapEntryCompleted);
 
                     if (allDriversComplete) {
 
@@ -571,7 +537,7 @@ void Processor::Data::Databank::updateCurrentTyreUsage(const Packet::Internal::T
 
                 if (driverData && driverData->updateLastTimestamp(tyrePacket->m_timestamp)) {
 
-                    driverData->getModifiableState().updateCurrentTyre(tyreData.m_driverID, tyreData.m_info);
+                    driverData->getModifiableState()->updateCurrentTyre(tyreData.m_driverID, tyreData.m_info);
 
                 }
 

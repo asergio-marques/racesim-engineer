@@ -11,6 +11,13 @@
 
 namespace Processor {
 
+    namespace Data {
+
+        class DriverRecord;
+        class SessionRecord;
+
+    }
+
     namespace Detector {
 
         class ParticipantStatusChanged final : public Processor::Detector::Interface {
@@ -25,8 +32,16 @@ namespace Processor {
             // Returns the identifying type of this detector
             const Processor::Detector::Type GetType() const override;
 
+            // Initializes the session record, forgoing the worker thread as it is not necessary
+            void Init(Processor::Data::SessionRecord* sessionRecord,
+                std::map<const uint8_t, Processor::Data::DriverRecord*>* driverRecords) override final;
+
             // Interface function to create new packets for communicating changes to the UI
             void AddStatusChange(const uint8_t id, const Participant::Internal::Status newStatus);
+
+            private:
+            // Main execution function (does nothing)
+            void Exec() override final {};
 
         };
 

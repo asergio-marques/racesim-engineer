@@ -16,6 +16,19 @@ const Processor::Detector::Type Processor::Detector::ParticipantStatusChanged::G
 
 
 
+void Processor::Detector::ParticipantStatusChanged::Init(Processor::Data::SessionRecord* sessionRecord,
+                std::map<const uint8_t, Processor::Data::DriverRecord*>* driverRecords) {
+
+    // TODO this will disable graceful closing and reinit once another session is started
+    // no need to do anything if we already have the record
+    if (m_sessionRecord && m_driverRecords) return;
+
+    Processor::Detector::Interface::doInit(sessionRecord, driverRecords);
+
+}
+
+
+
 void Processor::Detector::ParticipantStatusChanged::AddStatusChange(const uint8_t id, const Participant::Internal::Status newStatus) {
 
     Packet::Event::ParticipantStatusChanged* packet = new Packet::Event::ParticipantStatusChanged();

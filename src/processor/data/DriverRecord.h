@@ -22,6 +22,9 @@ namespace Processor {
             // Destructor
             ~DriverRecord();
 
+            // Initializes the driver state, should be called after construction
+            void Init(const uint8_t startPosition);
+
             // Validates the internal information and returns true if it meets the conditions for the start of a session
             const bool Initialized() const;
 
@@ -37,7 +40,7 @@ namespace Processor {
             void markAsFinished();
 
             // Exposes the internal state object for easier modification
-            Processor::Data::DriverState& getModifiableState();
+            Processor::Data::DriverState* getModifiableState();
 
             // Exposes the finished status of this driver
             const bool isFinished() const;
@@ -53,7 +56,7 @@ namespace Processor {
             bool m_isFinished;
 
             // Internal state of the driver record, where all changes to the state in the race are made
-            Processor::Data::DriverState m_state;
+            Processor::Data::DriverState* m_state;
 
         };
 

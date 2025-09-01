@@ -15,6 +15,7 @@ namespace Processor {
     namespace Data {
 
         class DriverRecord;
+        class SessionRecord;
 
     }
 
@@ -29,18 +30,16 @@ namespace Processor {
             // Default destructor
             ~SessionStartDataReady() = default;
 
-            // Initializes the session record, and utilizes the worker thread
-            void Init(Processor::Data::SessionRecord* record) override final;
-
             // Returns the identifying type of this detector
             const Processor::Detector::Type GetType() const override final;
 
-            // Special function to inject the driver records into this detector, rather than the other way around
-            bool InstallDriverRecords(std::map<const uint8_t, Processor::Data::DriverRecord*>* driverRecords);
+            // Initializes the session record, and utilizes the worker thread
+            void Init(Processor::Data::SessionRecord* sessionRecord,
+                std::map<const uint8_t, Processor::Data::DriverRecord*>* driverRecords) override final;
 
             private:
             // Main execution function to be overridden by all concrete detectors
-            void Exec() override;
+            void Exec() override final;
 
             // Auxiliary function to construct a packet with all the necessary data
             // to note the start of a free practice session
@@ -60,9 +59,6 @@ namespace Processor {
 
             // Whether the packet informing all of the session data is ready has been sent
             bool m_sentSessionStart;
-
-            // Pointer to the currently active driver records
-            std::map<const uint8_t, Processor::Data::DriverRecord*>* m_driverRecords;
 
         };
 

@@ -54,7 +54,7 @@ const Session::Internal::TrackInfo& Processor::Data::SessionRecord::getTrackInfo
 
 
 
-Processor::Data::SessionState& Processor::Data::SessionRecord::getModifiableState() {
+Processor::Data::SessionState* Processor::Data::SessionRecord::getModifiableState() {
 
     return m_state;
 

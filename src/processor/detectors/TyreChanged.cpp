@@ -17,13 +17,20 @@ const Processor::Detector::Type Processor::Detector::TyreChanged::GetType() cons
 
 
 
-bool Processor::Detector::TyreChanged::InstallDriverRecords(std::map<const uint8_t, Processor::Data::DriverRecord*>* driverRecords) {
+void Processor::Detector::TyreChanged::Init(Processor::Data::SessionRecord* sessionRecord,
+                std::map<const uint8_t, Processor::Data::DriverRecord*>* driverRecords) {
 
-    if (!driverRecords) return false;
+    // TODO this will disable graceful closing and reinit once another session is started
+    // no need to do anything if we already have the record
+    if (m_sessionRecord && m_driverRecords) return;
 
-    m_driverRecords = driverRecords;
+    Processor::Detector::Interface::doInit(sessionRecord, driverRecords);
 
-    return true;
+    if (m_sessionRecord && m_driverRecords) {
+
+        m_workerThread = std::thread(&Processor::Detector::TyreChanged::Exec, this);
+
+    }
 
 }
 
@@ -31,16 +38,16 @@ bool Processor::Detector::TyreChanged::InstallDriverRecords(std::map<const uint8
 
 void Processor::Detector::TyreChanged::addTyreChangeInfo(const uint8_t driverID, const Tyre::Internal::Data newTyreData) {
 
-    if (!m_installedInDriverRecords || !m_driverRecords) return;
+    if (!m_driverRecords) return;
 
     auto it = m_driverRecords->find(driverID);
     if (it != m_driverRecords->end()) {
 
-        Packet::Event::TyreChanged* packet = new Packet::Event::TyreChanged();
+        Packet::Event::TyreChanged* packet = new Packet::Event::TyreChanged(
+            it->second->m_info.m_isPlayer,
+            it->second->m_info.m_fullName,
+            it->second->getModifiableState()->posTimeData().getCurrentPosition());
         packet->m_index = driverID;
-        packet->m_isPlayer = it->second->m_info.m_isPlayer;
-        packet->m_fullName = it->second->m_info.m_fullName;
-        packet->m_position = it->second->getModifiableState().posTimeData().getCurrentPosition();
         packet->m_tyreInfo = newTyreData;
         m_packetsToBeProcessed.push_back(packet);
 

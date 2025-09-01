@@ -85,8 +85,8 @@ void Processor::Data::LapHistoryData::initialize(const uint8_t driverID, const T
 
 
 bool Processor::Data::LapHistoryData::updateLap(const uint8_t id, const uint8_t lapID, const Lap::Internal::Type type,
-    const Lap::Internal::Status status, const Lap::Internal::Time currentLapTime, const std::vector<Lap::Internal::Time> sectorTimes,
-    const float_t lapDistanceRun, const Lap::Internal::Time previousLapTime, const bool driverFinished) {
+    const Lap::Internal::Status lapStatus, const Lap::Internal::Time currentLapTime, const std::vector<Lap::Internal::Time> sectorTimes,
+    const float_t lapDistanceRun, const Lap::Internal::Time previousLapTime, const Participant::Internal::Status participantStatus) {
 
     // Only add new info if we know we still have missing info
     if (!m_isComplete) {
@@ -107,12 +107,20 @@ bool Processor::Data::LapHistoryData::updateLap(const uint8_t id, const uint8_t 
                 lap.m_sector3Time = sectorTimes.at(2);
                 lap.m_totalLapTime.zero();
                 lap.m_totalLapTime = currentLapTime;
-                lap.m_status = status;
+                lap.m_status = lapStatus;
                 lap.m_distanceFulfilled = lapDistanceRun;
-
-                if (driverFinished) {
+                if (participantStatus == Participant::Internal::Status::FinishedSession) {
 
                     lap.m_isFinished = true;
+                    evaluateFinishedLap(lap);
+                    m_isComplete = true;
+
+                }
+                else if (participantStatus == Participant::Internal::Status::DNF ||
+                    participantStatus == Participant::Internal::Status::DSQ) {
+
+                    lap.m_isFinished = true;
+                    lap.m_isValid = false;
                     evaluateFinishedLap(lap);
                     m_isComplete = true;
 
@@ -149,7 +157,7 @@ bool Processor::Data::LapHistoryData::updateLap(const uint8_t id, const uint8_t 
             lap.m_sector2Time = sectorTimes.at(1);
             lap.m_sector3Time = sectorTimes.at(2);
             lap.m_totalLapTime = lap.m_sector1Time + lap.m_sector2Time + lap.m_sector3Time;
-            lap.m_status = status;
+            lap.m_status = lapStatus;
             lap.m_distanceFulfilled = lapDistanceRun;
 
             // increment tyre age before setting it

@@ -25,6 +25,9 @@ namespace Processor {
             // Whether this lap has been completed
             bool m_isFinished = false;
 
+            // Whether this lap is valid for fastest lap consideration
+            bool m_isValid = true;
+
             // Denotes the validity of the lap
             Lap::Internal::Status m_status = Lap::Internal::Status::InvalidUnknown;
 

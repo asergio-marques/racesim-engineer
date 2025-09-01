@@ -124,10 +124,8 @@ void Processor::Data::PositionTimingData::updateCurrentPosition(const uint8_t id
 
 
 
-const bool Processor::Data::PositionTimingData::isFinishedStatus() const {
+const Participant::Internal::Status Processor::Data::PositionTimingData::getStatus() const {
 
-    return m_status == Participant::Internal::Status::FinishedSession ||
-        m_status == Participant::Internal::Status::DSQ ||
-        m_status == Participant::Internal::Status::DNF;
+    return m_status;
 
 }

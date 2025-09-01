@@ -47,7 +47,7 @@ namespace Processor {
             void updateCurrentPosition(const uint8_t id, const uint8_t currentPosition);
 
             // Denotes whether this driver has finished all his laps, or can no longer continue
-            const bool isFinishedStatus() const;
+            const Participant::Internal::Status getStatus() const;
 
             private:
             // Whether the grid position for this vehicle has been initialized or not

@@ -32,7 +32,7 @@ void Processor::Detector::LapFinished::Init(Processor::Data::SessionRecord* sess
 
 bool Processor::Detector::LapFinished::checkFastestInSession(const Processor::Data::LapInfo& finishedLap) {
 
-    if (!m_sessionRecord || !m_sessionRecord->getModifiableState()) return false;
+    if (!m_sessionRecord || !m_sessionRecord->getModifiableState() || !finishedLap.m_isValid) return false;
 
     if (m_sessionRecord->getModifiableState()->evaluateCompletedLap(finishedLap)) {
 

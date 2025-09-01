@@ -39,8 +39,8 @@ void Processor::Data::SessionState::Init(const std::map<const uint8_t, bool>& pa
 
 bool Processor::Data::SessionState::evaluateCompletedLap(const Processor::Data::LapInfo& finishedLap) {
 
-    if (m_fastestLap.m_lapId == UINT16_MAX ||
-        (finishedLap.m_totalLapTime < m_fastestLap.m_totalLapTime)) {
+    if (((m_fastestLap.m_lapId == UINT16_MAX) || (finishedLap.m_totalLapTime < m_fastestLap.m_totalLapTime)) &&
+        finishedLap.m_isValid && finishedLap.m_totalLapTime.valid()) {
 
         m_fastestLap = finishedLap;
         return true;

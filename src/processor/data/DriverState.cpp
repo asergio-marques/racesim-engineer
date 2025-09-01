@@ -97,8 +97,8 @@ bool Processor::Data::DriverState::updateLap(const uint8_t lapID, const Lap::Int
 
     // Checking the finished status rather than using the SessionEnd packet solely as source of truth means that in multiplayer sessions
     // the user may not have to wait until the very last packet and may get info before
-    const bool driverFinished = m_isFinished || m_posTimeData.isFinishedStatus();
-    auto newDriverStatus = m_lapData.updateLap(m_parentRecord->m_info.m_driverID, lapID, type, status, currentLapTime, sectorTimes, lapDistanceRun, previousLapTime, driverFinished);
+    auto newDriverStatus = m_lapData.updateLap(m_parentRecord->m_info.m_driverID, lapID, type,
+        status, currentLapTime, sectorTimes, lapDistanceRun, previousLapTime, m_posTimeData.getStatus());
     return newDriverStatus;
 
 }

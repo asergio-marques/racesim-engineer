@@ -262,6 +262,11 @@ void UserInterface::Widget::DriverEntry::newSessionBestLap(const Lap::Internal::
         }
 
     }
+    if (m_tyreArray) {
+
+        m_tyreArray->LapCompletedWithTyre();
+
+    }
 
 }
 
@@ -276,6 +281,11 @@ void UserInterface::Widget::DriverEntry::newPersonalBestLap(const Lap::Internal:
 
         m_lastLap->changePersonalBestStatus(true);
         m_lastLap->updateTime(newLapTime);
+
+    }
+    if (m_tyreArray) {
+
+        m_tyreArray->LapCompletedWithTyre();
 
     }
 

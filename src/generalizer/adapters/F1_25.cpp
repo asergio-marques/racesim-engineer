@@ -237,12 +237,12 @@ Generalizer::Adapter::F1_25::ConvertSessionHistoryDataPacket(const Packet::Game:
 
     if (tyreData.m_stintNo == 1) {
 
-        tyreData.m_stintLength = currentLaps;
+        tyreData.m_stintLength = currentLaps - 1;
 
     }
     else if (tyreData.m_stintNo > 1) {
 
-        tyreData.m_stintLength = currentLaps - inputPacket->GetPreviousStintInfo()->m_endLap;
+        tyreData.m_stintLength = currentLaps - inputPacket->GetPreviousStintInfo()->m_endLap - 2;
 
     }
 

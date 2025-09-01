@@ -319,6 +319,21 @@ void UserInterface::Widget::TyreInfoContainer::IncrementLap() {
 
 
 
+void UserInterface::Widget::TyreInfoContainer::Show() {
+
+    if (m_visualCompoundIcon && m_actualCompoundText && m_lapsText) {
+
+        m_visualCompoundIcon->show();
+        m_actualCompoundText->show();
+        m_lapsText->show();
+
+    }
+
+}
+
+
+
+
 void UserInterface::Widget::TyreInfoContainer::Hide() {
 
     if (m_visualCompoundIcon && m_actualCompoundText && m_lapsText) {
@@ -326,15 +341,6 @@ void UserInterface::Widget::TyreInfoContainer::Hide() {
         m_visualCompoundIcon->hide();
         m_actualCompoundText->hide();
 		m_lapsText->hide();
-
-		m_visualCompoundIcon->deleteLater();
-		m_visualCompoundIcon = nullptr;
-
-        m_actualCompoundText->deleteLater();
-        m_actualCompoundText = nullptr;
-
-        m_lapsText->deleteLater();
-        m_lapsText = nullptr;
 
     }
 

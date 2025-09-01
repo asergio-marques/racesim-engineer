@@ -235,6 +235,12 @@ void UserInterface::Widget::DriverEntry::updateStatus(const Participant::Interna
         m_retirement->activate(status);
 
     }
+    if (m_tyreArray && (status == Participant::Internal::Status::DNF ||
+        status == Participant::Internal::Status::DSQ)) {
+
+        m_tyreArray->hide();
+
+    }
 
 }
 
@@ -392,6 +398,12 @@ void UserInterface::Widget::DriverEntry::move(const uint16_t x, const uint16_t y
         totalWidth += m_personalBestLap->width() + standingsStyle.PaddingReference.m_value;
 
     }
+    if (m_retirement) {
+
+        // No need for padding as this widget is supposed to be "above" the others
+        m_retirement->move(x + totalWidth, centerY, false, true);
+
+    }
     if (m_tyreArray) {
         // Add the padding, again! And the maximum width for centering!
         totalWidth += standingsStyle.PaddingReference.m_value;
@@ -402,12 +414,6 @@ void UserInterface::Widget::DriverEntry::move(const uint16_t x, const uint16_t y
             + standingsStyle.PaddingReference.m_value;
 
 	}
-    if (m_retirement) {
-
-        // No need for padding as this widget is supposed to be "above" the others
-        m_retirement->move(x + totalWidth, centerY, false, true);
-
-    }
     if (m_penalties) {
 
         // Add the padding, again! And the maximum width for centering!

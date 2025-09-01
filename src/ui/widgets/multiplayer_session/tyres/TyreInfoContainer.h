@@ -32,6 +32,7 @@ namespace UserInterface {
 
             void Init(Tyre::Internal::Actual actualTyreCompound, Tyre::Internal::Visual visualTyreCompound, uint8_t numLapsAtStart);
             void IncrementLap();
+            void Show();
             void Hide();
             void RedoneOnce();
             bool HasBeenRedoneAtLeastOnce() const;

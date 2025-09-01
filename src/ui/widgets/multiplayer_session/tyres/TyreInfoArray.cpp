@@ -76,6 +76,28 @@ void UserInterface::Widget::TyreInfoArray::setSize(const uint16_t newWidth, cons
 
 }
 
+void UserInterface::Widget::TyreInfoArray::show() {
+
+	RedoDisplay(x(), y());
+
+}
+
+
+
+void UserInterface::Widget::TyreInfoArray::hide() {
+
+	for (const auto tyre : m_tyres) {
+
+		if (tyre) {
+
+			tyre->Hide();
+
+		}
+
+	}
+
+}
+
 
 
 void UserInterface::Widget::TyreInfoArray::raise() {
@@ -226,7 +248,7 @@ void UserInterface::Widget::TyreInfoArray::RedoDisplay() {
 }
 
 
-#include <QDebug>
+
 void UserInterface::Widget::TyreInfoArray::RedoDisplay(const uint16_t x, const uint16_t y) {
 
 	// no need for anything if there have been no stints
@@ -243,6 +265,7 @@ void UserInterface::Widget::TyreInfoArray::RedoDisplay(const uint16_t x, const u
 
 		uint16_t baseX = x + (displayCount * style.TyreInfoContainerMaxX.m_value);
 		auto* tyre = m_tyres[i];
+		tyre->Show();
 		tyre->move(baseX, y, false, false);
 		tyre->RedoneOnce();
 

@@ -5,6 +5,7 @@
 #include <QTextToSpeech>
 #include "data/internal/Tyre.h"
 #include "packets/event/LapFinished.h"
+#include "packets/event/PenaltyReceived.h"
 #include "packets/event/TyreChanged.h"
 
 
@@ -24,6 +25,7 @@ namespace UserInterface {
         void Init();
         void AnnounceFinishedLap(const Packet::Event::LapFinished* lap);
         void AnnounceTyreChanged(const Packet::Event::TyreChanged* tyre);
+        void AnnouncePenaltyReceived(const Packet::Event::PenaltyReceived* pen);
 
         private:
         QString convertVisualTyres(Tyre::Internal::Visual tyre);

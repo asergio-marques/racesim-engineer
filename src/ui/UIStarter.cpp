@@ -72,6 +72,8 @@ void UserInterface::UIStarter::Init(int* argc, char*** argv, Presenter::ICompFac
         // connect handler signals to announcer
         m_handler->connect(m_handler, &UserInterface::PacketHandler::LapFinished,
             m_announcer, &UserInterface::EventAnnouncer::AnnounceFinishedLap);
+        m_handler->connect(m_handler, &UserInterface::PacketHandler::PenaltyReceived,
+            m_announcer, &UserInterface::EventAnnouncer::AnnouncePenaltyReceived);
         m_handler->connect(m_handler, &UserInterface::PacketHandler::TyreChanged,
             m_announcer, &UserInterface::EventAnnouncer::AnnounceTyreChanged);
 

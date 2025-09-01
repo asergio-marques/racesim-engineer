@@ -46,8 +46,11 @@ void UserInterface::EventAnnouncer::Init() {
             }
         }
 
-        // set volume to 50%
-        m_speechEngine->setVolume(100);
+        // set volume to 100%
+        m_speechEngine->setVolume(1);
+
+        // slow down rate so it's more easily understandable
+        m_speechEngine->setRate(-0.2);
 
     }
 
@@ -70,38 +73,43 @@ void UserInterface::EventAnnouncer::AnnounceTyreChanged(const Packet::Event::Tyr
     if (m_speechEngine && tyre) {
 
         // TODO proper logic, like inserting in a FIFO queue to manage this overall
-        if (m_speechEngine->state() == QTextToSpeech::State::Speaking) {
-            m_speechEngine->stop();
-        }
-
-
-        QString fullAnnouncement("Driver ");
 
         if (!(tyre->m_fullName.empty())) {
 
-            // if full name is available, indicate using that
-            // TODO regex symbols out for whitespaces
-            fullAnnouncement.append(tyre->m_fullName);
+            QString nameAnnouncement = QString("Driver %1 has pitted for %2 tyres.")
+                .arg(QString::fromStdString(tyre->m_fullName))
+                .arg(convertVisualTyres(tyre->m_tyreInfo.m_visualTyre));
+
+            m_speechEngine->enqueue(nameAnnouncement);
+
+        }
+        else if (tyre->m_position != UINT8_MAX) {
+
+            QString positionAnnouncement = QString("Driver in P %1 has pitted for %2 tyres.")
+                .arg(QString::number(tyre->m_position))
+                .arg(convertVisualTyres(tyre->m_tyreInfo.m_visualTyre));
+
+            m_speechEngine->enqueue(positionAnnouncement);
 
         }
         else {
 
-            // otherwise, use the position
-            fullAnnouncement.append(" in P");
-            fullAnnouncement.append(QString::number(tyre->m_position));
+            QString unknownAnnouncement = QString("Unknown driver has pitted for %1 tyres.")
+                .arg(convertVisualTyres(tyre->m_tyreInfo.m_visualTyre));
 
-        }
-
-        fullAnnouncement.append(" has pitted for ");
-        fullAnnouncement.append(convertVisualTyres(tyre->m_tyreInfo.m_visualTyre));
-        fullAnnouncement.append(" tyres.");
-        if (m_speechEngine->state() == QTextToSpeech::State::Ready) {
-
-            m_speechEngine->say(fullAnnouncement);
+            m_speechEngine->enqueue(unknownAnnouncement);
 
         }
 
     }
+
+}
+
+
+
+void UserInterface::EventAnnouncer::AnnouncePenaltyReceived(const Packet::Event::PenaltyReceived* pen) {
+
+    // TODO
 
 }
 

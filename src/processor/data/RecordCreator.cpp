@@ -232,12 +232,14 @@ void Processor::Data::RecordCreator::VerifyAndPropagate() {
     if (!m_workComplete && m_sessionRecord && !(m_driverRecords.empty()) &&
     (m_driverRecords.size() == m_totalParticipants)) {
 
+        std::map<const uint8_t, bool> participantTracker;
         bool initialized = m_sessionRecord->Initialized();
 
         for (const auto& driverEntry : m_driverRecords) {
 
             if (driverEntry.second) {
 
+                participantTracker.emplace(driverEntry.first, !(driverEntry.second->isFinished()));
                 initialized &= driverEntry.second->Initialized();
 
             }
@@ -251,6 +253,8 @@ void Processor::Data::RecordCreator::VerifyAndPropagate() {
         }
 
         if (initialized) {
+
+            m_sessionRecord->getModifiableState()->Init(participantTracker);
 
             m_regFullRecordsFunc(m_sessionRecord, m_driverRecords);
             m_workComplete = true;

@@ -12,14 +12,19 @@ namespace Processor {
 
     namespace Data {
 
+        class SessionRecord;
+
         class SessionState {
 
             public:
             // Default constructor
-            SessionState();
+            SessionState(Processor::Data::SessionRecord* parent);
 
             // Destructor
             ~SessionState();
+
+            // Initializes the driver tracker
+            void Init(const std::map<const uint8_t, bool>& participants);
 
             // Checks if a newly-finished lap is a new fastest lap for the current session
             bool evaluateCompletedLap(const Processor::Data::LapInfo& finishedLap);
@@ -32,6 +37,9 @@ namespace Processor {
             const Processor::Data::LapInfo& fastestLap() const;
 
             private:
+            // Pointer to the session record holding this state
+            const Processor::Data::SessionRecord* const m_parentRecord;
+
             // Denotes whether ALL the drivers have a finished state (DNF, DSQ or FinishedSession)
             bool m_sessionCompleteness;
 

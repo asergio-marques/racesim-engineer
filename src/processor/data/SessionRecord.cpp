@@ -10,8 +10,10 @@ Processor::Data::SessionRecord::SessionRecord(const uint64_t initTimestamp, cons
     const Session::Internal::TrackInfo trackInfo) :
     m_lastStateTimestamp(initTimestamp),
     m_settings(settings),
-    m_trackInfo(trackInfo) {
+    m_trackInfo(trackInfo),
+    m_state(nullptr)  {
 
+    m_state = new Processor::Data::SessionState(this);
 
 }
 

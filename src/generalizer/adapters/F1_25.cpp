@@ -291,7 +291,7 @@ void Generalizer::Adapter::F1_25::AddLapStatusInfo(const uint8_t lapNo,
 
 
 
-const std::string Generalizer::Adapter::F1_25::ShortenDriverName(const char* originalName) {
+const std::string Generalizer::Adapter::F1_25::ShortenDriverName(const char* originalName, uint8_t driverID) {
 
     const std::string originalNameStr{ originalName };
     if (originalNameStr.length() == 0) {
@@ -306,8 +306,13 @@ const std::string Generalizer::Adapter::F1_25::ShortenDriverName(const char* ori
     }
     else if (originalNameStr == "Player") {
 
-        // clear name if it's default, nothing can be done here
-        return "";
+        // if default use driverID, it's something I guess
+        if (driverID < 10) {
+            return std::string("D0") + std::to_string(driverID);
+        }
+        else {
+            return std::string("D") + std::to_string(driverID);
+        }
 
     }
     // Use only the first 3 consonants
@@ -357,10 +362,11 @@ Generalizer::Adapter::F1_25::GetSingleParticipantData(const Packet::Game::F1_25:
     }
     else {
 
-        convertedInfo.m_shortName = ShortenDriverName(rawInfo.m_name);
+        convertedInfo.m_shortName = ShortenDriverName(rawInfo.m_name, convertedInfo.m_index);
 
     }
-    convertedInfo.m_fullName = rawInfo.m_name;
+    (rawInfo.m_name == "Player") ?
+        (convertedInfo.m_fullName = "") : (convertedInfo.m_fullName = rawInfo.m_name);
 
     // Find team to be used as reference in UI
     auto teamIt = Generalizer::Maps::F1_25::TEAM_ID_MAP.find(rawInfo.m_teamId);

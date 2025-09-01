@@ -56,7 +56,7 @@ namespace Generalizer {
                 Packet::Internal::Interface* outputPacket) const;
 
             // Auxiliary functions
-            const std::string ShortenDriverName(const char* originalName);
+            const std::string ShortenDriverName(const char* originalName, uint8_t driverID);
             const Session::Internal::Participant GetSingleParticipantData(const Packet::Game::F1_25::ParticipantInfo& rawInfo,
                 const uint8_t& arrayIndex,
                 const uint8_t& playerIndex);

@@ -80,7 +80,8 @@ void Processor::Detector::PenaltyReceived::AddWarnPenChange(const int8_t id, con
                 it->second->getModifiableState()->posTimeData().getCurrentPosition());
             packet->m_type = Penalty::Internal::Type::StopGo;
             packet->m_index = id;
-            packet->m_delta = diffStopGo;
+            // TODO get game settings to get the accurate delta, right now it's set to F1 25 Long sessions (10s)
+            packet->m_delta = diffStopGo * 10000;
             m_packetsToBeProcessed.push_back(packet);
 
         }

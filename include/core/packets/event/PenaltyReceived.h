@@ -29,7 +29,7 @@ namespace Packet {
             // Type of penalty given to the vehicle
             Penalty::Internal::Type m_type;
 
-            // Change to this type of penalty, if time,
+            // Change to this type of penalty, if time or stop-go,
             // then it is represented in milliseconds
             int32_t m_delta;
 

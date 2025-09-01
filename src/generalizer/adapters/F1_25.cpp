@@ -319,14 +319,16 @@ const std::string Generalizer::Adapter::F1_25::ShortenDriverName(const char* ori
     std::string shortName = "";
     for (const char character : originalNameStr) {
 
-        // holy hell this is damn ugly
-        if (character != 'A' &&
-            character != 'E' &&
-            character != 'I' &&
-            character != 'O' &&
-            character != 'U') {
+        auto chara = toupper(character);
 
-            shortName.push_back(character);
+        // holy hell this is damn ugly
+        if (chara != 'A' &&
+            chara != 'E' &&
+            chara != 'I' &&
+            chara != 'O' &&
+            chara != 'U') {
+
+            shortName.push_back(chara);
             if (shortName.length() == 3) {
                 break;
             }
@@ -365,8 +367,13 @@ Generalizer::Adapter::F1_25::GetSingleParticipantData(const Packet::Game::F1_25:
         convertedInfo.m_shortName = ShortenDriverName(rawInfo.m_name, convertedInfo.m_index);
 
     }
-    (rawInfo.m_name == "Player") ?
-        (convertedInfo.m_fullName = "") : (convertedInfo.m_fullName = rawInfo.m_name);
+    std::string strName = rawInfo.m_name;
+    if (strName == "Player") {
+        convertedInfo.m_fullName = "";
+    }
+    else {
+        convertedInfo.m_fullName = rawInfo.m_name;
+    }
 
     // Find team to be used as reference in UI
     auto teamIt = Generalizer::Maps::F1_25::TEAM_ID_MAP.find(rawInfo.m_teamId);

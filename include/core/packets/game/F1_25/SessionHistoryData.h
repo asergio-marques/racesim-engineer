@@ -86,7 +86,8 @@ namespace Packet {
                 inline const Packet::Game::F1_25::LapHistoryInfo* const GetCurrentLapInfo() const { return &m_lapHistoryInfo[GetNumLaps() - 1]; }
                 inline const Packet::Game::F1_25::LapHistoryInfo* const GetPreviousLapInfo() const { return &m_lapHistoryInfo[GetNumLaps() - 2]; }
                 inline const Packet::Game::F1_25::TyreStintHistoryInfo* const GetTyreStintHistoryInfo() const { return m_tyreStintHistoryInfo; }
-                inline const Packet::Game::F1_25::TyreStintHistoryInfo* const GetCurrentTyreStintInfo() const { return &m_tyreStintHistoryInfo[GetNumLaps()]; }
+                inline const Packet::Game::F1_25::TyreStintHistoryInfo* const GetCurrentStintInfo() const { return &m_tyreStintHistoryInfo[GetNumTyreStints() - 1]; }
+                inline const Packet::Game::F1_25::TyreStintHistoryInfo* const GetPreviousStintInfo() const { return &m_tyreStintHistoryInfo[GetNumTyreStints() - 2]; }
 
                 #ifndef NDEBUG
                 void Print() const override;

@@ -60,9 +60,8 @@ const bool Processor::Data::LapHistoryData::Initialized() const {
         return false;
 
     // check if the lap's settings diverge from default values
-    return it->second.m_tyre.m_hasID && it->second.m_tyre.m_hasAge &&
-        (it->second.m_driverId != UINT8_MAX) &&
-        (it->second.m_lapId != UINT16_MAX) &&
+    return (it->second.m_tyre.m_stintNo > 0) && (it->second.m_tyre.m_stintNo != UINT8_MAX) &&
+        (it->second.m_driverId != UINT8_MAX) && (it->second.m_lapId != UINT16_MAX) &&
         (it->second.m_tyre.m_actualTyre != Tyre::Internal::Actual::InvalidUnknown) &&
         (it->second.m_tyre.m_visualTyre != Tyre::Internal::Visual::InvalidUnknown);
 
@@ -72,45 +71,14 @@ const bool Processor::Data::LapHistoryData::Initialized() const {
 
 void Processor::Data::LapHistoryData::initialize(const uint8_t driverID, const Tyre::Internal::Data data) {
 
-    // create new lap entry
-    if (data.m_hasID) {
+    // create new lap entry only if there are no laps yet; we only want 1 lap with ID 0
+    if (!m_laps.empty()) return;
 
-        Processor::Data::LapInfo lap;
-        lap.m_driverId = driverID;
-        lap.m_lapId = 0;
-        lap.m_tyre.m_hasID = data.m_hasID;
-        lap.m_tyre.m_setID = data.m_setID;
-        lap.m_tyre.m_actualTyre = data.m_actualTyre;
-        lap.m_tyre.m_visualTyre = data.m_visualTyre;
-        if (data.m_hasAge) {
-
-            lap.m_tyre.m_hasAge = data.m_hasAge;
-            lap.m_tyre.m_ageLaps = data.m_ageLaps;
-
-        }
-        m_laps.emplace(lap.m_lapId, lap);
-
-    }
-    else if (data.m_hasAge) {
-
-        // only append tyre age information, do nothing if there are no laps in the container
-        const auto it = m_laps.find(0);
-        if (it == m_laps.end())
-            return;
-
-        // validate to the best possible that these are the same tyres
-        if (it->second.m_driverId == driverID &&
-            it->second.m_tyre.m_actualTyre == data.m_actualTyre &&
-            it->second.m_tyre.m_visualTyre == data.m_visualTyre &&
-            it->second.m_tyre.m_actualTyre != Tyre::Internal::Actual::InvalidUnknown &&
-            it->second.m_tyre.m_visualTyre != Tyre::Internal::Visual::InvalidUnknown) {
-
-            it->second.m_tyre.m_ageLaps = data.m_ageLaps;
-            it->second.m_tyre.m_hasAge = data.m_hasAge;
-
-        }
-
-    }
+    Processor::Data::LapInfo lap;
+    lap.m_driverId = driverID;
+    lap.m_lapId = 0;
+    lap.m_tyre = data;
+    m_laps.emplace(lap.m_lapId, lap);
 
 }
 
@@ -186,8 +154,7 @@ bool Processor::Data::LapHistoryData::updateLap(const uint8_t id, const uint8_t 
 
             // increment tyre age before setting it
             // note that the ID has not been set just to guarantee comparison when tyre data is received
-            ++tyreData.m_ageLaps;
-            tyreData.m_hasID = false;
+            ++tyreData.m_stintLength;
             lap.m_tyre = tyreData;
 
             m_laps.emplace(lap.m_lapId, lap);
@@ -208,39 +175,14 @@ void Processor::Data::LapHistoryData::updateTyre(const uint8_t driverID, const T
     auto it = m_laps.find(m_laps.size() - 1);
     if (it == m_laps.end()) return;
 
-
     auto& currentLap = it->second;
 
-    // if the current lap does not have a set ID, then the info was carried over from the previous lap
-    // meaning, if there was a tyre change, the incoming data must have the set ID to reset the info
-    if (!currentLap.m_tyre.m_hasID) {
-
-        if (data.m_hasID && (currentLap.m_tyre.m_setID != data.m_setID)) {
-
-            currentLap.m_tyre = data;
-            evaluateTyreDataChanged(currentLap);
-
-        }
-
-    }
-
-    // only if the tyre ID is set, should we try to update its age, with a packet only being sent if everything is set
     // TODO, how to detect the sector 3/sector 1 pitlane issue that influences perceived tyre age?
-    if (currentLap.m_tyre.m_hasID && !currentLap.m_tyre.m_hasAge && data.m_hasAge) {
+    if (currentLap.m_tyre.m_stintNo != data.m_stintNo) {
 
-        // append age information only after validating that the tyres are the same to the best we can
-        bool canCompareID = currentLap.m_tyre.m_hasID && data.m_hasID;
-        bool sameID = canCompareID && (currentLap.m_tyre.m_setID == data.m_setID);
-        if ((sameID || !canCompareID) &&
-            (driverID == currentLap.m_driverId) &&
-            (currentLap.m_tyre.m_actualTyre == data.m_actualTyre) &&
-            (currentLap.m_tyre.m_visualTyre == data.m_visualTyre)) {
-
-            currentLap.m_tyre.m_hasAge = data.m_hasAge;
-            currentLap.m_tyre.m_ageLaps = data.m_ageLaps;
-            evaluateTyreDataChanged(currentLap);
-
-        }
+        // if the stint number has changed, then we can assume a tyre change has happened
+        currentLap.m_tyre = data;
+        evaluateTyreDataChanged(currentLap);
 
     }
 
@@ -318,7 +260,7 @@ void Processor::Data::LapHistoryData::evaluateFinishedLap(const Processor::Data:
 
 void Processor::Data::LapHistoryData::evaluateTyreDataChanged(const Processor::Data::LapInfo& currentLap) {
 
-    if (m_installedTyreChangeDetector && currentLap.m_tyre.m_hasID && currentLap.m_tyre.m_hasAge) {
+    if (m_installedTyreChangeDetector) {
 
         m_installedTyreChangeDetector->addTyreChangeInfo(currentLap.m_driverId, currentLap.m_tyre);
 

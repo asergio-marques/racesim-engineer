@@ -136,7 +136,7 @@ void UserInterface::Widget::Standings::onTyreChanged(const Packet::Event::TyreCh
 
             entry->newTyres(dataPacket->m_tyreInfo.m_actualTyre,
                 dataPacket->m_tyreInfo.m_visualTyre,
-                dataPacket->m_tyreInfo.m_ageLaps);
+                dataPacket->m_tyreInfo.m_stintLength);
 
         }
 

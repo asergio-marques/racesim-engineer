@@ -19,23 +19,17 @@ namespace Tyre {
             bool operator==(const Data& other);
             bool operator!=(const Data& other);
 
-            // Whether the ID of the tyre set in use for the majority of the lap has been initialized
-            bool m_hasID;
+            // Number of the stint to which this tyre data pertains to
+            uint8_t m_stintNo;
 
-            // ID of the tyre set on which the majority of the lap was raced
-            uint8_t m_setID;
+            // Number of laps completed on this tyre set (length of stint)
+            uint8_t m_stintLength;
 
             // The visual tyre compound on which the majority of the lap was raced
             Tyre::Internal::Visual m_visualTyre;
 
             // The actual tyre compound on which the majority of the lap was raced
             Tyre::Internal::Actual m_actualTyre;
-
-            // Whether the age of the tyre set in use for the majority of the lap has been initialized
-            bool m_hasAge;
-
-            // Number of laps done on the tyre set on which the majority of the lap was raced
-            uint8_t m_ageLaps;
 
         };
 

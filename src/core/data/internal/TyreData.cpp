@@ -6,12 +6,10 @@
 
 
 Tyre::Internal::Data::Data() :
-    m_hasID(false),
-    m_setID(UINT8_MAX),
+    m_stintNo(UINT8_MAX),
+    m_stintLength(UINT8_MAX),
     m_actualTyre(Tyre::Internal::Actual::InvalidUnknown),
-    m_visualTyre(Tyre::Internal::Visual::InvalidUnknown),
-    m_hasAge(false),
-    m_ageLaps(UINT8_MAX) {
+    m_visualTyre(Tyre::Internal::Visual::InvalidUnknown) {
 
 
 }
@@ -21,12 +19,10 @@ Tyre::Internal::Data::Data() :
 
 Tyre::Internal::Data& Tyre::Internal::Data::operator=(const Data& other) {
 
-    m_hasID = other.m_hasID;
-    m_setID = other.m_setID;
+    m_stintNo = other.m_stintNo;
+    m_stintLength = other.m_stintLength;
     m_actualTyre = other.m_actualTyre;
     m_visualTyre = other.m_visualTyre;
-    m_hasAge = other.m_hasAge;
-    m_ageLaps = other.m_ageLaps;
 
     return *this;
 
@@ -36,12 +32,10 @@ Tyre::Internal::Data& Tyre::Internal::Data::operator=(const Data& other) {
 
 bool Tyre::Internal::Data::operator==(const Tyre::Internal::Data& other) {
 
-    return (m_hasID == other.m_hasID) &&
-        (m_setID == other.m_setID) &&
+    return (m_stintNo == other.m_stintNo) &&
+        (m_stintLength == other.m_stintLength) &&
         (m_actualTyre == other.m_actualTyre) &&
-        (m_visualTyre == other.m_visualTyre) &&
-        (m_hasAge == other.m_hasAge) &&
-        (m_ageLaps == other.m_ageLaps);
+        (m_visualTyre == other.m_visualTyre);
 
 }
 

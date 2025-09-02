@@ -240,7 +240,8 @@ void Processor::Data::LapHistoryData::evaluateFinishedLap(const Processor::Data:
         if (it != m_laps.end()) {
 
             const auto& fastestLap = it->second;
-            if (finishedLap.m_totalLapTime < fastestLap.m_totalLapTime) {
+            if (finishedLap.m_isValid && finishedLap.m_totalLapTime.valid() &&
+                (finishedLap.m_totalLapTime < fastestLap.m_totalLapTime)) {
 
                 m_fastestLapID = finishedLap.m_lapId;
                 m_installedFinishedLapDetector->addFinishedLapInfo(finishedLap, Lap::Internal::InfoType::PersonalBest);

@@ -265,7 +265,6 @@ void UserInterface::Widget::TyreInfoArray::RedoDisplay(const uint16_t x, const u
 
 		uint16_t baseX = x + (displayCount * style.TyreInfoContainerMaxX.m_value);
 		auto* tyre = m_tyres[i];
-		tyre->Show();
 		tyre->move(baseX, y, false, false);
 		tyre->RedoneOnce();
 

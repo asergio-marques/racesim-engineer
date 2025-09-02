@@ -25,10 +25,14 @@ void Generalizer::Facade::OnPacketBroadcast(Packet::Game::Interface* packet) {
 	//if (m_presenter->GetGame() == Settings::Game::F1_25) {
 	if (m_gameAdapter && packet) {
 
-		std::vector<Packet::Internal::Interface*> internalPackets = m_gameAdapter->ConvertPacket(packet);	
-		delete packet;
+		std::vector<Packet::Internal::Interface*> internalPackets = m_gameAdapter->ConvertPacket(packet);
 
 		Broadcast(internalPackets);
+
+	}
+	if (packet != nullptr) {
+
+		delete packet;
 
 	}
 

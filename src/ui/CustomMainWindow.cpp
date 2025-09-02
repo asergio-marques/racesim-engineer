@@ -50,13 +50,13 @@ void UserInterface::CustomMainWindow::resizeEvent(QResizeEvent* event) {
 
     }
     qDebug() << "current screen resolution: " << baseRes.width() << "x" << baseRes.height();
-    UserInterface::Screen::Resolution convertedRes;
+    UserInterface::Screen::Resolution convertedRes = UserInterface::Screen::Resolution::MinimumDefault;
     for (const auto& standardRes : UserInterface::CustomMainWindow::m_standardResolutions) {
 
         // check if the current screen resolution can be fully "contained" within one of the standard resolutions
         // while simultaneously checking if adopting one of the standard resolution is a gain in screen space (more height or width)
         if (baseRes.width() <= standardRes.first.width() && baseRes.height() <= standardRes.first.height() &&
-            (baseRes.width() > standardRes.first.width() || baseRes.height() > standardRes.first.height())) {
+            (baseRes.width() >= standardRes.first.width() || baseRes.height() >= standardRes.first.height())) {
 
             convertedRes = standardRes.second;
 

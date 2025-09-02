@@ -38,19 +38,24 @@ void UserInterface::EventAnnouncer::Init() {
         }
         for (const auto& v : m_speechEngine->availableVoices()) {
 
-            if (v.gender() == QVoice::Female && v.locale() == locale) {
+            if (v.gender() == QVoice::Female &&
+                v.locale() == locale) {
 
                 m_speechEngine->setVoice(v);
                 break;
 
             }
+
         }
 
         // set volume to 100%
-        m_speechEngine->setVolume(1);
+        m_speechEngine->setVolume(1.0f);
 
         // slow down rate so it's more easily understandable
-        m_speechEngine->setRate(-0.2);
+        m_speechEngine->setRate(-0.2f);
+
+        // just a slight change, nothing too serious
+        m_speechEngine->setPitch(-0.1f);
 
     }
 
@@ -200,7 +205,6 @@ void UserInterface::EventAnnouncer::AnnouncePenaltyReceived(const Packet::Event:
 
 
         }
-        std::cout << "penDescription = " << penDescription.toStdString() << std::endl;
         if (pen->m_isPlayer) {
 
             QString ownAnnouncement = QString("You have %1.").arg(penDescription);

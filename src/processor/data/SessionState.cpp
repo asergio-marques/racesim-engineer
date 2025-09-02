@@ -45,8 +45,7 @@ bool Processor::Data::SessionState::evaluateCompletedLap(const Processor::Data::
         m_fastestLap = finishedLap;
         return true;
 
-    }
-    else {
+    } else {
 
         return false;
 

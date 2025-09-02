@@ -323,9 +323,14 @@ void UserInterface::Widget::TyreInfoContainer::Show() {
 
     if (m_visualCompoundIcon && m_actualCompoundText && m_lapsText) {
 
-        m_visualCompoundIcon->show();
-        m_actualCompoundText->show();
-        m_lapsText->show();
+        m_visualCompoundIcon->setVisible(true);
+        m_visualCompoundIcon->raise();
+
+        m_actualCompoundText->setVisible(true);
+        m_actualCompoundText->raise();
+
+        m_lapsText->setVisible(true);
+        m_lapsText->raise();
 
     }
 
@@ -338,9 +343,15 @@ void UserInterface::Widget::TyreInfoContainer::Hide() {
 
     if (m_visualCompoundIcon && m_actualCompoundText && m_lapsText) {
 
-        m_visualCompoundIcon->hide();
-        m_actualCompoundText->hide();
-		m_lapsText->hide();
+        m_visualCompoundIcon->setVisible(false);
+        m_visualCompoundIcon->lower();
+
+        m_actualCompoundText->setVisible(false);
+        m_actualCompoundText->lower();
+
+        m_lapsText->setVisible(false);
+        m_lapsText->lower();
+
 
     }
 

@@ -1,0 +1,1 @@
+#include "core/style/QuadHD1440p.h"

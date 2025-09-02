@@ -24,7 +24,14 @@ target_sources(${PROJECT_NAME} PRIVATE
     CustomMainWindow.cpp
     EventAnnouncer.cpp
     PacketHandler.cpp
+    # key factories
     core/PixmapFactory.cpp
+    core/StyleFactory.cpp
+    # styles
+    core/style/Default480p.cpp
+    core/style/FullHD1080p.cpp
+    core/style/QuadHD1440p.cpp
+    core/style/UltraHD4K.cpp
     # panels
     panels/Interface.cpp
     panels/Loading.cpp

@@ -19,6 +19,8 @@ namespace Presenter {
 
 namespace UserInterface {
 
+    class StyleFactory;
+
     namespace Screen {
         
         class Interface;
@@ -60,6 +62,7 @@ namespace UserInterface {
             UserInterface::Widgets::MenuBar* m_menuBar;
             std::list<UserInterface::Screen::Interface*> m_screens;
             UserInterface::Screen::Interface* m_activeScreen;
+            UserInterface::StyleFactory* m_styleFactory;
 
             static const QList<QPair<QSize, UserInterface::Screen::Resolution>> m_standardResolutions;
 

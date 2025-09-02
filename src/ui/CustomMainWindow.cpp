@@ -8,10 +8,12 @@
 #include <QTimer>
 #include <QWidget>
 #include <QWindow>
+#include "core/StyleFactory.h"
 #include "core/Screen.h"
 #include "screens/Interface.h"
 #include "styles/General.h"
 #include "widgets/general_use/MenuBar.h"
+
 
 
 
@@ -24,11 +26,14 @@ const QList<QPair<QSize, UserInterface::Screen::Resolution>> UserInterface::Cust
 
 };
 
+
+
 UserInterface::CustomMainWindow::CustomMainWindow(Presenter::ICompFacade* presenter, QWidget* parent) :
     QMainWindow(parent),
     m_menuBar(nullptr),
     m_screens(),
-    m_activeScreen(nullptr) {
+    m_activeScreen(nullptr),
+    m_styleFactory(new UserInterface::StyleFactory(this)) {
 
     m_menuBar = new UserInterface::Widgets::MenuBar(presenter, this);
     Q_ASSERT(m_menuBar);
@@ -63,7 +68,13 @@ void UserInterface::CustomMainWindow::resizeEvent(QResizeEvent* event) {
         }
 
     }
-    emit onResizeEvent(event->size(), convertedRes);
+    if (m_styleFactory) {
+
+        auto style = m_styleFactory->GetStyle(convertedRes);
+        //emit onResizeEvent(event->size(), style);
+
+    }
+    //emit onResizeEvent(event->size(), convertedRes);
 
 }
 

@@ -3,7 +3,7 @@
 #include <QSize>
 #include <QWidget>
 #include "PacketHandler.h"
-#include "packets/internal/race_types/Overtake.h"
+#include "packets/event/Overtake.h"
 #include "panels/Interface.h"
 #include "styles/Standings.h"
 #include "widgets/general_use/BackgroundRight.h"
@@ -28,9 +28,10 @@ UserInterface::Panel::RaceRight::RaceRight(UserInterface::PacketHandler* handler
         RegisterWidget(m_driverStandings);
         connect(handler, &UserInterface::PacketHandler::RaceStart, m_driverStandings, &UserInterface::Widget::Standings::setStartingGrid);
         connect(handler, &UserInterface::PacketHandler::OvertakePerformed, this, &UserInterface::Panel::RaceRight::onOvertake);
-        connect(handler, &UserInterface::PacketHandler::PenaltyAssigned, m_driverStandings, &UserInterface::Widget::Standings::penaltyAssignedToVehicle);
-        connect(handler, &UserInterface::PacketHandler::DriverStatusChanged, m_driverStandings, &UserInterface::Widget::Standings::vehicleStatusChanged);
-        connect(handler, &UserInterface::PacketHandler::NewlyCompletedLap, m_driverStandings, &UserInterface::Widget::Standings::newCompletedLapInfo);
+        connect(handler, &UserInterface::PacketHandler::PenaltyReceived, m_driverStandings, &UserInterface::Widget::Standings::onPenaltyReceived);
+        connect(handler, &UserInterface::PacketHandler::ParticipantStatusChanged, m_driverStandings, &UserInterface::Widget::Standings::onParticipantStatusChanged);
+        connect(handler, &UserInterface::PacketHandler::LapFinished, m_driverStandings, &UserInterface::Widget::Standings::onLapFinished);
+        connect(handler, &UserInterface::PacketHandler::TyreChanged, m_driverStandings, &UserInterface::Widget::Standings::onTyreChanged);
 
     }
 
@@ -63,7 +64,7 @@ void UserInterface::Panel::RaceRight::ResizePanel(const QSize& newPanelSize) {
 
 
 
-void UserInterface::Panel::RaceRight::onOvertake(const Packet::Internal::Overtake* packet) {
+void UserInterface::Panel::RaceRight::onOvertake(const Packet::Event::Overtake* packet) {
 
     if (packet && m_driverStandings) {
 

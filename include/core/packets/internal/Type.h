@@ -11,18 +11,15 @@ namespace Packet {
 
         enum class Type : uint8_t {
 
-            UnknownInvalid              = 0,
-            SessionStart                = 1,
-            SessionEnd                  = 2,
-            Standings                   = 3,
-            LapFinished                 = 4,
-            PenaltyStatus               = 5,
-            ParticipantStatus           = 6,
-            LapStatus                   = 7,
-            Overtake                    = 101,
-            FinishedLapInfo             = 102,
-            PenaltyChange               = 103,
-            ParticipantStatusChange     = 104
+            UnknownInvalid          = 0,
+            SessionSettings         = 1,
+            SessionParticipants     = 2,
+            GridPosition            = 3,
+            Standings               = 4,
+            ParticipantStatus       = 5,
+            LapStatus               = 6,
+            PenaltyStatus           = 7,
+            TyreSetUsage            = 8
 
         };
     

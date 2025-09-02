@@ -10,7 +10,7 @@ namespace Processor {
     namespace Detector {
 
         class Interface;
-        class WarningPenalty;
+        class PenaltyReceived;
 
     }
 
@@ -24,7 +24,7 @@ namespace Processor {
             ~WarningPenaltyData() = default;
 
             // Add relevant detectors to then be called when relevant
-            void installDetector(Processor::Detector::Interface* detector);
+            bool installDetector(Processor::Detector::Interface* detector);
 
             // Alter the status of warnings and penalties, and feed it to the detector
             void updateWarningPenalties(const int8_t id, const uint8_t totalWarnings,
@@ -48,7 +48,7 @@ namespace Processor {
             uint8_t m_numDriveThrough;
 
             // Pointer to the penalty & warning detector currently installed
-            Processor::Detector::WarningPenalty* m_installedPenWarnDetector;
+            Processor::Detector::PenaltyReceived* m_installedPenWarnDetector;
 
         };
 

@@ -3,6 +3,7 @@
 
 #include <cstdint>
 #include <string>
+#include "data/internal/Tyre.h"
 
 
 
@@ -17,11 +18,22 @@ namespace Session::Internal {
         Race            = 4
 
     };
+    enum class LimitType : uint8_t {
+
+        InvalidUnknown  = 0,
+        LapNumber       = 1,
+        TimeElapsed     = 2,
+        LapsOverTime    = 3     // for cases where laps are the primary
+                                // indicator, but the session may not take
+                                // more than a certain amount of time if the
+                                // total number of laps is not met
+
+    };
 
     enum class TeamID : uint8_t {
 
         // F1 teams 2021+
-        Unknown         = 0,
+        InvalidUnknown  = 0,
         Custom          = 1,
         Mercedes        = 2,
         Ferrari         = 3,
@@ -58,7 +70,7 @@ namespace Session::Internal {
 
     enum class Track : uint8_t {
 
-        Unknown             = 0,
+        InvalidUnknown      = 0,
         AUS_Melbourne       = 1,
         AUT_RedBullRing     = 2,
         AZE_Baku            = 3,
@@ -102,11 +114,62 @@ namespace Session::Internal {
         // 3-letter name for display
         std::string m_shortName = "???";
 
-        // Which team icon ought be displayed
-        Session::Internal::TeamID m_TeamIcon = Session::Internal::TeamID::Unknown;
+        // The ID of the team to which this participant belongs to
+        Session::Internal::TeamID m_teamID = Session::Internal::TeamID::InvalidUnknown;
 
         // Starting position for this participant
         uint8_t m_startPosition = 0;
+
+        // Starting tyre for this participant
+        Tyre::Internal::Visual m_startTyreVisual = Tyre::Internal::Visual::InvalidUnknown;
+
+        // Starting compound for this participant
+        Tyre::Internal::Actual m_startTyreActual = Tyre::Internal::Actual::InvalidUnknown;
+
+        // Number of laps done on the starting tyre for this participant
+        uint8_t m_startTyreAge = UINT8_MAX;
+
+    };
+
+    struct Settings {
+
+        // What determines the end of this session
+        Session::Internal::LimitType m_sessionLimit = Session::Internal::LimitType::InvalidUnknown;
+
+        // Determines how long does the session last for (seconds)
+        uint32_t m_sessionDurationTime = 0;
+
+        // Determines how many laps are in a session until its conclusion
+        uint8_t m_sessionDurationLaps = 0;
+
+        // Determines the type of the session taking place
+        Session::Internal::Type m_sessionType = Session::Internal::Type::InvalidUnknown;
+
+        // How many participants at the bottom of the session are eliminated at the end
+        uint8_t m_dropZone = 0;
+
+        // How many participants at the top of the session have their positions reversed
+        // at the end
+        uint8_t m_reverseZone = 0;
+
+    };
+
+    struct TrackInfo {
+
+        // The track at which the session is taking place
+        Session::Internal::Track m_sessionTrack = Session::Internal::Track::InvalidUnknown;
+
+        // Total distance for a single lap at the track, if available (meters)
+        uint16_t m_lapDistanceTotal = 0.0f;
+
+        // Distance of Sector 1, if available (meters)
+        uint16_t m_sector1Distance = 0.0f;
+
+        // Distance of Sector 2, if available (meters)
+        uint16_t m_sector2Distance = 0.0f;
+
+        // Distance of Sector 3, if available (meters)
+        uint16_t m_sector3Distance = 0.0f;
 
     };
 

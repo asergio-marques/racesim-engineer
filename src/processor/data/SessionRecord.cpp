@@ -6,12 +6,14 @@
 
 
 
-Processor::Data::SessionRecord::SessionRecord(const uint64_t initTimestamp, const Session::Internal::Type sessionType, const Session::Internal::Track trackID, const uint8_t numLaps) :
+Processor::Data::SessionRecord::SessionRecord(const uint64_t initTimestamp, const Session::Internal::Settings settings,
+    const Session::Internal::TrackInfo trackInfo) :
     m_lastStateTimestamp(initTimestamp),
-    m_type(sessionType),
-    m_trackID(trackID),
-    m_totalLaps(numLaps) {
+    m_settings(settings),
+    m_trackInfo(trackInfo),
+    m_state(nullptr)  {
 
+    m_state = new Processor::Data::SessionState(this);
 
 }
 
@@ -25,23 +27,36 @@ Processor::Data::SessionRecord::~SessionRecord() {
 
 
 
-const Session::Internal::Track Processor::Data::SessionRecord::getTrackID() {
+const Session::Internal::Settings& Processor::Data::SessionRecord::getSessionSettings() {
 
-    return m_trackID;
+    return m_settings;
+
+}
+
+
+const bool Processor::Data::SessionRecord::Initialized() const {
+
+    const bool sessionLimitSet = (m_settings.m_sessionDurationTime != 0) ||
+        (m_settings.m_sessionDurationLaps != 0);
+
+    return (m_trackInfo.m_sessionTrack != Session::Internal::Track::InvalidUnknown) &&
+        (m_settings.m_sessionLimit != Session::Internal::LimitType::InvalidUnknown) &&
+        sessionLimitSet &&
+        (m_settings.m_sessionType != Session::Internal::Type::InvalidUnknown);
 
 }
 
 
 
-const uint8_t Processor::Data::SessionRecord::getTotalLaps() {
+const Session::Internal::TrackInfo& Processor::Data::SessionRecord::getTrackInfo() {
 
-    return m_totalLaps;
+    return m_trackInfo;
 
 }
 
 
 
-Processor::Data::SessionState& Processor::Data::SessionRecord::getModifiableState() {
+Processor::Data::SessionState* Processor::Data::SessionRecord::getModifiableState() {
 
     return m_state;
 

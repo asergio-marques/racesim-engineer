@@ -5,7 +5,7 @@
 
 namespace Packet {
 
-    namespace Internal {
+    namespace Game {
 
         class Broadcaster;
 
@@ -27,12 +27,6 @@ namespace NetCom {
 
     }
 
-    namespace Converter {
-    
-        class PacketGeneralizer;
-    
-    }
-
     namespace Adapter {
 
         class Interface;
@@ -45,11 +39,10 @@ namespace NetCom {
             Facade();
             virtual ~Facade();
             void Init(Presenter::ICompFacade* presenter);
-            Packet::Internal::Broadcaster* exposeBroadcasterInterface() const;
+            Packet::Game::Broadcaster* exposeBroadcasterInterface() const;
 
         private:
             NetCom::Listener::Director* m_director;
-            NetCom::Converter::PacketGeneralizer* m_packetGeneralizer;
             NetCom::Adapter::Interface* m_gameAdapter;
             Presenter::ICompFacade* m_presenter;
 

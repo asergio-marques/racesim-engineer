@@ -55,7 +55,7 @@ namespace UserInterface {
             // Total number of drive-through penalties to be served
             uint32_t m_driveThroughs;
 
-            // Total amount of stop-go penalties to be served
+            // Total amount of stop-go penalties to be served, in milliseconds
             uint32_t m_stopGos;
 
             static constexpr uint8_t HORIZONTAL_OFFSET = 3;

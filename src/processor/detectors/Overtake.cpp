@@ -6,7 +6,7 @@
 #include <vector>
 #include "detectors/Interface.h"
 #include "detectors/Type.h"
-#include "packets/internal/race_types/Overtake.h"
+#include "packets/event/Overtake.h"
 
 
 
@@ -18,9 +18,32 @@ const Processor::Detector::Type Processor::Detector::Overtake::GetType() const {
 
 
 
+void Processor::Detector::Overtake::Init(Processor::Data::SessionRecord* sessionRecord,
+                std::map<const uint8_t, Processor::Data::DriverRecord*>* driverRecords) {
+
+    Processor::Detector::Interface::doInit(sessionRecord, driverRecords);
+
+    if (m_sessionRecord && m_driverRecords) {
+
+        m_workerThread = std::thread(&Processor::Detector::Overtake::Exec, this);
+
+    }
+
+}
+
+
+
+void Processor::Detector::Overtake::AddPositionChange(const uint8_t id, const uint8_t oldPosition, const uint8_t newPosition) {
+
+    m_positionChanges.push_back({ id, oldPosition, newPosition });
+
+}
+
+
+
 void Processor::Detector::Overtake::Exec() {
 
-    while (true) {
+    while (m_sessionRecord && m_driverRecords) {
 
         // As long as there are position changes to be sent to the UI, they
         // will be added to the list of packets to be sent
@@ -33,7 +56,7 @@ void Processor::Detector::Overtake::Exec() {
                 bool alreadyAdded = false;
                 for (auto packet : m_packetsToBeProcessed) {
 
-                    auto castPacket = dynamic_cast<Packet::Internal::Overtake*>(packet);
+                    auto castPacket = dynamic_cast<Packet::Event::Overtake*>(packet);
                     if (castPacket) {
 
                         for (const auto data : castPacket->GetData()) {
@@ -49,7 +72,7 @@ void Processor::Detector::Overtake::Exec() {
                             }
 
                         }
-                        
+
                         // Break the already-existing packet loop
                         if (alreadyAdded) break;
 
@@ -76,18 +99,9 @@ void Processor::Detector::Overtake::Exec() {
 
 
 
-void Processor::Detector::Overtake::AddPositionChange(const uint8_t id, const uint8_t oldPosition, const uint8_t newPosition) {
-
-    m_positionChanges.push_back({ id, oldPosition, newPosition });
-
-}
-
-
-
 void Processor::Detector::Overtake::CreateNewPacket(const Processor::Detector::Overtake::PositionChange& changeInfo) {
 
-    // timestamp can be 0 as the UI isn't supposed to check on this I think maybe perhaps
-    Packet::Internal::Overtake* packet = new Packet::Internal::Overtake(0);
+    Packet::Event::Overtake* packet = new Packet::Event::Overtake();
     if (packet) {
 
         packet->InsertData(changeInfo.m_id, changeInfo.m_newPosition,

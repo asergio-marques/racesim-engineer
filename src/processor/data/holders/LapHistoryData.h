@@ -5,6 +5,7 @@
 #include <map>
 #include "data/holders/LapInfo.h"
 #include "data/internal/Participant.h"
+#include "data/internal/Tyre.h"
 
 
 
@@ -12,8 +13,9 @@ namespace Processor {
 
     namespace Detector {
 
-        class FinishedLap;
+        class LapFinished;
         class Interface;
+        class TyreChanged;
 
     }
 
@@ -29,13 +31,22 @@ namespace Processor {
             ~LapHistoryData() = default;
 
             // Add relevant detectors to then be called when relevant
-            void installDetector(Processor::Detector::Interface* detector);
+            bool installDetector(Processor::Detector::Interface* detector);
+
+            // Validates the internal information and returns true if it meets the conditions for the start of a session
+            const bool Initialized() const;
+
+            // Creates a record for the first lap of the session, initializing tyre data
+            void initialize(const uint8_t driverID, const Tyre::Internal::Data data);
 
             // Alter the status of the driver's most recent lap in the session
             // Returns true if the lap data is regarded as complete
             bool updateLap(const uint8_t id, const uint8_t lapID, const Lap::Internal::Type type,
-                const Lap::Internal::Status status, const Lap::Internal::Time currentLapTime, const std::vector<Lap::Internal::Time> sectorTimes,
-                const float_t lapDistanceRun, const Lap::Internal::Time previousLapTime, const bool driverFinished);
+                const Lap::Internal::Status lapStatus, const Lap::Internal::Time currentLapTime, const std::vector<Lap::Internal::Time> sectorTimes,
+                const float_t lapDistanceRun, const Lap::Internal::Time previousLapTime, const Participant::Internal::Status participantStatus);
+
+            // Alter the tyre data of the driver's most recent lap
+            void updateTyre(const uint8_t driverID, const Tyre::Internal::Data data);
 
             // Exposes the data of a single lap
             const Processor::Data::LapInfo* getLapData(const uint16_t lapID) const;
@@ -45,6 +56,8 @@ namespace Processor {
 
             private:
             void evaluateFinishedLap(const Processor::Data::LapInfo& finishedLap);
+
+            void evaluateTyreDataChanged(const Processor::Data::LapInfo& currentLap);
 
             // Holder of data pertaining to all laps run
             std::map<uint16_t, Processor::Data::LapInfo> m_laps;
@@ -65,7 +78,10 @@ namespace Processor {
             uint16_t m_fastestSector3LapID;
 
             // Pointer to the fastest lap detector currently installed
-            Processor::Detector::FinishedLap* m_installedFinishedLapDetector;
+            Processor::Detector::LapFinished* m_installedFinishedLapDetector;
+
+            // Pointer to the tyre changed detector currently installed
+            Processor::Detector::TyreChanged* m_installedTyreChangeDetector;
         };
 
     }

@@ -37,10 +37,13 @@ namespace Processor {
             virtual ~Facade();
 
             // Implements the internal packet subscriber handling function
-            virtual void OnPacketBroadcast(Packet::Internal::Interface* packet) override final;
+            virtual void OnPacketBundleBroadcast(std::vector<Packet::Internal::Interface*> packets) override final;
 
             // Initializes needed member variables and starts component
             virtual void Init(Presenter::ICompFacade* presenter) override final;
+
+            // Exposes the event packet output interface
+            Packet::Event::Broadcaster* exposeBroadcasterInterface() override final;
 
             // Trigger function for the export of the current dataset
             virtual bool ExportCurrentRaceData(std::string path) override final;

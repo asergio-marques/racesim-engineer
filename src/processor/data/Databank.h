@@ -12,11 +12,11 @@ namespace Packet {
     namespace Internal {
 
         class Interface;
-        class SessionStart;
-        class RaceStandings;
+        class Standings;
         class PenaltyStatus;
         class ParticipantStatus;
         class LapStatus;
+        class TyreSetUsage;
 
     }
 
@@ -45,13 +45,14 @@ namespace Processor {
     namespace Data {
 
         class DriverRecord;
+        class RecordCreator;
         class SessionRecord;
 
         class Databank {
 
             public:
             // Default constructor
-            Databank() = default;
+            Databank();
 
             // Destructor
             ~Databank();
@@ -69,17 +70,20 @@ namespace Processor {
             const Processor::Exporter::Interface* getExporter() const;
 
             private:
-            // Creates the appropriate SessionInfoCreator depending on the type of the sessions started
-            void createSessionInformation(const Packet::Internal::SessionStart* sessionStartPacket);
-
             // Closes down the session, marking the session as finalized, to accept packets pertaining to the final lap
             void markAsFinished();
 
             // Checks the auto export user setting and outputs the session data if so
             void triggerAutoExport();
 
+            // Triggered when the creator notes that all of the records have been initialized
+            void OnCreatorReady(Processor::Data::SessionRecord* sessionRecord, std::map<const uint8_t, Processor::Data::DriverRecord*>& driverRecords);
+
+            // Triggered when the creator detects a new participant has joined and creates a new driver record
+            void OnNewDriverRecord(Processor::Data::DriverRecord* record);
+
             // Interfaces with the DriverState class to update the driver position
-            void updateStandings(const Packet::Internal::RaceStandings* standingsPacket);
+            void updateStandings(const Packet::Internal::Standings* standingsPacket);
 
             // Interfaces with the DriverState class to update the penalties and warnings
             void updatePenalties(const Packet::Internal::PenaltyStatus* penaltyPacket);
@@ -90,8 +94,14 @@ namespace Processor {
             // Interfaces with the DriverState class to update the status of the session participants' laps
             void updateLapStatus(const Packet::Internal::LapStatus* lapPacket);
 
+            // Interfaces with the DriverState class to update the current tyre usage of the session participants
+            void updateCurrentTyreUsage(const Packet::Internal::TyreSetUsage* tyrePacket);
+
             // General interface for communicating with other modules
             Presenter::ICompFacade* m_presenter;
+
+            // Dedicated object to hold all the relevant data at session start to create the records
+            Processor::Data::RecordCreator* m_creator;
 
             // Holds a list of the driver records for the current session, using the driver ID as index
             std::map<const uint8_t, Processor::Data::DriverRecord*> m_driverRecords;

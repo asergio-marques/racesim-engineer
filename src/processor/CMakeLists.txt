@@ -25,21 +25,25 @@ target_sources(${PROJECT_NAME} PRIVATE
     data/Databank.cpp
     data/DriverRecord.cpp
     data/DriverState.cpp
+    data/RecordCreator.cpp
     data/SessionRecord.cpp
     data/SessionState.cpp
-    data/creators/RaceSession.cpp
     data/holders/LapHistoryData.cpp
     data/holders/PositionTimingData.cpp
     data/holders/WarningPenaltyData.cpp
     detectors/Interface.cpp
-    detectors/DriverStatus.cpp
-    detectors/FinishedLap.cpp
+    detectors/LapFinished.cpp
     detectors/Overtake.cpp
-    detectors/WarningPenalty.cpp
+    detectors/ParticipantStatusChanged.cpp
+    detectors/PenaltyReceived.cpp
+    detectors/SessionStartDataReady.cpp
+    detectors/TyreChanged.cpp
     exporters/RaceSession.cpp)
 
 target_link_libraries(${PROJECT_NAME} PUBLIC
     RaceSimEngineerCore
+    RaceSimEngineerPacketsInternal
+    RaceSimEngineerPacketsEvent
     RaceSimEngineerPresenter
     PRIVATE
     pugixml)

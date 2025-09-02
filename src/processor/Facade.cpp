@@ -3,10 +3,12 @@
 #include <thread>
 #include <vector>
 #include "data/Databank.h"
-#include "detectors/FinishedLap.h"
+#include "detectors/LapFinished.h"
 #include "detectors/Overtake.h"
-#include "detectors/WarningPenalty.h"
-#include "detectors/DriverStatus.h"
+#include "detectors/PenaltyReceived.h"
+#include "detectors/ParticipantStatusChanged.h"
+#include "detectors/SessionStartDataReady.h"
+#include "detectors/TyreChanged.h"
 #include "exporters/Interface.h"
 #include "exporters/RaceSession.h"
 #include "IFacade.h"
@@ -19,14 +21,17 @@ Processor::Facade::Facade() :
     Processor::IFacade::IFacade(),
     m_databank(new Processor::Data::Databank),
     m_detectors(),
+    m_presenter(nullptr),
     m_workerThread() {
 
     if (m_databank) {
 
-        m_detectors.push_back(new Processor::Detector::FinishedLap);
+        m_detectors.push_back(new Processor::Detector::SessionStartDataReady);
+        m_detectors.push_back(new Processor::Detector::LapFinished);
         m_detectors.push_back(new Processor::Detector::Overtake);
-        m_detectors.push_back(new Processor::Detector::WarningPenalty);
-        m_detectors.push_back(new Processor::Detector::DriverStatus);
+        m_detectors.push_back(new Processor::Detector::PenaltyReceived);
+        m_detectors.push_back(new Processor::Detector::ParticipantStatusChanged);
+        m_detectors.push_back(new Processor::Detector::TyreChanged);
 
     }
 
@@ -52,11 +57,22 @@ Processor::Facade::~Facade() {
 
 
 
-void Processor::Facade::OnPacketBroadcast(Packet::Internal::Interface* packet) {
+void Processor::Facade::OnPacketBundleBroadcast(std::vector<Packet::Internal::Interface*> packets) {
 
-    if (m_databank && packet) {
+    if (m_databank && !packets.empty()) {
 
-        m_databank->updateData(packet);
+        for (const auto packet : packets) {
+
+            if (packet) {
+
+                m_databank->updateData(packet);
+                delete packet;
+
+            }
+
+        }
+
+        packets.clear();
 
     }
 
@@ -76,6 +92,16 @@ void Processor::Facade::Init(Presenter::ICompFacade* presenter) {
     }
 
     m_workerThread = std::thread(&Processor::Facade::Exec, this);
+
+}
+
+
+
+
+
+Packet::Event::Broadcaster* Processor::Facade::exposeBroadcasterInterface() {
+
+    return this;
 
 }
 
@@ -104,7 +130,7 @@ void Processor::Facade::Exec() {
 
     while (true) {
 
-        std::vector<Packet::Internal::Interface*> packetsToSend;
+        std::vector<Packet::Event::Interface*> packetsToSend;
 
         // Get all unsent packets from detectors
         for (auto detector : m_detectors) {
@@ -122,11 +148,7 @@ void Processor::Facade::Exec() {
 
         }
 
-        for (auto packet : packetsToSend) {
-
-            Broadcast(packet);
-
-        }
+        Broadcast(packetsToSend);
 
         // Thread runs at 10Hz
         std::this_thread::sleep_for(std::chrono::milliseconds(100));

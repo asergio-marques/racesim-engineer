@@ -26,10 +26,15 @@ Processor::Exporter::RaceSession::RaceSession() :
 
 void Processor::Exporter::RaceSession::InjectRecords(Processor::Data::SessionRecord* sessionRecord, Processor::Data::DriverRecord* driverRecord) {
 
-    if (driverRecord && sessionRecord) {
+    // double check if what we are trying to insert is the same as before, no point if it is
+    if (driverRecord && (driverRecord != m_playerDriverRecord)) {
+
+        m_playerDriverRecord = driverRecord;
+
+    }
+    if (sessionRecord && (sessionRecord != sessionRecord)) {
 
         m_sessionRecord = sessionRecord;
-        m_playerDriverRecord = driverRecord;
 
     }
 
@@ -76,23 +81,23 @@ bool Processor::Exporter::RaceSession::Export(std::string path) const {
         addChildNodeCharacterData(&rootNode, m_schemaV1.versionTag,
             m_schemaV1.version);
         addChildNodeCharacterData(&rootNode, m_schemaV1.trackIdTag,
-            static_cast<uint8_t>(m_sessionRecord->getTrackID()));
+            static_cast<uint8_t>(m_sessionRecord->getTrackInfo().m_sessionTrack));
         // TODO: converter map
         // addChildNodeCharacterData(&rootNode, m_schemaV1.trackNameTag, ConvertTrackId(m_sessionRecord->getTrackID()));
         addChildNodeCharacterData(&rootNode, m_schemaV1.numLapsTag,
-            static_cast<uint8_t>(m_sessionRecord->getTotalLaps()));
+            static_cast<uint8_t>(m_sessionRecord->getSessionSettings().m_sessionDurationLaps));
         addChildNodeCharacterData(&rootNode, m_schemaV1.fastestOverallTag,
-            m_sessionRecord->getModifiableState().fastestLap().m_totalLapTime);
+            m_sessionRecord->getModifiableState()->fastestLap().m_totalLapTime);
 
     }
     if (m_playerDriverRecord) {
         addChildNodeCharacterData(&rootNode, m_schemaV1.completionTag,
             m_playerDriverRecord->isFinished());
         addChildNodeCharacterData(&rootNode, m_schemaV1.gridPosTag,
-            m_playerDriverRecord->getModifiableState().posTimeData().m_startingPosition);
+            m_playerDriverRecord->getModifiableState()->posTimeData().getGridPosition());
 
         pugi::xml_node lapsNode = rootNode.append_child("laps");
-        const auto& lapData = m_playerDriverRecord->getModifiableState().lapData();
+        const auto& lapData = m_playerDriverRecord->getModifiableState()->lapData();
         for (size_t i = 1; i <= lapData.numLapsAvailable(); ++i) {
 
             const auto* lap = lapData.getLapData(i);

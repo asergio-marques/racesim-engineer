@@ -9,10 +9,8 @@
 
 Processor::Data::DriverRecord::DriverRecord(const uint64_t initTimestamp, const Session::Internal::Participant& driverData) :
     m_lastStateTimestamp(initTimestamp),
-    m_driverId(driverData.m_index),
-    m_driverFullName(driverData.m_fullName),
-    m_driverShortName(driverData.m_shortName),
-    m_state(driverData.m_index, driverData.m_startPosition),
+    m_info(driverData),
+    m_state(nullptr),
     m_isFinished(false) {
 
 
@@ -23,7 +21,26 @@ Processor::Data::DriverRecord::DriverRecord(const uint64_t initTimestamp, const 
 
 Processor::Data::DriverRecord::~DriverRecord() {
 
+    delete m_state;
+    m_state = nullptr;
 
+}
+
+
+
+void Processor::Data::DriverRecord::Init(const uint8_t startPosition) {
+
+    m_state = new DriverState(this, startPosition);
+
+}
+
+
+
+const bool Processor::Data::DriverRecord::Initialized() const {
+
+    // driver info should be always valid as it's statically initialized when the driver record is as well
+    // warning data is always blank at the start
+    return m_state && m_state->posTimeData().Initialized() && m_state->lapData().Initialized();
 
 }
 
@@ -47,7 +64,7 @@ const bool Processor::Data::DriverRecord::updateLastTimestamp(const uint64_t new
 
 const uint8_t Processor::Data::DriverRecord::getDriverId() const {
 
-    return m_driverId;
+    return m_info.m_driverID;
 
 }
 
@@ -56,13 +73,13 @@ const uint8_t Processor::Data::DriverRecord::getDriverId() const {
 void Processor::Data::DriverRecord::markAsFinished() {
 
     m_isFinished = true;
-    m_state.markAsFinished();
+    m_state->markAsFinished();
 
 }
 
 
 
-Processor::Data::DriverState& Processor::Data::DriverRecord::getModifiableState() {
+Processor::Data::DriverState* Processor::Data::DriverRecord::getModifiableState() {
 
     return m_state;
 

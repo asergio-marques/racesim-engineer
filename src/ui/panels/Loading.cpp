@@ -1,6 +1,7 @@
 #include "panels/Loading.h"
 
 #include <QResizeEvent>
+#include <QVBoxLayout>
 #include <QTimer>
 #include <QWidget>
 #include "panels/Interface.h"
@@ -9,6 +10,7 @@
 #include "widgets/general_use/BackgroundFullScreen.h"
 #include "widgets/general_use/ScreenTitle.h"
 #include "widgets/specific/LoadingIcon.h"
+#include "widgets/multiplayer_session/tyres/TyreInfoArray.h"
 
 
 
@@ -16,7 +18,7 @@ UserInterface::Panel::Loading::Loading(UserInterface::PacketHandler* handler, QW
     UserInterface::Panel::Interface(handler, parent),
     m_loadingIcon(nullptr),
     m_loadingText(nullptr) {
-        
+
     m_background = new UserInterface::Widget::BackgroundFullScreen(UserInterface::Widget::ID::Background, this);
     m_loadingIcon = new UserInterface::Widget::LoadingIcon(this);
     m_loadingText = new UserInterface::Widget::ScreenTitle(UserInterface::Widget::ID::ScreenTitle, this);

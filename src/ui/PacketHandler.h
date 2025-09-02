@@ -7,25 +7,19 @@
 #include <QThread>
 #include <QTimer>
 // packet headers need to be added here for signals to work
-#include "packets/internal/multi_use/FinishedLapInfo.h"
-#include "packets/internal/multi_use/PenaltyChange.h"
-#include "packets/internal/multi_use/ParticipantStatusChange.h"
-#include "packets/internal/multi_use/SessionStart.h"
-#include "packets/internal/tt_types/TimeTrialStart.h"
-#include "packets/internal/practice_types/PracticeStart.h"
-#include "packets/internal/quali_types/QualiStart.h"
-#include "packets/internal/race_types/RaceStart.h"
-#include "packets/internal/race_types/Overtake.h"
+#include "packets/event/LapFinished.h"
+#include "packets/event/ParticipantStatusChanged.h"
+#include "packets/event/PenaltyReceived.h"
+#include "packets/event/PracticeStart.h"
+#include "packets/event/Overtake.h"
+#include "packets/event/QualiStart.h"
+#include "packets/event/RaceStart.h"
+#include "packets/event/TimeTrialStart.h"
+#include "packets/event/TyreChanged.h"
 
 
 
 namespace UserInterface {
-
-    namespace Widget {
-
-        class MPSessionStartInterface;
-
-    }
 
     class PacketHandler : public QObject {
 
@@ -34,18 +28,19 @@ namespace UserInterface {
         public:
         PacketHandler();
         virtual ~PacketHandler();
-        void AcceptPacket(Packet::Internal::Interface* packet);
+        void AcceptPacket(Packet::Event::Interface* packet);
 
         signals:
-        void TimeTrialStart(const Packet::Internal::TimeTrialStart*);
-        void PracticeStart(const Packet::Internal::PracticeStart*);
-        void QualiStart(const Packet::Internal::QualiStart*);
-        void RaceStart(const Packet::Internal::RaceStart*);
+        void TimeTrialStart(const Packet::Event::TimeTrialStart*);
+        void PracticeStart(const Packet::Event::PracticeStart*);
+        void QualiStart(const Packet::Event::QualiStart*);
+        void RaceStart(const Packet::Event::RaceStart*);
         void SessionEnd(bool withDelay);
-        void OvertakePerformed(const Packet::Internal::Overtake*);
-        void PenaltyAssigned(const Packet::Internal::PenaltyChange*);
-        void DriverStatusChanged(const Packet::Internal::ParticipantStatusChange*);
-        void NewlyCompletedLap(const Packet::Internal::FinishedLapInfo*);
+        void OvertakePerformed(const Packet::Event::Overtake*);
+        void PenaltyReceived(const Packet::Event::PenaltyReceived*);
+        void ParticipantStatusChanged(const Packet::Event::ParticipantStatusChanged*);
+        void LapFinished(const Packet::Event::LapFinished*);
+        void TyreChanged(const Packet::Event::TyreChanged*);
 
         private:
         void StartTimer();
@@ -53,15 +48,15 @@ namespace UserInterface {
         void CleanupList();
 
         // Notify functions
-        void NotifySessionStartObservers(Packet::Internal::Interface* packet);
-        void NotifySessionEndObservers(Packet::Internal::Interface* packet);
-        void NotifyOvertakeObservers(Packet::Internal::Interface* packet);
-        void NotifyPenaltyChangeObservers(Packet::Internal::Interface* packet);
-        void NotifyStatusChangeObservers(Packet::Internal::Interface* packet);
-        void NotifyFinishedLapObservers(Packet::Internal::Interface* packet);
+        void NotifySessionStartObservers(Packet::Event::Interface* packet);
+        void NotifySessionEndObservers(Packet::Event::Interface* packet);
+        void NotifyOvertakeObservers(Packet::Event::Interface* packet);
+        void NotifyPenaltyObservers(Packet::Event::Interface* packet);
+        void NotifyStatusChangeObservers(Packet::Event::Interface* packet);
+        void NotifyLapObservers(Packet::Event::Interface* packet);
+        void NotifyTyreObservers(Packet::Event::Interface* packet);
 
-        QList<Packet::Internal::Interface*> m_packetList;
-        QList<UserInterface::Widget::MPSessionStartInterface*> m_mpSessionStartObservers;
+        QList<Packet::Event::Interface*> m_packetList;
         QThread m_workerThread;
         QTimer m_execTimer;
 

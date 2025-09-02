@@ -28,7 +28,6 @@ target_sources(${PROJECT_NAME} PRIVATE
     base/ButtonInterface.cpp
     base/ImageInterface.cpp
     base/TextInterface.cpp
-    base/packets/PacketInterfaces.cpp
     general_use/MenuBar.cpp
     general_use/BackgroundLeft.cpp
     general_use/BackgroundRight.cpp
@@ -48,6 +47,9 @@ target_sources(${PROJECT_NAME} PRIVATE
     multiplayer_session/other/RetirementIconBackground.cpp
     multiplayer_session/timing/TimeInfoContainer.cpp
     multiplayer_session/timing/LapInfoContainer.cpp
+    multiplayer_session/tyres/TyreIcon.cpp
+    multiplayer_session/tyres/TyreInfoArray.cpp
+    multiplayer_session/tyres/TyreInfoContainer.cpp
     )
 
 target_link_libraries(${PROJECT_NAME} PRIVATE
@@ -78,6 +80,11 @@ qt_add_resources(${PROJECT_NAME} "ui_elements"
         ../resources/img/icons/RetirementIndicator.png
         ../resources/img/icons/TrackLimitWarningIcon.png
         ../resources/img/icons/UnknownImageRequested.png
+        ../resources/img/icons/tyres/Hards.png
+        ../resources/img/icons/tyres/Inters.png
+        ../resources/img/icons/tyres/Mediums.png
+        ../resources/img/icons/tyres/Softs.png
+        ../resources/img/icons/tyres/Wets.png
         ../resources/img/teams/AlfaRomeoLogo.png
         ../resources/img/teams/AlphaTauriLogo.png
         ../resources/img/teams/AlpineLogo.png

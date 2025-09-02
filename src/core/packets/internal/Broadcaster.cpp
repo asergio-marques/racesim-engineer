@@ -1,6 +1,7 @@
 #include "packets/internal/Broadcaster.h"
 
 #include <list>
+#include <vector>
 #include "packets/internal/Subscriber.h"
 
 
@@ -17,13 +18,13 @@ void Packet::Internal::Broadcaster::Subscribe(Packet::Internal::Subscriber* subs
 
 
 
-void Packet::Internal::Broadcaster::Broadcast(Packet::Internal::Interface* packet) {
+void Packet::Internal::Broadcaster::Broadcast(std::vector<Packet::Internal::Interface*> packets) {
 
-    if (packet) {
+    if (!packets.empty()) {
 
         for (auto subscriber : m_subscribers) {
 
-            if (subscriber) subscriber->OnPacketBroadcast(packet);
+            if (subscriber) subscriber->OnPacketBundleBroadcast(packets);
 
         }
 

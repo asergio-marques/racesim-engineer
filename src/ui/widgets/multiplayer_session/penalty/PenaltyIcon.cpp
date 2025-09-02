@@ -236,7 +236,7 @@ void UserInterface::Widget::PenaltyIcon::checkDisplayStatus() {
 const QString UserInterface::Widget::PenaltyIcon::generateText() {
 
     QString text = "";
-    uint16_t totalTimePen = 5000 * m_stopGos + m_timePen;
+    uint16_t totalTimePen = m_stopGos + m_timePen;
 
     if (m_driveThroughs != 0) {
 

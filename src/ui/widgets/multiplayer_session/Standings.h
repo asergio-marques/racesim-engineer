@@ -3,10 +3,14 @@
 
 #include <QList>
 #include "base/Container.h"
-#include "packets/internal/multi_use/MPSessionStart.h"
-#include "packets/internal/multi_use/ParticipantStatusChange.h"
-#include "packets/internal/multi_use/PenaltyChange.h"
-#include "packets/internal/multi_use/FinishedLapInfo.h"
+#include "packets/event/LapFinished.h"
+#include "packets/event/ParticipantStatusChanged.h"
+#include "packets/event/PenaltyReceived.h"
+#include "packets/event/PracticeStart.h"
+#include "packets/event/QualiStart.h"
+#include "packets/event/RaceStart.h"
+#include "packets/event/TimeTrialStart.h"
+#include "packets/event/TyreChanged.h"
 
 
 
@@ -27,10 +31,11 @@ namespace UserInterface {
             virtual ~Standings() = default;
             void reorderStandings();
             void positionChange(const uint8_t id, const uint8_t newPosition);
-            void setStartingGrid(const Packet::Internal::MPSessionStart* dataPacket);
-            void penaltyAssignedToVehicle(const Packet::Internal::PenaltyChange* dataPacket);
-            void vehicleStatusChanged(const Packet::Internal::ParticipantStatusChange* dataPacket);
-            void newCompletedLapInfo(const Packet::Internal::FinishedLapInfo* dataPacket);
+            void setStartingGrid(const Packet::Event::RaceStart* dataPacket);
+            void onPenaltyReceived(const Packet::Event::PenaltyReceived* dataPacket);
+            void onParticipantStatusChanged(const Packet::Event::ParticipantStatusChanged* dataPacket);
+            void onLapFinished(const Packet::Event::LapFinished* dataPacket);
+            void onTyreChanged(const Packet::Event::TyreChanged* dataPacket);
             void move(const uint16_t x, const uint16_t y, const bool centerAlignmentX, const bool centerAlignmentY) override final;
             void scale(const uint8_t percent) override final;
             void scale(const uint8_t percentX, const uint8_t percentY) override final;

@@ -7,6 +7,8 @@
 #include <vector>
 #include "data/internal/Lap.h"
 #include "data/internal/Participant.h"
+#include "data/internal/Tyre.h"
+#include "data/internal/TyreData.h"
 #include "data/holders/LapHistoryData.h"
 #include "data/holders/WarningPenaltyData.h"
 #include "data/holders/PositionTimingData.h"
@@ -23,22 +25,30 @@ namespace Processor {
 
     namespace Data {
 
+        class DriverRecord;
+
         class DriverState {
 
             public:
             // Constructor
-            DriverState(const uint8_t id, const uint8_t startingPosition);
+            DriverState(const Processor::Data::DriverRecord* const parent, const uint8_t startingPosition);
 
             // Destructor
             ~DriverState() = default;
 
             // Add relevant detectors to then be called when relevant
-            void installDetector(Processor::Detector::Interface* detector);
+            bool installDetector(Processor::Detector::Interface* detector);
 
             // Informs the driver record that the session has ended, so that certain information only available
             // after its end is accepted
             // Note that the driver status does not change, and hence the driver is not yet officially finished!
             void markAsFinished();
+
+            // Set the initial grid position of the driver at the start of the session
+            void setGridPosition(const uint8_t gridPosition);
+
+            // Initialize tyre data at the start of the session
+            void setStartingTyreData(const Tyre::Internal::Data tyreData);
 
             // Alter the position in this driver state, and feed it to the detector
             void updateCurrentPosition(const uint8_t currentPosition);
@@ -57,6 +67,9 @@ namespace Processor {
                 const Lap::Internal::Status status, const Lap::Internal::Time currentLapTime, const std::vector<Lap::Internal::Time> sectorTimes,
                 const float_t lapDistanceRun, const Lap::Internal::Time previousLapTime);
 
+            // Alter the data of the tyre set in use for the current lap
+            void updateCurrentTyre(const uint8_t driverID, const Tyre::Internal::Data data);
+
             // Expose position and timing data
             const Processor::Data::PositionTimingData& posTimeData() const;
 
@@ -67,8 +80,8 @@ namespace Processor {
             const Processor::Data::LapHistoryData& lapData() const;
 
             private:
-            // ID of the driver associated with this state
-            const uint8_t m_id;
+            // Pointer to the driver record holding this state
+            const Processor::Data::DriverRecord* const m_parentRecord;
 
             // Denotes whether the session has ended or not, important for last lap info
             bool m_isFinished;

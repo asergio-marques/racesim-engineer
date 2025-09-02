@@ -9,7 +9,7 @@ namespace Processor {
 
     namespace Detector {
 
-        class DriverStatus;
+        class ParticipantStatusChanged;
         class Interface;
         class Overtake;
 
@@ -21,26 +21,41 @@ namespace Processor {
 
             public:
             // Constructor
-            PositionTimingData(const uint8_t startingPosition);
+            PositionTimingData();
 
             ~PositionTimingData() = default;
 
             // Add relevant detectors to then be called when relevant
-            void installDetector(Processor::Detector::Interface* detector);
+            bool installDetector(Processor::Detector::Interface* detector);
+
+            // Validates the internal information and returns true if it meets the conditions for the start of a session
+            const bool Initialized() const;
 
             // Alter the status of the driver itself in the session, and feed it to the detector
             void updateStatus(const uint8_t id, const Participant::Internal::Status status);
+
+            // Set the initial grid position of the driver at the start of the session
+            void setGridPosition(const uint8_t currentPosition);
+
+            // Exposes the initial grid position of the driver at the start of the session
+            const uint8_t getGridPosition() const;
+
+            // Exposes the current position of the driver
+            const uint8_t getCurrentPosition() const;
 
             // Alter the position in this driver state, and feed it to the detector
             void updateCurrentPosition(const uint8_t id, const uint8_t currentPosition);
 
             // Denotes whether this driver has finished all his laps, or can no longer continue
-            const bool isFinishedStatus() const;
-
-            // Starting position for this vehicle
-            const uint8_t m_startingPosition;
+            const Participant::Internal::Status getStatus() const;
 
             private:
+            // Whether the grid position for this vehicle has been initialized or not
+            bool m_isGridPositionSet;
+
+            // Grid position for this vehicle
+            uint8_t m_gridPosition;
+
             // Current position for this vehicle
             uint8_t m_currentPosition;
 
@@ -51,7 +66,7 @@ namespace Processor {
             Processor::Detector::Overtake* m_installedOvertakeDetector;
 
             // Pointer to the status change detector currently installed
-            Processor::Detector::DriverStatus* m_installedStatusDetector;
+            Processor::Detector::ParticipantStatusChanged* m_installedStatusDetector;
 
         };
 

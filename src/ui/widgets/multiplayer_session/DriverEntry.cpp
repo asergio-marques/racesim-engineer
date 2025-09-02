@@ -12,6 +12,7 @@
 #include "multiplayer_session/penalty/PenaltyIcon.h"
 #include "multiplayer_session/other/RetirementIcon.h"
 #include "multiplayer_session/timing/LapInfoContainer.h"
+#include "multiplayer_session/tyres/TyreInfoArray.h"
 #include "multiplayer_session/warning/WarningContainer.h"
 #include "styles/General.h"
 #include "styles/Standings.h"
@@ -34,6 +35,7 @@ UserInterface::Widget::DriverEntry::DriverEntry(QWidget* parent) :
     m_driverName(new UserInterface::Widget::TextInterface(UserInterface::Widget::ID::DriverName, parent)),
     m_personalBestLap(new UserInterface::Widget::LapInfoContainer(UserInterface::Widget::TimeInfoContainer::Type::PersonalBestTime, parent)),
     m_lastLap(new UserInterface::Widget::LapInfoContainer(UserInterface::Widget::TimeInfoContainer::Type::LastLapTime, parent)),
+    m_tyreArray(new UserInterface::Widget::TyreInfoArray(parent)),
     m_penalties(new UserInterface::Widget::PenaltyIcon(parent)),
     m_retirement(new UserInterface::Widget::RetirementIcon(parent)) {
 
@@ -76,12 +78,6 @@ UserInterface::Widget::DriverEntry::DriverEntry(QWidget* parent) :
 
     }
 
-    if (m_penalties) {
-
-        m_allWidgets.append(m_penalties);
-
-    }
-
     if (m_lastLap) {
 
         m_allWidgets.append(m_lastLap);
@@ -91,6 +87,18 @@ UserInterface::Widget::DriverEntry::DriverEntry(QWidget* parent) :
     if (m_personalBestLap) {
 
         m_allWidgets.append(m_personalBestLap);
+
+    }
+
+    if (m_tyreArray) {
+
+        m_allWidgets.append(m_tyreArray);
+
+    }
+
+    if (m_penalties) {
+
+        m_allWidgets.append(m_penalties);
 
     }
 
@@ -105,7 +113,7 @@ UserInterface::Widget::DriverEntry::DriverEntry(QWidget* parent) :
 
 
 
-void UserInterface::Widget::DriverEntry::init(const Session::Internal::Participant& dataPacket, const uint8_t& initPosition) {
+void UserInterface::Widget::DriverEntry::init(const Session::Internal::Participant& dataPacket) {
 
     UserInterface::Style::Standings style;
 
@@ -126,7 +134,7 @@ void UserInterface::Widget::DriverEntry::init(const Session::Internal::Participa
     }
     if (m_teamIcon) {
 
-        m_teamIcon->SetTeam(dataPacket.m_TeamIcon);
+        m_teamIcon->SetTeam(dataPacket.m_teamID);
         m_teamIcon->setSize(style.TeamLogoMaxXY.m_value, style.TeamLogoMaxXY.m_value, true);
         m_teamIcon->adjustSize();
 
@@ -147,6 +155,13 @@ void UserInterface::Widget::DriverEntry::init(const Session::Internal::Participa
 
         m_lastLap->setSize(style.LapInfoIconMaxX.m_value, style.LapInfoIconMaxY.m_value, true);
         m_lastLap->adjustSize();
+
+    }
+    if (m_tyreArray) {
+
+        m_tyreArray->setSize(style.TyreInfoContainerMaxX.m_value * 3, style.TyreInfoContainerMaxY.m_value, false);
+        m_tyreArray->adjustSize();
+        m_tyreArray->TyreChange(dataPacket.m_startTyreActual, dataPacket.m_startTyreVisual, dataPacket.m_startTyreAge, false);
 
     }
     if (m_penalties) {
@@ -220,6 +235,12 @@ void UserInterface::Widget::DriverEntry::updateStatus(const Participant::Interna
         m_retirement->activate(status);
 
     }
+    if (m_tyreArray && (status == Participant::Internal::Status::DNF ||
+        status == Participant::Internal::Status::DSQ)) {
+
+        m_tyreArray->hide();
+
+    }
 
 }
 
@@ -247,6 +268,11 @@ void UserInterface::Widget::DriverEntry::newSessionBestLap(const Lap::Internal::
         }
 
     }
+    if (m_tyreArray) {
+
+        m_tyreArray->LapCompletedWithTyre();
+
+    }
 
 }
 
@@ -263,6 +289,11 @@ void UserInterface::Widget::DriverEntry::newPersonalBestLap(const Lap::Internal:
         m_lastLap->updateTime(newLapTime);
 
     }
+    if (m_tyreArray) {
+
+        m_tyreArray->LapCompletedWithTyre();
+
+    }
 
 }
 
@@ -274,6 +305,23 @@ void UserInterface::Widget::DriverEntry::newLatestLap(const Lap::Internal::Time 
 
         m_lastLap->changePersonalBestStatus(false);
         m_lastLap->updateTime(newLapTime);
+
+    }
+    if (m_tyreArray) {
+
+        m_tyreArray->LapCompletedWithTyre();
+
+    }
+
+}
+
+
+
+void UserInterface::Widget::DriverEntry::newTyres(const Tyre::Internal::Actual actualTyre, const Tyre::Internal::Visual visualTyre, const uint8_t tyreAge) {
+
+    if (m_tyreArray) {
+
+        m_tyreArray->TyreChange(actualTyre, visualTyre, tyreAge, false);
 
     }
 
@@ -356,6 +404,16 @@ void UserInterface::Widget::DriverEntry::move(const uint16_t x, const uint16_t y
         m_retirement->move(x + totalWidth, centerY, false, true);
 
     }
+    if (m_tyreArray) {
+        // Add the padding, again! And the maximum width for centering!
+        totalWidth += standingsStyle.PaddingReference.m_value;
+        m_tyreArray->move(x + totalWidth, y + 6, false, false);
+
+        // Add padding again to account for the right padding
+        totalWidth += (standingsStyle.TyreInfoContainerMaxX.m_value * standingsStyle.TyreInfoArrayMaxNum.m_value)
+            + standingsStyle.PaddingReference.m_value;
+
+	}
     if (m_penalties) {
 
         // Add the padding, again! And the maximum width for centering!
@@ -428,6 +486,12 @@ void UserInterface::Widget::DriverEntry::setSize(const uint16_t newWidth, const 
         m_lastLap->adjustSize();
 
     }
+    if (m_tyreArray) {
+
+        m_tyreArray->setSize(standingsStyle.TyreInfoContainerMaxX.m_value * 3, standingsStyle.TyreInfoContainerMaxY.m_value, false);
+        m_tyreArray->adjustSize();
+
+	}
     if (m_penalties) {
 
         m_penalties->setTextFontSize(standingsStyle.PenaltyIconTextSize.m_value);
@@ -450,6 +514,9 @@ void UserInterface::Widget::DriverEntry::raise() {
     if (m_position) m_position->raise();
     if (m_teamIcon) m_teamIcon->raise();
     if (m_driverName) m_driverName->raise();
+    if (m_personalBestLap) m_driverName->raise();
+    if (m_lastLap) m_driverName->raise();
+    if (m_tyreArray) m_tyreArray->raise();
     if (m_penalties) m_penalties->raise();
     if (m_retirement) m_retirement->raise();
 
@@ -463,6 +530,9 @@ void UserInterface::Widget::DriverEntry::lower() {
     if (m_position) m_position->lower();
     if (m_teamIcon) m_teamIcon->lower();
     if (m_driverName) m_driverName->lower();
+    if (m_personalBestLap) m_driverName->lower();
+    if (m_lastLap) m_driverName->lower();
+    if (m_tyreArray) m_tyreArray->lower();
     if (m_penalties) m_penalties->lower();
     if (m_retirement) m_retirement->lower();
 

@@ -22,7 +22,7 @@ namespace Packet {
 
             // Overriddable function that handles all incoming packets, to be overriden
             // by derived classes
-            virtual void OnPacketBroadcast(Packet::Internal::Interface* packet) = 0;
+            virtual void OnPacketBundleBroadcast(std::vector<Packet::Internal::Interface*> packet) = 0;
 
         };
 

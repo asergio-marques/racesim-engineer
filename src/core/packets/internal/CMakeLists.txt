@@ -14,23 +14,15 @@ target_include_directories(${PROJECT_NAME} PRIVATE "${PROJECT_ROOT}/src/core")
 
 target_sources(${PROJECT_NAME} PRIVATE
     Broadcaster.cpp
+    GridPosition.cpp
     Interface.cpp
-    multi_use/SessionStart.cpp
-    multi_use/SoloSessionStart.cpp
-    multi_use/MPSessionStart.cpp
-    multi_use/SessionEnd.cpp
-    multi_use/PenaltyChange.cpp
-    multi_use/ParticipantStatus.cpp
-    multi_use/ParticipantStatusChange.cpp
-    multi_use/LapStatus.cpp
-    multi_use/FinishedLapInfo.cpp
-    tt_types/TimeTrialStart.cpp
-    practice_types/PracticeStart.cpp
-    quali_types/QualiStart.cpp
-    race_types/RaceStart.cpp
-    race_types/RaceStandings.cpp
-    race_types/Overtake.cpp
-    race_types/PenaltyStatus.cpp)
+    ParticipantStatus.cpp
+    LapStatus.cpp
+    PenaltyStatus.cpp
+    Standings.cpp
+    SessionParticipants.cpp
+    SessionSettings.cpp
+    TyreSetUsage.cpp)
 
 set_target_properties(${PROJECT_NAME}
 	PROPERTIES

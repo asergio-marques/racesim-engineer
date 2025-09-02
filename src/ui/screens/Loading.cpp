@@ -2,7 +2,7 @@
 
 #include <QWidget>
 #include "screens/SinglePanelInterface.h"
-#include "core/ScreenType.h"
+#include "core/Screen.h"
 #include "panels/Loading.h"
 
 

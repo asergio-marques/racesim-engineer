@@ -5,7 +5,7 @@
 #include <QLabel>
 #include <QString>
 #include <QWidget>
-#include "ScreenType.h"
+#include "Screen.h"
 #include "base/TextInterface.h"
 #include "base/ID.h"
 

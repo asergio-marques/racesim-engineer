@@ -2,7 +2,7 @@
 #define USERINTERFACE_SCREEN_INCLUDE_INTERFACE_H_
 
 #include <QWidget>
-#include "core/ScreenType.h"
+#include "core/Screen.h"
 #include "settings/WindowNumber.h"
 
 

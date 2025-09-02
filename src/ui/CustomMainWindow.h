@@ -1,8 +1,10 @@
 #ifndef USERINTERFACE_INCLUDE_CUSTOM_MAIN_WINDOW_H_
 #define USERINTERFACE_INCLUDE_CUSTOM_MAIN_WINDOW_H_
 
+#include <QList>
 #include <QMainWindow>
-#include "core/ScreenType.h"
+#include <QPair>
+#include "core/Screen.h"
 
 
 
@@ -58,6 +60,8 @@ namespace UserInterface {
             UserInterface::Widgets::MenuBar* m_menuBar;
             std::list<UserInterface::Screen::Interface*> m_screens;
             UserInterface::Screen::Interface* m_activeScreen;
+
+            static const QList<QPair<QSize, UserInterface::Screen::Resolution>> m_standardResolutions;
 
     };
 

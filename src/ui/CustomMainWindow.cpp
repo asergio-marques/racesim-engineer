@@ -1,17 +1,28 @@
 #include "CustomMainWindow.h"
 
 #include <QApplication>
+#include <QList>
 #include <QMainWindow>
+#include <QPair>
 #include <QResizeEvent>
 #include <QTimer>
 #include <QWidget>
-#include "core/ScreenType.h"
+#include <QWindow>
+#include "core/Screen.h"
 #include "screens/Interface.h"
 #include "styles/General.h"
 #include "widgets/general_use/MenuBar.h"
 
 
 
+const QList<QPair<QSize, UserInterface::Screen::Resolution>> UserInterface::CustomMainWindow::m_standardResolutions = {
+
+    {{480, 360}, UserInterface::Screen::Resolution::MinimumDefault},
+    {{1920, 1080}, UserInterface::Screen::Resolution::r1080p},
+    {{2560, 1440}, UserInterface::Screen::Resolution::r1440p},
+    {{3860, 2160}, UserInterface::Screen::Resolution::r4K}
+
+};
 
 UserInterface::CustomMainWindow::CustomMainWindow(Presenter::ICompFacade* presenter, QWidget* parent) :
     QMainWindow(parent),
@@ -30,6 +41,29 @@ UserInterface::CustomMainWindow::CustomMainWindow(Presenter::ICompFacade* presen
 void UserInterface::CustomMainWindow::resizeEvent(QResizeEvent* event) {
 
     QMainWindow::resizeEvent(event);
+    // minimum size by default
+    QSize baseRes(0, 0);
+    auto w = windowHandle();
+    if (w && w->screen())
+    {
+        baseRes = w->screen()->size();
+
+    }
+    qDebug() << "current screen resolution: " << baseRes.width() << "x" << baseRes.height();
+    UserInterface::Screen::Resolution convertedRes;
+    for (const auto& standardRes : UserInterface::CustomMainWindow::m_standardResolutions) {
+
+        // check if the current screen resolution can be fully "contained" within one of the standard resolutions
+        // while simultaneously checking if adopting one of the standard resolution is a gain in screen space (more height or width)
+        if (baseRes.width() <= standardRes.first.width() && baseRes.height() <= standardRes.first.height() &&
+            (baseRes.width() > standardRes.first.width() || baseRes.height() > standardRes.first.height())) {
+
+            convertedRes = standardRes.second;
+
+        }
+
+    }
+    qDebug() << "converted screen resolution: " << static_cast<uint8_t>(convertedRes);
     emit onResizeEvent(event);
 
 }
@@ -37,13 +71,13 @@ void UserInterface::CustomMainWindow::resizeEvent(QResizeEvent* event) {
 
 
 void UserInterface::CustomMainWindow::addScreen(UserInterface::Screen::Interface* newScreen) {
-    
+
     if (newScreen) {
-    
+
         newScreen->hide();
 
         if (m_screens.empty()) {
-    
+
             doAddScreen(newScreen);
             return;
 
@@ -55,7 +89,7 @@ void UserInterface::CustomMainWindow::addScreen(UserInterface::Screen::Interface
             // or if it's a second screen of the same type
             if (screen &&
                 (screen == newScreen || screen->Type() == newScreen->Type())) {
-                
+
                 return;
 
             }

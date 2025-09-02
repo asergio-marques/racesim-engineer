@@ -2,7 +2,7 @@
 
 #include <QWidget>
 #include "screens/DualPanelInterface.h"
-#include "core/ScreenType.h"
+#include "core/Screen.h"
 #include "panels/RaceLeft.h"
 #include "panels/RaceRight.h"
 

@@ -3,7 +3,7 @@
 #include <QSize>
 #include <QWidget>
 #include "panels/Interface.h"
-#include "core/ScreenType.h"
+#include "core/Screen.h"
 #include "styles/General.h"
 #include "widgets/general_use/BackgroundLeft.h"
 #include "widgets/general_use/ScreenTitle.h"

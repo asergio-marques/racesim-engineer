@@ -43,6 +43,7 @@ void UserInterface::UIStarter::Init(int* argc, char*** argv, Presenter::ICompFac
     QCoreApplication::setApplicationName("RaceSimEngineer");
     QCoreApplication::setApplicationVersion("0.0.1 alpha");
     Q_ASSERT(m_app);
+    m_app->setDesktopSettingsAware(true);
 
     int normal_id = QFontDatabase::addApplicationFont(":/fonts/static/Manrope-Regular.ttf");
     QFontDatabase::addApplicationFont(":/fonts/static/Manrope-Bold.ttf");
@@ -89,7 +90,7 @@ void UserInterface::UIStarter::Init(int* argc, char*** argv, Presenter::ICompFac
         m_window->show();
 
         // delay the showing of the window slightly so it is properly stylized at startup
-        QTimer::singleShot(50, m_window, &UserInterface::CustomMainWindow::showMaximized);
+        QTimer::singleShot(10, m_window, &UserInterface::CustomMainWindow::showMaximized);
 
     }
 

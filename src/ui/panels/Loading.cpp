@@ -5,7 +5,7 @@
 #include <QTimer>
 #include <QWidget>
 #include "panels/Interface.h"
-#include "core/ScreenType.h"
+#include "core/Screen.h"
 #include "core/styles/Loading.h"
 #include "widgets/general_use/BackgroundFullScreen.h"
 #include "widgets/general_use/ScreenTitle.h"

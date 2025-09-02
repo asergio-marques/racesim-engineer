@@ -11,6 +11,8 @@
 #include "widgets/multiplayer_session/Standings.h"
 
 
+
+
 UserInterface::Panel::RaceRight::RaceRight(UserInterface::PacketHandler* handler, QWidget* parent) :
     UserInterface::Panel::Interface(handler, parent),
     m_driverStandings(nullptr) {
@@ -39,10 +41,10 @@ UserInterface::Panel::RaceRight::RaceRight(UserInterface::PacketHandler* handler
 
 
 
-void UserInterface::Panel::RaceRight::ResizePanel(const QSize& newPanelSize) {
+void UserInterface::Panel::RaceRight::ResizePanel(const QSize& newUsefulSize, const UserInterface::Screen::Resolution resolution) {
 
     // call overridden function to resize background
-    UserInterface::Panel::Interface::ResizePanel(newPanelSize);
+    UserInterface::Panel::Interface::ResizePanel(newUsefulSize, resolution);
 
     UserInterface::Style::General generalStyle;
     // TODO proper style
@@ -52,8 +54,8 @@ void UserInterface::Panel::RaceRight::ResizePanel(const QSize& newPanelSize) {
         const uint16_t verticalBorder = generalStyle.VerticalEdgeBorder.m_value;
 
         // new size for the whole widget
-        auto newWidth = static_cast<uint16_t>(newPanelSize.width()) - (2 * horizontalBorder);
-        auto newHeight = static_cast<uint16_t>(newPanelSize.height()) - (2 * verticalBorder);
+        auto newWidth = static_cast<uint16_t>(newUsefulSize.width()) - (2 * horizontalBorder);
+        auto newHeight = static_cast<uint16_t>(newUsefulSize.height()) - (2 * verticalBorder);
 
         m_driverStandings->setSize(newWidth, newHeight, false);
         m_driverStandings->move(generalStyle.HorizontalEdgeBorder.m_value, generalStyle.VerticalEdgeBorder.m_value, false, false);

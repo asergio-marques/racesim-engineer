@@ -49,7 +49,7 @@ void UserInterface::CustomMainWindow::resizeEvent(QResizeEvent* event) {
         baseRes = w->screen()->size();
 
     }
-    qDebug() << "current screen resolution: " << baseRes.width() << "x" << baseRes.height();
+
     UserInterface::Screen::Resolution convertedRes = UserInterface::Screen::Resolution::MinimumDefault;
     for (const auto& standardRes : UserInterface::CustomMainWindow::m_standardResolutions) {
 
@@ -63,8 +63,7 @@ void UserInterface::CustomMainWindow::resizeEvent(QResizeEvent* event) {
         }
 
     }
-    qDebug() << "converted screen resolution: " << static_cast<uint8_t>(convertedRes);
-    emit onResizeEvent(event);
+    emit onResizeEvent(event->size(), convertedRes);
 
 }
 

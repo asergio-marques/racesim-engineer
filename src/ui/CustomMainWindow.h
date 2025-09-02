@@ -49,7 +49,7 @@ namespace UserInterface {
             void OnRaceStart();
 
         signals:
-            void onResizeEvent(QResizeEvent* event);
+            void onResizeEvent(const QSize newUsefulSize, const UserInterface::Screen::Resolution resolution);
 
         protected:
             virtual void resizeEvent(QResizeEvent* event) override;

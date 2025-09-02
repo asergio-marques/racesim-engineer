@@ -28,7 +28,7 @@ namespace UserInterface {
                 virtual void Initialize() override;
 
             public slots:
-                virtual void handleResizeEvent(QResizeEvent* event) override final;
+                virtual void handleResizeEvent(const QSize newUsefulSize, const UserInterface::Screen::Resolution resolution) override final;
 
             protected:
                 Settings::WindowNumber m_mode;

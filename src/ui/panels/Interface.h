@@ -3,6 +3,7 @@
 
 #include <map>
 #include <QWidget>
+#include "core/Screen.h"
 #include "widgets/base/ID.h"
 
 
@@ -37,7 +38,7 @@ namespace UserInterface {
             public:
                 Interface(UserInterface::PacketHandler* handler, QWidget* parent = 0);
                 virtual ~Interface() = default;
-                virtual void ResizePanel(const QSize& newPanelSize);
+                virtual void ResizePanel(const QSize& newUsefulSize, const UserInterface::Screen::Resolution resolution);
 
             protected:
                 bool RegisterWidget(UserInterface::Widget::Interface* widget);

@@ -39,7 +39,7 @@ namespace UserInterface {
                 virtual const UserInterface::Screen::Type Type() const = 0;
 
             public slots:
-                virtual void handleResizeEvent(QResizeEvent* event) = 0;
+                virtual void handleResizeEvent(const QSize newUsefulSize, const UserInterface::Screen::Resolution resolution) = 0;
 
         };
 

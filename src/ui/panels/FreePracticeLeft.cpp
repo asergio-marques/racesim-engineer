@@ -9,6 +9,8 @@
 #include "widgets/general_use/ScreenTitle.h"
 
 
+
+
 UserInterface::Panel::FreePracticeLeft::FreePracticeLeft(UserInterface::PacketHandler* handler, QWidget* parent) :
     UserInterface::Panel::Interface(handler, parent),
     m_screenTitle(nullptr) {
@@ -29,13 +31,13 @@ UserInterface::Panel::FreePracticeLeft::FreePracticeLeft(UserInterface::PacketHa
 
 
 
-void UserInterface::Panel::FreePracticeLeft::ResizePanel(const QSize& newPanelSize) {
+void UserInterface::Panel::FreePracticeLeft::ResizePanel(const QSize& newUsefulSize, const UserInterface::Screen::Resolution resolution) {
 
     // call overridden function to resize background
-    UserInterface::Panel::Interface::ResizePanel(newPanelSize);
+    UserInterface::Panel::Interface::ResizePanel(newUsefulSize, resolution);
 
-    const uint16_t width = newPanelSize.width();
-    const uint16_t height = newPanelSize.height();
+    const uint16_t width = newUsefulSize.width();
+    const uint16_t height = newUsefulSize.height();
 
     UserInterface::Style::General generalStyle;
 

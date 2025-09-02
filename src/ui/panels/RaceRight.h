@@ -37,7 +37,7 @@ namespace UserInterface {
             public:
             RaceRight(UserInterface::PacketHandler* handler, QWidget* parent = 0);
             virtual ~RaceRight() = default;
-            virtual void ResizePanel(const QSize& newPanelSize) override final;
+            virtual void ResizePanel(const QSize& newUsefulSize, const UserInterface::Screen::Resolution resolution) override final;
 
             private:
             void onOvertake(const Packet::Event::Overtake* packet);

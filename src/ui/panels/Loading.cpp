@@ -37,16 +37,16 @@ UserInterface::Panel::Loading::Loading(UserInterface::PacketHandler* handler, QW
 
 
 
-void UserInterface::Panel::Loading::ResizePanel(const QSize& newPanelSize) {
+void UserInterface::Panel::Loading::ResizePanel(const QSize& newUsefulSize, const UserInterface::Screen::Resolution resolution) {
 
     // call overridden function to resize background
-    UserInterface::Panel::Interface::ResizePanel(newPanelSize);
+    UserInterface::Panel::Interface::ResizePanel(newUsefulSize, resolution);
 
     UserInterface::Style::General generalStyle;
     UserInterface::Style::Loading loadingStyle;
 
-    const int16_t width = newPanelSize.width();
-    const int16_t height = newPanelSize.height();
+    const int16_t width = newUsefulSize.width();
+    const int16_t height = newUsefulSize.height();
 
     if (m_loadingIcon && loadingStyle.LoadingIconScale.IsValid() && loadingStyle.LoadingIconYDiffCenter.IsValid()) {
 

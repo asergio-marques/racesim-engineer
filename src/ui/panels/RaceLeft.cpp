@@ -3,10 +3,12 @@
 #include <QSize>
 #include <QWidget>
 #include "panels/Interface.h"
-#include "core/ScreenType.h"
+#include "core/Screen.h"
 #include "styles/General.h"
 #include "widgets/general_use/BackgroundLeft.h"
 #include "widgets/general_use/ScreenTitle.h"
+
+
 
 
 UserInterface::Panel::RaceLeft::RaceLeft(UserInterface::PacketHandler* handler, QWidget* parent) :
@@ -29,13 +31,13 @@ UserInterface::Panel::RaceLeft::RaceLeft(UserInterface::PacketHandler* handler, 
 
 
 
-void UserInterface::Panel::RaceLeft::ResizePanel(const QSize& newPanelSize) {
+void UserInterface::Panel::RaceLeft::ResizePanel(const QSize& newUsefulSize, const UserInterface::Screen::Resolution resolution) {
 
     // call overridden function to resize background
-    UserInterface::Panel::Interface::ResizePanel(newPanelSize);
+    UserInterface::Panel::Interface::ResizePanel(newUsefulSize, resolution);
 
-    const uint16_t width = newPanelSize.width();
-    const uint16_t height = newPanelSize.height();
+    const uint16_t width = newUsefulSize.width();
+    const uint16_t height = newUsefulSize.height();
 
     UserInterface::Style::General generalStyle;
 

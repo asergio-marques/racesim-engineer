@@ -27,6 +27,12 @@ UserInterface::Panel::Loading::Loading(UserInterface::PacketHandler* handler, QW
     RegisterWidget(m_loadingIcon);
     RegisterWidget(m_loadingText);
 
+    if (m_background) {
+
+        m_background->setScaledContents(true);
+
+    }
+
     if (m_loadingText) {
 
         m_loadingText->setTitle(UserInterface::Screen::Type::Loading);
@@ -37,10 +43,10 @@ UserInterface::Panel::Loading::Loading(UserInterface::PacketHandler* handler, QW
 
 
 
-void UserInterface::Panel::Loading::ResizePanel(const QSize& newUsefulSize, const UserInterface::Style::Interface* style) {
+void UserInterface::Panel::Loading::ResizePanel(const QSize& newUsefulSize) {
 
     // call overridden function to resize background
-    UserInterface::Panel::Interface::ResizePanel(newUsefulSize, style);
+    UserInterface::Panel::Interface::ResizePanel(newUsefulSize);
 
     UserInterface::Style::General generalStyle;
     UserInterface::Style::Loading loadingStyle;

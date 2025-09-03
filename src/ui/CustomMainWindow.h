@@ -5,7 +5,6 @@
 #include <QMainWindow>
 #include <QPair>
 #include "core/Screen.h"
-#include "core/style/Interface.h"
 
 
 
@@ -19,8 +18,6 @@ namespace Presenter {
 }
 
 namespace UserInterface {
-
-    class StyleFactory;
 
     namespace Screen {
         
@@ -52,7 +49,7 @@ namespace UserInterface {
             void OnRaceStart();
 
         signals:
-            void onResizeEvent(const QSize newUsefulSize, const UserInterface::Style::Interface* style);
+            void onResizeEvent(const QSize newUsefulSize);
 
         protected:
             virtual void resizeEvent(QResizeEvent* event) override;
@@ -63,9 +60,6 @@ namespace UserInterface {
             UserInterface::Widgets::MenuBar* m_menuBar;
             std::list<UserInterface::Screen::Interface*> m_screens;
             UserInterface::Screen::Interface* m_activeScreen;
-            UserInterface::StyleFactory* m_styleFactory;
-
-            static const QList<QPair<QSize, UserInterface::Screen::Resolution>> m_standardResolutions;
 
     };
 

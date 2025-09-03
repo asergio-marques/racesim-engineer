@@ -1,14 +1,11 @@
 #include "CustomMainWindow.h"
 
 #include <QApplication>
-#include <QList>
 #include <QMainWindow>
-#include <QPair>
 #include <QResizeEvent>
 #include <QTimer>
 #include <QWidget>
 #include <QWindow>
-#include "core/StyleFactory.h"
 #include "core/Screen.h"
 #include "screens/Interface.h"
 #include "styles/General.h"
@@ -16,24 +13,11 @@
 
 
 
-
-const QList<QPair<QSize, UserInterface::Screen::Resolution>> UserInterface::CustomMainWindow::m_standardResolutions = {
-
-    {{480, 360}, UserInterface::Screen::Resolution::MinimumDefault},
-    {{1920, 1080}, UserInterface::Screen::Resolution::r1080p},
-    {{2560, 1440}, UserInterface::Screen::Resolution::r1440p},
-    {{3860, 2160}, UserInterface::Screen::Resolution::r4K}
-
-};
-
-
-
 UserInterface::CustomMainWindow::CustomMainWindow(Presenter::ICompFacade* presenter, QWidget* parent) :
     QMainWindow(parent),
     m_menuBar(nullptr),
     m_screens(),
-    m_activeScreen(nullptr),
-    m_styleFactory(new UserInterface::StyleFactory(this)) {
+    m_activeScreen(nullptr) {
 
     m_menuBar = new UserInterface::Widgets::MenuBar(presenter, this);
     Q_ASSERT(m_menuBar);
@@ -46,34 +30,8 @@ UserInterface::CustomMainWindow::CustomMainWindow(Presenter::ICompFacade* presen
 void UserInterface::CustomMainWindow::resizeEvent(QResizeEvent* event) {
 
     QMainWindow::resizeEvent(event);
-    // minimum size by default
-    QSize baseRes(0, 0);
-    auto w = windowHandle();
-    if (w && w->screen())
-    {
-        baseRes = w->screen()->size();
 
-    }
-
-    UserInterface::Screen::Resolution convertedRes = UserInterface::Screen::Resolution::MinimumDefault;
-    for (const auto& standardRes : UserInterface::CustomMainWindow::m_standardResolutions) {
-
-        // check if the current screen resolution can be fully "contained" within one of the standard resolutions
-        // while simultaneously checking if adopting one of the standard resolution is a gain in screen space (more height or width)
-        if (baseRes.width() <= standardRes.first.width() && baseRes.height() <= standardRes.first.height() &&
-            (baseRes.width() >= standardRes.first.width() || baseRes.height() >= standardRes.first.height())) {
-
-            convertedRes = standardRes.second;
-
-        }
-
-    }
-    if (m_styleFactory) {
-
-        auto style = m_styleFactory->GetStyle(convertedRes);
-        emit onResizeEvent(event->size(), style);
-
-    }
+    emit onResizeEvent(event->size());
 
 }
 

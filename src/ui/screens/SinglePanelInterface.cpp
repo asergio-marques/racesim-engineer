@@ -32,8 +32,8 @@ void UserInterface::Screen::SinglePanelInterface::Initialize() {
 }
 
 
-void UserInterface::Screen::SinglePanelInterface::handleResizeEvent(const QSize newUsefulSize, const UserInterface::Style::Interface* style) {
+void UserInterface::Screen::SinglePanelInterface::handleResizeEvent(const QSize newUsefulSize) {
 
-    m_panel->ResizePanel(newUsefulSize, style);
+    m_panel->ResizePanel(newUsefulSize);
 
 }

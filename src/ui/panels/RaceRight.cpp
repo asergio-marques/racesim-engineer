@@ -41,10 +41,10 @@ UserInterface::Panel::RaceRight::RaceRight(UserInterface::PacketHandler* handler
 
 
 
-void UserInterface::Panel::RaceRight::ResizePanel(const QSize& newUsefulSize, const UserInterface::Style::Interface* style) {
+void UserInterface::Panel::RaceRight::ResizePanel(const QSize& newUsefulSize) {
 
     // call overridden function to resize background
-    UserInterface::Panel::Interface::ResizePanel(newUsefulSize, style);
+    UserInterface::Panel::Interface::ResizePanel(newUsefulSize);
 
     UserInterface::Style::General generalStyle;
     // TODO proper style

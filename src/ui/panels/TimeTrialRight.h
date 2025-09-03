@@ -22,12 +22,6 @@ namespace UserInterface {
 
     class PacketHandler;
 
-    namespace Style {
-
-        class Interface;
-
-    }
-
     namespace Panel {
 
         class TimeTrialRight final : public UserInterface::Panel::Interface {
@@ -37,7 +31,7 @@ namespace UserInterface {
             public:
                 TimeTrialRight(UserInterface::PacketHandler* handler, QWidget* parent = 0);
                 virtual ~TimeTrialRight() = default;
-                virtual void ResizePanel(const QSize& newUsefulSize, const UserInterface::Style::Interface* style) override final;
+                virtual void ResizePanel(const QSize& newUsefulSize) override final;
 
         };
 

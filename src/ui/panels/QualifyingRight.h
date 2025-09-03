@@ -22,12 +22,6 @@ namespace UserInterface {
 
     class PacketHandler;
 
-    namespace Style {
-
-        class Interface;
-
-    }
-
     namespace Panel {
 
         class QualifyingRight final : public UserInterface::Panel::Interface {
@@ -37,7 +31,7 @@ namespace UserInterface {
             public:
                 QualifyingRight(UserInterface::PacketHandler* handler, QWidget* parent = 0);
                 virtual ~QualifyingRight() = default;
-                virtual void ResizePanel(const QSize& newUsefulSize, const UserInterface::Style::Interface* style) override final;
+                virtual void ResizePanel(const QSize& newUsefulSize) override final;
 
         };
 

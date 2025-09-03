@@ -28,12 +28,6 @@ namespace UserInterface {
 
     }
 
-    namespace Style {
-
-        class Interface;
-
-    }
-
     namespace Panel {
 
         class TimeTrialLeft final : public UserInterface::Panel::Interface {
@@ -43,7 +37,7 @@ namespace UserInterface {
             public:
                 TimeTrialLeft(UserInterface::PacketHandler* handler, QWidget* parent = 0);
                 virtual ~TimeTrialLeft() = default;
-                virtual void ResizePanel(const QSize& newUsefulSize, const UserInterface::Style::Interface* style) override final;
+                virtual void ResizePanel(const QSize& newUsefulSize) override final;
 
             private:
                 UserInterface::Widget::ScreenTitle* m_screenTitle;

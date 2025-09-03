@@ -20,9 +20,9 @@ UserInterface::Panel::FreePracticeRight::FreePracticeRight(UserInterface::Packet
 
 
 
-void UserInterface::Panel::FreePracticeRight::ResizePanel(const QSize& newUsefulSize, const UserInterface::Style::Interface* style) {
+void UserInterface::Panel::FreePracticeRight::ResizePanel(const QSize& newUsefulSize) {
 
     // call overridden function to resize background
-    UserInterface::Panel::Interface::ResizePanel(newUsefulSize, style);
+    UserInterface::Panel::Interface::ResizePanel(newUsefulSize);
 
 }

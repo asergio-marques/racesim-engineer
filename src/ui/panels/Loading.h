@@ -18,8 +18,6 @@ namespace Packet {
 
 }
 
-
-
 namespace UserInterface {
 
     class PacketHandler;
@@ -28,12 +26,6 @@ namespace UserInterface {
 
         class LoadingIcon;
         class ScreenTitle;
-
-    }
-
-    namespace Style {
-
-        class Interface;
 
     }
 
@@ -46,7 +38,7 @@ namespace UserInterface {
             public:
                 Loading(UserInterface::PacketHandler* handler, QWidget* parent = 0);
                 virtual ~Loading() = default;
-                virtual void ResizePanel(const QSize& newUsefulSize, const UserInterface::Style::Interface* style) override final;
+                virtual void ResizePanel(const QSize& newUsefulSize) override final;
 
             private:
                 UserInterface::Widget::LoadingIcon* m_loadingIcon;

@@ -36,7 +36,7 @@ namespace UserInterface {
                 virtual void Initialize() override;
 
             public slots:
-                virtual void handleResizeEvent(const QSize newUsefulSize, const UserInterface::Style::Interface* style) override final;
+                virtual void handleResizeEvent(const QSize newUsefulSize) override final;
 
             protected:
                 Settings::WindowNumber m_mode;

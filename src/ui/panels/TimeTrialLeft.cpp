@@ -29,10 +29,10 @@ UserInterface::Panel::TimeTrialLeft::TimeTrialLeft(UserInterface::PacketHandler*
 
 
 
-void UserInterface::Panel::TimeTrialLeft::ResizePanel(const QSize& newUsefulSize, const UserInterface::Style::Interface* style) {
+void UserInterface::Panel::TimeTrialLeft::ResizePanel(const QSize& newUsefulSize) {
 
     // call overridden function to resize background
-    UserInterface::Panel::Interface::ResizePanel(newUsefulSize, style);
+    UserInterface::Panel::Interface::ResizePanel(newUsefulSize);
 
     const uint16_t width = newUsefulSize.width();
     const uint16_t height = newUsefulSize.height();

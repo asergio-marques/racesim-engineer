@@ -1,1 +1,0 @@
-#include "core/style/1440p/RaceStanding.h"

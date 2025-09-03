@@ -28,12 +28,6 @@ namespace UserInterface {
 
     }
 
-    namespace Style {
-
-        class Interface;
-
-    }
-
     namespace Panel {
 
         class RaceRight final : public UserInterface::Panel::Interface {
@@ -43,7 +37,7 @@ namespace UserInterface {
             public:
             RaceRight(UserInterface::PacketHandler* handler, QWidget* parent = 0);
             virtual ~RaceRight() = default;
-            virtual void ResizePanel(const QSize& newUsefulSize, const UserInterface::Style::Interface* style) override final;
+            virtual void ResizePanel(const QSize& newUsefulSize) override final;
 
             private:
             void onOvertake(const Packet::Event::Overtake* packet);

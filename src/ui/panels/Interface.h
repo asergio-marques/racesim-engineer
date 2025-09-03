@@ -22,6 +22,12 @@ namespace UserInterface {
 
     class PacketHandler;
 
+    namespace Style {
+
+        class Interface;
+
+    }
+
     namespace Widget {
 
         class Interface;
@@ -38,7 +44,7 @@ namespace UserInterface {
             public:
                 Interface(UserInterface::PacketHandler* handler, QWidget* parent = 0);
                 virtual ~Interface() = default;
-                virtual void ResizePanel(const QSize& newUsefulSize, const UserInterface::Screen::Resolution resolution);
+                virtual void ResizePanel(const QSize& newUsefulSize, const UserInterface::Style::Interface* style);
 
             protected:
                 bool RegisterWidget(UserInterface::Widget::Interface* widget);

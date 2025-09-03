@@ -71,10 +71,9 @@ void UserInterface::CustomMainWindow::resizeEvent(QResizeEvent* event) {
     if (m_styleFactory) {
 
         auto style = m_styleFactory->GetStyle(convertedRes);
-        //emit onResizeEvent(event->size(), style);
+        emit onResizeEvent(event->size(), style);
 
     }
-    //emit onResizeEvent(event->size(), convertedRes);
 
 }
 

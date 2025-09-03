@@ -19,6 +19,12 @@ namespace Packet {
 
 namespace UserInterface {
 
+    namespace Style {
+
+        class Interface;
+
+    }
+
     namespace Panel {
 
         class Interface;
@@ -39,7 +45,7 @@ namespace UserInterface {
                 virtual const UserInterface::Screen::Type Type() const = 0;
 
             public slots:
-                virtual void handleResizeEvent(const QSize newUsefulSize, const UserInterface::Screen::Resolution resolution) = 0;
+                virtual void handleResizeEvent(const QSize newUsefulSize, const UserInterface::Style::Interface* style) = 0;
 
         };
 

@@ -9,6 +9,12 @@
 
 namespace UserInterface {
 
+    namespace Style {
+
+        class Interface;
+
+    }
+
     namespace Panel {
 
         class Interface;
@@ -28,7 +34,7 @@ namespace UserInterface {
                 virtual void Initialize() override;
 
             public slots:
-                virtual void handleResizeEvent(const QSize newUsefulSize, const UserInterface::Screen::Resolution resolution) override final;
+                virtual void handleResizeEvent(const QSize newUsefulSize, const UserInterface::Style::Interface* style) override final;
 
             protected:
                 Settings::WindowNumber m_mode;

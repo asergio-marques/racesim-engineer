@@ -5,6 +5,7 @@
 #include <QMainWindow>
 #include <QPair>
 #include "core/Screen.h"
+#include "core/style/Interface.h"
 
 
 
@@ -51,7 +52,7 @@ namespace UserInterface {
             void OnRaceStart();
 
         signals:
-            void onResizeEvent(const QSize newUsefulSize, const UserInterface::Screen::Resolution resolution);
+            void onResizeEvent(const QSize newUsefulSize, const UserInterface::Style::Interface* style);
 
         protected:
             virtual void resizeEvent(QResizeEvent* event) override;

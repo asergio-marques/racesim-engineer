@@ -22,6 +22,12 @@ namespace UserInterface {
 
     class PacketHandler;
 
+    namespace Style {
+
+        class Interface;
+
+    }
+
     namespace Widget {
 
         class ScreenTitle;
@@ -37,7 +43,7 @@ namespace UserInterface {
             public:
                 FreePracticeLeft(UserInterface::PacketHandler* handler, QWidget* parent = 0);
                 virtual ~FreePracticeLeft() = default;
-                virtual void ResizePanel(const QSize& newUsefulSize, const UserInterface::Screen::Resolution resolution) override final;
+                virtual void ResizePanel(const QSize& newUsefulSize, const UserInterface::Style::Interface* style) override final;
 
             private:
                 UserInterface::Widget::ScreenTitle* m_screenTitle;

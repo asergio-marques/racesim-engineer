@@ -31,6 +31,12 @@ namespace UserInterface {
 
     }
 
+    namespace Style {
+
+        class Interface;
+
+    }
+
     namespace Panel {
 
         class Loading final : public UserInterface::Panel::Interface {
@@ -40,7 +46,7 @@ namespace UserInterface {
             public:
                 Loading(UserInterface::PacketHandler* handler, QWidget* parent = 0);
                 virtual ~Loading() = default;
-                virtual void ResizePanel(const QSize& newUsefulSize, const UserInterface::Screen::Resolution resolution) override final;
+                virtual void ResizePanel(const QSize& newUsefulSize, const UserInterface::Style::Interface* style) override final;
 
             private:
                 UserInterface::Widget::LoadingIcon* m_loadingIcon;

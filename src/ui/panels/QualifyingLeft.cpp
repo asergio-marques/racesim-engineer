@@ -31,10 +31,10 @@ UserInterface::Panel::QualifyingLeft::QualifyingLeft(UserInterface::PacketHandle
 
 
 
-void UserInterface::Panel::QualifyingLeft::ResizePanel(const QSize& newUsefulSize, const UserInterface::Screen::Resolution resolution) {
+void UserInterface::Panel::QualifyingLeft::ResizePanel(const QSize& newUsefulSize, const UserInterface::Style::Interface* style) {
 
     // call overridden function to resize background
-    UserInterface::Panel::Interface::ResizePanel(newUsefulSize, resolution);
+    UserInterface::Panel::Interface::ResizePanel(newUsefulSize, style);
 
     const uint16_t width = newUsefulSize.width();
     const uint16_t height = newUsefulSize.height();

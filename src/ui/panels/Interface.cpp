@@ -36,7 +36,7 @@ bool UserInterface::Panel::Interface::RegisterWidget(UserInterface::Widget::Inte
 }
 
 
-void UserInterface::Panel::Interface::ResizePanel(const QSize& newUsefulSize, const UserInterface::Screen::Resolution resolution) {
+void UserInterface::Panel::Interface::ResizePanel(const QSize& newUsefulSize, const UserInterface::Style::Interface* style) {
 
     if (m_background) {
 

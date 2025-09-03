@@ -37,10 +37,10 @@ UserInterface::Panel::Loading::Loading(UserInterface::PacketHandler* handler, QW
 
 
 
-void UserInterface::Panel::Loading::ResizePanel(const QSize& newUsefulSize, const UserInterface::Screen::Resolution resolution) {
+void UserInterface::Panel::Loading::ResizePanel(const QSize& newUsefulSize, const UserInterface::Style::Interface* style) {
 
     // call overridden function to resize background
-    UserInterface::Panel::Interface::ResizePanel(newUsefulSize, resolution);
+    UserInterface::Panel::Interface::ResizePanel(newUsefulSize, style);
 
     UserInterface::Style::General generalStyle;
     UserInterface::Style::Loading loadingStyle;

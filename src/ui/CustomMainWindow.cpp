@@ -29,17 +29,27 @@ UserInterface::CustomMainWindow::CustomMainWindow(Presenter::ICompFacade* presen
 void UserInterface::CustomMainWindow::resizeEvent(QResizeEvent* event) {
 
     QMainWindow::resizeEvent(event);
+
+    if (isMaximized()) {
+
+        emit onResizeEvent(event->size());
+        return;
+
+    }
+
     const uint16_t widthFactor = event->size().width() / 16;
-    const uint16_t heightFactor = event->size().height() / 9;
+    const uint16_t heightFactor = event->size().height() / 10;
+
     if (widthFactor == heightFactor) {
 
         emit onResizeEvent(event->size());
+        return;
 
     }
     else {
 
         const uint16_t ratioWidth = 16 * ((widthFactor > heightFactor) ? widthFactor : heightFactor);
-        const uint16_t ratioHeight = 9 * ((widthFactor > heightFactor) ? widthFactor : heightFactor);
+        const uint16_t ratioHeight = 10 * ((widthFactor > heightFactor) ? widthFactor : heightFactor);
         resize(ratioWidth, ratioHeight);
 
     }

@@ -80,7 +80,6 @@ void UserInterface::UIStarter::Init(int* argc, char*** argv, Presenter::ICompFac
 
         m_window->setMinimumSize(480, 360);
         m_window->setBaseSize(1920, 1040);
-        m_window->setMaximumSize(3840, 2160);
 
         m_window->addScreen(new UserInterface::Screen::Loading(m_handler, m_window));
         m_window->addScreen(new UserInterface::Screen::TimeTrial(m_handler, m_window));

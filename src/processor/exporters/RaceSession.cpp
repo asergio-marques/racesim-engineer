@@ -109,10 +109,10 @@ bool Processor::Exporter::RaceSession::Export(std::string path) const {
                 addChildNodeCharacterData(&lapNode, m_schemaV1.sector1TimeTag, lap->m_sector1Time);
                 addChildNodeCharacterData(&lapNode, m_schemaV1.sector2TimeTag, lap->m_sector2Time);
                 addChildNodeCharacterData(&lapNode, m_schemaV1.sector3TimeTag, lap->m_sector3Time);
+                addChildNodeCharacterData(&lapNode, m_schemaV1.tyreVisualTag, lap->m_tyre.m_visualTyre);
+                addChildNodeCharacterData(&lapNode, m_schemaV1.tyreCompoundTag, lap->m_tyre.m_actualTyre);
 
                 // TODO: these values are only prepared code, but it's unused right now
-                // addChildNodeCharacterData(&lapNode, m_schemaV1.tyreVisualTag, readableTyreData(lap->m_visualTyre));
-                // addChildNodeCharacterData(&lapNode, m_schemaV1.tyreCompoundTag, readableTyreData(lap->m_actualTyre));
                 // addChildNodeCharacterData(&lapNode, m_schemaV1.energyDeltaTag, lap->m_ersEnergyAtEnd - lap->m_ersEnergyAtStart);
                 // addChildNodeCharacterData(&lapNode, m_schemaV1.energyRechargeTag, lap->m_ersEnergyRecharged);
                 // addChildNodeCharacterData(&lapNode, m_schemaV1.energyAllowanceTag, lap->m_ersLapAllowanceUnused);
@@ -200,5 +200,128 @@ void Processor::Exporter::RaceSession::addChildNodeCharacterData(pugi::xml_node*
     lapNode.append_child(m_schemaV1.lapTimeSecTag).append_child(pugi::node_pcdata).set_value(std::to_string(value.m_seconds).c_str());
     lapNode.append_child(m_schemaV1.lapTimeMSecTag).append_child(pugi::node_pcdata).set_value(std::to_string(value.m_milliseconds).c_str());*/
     addChildNodeCharacterData(parentNode, tag, value.formattedPrint().c_str());
+
+}
+
+
+
+void Processor::Exporter::RaceSession::addChildNodeCharacterData(pugi::xml_node* parentNode, const char* tag, const Tyre::Internal::Actual& value) const {
+
+    switch (value) {
+
+        case Tyre::Internal::Actual::F1_C6:
+            addChildNodeCharacterData(parentNode, tag, "C6");
+            break;
+
+        case Tyre::Internal::Actual::F1_C5:
+            addChildNodeCharacterData(parentNode, tag, "C5");
+            break;
+
+        case Tyre::Internal::Actual::F1_C4:
+            addChildNodeCharacterData(parentNode, tag, "C4");
+            break;
+
+        case Tyre::Internal::Actual::F1_C3:
+            addChildNodeCharacterData(parentNode, tag, "C3");
+            break;
+
+        case Tyre::Internal::Actual::F1_C2:
+            addChildNodeCharacterData(parentNode, tag, "C2");
+            break;
+
+        case Tyre::Internal::Actual::F1_C1:
+            addChildNodeCharacterData(parentNode, tag, "C1");
+            break;
+
+        case Tyre::Internal::Actual::F1_C0:
+            addChildNodeCharacterData(parentNode, tag, "C0");
+            break;
+
+        case Tyre::Internal::Actual::F1_ClassicDrys:
+            addChildNodeCharacterData(parentNode, tag, "D");
+            break;
+
+        case Tyre::Internal::Actual::F1_Intermediate:
+            addChildNodeCharacterData(parentNode, tag, "I");
+            break;
+
+        case Tyre::Internal::Actual::F1_ExtremeWet:
+            addChildNodeCharacterData(parentNode, tag, "W");
+            break;
+
+        case Tyre::Internal::Actual::F2_HyperSoft:
+            addChildNodeCharacterData(parentNode, tag, "HS");
+            break;
+
+        case Tyre::Internal::Actual::F2_SuperSoft:
+            addChildNodeCharacterData(parentNode, tag, "SS");
+            break;
+
+        case Tyre::Internal::Actual::F2_Soft:
+            addChildNodeCharacterData(parentNode, tag, "S");
+            break;
+
+        case Tyre::Internal::Actual::F2_Medium:
+            addChildNodeCharacterData(parentNode, tag, "M");
+            break;
+
+        case Tyre::Internal::Actual::F2_Hard:
+            addChildNodeCharacterData(parentNode, tag, "H");
+            break;
+
+        case Tyre::Internal::Actual::F2_Intermediate:
+            addChildNodeCharacterData(parentNode, tag, "I");
+            break;
+
+        case Tyre::Internal::Actual::F2_ExtremeWet:
+            addChildNodeCharacterData(parentNode, tag, "W");
+            break;
+
+        default:
+            addChildNodeCharacterData(parentNode, tag, "???");
+
+    }
+
+}
+
+
+
+void Processor::Exporter::RaceSession::addChildNodeCharacterData(pugi::xml_node* parentNode, const char* tag, const Tyre::Internal::Visual& value) const {
+
+    switch (value) {
+
+        case Tyre::Internal::Visual::HyperSoft:
+            addChildNodeCharacterData(parentNode, tag, "HS");
+            break;
+
+        case Tyre::Internal::Visual::SuperSoft:
+            addChildNodeCharacterData(parentNode, tag, "SS");
+            break;
+
+        case Tyre::Internal::Visual::Soft:
+            addChildNodeCharacterData(parentNode, tag, "S");
+            break;
+
+        case Tyre::Internal::Visual::Medium:
+            addChildNodeCharacterData(parentNode, tag, "M");
+            break;
+
+        case Tyre::Internal::Visual::Hard:
+            addChildNodeCharacterData(parentNode, tag, "H");
+            break;
+
+        case Tyre::Internal::Visual::Intermediate:
+            addChildNodeCharacterData(parentNode, tag, "I");
+            break;
+
+        case Tyre::Internal::Visual::ExtremeWet:
+            addChildNodeCharacterData(parentNode, tag, "W");
+            break;
+
+        default:
+            addChildNodeCharacterData(parentNode, tag, "???");
+            break;
+
+    }
 
 }

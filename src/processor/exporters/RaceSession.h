@@ -57,6 +57,8 @@ namespace Processor {
             void addChildNodeCharacterData(pugi::xml_node* parentNode, const char* tag, uint16_t value) const;
             void addChildNodeCharacterData(pugi::xml_node* parentNode, const char* tag, uint32_t value) const;
             void addChildNodeCharacterData(pugi::xml_node* parentNode, const char* tag, const Lap::Internal::Time& value) const;
+            void addChildNodeCharacterData(pugi::xml_node* parentNode, const char* tag, const Tyre::Internal::Actual& value) const;
+            void addChildNodeCharacterData(pugi::xml_node* parentNode, const char* tag, const Tyre::Internal::Visual& value) const;
 
             // Points to the current session's records
             Processor::Data::SessionRecord* m_sessionRecord;

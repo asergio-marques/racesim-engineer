@@ -24,9 +24,8 @@ target_sources(${PROJECT_NAME} PRIVATE
     CustomMainWindow.cpp
     EventAnnouncer.cpp
     PacketHandler.cpp
-    # key factories
     core/PixmapFactory.cpp
-    
+    core/styles/Value.cpp
     # panels
     panels/Interface.cpp
     panels/Loading.cpp

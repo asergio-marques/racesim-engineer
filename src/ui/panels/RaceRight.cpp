@@ -46,19 +46,19 @@ void UserInterface::Panel::RaceRight::ResizePanel(const QSize& newUsefulSize) {
     // call overridden function to resize background
     UserInterface::Panel::Interface::ResizePanel(newUsefulSize);
 
-    UserInterface::Style::General generalStyle;
+    UserInterface::Style::Standings standingsStyle;
     // TODO proper style
     if (m_driverStandings) {
 
-        const uint16_t horizontalBorder = generalStyle.HorizontalEdgeBorder.m_value;
-        const uint16_t verticalBorder = generalStyle.VerticalEdgeBorder.m_value;
+        const uint16_t horizontalBorder = standingsStyle.EdgePadding.GetValue(newUsefulSize.width());
+        const uint16_t verticalBorder = standingsStyle.EdgePadding.GetValue(newUsefulSize.height());
 
         // new size for the whole widget
         auto newWidth = static_cast<uint16_t>(newUsefulSize.width()) - (2 * horizontalBorder);
         auto newHeight = static_cast<uint16_t>(newUsefulSize.height()) - (2 * verticalBorder);
 
         m_driverStandings->setSize(newWidth, newHeight, false);
-        m_driverStandings->move(generalStyle.HorizontalEdgeBorder.m_value, generalStyle.VerticalEdgeBorder.m_value, false, false);
+        m_driverStandings->move(horizontalBorder, verticalBorder, false, false);
 
     }
 

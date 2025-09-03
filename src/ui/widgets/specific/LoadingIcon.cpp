@@ -107,6 +107,8 @@ void UserInterface::Widget::LoadingIcon::scale(const uint8_t percent) {
 
     }
 
+    adjustSize();
+
 }
 
 

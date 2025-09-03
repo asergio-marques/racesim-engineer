@@ -12,7 +12,7 @@
 #include "packets/event/RaceStart.h"
 #include "packets/event/TimeTrialStart.h"
 #include "styles/Standings.h"
-#include "styles/General.h"
+#include "styles/Value.h"
 
 
 
@@ -182,8 +182,8 @@ void UserInterface::Widget::Standings::scale(const uint8_t percentX, const uint8
 void UserInterface::Widget::Standings::setSize(const uint16_t newWidth, const uint16_t newHeight, const bool keepAspectRatio) {
 
     // remove the padding
-    UserInterface::Style::General genStyle;
-    const uint16_t newHeightWidget = newHeight - (2 * genStyle.VerticalEdgeBorder.m_value);
+    UserInterface::Style::Standings standingsStyle;
+    const uint16_t newHeightWidget = newHeight - (2 * standingsStyle.EdgePadding.GetValue(0));
 
     for (const auto driver : m_driverData) {
 
@@ -226,7 +226,7 @@ void UserInterface::Widget::Standings::lower() {
 
 void UserInterface::Widget::Standings::reorderStandings() {
 
-    UserInterface::Style::General style;
+    UserInterface::Style::Standings standingsStyle;
 
     for (auto driver : m_driverData) {
 
@@ -234,8 +234,8 @@ void UserInterface::Widget::Standings::reorderStandings() {
 
             // take into account the position order
             // TODO height hard-coded!!
-            uint16_t newY = style.VerticalEdgeBorder.m_value + ((driver->GetCurrentPosition() - 1) * 48);
-            driver->move(style.HorizontalEdgeBorder.m_value, newY, false, false);
+            uint16_t newY = standingsStyle.EdgePadding.GetValue(0) + ((driver->GetCurrentPosition() - 1) * 48);
+            driver->move(standingsStyle.EdgePadding.GetValue(0), newY, false, false);
 
         }
 

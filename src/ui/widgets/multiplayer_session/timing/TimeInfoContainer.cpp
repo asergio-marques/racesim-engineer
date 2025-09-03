@@ -140,7 +140,7 @@ void UserInterface::Widget::TimeInfoContainer::setTextFontSize(const uint16_t si
     if (m_time) {
 
         UserInterface::Style::Standings style;
-        m_time->setFontSize(size * style.LapInfoIconTimeTextSizeRelative.m_value / 100);
+        m_time->setFontSize(size * style.LapInfoIconTimeTextSizeRelative.GetValue(0) / 100);
 
     }
 

@@ -1,7 +1,9 @@
 #ifndef USERINTERFACE_STYLE_INCLUDE_LOADING_H_
 #define USERINTERFACE_STYLE_INCLUDE_LOADING_H_
 
-#include "styles/General.h"
+#include "styles/Value.h"
+
+
 
 namespace UserInterface {
 
@@ -14,33 +16,37 @@ namespace UserInterface {
                 
                 ~Loading() = default;
 
-                static inline const ValueCurve LoadingIconScale = {
-                    ValueType::Relative,    // m_type
+                static inline const UserInterface::Style::Value LoadingIconScale = {
+
+                    UserInterface::Style::Value::Type::Absolute,
                     25,     // m_minValue
                     480,    // m_minValuePoint
 
                     200,    // m_maxValue
-                    1600    // m_maxValuePoint
-                };
-
-                static inline const Value LoadingIconX = { ValueType::Relative, 50 };
-                static inline const ValueCurve LoadingIconYDiffCenter = {
-                    ValueType::Absolute,    // m_type
-                    32,     // m_minValue
-                    480,    // m_minValuePoint
-
-                    96,     // m_maxValue
-                    1600    // m_maxValuePoint
-                };
-
-                static inline const Value LoadingTextX = { ValueType::Relative, 50 };
-                static inline const ValueCurve LoadingTextYDiffCenter = {
-                    ValueType::Absolute,    // m_type
-                    32,     // m_minValue
-                    480,    // m_minValuePoint
-
-                    96,     // m_maxValue
                     2160    // m_maxValuePoint
+
+                };
+
+                static inline const UserInterface::Style::Value LoadingTextFontSize = {
+
+                    UserInterface::Style::Value::Type::Absolute,
+                    16,     // m_minValue
+                    480,    // m_minValuePoint
+
+                    64,     // m_maxValue
+                    2160    // m_maxValuePoint
+
+                };
+
+                static inline const UserInterface::Style::Value LoadingTextCenterYOffset = {
+
+                    UserInterface::Style::Value::Type::Absolute,
+                    64,     // m_minValue
+                    480,    // m_minValuePoint
+
+                    512,     // m_maxValue
+                    2160    // m_maxValuePoint
+
                 };
 
         };

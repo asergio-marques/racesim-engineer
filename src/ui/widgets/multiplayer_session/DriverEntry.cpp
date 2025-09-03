@@ -14,7 +14,7 @@
 #include "multiplayer_session/timing/LapInfoContainer.h"
 #include "multiplayer_session/tyres/TyreInfoArray.h"
 #include "multiplayer_session/warning/WarningContainer.h"
-#include "styles/General.h"
+#include "styles/Value.h"
 #include "styles/Standings.h"
 
 
@@ -135,7 +135,7 @@ void UserInterface::Widget::DriverEntry::init(const Session::Internal::Participa
     if (m_teamIcon) {
 
         m_teamIcon->SetTeam(dataPacket.m_teamID);
-        m_teamIcon->setSize(style.TeamLogoMaxXY.m_value, style.TeamLogoMaxXY.m_value, true);
+        m_teamIcon->setSize(style.TeamLogoMaxXY.GetValue(0), style.TeamLogoMaxXY.GetValue(0), true);
         m_teamIcon->adjustSize();
 
     }
@@ -147,26 +147,26 @@ void UserInterface::Widget::DriverEntry::init(const Session::Internal::Participa
     }
     if (m_personalBestLap) {
 
-        m_personalBestLap->setSize(style.LapInfoIconMaxX.m_value, style.LapInfoIconMaxY.m_value, true);
+        m_personalBestLap->setSize(style.LapInfoIconMaxX.GetValue(0), style.LapInfoIconMaxY.GetValue(0), true);
         m_personalBestLap->adjustSize();
 
     }
     if (m_lastLap) {
 
-        m_lastLap->setSize(style.LapInfoIconMaxX.m_value, style.LapInfoIconMaxY.m_value, true);
+        m_lastLap->setSize(style.LapInfoIconMaxX.GetValue(0), style.LapInfoIconMaxY.GetValue(0), true);
         m_lastLap->adjustSize();
 
     }
     if (m_tyreArray) {
 
-        m_tyreArray->setSize(style.TyreInfoContainerMaxX.m_value * 3, style.TyreInfoContainerMaxY.m_value, false);
+        m_tyreArray->setSize(style.TyreInfoContainerMaxX.GetValue(0) * 3, style.TyreInfoContainerMaxY.GetValue(0), false);
         m_tyreArray->adjustSize();
         m_tyreArray->TyreChange(dataPacket.m_startTyreActual, dataPacket.m_startTyreVisual, dataPacket.m_startTyreAge, false);
 
     }
     if (m_penalties) {
 
-        m_penalties->setSize(style.PenaltyIconMaxX.m_value, style.PenaltyIconMaxY.m_value, true);
+        m_penalties->setSize(style.PenaltyIconMaxX.GetValue(0), style.PenaltyIconMaxY.GetValue(0), true);
         m_penalties->adjustSize();
 
     }
@@ -174,8 +174,8 @@ void UserInterface::Widget::DriverEntry::init(const Session::Internal::Participa
     if (m_retirement) {
         
         // TODO proper calculation of width
-        m_retirement->setSize(style.RetirementIconMaxX.m_value, style.RetirementIconMaxY.m_value, false);
-        m_retirement->setTextFontSize(style.RetirementIconTextSize.m_value);
+        m_retirement->setSize(style.RetirementIconMaxX.GetValue(0), style.RetirementIconMaxY.GetValue(0), false);
+        m_retirement->setTextFontSize(style.RetirementIconTextSize.GetValue(0));
         m_retirement->adjustSize();
 
     }
@@ -339,14 +339,14 @@ void UserInterface::Widget::DriverEntry::move(const uint16_t x, const uint16_t y
 
     if (m_fastestLap) {
 
-        m_fastestLap->move(x + standingsStyle.PaddingReference.m_value, y, false, false);
+        m_fastestLap->move(x + standingsStyle.PaddingReference.GetValue(0), y, false, false);
         
         // Register middle of row for future use, center of fast lap indicator used to center the place text
         fastLapCenterX = m_fastestLap->x() + (m_fastestLap->width() / 2);
         centerY = m_fastestLap->y() + (m_fastestLap->height() / 2);
 
         // Padding 2x because it is to be inserted to the left and to the right
-        totalWidth += m_fastestLap->width() + standingsStyle.PaddingReference.m_value * 2;
+        totalWidth += m_fastestLap->width() + standingsStyle.PaddingReference.GetValue(0) * 2;
 
     }
     if (m_position) {
@@ -356,11 +356,11 @@ void UserInterface::Widget::DriverEntry::move(const uint16_t x, const uint16_t y
     }
     if (m_trackLimWarn) {
 
-        m_trackLimWarn->move(x + standingsStyle.PaddingReference.m_value, centerY, false, true);
+        m_trackLimWarn->move(x + standingsStyle.PaddingReference.GetValue(0), centerY, false, true);
 
         if (m_otherWarn) {
 
-            m_otherWarn->move(m_trackLimWarn->x() + standingsStyle.PaddingReference.m_value, centerY, false, true);
+            m_otherWarn->move(m_trackLimWarn->x() + standingsStyle.PaddingReference.GetValue(0), centerY, false, true);
 
         }
 
@@ -368,34 +368,34 @@ void UserInterface::Widget::DriverEntry::move(const uint16_t x, const uint16_t y
     if (m_teamIcon) {
         
         // Add the padding! And the width for centering!
-        totalWidth += standingsStyle.PaddingReference.m_value;
+        totalWidth += standingsStyle.PaddingReference.GetValue(0);
         m_teamIcon->move(x + totalWidth + (m_teamIcon->width() / 2), centerY, true, true);
         
         // Add padding again to account for the right padding
-        totalWidth += m_teamIcon->width() + standingsStyle.PaddingReference.m_value;
+        totalWidth += m_teamIcon->width() + standingsStyle.PaddingReference.GetValue(0);
 
     }
     if (m_driverName) {
         
         // Add the padding, again! And the maximum width for centering!
-        totalWidth += standingsStyle.PaddingReference.m_value;
-        m_driverName->move(x + totalWidth + (standingsStyle.DriverNameMaxWidth.m_value / 2), centerY, true, true);
+        totalWidth += standingsStyle.PaddingReference.GetValue(0);
+        m_driverName->move(x + totalWidth + (standingsStyle.DriverNameMaxWidth.GetValue(0) / 2), centerY, true, true);
         
         // Add padding again to account for the right padding
         // Use the maximum width as reference, not the actual width,
         // otherwise everything to the right will be misaligned
-        totalWidth += standingsStyle.DriverNameMaxWidth.m_value + standingsStyle.PaddingReference.m_value;
+        totalWidth += standingsStyle.DriverNameMaxWidth.GetValue(0) + standingsStyle.PaddingReference.GetValue(0);
 
     }
     if (m_personalBestLap && m_lastLap) {
 
         // Add the padding, again! And the maximum width for centering!
-        totalWidth += standingsStyle.PaddingReference.m_value;
+        totalWidth += standingsStyle.PaddingReference.GetValue(0);
         m_personalBestLap->move(x + totalWidth, y + 3, false, false);
         m_lastLap->move(x + totalWidth, y + 3 + m_personalBestLap->height(), false, false);
 
         // Add padding again to account for the right padding
-        totalWidth += m_personalBestLap->width() + standingsStyle.PaddingReference.m_value;
+        totalWidth += m_personalBestLap->width() + standingsStyle.PaddingReference.GetValue(0);
 
     }
     if (m_retirement) {
@@ -406,22 +406,22 @@ void UserInterface::Widget::DriverEntry::move(const uint16_t x, const uint16_t y
     }
     if (m_tyreArray) {
         // Add the padding, again! And the maximum width for centering!
-        totalWidth += standingsStyle.PaddingReference.m_value;
+        totalWidth += standingsStyle.PaddingReference.GetValue(0);
         m_tyreArray->move(x + totalWidth, y + 6, false, false);
 
         // Add padding again to account for the right padding
-        totalWidth += (standingsStyle.TyreInfoContainerMaxX.m_value * standingsStyle.TyreInfoArrayMaxNum.m_value)
-            + standingsStyle.PaddingReference.m_value;
+        totalWidth += (standingsStyle.TyreInfoContainerMaxX.GetValue(0) * standingsStyle.TyreInfoArrayMaxNum.GetValue(0))
+            + standingsStyle.PaddingReference.GetValue(0);
 
 	}
     if (m_penalties) {
 
         // Add the padding, again! And the maximum width for centering!
-        totalWidth += standingsStyle.PaddingReference.m_value;
+        totalWidth += standingsStyle.PaddingReference.GetValue(0);
         m_penalties->move(x + totalWidth, centerY, false, true);
 
         // Add padding again to account for the right padding
-        totalWidth += m_penalties->width() + standingsStyle.PaddingReference.m_value;
+        totalWidth += m_penalties->width() + standingsStyle.PaddingReference.GetValue(0);
     }
 }
 
@@ -450,57 +450,57 @@ void UserInterface::Widget::DriverEntry::setSize(const uint16_t newWidth, const 
 
     if (m_fastestLap && !(m_fastestLap->pixmap().isNull())) {
 
-        m_fastestLap->setSize(standingsStyle.FastestLapIconXY.m_value, standingsStyle.FastestLapIconXY.m_value, true);
+        m_fastestLap->setSize(standingsStyle.FastestLapIconXY.GetValue(0), standingsStyle.FastestLapIconXY.GetValue(0), true);
         m_fastestLap->adjustSize();
 
     }
     if (m_position) {
 
-        m_position->setFontSize(standingsStyle.PositionTextSize.m_value);
+        m_position->setFontSize(standingsStyle.PositionTextSize.GetValue(0));
         m_position->adjustSize();
 
     }
     if (m_teamIcon && !(m_teamIcon->pixmap().isNull())) {
 
-        m_teamIcon->setSize(standingsStyle.TeamLogoMaxXY.m_value, standingsStyle.TeamLogoMaxXY.m_value, true);
+        m_teamIcon->setSize(standingsStyle.TeamLogoMaxXY.GetValue(0), standingsStyle.TeamLogoMaxXY.GetValue(0), true);
         m_position->adjustSize();
 
     }
     if (m_driverName) {
 
-        m_driverName->setFontSize(standingsStyle.DriverNameTextSize.m_value);
+        m_driverName->setFontSize(standingsStyle.DriverNameTextSize.GetValue(0));
         m_driverName->adjustSize();
 
     }
     if (m_personalBestLap) {
 
-        m_personalBestLap->setSize(standingsStyle.LapInfoIconMaxX.m_value, standingsStyle.LapInfoIconMaxY.m_value, false);
-        m_personalBestLap->setTextFontSize(standingsStyle.LapInfoIconLabelTextSize.m_value);
+        m_personalBestLap->setSize(standingsStyle.LapInfoIconMaxX.GetValue(0), standingsStyle.LapInfoIconMaxY.GetValue(0), false);
+        m_personalBestLap->setTextFontSize(standingsStyle.LapInfoIconLabelTextSize.GetValue(0));
         m_personalBestLap->adjustSize();
 
     }
     if (m_lastLap) {
 
-        m_lastLap->setSize(standingsStyle.LapInfoIconMaxX.m_value, standingsStyle.LapInfoIconMaxY.m_value, false);
-        m_lastLap->setTextFontSize(standingsStyle.LapInfoIconLabelTextSize.m_value);
+        m_lastLap->setSize(standingsStyle.LapInfoIconMaxX.GetValue(0), standingsStyle.LapInfoIconMaxY.GetValue(0), false);
+        m_lastLap->setTextFontSize(standingsStyle.LapInfoIconLabelTextSize.GetValue(0));
         m_lastLap->adjustSize();
 
     }
     if (m_tyreArray) {
 
-        m_tyreArray->setSize(standingsStyle.TyreInfoContainerMaxX.m_value * 3, standingsStyle.TyreInfoContainerMaxY.m_value, false);
+        m_tyreArray->setSize(standingsStyle.TyreInfoContainerMaxX.GetValue(0) * 3, standingsStyle.TyreInfoContainerMaxY.GetValue(0), false);
         m_tyreArray->adjustSize();
 
 	}
     if (m_penalties) {
 
-        m_penalties->setTextFontSize(standingsStyle.PenaltyIconTextSize.m_value);
+        m_penalties->setTextFontSize(standingsStyle.PenaltyIconTextSize.GetValue(0));
         m_penalties->adjustSize();
 
     }
     if (m_retirement) {
 
-        m_retirement->setTextFontSize(standingsStyle.RetirementIconTextSize.m_value);
+        m_retirement->setTextFontSize(standingsStyle.RetirementIconTextSize.GetValue(0));
         m_retirement->adjustSize();
 
     }

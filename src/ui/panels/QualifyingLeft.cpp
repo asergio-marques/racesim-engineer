@@ -4,7 +4,6 @@
 #include <QWidget>
 #include "panels/Interface.h"
 #include "core/Screen.h"
-#include "styles/General.h"
 #include "widgets/general_use/BackgroundLeft.h"
 #include "widgets/general_use/ScreenTitle.h"
 
@@ -39,13 +38,9 @@ void UserInterface::Panel::QualifyingLeft::ResizePanel(const QSize& newUsefulSiz
     const uint16_t width = newUsefulSize.width();
     const uint16_t height = newUsefulSize.height();
 
-    UserInterface::Style::General generalStyle;
-
-    if (m_screenTitle && generalStyle.ScreenTitleFontSize.IsValid()) {
-
-        const uint16_t newFontSize = generalStyle.ScreenTitleFontSize.Interpolate(height);
-        m_screenTitle->setFontSize(newFontSize);
-        m_screenTitle->move(generalStyle.HorizontalEdgeBorder.Calculate(width), generalStyle.VerticalEdgeBorder.Calculate(height), false, false);
+    if (m_screenTitle) {
+        m_screenTitle->setFontSize(64);
+        m_screenTitle->move(0, 0, false, false);
 
     }
 

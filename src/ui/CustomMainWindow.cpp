@@ -8,7 +8,6 @@
 #include <QWindow>
 #include "core/Screen.h"
 #include "screens/Interface.h"
-#include "styles/General.h"
 #include "widgets/general_use/MenuBar.h"
 
 
@@ -30,8 +29,20 @@ UserInterface::CustomMainWindow::CustomMainWindow(Presenter::ICompFacade* presen
 void UserInterface::CustomMainWindow::resizeEvent(QResizeEvent* event) {
 
     QMainWindow::resizeEvent(event);
+    const uint16_t widthFactor = event->size().width() / 16;
+    const uint16_t heightFactor = event->size().height() / 9;
+    if (widthFactor == heightFactor) {
 
-    emit onResizeEvent(event->size());
+        emit onResizeEvent(event->size());
+
+    }
+    else {
+
+        const uint16_t ratioWidth = 16 * ((widthFactor > heightFactor) ? widthFactor : heightFactor);
+        const uint16_t ratioHeight = 9 * ((widthFactor > heightFactor) ? widthFactor : heightFactor);
+        resize(ratioWidth, ratioHeight);
+
+    }
 
 }
 

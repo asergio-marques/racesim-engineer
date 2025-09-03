@@ -68,7 +68,7 @@ void UserInterface::Widget::TyreInfoArray::setSize(const uint16_t newWidth, cons
 		auto* tyre = m_tyres[i];
 		if (tyre) {
 
-			tyre->setSize(style.TyreInfoContainerMaxX.m_value, style.TyreInfoContainerMaxY.m_value, false);
+			tyre->setSize(style.TyreInfoContainerMaxX.GetValue(0), style.TyreInfoContainerMaxY.GetValue(0), false);
 
 		}
 
@@ -261,9 +261,9 @@ void UserInterface::Widget::TyreInfoArray::RedoDisplay(const uint16_t x, const u
 	uint8_t displayCount = 0;
 	UserInterface::Style::Standings style;
 
-	for (uint8_t i = m_tyres.size() - 1; displayCount < style.TyreInfoArrayMaxNum.m_value; --i, ++displayCount) {
+	for (uint8_t i = m_tyres.size() - 1; displayCount < style.TyreInfoArrayMaxNum.GetValue(0); --i, ++displayCount) {
 
-		uint16_t baseX = x + (displayCount * style.TyreInfoContainerMaxX.m_value);
+		uint16_t baseX = x + (displayCount * style.TyreInfoContainerMaxX.GetValue(0));
 		auto* tyre = m_tyres[i];
 		tyre->move(baseX, y, false, false);
 		tyre->RedoneOnce();
@@ -272,8 +272,8 @@ void UserInterface::Widget::TyreInfoArray::RedoDisplay(const uint16_t x, const u
 
 	}
 	// hide any remaining tyres that are not supposed to be displayed
-	if (m_tyres.size() < style.TyreInfoArrayMaxNum.m_value) return;
-	for (uint8_t i = 0; i < m_tyres.size() - style.TyreInfoArrayMaxNum.m_value; ++i) {
+	if (m_tyres.size() < style.TyreInfoArrayMaxNum.GetValue(0)) return;
+	for (uint8_t i = 0; i < m_tyres.size() - style.TyreInfoArrayMaxNum.GetValue(0); ++i) {
 
 		auto* tyre = m_tyres[i];
 

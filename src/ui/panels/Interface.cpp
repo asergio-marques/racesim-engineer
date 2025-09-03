@@ -42,6 +42,7 @@ void UserInterface::Panel::Interface::ResizePanel(const QSize& newUsefulSize) {
 
         // aspect ratio cannot be kept due to the title and menu bars occupying vertical space
         m_background->setSize(newUsefulSize.width(), newUsefulSize.height(), false);
+        adjustSize();
 
     }
 

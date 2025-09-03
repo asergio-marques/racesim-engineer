@@ -10,11 +10,21 @@ namespace UserInterface {
 
     namespace Style {
 
+        class ILoading;
+        class IRaceStanding;
+
         class FullHD1080p : public Interface {
 
             public:
-            FullHD1080p() = default;
+            FullHD1080p();
             virtual ~FullHD1080p() = default;
+
+            UserInterface::Style::ILoading* GetLoadingStyle() const override final;
+            UserInterface::Style::IRaceStanding* GetRaceStandingStyle() const override final;
+
+            private:
+            UserInterface::Style::ILoading* m_loadingStyle;
+            UserInterface::Style::IRaceStanding* m_raceStandingStyle;
 
         };
 

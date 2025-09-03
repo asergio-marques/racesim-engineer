@@ -19,10 +19,6 @@ namespace UserInterface {
                     25,     // m_minValue
                     480,    // m_minValuePoint
 
-                    100,    // m_normValue
-                    960,    // m_normValueMinPoint
-                    1440,   // m_normValueMaxPoint
-
                     200,    // m_maxValue
                     1600    // m_maxValuePoint
                 };
@@ -32,10 +28,6 @@ namespace UserInterface {
                     ValueType::Absolute,    // m_type
                     32,     // m_minValue
                     480,    // m_minValuePoint
-
-                    64,     // m_normValue
-                    960,    // m_normValueMinPoint
-                    1440,   // m_normValueMaxPoint
 
                     96,     // m_maxValue
                     1600    // m_maxValuePoint
@@ -47,12 +39,8 @@ namespace UserInterface {
                     32,     // m_minValue
                     480,    // m_minValuePoint
 
-                    64,     // m_normValue
-                    960,    // m_normValueMinPoint
-                    1440,   // m_normValueMaxPoint
-
                     96,     // m_maxValue
-                    1600    // m_maxValuePoint
+                    2160    // m_maxValuePoint
                 };
 
         };

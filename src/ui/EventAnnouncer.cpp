@@ -169,12 +169,13 @@ void UserInterface::EventAnnouncer::AnnouncePenaltyReceived(const Packet::Event:
                 break;
 
             case Penalty::Internal::Type::StopGo:
-                if (pen->m_delta > 0) {
+                // TODO intentionally deactivated on grounds of being annoying, but should be user configurable
+                /*if (pen->m_delta > 0) {
                     penDescription = QString("received a %1 second time penalty that can be served").arg(QString::number(pen->m_delta / 1000));
                 }
                 else if (pen->m_delta < 0) {
                     penDescription = QString("served a %1 second time penalty").arg(QString::number(pen->m_delta / -1000));
-                }
+                }*/
                 break;
 
             case Penalty::Internal::Type::Time:

@@ -48,6 +48,9 @@ void UserInterface::Screen::DualPanelInterface::handleResizeEvent(const QSize ne
 
     QSize newPanelSize(newUsefulSize.width() / 2, newUsefulSize.height());
     if (m_panelLeft) m_panelLeft->ResizePanel(newPanelSize);
-    if (m_panelRight) m_panelRight->ResizePanel(newPanelSize);
+    if (m_panelRight) {
+        m_panelRight->move(newUsefulSize.width() / 2, 0);
+        m_panelRight->ResizePanel(newPanelSize);
+    }
 
 }

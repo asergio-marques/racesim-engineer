@@ -14,6 +14,14 @@ namespace UserInterface {
 
             ~Standings() = default;
 
+            /*static inline const Value EntryHeight = {
+                UserInterface::Style::Value::Type::Absolute,
+                18,      // m_minValue
+                480,    // m_minValuePoint
+                98,     // m_maxValue
+                2160    // m_maxValuePoint
+            };
+
             // Hardcoded for 1080p; changes to this need to be done later!
 
             static inline const Value PaddingReference = { Value::Type::Absolute, 6, 480, 6, 2160 };
@@ -54,7 +62,7 @@ namespace UserInterface {
             // Retirement icon
             static inline const Value RetirementIconMaxX = { Value::Type::Absolute, 522, 480, 522, 2160 };
             static inline const Value RetirementIconMaxY = { Value::Type::Absolute, 42, 480, 42, 2160 };
-            static inline const Value RetirementIconTextSize = { Value::Type::Absolute, 24, 480, 24, 2160 };
+            static inline const Value RetirementIconTextSize = { Value::Type::Absolute, 24, 480, 24, 2160 };*/
 
         };
 

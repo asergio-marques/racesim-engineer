@@ -6,8 +6,8 @@
 #include <QWidget>
 #include "base/Container.h"
 #include "base/TextInterface.h"
+#include "styles/DriverInfoRace.h"
 #include "multiplayer_session/tyres/TyreIcon.h"
-#include "styles/Standings.h"
 
 
 
@@ -20,14 +20,9 @@ UserInterface::Widget::TyreInfoContainer::TyreInfoContainer(QWidget* parent) :
     m_numLaps(0),
     m_redone(false) {
 
-    UserInterface::Style::Standings style;
-
     m_visualCompoundIcon = new UserInterface::Widget::TyreIcon(UserInterface::Widget::ID::TyreInfo, parent);
     Q_ASSERT(m_visualCompoundIcon);
     if (m_visualCompoundIcon) {
-
-        m_visualCompoundIcon->setSize(style.TyreInfoTyreIconMaxXY.GetValue(0),
-            style.TyreInfoTyreIconMaxXY.GetValue(0), true);
         m_visualCompoundIcon->setScaledContents(true);
         m_visualCompoundIcon->setKeepAspectRatio(true);
         m_visualCompoundIcon->hide();
@@ -38,7 +33,6 @@ UserInterface::Widget::TyreInfoContainer::TyreInfoContainer(QWidget* parent) :
     if (m_actualCompoundText) {
 
         m_actualCompoundText->setFontThickness(UserInterface::Widget::FontThickness::ExtraBold);
-        m_actualCompoundText->setFontSize(style.TyreInfoTyreCompoundTextSize.GetValue(0));
         m_actualCompoundText->setText("?");
         m_actualCompoundText->setScaledContents(true);
         m_actualCompoundText->hide();
@@ -49,7 +43,6 @@ UserInterface::Widget::TyreInfoContainer::TyreInfoContainer(QWidget* parent) :
     if (m_lapsText) {
 
         m_actualCompoundText->setFontThickness(UserInterface::Widget::FontThickness::ExtraBold);
-        m_lapsText->setFontSize(style.TyreInfoTyreAgeTextSize.GetValue(0));
         m_lapsText->setText(QString::number(m_numLaps));
         m_lapsText->setScaledContents(true);
         m_lapsText->hide();
@@ -64,8 +57,6 @@ void UserInterface::Widget::TyreInfoContainer::move(const uint16_t x, const uint
 
     if (m_visualCompoundIcon && m_actualCompoundText && m_lapsText) {
 
-        UserInterface::Style::Standings style;
-
 		m_visualCompoundIcon->move(x, y, centerAlignmentX, centerAlignmentY);
 
         // center compound text in relation to the compound icon
@@ -74,8 +65,8 @@ void UserInterface::Widget::TyreInfoContainer::move(const uint16_t x, const uint
 		m_actualCompoundText->move(baseXCompound, baseY, true, true);
 
 		// age text is centered vertically to the icon, and placed to the right of it with a small gap
-        const uint16_t baseXAge = m_visualCompoundIcon->x() + m_visualCompoundIcon->width() +
-            UserInterface::Style::Standings::TyreInfoIconAgeTextGap.GetValue(0);
+        QFontMetrics fm(m_lapsText->font());
+        const uint16_t baseXAge = x + width() - fm.horizontalAdvance(m_lapsText->text());
         m_lapsText->move(baseXAge, baseY, false, true);
 
     }
@@ -102,19 +93,17 @@ void UserInterface::Widget::TyreInfoContainer::scale(const uint8_t percentX, con
 
 void UserInterface::Widget::TyreInfoContainer::setSize(const uint16_t newWidth, const uint16_t newHeight, const bool keepAspectRatio) {
 
-    // TODO ignoring parameters for the time being, I just want this base working.
     if (m_visualCompoundIcon && m_actualCompoundText && m_lapsText) {
 
-        UserInterface::Style::Standings style;
+        const uint16_t iconSize = UserInterface::Style::TyreInfoCompoundIconSize.GetValue(newHeight);
 
-        m_visualCompoundIcon->setSize(style.TyreInfoTyreIconMaxXY.GetValue(0),
-			style.TyreInfoTyreIconMaxXY.GetValue(0), true);
+        m_visualCompoundIcon->setSize(iconSize, iconSize, true);
         m_visualCompoundIcon->adjustSize();
 
-        m_actualCompoundText->setFontSize(style.TyreInfoTyreCompoundTextSize.GetValue(0));
+        m_actualCompoundText->setFontSize(UserInterface::Style::TyreInfoCompoundFontSize.GetValue(newHeight));
         m_actualCompoundText->adjustSize();
 
-        m_lapsText->setFontSize(style.TyreInfoTyreAgeTextSize.GetValue(0));
+        m_lapsText->setFontSize(UserInterface::Style::TyreInfoAgeFontSize.GetValue(newHeight));
 		m_lapsText->adjustSize();
 
     }

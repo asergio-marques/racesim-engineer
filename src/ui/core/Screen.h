@@ -20,8 +20,6 @@ namespace UserInterface {
 
         };
 
-
-
         enum class Resolution : uint8_t {
 
             MinimumDefault  = 0,

@@ -78,7 +78,7 @@ void UserInterface::UIStarter::Init(int* argc, char*** argv, Presenter::ICompFac
         m_handler->connect(m_handler, &UserInterface::PacketHandler::TyreChanged,
             m_announcer, &UserInterface::EventAnnouncer::AnnounceTyreChanged);
 
-        m_window->setMinimumSize(480, 360);
+        m_window->setMinimumSize(848, 480);
         m_window->setBaseSize(1920, 1040);
 
         m_window->addScreen(new UserInterface::Screen::Loading(m_handler, m_window));

@@ -67,7 +67,7 @@ namespace UserInterface {
             UserInterface::Widget::TextInterface* m_driverName;
             UserInterface::Widget::LapInfoContainer* m_personalBestLap;
             UserInterface::Widget::LapInfoContainer* m_lastLap;
-            UserInterface::Widget::TyreInfoArray* m_tyreArray;
+            //UserInterface::Widget::TyreInfoArray* m_tyreArray;
             UserInterface::Widget::PenaltyIcon* m_penalties;
             UserInterface::Widget::RetirementIcon* m_retirement;
 

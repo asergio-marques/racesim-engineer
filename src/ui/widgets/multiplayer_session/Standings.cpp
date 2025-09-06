@@ -11,7 +11,7 @@
 #include "packets/event/QualiStart.h"
 #include "packets/event/RaceStart.h"
 #include "packets/event/TimeTrialStart.h"
-#include "styles/Standings.h"
+#include "styles/DriverInfoRace.h"
 #include "styles/Value.h"
 
 
@@ -148,12 +148,15 @@ void UserInterface::Widget::Standings::onTyreChanged(const Packet::Event::TyreCh
 
 void UserInterface::Widget::Standings::move(const uint16_t x, const uint16_t y, const bool centerAlignmentX, const bool centerAlignmentY) {
 
+    qDebug() << "Standings::move - x:" << x << " y:" << y << " width:" << width() << " height:" << height();
+    uint16_t trueX = centerAlignmentX ? x - (width() / 2) : x;
+    uint16_t trueY = centerAlignmentY ? y - (height() / 2) : y;
     for (auto driver : m_driverData) {
 
         if (driver) {
 
-            // alignment inputs deliberately ignored
-            driver->move(x, y + ((driver->GetCurrentPosition() - 1) * 48), false, false);
+            // alignment inputs unnecessary and easier to calc
+            driver->move(trueX, trueY + ((driver->GetCurrentPosition() - 1) * 48), false, false);
 
         }
 
@@ -181,16 +184,12 @@ void UserInterface::Widget::Standings::scale(const uint8_t percentX, const uint8
 
 void UserInterface::Widget::Standings::setSize(const uint16_t newWidth, const uint16_t newHeight, const bool keepAspectRatio) {
 
-    // remove the padding
-    UserInterface::Style::Standings standingsStyle;
-    const uint16_t newHeightWidget = newHeight - (2 * standingsStyle.EdgePadding.GetValue(0));
-
     for (const auto driver : m_driverData) {
 
         if (driver) {
 
-            // 20 entries maximum
-            driver->setSize(newWidth, (newHeight / 20), false);
+            // Take into account the maximum number of entries
+            driver->setSize(newWidth, std::ceil(newHeight / 20), false);
             reorderStandings();
         }
 
@@ -226,16 +225,13 @@ void UserInterface::Widget::Standings::lower() {
 
 void UserInterface::Widget::Standings::reorderStandings() {
 
-    UserInterface::Style::Standings standingsStyle;
-
     for (auto driver : m_driverData) {
 
         if (driver) {
 
             // take into account the position order
-            // TODO height hard-coded!!
-            uint16_t newY = standingsStyle.EdgePadding.GetValue(0) + ((driver->GetCurrentPosition() - 1) * 48);
-            driver->move(standingsStyle.EdgePadding.GetValue(0), newY, false, false);
+            uint16_t newY = y() + ((driver->GetCurrentPosition() - 1) * 48);
+            driver->move(x(), newY, false, false);
 
         }
 
@@ -312,7 +308,7 @@ const int16_t UserInterface::Widget::Standings::x() const {
         }
 
     }
-
+    qDebug() << "calc standings x = " << minX;
     return minX;
 
 }
@@ -332,6 +328,7 @@ const int16_t UserInterface::Widget::Standings::y() const {
 
     }
 
+    qDebug() << "calc standings y = " << minY;
     return minY;
 
 }

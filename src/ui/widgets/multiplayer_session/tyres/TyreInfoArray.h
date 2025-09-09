@@ -32,7 +32,6 @@ namespace UserInterface {
             const int16_t height() const override;
             const int16_t x() const override;
             const int16_t y() const override;
-            void Init();
             void TyreChange(Tyre::Internal::Actual actualTyreCompound, Tyre::Internal::Visual visualTyreCompound, uint8_t numLapsAtStart, bool pitBeforeLine);
             void LapCompletedWithTyre();
 
@@ -40,10 +39,10 @@ namespace UserInterface {
             void RedoDisplay();
             void RedoDisplay(const uint16_t x, const uint16_t y);
 
+            uint16_t m_lastWidth;
+            uint16_t m_lastHeight;
 			QWidget* m_widgetParent;
             QList<TyreInfoContainer*> m_tyres;
-            uint8_t m_numStints;
-            static constexpr uint8_t MAX_TYRE_DISPLAY = 3;
 
         };
     }

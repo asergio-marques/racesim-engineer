@@ -24,9 +24,9 @@ namespace UserInterface {
 
         static inline const Value PositionFontSize = {
             Value::Type::Absolute,
-            13,     // m_minValue
+            16,     // m_minValue
             22,     // m_minValuePoint
-            52,     // m_maxValue
+            72,     // m_maxValue
             100     // m_maxValuePoint
         };
 
@@ -48,9 +48,9 @@ namespace UserInterface {
 
         static inline const Value DriverNameFontSize = {
             Value::Type::Absolute,
-            11,     // m_minValue
+            12,     // m_minValue
             22,     // m_minValuePoint
-            44,     // m_maxValue
+            60,     // m_maxValue
             100     // m_maxValuePoint
         };
 
@@ -87,6 +87,8 @@ namespace UserInterface {
             44,     // m_maxValue
             100     // m_maxValuePoint
         };
+
+        static inline const uint8_t TyreInfoContainerMaxNum = 3;
 
         static inline const Value TyreInfoContainerMaxX = {
             Value::Type::Absolute,

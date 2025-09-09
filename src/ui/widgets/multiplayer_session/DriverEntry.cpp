@@ -27,17 +27,17 @@ UserInterface::Widget::DriverEntry::DriverEntry(QWidget* parent) :
     m_isPlayer(),
     m_fastestLap(new UserInterface::Widget::FastestLapIndicator(parent)),
     m_position(new UserInterface::Widget::TextInterface(UserInterface::Widget::ID::DriverPosition, parent)),
-    m_trackLimWarn(new UserInterface::Widget::WarningContainer(
+    /*m_trackLimWarn(new UserInterface::Widget::WarningContainer(
         UserInterface::Widget::WarningContainer::Type::TrackLimits, parent)),
     m_otherWarn(new UserInterface::Widget::WarningContainer(
         UserInterface::Widget::WarningContainer::Type::OtherWarns, parent)),
-    m_teamIcon(new UserInterface::Widget::TeamIcon(parent)),
-    m_driverName(new UserInterface::Widget::TextInterface(UserInterface::Widget::ID::DriverName, parent)),
-    m_personalBestLap(new UserInterface::Widget::LapInfoContainer(UserInterface::Widget::TimeInfoContainer::Type::PersonalBestTime, parent)),
+    m_teamIcon(new UserInterface::Widget::TeamIcon(parent)),*/
+    m_driverName(new UserInterface::Widget::TextInterface(UserInterface::Widget::ID::DriverName, parent)) //,
+    /*m_personalBestLap(new UserInterface::Widget::LapInfoContainer(UserInterface::Widget::TimeInfoContainer::Type::PersonalBestTime, parent)),
     m_lastLap(new UserInterface::Widget::LapInfoContainer(UserInterface::Widget::TimeInfoContainer::Type::LastLapTime, parent)),
     //m_tyreArray(new UserInterface::Widget::TyreInfoArray(parent)),
     m_penalties(new UserInterface::Widget::PenaltyIcon(parent)),
-    m_retirement(new UserInterface::Widget::RetirementIcon(parent)) {
+    m_retirement(new UserInterface::Widget::RetirementIcon(parent))*/ {
 
     if (m_fastestLap) {
 
@@ -54,7 +54,7 @@ UserInterface::Widget::DriverEntry::DriverEntry(QWidget* parent) :
 
     }
 
-    if (m_trackLimWarn) {
+    /*if (m_trackLimWarn) {
 
         m_allWidgets.append(m_trackLimWarn);
 
@@ -70,7 +70,7 @@ UserInterface::Widget::DriverEntry::DriverEntry(QWidget* parent) :
 
         m_allWidgets.append(m_teamIcon);
 
-    }
+    }*/
 
     if (m_driverName) {
 
@@ -79,7 +79,7 @@ UserInterface::Widget::DriverEntry::DriverEntry(QWidget* parent) :
 
     }
 
-    if (m_lastLap) {
+    /*if (m_lastLap) {
 
         m_allWidgets.append(m_lastLap);
 
@@ -91,12 +91,12 @@ UserInterface::Widget::DriverEntry::DriverEntry(QWidget* parent) :
 
     }
 
-    /*if (m_tyreArray) {
+    if (m_tyreArray) {
 
         m_tyreArray->Init();
         m_allWidgets.append(m_tyreArray);
 
-    }*/
+    }
 
     if (m_penalties) {
 
@@ -109,7 +109,7 @@ UserInterface::Widget::DriverEntry::DriverEntry(QWidget* parent) :
         m_allWidgets.append(m_retirement);
         m_retirement->raise();
 
-    }
+    }*/
 
 }
 
@@ -122,8 +122,9 @@ void UserInterface::Widget::DriverEntry::init(const Session::Internal::Participa
     m_isPlayer = dataPacket.m_isPlayer;
     if (m_fastestLap) {
 
+        m_fastestLap->setSize(UserInterface::Style::FastestLapIconSize.GetValue(height()), UserInterface::Style::FastestLapIconSize.GetValue(height()), true);
         // hidden by default
-        m_fastestLap->hide();
+        //m_fastestLap->hide();
 
     }
     if (m_position) {
@@ -131,11 +132,12 @@ void UserInterface::Widget::DriverEntry::init(const Session::Internal::Participa
         m_position->setText(QString::number(dataPacket.m_startPosition));
 
     }
-    if (m_teamIcon) {
+    /*if (m_teamIcon) {
 
         m_teamIcon->SetTeam(dataPacket.m_teamID);
+        m_teamIcon->setSize(UserInterface::Style::TeamIconSize.GetValue(height()), UserInterface::Style::TeamIconSize.GetValue(height()), true);
 
-    }
+    }*/
     if (m_driverName) {
 
         m_driverName->setText(dataPacket.m_shortName);
@@ -155,8 +157,10 @@ void UserInterface::Widget::DriverEntry::updatePosition(const uint8_t newPositio
 
     m_currentPosition = newPosition;
     if (m_position) {
+
         m_position->setText(QString::number(newPosition));
         m_position->adjustSize();
+
     }
 
 }
@@ -166,7 +170,7 @@ void UserInterface::Widget::DriverEntry::updatePosition(const uint8_t newPositio
 
 void UserInterface::Widget::DriverEntry::updatePenalties(const Penalty::Internal::Type type, const int32_t change) {
 
-    switch (type) {
+/*    switch (type) {
 
         case Penalty::Internal::Type::Warning:
             for (size_t i = 0; i < change; ++i)
@@ -189,7 +193,7 @@ void UserInterface::Widget::DriverEntry::updatePenalties(const Penalty::Internal
             // DO NOTHING
             break;
 
-    }
+    }*/
 
 }
 
@@ -197,11 +201,11 @@ void UserInterface::Widget::DriverEntry::updatePenalties(const Penalty::Internal
 
 void UserInterface::Widget::DriverEntry::updateStatus(const Participant::Internal::Status status) {
 
-    if (m_retirement) {
+    /*if (m_retirement) {
 
         m_retirement->activate(status);
 
-    }
+    }*/
     /*if (m_tyreArray && (status == Participant::Internal::Status::DNF ||
         status == Participant::Internal::Status::DSQ)) {
 
@@ -215,7 +219,7 @@ void UserInterface::Widget::DriverEntry::updateStatus(const Participant::Interna
 
 void UserInterface::Widget::DriverEntry::newSessionBestLap(const Lap::Internal::Time newLapTime, const bool isThisDrivers) {
 
-    if (m_fastestLap && m_personalBestLap && m_lastLap) {
+    /*if (m_fastestLap && m_personalBestLap && m_lastLap) {
 
         if (isThisDrivers) {
 
@@ -235,7 +239,7 @@ void UserInterface::Widget::DriverEntry::newSessionBestLap(const Lap::Internal::
         }
 
     }
-    /*if (m_tyreArray) {
+    if (m_tyreArray) {
 
         m_tyreArray->LapCompletedWithTyre();
 
@@ -247,7 +251,7 @@ void UserInterface::Widget::DriverEntry::newSessionBestLap(const Lap::Internal::
 
 void UserInterface::Widget::DriverEntry::newPersonalBestLap(const Lap::Internal::Time newLapTime) {
 
-    if (m_personalBestLap && m_lastLap) {
+    /*if (m_personalBestLap && m_lastLap) {
 
         m_personalBestLap->changeSessionBestStatus(false);
         m_personalBestLap->updateTime(newLapTime);
@@ -256,7 +260,7 @@ void UserInterface::Widget::DriverEntry::newPersonalBestLap(const Lap::Internal:
         m_lastLap->updateTime(newLapTime);
 
     }
-    /*if (m_tyreArray) {
+    if (m_tyreArray) {
 
         m_tyreArray->LapCompletedWithTyre();
 
@@ -268,13 +272,13 @@ void UserInterface::Widget::DriverEntry::newPersonalBestLap(const Lap::Internal:
 
 void UserInterface::Widget::DriverEntry::newLatestLap(const Lap::Internal::Time newLapTime) {
 
-    if (m_lastLap) {
+    /*if (m_lastLap) {
 
         m_lastLap->changePersonalBestStatus(false);
         m_lastLap->updateTime(newLapTime);
 
     }
-    /*if (m_tyreArray) {
+    if (m_tyreArray) {
 
         m_tyreArray->LapCompletedWithTyre();
 
@@ -298,6 +302,9 @@ void UserInterface::Widget::DriverEntry::newTyres(const Tyre::Internal::Actual a
 
 void UserInterface::Widget::DriverEntry::move(const uint16_t x, const uint16_t y, const bool centerAlignmentX, const bool centerAlignmentY) {
 
+    m_x = x;
+    m_y = y;
+
     // TODO fix issue with wrong move point due to center
     uint16_t totalWidth = 0;
     uint16_t fastLapCenterX = x;
@@ -320,7 +327,7 @@ void UserInterface::Widget::DriverEntry::move(const uint16_t x, const uint16_t y
         m_position->move(fastLapCenterX, centerY, true, true);
 
     }
-    if (m_trackLimWarn) {
+    /*if (m_trackLimWarn) {
 
         m_trackLimWarn->move(x + calcPadding, centerY, false, true);
 
@@ -340,7 +347,7 @@ void UserInterface::Widget::DriverEntry::move(const uint16_t x, const uint16_t y
         // Add padding again to account for the right padding
         totalWidth += m_teamIcon->width() + calcPadding;
 
-    }
+    }*/
     if (m_driverName) {
         
         const uint16_t calcMaxNameWidth = UserInterface::Style::DriverNameMaximumWidth.GetValue(width());
@@ -355,7 +362,7 @@ void UserInterface::Widget::DriverEntry::move(const uint16_t x, const uint16_t y
         totalWidth += calcMaxNameWidth + calcPadding;
 
     }
-    if (m_personalBestLap && m_lastLap) {
+    /*if (m_personalBestLap && m_lastLap) {
 
         // Add the padding, again! And the maximum width for centering!
         totalWidth += calcPadding;
@@ -372,7 +379,7 @@ void UserInterface::Widget::DriverEntry::move(const uint16_t x, const uint16_t y
         m_retirement->move(x + totalWidth, centerY, false, true);
 
     }
-    /*if (m_tyreArray) {
+    if (m_tyreArray) {
         // Add the padding, again! And the maximum width for centering!
         totalWidth += calcPadding;
         m_tyreArray->move(x + totalWidth, y + calcPadding, false, false);
@@ -381,7 +388,7 @@ void UserInterface::Widget::DriverEntry::move(const uint16_t x, const uint16_t y
         totalWidth += (UserInterface::Style::TyreInfoContainerMaxX.GetValue(width()) * 3)
             + UserInterface::Style::PaddingReference.GetValue(width());
 
-	}*/
+	}
     if (m_penalties) {
 
         // Add the padding, again! And the maximum width for centering!
@@ -390,7 +397,8 @@ void UserInterface::Widget::DriverEntry::move(const uint16_t x, const uint16_t y
 
         // Add padding again to account for the right padding
         totalWidth += m_penalties->width() + calcPadding;
-    }
+    }*/
+
 }
 
 
@@ -413,6 +421,9 @@ void UserInterface::Widget::DriverEntry::scale(const uint8_t percentX, const uin
 
 void UserInterface::Widget::DriverEntry::setSize(const uint16_t newWidth, const uint16_t newHeight, const bool keepAspectRatio) {
 
+    m_width = newWidth;
+    m_height = newHeight;
+
     if (m_fastestLap && !(m_fastestLap->pixmap().isNull())) {
 
         m_fastestLap->setSize(UserInterface::Style::FastestLapIconSize.GetValue(newHeight), UserInterface::Style::FastestLapIconSize.GetValue(newHeight), true);
@@ -425,19 +436,19 @@ void UserInterface::Widget::DriverEntry::setSize(const uint16_t newWidth, const 
         m_position->adjustSize();
 
     }
-    if (m_teamIcon && !(m_teamIcon->pixmap().isNull())) {
+    /*if (m_teamIcon && !(m_teamIcon->pixmap().isNull())) {
 
         m_teamIcon->setSize(UserInterface::Style::TeamIconSize.GetValue(newHeight), UserInterface::Style::TeamIconSize.GetValue(newHeight), true);
         m_position->adjustSize();
 
-    }
+    }*/
     if (m_driverName) {
 
         m_driverName->setFontSize(UserInterface::Style::DriverNameFontSize.GetValue(newHeight));
         m_driverName->adjustSize();
 
     }
-    if (m_personalBestLap) {
+    /*if (m_personalBestLap) {
 
         m_personalBestLap->setSize(UserInterface::Style::LapInfoBackgroundMaxX.GetValue(newWidth), UserInterface::Style::LapInfoBackgroundMaxY.GetValue(newHeight), false);
         m_personalBestLap->setTextFontSize(UserInterface::Style::LapInfoLabelFontSize.GetValue(newHeight));
@@ -451,13 +462,13 @@ void UserInterface::Widget::DriverEntry::setSize(const uint16_t newWidth, const 
         m_lastLap->adjustSize();
 
     }
-    /*if (m_tyreArray) {
+    if (m_tyreArray) {
 
         // no calc, it's meant to happen "inside"
         m_tyreArray->setSize(newWidth, newHeight, false);
         m_tyreArray->adjustSize();
 
-	}*/
+	}
     if (m_penalties) {
 
         m_penalties->setSize(UserInterface::Style::PenaltyIconMaxX.GetValue(newWidth), UserInterface::Style::PenaltyIconMaxY.GetValue(newHeight), false);
@@ -471,7 +482,7 @@ void UserInterface::Widget::DriverEntry::setSize(const uint16_t newWidth, const 
         m_retirement->setTextFontSize(UserInterface::Style::RetirementFontSize.GetValue(newHeight));
         m_retirement->adjustSize();
 
-    }
+    }*/
 }
 
 
@@ -480,13 +491,13 @@ void UserInterface::Widget::DriverEntry::raise() {
 
     if (m_fastestLap) m_fastestLap->raise();
     if (m_position) m_position->raise();
-    if (m_teamIcon) m_teamIcon->raise();
+    //if (m_teamIcon) m_teamIcon->raise();
     if (m_driverName) m_driverName->raise();
-    if (m_personalBestLap) m_driverName->raise();
-    if (m_lastLap) m_driverName->raise();
+    //if (m_personalBestLap) m_driverName->raise();
+    //if (m_lastLap) m_driverName->raise();
     //if (m_tyreArray) m_tyreArray->raise();
-    if (m_penalties) m_penalties->raise();
-    if (m_retirement) m_retirement->raise();
+    //if (m_penalties) m_penalties->raise();
+    //if (m_retirement) m_retirement->raise();
 
 }
 
@@ -496,13 +507,13 @@ void UserInterface::Widget::DriverEntry::lower() {
 
     if (m_fastestLap) m_fastestLap->lower();
     if (m_position) m_position->lower();
-    if (m_teamIcon) m_teamIcon->lower();
+    //if (m_teamIcon) m_teamIcon->lower();
     if (m_driverName) m_driverName->lower();
-    if (m_personalBestLap) m_driverName->lower();
-    if (m_lastLap) m_driverName->lower();
+    //if (m_personalBestLap) m_driverName->lower();
+    //if (m_lastLap) m_driverName->lower();
     //if (m_tyreArray) m_tyreArray->lower();
-    if (m_penalties) m_penalties->lower();
-    if (m_retirement) m_retirement->lower();
+    //if (m_penalties) m_penalties->lower();
+    //if (m_retirement) m_retirement->lower();
 
 }
 
@@ -510,49 +521,7 @@ void UserInterface::Widget::DriverEntry::lower() {
 
 const int16_t UserInterface::Widget::DriverEntry::width() const {
 
-    if (!m_position || !m_driverName || !m_teamIcon) {
-        return 0;
-    }
-
-    // this code makes me want to cry
-    int16_t xMin = 0;
-    int16_t xMax = 0;
-    int16_t lastWidth = 0;
-    for (const auto widget : m_allWidgets) {
-
-        auto imageCast = dynamic_cast<const UserInterface::Widget::ImageInterface*>(widget);
-        if (imageCast) {
-            xMin = qMin(xMin, imageCast->x());
-            xMax = qMax(xMax, imageCast->x());
-            if (xMax == imageCast->x()) {
-                lastWidth = imageCast->width();
-            }
-            continue;
-        }
-
-        auto textCast = dynamic_cast<const UserInterface::Widget::TextInterface*>(widget);
-        if (textCast) {
-            xMin = qMin(xMin, textCast->x());
-            xMax = qMax(xMax, textCast->x());
-            if (xMax == textCast->x()) {
-                lastWidth = textCast->width();
-            }
-            continue;
-        }
-
-        auto containerCast = dynamic_cast<const UserInterface::Widget::Container*>(widget);
-        if (containerCast) {
-            xMin = qMin(xMin, containerCast->x());
-            xMax = qMax(xMax, containerCast->x());
-            if (xMax == containerCast->x()) {
-                lastWidth = containerCast->width();
-            }
-            continue;
-        }
-
-    }
-
-    return xMax - xMin + lastWidth;
+    return m_width;
 
 }
 
@@ -560,45 +529,7 @@ const int16_t UserInterface::Widget::DriverEntry::width() const {
 
 const int16_t UserInterface::Widget::DriverEntry::height() const {
 
-    if (!m_position || !m_driverName || !m_teamIcon) {
-        return 0;
-    }
-
-    // [crying intensifies]
-    int16_t yMin = INT16_MAX;
-    int16_t excessHeight = INT16_MIN;
-    for (const auto widget : m_allWidgets) {
-
-        auto imageCast = dynamic_cast<const UserInterface::Widget::ImageInterface*>(widget);
-        if (imageCast) {
-            yMin = qMin(yMin, imageCast->y());
-            if ((yMin + excessHeight) < (imageCast->y() + imageCast->height())) {
-                excessHeight = imageCast->height();
-            }
-            continue;
-        }
-
-        auto textCast = dynamic_cast<const UserInterface::Widget::TextInterface*>(widget);
-        if (textCast) {
-            yMin = qMin(yMin, textCast->y());
-            if ((yMin + excessHeight) < (textCast->y() + textCast->height())) {
-                excessHeight = textCast->height();
-            }
-            continue;
-        }
-
-        auto containerCast = dynamic_cast<const UserInterface::Widget::Container*>(widget);
-        if (containerCast) {
-            yMin = qMin(yMin, containerCast->y());
-            if ((yMin + excessHeight) < (containerCast->y() + containerCast->height())) {
-                excessHeight = containerCast->height();
-            }
-            continue;
-        }
-
-    }
-
-    return yMin + excessHeight;
+    return m_height;
 
 }
 
@@ -606,12 +537,7 @@ const int16_t UserInterface::Widget::DriverEntry::height() const {
 
 const int16_t UserInterface::Widget::DriverEntry::x() const {
 
-    if (!m_position || !m_driverName || !m_teamIcon) {
-        return 0;
-    }
-    // at least the position indicator is always on the left
-    qDebug() << "calc entry x = " << m_position->x();
-    return m_position->x();
+    return m_x;
 
 }
 
@@ -619,32 +545,7 @@ const int16_t UserInterface::Widget::DriverEntry::x() const {
 
 const int16_t UserInterface::Widget::DriverEntry::y() const {
 
-    if (!m_position || !m_driverName || !m_teamIcon) {
-        return 0;
-    }
-    // it's not as bad but I'm still crying on the inside
-    int16_t yMin = INT16_MAX;
-    for (const auto widget : m_allWidgets) {
-        auto imageCast = dynamic_cast<const UserInterface::Widget::ImageInterface*>(widget);
-        if (imageCast) {
-            yMin = qMin(yMin, imageCast->y());
-            continue;
-        }
-
-        auto textCast = dynamic_cast<const UserInterface::Widget::TextInterface*>(widget);
-        if (textCast) {
-            yMin = qMin(yMin, textCast->y());
-            continue;
-        }
-
-        auto containerCast = dynamic_cast<const UserInterface::Widget::Container*>(widget);
-        if (containerCast) {
-            yMin = qMin(yMin, containerCast->y());
-            continue;
-        }
-    }
-    qDebug() << "calc entry y = " << m_position->y();
-    return yMin;
+    return m_y;
 
 }
 

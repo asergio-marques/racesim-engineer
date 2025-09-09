@@ -12,9 +12,10 @@
 
 UserInterface::Widget::TyreInfoArray::TyreInfoArray(QWidget* parent) :
 	UserInterface::Widget::Container(UserInterface::Widget::ID::TyreInfo),
+	m_lastWidth(0),
+	m_lastHeight(0),
 	m_widgetParent(parent),
-	m_tyres(),
-	m_numStints(0) {
+	m_tyres() {
 
 
 
@@ -54,6 +55,10 @@ void UserInterface::Widget::TyreInfoArray::scale(const uint8_t percentX, const u
 
 void UserInterface::Widget::TyreInfoArray::setSize(const uint16_t newWidth, const uint16_t newHeight, const bool keepAspectRatio) {
 
+	m_lastWidth = newWidth;
+	m_lastHeight = newHeight;
+
+	// TODO ignoring parameters, just doing the basic logic right now
 	if (m_tyres.size() == 0) {
 
 		return;
@@ -64,9 +69,9 @@ void UserInterface::Widget::TyreInfoArray::setSize(const uint16_t newWidth, cons
 
 		auto* tyre = m_tyres[i];
 		if (tyre) {
-			
+
 			// heights calculated inside
-			tyre->setSize(UserInterface::Style::TyreInfoContainerMaxX.GetValue(newWidth), newHeight, false);
+			tyre->setSize(UserInterface::Style::TyreInfoContainerMaxX.GetValue(m_lastWidth), m_lastHeight, false);
 
 		}
 
@@ -116,26 +121,7 @@ void UserInterface::Widget::TyreInfoArray::lower() {
 
 const int16_t UserInterface::Widget::TyreInfoArray::width() const {
 
-	int16_t xMin = INT16_MAX;
-	int16_t xMax = INT16_MIN;
-	int16_t lastWidth = INT16_MIN;
-	for (const auto tyre : m_tyres) {
-
-		if (tyre) {
-
-			xMin = qMin(xMin, tyre->x());
-			xMax = qMax(xMax, tyre->x());
-			if (xMax == tyre->x()) {
-
-				lastWidth = tyre->width();
-
-			}
-
-		}
-
-	}
-
-	return xMax - xMin + lastWidth;
+	return UserInterface::Style::TyreInfoContainerMaxX.GetValue(m_lastWidth) * UserInterface::Style::TyreInfoContainerMaxNum;
 
 }
 
@@ -143,26 +129,7 @@ const int16_t UserInterface::Widget::TyreInfoArray::width() const {
 
 const int16_t UserInterface::Widget::TyreInfoArray::height() const {
 
-	int16_t yMin = INT16_MAX;
-	int16_t yMax = INT16_MIN;
-	int16_t lastHeight = INT16_MIN;
-	for (const auto tyre : m_tyres) {
-
-		if (tyre) {
-
-			yMin = qMin(yMin, tyre->y());
-			yMax = qMax(yMax, tyre->y());
-			if (yMax == tyre->y()) {
-
-				lastHeight = tyre->height();
-
-			}
-
-		}
-
-	}
-
-	return yMax - yMin + lastHeight;
+	return m_lastHeight;
 
 }
 
@@ -206,36 +173,15 @@ const int16_t UserInterface::Widget::TyreInfoArray::y() const {
 
 
 
-void UserInterface::Widget::TyreInfoArray::Init() {
-
-	for (size_t i = 0; i < MAX_TYRE_DISPLAY; ++i) {
-
-		auto* tyre = new UserInterface::Widget::TyreInfoContainer(m_widgetParent);
-		Q_ASSERT(tyre);
-		if (tyre) {
-
-			m_tyres.push_back(tyre);
-			tyre->Hide();
-
-		}
-
-	}
-
-	RedoDisplay();
-
-}
-
-
-
 void UserInterface::Widget::TyreInfoArray::TyreChange(Tyre::Internal::Actual actualTyreCompound, Tyre::Internal::Visual visualTyreCompound, uint8_t tyreAge, bool pitBeforeLine) {
 
 	// TODO implement logic related to pitBeforeLine
-    auto* tyre = m_tyres[m_numStints % 3];
+	auto* tyre = new UserInterface::Widget::TyreInfoContainer(m_widgetParent);
+	Q_ASSERT(tyre);
 	if (tyre) {
 
+		m_tyres.push_back(tyre);
 		tyre->Init(actualTyreCompound, visualTyreCompound, tyreAge);
-		tyre->Show();
-		++m_numStints;
 
 	}
 
@@ -248,12 +194,8 @@ void UserInterface::Widget::TyreInfoArray::TyreChange(Tyre::Internal::Actual act
 
 void UserInterface::Widget::TyreInfoArray::LapCompletedWithTyre() {
 
-    if (m_numStints == 0) return;
-
-	const size_t index = (m_numStints - 1) % 3;
-    if (index >= m_tyres.size()) return;
-
-	auto* tyre = m_tyres[index];
+	// always update the last tyre in the list, as it is the one that was used for the lap
+	auto* tyre = m_tyres.last();
 	if (tyre) {
 
 		tyre->IncrementLap();
@@ -274,20 +216,36 @@ void UserInterface::Widget::TyreInfoArray::RedoDisplay() {
 
 void UserInterface::Widget::TyreInfoArray::RedoDisplay(const uint16_t x, const uint16_t y) {
 
-	// no need for anything if this hasn't been init
-	if (m_tyres.empty()) return;
+	// no need for anything if there have been no stints
+	if (m_tyres.size() == 0) {
 
-	// if there were 0 stints thus far, then safeguard, otherwise we want to go 2, 1, 0 order of indexes
-	uint8_t count = (m_numStints == 0) ? 0 : (m_numStints - 1) % 3;
+		return;
 
-	for (uint8_t i = count; ; --i) {
+	}
 
+	uint8_t displayCount = 0;
+
+	for (uint8_t i = m_tyres.size() - 1; displayCount < UserInterface::Style::TyreInfoContainerMaxNum; --i, ++displayCount) {
+
+		uint16_t baseX = x + (displayCount * UserInterface::Style::TyreInfoContainerMaxX.GetValue(m_lastWidth));
 		auto* tyre = m_tyres[i];
-		uint16_t baseX = x + (count * tyre->width());
 		tyre->move(baseX, y, false, false);
 		tyre->RedoneOnce();
 
 		if (i == 0) break;
+
+	}
+	// hide any remaining tyres that are not supposed to be displayed
+	if (m_tyres.size() < UserInterface::Style::TyreInfoContainerMaxNum) return;
+	for (uint8_t i = 0; i < m_tyres.size() - UserInterface::Style::TyreInfoContainerMaxNum; ++i) {
+
+		auto* tyre = m_tyres[i];
+
+		if (tyre) {
+
+			tyre->Hide();
+
+		}
 
 	}
 

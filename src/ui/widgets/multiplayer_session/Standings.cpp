@@ -148,19 +148,12 @@ void UserInterface::Widget::Standings::onTyreChanged(const Packet::Event::TyreCh
 
 void UserInterface::Widget::Standings::move(const uint16_t x, const uint16_t y, const bool centerAlignmentX, const bool centerAlignmentY) {
 
-    qDebug() << "Standings::move - x:" << x << " y:" << y << " width:" << width() << " height:" << height();
     uint16_t trueX = centerAlignmentX ? x - (width() / 2) : x;
     uint16_t trueY = centerAlignmentY ? y - (height() / 2) : y;
-    for (auto driver : m_driverData) {
-
-        if (driver) {
-
-            // alignment inputs unnecessary and easier to calc
-            driver->move(trueX, trueY + ((driver->GetCurrentPosition() - 1) * 48), false, false);
-
-        }
-
-    }
+    m_x = trueX;
+    m_y = trueY;
+    
+    reorderStandings();
 
 }
 
@@ -184,13 +177,17 @@ void UserInterface::Widget::Standings::scale(const uint8_t percentX, const uint8
 
 void UserInterface::Widget::Standings::setSize(const uint16_t newWidth, const uint16_t newHeight, const bool keepAspectRatio) {
 
+    m_width = newWidth;
+    m_height = newHeight;
+
     for (const auto driver : m_driverData) {
 
         if (driver) {
 
             // Take into account the maximum number of entries
-            driver->setSize(newWidth, std::ceil(newHeight / 20), false);
+            driver->setSize(m_width, std::ceil(m_height / 20), false);
             reorderStandings();
+
         }
 
     }
@@ -229,8 +226,13 @@ void UserInterface::Widget::Standings::reorderStandings() {
 
         if (driver) {
 
-            // take into account the position order
-            uint16_t newY = y() + ((driver->GetCurrentPosition() - 1) * 48);
+            // take into account the position order if valid
+            uint16_t newY = 0;
+            if (driver->GetCurrentPosition() > 0) {
+
+                newY = y() + ((driver->GetCurrentPosition() - 1) * driver->height());
+
+            }
             driver->move(x(), newY, false, false);
 
         }
@@ -260,18 +262,7 @@ void UserInterface::Widget::Standings::positionChange(const uint8_t id, const ui
 
 const int16_t UserInterface::Widget::Standings::width() const {
 
-    int16_t width = 0;
-    for (auto driver : m_driverData) {
-
-        if (driver) {
-
-            width = std::max(width, driver->width());
-
-        }
-
-    }
-
-    return width;
+    return m_width;
 
 }
 
@@ -279,18 +270,7 @@ const int16_t UserInterface::Widget::Standings::width() const {
 
 const int16_t UserInterface::Widget::Standings::height() const {
 
-    int16_t maxY = 0;
-    for (auto driver : m_driverData) {
-
-        if (driver) {
-
-            maxY = std::max(maxY, driver->y());
-
-        }
-
-    }
-
-    return maxY - y();
+    return m_height;
 
 }
 
@@ -298,18 +278,7 @@ const int16_t UserInterface::Widget::Standings::height() const {
 
 const int16_t UserInterface::Widget::Standings::x() const {
 
-    int16_t minX = INT_MAX;
-    for (auto driver : m_driverData) {
-
-        if (driver) {
-
-            minX = std::min(minX, driver->x());
-
-        }
-
-    }
-    qDebug() << "calc standings x = " << minX;
-    return minX;
+    return m_x;
 
 }
 
@@ -317,18 +286,6 @@ const int16_t UserInterface::Widget::Standings::x() const {
 
 const int16_t UserInterface::Widget::Standings::y() const {
 
-    int16_t minY = INT_MAX;
-    for (auto driver : m_driverData) {
-
-        if (driver) {
-
-            minY = std::min(minY, driver->y());
-
-        }
-
-    }
-
-    qDebug() << "calc standings y = " << minY;
-    return minY;
+    return m_y;
 
 }

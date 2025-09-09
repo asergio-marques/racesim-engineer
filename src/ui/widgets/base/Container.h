@@ -32,6 +32,12 @@ namespace UserInterface {
             virtual const int16_t x() const = 0;
             virtual const int16_t y() const = 0;
 
+            protected:
+            int16_t m_x = 0;
+            int16_t m_y = 0;
+            int16_t m_width = 0;
+            int16_t m_height = 0;
+
         };
 
     }

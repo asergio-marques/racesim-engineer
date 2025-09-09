@@ -148,11 +148,9 @@ void UserInterface::Widget::Standings::onTyreChanged(const Packet::Event::TyreCh
 
 void UserInterface::Widget::Standings::move(const uint16_t x, const uint16_t y, const bool centerAlignmentX, const bool centerAlignmentY) {
 
-    uint16_t trueX = centerAlignmentX ? x - (width() / 2) : x;
-    uint16_t trueY = centerAlignmentY ? y - (height() / 2) : y;
-    m_x = trueX;
-    m_y = trueY;
-    
+    m_x = centerAlignmentX ? x - (width() / 2) : x;
+    m_y = centerAlignmentY ? y - (height() / 2) : y;
+
     reorderStandings();
 
 }
@@ -185,7 +183,7 @@ void UserInterface::Widget::Standings::setSize(const uint16_t newWidth, const ui
         if (driver) {
 
             // Take into account the maximum number of entries
-            driver->setSize(m_width, std::ceil(m_height / 20), false);
+            driver->setSize(m_width, std::ceil(m_height / 22), false);
             reorderStandings();
 
         }

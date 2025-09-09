@@ -55,6 +55,8 @@ namespace UserInterface {
             const uint8_t GetCurrentPosition() const;
 
             private:
+            void redoLayout();
+
             QList<UserInterface::Widget::Interface*> m_allWidgets;
             uint8_t m_driverIndex;
             uint8_t m_currentPosition;
@@ -62,8 +64,8 @@ namespace UserInterface {
             UserInterface::Widget::FastestLapIndicator* m_fastestLap;
             UserInterface::Widget::TextInterface* m_position;
             /*UserInterface::Widget::WarningContainer* m_trackLimWarn;
-            UserInterface::Widget::WarningContainer* m_otherWarn;
-            UserInterface::Widget::TeamIcon* m_teamIcon;*/
+            UserInterface::Widget::WarningContainer* m_otherWarn;*/
+            UserInterface::Widget::TeamIcon* m_teamIcon;
             UserInterface::Widget::TextInterface* m_driverName;
             /*UserInterface::Widget::LapInfoContainer* m_personalBestLap;
             UserInterface::Widget::LapInfoContainer* m_lastLap;

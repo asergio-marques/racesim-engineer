@@ -20,11 +20,12 @@ namespace UserInterface {
         // references:
         // 92.5% of 480px = 444px (~22px per entry for 20 total)
         // 92.5% of 2160px = 1998px (~100px per entry for 20 total)
+        // TODO references should be 22 total not 20!
         static inline const float_t StandingsHeightRelative = 0.925f;
 
         static inline const Value PositionFontSize = {
             Value::Type::Absolute,
-            16,     // m_minValue
+            14,     // m_minValue
             22,     // m_minValuePoint
             72,     // m_maxValue
             100     // m_maxValuePoint
@@ -40,9 +41,9 @@ namespace UserInterface {
 
         static inline const Value DriverNameMaximumWidth = {
             Value::Type::Absolute,
-            54,     // m_minValue
+            48,     // m_minValue
             392,    // m_minValuePoint
-            228,    // m_maxValue
+            202,    // m_maxValue
             1776    // m_maxValuePoint
         };
 

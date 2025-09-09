@@ -51,9 +51,10 @@ void UserInterface::Panel::RaceRight::ResizePanel(const QSize& newUsefulSize) {
         // resize and center the standings
         uint16_t newWidth = static_cast<uint16_t>(std::round(newUsefulSize.width() * UserInterface::Style::StandingsWidthRelative));
         uint16_t newHeight = static_cast<uint16_t>(std::round(newUsefulSize.height() * UserInterface::Style::StandingsHeightRelative));
+        m_driverStandings->setSize(newWidth, newHeight, false);
+
         uint16_t centerX = newUsefulSize.width() / 2;
         uint16_t centerY = newUsefulSize.height() / 2;
-        m_driverStandings->setSize(newWidth, newHeight, false);
         m_driverStandings->move(centerX, centerY, true, true);
 
     }

@@ -2,6 +2,7 @@
 
 #include <map>
 #include <QWidget>
+#include "core/Screen.h"
 #include "widgets/base/ID.h"
 #include "widgets/base/Interface.h"
 #include "widgets/base/ImageInterface.h"
@@ -35,12 +36,13 @@ bool UserInterface::Panel::Interface::RegisterWidget(UserInterface::Widget::Inte
 }
 
 
-void UserInterface::Panel::Interface::ResizePanel(const QSize& newPanelSize) {
+void UserInterface::Panel::Interface::ResizePanel(const QSize& newUsefulSize) {
 
     if (m_background) {
 
         // aspect ratio cannot be kept due to the title and menu bars occupying vertical space
-        m_background->setSize(newPanelSize.width(), newPanelSize.height(), false);
+        m_background->setSize(newUsefulSize.width(), newUsefulSize.height(), false);
+        adjustSize();
 
     }
 

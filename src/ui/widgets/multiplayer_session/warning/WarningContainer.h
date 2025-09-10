@@ -13,6 +13,7 @@ namespace UserInterface {
 
     namespace Widget {
 
+        class TextInterface;
         class WarningIcon;
 
         class WarningContainer final : public UserInterface::Widget::Container {
@@ -27,13 +28,14 @@ namespace UserInterface {
 
             WarningContainer(const UserInterface::Widget::WarningContainer::Type type, QWidget* parent = 0);
             ~WarningContainer() = default;
-            void addWarning();
+            void addWarning(const int32_t change);
             virtual void move(const uint16_t x, const uint16_t y, const bool centerAlignmentX, const bool centerAlignmentY) override final;
             void scale(const uint8_t percent) override final;
             void scale(const uint8_t percentX, const uint8_t percentY) override final;
             void setSize(const uint16_t newWidth, const uint16_t newHeight, const bool keepAspectRatio) override final;
             void raise() override final;
             void lower() override final;
+            void setTextFontSize(const uint16_t size) override final;
 
             // Getters
             virtual const int16_t width() const override final;
@@ -42,8 +44,8 @@ namespace UserInterface {
             virtual const int16_t y() const override final;
 
             private:
-            QList<UserInterface::Widget::WarningIcon*> m_icons;
-            static constexpr uint8_t HEIGHT_SPACER = 2;
+            UserInterface::Widget::WarningIcon* m_icon;
+            UserInterface::Widget::TextInterface* m_warningCount;
             uint8_t m_currentlyActiveWarnings;
 
         };

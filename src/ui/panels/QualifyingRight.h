@@ -31,7 +31,7 @@ namespace UserInterface {
             public:
                 QualifyingRight(UserInterface::PacketHandler* handler, QWidget* parent = 0);
                 virtual ~QualifyingRight() = default;
-                virtual void ResizePanel(const QSize& newPanelSize) override final;
+                virtual void ResizePanel(const QSize& newUsefulSize) override final;
 
         };
 

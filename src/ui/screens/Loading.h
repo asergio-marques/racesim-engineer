@@ -2,7 +2,7 @@
 #define USERINTERFACE_SCREENS_INCLUDE_LOADING_H_
 
 #include "screens/SinglePanelInterface.h"
-#include "core/ScreenType.h"
+#include "core/Screen.h"
 
 
 

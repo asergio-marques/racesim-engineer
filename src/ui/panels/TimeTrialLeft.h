@@ -37,7 +37,7 @@ namespace UserInterface {
             public:
                 TimeTrialLeft(UserInterface::PacketHandler* handler, QWidget* parent = 0);
                 virtual ~TimeTrialLeft() = default;
-                virtual void ResizePanel(const QSize& newPanelSize) override final;
+                virtual void ResizePanel(const QSize& newUsefulSize) override final;
 
             private:
                 UserInterface::Widget::ScreenTitle* m_screenTitle;

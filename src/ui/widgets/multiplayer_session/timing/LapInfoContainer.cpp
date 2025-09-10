@@ -50,10 +50,29 @@ UserInterface::Widget::LapInfoContainer::LapInfoContainer(UserInterface::Widget:
 
     if (m_label && m_time) {
 
+        m_label->hide();
+        m_time->hide();
         m_label->raise();
         m_time->raise();
-        // default value
+
+    }
+
+}
+
+
+
+void UserInterface::Widget::LapInfoContainer::init() {
+
+    if (m_time) {
+
+        m_time->show();
         m_time->setText("-:--.---");
+
+    }
+
+    if (m_label) {
+
+        m_label->show();
 
     }
 

@@ -11,6 +11,12 @@ class QWidget;
 
 namespace UserInterface {
 
+    namespace Style {
+
+        class Interface;
+
+    }
+
     namespace Panel {
 
         class Interface;
@@ -30,7 +36,7 @@ namespace UserInterface {
                 virtual void Initialize() override;
 
             public slots:
-                virtual void handleResizeEvent(QResizeEvent* event) override final;
+                virtual void handleResizeEvent(const QSize newUsefulSize) override final;
 
             protected:
                 Settings::WindowNumber m_mode;

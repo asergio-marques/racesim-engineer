@@ -44,15 +44,13 @@ void UserInterface::Screen::DualPanelInterface::Initialize() {
 
 
 
-void UserInterface::Screen::DualPanelInterface::handleResizeEvent(QResizeEvent* event) {
+void UserInterface::Screen::DualPanelInterface::handleResizeEvent(const QSize newUsefulSize) {
 
-    if (event) {
-
-        QSize newScreenSize = event->size();
-        QSize newPanelSize(newScreenSize.width() / 2, newScreenSize.height());
-        if (m_panelLeft) m_panelLeft->ResizePanel(newPanelSize);
-        if (m_panelRight) m_panelRight->ResizePanel(newPanelSize);
-
+    QSize newPanelSize(newUsefulSize.width() / 2, newUsefulSize.height());
+    if (m_panelLeft) m_panelLeft->ResizePanel(newPanelSize);
+    if (m_panelRight) {
+        m_panelRight->move(newUsefulSize.width() / 2, 0);
+        m_panelRight->ResizePanel(newPanelSize);
     }
 
 }

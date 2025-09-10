@@ -39,7 +39,8 @@ namespace UserInterface {
             void newSessionBestLap(const Lap::Internal::Time newLapTime, const bool isThisDrivers);
             void newPersonalBestLap(const Lap::Internal::Time newLapTime);
             void newLatestLap(const Lap::Internal::Time newLapTime);
-            void newTyres(const Tyre::Internal::Actual actualTyre, const Tyre::Internal::Visual visualTyre, const uint8_t tyreAge);
+            void newTyres(const Tyre::Internal::Actual actualTyre,const Tyre::Internal::Visual visualTyre,
+                const uint8_t stintNo, const uint8_t tyreAge);
             virtual void move(const uint16_t x, const uint16_t y, const bool centerAlignmentX, const bool centerAlignmentY) override final;
             void scale(const uint8_t percent) override final;
             void scale(const uint8_t percentX, const uint8_t percentY) override final;
@@ -55,6 +56,8 @@ namespace UserInterface {
             const uint8_t GetCurrentPosition() const;
 
             private:
+            void redoLayout();
+
             QList<UserInterface::Widget::Interface*> m_allWidgets;
             uint8_t m_driverIndex;
             uint8_t m_currentPosition;

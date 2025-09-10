@@ -3,7 +3,8 @@
 #include "base/Container.h"
 #include "base/ImageInterface.h"
 #include "base/TextInterface.h"
-#include "styles/Standings.h"
+#include "styles/DriverInfoRace.h"
+
 
 
 
@@ -139,11 +140,9 @@ void UserInterface::Widget::TimeInfoContainer::setTextFontSize(const uint16_t si
     }
     if (m_time) {
 
-        UserInterface::Style::Standings style;
-        m_time->setFontSize(size * style.LapInfoIconTimeTextSizeRelative.m_value / 100);
+        m_time->setFontSize(std::round(size * UserInterface::Style::LapInfoTimeRelativeOfLabelFontSize / 100));
 
     }
-
 
 }
 

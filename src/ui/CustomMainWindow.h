@@ -1,8 +1,10 @@
 #ifndef USERINTERFACE_INCLUDE_CUSTOM_MAIN_WINDOW_H_
 #define USERINTERFACE_INCLUDE_CUSTOM_MAIN_WINDOW_H_
 
+#include <QList>
 #include <QMainWindow>
-#include "core/ScreenType.h"
+#include <QPair>
+#include "core/Screen.h"
 
 
 
@@ -47,7 +49,7 @@ namespace UserInterface {
             void OnRaceStart();
 
         signals:
-            void onResizeEvent(QResizeEvent* event);
+            void onResizeEvent(const QSize newUsefulSize);
 
         protected:
             virtual void resizeEvent(QResizeEvent* event) override;

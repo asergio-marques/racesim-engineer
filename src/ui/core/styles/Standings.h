@@ -1,7 +1,7 @@
 #ifndef USERINTERFACE_STYLE_INCLUDE_STANDINGS_H_
 #define USERINTERFACE_STYLE_INCLUDE_STANDINGS_H_
 
-#include "styles/General.h"
+#include "styles/Value.h"
 
 namespace UserInterface {
 
@@ -14,47 +14,55 @@ namespace UserInterface {
 
             ~Standings() = default;
 
+            /*static inline const Value EntryHeight = {
+                UserInterface::Style::Value::Type::Absolute,
+                18,      // m_minValue
+                480,    // m_minValuePoint
+                98,     // m_maxValue
+                2160    // m_maxValuePoint
+            };
+
             // Hardcoded for 1080p; changes to this need to be done later!
 
-            static inline const Value PaddingReference = { ValueType::Absolute, 6 };
+            static inline const Value PaddingReference = { Value::Type::Absolute, 6, 480, 6, 2160 };
+            static inline const Value EdgePadding = { Value::Type::Absolute, 16, 480, 16, 2160 };
 
             // Position Indicator
-            static inline const Value FastestLapIconXY = { ValueType::Absolute, 48 };
-            static inline const Value PositionTextSize = { ValueType::Absolute, 32 };
+            static inline const Value FastestLapIconXY = { Value::Type::Absolute, 48, 480, 48, 2160 };
+            static inline const Value PositionTextSize = { Value::Type::Absolute, 32, 480, 32, 2160 };
 
             // Team logo
-            static inline const Value TeamLogoPaddingXY = { ValueType::Absolute, 6 };
-            static inline const Value TeamLogoMaxXY = { ValueType::Absolute, 36 };
+            static inline const Value TeamLogoPaddingXY = { Value::Type::Absolute, 6, 480, 6, 2160 };
+            static inline const Value TeamLogoMaxXY = { Value::Type::Absolute, 36, 480, 36, 2160 };
 
             // Driver name
-            static inline const Value DriverNameTextSize = { ValueType::Absolute, 30 };
-            static inline const Value DriverNameMaxWidth = { ValueType::Absolute, 114 };
+            static inline const Value DriverNameTextSize = { Value::Type::Absolute, 30, 480, 30, 2160 };
+            static inline const Value DriverNameMaxWidth = { Value::Type::Absolute, 114, 480, 114, 2160 };
 
             // Lap info
-            static inline const Value LapInfoIconMaxX = { ValueType::Absolute, 116 };
-            static inline const Value LapInfoIconMaxY = { ValueType::Absolute, 21 };
-            static inline const Value LapInfoIconLabelTextSize = { ValueType::Absolute, 9 };
-            static inline const Value LapInfoIconTimeTextSizeRelative = { ValueType::Absolute, 140 };
+            static inline const Value LapInfoIconMaxX = { Value::Type::Absolute, 116, 480, 116, 2160 };
+            static inline const Value LapInfoIconMaxY = { Value::Type::Absolute, 21, 480, 21, 2160 };
+            static inline const Value LapInfoIconLabelTextSize = { Value::Type::Absolute, 9, 480, 9, 2160 };
+            static inline const Value LapInfoIconTimeTextSizeRelative = { Value::Type::Absolute, 140, 480, 140, 2160 };
 
             // Tyre info
-            static inline const Value TyreInfoContainerMaxX = { ValueType::Absolute, 100 };
-            static inline const Value TyreInfoArrayMaxNum = { ValueType::Absolute, 3 };
-            static inline const Value TyreInfoContainerMaxY = { ValueType::Absolute, 48 };
-            static inline const Value TyreInfoTyreIconMaxXY = { ValueType::Absolute, 36 };
-            static inline const Value TyreInfoTyreCompoundTextSize = { ValueType::Absolute, 14 };
-            static inline const Value TyreInfoTyreAgeTextSize = { ValueType::Absolute, 22 };
-			static inline const Value TyreInfoIconAgeTextGap = { ValueType::Absolute, 6 };
-
+            static inline const Value TyreInfoContainerMaxX = { Value::Type::Absolute, 100, 480, 100, 2160 };
+            static inline const Value TyreInfoArrayMaxNum = { Value::Type::Absolute, 3, 480, 3, 2160 };
+            static inline const Value TyreInfoContainerMaxY = { Value::Type::Absolute, 48 , 480, 48, 2160 };
+            static inline const Value TyreInfoTyreIconMaxXY = { Value::Type::Absolute, 36, 480, 36, 2160 };
+            static inline const Value TyreInfoTyreCompoundTextSize = { Value::Type::Absolute, 14, 480, 14, 2160 };
+            static inline const Value TyreInfoTyreAgeTextSize = { Value::Type::Absolute, 22 , 480, 22, 2160 };
+			static inline const Value TyreInfoIconAgeTextGap = { Value::Type::Absolute, 6, 480, 6, 2160 };
 
             // Penalty icon
-            static inline const Value PenaltyIconMaxX = { ValueType::Absolute, 88 };
-            static inline const Value PenaltyIconMaxY = { ValueType::Absolute, 36 };
-            static inline const Value PenaltyIconTextSize = { ValueType::Absolute, 16 };
+            static inline const Value PenaltyIconMaxX = { Value::Type::Absolute, 88, 480, 88, 2160 };
+            static inline const Value PenaltyIconMaxY = { Value::Type::Absolute, 36, 480, 36, 2160 };
+            static inline const Value PenaltyIconTextSize = { Value::Type::Absolute, 16, 480, 16, 2160 };
 
             // Retirement icon
-            static inline const Value RetirementIconMaxX = { ValueType::Absolute, 522 };
-            static inline const Value RetirementIconMaxY = { ValueType::Absolute, 42 };
-            static inline const Value RetirementIconTextSize = { ValueType::Absolute, 24 };
+            static inline const Value RetirementIconMaxX = { Value::Type::Absolute, 522, 480, 522, 2160 };
+            static inline const Value RetirementIconMaxY = { Value::Type::Absolute, 42, 480, 42, 2160 };
+            static inline const Value RetirementIconTextSize = { Value::Type::Absolute, 24, 480, 24, 2160 };*/
 
         };
 

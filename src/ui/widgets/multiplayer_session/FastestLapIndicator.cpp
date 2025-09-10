@@ -5,7 +5,7 @@
 #include "Image.h"
 #include "PixmapFactory.h"
 #include "base/ImageInterface.h"
-
+#include <iostream>
 
 
 UserInterface::Widget::FastestLapIndicator::FastestLapIndicator(QWidget* parent) :

@@ -18,6 +18,7 @@ namespace UserInterface {
             public:
             LapInfoContainer(UserInterface::Widget::TimeInfoContainer::Type type, QWidget* parent = 0);
             ~LapInfoContainer() = default;
+            void init();
             void updateTime(const Lap::Internal::Time& newTime);
             void changeSessionBestStatus(bool show);
             void changePersonalBestStatus(bool show);

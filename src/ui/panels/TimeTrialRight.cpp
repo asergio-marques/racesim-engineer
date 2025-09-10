@@ -18,9 +18,9 @@ UserInterface::Panel::TimeTrialRight::TimeTrialRight(UserInterface::PacketHandle
 
 
 
-void UserInterface::Panel::TimeTrialRight::ResizePanel(const QSize& newPanelSize) {
+void UserInterface::Panel::TimeTrialRight::ResizePanel(const QSize& newUsefulSize) {
 
     // call overridden function to resize background
-    UserInterface::Panel::Interface::ResizePanel(newPanelSize);
+    UserInterface::Panel::Interface::ResizePanel(newUsefulSize);
 
 }

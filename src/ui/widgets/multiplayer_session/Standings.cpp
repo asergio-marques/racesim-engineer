@@ -11,8 +11,8 @@
 #include "packets/event/QualiStart.h"
 #include "packets/event/RaceStart.h"
 #include "packets/event/TimeTrialStart.h"
-#include "styles/Standings.h"
-#include "styles/General.h"
+#include "styles/DriverInfoRace.h"
+#include "styles/Value.h"
 
 
 
@@ -136,6 +136,7 @@ void UserInterface::Widget::Standings::onTyreChanged(const Packet::Event::TyreCh
 
             entry->newTyres(dataPacket->m_tyreInfo.m_actualTyre,
                 dataPacket->m_tyreInfo.m_visualTyre,
+                dataPacket->m_tyreInfo.m_stintNo,
                 dataPacket->m_tyreInfo.m_stintLength);
 
         }
@@ -148,16 +149,10 @@ void UserInterface::Widget::Standings::onTyreChanged(const Packet::Event::TyreCh
 
 void UserInterface::Widget::Standings::move(const uint16_t x, const uint16_t y, const bool centerAlignmentX, const bool centerAlignmentY) {
 
-    for (auto driver : m_driverData) {
+    m_x = centerAlignmentX ? x - (width() / 2) : x;
+    m_y = centerAlignmentY ? y - (height() / 2) : y;
 
-        if (driver) {
-
-            // alignment inputs deliberately ignored
-            driver->move(x, y + ((driver->GetCurrentPosition() - 1) * 48), false, false);
-
-        }
-
-    }
+    reorderStandings();
 
 }
 
@@ -181,17 +176,17 @@ void UserInterface::Widget::Standings::scale(const uint8_t percentX, const uint8
 
 void UserInterface::Widget::Standings::setSize(const uint16_t newWidth, const uint16_t newHeight, const bool keepAspectRatio) {
 
-    // remove the padding
-    UserInterface::Style::General genStyle;
-    const uint16_t newHeightWidget = newHeight - (2 * genStyle.VerticalEdgeBorder.m_value);
+    m_width = newWidth;
+    m_height = newHeight;
 
     for (const auto driver : m_driverData) {
 
         if (driver) {
 
-            // 20 entries maximum
-            driver->setSize(newWidth, (newHeight / 20), false);
+            // Take into account the maximum number of entries
+            driver->setSize(m_width, std::ceil(m_height / 22), false);
             reorderStandings();
+
         }
 
     }
@@ -226,16 +221,18 @@ void UserInterface::Widget::Standings::lower() {
 
 void UserInterface::Widget::Standings::reorderStandings() {
 
-    UserInterface::Style::General style;
-
     for (auto driver : m_driverData) {
 
         if (driver) {
 
-            // take into account the position order
-            // TODO height hard-coded!!
-            uint16_t newY = style.VerticalEdgeBorder.m_value + ((driver->GetCurrentPosition() - 1) * 48);
-            driver->move(style.HorizontalEdgeBorder.m_value, newY, false, false);
+            // take into account the position order if valid
+            uint16_t newY = 0;
+            if (driver->GetCurrentPosition() > 0) {
+
+                newY = y() + ((driver->GetCurrentPosition() - 1) * driver->height());
+
+            }
+            driver->move(x(), newY, false, false);
 
         }
 
@@ -264,18 +261,7 @@ void UserInterface::Widget::Standings::positionChange(const uint8_t id, const ui
 
 const int16_t UserInterface::Widget::Standings::width() const {
 
-    int16_t width = 0;
-    for (auto driver : m_driverData) {
-
-        if (driver) {
-
-            width = std::max(width, driver->width());
-
-        }
-
-    }
-
-    return width;
+    return m_width;
 
 }
 
@@ -283,18 +269,7 @@ const int16_t UserInterface::Widget::Standings::width() const {
 
 const int16_t UserInterface::Widget::Standings::height() const {
 
-    int16_t maxY = 0;
-    for (auto driver : m_driverData) {
-
-        if (driver) {
-
-            maxY = std::max(maxY, driver->y());
-
-        }
-
-    }
-
-    return maxY - y();
+    return m_height;
 
 }
 
@@ -302,18 +277,7 @@ const int16_t UserInterface::Widget::Standings::height() const {
 
 const int16_t UserInterface::Widget::Standings::x() const {
 
-    int16_t minX = INT_MAX;
-    for (auto driver : m_driverData) {
-
-        if (driver) {
-
-            minX = std::min(minX, driver->x());
-
-        }
-
-    }
-
-    return minX;
+    return m_x;
 
 }
 
@@ -321,17 +285,6 @@ const int16_t UserInterface::Widget::Standings::x() const {
 
 const int16_t UserInterface::Widget::Standings::y() const {
 
-    int16_t minY = INT_MAX;
-    for (auto driver : m_driverData) {
-
-        if (driver) {
-
-            minY = std::min(minY, driver->y());
-
-        }
-
-    }
-
-    return minY;
+    return m_y;
 
 }

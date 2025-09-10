@@ -30,19 +30,20 @@ namespace UserInterface {
             const int16_t x() const override;
             const int16_t y() const override;
 
-            void Init(Tyre::Internal::Actual actualTyreCompound, Tyre::Internal::Visual visualTyreCompound, uint8_t numLapsAtStart);
+            void Init(Tyre::Internal::Actual actualTyreCompound, Tyre::Internal::Visual visualTyreCompound, uint8_t numLapsAtStart, uint8_t stintNo);
             void IncrementLap();
             void Show();
             void Hide();
-            void RedoneOnce();
-            bool HasBeenRedoneAtLeastOnce() const;
 
             protected:
+            void redoLayout();
+
             UserInterface::Widget::TyreIcon* m_visualCompoundIcon;
             UserInterface::Widget::TextInterface* m_actualCompoundText;
             UserInterface::Widget::TextInterface* m_lapsText;
+            UserInterface::Widget::TextInterface* m_stintNoText;
             uint8_t m_numLaps;
-            bool m_redone;
+            uint8_t m_stintNo;
 
         };
     }

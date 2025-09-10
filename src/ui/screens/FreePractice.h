@@ -2,7 +2,7 @@
 #define USERINTERFACE_SCREENS_INCLUDE_FREE_PRACTICE_H_
 
 #include "screens/DualPanelInterface.h"
-#include "core/ScreenType.h"
+#include "core/Screen.h"
 
 class QWidget;
 
@@ -13,6 +13,7 @@ namespace UserInterface {
     class PacketHandler;
 
     namespace Screen {
+
         class FreePractice : public UserInterface::Screen::DualPanelInterface {
 
             Q_OBJECT

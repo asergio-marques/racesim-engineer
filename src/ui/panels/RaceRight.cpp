@@ -5,10 +5,12 @@
 #include "PacketHandler.h"
 #include "packets/event/Overtake.h"
 #include "panels/Interface.h"
-#include "styles/Standings.h"
+#include "styles/DriverInfoRace.h"
 #include "widgets/general_use/BackgroundRight.h"
 #include "widgets/general_use/ScreenTitle.h"
 #include "widgets/multiplayer_session/Standings.h"
+
+
 
 
 UserInterface::Panel::RaceRight::RaceRight(UserInterface::PacketHandler* handler, QWidget* parent) :
@@ -39,24 +41,21 @@ UserInterface::Panel::RaceRight::RaceRight(UserInterface::PacketHandler* handler
 
 
 
-void UserInterface::Panel::RaceRight::ResizePanel(const QSize& newPanelSize) {
+void UserInterface::Panel::RaceRight::ResizePanel(const QSize& newUsefulSize) {
 
     // call overridden function to resize background
-    UserInterface::Panel::Interface::ResizePanel(newPanelSize);
+    UserInterface::Panel::Interface::ResizePanel(newUsefulSize);
 
-    UserInterface::Style::General generalStyle;
-    // TODO proper style
     if (m_driverStandings) {
 
-        const uint16_t horizontalBorder = generalStyle.HorizontalEdgeBorder.m_value;
-        const uint16_t verticalBorder = generalStyle.VerticalEdgeBorder.m_value;
-
-        // new size for the whole widget
-        auto newWidth = static_cast<uint16_t>(newPanelSize.width()) - (2 * horizontalBorder);
-        auto newHeight = static_cast<uint16_t>(newPanelSize.height()) - (2 * verticalBorder);
-
+        // resize and center the standings
+        uint16_t newWidth = static_cast<uint16_t>(std::round(newUsefulSize.width() * UserInterface::Style::StandingsWidthRelative));
+        uint16_t newHeight = static_cast<uint16_t>(std::round(newUsefulSize.height() * UserInterface::Style::StandingsHeightRelative));
         m_driverStandings->setSize(newWidth, newHeight, false);
-        m_driverStandings->move(generalStyle.HorizontalEdgeBorder.m_value, generalStyle.VerticalEdgeBorder.m_value, false, false);
+
+        uint16_t centerX = newUsefulSize.width() / 2;
+        uint16_t centerY = newUsefulSize.height() / 2;
+        m_driverStandings->move(centerX, centerY, true, true);
 
     }
 

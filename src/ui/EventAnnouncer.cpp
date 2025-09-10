@@ -80,9 +80,7 @@ void UserInterface::EventAnnouncer::AnnounceFinishedLap(const Packet::Event::Lap
             m_speechEngine->enqueue(ownAnnouncement);
 
         }
-
-
-        if (!(lap->m_fullName.empty())) {
+        else if (!(lap->m_fullName.empty())) {
 
             QString nameAnnouncement = QString("Driver %1 has done the fastest lap with a %2 %3 point %4.")
                 .arg(QString::fromStdString(lap->m_fullName))
@@ -169,12 +167,13 @@ void UserInterface::EventAnnouncer::AnnouncePenaltyReceived(const Packet::Event:
                 break;
 
             case Penalty::Internal::Type::StopGo:
-                if (pen->m_delta > 0) {
+                // TODO intentionally deactivated on grounds of being annoying, but should be user configurable
+                /*if (pen->m_delta > 0) {
                     penDescription = QString("received a %1 second time penalty that can be served").arg(QString::number(pen->m_delta / 1000));
                 }
                 else if (pen->m_delta < 0) {
                     penDescription = QString("served a %1 second time penalty").arg(QString::number(pen->m_delta / -1000));
-                }
+                }*/
                 break;
 
             case Penalty::Internal::Type::Time:
@@ -211,9 +210,7 @@ void UserInterface::EventAnnouncer::AnnouncePenaltyReceived(const Packet::Event:
             m_speechEngine->enqueue(ownAnnouncement);
 
         }
-
-
-        if (!(pen->m_fullName.empty())) {
+        else if (!(pen->m_fullName.empty())) {
 
             QString nameAnnouncement = QString("Driver %1 has %2.")
                 .arg(QString::fromStdString(pen->m_fullName))

@@ -2,7 +2,7 @@
 #define USERINTERFACE_SCREEN_INCLUDE_INTERFACE_H_
 
 #include <QWidget>
-#include "core/ScreenType.h"
+#include "core/Screen.h"
 #include "settings/WindowNumber.h"
 
 
@@ -18,6 +18,12 @@ namespace Packet {
 }
 
 namespace UserInterface {
+
+    namespace Style {
+
+        class Interface;
+
+    }
 
     namespace Panel {
 
@@ -39,7 +45,7 @@ namespace UserInterface {
                 virtual const UserInterface::Screen::Type Type() const = 0;
 
             public slots:
-                virtual void handleResizeEvent(QResizeEvent* event) = 0;
+                virtual void handleResizeEvent(const QSize newUsefulSize) = 0;
 
         };
 

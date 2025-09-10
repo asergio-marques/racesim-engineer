@@ -5,15 +5,16 @@
 #include <QList>
 #include "base/Container.h"
 #include "data/internal/Tyre.h"
-#include "styles/Standings.h"
+#include "styles/General.h"
+#include "styles/DriverInfoRace.h"
 
 
 
 
 UserInterface::Widget::TyreInfoArray::TyreInfoArray(QWidget* parent) :
 	UserInterface::Widget::Container(UserInterface::Widget::ID::TyreInfo),
-	m_tyres(),
-	m_widgetParent(parent) {
+	m_widgetParent(parent),
+	m_tyres() {
 
 
 
@@ -23,13 +24,10 @@ UserInterface::Widget::TyreInfoArray::TyreInfoArray(QWidget* parent) :
 
 void UserInterface::Widget::TyreInfoArray::move(const uint16_t x, const uint16_t y, const bool centerAlignmentX, const bool centerAlignmentY) {
 
-	if (m_tyres.size() == 0) {
+    m_x = centerAlignmentX ? x - (width() / 2) : x;
+    m_y = centerAlignmentY ? y - (height() / 2) : y;
 
-		return;
-
-	}
-
-	RedoDisplay(x, y);
+	RedoDisplay();
 
 }
 
@@ -53,32 +51,16 @@ void UserInterface::Widget::TyreInfoArray::scale(const uint8_t percentX, const u
 
 void UserInterface::Widget::TyreInfoArray::setSize(const uint16_t newWidth, const uint16_t newHeight, const bool keepAspectRatio) {
 
-	// TODO ignoring parameters, just doing the basic logic right now
-	if (m_tyres.size() == 0) {
+	m_width = newWidth;
+	m_height = newHeight;
 
-		return;
-
-	}
-
-	uint8_t displayCount = 0;
-	UserInterface::Style::Standings style;
-
-	for (uint8_t i = m_tyres.size() - 1; i > 0 && displayCount < 5; --i, ++displayCount) {
-
-		auto* tyre = m_tyres[i];
-		if (tyre) {
-
-			tyre->setSize(style.TyreInfoContainerMaxX.m_value, style.TyreInfoContainerMaxY.m_value, false);
-
-		}
-
-	}
+	RedoDisplay();
 
 }
 
 void UserInterface::Widget::TyreInfoArray::show() {
 
-	RedoDisplay(x(), y());
+	RedoDisplay();
 
 }
 
@@ -118,26 +100,8 @@ void UserInterface::Widget::TyreInfoArray::lower() {
 
 const int16_t UserInterface::Widget::TyreInfoArray::width() const {
 
-	int16_t xMin = INT16_MAX;
-	int16_t xMax = INT16_MIN;
-	int16_t lastWidth = INT16_MIN;
-	for (const auto tyre : m_tyres) {
-
-		if (tyre) {
-
-			xMin = qMin(xMin, tyre->x());
-			xMax = qMax(xMax, tyre->x());
-			if (xMax == tyre->x()) {
-
-				lastWidth = tyre->width();
-
-			}
-
-		}
-
-	}
-
-	return xMax - xMin + lastWidth;
+	return (UserInterface::Style::TyreInfoContainerMaxX.GetValue(m_width) + UserInterface::Style::PaddingReference.GetValue(m_width))
+		* UserInterface::Style::TyreInfoContainerMaxNum;
 
 }
 
@@ -145,26 +109,7 @@ const int16_t UserInterface::Widget::TyreInfoArray::width() const {
 
 const int16_t UserInterface::Widget::TyreInfoArray::height() const {
 
-	int16_t yMin = INT16_MAX;
-	int16_t yMax = INT16_MIN;
-	int16_t lastHeight = INT16_MIN;
-	for (const auto tyre : m_tyres) {
-
-		if (tyre) {
-
-			yMin = qMin(yMin, tyre->y());
-			yMax = qMax(yMax, tyre->y());
-			if (yMax == tyre->y()) {
-
-				lastHeight = tyre->height();
-
-			}
-
-		}
-
-	}
-
-	return yMax - yMin + lastHeight;
+	return m_height;
 
 }
 
@@ -172,18 +117,7 @@ const int16_t UserInterface::Widget::TyreInfoArray::height() const {
 
 const int16_t UserInterface::Widget::TyreInfoArray::x() const {
 
-	int16_t xMin = INT16_MAX;
-	for (const auto tyre : m_tyres) {
-
-		if (tyre && tyre->HasBeenRedoneAtLeastOnce()) {
-
-			xMin = qMin(xMin, tyre->x());
-
-		}
-
-	}
-
-	return xMin;
+	return m_x;
 
 }
 
@@ -191,24 +125,13 @@ const int16_t UserInterface::Widget::TyreInfoArray::x() const {
 
 const int16_t UserInterface::Widget::TyreInfoArray::y() const {
 
-	int16_t yMin = INT16_MAX;
-	for (const auto tyre : m_tyres) {
-
-		if (tyre && tyre->HasBeenRedoneAtLeastOnce()) {
-
-			yMin = qMin(yMin, tyre->y());
-
-		}
-
-	}
-
-	return yMin;
+	return m_y;
 
 }
 
 
 
-void UserInterface::Widget::TyreInfoArray::TyreChange(Tyre::Internal::Actual actualTyreCompound, Tyre::Internal::Visual visualTyreCompound, uint8_t tyreAge, bool pitBeforeLine) {
+void UserInterface::Widget::TyreInfoArray::TyreChange(Tyre::Internal::Actual actualTyreCompound, Tyre::Internal::Visual visualTyreCompound, uint8_t tyreAge, uint8_t stintNo, bool pitBeforeLine) {
 
 	// TODO implement logic related to pitBeforeLine
 	auto* tyre = new UserInterface::Widget::TyreInfoContainer(m_widgetParent);
@@ -216,7 +139,7 @@ void UserInterface::Widget::TyreInfoArray::TyreChange(Tyre::Internal::Actual act
 	if (tyre) {
 
 		m_tyres.push_back(tyre);
-		tyre->Init(actualTyreCompound, visualTyreCompound, tyreAge);
+		tyre->Init(actualTyreCompound, visualTyreCompound, tyreAge, stintNo);
 
 	}
 
@@ -243,14 +166,6 @@ void UserInterface::Widget::TyreInfoArray::LapCompletedWithTyre() {
 
 void UserInterface::Widget::TyreInfoArray::RedoDisplay() {
 
-	RedoDisplay(x(), y());
-
-}
-
-
-
-void UserInterface::Widget::TyreInfoArray::RedoDisplay(const uint16_t x, const uint16_t y) {
-
 	// no need for anything if there have been no stints
 	if (m_tyres.size() == 0) {
 
@@ -259,21 +174,23 @@ void UserInterface::Widget::TyreInfoArray::RedoDisplay(const uint16_t x, const u
 	}
 
 	uint8_t displayCount = 0;
-	UserInterface::Style::Standings style;
+	uint16_t calculateSingleWidth = UserInterface::Style::TyreInfoContainerMaxX.GetValue(m_width);
+	uint16_t calcPadding = UserInterface::Style::PaddingReference.GetValue(m_width);
 
-	for (uint8_t i = m_tyres.size() - 1; displayCount < style.TyreInfoArrayMaxNum.m_value; --i, ++displayCount) {
+	for (uint8_t i = m_tyres.size() - 1; displayCount < UserInterface::Style::TyreInfoContainerMaxNum; --i, ++displayCount) {
 
-		uint16_t baseX = x + (displayCount * style.TyreInfoContainerMaxX.m_value);
 		auto* tyre = m_tyres[i];
-		tyre->move(baseX, y, false, false);
-		tyre->RedoneOnce();
+		tyre->setSize(calculateSingleWidth - calcPadding, m_height, false);
+
+		uint16_t baseX = x() + ((calculateSingleWidth + calcPadding) * displayCount);
+		tyre->move(baseX, y(), false, false);
 
 		if (i == 0) break;
 
 	}
 	// hide any remaining tyres that are not supposed to be displayed
-	if (m_tyres.size() < style.TyreInfoArrayMaxNum.m_value) return;
-	for (uint8_t i = 0; i < m_tyres.size() - style.TyreInfoArrayMaxNum.m_value; ++i) {
+	if (m_tyres.size() < UserInterface::Style::TyreInfoContainerMaxNum) return;
+	for (uint8_t i = 0; i < m_tyres.size() - UserInterface::Style::TyreInfoContainerMaxNum; ++i) {
 
 		auto* tyre = m_tyres[i];
 

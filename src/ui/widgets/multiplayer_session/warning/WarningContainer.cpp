@@ -3,6 +3,7 @@
 #include <QWidget>
 #include "base/ID.h"
 #include "base/ImageInterface.h"
+#include "base/TextInterface.h"
 #include "multiplayer_session/warning/WarningIcon.h"
 
 
@@ -10,28 +11,33 @@
 
 UserInterface::Widget::WarningContainer::WarningContainer(const UserInterface::Widget::WarningContainer::Type type, QWidget* parent) :
     UserInterface::Widget::Container(UserInterface::Widget::ID::WarningIcon),
+    m_icon(new UserInterface::Widget::WarningIcon(parent)),
+    m_warningCount(new UserInterface::Widget::TextInterface(UserInterface::Widget::ID::WarningIcon, parent)),
     m_currentlyActiveWarnings(0) {
 
-    for (uint8_t i = 0; i < 2; ++i) {
+    if (m_icon) {
+
+        m_icon->hide();
 
         if (type == UserInterface::Widget::WarningContainer::Type::TrackLimits) {
 
-            UserInterface::Widget::WarningIcon* icon = new UserInterface::Widget::WarningIcon(parent);
-            Q_ASSERT(icon);
-            icon->SetTrackLimitType();
-            icon->hide();
-            m_icons.push_back(icon);
+            m_icon->SetTrackLimitType();
 
         }
         else if (type == UserInterface::Widget::WarningContainer::Type::OtherWarns) {
 
-            UserInterface::Widget::WarningIcon* icon = new UserInterface::Widget::WarningIcon(parent);
-            Q_ASSERT(icon);
-            icon->SetOtherWarningsType();
-            icon->hide();
-            m_icons.push_back(icon);
+            m_icon->SetOtherWarningsType();
 
         }
+
+    }
+    if (m_warningCount) {
+
+        m_warningCount->setFontThickness(UserInterface::Widget::FontThickness::ExtraBold);
+        m_warningCount->setAlignment(Qt::AlignCenter);
+        m_warningCount->raise();
+        m_warningCount->setText("0");
+        m_warningCount->hide();
 
     }
 
@@ -39,35 +45,53 @@ UserInterface::Widget::WarningContainer::WarningContainer(const UserInterface::W
 
 
 
-void UserInterface::Widget::WarningContainer::addWarning() {
+void UserInterface::Widget::WarningContainer::addWarning(const int32_t change) {
 
-    if (m_currentlyActiveWarnings < 2) {
-        UserInterface::Widget::WarningIcon* icon = m_icons.at(m_currentlyActiveWarnings);
-        if (icon && icon->isHidden()) {
-            icon->show();
-            ++m_currentlyActiveWarnings;
-        }
+    if (m_warningCount) {
+
+        m_currentlyActiveWarnings += change;
+        m_warningCount->setText(QString::number(m_currentlyActiveWarnings));
+        m_warningCount->adjustSize();
+
     }
-    else {
-        for (uint16_t i = 0; i < m_icons.size(); ++i) {
-            UserInterface::Widget::WarningIcon* icon = m_icons.at(i);
-            if (icon && !(icon->isHidden())) {
-                icon->hide();
-            }
+
+    // HACK: this is part of game rules and should be sorted out in the processor!
+    if (m_warningCount && m_icon) {
+        if (m_currentlyActiveWarnings == 0 || m_currentlyActiveWarnings == 3) {
+
+            m_currentlyActiveWarnings = 0;
+            m_warningCount->hide();
+            m_icon->hide();
+
         }
-        m_currentlyActiveWarnings = 0;
+        else {
+
+            m_warningCount->show();
+            m_icon->show();
+
+        }
+
     }
+
 }
 
 
 
 void UserInterface::Widget::WarningContainer::move(const uint16_t x, const uint16_t y, const bool centerAlignmentX, const bool centerAlignmentY) {
 
-    for (uint16_t i = 0; i < m_icons.size(); ++i) {
+    m_x = centerAlignmentX ? x - std::ceil(width() / 2) : x;
+    m_y = centerAlignmentY ? y - std::ceil(height() / 2) : y;
 
-        UserInterface::Widget::WarningIcon* icon = m_icons.at(i);
-        if (!icon) continue;
-        icon->move(x, y + i * (icon->height() + HEIGHT_SPACER), centerAlignmentX, centerAlignmentY);
+    if (m_icon) {
+
+        m_icon->move(m_x, m_y, false, false);
+
+    }
+
+    if (m_warningCount) {
+
+        // Center the text in the icon
+        m_warningCount->move(m_x + (m_width / 2), m_y + (m_height / 2), true, true);
 
     }
 
@@ -93,17 +117,13 @@ void UserInterface::Widget::WarningContainer::scale(const uint8_t percentX, cons
 
 void UserInterface::Widget::WarningContainer::setSize(const uint16_t newWidth, const uint16_t newHeight, const bool keepAspectRatio) {
 
+    m_width = newWidth;
+    m_height = newHeight;
 
+    if (m_icon) {
 
-}
-
-
-
-void UserInterface::Widget::WarningContainer::raise() {
-
-    for (auto icon : m_icons) {
-
-        if (icon) icon->raise();
+        m_icon->setSize(m_width, m_height, keepAspectRatio);
+        m_icon->adjustSize();
 
     }
 
@@ -111,11 +131,30 @@ void UserInterface::Widget::WarningContainer::raise() {
 
 
 
+void UserInterface::Widget::WarningContainer::raise() {
+
+    if (m_icon) m_icon->raise();
+    if (m_warningCount) m_warningCount->raise();
+
+}
+
+
+
 void UserInterface::Widget::WarningContainer::lower() {
 
-    for (auto icon : m_icons) {
+    if (m_icon) m_icon->lower();
+    if (m_warningCount) m_warningCount->lower();
 
-        if (icon) icon->lower();
+}
+
+
+
+void UserInterface::Widget::WarningContainer::setTextFontSize(const uint16_t size) {
+
+    if (m_warningCount) {
+
+        m_warningCount->setFontSize(size);
+        m_warningCount->adjustSize();
 
     }
 
@@ -125,25 +164,7 @@ void UserInterface::Widget::WarningContainer::lower() {
 
 const int16_t UserInterface::Widget::WarningContainer::width() const {
 
-    const int16_t xMin = x();
-    int16_t xMax = xMin;
-
-    for (const auto icon : m_icons) {
-
-        if (icon) {
-
-            const auto max = icon->x() + icon->width();
-            if (max > xMax) {
-
-                xMax = max;
-
-            }
-
-        }
-
-    }
-
-    return xMax - xMin;
+    return m_width;
 
 }
 
@@ -151,25 +172,7 @@ const int16_t UserInterface::Widget::WarningContainer::width() const {
 
 const int16_t UserInterface::Widget::WarningContainer::height() const {
     
-    const int16_t yMin = y();
-    int16_t yMax = yMin;
-
-    for (const auto icon : m_icons) {
-
-        if (icon) {
-
-            const auto max = icon->y() + icon->height();
-            if (max > yMax) {
-
-                yMax = max;
-
-            }
-
-        }
-
-    }
-
-    return yMax - yMin;
+    return m_height;
 
 }
 
@@ -177,18 +180,7 @@ const int16_t UserInterface::Widget::WarningContainer::height() const {
 
 const int16_t UserInterface::Widget::WarningContainer::x() const {
 
-    int16_t xMin = INT16_MAX;
-    for (const auto icon : m_icons) {
-
-        if (icon && (icon->x() < xMin)) {
-
-            xMin = icon->x();
-
-        }
-
-    }
-
-    return xMin;
+    return m_x;
 
 }
 
@@ -196,17 +188,6 @@ const int16_t UserInterface::Widget::WarningContainer::x() const {
 
 const int16_t UserInterface::Widget::WarningContainer::y() const {
 
-    int16_t yMin = INT16_MAX;
-    for (const auto icon : m_icons) {
-
-        if (icon && (icon->y() < yMin)) {
-
-            yMin = icon->y();
-
-        }
-
-    }
-
-    return yMin;
+    return m_y;
 
 }

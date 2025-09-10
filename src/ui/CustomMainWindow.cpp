@@ -5,11 +5,10 @@
 #include <QResizeEvent>
 #include <QTimer>
 #include <QWidget>
-#include "core/ScreenType.h"
+#include <QWindow>
+#include "core/Screen.h"
 #include "screens/Interface.h"
-#include "styles/General.h"
 #include "widgets/general_use/MenuBar.h"
-
 
 
 
@@ -30,20 +29,20 @@ UserInterface::CustomMainWindow::CustomMainWindow(Presenter::ICompFacade* presen
 void UserInterface::CustomMainWindow::resizeEvent(QResizeEvent* event) {
 
     QMainWindow::resizeEvent(event);
-    emit onResizeEvent(event);
+    emit onResizeEvent(event->size());
 
 }
 
 
 
 void UserInterface::CustomMainWindow::addScreen(UserInterface::Screen::Interface* newScreen) {
-    
+
     if (newScreen) {
-    
+
         newScreen->hide();
 
         if (m_screens.empty()) {
-    
+
             doAddScreen(newScreen);
             return;
 
@@ -55,7 +54,7 @@ void UserInterface::CustomMainWindow::addScreen(UserInterface::Screen::Interface
             // or if it's a second screen of the same type
             if (screen &&
                 (screen == newScreen || screen->Type() == newScreen->Type())) {
-                
+
                 return;
 
             }

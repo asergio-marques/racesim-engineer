@@ -2,7 +2,7 @@
 #define USERINTERFACE_SCREENS_INCLUDE_QUALIFYING_H_
 
 #include "screens/DualPanelInterface.h"
-#include "core/ScreenType.h"
+#include "core/Screen.h"
 
 class QWidget;
 

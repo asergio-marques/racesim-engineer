@@ -7,6 +7,8 @@
 #include "widgets/general_use/ScreenTitle.h"
 
 
+
+
 UserInterface::Panel::QualifyingRight::QualifyingRight(UserInterface::PacketHandler* handler, QWidget* parent) :
     UserInterface::Panel::Interface(handler, parent) {
         
@@ -18,9 +20,9 @@ UserInterface::Panel::QualifyingRight::QualifyingRight(UserInterface::PacketHand
 
 
 
-void UserInterface::Panel::QualifyingRight::ResizePanel(const QSize& newPanelSize) {
+void UserInterface::Panel::QualifyingRight::ResizePanel(const QSize& newUsefulSize) {
 
     // call overridden function to resize background
-    UserInterface::Panel::Interface::ResizePanel(newPanelSize);
+    UserInterface::Panel::Interface::ResizePanel(newUsefulSize);
 
 }

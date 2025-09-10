@@ -1,7 +1,7 @@
 #ifndef USERINTERFACE_WIDGETS_INCLUDE_SCREEN_TITLE_H_
 #define USERINTERFACE_WIDGETS_INCLUDE_SCREEN_TITLE_H_
 
-#include "ScreenType.h"
+#include "Screen.h"
 #include "base/TextInterface.h"
 #include "base/ID.h"
 

@@ -1,5 +1,5 @@
 #include "multiplayer_session/DriverEntry.h"
-
+#include <iostream>
 #include <QWidget>
 #include "base/Container.h"
 #include "base/TextInterface.h"
@@ -14,8 +14,8 @@
 #include "multiplayer_session/timing/LapInfoContainer.h"
 #include "multiplayer_session/tyres/TyreInfoArray.h"
 #include "multiplayer_session/warning/WarningContainer.h"
+#include "styles/DriverInfoRace.h"
 #include "styles/General.h"
-#include "styles/Standings.h"
 
 
 
@@ -41,12 +41,15 @@ UserInterface::Widget::DriverEntry::DriverEntry(QWidget* parent) :
 
     if (m_fastestLap) {
 
+        m_fastestLap->hide();
+        m_fastestLap->setScaledContents(true);
         m_allWidgets.append(m_fastestLap);
 
     }
 
     if (m_position) {
 
+        m_position->raise();
         m_position->setFontThickness(UserInterface::Widget::FontThickness::ExtraBold);
         m_position->setAlignment(Qt::AlignCenter);
         m_allWidgets.append(m_position);
@@ -79,13 +82,11 @@ UserInterface::Widget::DriverEntry::DriverEntry(QWidget* parent) :
     }
 
     if (m_lastLap) {
-
         m_allWidgets.append(m_lastLap);
 
     }
 
     if (m_personalBestLap) {
-
         m_allWidgets.append(m_personalBestLap);
 
     }
@@ -115,8 +116,6 @@ UserInterface::Widget::DriverEntry::DriverEntry(QWidget* parent) :
 
 void UserInterface::Widget::DriverEntry::init(const Session::Internal::Participant& dataPacket) {
 
-    UserInterface::Style::Standings style;
-
     m_driverIndex = dataPacket.m_index;
     m_currentPosition = dataPacket.m_startPosition;
     m_isPlayer = dataPacket.m_isPlayer;
@@ -129,56 +128,36 @@ void UserInterface::Widget::DriverEntry::init(const Session::Internal::Participa
     if (m_position) {
 
         m_position->setText(QString::number(dataPacket.m_startPosition));
-        m_position->adjustSize();
 
     }
     if (m_teamIcon) {
 
         m_teamIcon->SetTeam(dataPacket.m_teamID);
-        m_teamIcon->setSize(style.TeamLogoMaxXY.m_value, style.TeamLogoMaxXY.m_value, true);
-        m_teamIcon->adjustSize();
 
     }
     if (m_driverName) {
 
         m_driverName->setText(dataPacket.m_shortName);
-        m_driverName->adjustSize();
 
     }
     if (m_personalBestLap) {
 
-        m_personalBestLap->setSize(style.LapInfoIconMaxX.m_value, style.LapInfoIconMaxY.m_value, true);
-        m_personalBestLap->adjustSize();
+        m_personalBestLap->init();
 
     }
     if (m_lastLap) {
 
-        m_lastLap->setSize(style.LapInfoIconMaxX.m_value, style.LapInfoIconMaxY.m_value, true);
-        m_lastLap->adjustSize();
+        m_lastLap->init();
 
     }
     if (m_tyreArray) {
 
-        m_tyreArray->setSize(style.TyreInfoContainerMaxX.m_value * 3, style.TyreInfoContainerMaxY.m_value, false);
-        m_tyreArray->adjustSize();
-        m_tyreArray->TyreChange(dataPacket.m_startTyreActual, dataPacket.m_startTyreVisual, dataPacket.m_startTyreAge, false);
+        m_tyreArray->TyreChange(dataPacket.m_startTyreActual, dataPacket.m_startTyreVisual, dataPacket.m_startTyreAge, 1, false);
 
     }
-    if (m_penalties) {
+    
+    redoLayout();
 
-        m_penalties->setSize(style.PenaltyIconMaxX.m_value, style.PenaltyIconMaxY.m_value, true);
-        m_penalties->adjustSize();
-
-    }
-    // needs to be the last one so that the width can be calculated okay
-    if (m_retirement) {
-        
-        // TODO proper calculation of width
-        m_retirement->setSize(style.RetirementIconMaxX.m_value, style.RetirementIconMaxY.m_value, false);
-        m_retirement->setTextFontSize(style.RetirementIconTextSize.m_value);
-        m_retirement->adjustSize();
-
-    }
 
 }
 
@@ -188,8 +167,10 @@ void UserInterface::Widget::DriverEntry::updatePosition(const uint8_t newPositio
 
     m_currentPosition = newPosition;
     if (m_position) {
+
         m_position->setText(QString::number(newPosition));
         m_position->adjustSize();
+
     }
 
 }
@@ -202,8 +183,7 @@ void UserInterface::Widget::DriverEntry::updatePenalties(const Penalty::Internal
     switch (type) {
 
         case Penalty::Internal::Type::Warning:
-            for (size_t i = 0; i < change; ++i)
-                if (m_trackLimWarn) m_trackLimWarn->addWarning();
+            if (m_trackLimWarn) m_trackLimWarn->addWarning(change);
             break;
 
         case Penalty::Internal::Type::Time:
@@ -317,11 +297,11 @@ void UserInterface::Widget::DriverEntry::newLatestLap(const Lap::Internal::Time 
 
 
 
-void UserInterface::Widget::DriverEntry::newTyres(const Tyre::Internal::Actual actualTyre, const Tyre::Internal::Visual visualTyre, const uint8_t tyreAge) {
+void UserInterface::Widget::DriverEntry::newTyres(const Tyre::Internal::Actual actualTyre, const Tyre::Internal::Visual visualTyre, const uint8_t stintNo, const uint8_t tyreAge) {
 
     if (m_tyreArray) {
 
-        m_tyreArray->TyreChange(actualTyre, visualTyre, tyreAge, false);
+        m_tyreArray->TyreChange(actualTyre, visualTyre, tyreAge, stintNo, false);
 
     }
 
@@ -331,98 +311,11 @@ void UserInterface::Widget::DriverEntry::newTyres(const Tyre::Internal::Actual a
 
 void UserInterface::Widget::DriverEntry::move(const uint16_t x, const uint16_t y, const bool centerAlignmentX, const bool centerAlignmentY) {
 
-    // TODO fix issue with wrong move point due to center
-    uint16_t totalWidth = 0;
-    UserInterface::Style::Standings standingsStyle;
-    uint16_t fastLapCenterX = x;
-    uint16_t centerY = y;
+    m_x = x;
+    m_y = y;
 
-    if (m_fastestLap) {
+    redoLayout();
 
-        m_fastestLap->move(x + standingsStyle.PaddingReference.m_value, y, false, false);
-        
-        // Register middle of row for future use, center of fast lap indicator used to center the place text
-        fastLapCenterX = m_fastestLap->x() + (m_fastestLap->width() / 2);
-        centerY = m_fastestLap->y() + (m_fastestLap->height() / 2);
-
-        // Padding 2x because it is to be inserted to the left and to the right
-        totalWidth += m_fastestLap->width() + standingsStyle.PaddingReference.m_value * 2;
-
-    }
-    if (m_position) {
-
-        m_position->move(fastLapCenterX, centerY, true, true);
-
-    }
-    if (m_trackLimWarn) {
-
-        m_trackLimWarn->move(x + standingsStyle.PaddingReference.m_value, centerY, false, true);
-
-        if (m_otherWarn) {
-
-            m_otherWarn->move(m_trackLimWarn->x() + standingsStyle.PaddingReference.m_value, centerY, false, true);
-
-        }
-
-    }
-    if (m_teamIcon) {
-        
-        // Add the padding! And the width for centering!
-        totalWidth += standingsStyle.PaddingReference.m_value;
-        m_teamIcon->move(x + totalWidth + (m_teamIcon->width() / 2), centerY, true, true);
-        
-        // Add padding again to account for the right padding
-        totalWidth += m_teamIcon->width() + standingsStyle.PaddingReference.m_value;
-
-    }
-    if (m_driverName) {
-        
-        // Add the padding, again! And the maximum width for centering!
-        totalWidth += standingsStyle.PaddingReference.m_value;
-        m_driverName->move(x + totalWidth + (standingsStyle.DriverNameMaxWidth.m_value / 2), centerY, true, true);
-        
-        // Add padding again to account for the right padding
-        // Use the maximum width as reference, not the actual width,
-        // otherwise everything to the right will be misaligned
-        totalWidth += standingsStyle.DriverNameMaxWidth.m_value + standingsStyle.PaddingReference.m_value;
-
-    }
-    if (m_personalBestLap && m_lastLap) {
-
-        // Add the padding, again! And the maximum width for centering!
-        totalWidth += standingsStyle.PaddingReference.m_value;
-        m_personalBestLap->move(x + totalWidth, y + 3, false, false);
-        m_lastLap->move(x + totalWidth, y + 3 + m_personalBestLap->height(), false, false);
-
-        // Add padding again to account for the right padding
-        totalWidth += m_personalBestLap->width() + standingsStyle.PaddingReference.m_value;
-
-    }
-    if (m_retirement) {
-
-        // No need for padding as this widget is supposed to be "above" the others
-        m_retirement->move(x + totalWidth, centerY, false, true);
-
-    }
-    if (m_tyreArray) {
-        // Add the padding, again! And the maximum width for centering!
-        totalWidth += standingsStyle.PaddingReference.m_value;
-        m_tyreArray->move(x + totalWidth, y + 6, false, false);
-
-        // Add padding again to account for the right padding
-        totalWidth += (standingsStyle.TyreInfoContainerMaxX.m_value * standingsStyle.TyreInfoArrayMaxNum.m_value)
-            + standingsStyle.PaddingReference.m_value;
-
-	}
-    if (m_penalties) {
-
-        // Add the padding, again! And the maximum width for centering!
-        totalWidth += standingsStyle.PaddingReference.m_value;
-        m_penalties->move(x + totalWidth, centerY, false, true);
-
-        // Add padding again to account for the right padding
-        totalWidth += m_penalties->width() + standingsStyle.PaddingReference.m_value;
-    }
 }
 
 
@@ -445,65 +338,11 @@ void UserInterface::Widget::DriverEntry::scale(const uint8_t percentX, const uin
 
 void UserInterface::Widget::DriverEntry::setSize(const uint16_t newWidth, const uint16_t newHeight, const bool keepAspectRatio) {
 
-    // TODO ignoring parameters for the time being, I just want this base working...
-    UserInterface::Style::Standings standingsStyle;
+    m_width = newWidth;
+    m_height = newHeight;
 
-    if (m_fastestLap && !(m_fastestLap->pixmap().isNull())) {
+    redoLayout();
 
-        m_fastestLap->setSize(standingsStyle.FastestLapIconXY.m_value, standingsStyle.FastestLapIconXY.m_value, true);
-        m_fastestLap->adjustSize();
-
-    }
-    if (m_position) {
-
-        m_position->setFontSize(standingsStyle.PositionTextSize.m_value);
-        m_position->adjustSize();
-
-    }
-    if (m_teamIcon && !(m_teamIcon->pixmap().isNull())) {
-
-        m_teamIcon->setSize(standingsStyle.TeamLogoMaxXY.m_value, standingsStyle.TeamLogoMaxXY.m_value, true);
-        m_position->adjustSize();
-
-    }
-    if (m_driverName) {
-
-        m_driverName->setFontSize(standingsStyle.DriverNameTextSize.m_value);
-        m_driverName->adjustSize();
-
-    }
-    if (m_personalBestLap) {
-
-        m_personalBestLap->setSize(standingsStyle.LapInfoIconMaxX.m_value, standingsStyle.LapInfoIconMaxY.m_value, false);
-        m_personalBestLap->setTextFontSize(standingsStyle.LapInfoIconLabelTextSize.m_value);
-        m_personalBestLap->adjustSize();
-
-    }
-    if (m_lastLap) {
-
-        m_lastLap->setSize(standingsStyle.LapInfoIconMaxX.m_value, standingsStyle.LapInfoIconMaxY.m_value, false);
-        m_lastLap->setTextFontSize(standingsStyle.LapInfoIconLabelTextSize.m_value);
-        m_lastLap->adjustSize();
-
-    }
-    if (m_tyreArray) {
-
-        m_tyreArray->setSize(standingsStyle.TyreInfoContainerMaxX.m_value * 3, standingsStyle.TyreInfoContainerMaxY.m_value, false);
-        m_tyreArray->adjustSize();
-
-	}
-    if (m_penalties) {
-
-        m_penalties->setTextFontSize(standingsStyle.PenaltyIconTextSize.m_value);
-        m_penalties->adjustSize();
-
-    }
-    if (m_retirement) {
-
-        m_retirement->setTextFontSize(standingsStyle.RetirementIconTextSize.m_value);
-        m_retirement->adjustSize();
-
-    }
 }
 
 
@@ -542,49 +381,7 @@ void UserInterface::Widget::DriverEntry::lower() {
 
 const int16_t UserInterface::Widget::DriverEntry::width() const {
 
-    if (!m_position || !m_driverName || !m_teamIcon) {
-        return 0;
-    }
-
-    // this code makes me want to cry
-    int16_t xMin = INT16_MAX;
-    int16_t xMax = INT16_MIN;
-    int16_t lastWidth = INT16_MIN;
-    for (const auto widget : m_allWidgets) {
-
-        auto imageCast = dynamic_cast<const UserInterface::Widget::ImageInterface*>(widget);
-        if (imageCast) {
-            xMin = qMin(xMin, imageCast->x());
-            xMax = qMax(xMax, imageCast->x());
-            if (xMax == imageCast->x()) {
-                lastWidth = imageCast->width();
-            }
-            continue;
-        }
-
-        auto textCast = dynamic_cast<const UserInterface::Widget::TextInterface*>(widget);
-        if (textCast) {
-            xMin = qMin(xMin, textCast->x());
-            xMax = qMax(xMax, textCast->x());
-            if (xMax == textCast->x()) {
-                lastWidth = textCast->width();
-            }
-            continue;
-        }
-
-        auto containerCast = dynamic_cast<const UserInterface::Widget::Container*>(widget);
-        if (containerCast) {
-            xMin = qMin(xMin, containerCast->x());
-            xMax = qMax(xMax, containerCast->x());
-            if (xMax == containerCast->x()) {
-                lastWidth = containerCast->width();
-            }
-            continue;
-        }
-
-    }
-
-    return xMax - xMin + lastWidth;
+    return m_width;
 
 }
 
@@ -592,45 +389,7 @@ const int16_t UserInterface::Widget::DriverEntry::width() const {
 
 const int16_t UserInterface::Widget::DriverEntry::height() const {
 
-    if (!m_position || !m_driverName || !m_teamIcon) {
-        return 0;
-    }
-
-    // [crying intensifies]
-    int16_t yMin = INT16_MAX;
-    int16_t excessHeight = INT16_MIN;
-    for (const auto widget : m_allWidgets) {
-
-        auto imageCast = dynamic_cast<const UserInterface::Widget::ImageInterface*>(widget);
-        if (imageCast) {
-            yMin = qMin(yMin, imageCast->y());
-            if ((yMin + excessHeight) < (imageCast->y() + imageCast->height())) {
-                excessHeight = imageCast->height();
-            }
-            continue;
-        }
-
-        auto textCast = dynamic_cast<const UserInterface::Widget::TextInterface*>(widget);
-        if (textCast) {
-            yMin = qMin(yMin, textCast->y());
-            if ((yMin + excessHeight) < (textCast->y() + textCast->height())) {
-                excessHeight = textCast->height();
-            }
-            continue;
-        }
-
-        auto containerCast = dynamic_cast<const UserInterface::Widget::Container*>(widget);
-        if (containerCast) {
-            yMin = qMin(yMin, containerCast->y());
-            if ((yMin + excessHeight) < (containerCast->y() + containerCast->height())) {
-                excessHeight = containerCast->height();
-            }
-            continue;
-        }
-
-    }
-
-    return yMin + excessHeight;
+    return m_height;
 
 }
 
@@ -638,11 +397,7 @@ const int16_t UserInterface::Widget::DriverEntry::height() const {
 
 const int16_t UserInterface::Widget::DriverEntry::x() const {
 
-    if (!m_position || !m_driverName || !m_teamIcon) {
-        return 0;
-    }
-    // at least the position indicator is always on the left
-    return m_position->x();
+    return m_x;
 
 }
 
@@ -650,31 +405,7 @@ const int16_t UserInterface::Widget::DriverEntry::x() const {
 
 const int16_t UserInterface::Widget::DriverEntry::y() const {
 
-    if (!m_position || !m_driverName || !m_teamIcon) {
-        return 0;
-    }
-    // it's not as bad but I'm still crying on the inside
-    int16_t yMin = INT16_MAX;
-    for (const auto widget : m_allWidgets) {
-        auto imageCast = dynamic_cast<const UserInterface::Widget::ImageInterface*>(widget);
-        if (imageCast) {
-            yMin = qMin(yMin, imageCast->y());
-            continue;
-        }
-
-        auto textCast = dynamic_cast<const UserInterface::Widget::TextInterface*>(widget);
-        if (textCast) {
-            yMin = qMin(yMin, textCast->y());
-            continue;
-        }
-
-        auto containerCast = dynamic_cast<const UserInterface::Widget::Container*>(widget);
-        if (containerCast) {
-            yMin = qMin(yMin, containerCast->y());
-            continue;
-        }
-    }
-    return yMin;
+    return m_y;
 
 }
 
@@ -683,5 +414,148 @@ const int16_t UserInterface::Widget::DriverEntry::y() const {
 const uint8_t UserInterface::Widget::DriverEntry::GetCurrentPosition() const {
 
     return m_currentPosition;
+
+}
+
+
+
+void UserInterface::Widget::DriverEntry::redoLayout() {
+
+    uint16_t totalWidth = 0;
+    uint16_t fastLapCenterX = x();
+    uint16_t centerY = y();
+    const uint16_t calcPadding = UserInterface::Style::PaddingReference.GetValue(width());
+
+    auto warningIconDim = UserInterface::Style::WarningIconSize.GetValue(height());
+    auto warningIconFontSize = UserInterface::Style::WarningNumFontSize.GetValue(height());
+    if (m_trackLimWarn) {
+
+        m_trackLimWarn->setSize(warningIconDim, warningIconDim, false);
+        m_trackLimWarn->setTextFontSize(warningIconFontSize);
+        m_trackLimWarn->adjustSize();
+        m_trackLimWarn->move(x(), y() + UserInterface::Style::WarningIconSize.GetValue(height()) + calcPadding, false, false);
+
+        totalWidth += warningIconDim + calcPadding;
+
+    }
+    if (m_otherWarn) {
+
+        m_otherWarn->setSize(warningIconDim, warningIconDim, false);
+        m_otherWarn->setTextFontSize(warningIconFontSize);
+        m_otherWarn->adjustSize();
+        m_otherWarn->move(x(), y(), false, false);
+
+    }
+    if (m_fastestLap) {
+
+        auto fastestLapDim = UserInterface::Style::FastestLapIconSize.GetValue(height());
+
+        m_fastestLap->setSize(fastestLapDim, fastestLapDim, true);
+        m_fastestLap->adjustSize();
+        m_fastestLap->move(x() + totalWidth, y(), false, false);
+
+        // Register middle of row for future use, center of fast lap indicator used to center the place text
+        fastLapCenterX = m_fastestLap->x() + (fastestLapDim / 2);
+        centerY = m_fastestLap->y() + (fastestLapDim / 2);
+
+        totalWidth += fastestLapDim + calcPadding;
+
+    }
+    if (m_position) {
+
+        m_position->setFontSize(UserInterface::Style::PositionFontSize.GetValue(height()));
+        m_position->adjustSize();
+        m_position->move(fastLapCenterX, centerY, true, true);
+
+    }
+    if (m_teamIcon) {
+
+        auto teamIconDim = UserInterface::Style::FastestLapIconSize.GetValue(height());
+
+        m_teamIcon->setSize(teamIconDim, teamIconDim, true);
+        m_position->adjustSize();
+
+        // Add the padding! And the width for centering!
+        totalWidth += (calcPadding * 3);
+        m_teamIcon->move(x() + totalWidth + (teamIconDim / 2), centerY, true, true);
+
+        // Add padding again to account for the right padding
+        totalWidth += teamIconDim + calcPadding;
+
+    }
+    if (m_driverName) {
+
+        m_driverName->setFontSize(UserInterface::Style::DriverNameFontSize.GetValue(height()));
+        m_driverName->adjustSize();
+
+        const uint16_t calcMaxNameWidth = UserInterface::Style::DriverNameMaximumWidth.GetValue(width());
+
+        // Add the padding, again! And the maximum width for centering!
+        totalWidth += calcPadding;
+        m_driverName->move(x() + totalWidth + (calcMaxNameWidth / 2), centerY, true, true);
+
+        // Add padding again to account for the right padding
+        // Use the maximum width as reference, not the actual width,
+        // otherwise everything to the right will be misaligned
+        totalWidth += calcMaxNameWidth + calcPadding;
+
+    }
+    if (m_personalBestLap && m_lastLap) {
+
+        m_personalBestLap->setSize(UserInterface::Style::LapInfoBackgroundMaxX.GetValue(width()), UserInterface::Style::LapInfoBackgroundMaxY.GetValue(height()), false);
+        m_personalBestLap->setTextFontSize(UserInterface::Style::LapInfoLabelFontSize.GetValue(height()));
+        m_personalBestLap->adjustSize();
+
+        m_lastLap->setSize(UserInterface::Style::LapInfoBackgroundMaxX.GetValue(width()), UserInterface::Style::LapInfoBackgroundMaxY.GetValue(height()), false);
+        m_lastLap->setTextFontSize(UserInterface::Style::LapInfoLabelFontSize.GetValue(height()));
+        m_lastLap->adjustSize();
+
+        // Add the padding, again! And the maximum width for centering!
+        totalWidth += calcPadding;
+        m_personalBestLap->move(x() + totalWidth, y() + (calcPadding / 2), false, false);
+        m_lastLap->move(x() + totalWidth, y() + (calcPadding / 2) + m_personalBestLap->height(), false, false);
+
+        // Add padding again to account for the right padding
+        totalWidth += m_personalBestLap->width() + calcPadding;
+
+    }
+    if (m_retirement) {
+
+        m_retirement->setSize(UserInterface::Style::RetirementIconMaxX.GetValue(width()), UserInterface::Style::RetirementIconMaxY.GetValue(height()), false);
+        m_retirement->setTextFontSize(UserInterface::Style::RetirementFontSize.GetValue(height()));
+        m_retirement->adjustSize();
+
+        // No need for padding as this widget is supposed to be "above" the others
+        m_retirement->move(x() + totalWidth, centerY, false, true);
+
+    }
+    if (m_tyreArray) {
+
+        // no calc, it's meant to happen "inside"
+        m_tyreArray->setSize(width(), height(), false);
+        m_tyreArray->adjustSize();
+
+        // Add the padding, again! And the maximum width for centering!
+        totalWidth += (calcPadding * 2);
+        m_tyreArray->move(x() + totalWidth, y(), false, false);
+
+        // Padding to be added to every tyre container icon as well, so multiply it by the number of icons to be displayed
+        totalWidth += ((UserInterface::Style::TyreInfoContainerMaxX.GetValue(width()) + calcPadding)
+            * UserInterface::Style::TyreInfoContainerMaxNum);
+
+    }
+    if (m_penalties) {
+
+        m_penalties->setSize(UserInterface::Style::PenaltyIconMaxX.GetValue(width()), UserInterface::Style::PenaltyIconMaxY.GetValue(height()), false);
+        m_penalties->setTextFontSize(UserInterface::Style::PenaltyIconFontSize.GetValue(height()));
+        m_penalties->adjustSize();
+
+        // Add the padding, again! And the maximum width for centering!
+        totalWidth += calcPadding;
+        m_penalties->move(x() + totalWidth, centerY, false, true);
+
+        // Add padding again to account for the right padding
+        totalWidth += m_penalties->width() + calcPadding;
+    }
 
 }

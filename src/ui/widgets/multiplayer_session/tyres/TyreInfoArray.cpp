@@ -131,7 +131,7 @@ const int16_t UserInterface::Widget::TyreInfoArray::y() const {
 
 
 
-void UserInterface::Widget::TyreInfoArray::TyreChange(Tyre::Internal::Actual actualTyreCompound, Tyre::Internal::Visual visualTyreCompound, uint8_t tyreAge, bool pitBeforeLine) {
+void UserInterface::Widget::TyreInfoArray::TyreChange(Tyre::Internal::Actual actualTyreCompound, Tyre::Internal::Visual visualTyreCompound, uint8_t tyreAge, uint8_t stintNo, bool pitBeforeLine) {
 
 	// TODO implement logic related to pitBeforeLine
 	auto* tyre = new UserInterface::Widget::TyreInfoContainer(m_widgetParent);
@@ -139,7 +139,7 @@ void UserInterface::Widget::TyreInfoArray::TyreChange(Tyre::Internal::Actual act
 	if (tyre) {
 
 		m_tyres.push_back(tyre);
-		tyre->Init(actualTyreCompound, visualTyreCompound, tyreAge);
+		tyre->Init(actualTyreCompound, visualTyreCompound, tyreAge, stintNo);
 
 	}
 

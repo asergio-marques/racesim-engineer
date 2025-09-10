@@ -17,7 +17,8 @@ UserInterface::Widget::TyreInfoContainer::TyreInfoContainer(QWidget* parent) :
     m_visualCompoundIcon(nullptr),
     m_actualCompoundText(nullptr),
     m_lapsText(nullptr),
-    m_numLaps(0) {
+    m_numLaps(0),
+    m_stintNo(0) {
 
     m_visualCompoundIcon = new UserInterface::Widget::TyreIcon(UserInterface::Widget::ID::TyreInfo, parent);
     Q_ASSERT(m_visualCompoundIcon);
@@ -33,7 +34,6 @@ UserInterface::Widget::TyreInfoContainer::TyreInfoContainer(QWidget* parent) :
 
         m_actualCompoundText->setFontThickness(UserInterface::Widget::FontThickness::ExtraBold);
         m_actualCompoundText->setText("?");
-        m_actualCompoundText->setScaledContents(true);
         m_actualCompoundText->hide();
 
     }
@@ -41,10 +41,18 @@ UserInterface::Widget::TyreInfoContainer::TyreInfoContainer(QWidget* parent) :
     Q_ASSERT(m_lapsText);
     if (m_lapsText) {
 
-        m_actualCompoundText->setFontThickness(UserInterface::Widget::FontThickness::ExtraBold);
+        m_lapsText->setFontThickness(UserInterface::Widget::FontThickness::ExtraBold);
         m_lapsText->setText(QString::number(m_numLaps));
-        m_lapsText->setScaledContents(true);
         m_lapsText->hide();
+
+    }
+    m_stintNoText = new UserInterface::Widget::TextInterface(UserInterface::Widget::ID::TyreInfo, parent);
+    Q_ASSERT(m_stintNoText);
+    if (m_stintNoText) {
+
+        m_stintNoText->setFontThickness(UserInterface::Widget::FontThickness::Bold);
+        m_stintNoText->setText(QString::number(m_stintNo));
+        m_stintNoText->hide();
 
     }
 
@@ -138,7 +146,7 @@ const int16_t UserInterface::Widget::TyreInfoContainer::y() const {
 
 
 
-void UserInterface::Widget::TyreInfoContainer::Init(Tyre::Internal::Actual actualTyreCompound, Tyre::Internal::Visual visualTyreCompound, uint8_t numLapsAtStart) {
+void UserInterface::Widget::TyreInfoContainer::Init(Tyre::Internal::Actual actualTyreCompound, Tyre::Internal::Visual visualTyreCompound, uint8_t numLapsAtStart, uint8_t stintNo) {
 
     if (m_actualCompoundText) {
 
@@ -212,6 +220,15 @@ void UserInterface::Widget::TyreInfoContainer::Init(Tyre::Internal::Actual actua
         m_lapsText->show();
 
     }
+
+    m_stintNo = stintNo;
+
+    if (m_stintNoText) {
+
+        m_stintNoText->setText(QString::number(m_stintNo));
+        m_stintNoText->show();
+
+    }
     
     redoLayout();
 
@@ -247,6 +264,9 @@ void UserInterface::Widget::TyreInfoContainer::Show() {
         m_lapsText->setVisible(true);
         m_lapsText->raise();
 
+        m_stintNoText->setVisible(true);
+        m_stintNoText->raise();
+
     }
 
     redoLayout();
@@ -269,6 +289,8 @@ void UserInterface::Widget::TyreInfoContainer::Hide() {
         m_lapsText->setVisible(false);
         m_lapsText->lower();
 
+        m_stintNoText->setVisible(false);
+        m_stintNoText->lower();
 
     }
 
@@ -277,7 +299,7 @@ void UserInterface::Widget::TyreInfoContainer::Hide() {
 
 void UserInterface::Widget::TyreInfoContainer::redoLayout() {
 
-    if (m_visualCompoundIcon && m_actualCompoundText && m_lapsText) {
+    if (m_visualCompoundIcon && m_actualCompoundText && m_lapsText && m_stintNoText) {
 
         const uint16_t iconSize = UserInterface::Style::TyreInfoCompoundIconSize.GetValue(height());
 
@@ -290,6 +312,9 @@ void UserInterface::Widget::TyreInfoContainer::redoLayout() {
         m_lapsText->setFontSize(UserInterface::Style::TyreInfoAgeFontSize.GetValue(height()));
         m_lapsText->adjustSize();
 
+        m_stintNoText->setFontSize(UserInterface::Style::TyreInfoStintNoFontSize.GetValue(height()));
+        m_stintNoText->adjustSize();
+
         m_visualCompoundIcon->move(x(), y(), false, false);
 
         // center compound text in relation to the compound icon
@@ -297,9 +322,15 @@ void UserInterface::Widget::TyreInfoContainer::redoLayout() {
         const uint16_t baseY = m_visualCompoundIcon->y() + (m_visualCompoundIcon->height() / 2);
         m_actualCompoundText->move(baseXCompound, baseY, true, true);
 
+        // try to place stint number more or less in the hole
+        QFontMetrics fmstint(m_stintNoText->font());
+        const uint16_t stintNoY = y() + height() - UserInterface::Style::TyreInfoStintNoGapFromBottom.GetValue(height()) - fmstint.height();
+        const uint16_t baseXStint = x() + (0.85f * m_visualCompoundIcon->width());
+        m_stintNoText->move(baseXStint, stintNoY, true, false);
+
         // age text is centered vertically to the icon, and placed to the right of it with a small gap
-        QFontMetrics fm(m_lapsText->font());
-        const uint16_t baseXAge = x() + width() - fm.horizontalAdvance(m_lapsText->text());
+        QFontMetrics fmlaps(m_lapsText->font());
+        const uint16_t baseXAge = x() + width() - fmlaps.horizontalAdvance(m_lapsText->text());
         m_lapsText->move(baseXAge, baseY, false, true);
 
     }

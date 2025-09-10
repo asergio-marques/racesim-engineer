@@ -139,6 +139,22 @@ namespace UserInterface {
             100     // m_maxValuePoint
         };
 
+        static inline const Value TyreInfoStintNoFontSize = {
+            Value::Type::Absolute,
+            4,      // m_minValue
+            22,     // m_minValuePoint
+            20,     // m_maxValue
+            100     // m_maxValuePoint
+        };
+
+        static inline const Value TyreInfoStintNoGapFromBottom = {
+            Value::Type::Absolute,
+            3,      // m_minValue
+            22,     // m_minValuePoint
+            12,     // m_maxValue
+            100     // m_maxValuePoint
+        };
+
         static inline const Value PenaltyIconMaxX = {
             Value::Type::Absolute,
             36,     // m_minValue

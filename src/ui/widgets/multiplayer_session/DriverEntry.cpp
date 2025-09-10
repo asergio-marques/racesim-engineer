@@ -152,7 +152,7 @@ void UserInterface::Widget::DriverEntry::init(const Session::Internal::Participa
     }
     if (m_tyreArray) {
 
-        m_tyreArray->TyreChange(dataPacket.m_startTyreActual, dataPacket.m_startTyreVisual, dataPacket.m_startTyreAge, false);
+        m_tyreArray->TyreChange(dataPacket.m_startTyreActual, dataPacket.m_startTyreVisual, dataPacket.m_startTyreAge, 1, false);
 
     }
     
@@ -297,11 +297,11 @@ void UserInterface::Widget::DriverEntry::newLatestLap(const Lap::Internal::Time 
 
 
 
-void UserInterface::Widget::DriverEntry::newTyres(const Tyre::Internal::Actual actualTyre, const Tyre::Internal::Visual visualTyre, const uint8_t tyreAge) {
+void UserInterface::Widget::DriverEntry::newTyres(const Tyre::Internal::Actual actualTyre, const Tyre::Internal::Visual visualTyre, const uint8_t stintNo, const uint8_t tyreAge) {
 
     if (m_tyreArray) {
 
-        m_tyreArray->TyreChange(actualTyre, visualTyre, tyreAge, false);
+        m_tyreArray->TyreChange(actualTyre, visualTyre, tyreAge, stintNo, false);
 
     }
 

@@ -32,7 +32,8 @@ namespace UserInterface {
             const int16_t height() const override;
             const int16_t x() const override;
             const int16_t y() const override;
-            void TyreChange(Tyre::Internal::Actual actualTyreCompound, Tyre::Internal::Visual visualTyreCompound, uint8_t numLapsAtStart, bool pitBeforeLine);
+            void TyreChange(Tyre::Internal::Actual actualTyreCompound, Tyre::Internal::Visual visualTyreCompound,
+                uint8_t numLapsAtStart, uint8_t stintNo, bool pitBeforeLine);
             void LapCompletedWithTyre();
 
             private:

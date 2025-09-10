@@ -141,9 +141,9 @@ namespace UserInterface {
 
         static inline const Value PenaltyIconMaxX = {
             Value::Type::Absolute,
-            44,     // m_minValue
+            36,     // m_minValue
             392,    // m_minValuePoint
-            176,    // m_maxValue
+            152,    // m_maxValue
             1776    // m_maxValuePoint
         };
 
@@ -181,9 +181,9 @@ namespace UserInterface {
 
         static inline const Value RetirementFontSize = {
             Value::Type::Absolute,
-            10,     // m_minValue
+            11,     // m_minValue
             22,     // m_minValuePoint
-            42,     // m_maxValue
+            46,     // m_maxValue
             100     // m_maxValuePoint
         };
 

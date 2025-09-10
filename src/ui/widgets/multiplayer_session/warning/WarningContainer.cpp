@@ -53,14 +53,23 @@ void UserInterface::Widget::WarningContainer::addWarning(const int32_t change) {
         m_warningCount->setText(QString::number(m_currentlyActiveWarnings));
         m_warningCount->adjustSize();
 
-        if (m_currentlyActiveWarnings == 0) m_warningCount->hide();
-        else m_warningCount->show();
-
     }
-    if (m_icon) {
 
-        if (m_currentlyActiveWarnings == 0) m_icon->hide();
-        else m_icon->show();
+    // HACK: this is part of game rules and should be sorted out in the processor!
+    if (m_warningCount && m_icon) {
+        if (m_currentlyActiveWarnings == 0 || m_currentlyActiveWarnings == 3) {
+
+            m_currentlyActiveWarnings = 0;
+            m_warningCount->hide();
+            m_icon->hide();
+
+        }
+        else {
+
+            m_warningCount->show();
+            m_icon->show();
+
+        }
 
     }
 

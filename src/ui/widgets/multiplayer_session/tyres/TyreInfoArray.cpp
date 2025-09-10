@@ -5,6 +5,7 @@
 #include <QList>
 #include "base/Container.h"
 #include "data/internal/Tyre.h"
+#include "styles/General.h"
 #include "styles/DriverInfoRace.h"
 
 
@@ -12,8 +13,6 @@
 
 UserInterface::Widget::TyreInfoArray::TyreInfoArray(QWidget* parent) :
 	UserInterface::Widget::Container(UserInterface::Widget::ID::TyreInfo),
-	m_lastWidth(0),
-	m_lastHeight(0),
 	m_widgetParent(parent),
 	m_tyres() {
 
@@ -25,13 +24,10 @@ UserInterface::Widget::TyreInfoArray::TyreInfoArray(QWidget* parent) :
 
 void UserInterface::Widget::TyreInfoArray::move(const uint16_t x, const uint16_t y, const bool centerAlignmentX, const bool centerAlignmentY) {
 
-	if (m_tyres.size() == 0) {
+    m_x = centerAlignmentX ? x - (width() / 2) : x;
+    m_y = centerAlignmentY ? y - (height() / 2) : y;
 
-		return;
-
-	}
-
-	RedoDisplay(x, y);
+	RedoDisplay();
 
 }
 
@@ -55,33 +51,16 @@ void UserInterface::Widget::TyreInfoArray::scale(const uint8_t percentX, const u
 
 void UserInterface::Widget::TyreInfoArray::setSize(const uint16_t newWidth, const uint16_t newHeight, const bool keepAspectRatio) {
 
-	m_lastWidth = newWidth;
-	m_lastHeight = newHeight;
+	m_width = newWidth;
+	m_height = newHeight;
 
-	// TODO ignoring parameters, just doing the basic logic right now
-	if (m_tyres.size() == 0) {
-
-		return;
-
-	}
-
-	for (uint8_t i = 0; i < m_tyres.size(); ++i) {
-
-		auto* tyre = m_tyres[i];
-		if (tyre) {
-
-			// heights calculated inside
-			tyre->setSize(UserInterface::Style::TyreInfoContainerMaxX.GetValue(m_lastWidth), m_lastHeight, false);
-
-		}
-
-	}
+	RedoDisplay();
 
 }
 
 void UserInterface::Widget::TyreInfoArray::show() {
 
-	RedoDisplay(x(), y());
+	RedoDisplay();
 
 }
 
@@ -121,7 +100,8 @@ void UserInterface::Widget::TyreInfoArray::lower() {
 
 const int16_t UserInterface::Widget::TyreInfoArray::width() const {
 
-	return UserInterface::Style::TyreInfoContainerMaxX.GetValue(m_lastWidth) * UserInterface::Style::TyreInfoContainerMaxNum;
+	return (UserInterface::Style::TyreInfoContainerMaxX.GetValue(m_width) + UserInterface::Style::PaddingReference.GetValue(m_width))
+		* UserInterface::Style::TyreInfoContainerMaxNum;
 
 }
 
@@ -129,7 +109,7 @@ const int16_t UserInterface::Widget::TyreInfoArray::width() const {
 
 const int16_t UserInterface::Widget::TyreInfoArray::height() const {
 
-	return m_lastHeight;
+	return m_height;
 
 }
 
@@ -137,18 +117,7 @@ const int16_t UserInterface::Widget::TyreInfoArray::height() const {
 
 const int16_t UserInterface::Widget::TyreInfoArray::x() const {
 
-	int16_t xMin = 0;
-	for (const auto tyre : m_tyres) {
-
-		if (tyre && tyre->HasBeenRedoneAtLeastOnce()) {
-
-			xMin = qMin(xMin, tyre->x());
-
-		}
-
-	}
-
-	return xMin;
+	return m_x;
 
 }
 
@@ -156,18 +125,7 @@ const int16_t UserInterface::Widget::TyreInfoArray::x() const {
 
 const int16_t UserInterface::Widget::TyreInfoArray::y() const {
 
-	int16_t yMin = 0;
-	for (const auto tyre : m_tyres) {
-
-		if (tyre && tyre->HasBeenRedoneAtLeastOnce()) {
-
-			yMin = qMin(yMin, tyre->y());
-
-		}
-
-	}
-
-	return yMin;
+	return m_y;
 
 }
 
@@ -208,14 +166,6 @@ void UserInterface::Widget::TyreInfoArray::LapCompletedWithTyre() {
 
 void UserInterface::Widget::TyreInfoArray::RedoDisplay() {
 
-	RedoDisplay(x(), y());
-
-}
-
-
-
-void UserInterface::Widget::TyreInfoArray::RedoDisplay(const uint16_t x, const uint16_t y) {
-
 	// no need for anything if there have been no stints
 	if (m_tyres.size() == 0) {
 
@@ -224,13 +174,16 @@ void UserInterface::Widget::TyreInfoArray::RedoDisplay(const uint16_t x, const u
 	}
 
 	uint8_t displayCount = 0;
+	uint16_t calculateSingleWidth = UserInterface::Style::TyreInfoContainerMaxX.GetValue(m_width);
+	uint16_t calcPadding = UserInterface::Style::PaddingReference.GetValue(m_width);
 
 	for (uint8_t i = m_tyres.size() - 1; displayCount < UserInterface::Style::TyreInfoContainerMaxNum; --i, ++displayCount) {
 
-		uint16_t baseX = x + (displayCount * UserInterface::Style::TyreInfoContainerMaxX.GetValue(m_lastWidth));
 		auto* tyre = m_tyres[i];
-		tyre->move(baseX, y, false, false);
-		tyre->RedoneOnce();
+		tyre->setSize(calculateSingleWidth - calcPadding, m_height, false);
+
+		uint16_t baseX = x() + ((calculateSingleWidth + calcPadding) * displayCount);
+		tyre->move(baseX, y(), false, false);
 
 		if (i == 0) break;
 

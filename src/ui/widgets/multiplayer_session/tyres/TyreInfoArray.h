@@ -35,12 +35,9 @@ namespace UserInterface {
             void TyreChange(Tyre::Internal::Actual actualTyreCompound, Tyre::Internal::Visual visualTyreCompound, uint8_t numLapsAtStart, bool pitBeforeLine);
             void LapCompletedWithTyre();
 
-            protected:
+            private:
             void RedoDisplay();
-            void RedoDisplay(const uint16_t x, const uint16_t y);
 
-            uint16_t m_lastWidth;
-            uint16_t m_lastHeight;
 			QWidget* m_widgetParent;
             QList<TyreInfoContainer*> m_tyres;
 

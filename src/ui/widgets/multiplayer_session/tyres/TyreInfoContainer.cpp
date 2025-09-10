@@ -17,8 +17,7 @@ UserInterface::Widget::TyreInfoContainer::TyreInfoContainer(QWidget* parent) :
     m_visualCompoundIcon(nullptr),
     m_actualCompoundText(nullptr),
     m_lapsText(nullptr),
-    m_numLaps(0),
-    m_redone(false) {
+    m_numLaps(0) {
 
     m_visualCompoundIcon = new UserInterface::Widget::TyreIcon(UserInterface::Widget::ID::TyreInfo, parent);
     Q_ASSERT(m_visualCompoundIcon);
@@ -55,21 +54,10 @@ UserInterface::Widget::TyreInfoContainer::TyreInfoContainer(QWidget* parent) :
 
 void UserInterface::Widget::TyreInfoContainer::move(const uint16_t x, const uint16_t y, const bool centerAlignmentX, const bool centerAlignmentY) {
 
-    if (m_visualCompoundIcon && m_actualCompoundText && m_lapsText) {
+    m_x = x;
+    m_y = y;
 
-		m_visualCompoundIcon->move(x, y, centerAlignmentX, centerAlignmentY);
-
-        // center compound text in relation to the compound icon
-        const uint16_t baseXCompound = m_visualCompoundIcon->x() + (m_visualCompoundIcon->width() / 2);
-        const uint16_t baseY = m_visualCompoundIcon->y() + (m_visualCompoundIcon->height() / 2);
-		m_actualCompoundText->move(baseXCompound, baseY, true, true);
-
-		// age text is centered vertically to the icon, and placed to the right of it with a small gap
-        QFontMetrics fm(m_lapsText->font());
-        const uint16_t baseXAge = x + width() - fm.horizontalAdvance(m_lapsText->text());
-        m_lapsText->move(baseXAge, baseY, false, true);
-
-    }
+    redoLayout();
 
 }
 
@@ -93,20 +81,10 @@ void UserInterface::Widget::TyreInfoContainer::scale(const uint8_t percentX, con
 
 void UserInterface::Widget::TyreInfoContainer::setSize(const uint16_t newWidth, const uint16_t newHeight, const bool keepAspectRatio) {
 
-    if (m_visualCompoundIcon && m_actualCompoundText && m_lapsText) {
+    m_width = newWidth;
+    m_height = newHeight;
 
-        const uint16_t iconSize = UserInterface::Style::TyreInfoCompoundIconSize.GetValue(newHeight);
-
-        m_visualCompoundIcon->setSize(iconSize, iconSize, true);
-        m_visualCompoundIcon->adjustSize();
-
-        m_actualCompoundText->setFontSize(UserInterface::Style::TyreInfoCompoundFontSize.GetValue(newHeight));
-        m_actualCompoundText->adjustSize();
-
-        m_lapsText->setFontSize(UserInterface::Style::TyreInfoAgeFontSize.GetValue(newHeight));
-		m_lapsText->adjustSize();
-
-    }
+    redoLayout();
 
 }
 
@@ -130,31 +108,7 @@ void UserInterface::Widget::TyreInfoContainer::lower() {
 
 const int16_t UserInterface::Widget::TyreInfoContainer::width() const {
 
-    if (!m_visualCompoundIcon || !m_actualCompoundText || !m_lapsText) {
-        return 0;
-    }
-
-	// awful, also ignore the actual compound text since it's "inside" the visual icon
-    int16_t xMin = INT16_MAX;
-    int16_t xMax = INT16_MIN;
-    int16_t lastWidth = INT16_MIN;
-    if (m_visualCompoundIcon) {
-        xMin = qMin(xMin, m_visualCompoundIcon->x());
-        xMax = qMax(xMax, m_visualCompoundIcon->x());
-        if (xMax == m_visualCompoundIcon->x()) {
-            lastWidth = m_visualCompoundIcon->width();
-        }
-    }
-
-    if (m_lapsText) {
-        xMin = qMin(xMin, m_lapsText->x());
-        xMax = qMax(xMax, m_lapsText->x());
-        if (xMax == m_lapsText->x()) {
-            lastWidth = m_lapsText->width();
-        }
-    }
-
-    return xMax - xMin + lastWidth;
+    return m_width;
 
 }
 
@@ -162,31 +116,7 @@ const int16_t UserInterface::Widget::TyreInfoContainer::width() const {
 
 const int16_t UserInterface::Widget::TyreInfoContainer::height() const {
 
-    if (!m_visualCompoundIcon || !m_actualCompoundText || !m_lapsText) {
-        return 0;
-    }
-
-    // awful, also ignore the actual compound text since it's "inside" the visual icon
-    int16_t yMin = INT16_MAX;
-    int16_t yMax = INT16_MIN;
-    int16_t lastHeight = INT16_MIN;
-    if (m_visualCompoundIcon) {
-        yMin = qMin(yMin, m_visualCompoundIcon->y());
-        yMax = qMax(yMax, m_visualCompoundIcon->y());
-        if (yMax == m_visualCompoundIcon->y()) {
-            lastHeight = m_visualCompoundIcon->height();
-        }
-    }
-
-    if (m_lapsText) {
-        yMin = qMin(yMin, m_lapsText->y());
-        yMax = qMax(yMax, m_lapsText->y());
-        if (yMax == m_lapsText->y()) {
-            lastHeight = m_lapsText->height();
-        }
-    }
-
-    return yMax - yMin + lastHeight;
+    return m_height;
 
 }
 
@@ -194,11 +124,7 @@ const int16_t UserInterface::Widget::TyreInfoContainer::height() const {
 
 const int16_t UserInterface::Widget::TyreInfoContainer::x() const {
 
-    if (!m_visualCompoundIcon || !m_actualCompoundText || !m_lapsText) {
-        return 0;
-    }
-    // this is always meant to be the left-most widget
-	return m_actualCompoundText->x();
+    return m_x;
 
 }
 
@@ -206,11 +132,7 @@ const int16_t UserInterface::Widget::TyreInfoContainer::x() const {
 
 const int16_t UserInterface::Widget::TyreInfoContainer::y() const {
 
-    if (!m_visualCompoundIcon || !m_actualCompoundText || !m_lapsText) {
-        return 0;
-    }
-    // this is always meant to be the top-most widget
-    return m_actualCompoundText->y();
+    return m_y;
 
 }
 
@@ -290,6 +212,8 @@ void UserInterface::Widget::TyreInfoContainer::Init(Tyre::Internal::Actual actua
         m_lapsText->show();
 
     }
+    
+    redoLayout();
 
 }
 
@@ -302,6 +226,8 @@ void UserInterface::Widget::TyreInfoContainer::IncrementLap() {
         m_lapsText->setText(QString::number(m_numLaps));
 
     }
+
+    redoLayout();
 
 }
 
@@ -322,6 +248,8 @@ void UserInterface::Widget::TyreInfoContainer::Show() {
         m_lapsText->raise();
 
     }
+
+    redoLayout();
 
 }
 
@@ -347,17 +275,33 @@ void UserInterface::Widget::TyreInfoContainer::Hide() {
 }
 
 
+void UserInterface::Widget::TyreInfoContainer::redoLayout() {
 
-void UserInterface::Widget::TyreInfoContainer::RedoneOnce() {
+    if (m_visualCompoundIcon && m_actualCompoundText && m_lapsText) {
 
-    m_redone = true;
+        const uint16_t iconSize = UserInterface::Style::TyreInfoCompoundIconSize.GetValue(height());
 
-}
+        m_visualCompoundIcon->setSize(iconSize, iconSize, true);
+        m_visualCompoundIcon->adjustSize();
 
+        m_actualCompoundText->setFontSize(UserInterface::Style::TyreInfoCompoundFontSize.GetValue(height()));
+        m_actualCompoundText->adjustSize();
 
+        m_lapsText->setFontSize(UserInterface::Style::TyreInfoAgeFontSize.GetValue(height()));
+        m_lapsText->adjustSize();
 
-bool UserInterface::Widget::TyreInfoContainer::HasBeenRedoneAtLeastOnce() const {
+        m_visualCompoundIcon->move(x(), y(), false, false);
 
-    return m_redone;
+        // center compound text in relation to the compound icon
+        const uint16_t baseXCompound = m_visualCompoundIcon->x() + (m_visualCompoundIcon->width() / 2);
+        const uint16_t baseY = m_visualCompoundIcon->y() + (m_visualCompoundIcon->height() / 2);
+        m_actualCompoundText->move(baseXCompound, baseY, true, true);
+
+        // age text is centered vertically to the icon, and placed to the right of it with a small gap
+        QFontMetrics fm(m_lapsText->font());
+        const uint16_t baseXAge = x() + width() - fm.horizontalAdvance(m_lapsText->text());
+        m_lapsText->move(baseXAge, baseY, false, true);
+
+    }
 
 }

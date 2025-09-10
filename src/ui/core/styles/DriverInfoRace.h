@@ -135,7 +135,7 @@ namespace UserInterface {
             Value::Type::Absolute,
             11,     // m_minValue
             22,     // m_minValuePoint
-            46,     // m_maxValue
+            54,     // m_maxValue
             100     // m_maxValuePoint
         };
 

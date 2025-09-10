@@ -11,9 +11,6 @@
 UserInterface::Widget::FastestLapIndicator::FastestLapIndicator(QWidget* parent) :
     UserInterface::Widget::ImageInterface(UserInterface::Widget::ID::FastestLapIcon, parent) {
 
-    static uint8_t count = 0;
-    ++count;
-
     UserInterface::PixmapFactory* instance = UserInterface::PixmapFactory::instance();
     Q_ASSERT(instance);
     if (instance &&
@@ -21,7 +18,5 @@ UserInterface::Widget::FastestLapIndicator::FastestLapIndicator(QWidget* parent)
         setPixmap(m_pixmap, true);
 
     }
-
-    std::cout << "count of fastest laps inds = " << std::to_string(count) << std::endl;
 
 }

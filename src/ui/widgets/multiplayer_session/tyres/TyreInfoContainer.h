@@ -34,15 +34,14 @@ namespace UserInterface {
             void IncrementLap();
             void Show();
             void Hide();
-            void RedoneOnce();
-            bool HasBeenRedoneAtLeastOnce() const;
 
             protected:
+            void redoLayout();
+
             UserInterface::Widget::TyreIcon* m_visualCompoundIcon;
             UserInterface::Widget::TextInterface* m_actualCompoundText;
             UserInterface::Widget::TextInterface* m_lapsText;
             uint8_t m_numLaps;
-            bool m_redone;
 
         };
     }

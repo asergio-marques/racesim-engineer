@@ -149,7 +149,7 @@ namespace UserInterface {
 
         static inline const Value TyreInfoStintNoGapFromBottom = {
             Value::Type::Absolute,
-            3,      // m_minValue
+            2,      // m_minValue
             22,     // m_minValuePoint
             12,     // m_maxValue
             100     // m_maxValuePoint

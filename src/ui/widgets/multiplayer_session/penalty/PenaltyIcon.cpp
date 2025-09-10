@@ -78,8 +78,8 @@ void UserInterface::Widget::PenaltyIcon::move(const uint16_t x, const uint16_t y
 
         if (m_text->getTextWidth() > 0) {
 
-            m_textBackground->resize(m_text->getTextWidth() + (HORIZONTAL_OFFSET * 2),
-                m_text->getTextHeight() + (VERTICAL_OFFSET * 2));
+            m_textBackground->setSize(m_text->getTextWidth() + (HORIZONTAL_OFFSET * 2),
+                m_text->getTextHeight() + (VERTICAL_OFFSET * 2), false);
             m_textBackground->move(baseX, baseY, true, true);
 
         }
@@ -114,8 +114,8 @@ void UserInterface::Widget::PenaltyIcon::setSize(const uint16_t newWidth, const 
 
             m_text->setFontSize(m_text->font().pointSize() - 4);
             m_text->adjustSize();
-            m_textBackground->resize(m_text->getTextWidth() + (HORIZONTAL_OFFSET * 2),
-                m_text->getTextHeight() + (VERTICAL_OFFSET * 2));
+            m_textBackground->setSize(m_text->getTextWidth() + (HORIZONTAL_OFFSET * 2),
+                m_text->getTextHeight() + (VERTICAL_OFFSET * 2), false);
 
         }
 

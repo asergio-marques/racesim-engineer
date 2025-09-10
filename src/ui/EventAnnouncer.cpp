@@ -80,9 +80,7 @@ void UserInterface::EventAnnouncer::AnnounceFinishedLap(const Packet::Event::Lap
             m_speechEngine->enqueue(ownAnnouncement);
 
         }
-
-
-        if (!(lap->m_fullName.empty())) {
+        else if (!(lap->m_fullName.empty())) {
 
             QString nameAnnouncement = QString("Driver %1 has done the fastest lap with a %2 %3 point %4.")
                 .arg(QString::fromStdString(lap->m_fullName))
@@ -212,9 +210,7 @@ void UserInterface::EventAnnouncer::AnnouncePenaltyReceived(const Packet::Event:
             m_speechEngine->enqueue(ownAnnouncement);
 
         }
-
-
-        if (!(pen->m_fullName.empty())) {
+        else if (!(pen->m_fullName.empty())) {
 
             QString nameAnnouncement = QString("Driver %1 has %2.")
                 .arg(QString::fromStdString(pen->m_fullName))

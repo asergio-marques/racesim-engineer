@@ -81,13 +81,13 @@ namespace UserInterface {
 
         static inline const Value LapInfoLabelFontSize = {
             Value::Type::Absolute,
-            6,      // m_minValue
+            4,      // m_minValue
             22,     // m_minValuePoint
-            26,     // m_maxValue
+            20,     // m_maxValue
             100     // m_maxValuePoint
         };
 
-        static inline const uint8_t LapInfoTimeRelativeOfLabelFontSize = 130;
+        static inline const uint8_t LapInfoTimeRelativeOfLabelFontSize = 125;
 
         static inline const Value LapInfoBackgroundMaxX = {
             Value::Type::Absolute,
@@ -99,9 +99,9 @@ namespace UserInterface {
 
         static inline const Value LapInfoBackgroundMaxY = {
             Value::Type::Absolute,
-            10,     // m_minValue
+            8,     // m_minValue
             22,     // m_minValuePoint
-            44,     // m_maxValue
+            38,     // m_maxValue
             100     // m_maxValuePoint
         };
 

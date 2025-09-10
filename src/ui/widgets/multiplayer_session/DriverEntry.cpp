@@ -27,10 +27,10 @@ UserInterface::Widget::DriverEntry::DriverEntry(QWidget* parent) :
     m_isPlayer(),
     m_fastestLap(new UserInterface::Widget::FastestLapIndicator(parent)),
     m_position(new UserInterface::Widget::TextInterface(UserInterface::Widget::ID::DriverPosition, parent)),
-    /*m_trackLimWarn(new UserInterface::Widget::WarningContainer(
+    m_trackLimWarn(new UserInterface::Widget::WarningContainer(
         UserInterface::Widget::WarningContainer::Type::TrackLimits, parent)),
     m_otherWarn(new UserInterface::Widget::WarningContainer(
-        UserInterface::Widget::WarningContainer::Type::OtherWarns, parent)),*/
+        UserInterface::Widget::WarningContainer::Type::OtherWarns, parent)),
     m_teamIcon(new UserInterface::Widget::TeamIcon(parent)),
     m_driverName(new UserInterface::Widget::TextInterface(UserInterface::Widget::ID::DriverName, parent)) //,
     /*m_personalBestLap(new UserInterface::Widget::LapInfoContainer(UserInterface::Widget::TimeInfoContainer::Type::PersonalBestTime, parent)),
@@ -49,13 +49,14 @@ UserInterface::Widget::DriverEntry::DriverEntry(QWidget* parent) :
 
     if (m_position) {
 
+        m_position->raise();
         m_position->setFontThickness(UserInterface::Widget::FontThickness::ExtraBold);
         m_position->setAlignment(Qt::AlignCenter);
         m_allWidgets.append(m_position);
 
     }
 
-    /*if (m_trackLimWarn) {
+    if (m_trackLimWarn) {
 
         m_allWidgets.append(m_trackLimWarn);
 
@@ -65,7 +66,7 @@ UserInterface::Widget::DriverEntry::DriverEntry(QWidget* parent) :
 
         m_allWidgets.append(m_otherWarn);
 
-    }*/
+    }
 
     if (m_teamIcon) {
 
@@ -172,14 +173,13 @@ void UserInterface::Widget::DriverEntry::updatePosition(const uint8_t newPositio
 
 void UserInterface::Widget::DriverEntry::updatePenalties(const Penalty::Internal::Type type, const int32_t change) {
 
-/*    switch (type) {
+    switch (type) {
 
         case Penalty::Internal::Type::Warning:
-            for (size_t i = 0; i < change; ++i)
-                if (m_trackLimWarn) m_trackLimWarn->addWarning();
+            if (m_trackLimWarn) m_trackLimWarn->addWarning(change);
             break;
 
-        case Penalty::Internal::Type::Time:
+        /*case Penalty::Internal::Type::Time:
             if (m_penalties) m_penalties->addTimePenalty(change);
             break;
 
@@ -189,13 +189,13 @@ void UserInterface::Widget::DriverEntry::updatePenalties(const Penalty::Internal
 
         case Penalty::Internal::Type::StopGo:
             if (m_penalties) m_penalties->addStopGo(change);
-            break;
+            break;*/
 
         default:
             // DO NOTHING
             break;
 
-    }*/
+    }
 
 }
 
@@ -419,13 +419,33 @@ void UserInterface::Widget::DriverEntry::redoLayout() {
     uint16_t centerY = y();
     const uint16_t calcPadding = UserInterface::Style::PaddingReference.GetValue(width());
 
+    auto warningIconDim = UserInterface::Style::WarningIconSize.GetValue(height());
+    auto warningIconFontSize = UserInterface::Style::WarningNumFontSize.GetValue(height());
+    if (m_trackLimWarn) {
+
+        m_trackLimWarn->setSize(warningIconDim, warningIconDim, false);
+        m_trackLimWarn->setTextFontSize(warningIconFontSize);
+        m_trackLimWarn->adjustSize();
+        m_trackLimWarn->move(x(), y() + UserInterface::Style::WarningIconSize.GetValue(height()) + calcPadding, false, false);
+
+        totalWidth += warningIconDim + calcPadding;
+
+    }
+    if (m_otherWarn) {
+
+        m_otherWarn->setSize(warningIconDim, warningIconDim, false);
+        m_otherWarn->setTextFontSize(warningIconFontSize);
+        m_otherWarn->adjustSize();
+        m_otherWarn->move(x(), y(), false, false);
+
+    }
     if (m_fastestLap) {
 
         auto fastestLapDim = UserInterface::Style::FastestLapIconSize.GetValue(height());
 
         m_fastestLap->setSize(fastestLapDim, fastestLapDim, true);
         m_fastestLap->adjustSize();
-        m_fastestLap->move(x(), y(), false, false);
+        m_fastestLap->move(x() + totalWidth, y(), false, false);
 
         // Register middle of row for future use, center of fast lap indicator used to center the place text
         fastLapCenterX = m_fastestLap->x() + (fastestLapDim / 2);
@@ -441,17 +461,6 @@ void UserInterface::Widget::DriverEntry::redoLayout() {
         m_position->move(fastLapCenterX, centerY, true, true);
 
     }
-    /*if (m_trackLimWarn) {
-
-        m_trackLimWarn->move(x + calcPadding, centerY, false, true);
-
-        if (m_otherWarn) {
-
-            m_otherWarn->move(m_trackLimWarn->x() + calcPadding, centerY, false, true);
-
-        }
-
-    }*/
     if (m_teamIcon) {
 
         auto teamIconDim = UserInterface::Style::FastestLapIconSize.GetValue(height());

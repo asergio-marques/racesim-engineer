@@ -39,11 +39,27 @@ namespace UserInterface {
             100     // m_maxValuePoint
         };
 
+        static inline const Value WarningIconSize = {
+            Value::Type::Absolute,
+            8,     // m_minValue
+            22,     // m_minValuePoint
+            38,     // m_maxValue
+            100     // m_maxValuePoint
+        };
+
+        static inline const Value WarningNumFontSize = {
+            Value::Type::Absolute,
+            6,     // m_minValue
+            22,     // m_minValuePoint
+            32,     // m_maxValue
+            100     // m_maxValuePoint
+        };
+
         static inline const Value DriverNameMaximumWidth = {
             Value::Type::Absolute,
-            48,     // m_minValue
+            44,     // m_minValue
             392,    // m_minValuePoint
-            202,    // m_maxValue
+            188,    // m_maxValue
             1776    // m_maxValuePoint
         };
 

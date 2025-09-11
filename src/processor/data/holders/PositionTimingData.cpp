@@ -49,7 +49,7 @@ bool Processor::Data::PositionTimingData::installDetector(Processor::Detector::I
 
 const bool Processor::Data::PositionTimingData::Initialized() const {
 
-    return m_isGridPositionSet && (m_gridPosition != 0) && (m_gridPosition == m_currentPosition);
+    return m_isGridPositionSet && (m_gridPosition == m_currentPosition);
 
 }
 

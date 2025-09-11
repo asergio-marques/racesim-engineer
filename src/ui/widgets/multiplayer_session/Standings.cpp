@@ -1,9 +1,11 @@
 #include "multiplayer_session/Standings.h"
 
-#include <QList>
+#include <cstdint>
+#include <QMap>
 #include <QWidget>
 #include "base/Container.h"
-#include "multiplayer_session/DriverEntry.h"
+#include "multiplayer_session/DriverEntryQuali.h"
+#include "multiplayer_session/DriverEntryRace.h"
 #include "packets/event/LapFinished.h"
 #include "packets/event/ParticipantStatusChanged.h"
 #include "packets/event/PenaltyReceived.h"
@@ -23,17 +25,6 @@ UserInterface::Widget::Standings::Standings(QWidget* parent) :
     m_currentFastestLapHolder(nullptr),
     m_initialParamsSet(false) {
 
-    for (uint8_t i = 0; i < 22; ++i) {
-
-        UserInterface::Widget::DriverEntry* newEntry = new UserInterface::Widget::DriverEntry(m_parent);
-        if (newEntry) {
-
-            m_driverData.append(newEntry);
-
-        }
-
-    }
-
 }
 
 
@@ -44,7 +35,8 @@ void UserInterface::Widget::Standings::onQualiStart(const Packet::Event::QualiSt
 
         for (const auto driverInfo : dataPacket->m_participants) {
 
-            UserInterface::Widget::DriverEntry* entry = m_driverData.at(driverInfo.m_index);
+            UserInterface::Widget::DriverEntryQuali* entry = new UserInterface::Widget::DriverEntryQuali(m_parent);
+            m_driverData.insert(driverInfo.m_index, entry);
             if (entry) {
 
                 entry->init(driverInfo);
@@ -68,7 +60,8 @@ void UserInterface::Widget::Standings::onRaceStart(const Packet::Event::RaceStar
 
         for (const auto driverInfo : dataPacket->m_participants) {
 
-            UserInterface::Widget::DriverEntry* entry = m_driverData.at(driverInfo.m_index);
+            UserInterface::Widget::DriverEntryRace* entry = new UserInterface::Widget::DriverEntryRace(m_parent);
+            m_driverData.insert(driverInfo.m_index, entry);
             if (entry) {
 
                 entry->init(driverInfo);
@@ -92,7 +85,7 @@ void UserInterface::Widget::Standings::onOvertake(const Packet::Event::Overtake*
 
         for (const auto overtakeData : packet->GetData()) {
 
-            UserInterface::Widget::DriverEntry* entry = m_driverData.at(overtakeData.m_driverID);
+            UserInterface::Widget::IDriverEntry* entry = m_driverData[overtakeData.m_driverID];
             if (entry) {
 
                 entry->updatePosition(overtakeData.m_position);
@@ -113,7 +106,7 @@ void UserInterface::Widget::Standings::onPenaltyReceived(const Packet::Event::Pe
 
     if (dataPacket && m_initialParamsSet) {
 
-        UserInterface::Widget::DriverEntry* entry = m_driverData.at(dataPacket->m_index);
+        UserInterface::Widget::IDriverEntry* entry = m_driverData[dataPacket->m_index];
         if (entry) entry->updatePenalties(dataPacket->m_type, dataPacket->m_delta);
 
     }
@@ -126,7 +119,7 @@ void UserInterface::Widget::Standings::onParticipantStatusChanged(const Packet::
 
     if (dataPacket && m_initialParamsSet) {
 
-        UserInterface::Widget::DriverEntry* entry = m_driverData.at(dataPacket->m_index);
+        UserInterface::Widget::IDriverEntry* entry = m_driverData[dataPacket->m_index];
         if (entry) entry->updateStatus(dataPacket->m_status);
 
     }
@@ -140,7 +133,7 @@ void UserInterface::Widget::Standings::onLapFinished(const Packet::Event::LapFin
 
     if (dataPacket && m_initialParamsSet) {
 
-        UserInterface::Widget::DriverEntry* entry = m_driverData.at(dataPacket->m_index);
+        UserInterface::Widget::IDriverEntry* entry = m_driverData[dataPacket->m_index];
         if (entry) {
 
             switch (dataPacket->m_infoType) {
@@ -178,7 +171,7 @@ void UserInterface::Widget::Standings::onTyreChanged(const Packet::Event::TyreCh
 
     if (dataPacket && m_initialParamsSet) {
 
-        UserInterface::Widget::DriverEntry* entry = m_driverData.at(dataPacket->m_index);
+        UserInterface::Widget::IDriverEntry* entry = m_driverData[dataPacket->m_index];
         if (entry) {
 
             entry->newTyres(dataPacket->m_tyreInfo.m_actualTyre,

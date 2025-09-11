@@ -1,7 +1,8 @@
 #ifndef USERINTERFACE_WIDGETS_INCLUDE_STANDINGS_H_
 #define USERINTERFACE_WIDGETS_INCLUDE_STANDINGS_H_
 
-#include <QList>
+#include <cstdint>
+#include <QMap>
 #include "base/Container.h"
 #include "packets/event/LapFinished.h"
 #include "packets/event/Overtake.h"
@@ -21,7 +22,7 @@ namespace UserInterface {
 
     namespace Widget {
 
-        class DriverEntry;
+        class IDriverEntry;
 
         class Standings final : public UserInterface::Widget::Container {
 
@@ -53,8 +54,8 @@ namespace UserInterface {
 
             private:
             QWidget* m_parent;
-            QList<UserInterface::Widget::DriverEntry*> m_driverData;
-            UserInterface::Widget::DriverEntry* m_currentFastestLapHolder;
+            QMap<const uint8_t, UserInterface::Widget::IDriverEntry*> m_driverData;
+            UserInterface::Widget::IDriverEntry* m_currentFastestLapHolder;
             bool m_initialParamsSet;
 
 

@@ -6,11 +6,8 @@
 
 
 
-Packet::Event::QualiStart::QualiStart(uint8_t carsClassifiedAtEnd) :
-    Packet::Event::Interface(),
-    m_noActiveParticipants(carsClassifiedAtEnd),
-    m_noNextSessionParticipants(carsClassifiedAtEnd),
-    m_duration(0) {
+Packet::Event::QualiStart::QualiStart() :
+    Packet::Event::Interface() {
 
 
 

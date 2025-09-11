@@ -57,7 +57,6 @@ void Processor::Detector::SessionStartDataReady::Exec() {
 
         if (m_sessionRecord && m_driverRecords) {
 
-            // TODO prepare event packet
             switch (m_sessionRecord->getSessionSettings().m_sessionType) {
                 case Session::Internal::Type::FreePractice:
                     BuildFreePracticeStartPacket();
@@ -103,8 +102,33 @@ void Processor::Detector::SessionStartDataReady::BuildFreePracticeStartPacket() 
 
 void Processor::Detector::SessionStartDataReady::BuildQualiStartPacket() {
 
-    // TODO actually implement
-    // Packet::Event::QualiStart* packet = new Packet::Event::QualiStart();
+    if (!m_driverRecords) return;
+
+    Packet::Event::QualiStart* packet = new Packet::Event::QualiStart();
+    packet->m_trackInfo = m_sessionRecord->getTrackInfo();
+    packet->m_settings = m_sessionRecord->getSessionSettings();
+    for (const auto& recordEntry : *m_driverRecords) {
+
+        const auto record = recordEntry.second;
+        if (record && record->getModifiableState()) {
+
+            Session::Internal::Participant participant;
+            participant.m_index = record->m_info.m_driverID;
+            participant.m_isPlayer = record->m_info.m_isPlayer;
+            participant.m_fullName = record->m_info.m_fullName;
+            participant.m_shortName = record->m_info.m_shortName;
+            participant.m_teamID = record->m_info.m_teamID;
+
+            const auto state = record->getModifiableState();
+            participant.m_startPosition = state->posTimeData().getGridPosition();
+
+            packet->m_participants.push_back(participant);
+
+        }
+
+    }
+
+    m_packetsToBeProcessed.push_back(packet);
 
 }
 

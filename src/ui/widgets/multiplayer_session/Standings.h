@@ -1,9 +1,11 @@
 #ifndef USERINTERFACE_WIDGETS_INCLUDE_STANDINGS_H_
 #define USERINTERFACE_WIDGETS_INCLUDE_STANDINGS_H_
 
-#include <QList>
+#include <cstdint>
+#include <QMap>
 #include "base/Container.h"
 #include "packets/event/LapFinished.h"
+#include "packets/event/Overtake.h"
 #include "packets/event/ParticipantStatusChanged.h"
 #include "packets/event/PenaltyReceived.h"
 #include "packets/event/PracticeStart.h"
@@ -20,7 +22,7 @@ namespace UserInterface {
 
     namespace Widget {
 
-        class DriverEntry;
+        class IDriverEntry;
 
         class Standings final : public UserInterface::Widget::Container {
 
@@ -30,8 +32,9 @@ namespace UserInterface {
             Standings(QWidget* parent = 0);
             virtual ~Standings() = default;
             void reorderStandings();
-            void positionChange(const uint8_t id, const uint8_t newPosition);
-            void setStartingGrid(const Packet::Event::RaceStart* dataPacket);
+            void onQualiStart(const Packet::Event::QualiStart* dataPacket);
+            void onRaceStart(const Packet::Event::RaceStart* dataPacket);
+            void onOvertake(const Packet::Event::Overtake* packet);
             void onPenaltyReceived(const Packet::Event::PenaltyReceived* dataPacket);
             void onParticipantStatusChanged(const Packet::Event::ParticipantStatusChanged* dataPacket);
             void onLapFinished(const Packet::Event::LapFinished* dataPacket);
@@ -51,8 +54,8 @@ namespace UserInterface {
 
             private:
             QWidget* m_parent;
-            QList<UserInterface::Widget::DriverEntry*> m_driverData;
-            UserInterface::Widget::DriverEntry* m_currentFastestLapHolder;
+            QMap<const uint8_t, UserInterface::Widget::IDriverEntry*> m_driverData;
+            UserInterface::Widget::IDriverEntry* m_currentFastestLapHolder;
             bool m_initialParamsSet;
 
 

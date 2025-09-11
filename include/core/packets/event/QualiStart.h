@@ -16,7 +16,7 @@ namespace Packet {
         struct QualiStart : public Packet::Event::Interface {
 
             // Packet constructor
-            QualiStart(uint8_t carsClassifiedAtEnd);
+            QualiStart();
 
             // Destructor
             virtual ~QualiStart() = default;
@@ -27,17 +27,11 @@ namespace Packet {
             // Structure containing all relevant data about the track the session is taking place at
             Session::Internal::TrackInfo m_trackInfo;
 
+            // Structure containing all relevant data about the session taking place
+            Session::Internal::Settings m_settings;
+
             // List containing the initial data for all session participants
             std::vector<Session::Internal::Participant> m_participants;
-
-            // Duration of the qualifying session (seconds)
-            const uint16_t m_duration;
-
-            // How many participants are qualified to this session
-            const uint8_t m_noActiveParticipants;
-
-            // How many participants are qualified to the next session
-            const uint8_t m_noNextSessionParticipants;
 
         };
 

@@ -1,5 +1,5 @@
-#ifndef USERINTERFACE_WIDGETS_INCLUDE_DRIVER_ENTRY_H_
-#define USERINTERFACE_WIDGETS_INCLUDE_DRIVER_ENTRY_H_
+#ifndef USERINTERFACE_WIDGETS_INCLUDE_DRIVER_ENTRY_RACE_H_
+#define USERINTERFACE_WIDGETS_INCLUDE_DRIVER_ENTRY_RACE_H_
 
 #include <cstdint>
 #include "base/Container.h"
@@ -8,6 +8,9 @@
 #include "data/internal/Penalty.h"
 #include "data/internal/Session.h"
 #include "data/internal/Tyre.h"
+#include "multiplayer_session/IDriverEntry.h"
+
+
 
 
 class QWidget;
@@ -25,13 +28,13 @@ namespace UserInterface {
         class TyreInfoArray;
         class WarningContainer;
 
-        class DriverEntry : public UserInterface::Widget::Container {
+        class DriverEntryRace : public UserInterface::Widget::IDriverEntry {
 
             Q_OBJECT
 
             public:
-            DriverEntry(QWidget* parent = 0);
-            virtual ~DriverEntry() = default;
+            DriverEntryRace(QWidget* parent = 0);
+            virtual ~DriverEntryRace() = default;
             void init(const Session::Internal::Participant& dataPacket);
             void updatePosition(const uint8_t newPosition);
             void updatePenalties(const Penalty::Internal::Type type, const int32_t change);
@@ -53,15 +56,10 @@ namespace UserInterface {
             virtual const int16_t height() const override final;
             virtual const int16_t x() const override final;
             virtual const int16_t y() const override final;
-            const uint8_t GetCurrentPosition() const;
 
             private:
-            void redoLayout();
+            void redoLayout() override final;
 
-            QList<UserInterface::Widget::Interface*> m_allWidgets;
-            uint8_t m_driverIndex;
-            uint8_t m_currentPosition;
-            bool m_isPlayer;
             UserInterface::Widget::FastestLapIndicator* m_fastestLap;
             UserInterface::Widget::TextInterface* m_position;
             UserInterface::Widget::WarningContainer* m_trackLimWarn;
@@ -80,4 +78,4 @@ namespace UserInterface {
 
 }
 
-#endif // USERINTERFACE_WIDGETS_INCLUDE_DRIVER_ENTRY_H_
+#endif // USERINTERFACE_WIDGETS_INCLUDE_DRIVER_ENTRY_RACE_H_

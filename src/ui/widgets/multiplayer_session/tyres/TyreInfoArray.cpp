@@ -6,7 +6,7 @@
 #include "base/Container.h"
 #include "data/internal/Tyre.h"
 #include "styles/General.h"
-#include "styles/DriverInfoRace.h"
+#include "styles/DriverInfo.h"
 
 
 

@@ -100,7 +100,9 @@ Generalizer::Adapter::F1_25::ConvertSessionDataPacket(const Packet::Game::F1_25:
     Session::Internal::Settings settings;
     ExtractSessionSettings(inputPacket, trackInfo, settings);
     Packet::Internal::SessionSettings* sessionDataPacket =
-        new Packet::Internal::SessionSettings(inputPacket->GetHeader()->GetFrameIdentifier(), trackInfo, settings); static bool gotWeatherData = false;
+        new Packet::Internal::SessionSettings(inputPacket->GetHeader()->GetFrameIdentifier(), trackInfo, settings);
+    
+    static bool gotWeatherData = false;
 
     if (!gotWeatherData) {
 
@@ -227,7 +229,17 @@ Generalizer::Adapter::F1_25::ConvertLapDataPacket(const Packet::Game::F1_25::Lap
         const auto lapInfo = inputPacket->GetLapInfo(i, ok);
         if (ok) {
 
-            gridPacket->InsertData(i, lapInfo.m_gridPositionStart);
+            // in quali sessions, the grid position is effectively 0
+            if (lapInfo.m_gridPositionStart == 0) {
+
+                gridPacket->InsertData(i, lapInfo.m_carPosition);
+                
+            }
+            else {
+
+                gridPacket->InsertData(i, lapInfo.m_gridPositionStart);
+
+            }
             standingsPacket->InsertData(i, lapInfo.m_carPosition);
             penaltiesPacket->InsertData(i, lapInfo.m_numTotalWarn,
                 lapInfo.m_numCornerCutWarn,
@@ -513,11 +525,31 @@ void Generalizer::Adapter::F1_25::ExtractSessionSettings(const Packet::Game::F1_
                 break;
 
             case Session::Game::F1_25::Type::Qualifying1:
-            case Session::Game::F1_25::Type::Qualifying2:
-            case Session::Game::F1_25::Type::Qualifying3:
             case Session::Game::F1_25::Type::SprintShootout1:
+                settings.m_dropZone = 5;
+                settings.m_active = 20;
+                settings.m_sessionLimit = Session::Internal::LimitType::TimeElapsed;
+                settings.m_sessionType = Session::Internal::Type::Qualifying;
+                settings.m_sessionDurationTime = inputPacket->GetSessionDuration();
+                break;
+
+            case Session::Game::F1_25::Type::Qualifying2:
             case Session::Game::F1_25::Type::SprintShootout2:
+                settings.m_dropZone = 5;
+                settings.m_active = 15;
+                settings.m_sessionLimit = Session::Internal::LimitType::TimeElapsed;
+                settings.m_sessionType = Session::Internal::Type::Qualifying;
+                settings.m_sessionDurationTime = inputPacket->GetSessionDuration();
+                break;
+
+            case Session::Game::F1_25::Type::Qualifying3:
             case Session::Game::F1_25::Type::SprintShootout3:
+                settings.m_active = 10;
+                settings.m_sessionLimit = Session::Internal::LimitType::TimeElapsed;
+                settings.m_sessionType = Session::Internal::Type::Qualifying;
+                settings.m_sessionDurationTime = inputPacket->GetSessionDuration();
+                break;
+
             case Session::Game::F1_25::Type::ShortQualifying:
             case Session::Game::F1_25::Type::ShortSprintShootout:
                 settings.m_sessionLimit = Session::Internal::LimitType::TimeElapsed;
@@ -531,6 +563,7 @@ void Generalizer::Adapter::F1_25::ExtractSessionSettings(const Packet::Game::F1_
                 settings.m_sessionType = Session::Internal::Type::Qualifying;
                 settings.m_sessionDurationLaps = 1;
                 break;
+
             case Session::Game::F1_25::Type::TimeTrial:
                 break;
 

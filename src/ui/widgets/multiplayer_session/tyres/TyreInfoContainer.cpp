@@ -6,7 +6,7 @@
 #include <QWidget>
 #include "base/Container.h"
 #include "base/TextInterface.h"
-#include "styles/DriverInfoRace.h"
+#include "styles/DriverInfo.h"
 #include "multiplayer_session/tyres/TyreIcon.h"
 
 
@@ -301,7 +301,7 @@ void UserInterface::Widget::TyreInfoContainer::redoLayout() {
 
     if (m_visualCompoundIcon && m_actualCompoundText && m_lapsText && m_stintNoText) {
 
-        const uint16_t iconSize = UserInterface::Style::TyreInfoCompoundIconSize.GetValue(height());
+        const uint16_t iconSize = UserInterface::Style::RowHeight.GetValue(height());
 
         m_visualCompoundIcon->setSize(iconSize, iconSize, true);
         m_visualCompoundIcon->adjustSize();

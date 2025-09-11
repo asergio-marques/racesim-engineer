@@ -1,5 +1,5 @@
-#include "multiplayer_session/DriverEntry.h"
-#include <iostream>
+#include "multiplayer_session/DriverEntryRace.h"
+
 #include <QWidget>
 #include "base/Container.h"
 #include "base/TextInterface.h"
@@ -14,17 +14,13 @@
 #include "multiplayer_session/timing/LapInfoContainer.h"
 #include "multiplayer_session/tyres/TyreInfoArray.h"
 #include "multiplayer_session/warning/WarningContainer.h"
-#include "styles/DriverInfoRace.h"
+#include "styles/DriverInfo.h"
 #include "styles/General.h"
 
 
 
-UserInterface::Widget::DriverEntry::DriverEntry(QWidget* parent) :
-    UserInterface::Widget::Container(UserInterface::Widget::ID::DriverEntry),
-    m_allWidgets(), 
-    m_driverIndex(),
-    m_currentPosition(),
-    m_isPlayer(),
+UserInterface::Widget::DriverEntryRace::DriverEntryRace(QWidget* parent) :
+    UserInterface::Widget::IDriverEntry(),
     m_fastestLap(new UserInterface::Widget::FastestLapIndicator(parent)),
     m_position(new UserInterface::Widget::TextInterface(UserInterface::Widget::ID::DriverPosition, parent)),
     m_trackLimWarn(new UserInterface::Widget::WarningContainer(
@@ -114,25 +110,27 @@ UserInterface::Widget::DriverEntry::DriverEntry(QWidget* parent) :
 
 
 
-void UserInterface::Widget::DriverEntry::init(const Session::Internal::Participant& dataPacket) {
+void UserInterface::Widget::DriverEntryRace::init(const Session::Internal::Participant& dataPacket) {
 
     m_driverIndex = dataPacket.m_index;
     m_currentPosition = dataPacket.m_startPosition;
     m_isPlayer = dataPacket.m_isPlayer;
-    if (m_fastestLap) {
-
-        // hidden by default
-        m_fastestLap->hide();
-
-    }
     if (m_position) {
 
+        m_position->show();
         m_position->setText(QString::number(dataPacket.m_startPosition));
 
     }
     if (m_teamIcon) {
 
+        m_teamIcon->show();
         m_teamIcon->SetTeam(dataPacket.m_teamID);
+
+    }
+    if (m_driverName) {
+
+        m_driverName->show();
+        m_driverName->setText(dataPacket.m_shortName);
 
     }
     if (m_driverName) {
@@ -163,7 +161,7 @@ void UserInterface::Widget::DriverEntry::init(const Session::Internal::Participa
 
 
 
-void UserInterface::Widget::DriverEntry::updatePosition(const uint8_t newPosition) {
+void UserInterface::Widget::DriverEntryRace::updatePosition(const uint8_t newPosition) {
 
     m_currentPosition = newPosition;
     if (m_position) {
@@ -178,7 +176,7 @@ void UserInterface::Widget::DriverEntry::updatePosition(const uint8_t newPositio
 
 
 
-void UserInterface::Widget::DriverEntry::updatePenalties(const Penalty::Internal::Type type, const int32_t change) {
+void UserInterface::Widget::DriverEntryRace::updatePenalties(const Penalty::Internal::Type type, const int32_t change) {
 
     switch (type) {
 
@@ -208,7 +206,7 @@ void UserInterface::Widget::DriverEntry::updatePenalties(const Penalty::Internal
 
 
 
-void UserInterface::Widget::DriverEntry::updateStatus(const Participant::Internal::Status status) {
+void UserInterface::Widget::DriverEntryRace::updateStatus(const Participant::Internal::Status status) {
 
     if (m_retirement) {
 
@@ -226,7 +224,7 @@ void UserInterface::Widget::DriverEntry::updateStatus(const Participant::Interna
 
 
 
-void UserInterface::Widget::DriverEntry::newSessionBestLap(const Lap::Internal::Time newLapTime, const bool isThisDrivers) {
+void UserInterface::Widget::DriverEntryRace::newSessionBestLap(const Lap::Internal::Time newLapTime, const bool isThisDrivers) {
 
     if (m_fastestLap && m_personalBestLap && m_lastLap) {
 
@@ -258,7 +256,7 @@ void UserInterface::Widget::DriverEntry::newSessionBestLap(const Lap::Internal::
 
 
 
-void UserInterface::Widget::DriverEntry::newPersonalBestLap(const Lap::Internal::Time newLapTime) {
+void UserInterface::Widget::DriverEntryRace::newPersonalBestLap(const Lap::Internal::Time newLapTime) {
 
     if (m_personalBestLap && m_lastLap) {
 
@@ -279,7 +277,7 @@ void UserInterface::Widget::DriverEntry::newPersonalBestLap(const Lap::Internal:
 
 
 
-void UserInterface::Widget::DriverEntry::newLatestLap(const Lap::Internal::Time newLapTime) {
+void UserInterface::Widget::DriverEntryRace::newLatestLap(const Lap::Internal::Time newLapTime) {
 
     if (m_lastLap) {
 
@@ -297,7 +295,8 @@ void UserInterface::Widget::DriverEntry::newLatestLap(const Lap::Internal::Time 
 
 
 
-void UserInterface::Widget::DriverEntry::newTyres(const Tyre::Internal::Actual actualTyre, const Tyre::Internal::Visual visualTyre, const uint8_t stintNo, const uint8_t tyreAge) {
+void UserInterface::Widget::DriverEntryRace::newTyres(const Tyre::Internal::Actual actualTyre,
+    const Tyre::Internal::Visual visualTyre, const uint8_t stintNo, const uint8_t tyreAge) {
 
     if (m_tyreArray) {
 
@@ -309,10 +308,10 @@ void UserInterface::Widget::DriverEntry::newTyres(const Tyre::Internal::Actual a
 
 
 
-void UserInterface::Widget::DriverEntry::move(const uint16_t x, const uint16_t y, const bool centerAlignmentX, const bool centerAlignmentY) {
+void UserInterface::Widget::DriverEntryRace::move(const uint16_t x, const uint16_t y, const bool centerAlignmentX, const bool centerAlignmentY) {
 
-    m_x = x;
-    m_y = y;
+    m_x = centerAlignmentX ? x - (width() / 2) : x;
+    m_y = centerAlignmentY ? y - (height() / 2) : y;
 
     redoLayout();
 
@@ -320,7 +319,7 @@ void UserInterface::Widget::DriverEntry::move(const uint16_t x, const uint16_t y
 
 
 
-void UserInterface::Widget::DriverEntry::scale(const uint8_t percent) {
+void UserInterface::Widget::DriverEntryRace::scale(const uint8_t percent) {
 
 
 
@@ -328,7 +327,7 @@ void UserInterface::Widget::DriverEntry::scale(const uint8_t percent) {
 
 
 
-void UserInterface::Widget::DriverEntry::scale(const uint8_t percentX, const uint8_t percentY) {
+void UserInterface::Widget::DriverEntryRace::scale(const uint8_t percentX, const uint8_t percentY) {
 
 
 
@@ -336,7 +335,7 @@ void UserInterface::Widget::DriverEntry::scale(const uint8_t percentX, const uin
 
 
 
-void UserInterface::Widget::DriverEntry::setSize(const uint16_t newWidth, const uint16_t newHeight, const bool keepAspectRatio) {
+void UserInterface::Widget::DriverEntryRace::setSize(const uint16_t newWidth, const uint16_t newHeight, const bool keepAspectRatio) {
 
     m_width = newWidth;
     m_height = newHeight;
@@ -347,7 +346,7 @@ void UserInterface::Widget::DriverEntry::setSize(const uint16_t newWidth, const 
 
 
 
-void UserInterface::Widget::DriverEntry::raise() {
+void UserInterface::Widget::DriverEntryRace::raise() {
 
     if (m_fastestLap) m_fastestLap->raise();
     if (m_position) m_position->raise();
@@ -363,7 +362,7 @@ void UserInterface::Widget::DriverEntry::raise() {
 
 
 
-void UserInterface::Widget::DriverEntry::lower() {
+void UserInterface::Widget::DriverEntryRace::lower() {
 
     if (m_fastestLap) m_fastestLap->lower();
     if (m_position) m_position->lower();
@@ -379,7 +378,7 @@ void UserInterface::Widget::DriverEntry::lower() {
 
 
 
-const int16_t UserInterface::Widget::DriverEntry::width() const {
+const int16_t UserInterface::Widget::DriverEntryRace::width() const {
 
     return m_width;
 
@@ -387,7 +386,7 @@ const int16_t UserInterface::Widget::DriverEntry::width() const {
 
 
 
-const int16_t UserInterface::Widget::DriverEntry::height() const {
+const int16_t UserInterface::Widget::DriverEntryRace::height() const {
 
     return m_height;
 
@@ -395,7 +394,7 @@ const int16_t UserInterface::Widget::DriverEntry::height() const {
 
 
 
-const int16_t UserInterface::Widget::DriverEntry::x() const {
+const int16_t UserInterface::Widget::DriverEntryRace::x() const {
 
     return m_x;
 
@@ -403,7 +402,7 @@ const int16_t UserInterface::Widget::DriverEntry::x() const {
 
     
 
-const int16_t UserInterface::Widget::DriverEntry::y() const {
+const int16_t UserInterface::Widget::DriverEntryRace::y() const {
 
     return m_y;
 
@@ -411,29 +410,23 @@ const int16_t UserInterface::Widget::DriverEntry::y() const {
 
 
 
-const uint8_t UserInterface::Widget::DriverEntry::GetCurrentPosition() const {
-
-    return m_currentPosition;
-
-}
-
-
-
-void UserInterface::Widget::DriverEntry::redoLayout() {
+void UserInterface::Widget::DriverEntryRace::redoLayout() {
 
     uint16_t totalWidth = 0;
-    uint16_t fastLapCenterX = x();
-    uint16_t centerY = y();
-    const uint16_t calcPadding = UserInterface::Style::PaddingReference.GetValue(width());
+    auto rowHeight = UserInterface::Style::RowHeight.GetValue(height());
+    uint16_t centerY = y() + (rowHeight / 2);
 
+    const uint16_t calcPadding = UserInterface::Style::PaddingReference.GetValue(width());
     auto warningIconDim = UserInterface::Style::WarningIconSize.GetValue(height());
     auto warningIconFontSize = UserInterface::Style::WarningNumFontSize.GetValue(height());
+    uint16_t fastLapCenterX = x() + (rowHeight / 2) + warningIconDim + calcPadding;
+
     if (m_trackLimWarn) {
 
         m_trackLimWarn->setSize(warningIconDim, warningIconDim, false);
         m_trackLimWarn->setTextFontSize(warningIconFontSize);
         m_trackLimWarn->adjustSize();
-        m_trackLimWarn->move(x(), y() + UserInterface::Style::WarningIconSize.GetValue(height()) + calcPadding, false, false);
+        m_trackLimWarn->move(x(), y() + warningIconDim + calcPadding, false, false);
 
         totalWidth += warningIconDim + calcPadding;
 
@@ -448,17 +441,11 @@ void UserInterface::Widget::DriverEntry::redoLayout() {
     }
     if (m_fastestLap) {
 
-        auto fastestLapDim = UserInterface::Style::FastestLapIconSize.GetValue(height());
-
-        m_fastestLap->setSize(fastestLapDim, fastestLapDim, true);
+        m_fastestLap->setSize(rowHeight, rowHeight, true);
         m_fastestLap->adjustSize();
-        m_fastestLap->move(x() + totalWidth, y(), false, false);
+        m_fastestLap->move(fastLapCenterX, y(), true, false);
 
-        // Register middle of row for future use, center of fast lap indicator used to center the place text
-        fastLapCenterX = m_fastestLap->x() + (fastestLapDim / 2);
-        centerY = m_fastestLap->y() + (fastestLapDim / 2);
-
-        totalWidth += fastestLapDim + calcPadding;
+        totalWidth += rowHeight + calcPadding;
 
     }
     if (m_position) {
@@ -470,17 +457,15 @@ void UserInterface::Widget::DriverEntry::redoLayout() {
     }
     if (m_teamIcon) {
 
-        auto teamIconDim = UserInterface::Style::FastestLapIconSize.GetValue(height());
-
-        m_teamIcon->setSize(teamIconDim, teamIconDim, true);
+        m_teamIcon->setSize(rowHeight, rowHeight, true);
         m_position->adjustSize();
 
         // Add the padding! And the width for centering!
         totalWidth += (calcPadding * 3);
-        m_teamIcon->move(x() + totalWidth + (teamIconDim / 2), centerY, true, true);
+        m_teamIcon->move(x() + totalWidth + (rowHeight / 2), centerY, true, true);
 
         // Add padding again to account for the right padding
-        totalWidth += teamIconDim + calcPadding;
+        totalWidth += rowHeight + calcPadding;
 
     }
     if (m_driverName) {
@@ -546,7 +531,7 @@ void UserInterface::Widget::DriverEntry::redoLayout() {
     }
     if (m_penalties) {
 
-        m_penalties->setSize(UserInterface::Style::PenaltyIconMaxX.GetValue(width()), UserInterface::Style::PenaltyIconMaxY.GetValue(height()), false);
+        m_penalties->setSize(UserInterface::Style::PenaltyIconMaxX.GetValue(width()), rowHeight, false);
         m_penalties->setTextFontSize(UserInterface::Style::PenaltyIconFontSize.GetValue(height()));
         m_penalties->adjustSize();
 
@@ -556,6 +541,7 @@ void UserInterface::Widget::DriverEntry::redoLayout() {
 
         // Add padding again to account for the right padding
         totalWidth += m_penalties->width() + calcPadding;
+
     }
 
 }

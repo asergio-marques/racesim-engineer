@@ -28,8 +28,8 @@ UserInterface::Panel::QualifyingRight::QualifyingRight(UserInterface::PacketHand
     if (m_driverStandings) {
 
         RegisterWidget(m_driverStandings);
-        //connect(handler, &UserInterface::PacketHandler::QualiStart, m_driverStandings, &UserInterface::Widget::Standings::setStartingGrid);
-        connect(handler, &UserInterface::PacketHandler::OvertakePerformed, this, &UserInterface::Panel::QualifyingRight::onOvertake);
+        connect(handler, &UserInterface::PacketHandler::QualiStart, m_driverStandings, &UserInterface::Widget::Standings::onQualiStart);
+        connect(handler, &UserInterface::PacketHandler::OvertakePerformed, m_driverStandings, &UserInterface::Widget::Standings::onOvertake);
         connect(handler, &UserInterface::PacketHandler::PenaltyReceived, m_driverStandings, &UserInterface::Widget::Standings::onPenaltyReceived);
         connect(handler, &UserInterface::PacketHandler::ParticipantStatusChanged, m_driverStandings, &UserInterface::Widget::Standings::onParticipantStatusChanged);
         connect(handler, &UserInterface::PacketHandler::LapFinished, m_driverStandings, &UserInterface::Widget::Standings::onLapFinished);
@@ -56,24 +56,6 @@ void UserInterface::Panel::QualifyingRight::ResizePanel(const QSize& newUsefulSi
         uint16_t centerX = newUsefulSize.width() / 2;
         uint16_t centerY = newUsefulSize.height() / 2;
         m_driverStandings->move(centerX, centerY, true, true);
-
-    }
-
-}
-
-
-
-void UserInterface::Panel::QualifyingRight::onOvertake(const Packet::Event::Overtake* packet) {
-
-    if (packet && m_driverStandings) {
-
-        for (const auto overtakeData : packet->GetData()) {
-
-            m_driverStandings->positionChange(overtakeData.m_driverID, overtakeData.m_position);
-
-        }
-
-        m_driverStandings->reorderStandings();
 
     }
 

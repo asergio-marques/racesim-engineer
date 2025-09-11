@@ -38,7 +38,7 @@ UserInterface::Widget::Standings::Standings(QWidget* parent) :
 
 
 
-void UserInterface::Widget::Standings::setStartingGrid(const Packet::Event::RaceStart* dataPacket) {
+void UserInterface::Widget::Standings::onQualiStart(const Packet::Event::QualiStart* dataPacket) {
 
     if (dataPacket && !m_initialParamsSet) {
 
@@ -54,6 +54,53 @@ void UserInterface::Widget::Standings::setStartingGrid(const Packet::Event::Race
         }
 
         m_initialParamsSet = true;
+        reorderStandings();
+
+    }
+
+}
+
+
+
+void UserInterface::Widget::Standings::onRaceStart(const Packet::Event::RaceStart* dataPacket) {
+
+    if (dataPacket && !m_initialParamsSet) {
+
+        for (const auto driverInfo : dataPacket->m_participants) {
+
+            UserInterface::Widget::DriverEntry* entry = m_driverData.at(driverInfo.m_index);
+            if (entry) {
+
+                entry->init(driverInfo);
+
+            }
+
+        }
+
+        m_initialParamsSet = true;
+        reorderStandings();
+
+    }
+
+}
+
+
+
+void UserInterface::Widget::Standings::onOvertake(const Packet::Event::Overtake* packet) {
+
+    if (packet && m_initialParamsSet) {
+
+        for (const auto overtakeData : packet->GetData()) {
+
+            UserInterface::Widget::DriverEntry* entry = m_driverData.at(overtakeData.m_driverID);
+            if (entry) {
+
+                entry->updatePosition(overtakeData.m_position);
+
+            }
+
+        }
+
         reorderStandings();
 
     }
@@ -233,23 +280,6 @@ void UserInterface::Widget::Standings::reorderStandings() {
 
             }
             driver->move(x(), newY, false, false);
-
-        }
-
-    }
-
-}
-
-
-
-void UserInterface::Widget::Standings::positionChange(const uint8_t id, const uint8_t newPosition) {
-
-    if (m_initialParamsSet) {
-
-        UserInterface::Widget::DriverEntry* entry = m_driverData.at(id);
-        if (entry) {
-
-            entry->updatePosition(newPosition);
 
         }
 

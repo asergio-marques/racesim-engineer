@@ -40,7 +40,6 @@ namespace UserInterface {
             virtual void ResizePanel(const QSize& newUsefulSize) override final;
 
             private:
-            void onOvertake(const Packet::Event::Overtake* packet);
             UserInterface::Widget::Standings* m_driverStandings;
 
         };

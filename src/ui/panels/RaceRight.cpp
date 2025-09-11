@@ -16,7 +16,7 @@
 UserInterface::Panel::RaceRight::RaceRight(UserInterface::PacketHandler* handler, QWidget* parent) :
     UserInterface::Panel::Interface(handler, parent),
     m_driverStandings(nullptr) {
-        
+
     m_background = new UserInterface::Widget::BackgroundRight(UserInterface::Widget::ID::Background, this);
     if (m_background) {
 
@@ -28,8 +28,8 @@ UserInterface::Panel::RaceRight::RaceRight(UserInterface::PacketHandler* handler
     if (m_driverStandings) {
 
         RegisterWidget(m_driverStandings);
-        connect(handler, &UserInterface::PacketHandler::RaceStart, m_driverStandings, &UserInterface::Widget::Standings::setStartingGrid);
-        connect(handler, &UserInterface::PacketHandler::OvertakePerformed, this, &UserInterface::Panel::RaceRight::onOvertake);
+        connect(handler, &UserInterface::PacketHandler::RaceStart, m_driverStandings, &UserInterface::Widget::Standings::onRaceStart);
+        connect(handler, &UserInterface::PacketHandler::OvertakePerformed, m_driverStandings, &UserInterface::Widget::Standings::onOvertake);
         connect(handler, &UserInterface::PacketHandler::PenaltyReceived, m_driverStandings, &UserInterface::Widget::Standings::onPenaltyReceived);
         connect(handler, &UserInterface::PacketHandler::ParticipantStatusChanged, m_driverStandings, &UserInterface::Widget::Standings::onParticipantStatusChanged);
         connect(handler, &UserInterface::PacketHandler::LapFinished, m_driverStandings, &UserInterface::Widget::Standings::onLapFinished);
@@ -56,24 +56,6 @@ void UserInterface::Panel::RaceRight::ResizePanel(const QSize& newUsefulSize) {
         uint16_t centerX = newUsefulSize.width() / 2;
         uint16_t centerY = newUsefulSize.height() / 2;
         m_driverStandings->move(centerX, centerY, true, true);
-
-    }
-
-}
-
-
-
-void UserInterface::Panel::RaceRight::onOvertake(const Packet::Event::Overtake* packet) {
-
-    if (packet && m_driverStandings) {
-
-        for (const auto overtakeData : packet->GetData()) {
-
-            m_driverStandings->positionChange(overtakeData.m_driverID, overtakeData.m_position);
-
-        }
-
-        m_driverStandings->reorderStandings();
 
     }
 

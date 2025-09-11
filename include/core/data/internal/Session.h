@@ -148,6 +148,10 @@ namespace Session::Internal {
         // How many participants at the bottom of the session are eliminated at the end
         uint8_t m_dropZone = 0;
 
+        // How many participants are actually active in the session
+        // Excludes those knocked out in previous quali sessions
+        uint8_t m_active = 0;
+
         // How many participants at the top of the session have their positions reversed
         // at the end
         uint8_t m_reverseZone = 0;

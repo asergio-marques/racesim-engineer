@@ -15,6 +15,7 @@
 
 
 
+
 UserInterface::Widget::DriverEntryQuali::DriverEntryQuali(QWidget* parent) :
     UserInterface::Widget::IDriverEntry(),
     m_position(new UserInterface::Widget::TextInterface(UserInterface::Widget::ID::DriverPosition, parent)),
@@ -46,11 +47,13 @@ UserInterface::Widget::DriverEntryQuali::DriverEntryQuali(QWidget* parent) :
     }
 
     if (m_lastLap) {
+
         m_allWidgets.append(m_lastLap);
 
     }
 
     if (m_personalBestLap) {
+
         m_allWidgets.append(m_personalBestLap);
 
     }
@@ -67,16 +70,19 @@ void UserInterface::Widget::DriverEntryQuali::init(const Session::Internal::Part
 
     if (m_position) {
 
+        m_position->show();
         m_position->setText(QString::number(dataPacket.m_startPosition));
 
     }
     if (m_teamIcon) {
 
+        m_teamIcon->show();
         m_teamIcon->SetTeam(dataPacket.m_teamID);
 
     }
     if (m_driverName) {
 
+        m_driverName->show();
         m_driverName->setText(dataPacket.m_shortName);
 
     }
@@ -175,8 +181,8 @@ void UserInterface::Widget::DriverEntryQuali::newLatestLap(const Lap::Internal::
 
 void UserInterface::Widget::DriverEntryQuali::move(const uint16_t x, const uint16_t y, const bool centerAlignmentX, const bool centerAlignmentY) {
 
-    m_x = x;
-    m_y = y;
+    m_x = centerAlignmentX ? x - (width() / 2) : x;
+    m_y = centerAlignmentY ? y - (height() / 2) : y;
 
     redoLayout();
 
@@ -270,19 +276,23 @@ const int16_t UserInterface::Widget::DriverEntryQuali::y() const {
 void UserInterface::Widget::DriverEntryQuali::redoLayout() {
 
     uint16_t totalWidth = 0;
-    uint16_t fastLapCenterX = x();
-    uint16_t centerY = y();
-    const uint16_t calcPadding = UserInterface::Style::PaddingReference.GetValue(width());
-
     auto rowHeight = UserInterface::Style::RowHeight.GetValue(height());
+    uint16_t centerY = y() + (rowHeight / 2);
+
+    const uint16_t calcPadding = UserInterface::Style::PaddingReference.GetValue(width());
     auto warningIconDim = UserInterface::Style::WarningIconSize.GetValue(height());
-    auto warningIconFontSize = UserInterface::Style::WarningNumFontSize.GetValue(height());
+    uint16_t fastLapCenterX = x() + (rowHeight / 2) + warningIconDim + calcPadding;
+    
+    // for alignment with race
+    totalWidth += warningIconDim + calcPadding;
 
     if (m_position) {
 
         m_position->setFontSize(UserInterface::Style::PositionFontSize.GetValue(height()));
         m_position->adjustSize();
         m_position->move(fastLapCenterX, centerY, true, true);
+
+        totalWidth += rowHeight + calcPadding;
 
     }
     if (m_teamIcon) {

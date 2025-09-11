@@ -56,10 +56,9 @@ namespace UserInterface {
             virtual const int16_t height() const override final;
             virtual const int16_t x() const override final;
             virtual const int16_t y() const override final;
-            const uint8_t GetCurrentPosition() const;
 
             private:
-            void redoLayout();
+            void redoLayout() override final;
 
             UserInterface::Widget::FastestLapIndicator* m_fastestLap;
             UserInterface::Widget::TextInterface* m_position;

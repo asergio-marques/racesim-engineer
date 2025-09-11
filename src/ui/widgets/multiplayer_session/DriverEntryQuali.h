@@ -48,7 +48,7 @@ namespace UserInterface {
             virtual const int16_t y() const override final;
 
             private:
-            void redoLayout();
+            void redoLayout() override final;
             UserInterface::Widget::TextInterface* m_position;
             UserInterface::Widget::TeamIcon* m_teamIcon;
             UserInterface::Widget::TextInterface* m_driverName;

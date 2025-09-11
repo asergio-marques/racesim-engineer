@@ -23,15 +23,7 @@ namespace UserInterface {
         // TODO references should be 22 total not 20!
         static inline const float_t StandingsHeightRelative = 0.925f;
 
-        static inline const Value PositionFontSize = {
-            Value::Type::Absolute,
-            14,     // m_minValue
-            22,     // m_minValuePoint
-            72,     // m_maxValue
-            100     // m_maxValuePoint
-        };
-
-        static inline const Value FastestLapIconSize = {
+        static inline const Value RowHeight = {
             Value::Type::Absolute,
             18,     // m_minValue
             22,     // m_minValuePoint
@@ -55,6 +47,14 @@ namespace UserInterface {
             100     // m_maxValuePoint
         };
 
+        static inline const Value PositionFontSize = {
+            Value::Type::Absolute,
+            14,     // m_minValue
+            22,     // m_minValuePoint
+            72,     // m_maxValue
+            100     // m_maxValuePoint
+        };
+
         static inline const Value DriverNameMaximumWidth = {
             Value::Type::Absolute,
             44,     // m_minValue
@@ -68,14 +68,6 @@ namespace UserInterface {
             12,     // m_minValue
             22,     // m_minValuePoint
             60,     // m_maxValue
-            100     // m_maxValuePoint
-        };
-
-        static inline const Value TeamIconSize = {
-            Value::Type::Absolute,
-            18,     // m_minValue
-            22,     // m_minValuePoint
-            88,     // m_maxValue
             100     // m_maxValuePoint
         };
 
@@ -113,14 +105,6 @@ namespace UserInterface {
             392,    // m_minValuePoint
             200,    // m_maxValue
             1776    // m_maxValuePoint
-        };
-
-        static inline const Value TyreInfoCompoundIconSize = {
-            Value::Type::Absolute,
-            18,     // m_minValue
-            22,     // m_minValuePoint
-            88,     // m_maxValue
-            100     // m_maxValuePoint
         };
 
         static inline const Value TyreInfoCompoundFontSize = {
@@ -161,14 +145,6 @@ namespace UserInterface {
             392,    // m_minValuePoint
             152,    // m_maxValue
             1776    // m_maxValuePoint
-        };
-
-        static inline const Value PenaltyIconMaxY = {
-            Value::Type::Absolute,
-            20,     // m_minValue
-            22,     // m_minValuePoint
-            88,     // m_maxValue
-            100     // m_maxValuePoint
         };
 
         static inline const Value PenaltyIconFontSize = {

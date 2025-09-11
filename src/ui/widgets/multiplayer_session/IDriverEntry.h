@@ -38,6 +38,8 @@ namespace UserInterface {
             const uint8_t GetCurrentPosition() const;
 
             protected:
+            virtual void redoLayout() = 0;
+
             QList<UserInterface::Widget::Interface*> m_allWidgets;
             uint8_t m_driverIndex;
             uint8_t m_currentPosition;

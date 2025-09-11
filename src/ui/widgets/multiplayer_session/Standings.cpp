@@ -39,6 +39,7 @@ void UserInterface::Widget::Standings::onQualiStart(const Packet::Event::QualiSt
             m_driverData.insert(driverInfo.m_index, entry);
             if (entry) {
 
+                entry->setSize(m_width, std::ceil(m_height / 22), false);
                 entry->init(driverInfo);
 
             }
@@ -64,6 +65,7 @@ void UserInterface::Widget::Standings::onRaceStart(const Packet::Event::RaceStar
             m_driverData.insert(driverInfo.m_index, entry);
             if (entry) {
 
+                entry->setSize(m_width, std::ceil(m_height / 22), false);
                 entry->init(driverInfo);
 
             }

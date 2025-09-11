@@ -115,20 +115,22 @@ void UserInterface::Widget::DriverEntryRace::init(const Session::Internal::Parti
     m_driverIndex = dataPacket.m_index;
     m_currentPosition = dataPacket.m_startPosition;
     m_isPlayer = dataPacket.m_isPlayer;
-    if (m_fastestLap) {
-
-        // hidden by default
-        m_fastestLap->hide();
-
-    }
     if (m_position) {
 
+        m_position->show();
         m_position->setText(QString::number(dataPacket.m_startPosition));
 
     }
     if (m_teamIcon) {
 
+        m_teamIcon->show();
         m_teamIcon->SetTeam(dataPacket.m_teamID);
+
+    }
+    if (m_driverName) {
+
+        m_driverName->show();
+        m_driverName->setText(dataPacket.m_shortName);
 
     }
     if (m_driverName) {
@@ -308,8 +310,8 @@ void UserInterface::Widget::DriverEntryRace::newTyres(const Tyre::Internal::Actu
 
 void UserInterface::Widget::DriverEntryRace::move(const uint16_t x, const uint16_t y, const bool centerAlignmentX, const bool centerAlignmentY) {
 
-    m_x = x;
-    m_y = y;
+    m_x = centerAlignmentX ? x - (width() / 2) : x;
+    m_y = centerAlignmentY ? y - (height() / 2) : y;
 
     redoLayout();
 
@@ -411,20 +413,20 @@ const int16_t UserInterface::Widget::DriverEntryRace::y() const {
 void UserInterface::Widget::DriverEntryRace::redoLayout() {
 
     uint16_t totalWidth = 0;
-    uint16_t fastLapCenterX = x();
-    uint16_t centerY = y();
-    const uint16_t calcPadding = UserInterface::Style::PaddingReference.GetValue(width());
-
     auto rowHeight = UserInterface::Style::RowHeight.GetValue(height());
+    uint16_t centerY = y() + (rowHeight / 2);
+
+    const uint16_t calcPadding = UserInterface::Style::PaddingReference.GetValue(width());
     auto warningIconDim = UserInterface::Style::WarningIconSize.GetValue(height());
     auto warningIconFontSize = UserInterface::Style::WarningNumFontSize.GetValue(height());
+    uint16_t fastLapCenterX = x() + (rowHeight / 2) + warningIconDim + calcPadding;
 
     if (m_trackLimWarn) {
 
         m_trackLimWarn->setSize(warningIconDim, warningIconDim, false);
         m_trackLimWarn->setTextFontSize(warningIconFontSize);
         m_trackLimWarn->adjustSize();
-        m_trackLimWarn->move(x(), y() + UserInterface::Style::WarningIconSize.GetValue(height()) + calcPadding, false, false);
+        m_trackLimWarn->move(x(), y() + warningIconDim + calcPadding, false, false);
 
         totalWidth += warningIconDim + calcPadding;
 
@@ -441,11 +443,7 @@ void UserInterface::Widget::DriverEntryRace::redoLayout() {
 
         m_fastestLap->setSize(rowHeight, rowHeight, true);
         m_fastestLap->adjustSize();
-        m_fastestLap->move(x() + totalWidth, y(), false, false);
-
-        // Register middle of row for future use, center of fast lap indicator used to center the place text
-        fastLapCenterX = m_fastestLap->x() + (rowHeight / 2);
-        centerY = m_fastestLap->y() + (rowHeight / 2);
+        m_fastestLap->move(fastLapCenterX, y(), true, false);
 
         totalWidth += rowHeight + calcPadding;
 

@@ -34,8 +34,10 @@ target_sources(${PROJECT_NAME} PRIVATE
     general_use/BackgroundFullScreen.cpp
     general_use/ScreenTitle.cpp
     specific/LoadingIcon.cpp
-    multiplayer_session/DriverEntry.cpp
+    multiplayer_session/DriverEntryQuali.cpp
+    multiplayer_session/DriverEntryRace.cpp
     multiplayer_session/FastestLapIndicator.cpp
+    multiplayer_session/IDriverEntry.cpp
     multiplayer_session/Standings.cpp
     multiplayer_session/TeamIcon.cpp
     multiplayer_session/penalty/PenaltyIcon.cpp

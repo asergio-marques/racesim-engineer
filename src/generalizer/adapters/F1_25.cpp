@@ -229,7 +229,17 @@ Generalizer::Adapter::F1_25::ConvertLapDataPacket(const Packet::Game::F1_25::Lap
         const auto lapInfo = inputPacket->GetLapInfo(i, ok);
         if (ok) {
 
-            gridPacket->InsertData(i, lapInfo.m_gridPositionStart);
+            // in quali sessions, the grid position is effectively 0
+            if (lapInfo.m_gridPositionStart == 0) {
+
+                gridPacket->InsertData(i, lapInfo.m_carPosition);
+                
+            }
+            else {
+
+                gridPacket->InsertData(i, lapInfo.m_gridPositionStart);
+
+            }
             standingsPacket->InsertData(i, lapInfo.m_carPosition);
             penaltiesPacket->InsertData(i, lapInfo.m_numTotalWarn,
                 lapInfo.m_numCornerCutWarn,

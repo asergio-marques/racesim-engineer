@@ -6,7 +6,7 @@
 #include <QWidget>
 #include "base/Container.h"
 #include "base/TextInterface.h"
-#include "styles/DriverInfoRace.h"
+#include "styles/DriverInfo.h"
 #include "multiplayer_session/tyres/TyreIcon.h"
 
 

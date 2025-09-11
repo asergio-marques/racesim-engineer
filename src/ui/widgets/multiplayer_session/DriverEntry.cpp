@@ -14,7 +14,7 @@
 #include "multiplayer_session/timing/LapInfoContainer.h"
 #include "multiplayer_session/tyres/TyreInfoArray.h"
 #include "multiplayer_session/warning/WarningContainer.h"
-#include "styles/DriverInfoRace.h"
+#include "styles/DriverInfo.h"
 #include "styles/General.h"
 
 

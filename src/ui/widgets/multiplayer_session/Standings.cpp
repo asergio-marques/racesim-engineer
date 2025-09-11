@@ -11,7 +11,7 @@
 #include "packets/event/QualiStart.h"
 #include "packets/event/RaceStart.h"
 #include "packets/event/TimeTrialStart.h"
-#include "styles/DriverInfoRace.h"
+#include "styles/DriverInfo.h"
 #include "styles/Value.h"
 
 

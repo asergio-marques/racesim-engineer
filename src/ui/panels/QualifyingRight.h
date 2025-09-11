@@ -10,9 +10,9 @@ class QWidget;
 
 namespace Packet {
 
-    namespace Internal {
+    namespace Event {
 
-        class Interface;
+        class Overtake;
 
     }
 
@@ -22,6 +22,12 @@ namespace UserInterface {
 
     class PacketHandler;
 
+    namespace Widget {
+
+        class Standings;
+
+    }
+
     namespace Panel {
 
         class QualifyingRight final : public UserInterface::Panel::Interface {
@@ -29,9 +35,13 @@ namespace UserInterface {
             Q_OBJECT
 
             public:
-                QualifyingRight(UserInterface::PacketHandler* handler, QWidget* parent = 0);
-                virtual ~QualifyingRight() = default;
-                virtual void ResizePanel(const QSize& newUsefulSize) override final;
+            QualifyingRight(UserInterface::PacketHandler* handler, QWidget* parent = 0);
+            virtual ~QualifyingRight() = default;
+            virtual void ResizePanel(const QSize& newUsefulSize) override final;
+
+            private:
+            void onOvertake(const Packet::Event::Overtake* packet);
+            UserInterface::Widget::Standings* m_driverStandings;
 
         };
 

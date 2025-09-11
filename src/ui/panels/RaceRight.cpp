@@ -5,7 +5,7 @@
 #include "PacketHandler.h"
 #include "packets/event/Overtake.h"
 #include "panels/Interface.h"
-#include "styles/DriverInfoRace.h"
+#include "styles/DriverInfo.h"
 #include "widgets/general_use/BackgroundRight.h"
 #include "widgets/general_use/ScreenTitle.h"
 #include "widgets/multiplayer_session/Standings.h"

@@ -1,0 +1,32 @@
+<?xml version='1.0' encoding='utf-8'?>
+<track name="Albert Park" id="1">
+	<aliases>
+		<alias>Albert Park</alias>
+		<alias>Australia</alias>
+		<alias>Melbourne</alias>
+	</aliases>
+	<layout name="F1" id="0">
+		<sector1 mini="6" start="0.0f" end="0.0f">
+			<minisector start="0.0f" end="0.0f" />
+			<minisector start="0.0f" end="0.0f" />
+			<minisector start="0.0f" end="0.0f" />
+			<minisector start="0.0f" end="0.0f" />
+			<minisector start="0.0f" end="0.0f" />
+			<minisector start="0.0f" end="0.0f" />
+		</sector1>
+		<sector2 mini="3" start="0.0f" end="0.0f">
+			<minisector start="0.0f" end="0.0f" />
+			<minisector start="0.0f" end="0.0f" />
+			<minisector start="0.0f" end="0.0f" />
+		</sector2>
+		<sector3 mini="7" start="0.0f" end="0.0f">
+			<minisector start="0.0f" end="0.0f" />
+			<minisector start="0.0f" end="0.0f" />
+			<minisector start="0.0f" end="0.0f" />
+			<minisector start="0.0f" end="0.0f" />
+			<minisector start="0.0f" end="0.0f" />
+			<minisector start="0.0f" end="0.0f" />
+			<minisector start="0.0f" end="0.0f" />
+		</sector3>
+	</layout>
+</track>

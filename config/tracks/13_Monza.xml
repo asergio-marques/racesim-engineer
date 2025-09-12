@@ -1,0 +1,31 @@
+<?xml version='1.0' encoding='utf-8'?>
+<track name="Monza" id="13">
+	<aliases>
+		<alias>Monza</alias>
+		<alias>Italy</alias>
+	</aliases>
+	<layout name="F1" id="0">
+		<sector1 mini="5" start="0.0f" end="0.0f">
+			<minisector start="0.0f" end="0.0f" />
+			<minisector start="0.0f" end="0.0f" />
+			<minisector start="0.0f" end="0.0f" />
+			<minisector start="0.0f" end="0.0f" />
+			<minisector start="0.0f" end="0.0f" />
+		</sector1>
+		<sector2 mini="6" start="0.0f" end="0.0f">
+			<minisector start="0.0f" end="0.0f" />
+			<minisector start="0.0f" end="0.0f" />
+			<minisector start="0.0f" end="0.0f" />
+			<minisector start="0.0f" end="0.0f" />
+			<minisector start="0.0f" end="0.0f" />
+			<minisector start="0.0f" end="0.0f" />
+		</sector2>
+		<sector3 mini="5" start="0.0f" end="0.0f">
+			<minisector start="0.0f" end="0.0f" />
+			<minisector start="0.0f" end="0.0f" />
+			<minisector start="0.0f" end="0.0f" />
+			<minisector start="0.0f" end="0.0f" />
+			<minisector start="0.0f" end="0.0f" />
+		</sector3>
+	</layout>
+</track>

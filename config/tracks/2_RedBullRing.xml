@@ -1,0 +1,30 @@
+<?xml version='1.0' encoding='utf-8'?>
+<track name="RedBullRing" id="2">
+	<aliases>
+		<alias>Red Bull Ring</alias>
+		<alias>Austria</alias>
+		<alias>Spielberg</alias>
+	</aliases>
+	<layout name="F1" id="0">
+		<sector1 mini="4" start="0.0f" end="0.0f">
+			<minisector start="0.0f" end="0.0f" />
+			<minisector start="0.0f" end="0.0f" />
+			<minisector start="0.0f" end="0.0f" />
+			<minisector start="0.0f" end="0.0f" />
+		</sector1>
+		<sector2 mini="5" start="0.0f" end="0.0f">
+			<minisector start="0.0f" end="0.0f" />
+			<minisector start="0.0f" end="0.0f" />
+			<minisector start="0.0f" end="0.0f" />
+			<minisector start="0.0f" end="0.0f" />
+			<minisector start="0.0f" end="0.0f" />
+		</sector2>
+		<sector3 mini="5" start="0.0f" end="0.0f">
+			<minisector start="0.0f" end="0.0f" />
+			<minisector start="0.0f" end="0.0f" />
+			<minisector start="0.0f" end="0.0f" />
+			<minisector start="0.0f" end="0.0f" />
+			<minisector start="0.0f" end="0.0f" />
+		</sector3>
+	</layout>
+</track>

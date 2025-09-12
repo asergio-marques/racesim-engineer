@@ -1,0 +1,33 @@
+<?xml version='1.0' encoding='utf-8'?>
+<track name="LasVegasStreet" id="24">
+	<aliases>
+		<alias>USA</alias>
+		<alias>Las Vegas</alias>
+	</aliases>
+	<layout name="F1" id="0">
+		<sector1 mini="5" start="0.0f" end="0.0f">
+			<minisector start="0.0f" end="0.0f" />
+			<minisector start="0.0f" end="0.0f" />
+			<minisector start="0.0f" end="0.0f" />
+			<minisector start="0.0f" end="0.0f" />
+			<minisector start="0.0f" end="0.0f" />
+		</sector1>
+		<sector2 mini="7" start="0.0f" end="0.0f">
+			<minisector start="0.0f" end="0.0f" />
+			<minisector start="0.0f" end="0.0f" />
+			<minisector start="0.0f" end="0.0f" />
+			<minisector start="0.0f" end="0.0f" />
+			<minisector start="0.0f" end="0.0f" />
+			<minisector start="0.0f" end="0.0f" />
+			<minisector start="0.0f" end="0.0f" />
+		</sector2>
+		<sector3 mini="6" start="0.0f" end="0.0f">
+			<minisector start="0.0f" end="0.0f" />
+			<minisector start="0.0f" end="0.0f" />
+			<minisector start="0.0f" end="0.0f" />
+			<minisector start="0.0f" end="0.0f" />
+			<minisector start="0.0f" end="0.0f" />
+			<minisector start="0.0f" end="0.0f" />
+		</sector3>
+	</layout>
+</track>

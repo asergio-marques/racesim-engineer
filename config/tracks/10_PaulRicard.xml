@@ -1,0 +1,13 @@
+<?xml version='1.0' encoding='utf-8'?>
+<track name="PaulRicard" id="10">
+	<aliases>
+		<alias>Paul Ricard</alias>
+		<alias>France</alias>
+		<alias>Le Castellet</alias>
+	</aliases>
+	<layout name="F1" id="0">
+		<sector1 mini="0" start="0.0f" end="0.0f" />
+		<sector2 mini="8" start="0.0f" end="0.0f" />
+		<sector3 mini="5" start="0.0f" end="0.0f" />
+	</layout>
+</track>

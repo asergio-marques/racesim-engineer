@@ -13,11 +13,12 @@ namespace Processor {
 
             Invalid                     = 0,
             SessionStartDataReady       = 1,
-            ParticipantStatusChanged    = 2,
-            Overtake                    = 3,
-            LapFinished                 = 4,
-            PenaltyReceived             = 5,
-            TyreChanged                 = 6
+            SessionEndDataReady         = 2,
+            ParticipantStatusChanged    = 3,
+            Overtake                    = 4,
+            LapFinished                 = 5,
+            PenaltyReceived             = 6,
+            TyreChanged                 = 7
 
         };
 

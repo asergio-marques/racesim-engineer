@@ -11,6 +11,7 @@ namespace Packet {
 
     namespace Internal {
 
+        class FinalResult;
         class Interface;
         class Standings;
         class PenaltyStatus;
@@ -46,6 +47,7 @@ namespace Processor {
 
         class DriverRecord;
         class RecordCreator;
+        class RecordFinalizer;
         class SessionRecord;
 
         class Databank {
@@ -97,11 +99,18 @@ namespace Processor {
             // Interfaces with the DriverState class to update the current tyre usage of the session participants
             void updateCurrentTyreUsage(const Packet::Internal::TyreSetUsage* tyrePacket);
 
+            // Interfaces with the SessionState and DriverState classes to inform that the session has been deemed as finished
+            // and to ready for any final data to arrive; only after all data is verified as complete can the session end packet be sent
+            void prepareSessionEnd(const Packet::Internal::FinalResult* finalResult);
+
             // General interface for communicating with other modules
             Presenter::ICompFacade* m_presenter;
 
             // Dedicated object to hold all the relevant data at session start to create the records
             Processor::Data::RecordCreator* m_creator;
+
+            // Dedicated object to coordinate the end of a session to ready the processor for the start of another session
+            Processor::Data::RecordFinalizer* m_finalizer;
 
             // Holds a list of the driver records for the current session, using the driver ID as index
             std::map<const uint8_t, Processor::Data::DriverRecord*> m_driverRecords;

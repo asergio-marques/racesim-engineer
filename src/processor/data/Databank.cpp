@@ -9,6 +9,7 @@
 #include "ISettings.h"
 #include "data/DriverRecord.h"
 #include "data/RecordCreator.h"
+#include "data/RecordFinalizer.h"
 #include "data/SessionRecord.h"
 #include "data/internal/Participant.h"
 #include "data/internal/TyreData.h"
@@ -17,6 +18,7 @@
 #include "detectors/SessionStartDataReady.h"
 #include "detectors/TyreChanged.h"
 #include "exporters/RaceSession.h"
+#include "packets/internal/FinalResult.h"
 #include "packets/internal/GridPosition.h"
 #include "packets/internal/Interface.h"
 #include "packets/internal/ParticipantStatus.h"
@@ -36,6 +38,7 @@
 Processor::Data::Databank::Databank() :
     m_presenter(nullptr),
     m_creator(new Processor::Data::RecordCreator),
+    m_finalizer(nullptr),
     m_driverRecords(),
     m_sessionRecord(nullptr),
     m_exporter(nullptr),
@@ -117,7 +120,7 @@ void Processor::Data::Databank::updateData(const Packet::Internal::Interface* pa
             }
 
         }
-        else {
+        else if (m_finalizer) {
 
             switch (packet->packetType()) {
 
@@ -139,6 +142,10 @@ void Processor::Data::Databank::updateData(const Packet::Internal::Interface* pa
 
                 case Packet::Internal::Type::TyreSetUsage:
                     updateCurrentTyreUsage(dynamic_cast<const Packet::Internal::TyreSetUsage*>(packet));
+                    break;
+
+                case Packet::Internal::Type::FinalResult:
+                    prepareSessionEnd(dynamic_cast<const Packet::Internal::FinalResult*>(packet));
                     break;
 
                 default:
@@ -206,9 +213,6 @@ void Processor::Data::Databank::markAsFinished() {
         record.second->markAsFinished();
 
     }
-
-    // TODO what would this even be for
-    // m_sessionRecord->markAsFinished();
 
 }
 
@@ -294,6 +298,9 @@ void Processor::Data::Databank::OnCreatorReady(Processor::Data::SessionRecord* s
         detector->Init(sessionRecord, &m_driverRecords);
 
     }
+
+    // start up finalizer
+    m_finalizer = new Processor::Data::RecordFinalizer(m_sessionRecord, &m_driverRecords);
 
     // sessionRecord validity already checked above, no need to redo it
     // initialize appropriate exporter
@@ -546,5 +553,38 @@ void Processor::Data::Databank::updateCurrentTyreUsage(const Packet::Internal::T
         }
 
     }
+
+}
+
+
+
+void Processor::Data::Databank::prepareSessionEnd(const Packet::Internal::FinalResult* finalResult) {
+
+    /*if (m_sessionRecord) {
+
+        m_sessionRecord->sessionFinished();
+
+    }
+
+    if (finalResult) {
+
+        for (const auto& finalData : finalResult->GetData()) {
+
+            auto entry = m_driverRecords.find(finalData.m_driverID);
+            if (entry != m_driverRecords.end()) {
+
+                auto driverData = entry->second;
+
+                if (driverData && driverData->updateLastTimestamp(finalResult->m_timestamp)) {
+
+                    driverData->sessionFinished();
+
+                }
+
+            }
+
+        }
+
+    }*/
 
 }

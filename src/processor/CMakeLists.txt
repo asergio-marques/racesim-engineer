@@ -26,6 +26,7 @@ target_sources(${PROJECT_NAME} PRIVATE
     data/DriverRecord.cpp
     data/DriverState.cpp
     data/RecordCreator.cpp
+    data/RecordFinalizer.cpp
     data/SessionRecord.cpp
     data/SessionState.cpp
     data/holders/LapHistoryData.cpp
@@ -36,6 +37,7 @@ target_sources(${PROJECT_NAME} PRIVATE
     detectors/Overtake.cpp
     detectors/ParticipantStatusChanged.cpp
     detectors/PenaltyReceived.cpp
+    detectors/SessionEndDataReady.cpp
     detectors/SessionStartDataReady.cpp
     detectors/TyreChanged.cpp
     exporters/RaceSession.cpp)

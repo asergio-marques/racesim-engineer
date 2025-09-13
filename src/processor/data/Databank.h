@@ -47,7 +47,6 @@ namespace Processor {
 
         class DriverRecord;
         class RecordCreator;
-        class RecordFinalizer;
         class SessionRecord;
 
         class Databank {
@@ -108,9 +107,6 @@ namespace Processor {
 
             // Dedicated object to hold all the relevant data at session start to create the records
             Processor::Data::RecordCreator* m_creator;
-
-            // Dedicated object to coordinate the end of a session to ready the processor for the start of another session
-            Processor::Data::RecordFinalizer* m_finalizer;
 
             // Holds a list of the driver records for the current session, using the driver ID as index
             std::map<const uint8_t, Processor::Data::DriverRecord*> m_driverRecords;

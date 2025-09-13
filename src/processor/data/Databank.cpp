@@ -9,7 +9,6 @@
 #include "ISettings.h"
 #include "data/DriverRecord.h"
 #include "data/RecordCreator.h"
-#include "data/RecordFinalizer.h"
 #include "data/SessionRecord.h"
 #include "data/internal/Participant.h"
 #include "data/internal/TyreData.h"
@@ -38,7 +37,6 @@
 Processor::Data::Databank::Databank() :
     m_presenter(nullptr),
     m_creator(new Processor::Data::RecordCreator),
-    m_finalizer(nullptr),
     m_driverRecords(),
     m_sessionRecord(nullptr),
     m_exporter(nullptr),
@@ -120,7 +118,7 @@ void Processor::Data::Databank::updateData(const Packet::Internal::Interface* pa
             }
 
         }
-        else if (m_finalizer) {
+        else {
 
             switch (packet->packetType()) {
 
@@ -206,18 +204,6 @@ const Processor::Exporter::Interface* Processor::Data::Databank::getExporter() c
 
 
 
-void Processor::Data::Databank::markAsFinished() {
-
-    for (auto record : m_driverRecords) {
-
-        record.second->markAsFinished();
-
-    }
-
-}
-
-
-
 void Processor::Data::Databank::triggerAutoExport() {
 
     // Check if the user has activated the auto export option, and export if so
@@ -298,9 +284,6 @@ void Processor::Data::Databank::OnCreatorReady(Processor::Data::SessionRecord* s
         detector->Init(sessionRecord, &m_driverRecords);
 
     }
-
-    // start up finalizer
-    m_finalizer = new Processor::Data::RecordFinalizer(m_sessionRecord, &m_driverRecords);
 
     // sessionRecord validity already checked above, no need to redo it
     // initialize appropriate exporter
@@ -503,22 +486,9 @@ void Processor::Data::Databank::updateLapStatus(const Packet::Internal::LapStatu
                     prevLapData = Packet::Internal::LapStatus::Data();
                 }
 
-                auto lapEntryCompleted = driverData->getModifiableState()->updateLap(currLapData.m_lapID, currLapData.m_type,
+                driverData->getModifiableState()->updateLap(currLapData.m_lapID, currLapData.m_type,
                         currLapData.m_status, currLapData.m_time, currLapData.m_sectorTimes,
                         currLapData.m_lapDistanceRun, prevLapData.m_time);
-
-                if (m_sessionRecord && lapEntryCompleted) {
-
-                    bool allDriversComplete =
-                        m_sessionRecord->getModifiableState()->updateDriverStatus(lapPacket->m_driverID, lapEntryCompleted);
-
-                    if (allDriversComplete) {
-
-                        triggerAutoExport();
-
-                    }
-
-                }
 
             }
 
@@ -560,12 +530,6 @@ void Processor::Data::Databank::updateCurrentTyreUsage(const Packet::Internal::T
 
 void Processor::Data::Databank::prepareSessionEnd(const Packet::Internal::FinalResult* finalResult) {
 
-    /*if (m_sessionRecord) {
-
-        m_sessionRecord->sessionFinished();
-
-    }
-
     if (finalResult) {
 
         for (const auto& finalData : finalResult->GetData()) {
@@ -577,7 +541,7 @@ void Processor::Data::Databank::prepareSessionEnd(const Packet::Internal::FinalR
 
                 if (driverData && driverData->updateLastTimestamp(finalResult->m_timestamp)) {
 
-                    driverData->sessionFinished();
+                    driverData->getModifiableState()->finalize(finalData.m_position, finalData.m_numLaps, finalData.m_sessionTime);
 
                 }
 
@@ -585,6 +549,12 @@ void Processor::Data::Databank::prepareSessionEnd(const Packet::Internal::FinalR
 
         }
 
-    }*/
+        if (m_sessionRecord) {
+
+            m_sessionRecord->getModifiableState()->sessionFinalized();
+
+        }
+
+    }
 
 }

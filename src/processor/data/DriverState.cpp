@@ -25,6 +25,14 @@ Processor::Data::DriverState::DriverState(const Processor::Data::DriverRecord* c
 
 
 
+void Processor::Data::DriverState::finalize(const uint8_t position, const uint8_t numLaps, const Lap::Internal::Time sessionTime) {
+
+
+
+}
+
+
+
 bool Processor::Data::DriverState::installDetector(Processor::Detector::Interface* detector) {
 
     bool installed = false;
@@ -91,15 +99,14 @@ void Processor::Data::DriverState::updateStatus(const Participant::Internal::Sta
 }
 
 
-bool Processor::Data::DriverState::updateLap(const uint8_t lapID, const Lap::Internal::Type type,
+void Processor::Data::DriverState::updateLap(const uint8_t lapID, const Lap::Internal::Type type,
     const Lap::Internal::Status status, const Lap::Internal::Time currentLapTime, const std::vector<Lap::Internal::Time> sectorTimes,
     const float_t lapDistanceRun, const Lap::Internal::Time previousLapTime) {
 
     // Checking the finished status rather than using the SessionEnd packet solely as source of truth means that in multiplayer sessions
     // the user may not have to wait until the very last packet and may get info before
-    auto newDriverStatus = m_lapData.updateLap(m_parentRecord->m_info.m_driverID, lapID, type,
+    m_lapData.updateLap(m_parentRecord->m_info.m_driverID, lapID, type,
         status, currentLapTime, sectorTimes, lapDistanceRun, previousLapTime, m_posTimeData.getStatus());
-    return newDriverStatus;
 
 }
 

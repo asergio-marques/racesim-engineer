@@ -36,12 +36,15 @@ namespace Processor {
             // Validates the internal information and returns true if it meets the conditions for the start of a session
             const bool Initialized() const;
 
+            // Validates the internal information and returns true if the lap data is complete
+            const bool Finalized() const;
+
             // Creates a record for the first lap of the session, initializing tyre data
             void initialize(const uint8_t driverID, const Tyre::Internal::Data data);
 
             // Alter the status of the driver's most recent lap in the session
             // Returns true if the lap data is regarded as complete
-            bool updateLap(const uint8_t id, const uint8_t lapID, const Lap::Internal::Type type,
+            void updateLap(const uint8_t id, const uint8_t lapID, const Lap::Internal::Type type,
                 const Lap::Internal::Status lapStatus, const Lap::Internal::Time currentLapTime, const std::vector<Lap::Internal::Time> sectorTimes,
                 const float_t lapDistanceRun, const Lap::Internal::Time previousLapTime, const Participant::Internal::Status participantStatus);
 
@@ -62,8 +65,11 @@ namespace Processor {
             // Holder of data pertaining to all laps run
             std::map<uint16_t, Processor::Data::LapInfo> m_laps;
 
+            // Cumulative time of all laps completed
+            Lap::Internal::Time m_totalTime;
+
             // Whether the data for all the laps has been filled, or if the driver has not finished the session
-            bool m_isComplete;
+            bool m_isDataComplete;
 
             // Index of the fastest lap in the session for this driver
             uint16_t m_fastestLapID;

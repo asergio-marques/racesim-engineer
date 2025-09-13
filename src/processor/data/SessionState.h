@@ -23,15 +23,14 @@ namespace Processor {
             // Destructor
             ~SessionState();
 
-            // Initializes the driver tracker
-            void Init(const std::map<const uint8_t, bool>& participants);
+            // Marks the state of the current session as finalized
+            void sessionFinalized();
+
+            // Exposes whether this session is currently ongoing
+            const bool isSessionRunning();
 
             // Checks if a newly-finished lap is a new fastest lap for the current session
             bool evaluateCompletedLap(const Processor::Data::LapInfo& finishedLap);
-
-            // Updates the internal tracking of the status of the drivers in the race, to determine when the session has finished
-            // Returns true only once, at the cycle in which all drivers are noted to have completed the race
-            bool updateDriverStatus(const uint8_t driverID, const bool completeness);
 
             // Exposes the session fastest lap data
             const Processor::Data::LapInfo& fastestLap() const;
@@ -40,14 +39,11 @@ namespace Processor {
             // Pointer to the session record holding this state
             const Processor::Data::SessionRecord* const m_parentRecord;
 
-            // Denotes whether ALL the drivers have a finished state (DNF, DSQ or FinishedSession)
-            bool m_sessionCompleteness;
+            // Whether this session is currently ongoing
+            bool m_running;
 
             // Records the fastest lap of the current session
             Processor::Data::LapInfo m_fastestLap;
-
-            // Map to track the finished status of the session, second element is true if a driver's lap entries have been completed
-            std::map<const uint8_t, bool> m_driverTracker;
 
         };
 

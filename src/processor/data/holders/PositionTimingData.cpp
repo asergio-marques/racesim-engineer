@@ -53,6 +53,15 @@ const bool Processor::Data::PositionTimingData::Initialized() const {
 
 }
 
+const bool Processor::Data::PositionTimingData::Finalized() const {
+
+    return Initialized() &&
+        (m_status == Participant::Internal::Status::DNF ||
+            m_status == Participant::Internal::Status::DSQ ||
+            m_status == Participant::Internal::Status::FinishedSession);
+
+}
+
 
 
 void Processor::Data::PositionTimingData::updateStatus(const uint8_t id, const Participant::Internal::Status status) {

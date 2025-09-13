@@ -35,7 +35,7 @@ namespace UserInterface {
         void PracticeStart(const Packet::Event::PracticeStart*);
         void QualiStart(const Packet::Event::QualiStart*);
         void RaceStart(const Packet::Event::RaceStart*);
-        void SessionEnd(bool withDelay);
+        void SessionEnd();
         void OvertakePerformed(const Packet::Event::Overtake*);
         void PenaltyReceived(const Packet::Event::PenaltyReceived*);
         void ParticipantStatusChanged(const Packet::Event::ParticipantStatusChanged*);

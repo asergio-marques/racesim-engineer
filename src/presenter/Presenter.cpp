@@ -47,16 +47,28 @@ void Presenter::Facade::setNetCom(NetCom::IFacade* netCom) {
 
 
 
-bool Presenter::Facade::exportRaceToFolder(QString folderPath) {
+bool Presenter::Facade::exportSessionToFolder(QString folderPath) {
 
     if (m_processor) {
 
-        std::future<bool> ret = std::async(std::launch::async, &Processor::IFacade::ExportCurrentRaceData, m_processor, folderPath.toStdString());
+        std::future<bool> ret = std::async(std::launch::async, &Processor::IFacade::ExportCurrentSessionData, m_processor, folderPath.toStdString());
         return ret.get();
 
     }
 
     return false;
+
+}
+
+
+
+void Presenter::Facade::clearSessionData() {
+
+    if (m_processor) {
+
+        m_processor->clearSessionData();
+
+    }
 
 }
 

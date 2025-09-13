@@ -107,7 +107,7 @@ Packet::Event::Broadcaster* Processor::Facade::exposeBroadcasterInterface() {
 
 
 
-bool Processor::Facade::ExportCurrentRaceData(std::string path) {
+bool Processor::Facade::ExportCurrentSessionData(std::string path) {
 
     if (m_databank && m_databank->getExporter()) {
 
@@ -119,6 +119,18 @@ bool Processor::Facade::ExportCurrentRaceData(std::string path) {
 
         return false;
         // THROW ERROR
+
+    }
+
+}
+
+
+
+void Processor::Facade::clearSessionData() {
+
+    if (m_databank) {
+
+        // TODO clear data
 
     }
 

@@ -40,9 +40,8 @@ namespace UserInterface {
             virtual ~CustomMainWindow() = default;
             void addScreen(UserInterface::Screen::Interface* newScreen);
             void Startup();
-            // TODO these functions are to take in session start internal packets,
-            // but these are yet to be implemented
-            void OnSessionEnd(bool withDelay = false);
+            void OnSessionEnd();
+            void OnSessionDataClear();
             void OnTimeTrialStart();
             void OnFreePracticeStart();
             void OnQualiStart();
@@ -60,6 +59,7 @@ namespace UserInterface {
             UserInterface::Widgets::MenuBar* m_menuBar;
             std::list<UserInterface::Screen::Interface*> m_screens;
             UserInterface::Screen::Interface* m_activeScreen;
+            Presenter::ICompFacade* const m_presenter;
 
     };
 

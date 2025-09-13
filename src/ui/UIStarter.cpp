@@ -68,7 +68,7 @@ void UserInterface::UIStarter::Init(int* argc, char*** argv, Presenter::ICompFac
         m_handler->connect(m_handler, &UserInterface::PacketHandler::RaceStart,
             m_window, &UserInterface::CustomMainWindow::OnRaceStart);
         m_handler->connect(m_handler, &UserInterface::PacketHandler::SessionEnd,
-            m_window, &UserInterface::CustomMainWindow::OnSessionEnd);
+            m_window, &UserInterface::CustomMainWindow::OnSessionDataClear);
 
         // connect handler signals to announcer
         m_handler->connect(m_handler, &UserInterface::PacketHandler::LapFinished,

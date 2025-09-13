@@ -64,6 +64,9 @@ namespace Processor {
             // Main entry function for new packets
             void updateData(const Packet::Internal::Interface* packet);
 
+            // Clears all session and driver records from the databank and the detectors, preparing for the start of a new session
+            void clearData();
+
             // Add a detector to the databank's own list of active detectors, avoiding duplicates
             void installDetector(Processor::Detector::Interface* detector);
 
@@ -71,9 +74,6 @@ namespace Processor {
             const Processor::Exporter::Interface* getExporter() const;
 
             private:
-            // Closes down the session, marking the session as finalized, to accept packets pertaining to the final lap
-            void markAsFinished();
-
             // Checks the auto export user setting and outputs the session data if so
             void triggerAutoExport();
 

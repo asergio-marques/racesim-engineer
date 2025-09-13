@@ -30,7 +30,8 @@ namespace Presenter {
         void setNetCom(NetCom::IFacade* netCom) override final;
 
         // IProcessor
-        bool exportRaceToFolder(QString folderPath) override final;
+        bool exportSessionToFolder(QString folderPath) override final;
+        void clearSessionData() override final;
 
         // ISettings
         const int64_t getSettingValue(const Settings::Key& key, bool& ok) const override final;

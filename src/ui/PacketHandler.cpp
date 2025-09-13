@@ -174,7 +174,7 @@ void UserInterface::PacketHandler::NotifySessionEndObservers(Packet::Event::Inte
     if (packet) {
 
         packet->markAsProcessed();
-        emit SessionEnd(true);
+        emit SessionEnd();
 
     }
 

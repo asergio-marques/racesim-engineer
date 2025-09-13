@@ -16,7 +16,9 @@ cmake_path(GET PROJECT_ROOT PARENT_PATH PROJECT_ROOT)
 target_include_directories(${PROJECT_NAME} PUBLIC
     "${PROJECT_ROOT}/include/core"
     "${PROJECT_ROOT}/include/ui")
-target_include_directories(${PROJECT_NAME} PRIVATE "${PROJECT_ROOT}/src/ui")
+target_include_directories(${PROJECT_NAME} PRIVATE
+    "${PROJECT_ROOT}/src/ui"
+    "${PROJECT_ROOT}/include/presenter")
 target_link_directories(${PROJECT_NAME} PRIVATE "${PROJECT_ROOT}/lib/")
 
 target_sources(${PROJECT_NAME} PRIVATE
@@ -50,6 +52,7 @@ target_sources(${PROJECT_NAME} PRIVATE
 target_link_libraries(${PROJECT_NAME} PRIVATE
     RaceSimEngineerCore
     RaceSimEngineerPacketsEvent
+    RaceSimEngineerPresenter
     RaceSimEngineerUIWidgets
     Qt6::Core
     Qt6::Widgets

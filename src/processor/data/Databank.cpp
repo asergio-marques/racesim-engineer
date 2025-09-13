@@ -158,6 +158,20 @@ void Processor::Data::Databank::updateData(const Packet::Internal::Interface* pa
 
 }
 
+
+
+void Processor::Data::Databank::clearData() {
+
+    // TODO:
+    // uninstall records from detectors
+    // uninstall records from exporter
+    // ready the record creator again
+    // delete records and states, and clear maps/pointers
+
+}
+
+
+
 void Processor::Data::Databank::installDetector(Processor::Detector::Interface* detector) {
 
     if (detector) {

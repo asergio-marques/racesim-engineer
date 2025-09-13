@@ -42,11 +42,6 @@ namespace Processor {
             // Add relevant detectors to then be called when relevant
             bool installDetector(Processor::Detector::Interface* detector);
 
-            // Informs the driver record that the session has ended, so that certain information only available
-            // after its end is accepted
-            // Note that the driver status does not change, and hence the driver is not yet officially finished!
-            void markAsFinished();
-
             // Set the initial grid position of the driver at the start of the session
             void setGridPosition(const uint8_t gridPosition);
 
@@ -85,9 +80,6 @@ namespace Processor {
             private:
             // Pointer to the driver record holding this state
             const Processor::Data::DriverRecord* const m_parentRecord;
-
-            // Denotes whether the session has ended or not, important for last lap info
-            bool m_isFinished;
 
             // Holder of all position and time gap information
             Processor::Data::PositionTimingData m_posTimeData;

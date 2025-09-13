@@ -14,7 +14,6 @@
 
 Processor::Data::DriverState::DriverState(const Processor::Data::DriverRecord* const parent, const uint8_t startingPosition) :
     m_parentRecord(parent),
-    m_isFinished(false),
     m_posTimeData(),
     m_warnPenData(),
     m_lapData() {
@@ -48,14 +47,6 @@ bool Processor::Data::DriverState::installDetector(Processor::Detector::Interfac
     installed |= m_warnPenData.installDetector(detector);
 
     return installed;
-
-}
-
-
-
-void Processor::Data::DriverState::markAsFinished() {
-
-    m_isFinished = true;
 
 }
 

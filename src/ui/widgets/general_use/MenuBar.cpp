@@ -78,7 +78,7 @@ void UserInterface::Widgets::MenuBar::fileExportRequested() {
         auto procPresenter = dynamic_cast<Presenter::IProcessor*>(m_presenter);
         if (procPresenter) {
 
-            retval = procPresenter->exportRaceToFolder(folderPath);
+            retval = procPresenter->exportSessionToFolder(folderPath);
 
         }
 

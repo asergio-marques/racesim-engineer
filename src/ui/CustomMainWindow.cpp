@@ -2,10 +2,13 @@
 
 #include <QApplication>
 #include <QMainWindow>
+#include <QMessageBox>
 #include <QResizeEvent>
 #include <QTimer>
 #include <QWidget>
 #include <QWindow>
+#include "ICompFacade.h"
+#include "IProcessor.h"
 #include "core/Screen.h"
 #include "screens/Interface.h"
 #include "widgets/general_use/MenuBar.h"
@@ -14,11 +17,11 @@
 
 UserInterface::CustomMainWindow::CustomMainWindow(Presenter::ICompFacade* presenter, QWidget* parent) :
     QMainWindow(parent),
-    m_menuBar(nullptr),
+    m_menuBar(new UserInterface::Widgets::MenuBar(presenter, this)),
     m_screens(),
-    m_activeScreen(nullptr) {
+    m_activeScreen(nullptr),
+    m_presenter(presenter) {
 
-    m_menuBar = new UserInterface::Widgets::MenuBar(presenter, this);
     Q_ASSERT(m_menuBar);
     setMenuBar(m_menuBar);
 
@@ -78,27 +81,55 @@ void UserInterface::CustomMainWindow::Startup() {
 
 
 
-void UserInterface::CustomMainWindow::OnSessionEnd(bool withDelay) {
+void UserInterface::CustomMainWindow::OnSessionEnd() {
 
-    // TODO figure a way to make this work so the "result screen" hangs on for 
-    // a (configurable?) time at the end before switching to the loading screen
-    if (withDelay) {
-        QTimer::singleShot(120000, this, [&]() {
-            if (doSwitchScreen(UserInterface::Screen::Type::Loading)) {
-                QCoreApplication::setApplicationName("RaceSimEngineer - Waiting for Session...");
-            };
+    uint8_t count = 30;
+    QMessageBox box;
+    box.setIcon(QMessageBox::Warning);
+    box.setWindowTitle("Session has ended");
+    box.setText(QString("The current session has been marked as finalized.\n"
+        "Please close this dialog to clear the session data and export it.\n"
+        "This dialog will be automatically closed in %1 seconds").arg(QString::number(count)));
+    box.setStandardButtons(QMessageBox::Close);
+    box.exec();
+    while (count != 0) {
+        
+        --count;
+        QTimer::singleShot(1000, [&]() {
+
+            box.setText(QString("The current session has been marked as finalized.\n"
+                "Please close this dialog to clear the session data and export it.\n"
+                "This dialog will be automatically closed in %1 seconds").arg(QString::number(count)));
+
         });
-    }
-    else {
-        if (doSwitchScreen(UserInterface::Screen::Type::Loading)) {
-            // TODO: Isn't working for some reason
-            QCoreApplication::setApplicationName("RaceSimEngineer - Waiting for Session...");
-        }
+
     }
 
-    // TODO this isn't working properly
-    //Q_ASSERT(m_menuBar);
-    //m_menuBar->enableSessionActions(false);
+    if (m_presenter) {
+
+        auto procPresenter = dynamic_cast<Presenter::IProcessor*>(m_presenter);
+        if (procPresenter) {
+
+            procPresenter->exportSessionToFolder(".");
+            procPresenter->clearSessionData();
+
+        }
+
+    }
+
+
+}
+
+
+
+void UserInterface::CustomMainWindow::OnSessionDataClear() {
+
+    if (doSwitchScreen(UserInterface::Screen::Type::Loading)) {
+
+        // TODO: Isn't working for some reason
+        QCoreApplication::setApplicationName("RaceSimEngineer - Waiting for Session...");
+
+    }
 
 }
 

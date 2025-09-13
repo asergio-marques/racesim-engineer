@@ -41,7 +41,7 @@ namespace Packet {
 
             public:
             // Packet constructor
-            FinalResult(const uint64_t timestamp);
+            FinalResult(const uint64_t timestamp, const bool isFinal);
 
             // Destructor
             virtual ~FinalResult() = default;
@@ -55,6 +55,9 @@ namespace Packet {
 
             // Retrieve grid position data from the packet
             const std::vector<Packet::Internal::FinalResult::Data>& GetData() const;
+
+            // Whether this packet is expected to be the very last one pertaining to the current session
+            const bool m_isFinal;
 
             private:
             // Holds the finishing data of all the drivers partaking in the session

@@ -45,7 +45,7 @@ namespace Packet {
                 // Best lap time of the session for this vehicle (millisseconds)
                 uint32_t m_bestLapTime;
 
-                // Total race time, without penalties (millisseconds)
+                // Total race time, without penalties (seconds)
                 double_t m_totalRaceTime;
 
                 // Total penalties accumulated (seconds)

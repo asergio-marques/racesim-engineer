@@ -20,8 +20,9 @@ Packet::Internal::FinalResult::Data::Data(const uint8_t driverID, const uint8_t 
 
 
 
-Packet::Internal::FinalResult::FinalResult(const uint64_t timestamp) :
+Packet::Internal::FinalResult::FinalResult(const uint64_t timestamp, const bool isFinal) :
     Packet::Internal::Interface(timestamp),
+    m_isFinal(isFinal),
     m_participantEndData() {
 
 }

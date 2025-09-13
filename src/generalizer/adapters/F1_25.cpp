@@ -12,6 +12,7 @@
 #include "maps/F1_25.h"
 #include "packets/game/Helper.h"
 #include "packets/game/Interface.h"
+#include "packets/internal/FinalResult.h"
 #include "packets/internal/GridPosition.h"
 #include "packets/internal/Interface.h"
 #include "packets/internal/LapStatus.h"
@@ -69,6 +70,10 @@ Generalizer::Adapter::F1_25::ConvertPacket(const Packet::Game::Interface* packet
 
         case Packet::Game::F1_25::Type::ParticipantData:
             outputPackets = ConvertParticipantDataPacket(dynamic_cast<const Packet::Game::F1_25::ParticipantData*>(gamePacket));
+            break;
+
+        case Packet::Game::F1_25::Type::StandingsData:
+            outputPackets = ConvertStandingsDataPacket(dynamic_cast<const Packet::Game::F1_25::StandingsData*>(gamePacket));
             break;
 
         case Packet::Game::F1_25::Type::SessionHistoryData:
@@ -299,7 +304,7 @@ Generalizer::Adapter::F1_25::ConvertParticipantDataPacket(const Packet::Game::F1
     for (size_t i = 0; i < inputPacket->GetNumActiveCars(); ++i) {
 
         bool ok = false;
-        const Packet::Game::F1_25::ParticipantInfo rawInfo = inputPacket->GetParticipantInfo(i, ok);
+        const auto rawInfo = inputPacket->GetParticipantInfo(i, ok);
         if (ok) {
 
             participantsPacket->InsertData(GetSingleParticipantData(rawInfo, i, playerIndex));
@@ -311,6 +316,37 @@ Generalizer::Adapter::F1_25::ConvertParticipantDataPacket(const Packet::Game::F1
     return { participantsPacket };
 
 }
+
+
+
+std::vector<Packet::Internal::Interface*>
+Generalizer::Adapter::F1_25::ConvertStandingsDataPacket(const Packet::Game::F1_25::StandingsData* inputPacket) {
+
+    if (!inputPacket || !(inputPacket->GetHeader())) {
+
+        return {};
+
+    }
+    Packet::Internal::FinalResult* finalResult =
+        new Packet::Internal::FinalResult(inputPacket->GetHeader()->GetFrameIdentifier(), false);
+    for (size_t i = 0; i < 22; ++i) {
+
+        bool ok = false;
+        const auto data = inputPacket->GetSessionResult(i, ok);
+        if (ok) {
+
+            // convert time from seconds to milliseconds
+            uint32_t endTime = std::floor(data.m_totalRaceTime * 1000);
+            finalResult->InsertData(i, data.m_endPosition, data.m_numLaps, endTime, data.m_bestLapTime);
+
+        }
+
+
+    }
+    return { finalResult };
+
+}
+
 
 
 std::vector<Packet::Internal::Interface*>

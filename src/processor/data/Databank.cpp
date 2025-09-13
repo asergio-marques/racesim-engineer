@@ -541,7 +541,7 @@ void Processor::Data::Databank::prepareSessionEnd(const Packet::Internal::FinalR
 
                 if (driverData && driverData->updateLastTimestamp(finalResult->m_timestamp)) {
 
-                    driverData->getModifiableState()->finalize(finalData.m_position, finalData.m_numLaps, finalData.m_sessionTime);
+                    driverData->getModifiableState()->finalize(finalData.m_driverID, finalData.m_position, finalData.m_numLaps, finalData.m_sessionTime);
 
                 }
 

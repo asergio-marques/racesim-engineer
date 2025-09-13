@@ -16,7 +16,8 @@ Processor::Data::DriverState::DriverState(const Processor::Data::DriverRecord* c
     m_parentRecord(parent),
     m_isFinished(false),
     m_posTimeData(),
-    m_warnPenData() {
+    m_warnPenData(),
+    m_lapData() {
 
 
 
@@ -25,9 +26,11 @@ Processor::Data::DriverState::DriverState(const Processor::Data::DriverRecord* c
 
 
 
-void Processor::Data::DriverState::finalize(const uint8_t position, const uint8_t numLaps, const Lap::Internal::Time sessionTime) {
+void Processor::Data::DriverState::finalize(const uint8_t id, const uint8_t position, const uint8_t numLaps, const Lap::Internal::Time sessionTime) {
 
-
+    m_lapData.completeData(id, numLaps, sessionTime);
+    m_posTimeData.updateCurrentPosition(id, position);
+    m_posTimeData.updateStatus(id, Participant::Internal::Status::FinishedSession);
 
 }
 

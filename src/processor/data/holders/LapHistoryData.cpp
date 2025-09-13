@@ -68,6 +68,8 @@ const bool Processor::Data::LapHistoryData::Initialized() const {
 
 }
 
+
+
 const bool Processor::Data::LapHistoryData::Finalized() const {
 
     return m_isDataComplete;
@@ -86,6 +88,41 @@ void Processor::Data::LapHistoryData::initialize(const uint8_t driverID, const T
     lap.m_lapId = 0;
     lap.m_tyre = data;
     m_laps.emplace(lap.m_lapId, lap);
+
+}
+
+
+
+void Processor::Data::LapHistoryData::completeData(const uint8_t id, const uint8_t numLaps, Lap::Internal::Time sessionTime) {
+
+    if (!m_isDataComplete) {
+
+        // check for the final lap entry
+        auto it = m_laps.find(numLaps);
+        if (it != m_laps.end()) {
+
+            auto& lap = it->second;
+
+            // now that we know how many laps this driver did from the game (source of truth), we can validate whether
+            // all data is complete
+            // this should also work well enough in the case of early retirement
+            if (lap.m_isFinished) {
+
+                m_isDataComplete = true;
+
+            }
+            else {
+
+                // extract the final lap's lap time from the total time
+                lap.m_totalLapTime = sessionTime - m_totalTime;
+                evaluateFinishedLap(lap);
+                m_isDataComplete = true;
+
+            }
+
+        }
+
+    }
 
 }
 

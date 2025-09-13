@@ -37,7 +37,7 @@ namespace Processor {
             ~DriverState() = default;
 
             // Provides a specialized way to feed session-end information
-            void finalize(const uint8_t position, const uint8_t numLaps, const Lap::Internal::Time sessionTime);
+            void finalize(const uint8_t id, const uint8_t position, const uint8_t numLaps, const Lap::Internal::Time sessionTime);
 
             // Add relevant detectors to then be called when relevant
             bool installDetector(Processor::Detector::Interface* detector);

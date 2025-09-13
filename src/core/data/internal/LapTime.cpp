@@ -16,7 +16,7 @@ Lap::Internal::Time::Time(const uint32_t milliseconds) :
 
 
 
-Lap::Internal::Time::Time(const uint8_t seconds, const uint16_t milliseconds) :
+Lap::Internal::Time::Time(const uint32_t seconds, const uint16_t milliseconds) :
     m_seconds(seconds),
     m_milliseconds(milliseconds) {
 
@@ -144,7 +144,7 @@ const std::string Lap::Internal::Time::formattedPrint(bool minutes) const {
     std::string minutesString = "";
     std::string secondsString = "";
     std::string millisecondsString = "";
-    uint8_t seconds = m_seconds;
+    uint32_t seconds = m_seconds;
 
     // Prepare minutes if needed
     if (minutes) {

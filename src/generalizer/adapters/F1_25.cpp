@@ -336,7 +336,7 @@ Generalizer::Adapter::F1_25::ConvertStandingsDataPacket(const Packet::Game::F1_2
         if (ok) {
 
             // convert time from seconds to milliseconds
-            uint32_t endTime = std::floor(data.m_totalRaceTime * 1000);
+            uint32_t endTime = std::round(data.m_totalRaceTime * 1000);
             finalResult->InsertData(i, data.m_endPosition, data.m_numLaps, endTime, data.m_bestLapTime);
 
         }

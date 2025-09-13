@@ -6,10 +6,7 @@
 #include "data/SessionState.h"
 #include "detectors/Interface.h"
 #include "detectors/Type.h"
-#include "packets/event/PracticeStart.h"
-#include "packets/event/QualiStart.h"
-#include "packets/event/RaceStart.h"
-#include "packets/event/TimeTrialStart.h"
+#include "packets/event/RoundSessionEnd.h"
 
 
 
@@ -52,16 +49,61 @@ void Processor::Detector::SessionEndDataReady::Exec() {
 
     while (m_sessionRecord && m_driverRecords) {
 
+        bool isAllFinished = !(m_sessionRecord->getModifiableState()->isSessionRunning());
 
-        std::map<const uint8_t, bool> participantTracker;
-        //bool isAllFinished = m_sessionRecord->Finalized();
+        for (const auto driver : *m_driverRecords) {
 
+            if (driver.second) {
 
+                isAllFinished &= driver.second->Finalized();
+
+            }
+            else {
+                isAllFinished = false;
+                break;
+            }
+
+        }
+        if (isAllFinished) {
+
+            switch (m_sessionRecord->getSessionSettings().m_sessionType) {
+
+                case Session::Internal::Type::FreePractice:
+                case Session::Internal::Type::Qualifying:
+                case Session::Internal::Type::Race:
+                    BuildRoundSessionEndPacket();
+                    break;
+
+                case Session::Internal::Type::TimeTrial:
+                    // TODO implement time trial
+                    break;
+
+                default:
+                    // do nothing
+                    break;
+
+            }
+
+            // Clear pointers to prepare detector for new init
+            m_sessionRecord = nullptr;
+            m_driverRecords = nullptr;
+
+        }
 
 
         // Thread is executed at 10Hz
         std::this_thread::sleep_for(std::chrono::milliseconds(100));
 
     }
+
+}
+
+
+
+void Processor::Detector::SessionEndDataReady::BuildRoundSessionEndPacket() {
+
+    Packet::Event::RoundSessionEnd* packet = new Packet::Event::RoundSessionEnd;
+    // no information is needed at the moment
+    m_packetsToBeProcessed.push_back(packet);
 
 }

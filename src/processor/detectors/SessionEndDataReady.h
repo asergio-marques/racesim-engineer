@@ -41,6 +41,10 @@ namespace Processor {
             // Main execution function to be overridden by all concrete detectors
             void Exec() override final;
 
+            // Auxiliary function to construct a packet with all the necessary data
+            // to note the end of a free practice, quali, or race session
+            void BuildRoundSessionEndPacket();
+
         };
 
     }

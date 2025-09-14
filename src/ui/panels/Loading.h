@@ -40,6 +40,9 @@ namespace UserInterface {
                 virtual ~Loading() = default;
                 virtual void ResizePanel(const QSize& newUsefulSize) override final;
 
+                // Prepare this panel for a new session to begin, cleaning up its members
+                void Cleanup() override final;
+
             private:
                 UserInterface::Widget::LoadingIcon* m_loadingIcon;
                 UserInterface::Widget::ScreenTitle* m_loadingText;

@@ -25,15 +25,21 @@ UserInterface::Panel::RaceRight::RaceRight(UserInterface::PacketHandler* handler
 
     }
     m_driverStandings = new UserInterface::Widget::Standings(this);
-    if (m_driverStandings) {
+    if (handler) {
 
-        RegisterWidget(m_driverStandings);
-        connect(handler, &UserInterface::PacketHandler::RaceStart, m_driverStandings, &UserInterface::Widget::Standings::onRaceStart);
-        connect(handler, &UserInterface::PacketHandler::OvertakePerformed, m_driverStandings, &UserInterface::Widget::Standings::onOvertake);
-        connect(handler, &UserInterface::PacketHandler::PenaltyReceived, m_driverStandings, &UserInterface::Widget::Standings::onPenaltyReceived);
-        connect(handler, &UserInterface::PacketHandler::ParticipantStatusChanged, m_driverStandings, &UserInterface::Widget::Standings::onParticipantStatusChanged);
-        connect(handler, &UserInterface::PacketHandler::LapFinished, m_driverStandings, &UserInterface::Widget::Standings::onLapFinished);
-        connect(handler, &UserInterface::PacketHandler::TyreChanged, m_driverStandings, &UserInterface::Widget::Standings::onTyreChanged);
+        connect(handler, &UserInterface::PacketHandler::SessionEnd, this, &UserInterface::Panel::RaceRight::Cleanup);
+
+        if (m_driverStandings) {
+
+            RegisterWidget(m_driverStandings);
+            connect(handler, &UserInterface::PacketHandler::RaceStart, m_driverStandings, &UserInterface::Widget::Standings::onRaceStart);
+            connect(handler, &UserInterface::PacketHandler::OvertakePerformed, m_driverStandings, &UserInterface::Widget::Standings::onOvertake);
+            connect(handler, &UserInterface::PacketHandler::PenaltyReceived, m_driverStandings, &UserInterface::Widget::Standings::onPenaltyReceived);
+            connect(handler, &UserInterface::PacketHandler::ParticipantStatusChanged, m_driverStandings, &UserInterface::Widget::Standings::onParticipantStatusChanged);
+            connect(handler, &UserInterface::PacketHandler::LapFinished, m_driverStandings, &UserInterface::Widget::Standings::onLapFinished);
+            connect(handler, &UserInterface::PacketHandler::TyreChanged, m_driverStandings, &UserInterface::Widget::Standings::onTyreChanged);
+
+        }
 
     }
 
@@ -56,6 +62,19 @@ void UserInterface::Panel::RaceRight::ResizePanel(const QSize& newUsefulSize) {
         uint16_t centerX = newUsefulSize.width() / 2;
         uint16_t centerY = newUsefulSize.height() / 2;
         m_driverStandings->move(centerX, centerY, true, true);
+
+    }
+
+}
+
+
+
+
+void UserInterface::Panel::RaceRight::Cleanup() {
+
+    if (m_driverStandings) {
+
+        m_driverStandings->cleanup();
 
     }
 

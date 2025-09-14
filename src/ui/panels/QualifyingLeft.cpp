@@ -45,3 +45,11 @@ void UserInterface::Panel::QualifyingLeft::ResizePanel(const QSize& newUsefulSiz
     }
 
 }
+
+
+
+void UserInterface::Panel::QualifyingLeft::Cleanup() {
+
+    // TODO
+
+}

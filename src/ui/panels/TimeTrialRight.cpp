@@ -24,3 +24,11 @@ void UserInterface::Panel::TimeTrialRight::ResizePanel(const QSize& newUsefulSiz
     UserInterface::Panel::Interface::ResizePanel(newUsefulSize);
 
 }
+
+
+
+void UserInterface::Panel::TimeTrialRight::Cleanup() {
+
+    // TODO
+
+}

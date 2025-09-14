@@ -44,3 +44,11 @@ void UserInterface::Panel::TimeTrialLeft::ResizePanel(const QSize& newUsefulSize
     }
 
 }
+
+
+
+void UserInterface::Panel::TimeTrialLeft::Cleanup() {
+
+    // TODO
+
+}

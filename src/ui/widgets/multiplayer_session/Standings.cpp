@@ -29,6 +29,14 @@ UserInterface::Widget::Standings::Standings(QWidget* parent) :
 
 
 
+void UserInterface::Widget::Standings::cleanup() {
+
+    // TODO
+
+}
+
+
+
 void UserInterface::Widget::Standings::onQualiStart(const Packet::Event::QualiStart* dataPacket) {
 
     if (dataPacket && !m_initialParamsSet) {

@@ -26,3 +26,11 @@ void UserInterface::Panel::FreePracticeRight::ResizePanel(const QSize& newUseful
     UserInterface::Panel::Interface::ResizePanel(newUsefulSize);
 
 }
+
+
+
+void UserInterface::Panel::FreePracticeRight::Cleanup() {
+
+    // TODO
+
+}

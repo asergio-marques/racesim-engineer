@@ -46,3 +46,11 @@ void UserInterface::Panel::FreePracticeLeft::ResizePanel(const QSize& newUsefulS
     }
 
 }
+
+
+
+void UserInterface::Panel::FreePracticeLeft::Cleanup() {
+
+    // TODO
+
+}

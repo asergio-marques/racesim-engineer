@@ -74,3 +74,11 @@ void UserInterface::Panel::Loading::ResizePanel(const QSize& newUsefulSize) {
     }
 
 }
+
+
+
+void UserInterface::Panel::Loading::Cleanup() {
+
+    // TODO
+
+}

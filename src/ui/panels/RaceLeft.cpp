@@ -46,3 +46,11 @@ void UserInterface::Panel::RaceLeft::ResizePanel(const QSize& newUsefulSize) {
     }
 
 }
+
+
+
+void UserInterface::Panel::RaceLeft::Cleanup() {
+
+    // TODO
+
+}

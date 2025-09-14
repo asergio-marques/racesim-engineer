@@ -7,9 +7,10 @@
 
 
 
+
 namespace Packet {
 
-    namespace Internal {
+    namespace Event {
 
         class Interface;
 
@@ -44,7 +45,7 @@ namespace UserInterface {
                 virtual ~Interface() = default;
 
                 virtual void Initialize() = 0;
-                virtual void Activate() = 0;
+                virtual void Activate(const Packet::Event::Interface* startupInfo) = 0;
                 virtual void Deactivate() = 0;
                 virtual const UserInterface::Screen::Type Type() const = 0;
                 virtual void handleResizeEvent(const QSize newUsefulSize) = 0;

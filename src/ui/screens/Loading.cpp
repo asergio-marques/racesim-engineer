@@ -22,7 +22,7 @@ const UserInterface::Screen::Type UserInterface::Screen::Loading::Type() const {
 
 
 
-void UserInterface::Screen::Loading::Activate() {
+void UserInterface::Screen::Loading::Activate(const Packet::Event::Interface* startupInfo) {
 
     if (!m_panel) {
 

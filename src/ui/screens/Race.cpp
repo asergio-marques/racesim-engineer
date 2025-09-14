@@ -23,18 +23,24 @@ const UserInterface::Screen::Type UserInterface::Screen::Race::Type() const {
 
 
 
-void UserInterface::Screen::Race::Activate() {
+void UserInterface::Screen::Race::Activate(const Packet::Event::Interface* startupInfo) {
 
-    if (!m_panelLeft) {
+    if (startupInfo) {
 
-        m_panelLeft = new UserInterface::Panel::RaceLeft(m_handler, this);
+        if (!m_panelLeft) {
+
+            m_panelLeft = new UserInterface::Panel::RaceLeft(m_handler, this);
+            m_panelLeft->Startup(startupInfo);
+
+        }
+        if (!m_panelRight) {
+
+            m_panelRight = new UserInterface::Panel::RaceRight(m_handler, this);
+            m_panelRight->Startup(startupInfo);
+
+        }
+        UserInterface::Screen::DualPanelInterface::Initialize();
 
     }
-    if (!m_panelRight) {
-
-        m_panelRight = new UserInterface::Panel::RaceRight(m_handler, this);
-
-    }
-    UserInterface::Screen::DualPanelInterface::Initialize();
 
 }

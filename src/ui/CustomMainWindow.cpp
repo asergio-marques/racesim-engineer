@@ -74,7 +74,7 @@ void UserInterface::CustomMainWindow::addScreen(UserInterface::Screen::Interface
 
 void UserInterface::CustomMainWindow::Startup() {
 
-    doSwitchScreen(UserInterface::Screen::Type::Loading);
+    doSwitchScreen(UserInterface::Screen::Type::Loading, nullptr);
     QCoreApplication::setApplicationName("RaceSimEngineer - Waiting for Session...");
 
 }
@@ -124,7 +124,7 @@ void UserInterface::CustomMainWindow::OnSessionEnd() {
 
 void UserInterface::CustomMainWindow::OnSessionDataClear() {
 
-    if (doSwitchScreen(UserInterface::Screen::Type::Loading)) {
+    if (doSwitchScreen(UserInterface::Screen::Type::Loading, nullptr)) {
 
         // TODO: Isn't working for some reason
         QCoreApplication::setApplicationName("RaceSimEngineer - Waiting for Session...");
@@ -135,9 +135,9 @@ void UserInterface::CustomMainWindow::OnSessionDataClear() {
 
 
 
-void UserInterface::CustomMainWindow::OnTimeTrialStart() {
+void UserInterface::CustomMainWindow::OnTimeTrialStart(const Packet::Event::Interface* packet) {
 
-    if (doSwitchScreen(UserInterface::Screen::Type::TimeTrial)) {
+    if (doSwitchScreen(UserInterface::Screen::Type::TimeTrial, packet)) {
 
         Q_ASSERT(m_menuBar);
         m_menuBar->enableSessionActions(true);
@@ -151,9 +151,9 @@ void UserInterface::CustomMainWindow::OnTimeTrialStart() {
 
 
 
-void UserInterface::CustomMainWindow::OnFreePracticeStart() {
+void UserInterface::CustomMainWindow::OnFreePracticeStart(const Packet::Event::Interface* packet) {
 
-    if (doSwitchScreen(UserInterface::Screen::Type::FreePractice)) {
+    if (doSwitchScreen(UserInterface::Screen::Type::FreePractice, packet)) {
 
         Q_ASSERT(m_menuBar);
         m_menuBar->enableSessionActions(true);
@@ -167,9 +167,9 @@ void UserInterface::CustomMainWindow::OnFreePracticeStart() {
 
 
 
-void UserInterface::CustomMainWindow::OnQualiStart() {
+void UserInterface::CustomMainWindow::OnQualiStart(const Packet::Event::Interface* packet) {
 
-    if (doSwitchScreen(UserInterface::Screen::Type::Qualifying)) {
+    if (doSwitchScreen(UserInterface::Screen::Type::Qualifying, packet)) {
 
         Q_ASSERT(m_menuBar);
         m_menuBar->enableSessionActions(true);
@@ -183,9 +183,9 @@ void UserInterface::CustomMainWindow::OnQualiStart() {
 
 
 
-void UserInterface::CustomMainWindow::OnRaceStart() {
+void UserInterface::CustomMainWindow::OnRaceStart(const Packet::Event::Interface* packet) {
 
-    if (doSwitchScreen(UserInterface::Screen::Type::Race)) {
+    if (doSwitchScreen(UserInterface::Screen::Type::Race, packet)) {
 
         Q_ASSERT(m_menuBar);
         m_menuBar->enableSessionActions(true);
@@ -209,7 +209,7 @@ void UserInterface::CustomMainWindow::doAddScreen(UserInterface::Screen::Interfa
 
 
 
-bool UserInterface::CustomMainWindow::doSwitchScreen(const UserInterface::Screen::Type type) {
+bool UserInterface::CustomMainWindow::doSwitchScreen(const UserInterface::Screen::Type type, const Packet::Event::Interface* startInfo) {
 
     // avoid switching screen to already-present screen by returning early
     if (m_activeScreen && (m_activeScreen->Type() == type)) {
@@ -245,7 +245,7 @@ bool UserInterface::CustomMainWindow::doSwitchScreen(const UserInterface::Screen
         }
 
         setCentralWidget(screenToBeActivated);
-        screenToBeActivated->Activate();
+        screenToBeActivated->Activate(startInfo);
         screenToBeActivated->show();
         m_activeScreen = screenToBeActivated;
         return true;

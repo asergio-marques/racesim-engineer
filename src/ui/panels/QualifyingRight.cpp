@@ -32,7 +32,6 @@ UserInterface::Panel::QualifyingRight::QualifyingRight(UserInterface::PacketHand
         if (m_driverStandings) {
 
             RegisterWidget(m_driverStandings);
-            connect(handler, &UserInterface::PacketHandler::QualiStart, m_driverStandings, &UserInterface::Widget::Standings::onQualiStart);
             connect(handler, &UserInterface::PacketHandler::OvertakePerformed, m_driverStandings, &UserInterface::Widget::Standings::onOvertake);
             connect(handler, &UserInterface::PacketHandler::ParticipantStatusChanged, m_driverStandings, &UserInterface::Widget::Standings::onParticipantStatusChanged);
             connect(handler, &UserInterface::PacketHandler::LapFinished, m_driverStandings, &UserInterface::Widget::Standings::onLapFinished);

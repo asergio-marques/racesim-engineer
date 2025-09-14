@@ -23,7 +23,7 @@ const UserInterface::Screen::Type UserInterface::Screen::TimeTrial::Type() const
 
 
 
-void UserInterface::Screen::TimeTrial::Activate() {
+void UserInterface::Screen::TimeTrial::Activate(const Packet::Event::Interface* startupInfo) {
 
     if (!m_panelLeft) {
 

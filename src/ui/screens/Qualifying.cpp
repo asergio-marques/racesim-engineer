@@ -23,7 +23,7 @@ const UserInterface::Screen::Type UserInterface::Screen::Qualifying::Type() cons
 
 
 
-void UserInterface::Screen::Qualifying::Activate() {
+void UserInterface::Screen::Qualifying::Activate(const Packet::Event::Interface* startupInfo) {
 
     if (!m_panelLeft) {
 

@@ -5,6 +5,8 @@
 #include <QMainWindow>
 #include <QPair>
 #include "core/Screen.h"
+#include "packets/event/Interface.h"
+
 
 
 
@@ -42,10 +44,10 @@ namespace UserInterface {
             void Startup();
             void OnSessionEnd();
             void OnSessionDataClear();
-            void OnTimeTrialStart();
-            void OnFreePracticeStart();
-            void OnQualiStart();
-            void OnRaceStart();
+            void OnTimeTrialStart(const Packet::Event::Interface* packet);
+            void OnFreePracticeStart(const Packet::Event::Interface* packet);
+            void OnQualiStart(const Packet::Event::Interface* packet);
+            void OnRaceStart(const Packet::Event::Interface* packet);
 
         signals:
             void onResizeEvent(const QSize newUsefulSize);
@@ -55,7 +57,7 @@ namespace UserInterface {
 
         private:
             void doAddScreen(UserInterface::Screen::Interface* newScreen);
-            bool doSwitchScreen(const UserInterface::Screen::Type type);
+            bool doSwitchScreen(const UserInterface::Screen::Type type, const Packet::Event::Interface* startInfo);
             UserInterface::Widgets::MenuBar* m_menuBar;
             std::list<UserInterface::Screen::Interface*> m_screens;
             UserInterface::Screen::Interface* m_activeScreen;

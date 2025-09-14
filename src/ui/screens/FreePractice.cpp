@@ -23,7 +23,7 @@ const UserInterface::Screen::Type UserInterface::Screen::FreePractice::Type() co
 
 
 
-void UserInterface::Screen::FreePractice::Activate() {
+void UserInterface::Screen::FreePractice::Activate(const Packet::Event::Interface* startupInfo) {
 
     if (!m_panelLeft) {
 

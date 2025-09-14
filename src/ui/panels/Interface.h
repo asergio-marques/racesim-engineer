@@ -40,6 +40,11 @@ namespace UserInterface {
                 virtual ~Interface() = default;
                 virtual void ResizePanel(const QSize& newUsefulSize);
 
+                // Abstract function to be overridden by child classes that feels the race start information to
+                // the widgets that compose this panel
+                // Necessary to start displaying info about a new session
+                virtual void Startup(const Packet::Event::Interface* startInfo) = 0;
+
                 // Abstract function to be overridden by child classes that orders the composing widgets to cleanup
                 // Necessary to ready a panel for a new session
                 virtual void Cleanup() = 0;

@@ -34,7 +34,7 @@ void UserInterface::Screen::SinglePanelInterface::Deactivate() {
 
     if (m_panel) {
 
-        m_panel->deleteLater();
+        delete m_panel;
         m_panel = nullptr;
 
     }

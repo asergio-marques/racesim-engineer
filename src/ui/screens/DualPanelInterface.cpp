@@ -24,14 +24,14 @@ void UserInterface::Screen::DualPanelInterface::Deactivate() {
 
     if (m_panelLeft) {
 
-        m_panelLeft->deleteLater();
+        delete m_panelLeft;
         m_panelLeft = nullptr;
 
     }
 
     if (m_panelRight) {
 
-        m_panelRight->deleteLater();
+        delete m_panelRight;
         m_panelRight = nullptr;
 
     }

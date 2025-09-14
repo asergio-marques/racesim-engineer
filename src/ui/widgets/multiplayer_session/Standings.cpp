@@ -31,7 +31,16 @@ UserInterface::Widget::Standings::Standings(QWidget* parent) :
 
 void UserInterface::Widget::Standings::cleanup() {
 
-    // TODO
+    for (const auto driverInfo : m_driverData) {
+
+        if (driverInfo) {
+
+            delete driverInfo;
+
+        }
+
+    }
+    m_driverData.clear();
 
 }
 

@@ -82,9 +82,10 @@ const bool Processor::Data::RecordCreator::IsWorking() const {
 
 void Processor::Data::RecordCreator::ClearRecords() {
 
-    m_driverRecords.clear();
     m_sessionRecord = nullptr;
+    m_driverRecords.clear();
     m_playerId = UINT8_MAX;
+    m_workComplete = false;
 
 }
 

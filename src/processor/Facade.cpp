@@ -132,7 +132,7 @@ void Processor::Facade::clearSessionData() {
 
     if (m_databank) {
 
-        // TODO clear data
+        m_databank->clearData();
 
     }
 

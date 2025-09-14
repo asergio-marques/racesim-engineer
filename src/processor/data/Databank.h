@@ -3,6 +3,7 @@
 
 #include <cstdint>
 #include <map>
+#include <mutex>
 #include "detectors/Type.h"
 
 
@@ -119,6 +120,9 @@ namespace Processor {
 
             // Holds a list of the currently added detectors, using the detector type as index
             std::map<Processor::Detector::Type, Processor::Detector::Interface*> m_activeDetectors;
+
+            // Mutex to guard against simultaneous access of the driver records
+            std::mutex m_recordMutex;
 
         };
 

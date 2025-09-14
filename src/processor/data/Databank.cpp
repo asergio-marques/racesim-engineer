@@ -120,6 +120,8 @@ void Processor::Data::Databank::updateData(const Packet::Internal::Interface* pa
         }
         else {
 
+            std::lock_guard guard(m_recordMutex);
+
             switch (packet->packetType()) {
 
                 case Packet::Internal::Type::Standings:
@@ -162,7 +164,8 @@ void Processor::Data::Databank::updateData(const Packet::Internal::Interface* pa
 
 void Processor::Data::Databank::clearData() {
 
-    // TODO:
+    std::lock_guard guard(m_recordMutex);
+
     // uninstall records from detectors
     for (auto detectorEntry : m_activeDetectors) {
 
@@ -190,6 +193,7 @@ void Processor::Data::Databank::clearData() {
     if (m_sessionRecord) {
 
         delete m_sessionRecord;
+        m_sessionRecord = nullptr;
 
     }
     for (const auto& entry : m_driverRecords) {
@@ -588,7 +592,9 @@ void Processor::Data::Databank::prepareSessionEnd(const Packet::Internal::FinalR
 
                 auto driverData = entry->second;
 
-                if (driverData && driverData->updateLastTimestamp(finalResult->m_timestamp)) {
+                if (driverData &&
+                    driverData->updateLastTimestamp(finalResult->m_timestamp) &&
+                    !driverData->Finalized()) {
 
                     driverData->getModifiableState()->finalize(finalData.m_driverID, finalData.m_position, finalData.m_numLaps, finalData.m_sessionTime);
 
@@ -598,7 +604,9 @@ void Processor::Data::Databank::prepareSessionEnd(const Packet::Internal::FinalR
 
         }
 
-        if (m_sessionRecord) {
+        if (m_sessionRecord &&
+            m_sessionRecord->getModifiableState() &&
+            m_sessionRecord->getModifiableState()->isSessionRunning()) {
 
             m_sessionRecord->getModifiableState()->sessionFinalized();
 

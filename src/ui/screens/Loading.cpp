@@ -8,9 +8,7 @@
 
 
 UserInterface::Screen::Loading::Loading(UserInterface::PacketHandler* handler, QWidget* parent) :
-    UserInterface::Screen::SinglePanelInterface(parent) {
-
-    m_panel = new UserInterface::Panel::Loading(handler, this);
+    UserInterface::Screen::SinglePanelInterface(handler, parent) {
 
 }
 
@@ -19,5 +17,18 @@ UserInterface::Screen::Loading::Loading(UserInterface::PacketHandler* handler, Q
 const UserInterface::Screen::Type UserInterface::Screen::Loading::Type() const {
 
     return UserInterface::Screen::Type::Loading;
+
+}
+
+
+
+void UserInterface::Screen::Loading::Activate() {
+
+    if (!m_panel) {
+
+        m_panel = new UserInterface::Panel::Loading(m_handler, this);
+        UserInterface::Screen::SinglePanelInterface::Initialize();
+
+    }
 
 }

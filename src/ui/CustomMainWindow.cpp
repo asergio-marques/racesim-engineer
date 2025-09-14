@@ -204,7 +204,6 @@ void UserInterface::CustomMainWindow::doAddScreen(UserInterface::Screen::Interfa
     newScreen->setParent(this);
     m_screens.push_back(newScreen);
     connect(this, &UserInterface::CustomMainWindow::onResizeEvent, newScreen, &UserInterface::Screen::Interface::handleResizeEvent);
-    newScreen->Initialize();
 
 }
 
@@ -239,12 +238,14 @@ bool UserInterface::CustomMainWindow::doSwitchScreen(const UserInterface::Screen
         // deactivate current screen if there is one, and retrieve ownership
         if (m_activeScreen) {
 
+            m_activeScreen->Deactivate();
             m_activeScreen->hide();
             takeCentralWidget();
 
         }
 
         setCentralWidget(screenToBeActivated);
+        screenToBeActivated->Activate();
         screenToBeActivated->show();
         m_activeScreen = screenToBeActivated;
         return true;

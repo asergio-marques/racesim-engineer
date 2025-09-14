@@ -22,6 +22,7 @@ namespace UserInterface {
                 TimeTrial(UserInterface::PacketHandler* handler, QWidget* parent = 0);
                 virtual ~TimeTrial() = default;
                 virtual const UserInterface::Screen::Type Type() const override;
+                void Activate() override final;
 
         };
 

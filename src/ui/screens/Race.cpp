@@ -9,10 +9,7 @@
 
 
 UserInterface::Screen::Race::Race(UserInterface::PacketHandler* handler, QWidget* parent) :
-    UserInterface::Screen::DualPanelInterface(parent) {
-
-    m_panelLeft = new UserInterface::Panel::RaceLeft(handler, this);
-    m_panelRight = new UserInterface::Panel::RaceRight(handler, this);
+    UserInterface::Screen::DualPanelInterface(handler, parent) {
 
 }
 
@@ -21,5 +18,23 @@ UserInterface::Screen::Race::Race(UserInterface::PacketHandler* handler, QWidget
 const UserInterface::Screen::Type UserInterface::Screen::Race::Type() const {
 
     return UserInterface::Screen::Type::Race;
+
+}
+
+
+
+void UserInterface::Screen::Race::Activate() {
+
+    if (!m_panelLeft) {
+
+        m_panelLeft = new UserInterface::Panel::RaceLeft(m_handler, this);
+
+    }
+    if (!m_panelRight) {
+
+        m_panelRight = new UserInterface::Panel::RaceRight(m_handler, this);
+
+    }
+    UserInterface::Screen::DualPanelInterface::Initialize();
 
 }

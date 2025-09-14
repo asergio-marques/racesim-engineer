@@ -7,7 +7,10 @@
 
 
 
+
 namespace UserInterface {
+
+    class PacketHandler;
 
     namespace Style {
 
@@ -28,10 +31,10 @@ namespace UserInterface {
             Q_OBJECT
 
             public:
-                SinglePanelInterface(QWidget* parent = 0);
+                SinglePanelInterface(UserInterface::PacketHandler* handler, QWidget* parent = 0);
                 virtual ~SinglePanelInterface() = default;
-
                 virtual void Initialize() override;
+                virtual void Deactivate() override;
 
             public slots:
                 virtual void handleResizeEvent(const QSize newUsefulSize) override final;

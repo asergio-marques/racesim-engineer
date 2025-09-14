@@ -6,10 +6,13 @@
 
 
 
+
 class QResizeEvent;
 class QWidget;
 
 namespace UserInterface {
+
+    class PacketHandler;
 
     namespace Style {
 
@@ -30,10 +33,10 @@ namespace UserInterface {
             Q_OBJECT
 
             public:
-                DualPanelInterface(QWidget* parent = 0);
+                DualPanelInterface(UserInterface::PacketHandler* handler, QWidget* parent = 0);
                 virtual ~DualPanelInterface() = default;
-
                 virtual void Initialize() override;
+                virtual void Deactivate() override;
 
             public slots:
                 virtual void handleResizeEvent(const QSize newUsefulSize) override final;

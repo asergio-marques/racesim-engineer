@@ -8,8 +8,8 @@
 
 
 
-UserInterface::Screen::DualPanelInterface::DualPanelInterface(QWidget* parent) :
-    UserInterface::Screen::Interface(parent),
+UserInterface::Screen::DualPanelInterface::DualPanelInterface(UserInterface::PacketHandler* handler, QWidget* parent) :
+    UserInterface::Screen::Interface(handler, parent),
     m_mode(Settings::WindowNumber::DEFAULT),
     m_panelLeft(nullptr),
     m_panelRight(nullptr) {
@@ -37,6 +37,26 @@ void UserInterface::Screen::DualPanelInterface::Initialize() {
         m_panelRight->move(960, 0);
         m_panelRight->setBaseSize(960, 1080);
         m_panelRight->setMinimumSize(960, 1080);
+
+    }
+
+}
+
+
+
+void UserInterface::Screen::DualPanelInterface::Deactivate() {
+
+    if (m_panelLeft) {
+
+        m_panelLeft->deleteLater();
+        m_panelLeft = nullptr;
+
+    }
+
+    if (m_panelRight) {
+
+        m_panelRight->deleteLater();
+        m_panelRight = nullptr;
 
     }
 

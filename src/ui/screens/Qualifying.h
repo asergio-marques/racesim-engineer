@@ -22,6 +22,7 @@ namespace UserInterface {
                 Qualifying(UserInterface::PacketHandler* handler, QWidget* parent = 0);
                 virtual ~Qualifying() = default;
                 virtual const UserInterface::Screen::Type Type() const override;
+                void Activate() override final;
 
         };
 

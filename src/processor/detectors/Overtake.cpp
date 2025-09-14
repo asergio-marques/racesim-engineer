@@ -101,7 +101,7 @@ void Processor::Detector::Overtake::Exec() {
         m_positionChanges.clear();
 
         // Thread is executed at 10Hz
-        std::this_thread::sleep_for(std::chrono::milliseconds(100));
+        std::this_thread::sleep_for(std::chrono::milliseconds(10));
 
     }
 

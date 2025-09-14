@@ -8,6 +8,7 @@
 #include "detectors/PenaltyReceived.h"
 #include "detectors/ParticipantStatusChanged.h"
 #include "detectors/SessionStartDataReady.h"
+#include "detectors/SessionEndDataReady.h"
 #include "detectors/TyreChanged.h"
 #include "exporters/Interface.h"
 #include "exporters/RaceSession.h"
@@ -27,6 +28,7 @@ Processor::Facade::Facade() :
     if (m_databank) {
 
         m_detectors.push_back(new Processor::Detector::SessionStartDataReady);
+        m_detectors.push_back(new Processor::Detector::SessionEndDataReady);
         m_detectors.push_back(new Processor::Detector::LapFinished);
         m_detectors.push_back(new Processor::Detector::Overtake);
         m_detectors.push_back(new Processor::Detector::PenaltyReceived);

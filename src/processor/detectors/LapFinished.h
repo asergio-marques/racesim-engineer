@@ -34,6 +34,9 @@ namespace Processor {
             void Init(Processor::Data::SessionRecord* sessionRecord,
                 std::map<const uint8_t, Processor::Data::DriverRecord*>* driverRecords) override final;
 
+            // Clears all data to ready the detector for a new session
+            void Deinit() override final;
+
             // Compares a new completed lap with the current session best,
             // returning true and preparing the packet if this lap is indeed the session best
             bool checkFastestInSession(const Processor::Data::LapInfo& finishedLap);

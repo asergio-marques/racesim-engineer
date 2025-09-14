@@ -44,6 +44,9 @@ namespace Processor {
             virtual void Init(Processor::Data::SessionRecord* sessionRecord,
                 std::map<const uint8_t, Processor::Data::DriverRecord*>* driverRecords) = 0;
 
+            // Clears the session record and driver records information held, as well as the unsent packet list
+            virtual void Deinit() = 0;
+
             // Returns the identifying type of this detector
             virtual const Processor::Detector::Type GetType() const = 0;
 
@@ -60,6 +63,9 @@ namespace Processor {
             protected:
             // Generic implementation of the Init function, to be called by subclasses
             virtual void doInit(Processor::Data::SessionRecord* record, std::map<const uint8_t, Processor::Data::DriverRecord*>* driverRecords);
+
+            // Generic implementation of the Deinit function, to be called by subclasses
+            virtual void doDeinit();
 
             // Holds all the internal packets that are yet to be sent to subscribers
             std::vector<Packet::Event::Interface*> m_packetsToBeProcessed;

@@ -164,9 +164,44 @@ void Processor::Data::Databank::clearData() {
 
     // TODO:
     // uninstall records from detectors
+    for (auto detectorEntry : m_activeDetectors) {
+
+        auto detector = detectorEntry.second;
+        if (detector) {
+
+            detector->Deinit();
+
+        }
+
+    }
     // uninstall records from exporter
+    if (m_exporter) {
+
+        m_exporter->ClearRecords();
+
+    }
     // ready the record creator again
+    if (m_creator) {
+
+        m_creator->ClearRecords();
+
+    }
     // delete records and states, and clear maps/pointers
+    if (m_sessionRecord) {
+
+        delete m_sessionRecord;
+
+    }
+    for (const auto& entry : m_driverRecords) {
+
+        if (entry.second) {
+
+            delete entry.second;
+
+        }
+
+    }
+    m_driverRecords.clear();
 
 }
 

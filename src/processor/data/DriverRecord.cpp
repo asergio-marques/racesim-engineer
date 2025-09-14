@@ -20,7 +20,11 @@ Processor::Data::DriverRecord::DriverRecord(const uint64_t initTimestamp, const 
 
 Processor::Data::DriverRecord::~DriverRecord() {
 
-    delete m_state;
+    if (m_state) {
+
+        delete m_state;
+
+    }
     m_state = nullptr;
 
 }

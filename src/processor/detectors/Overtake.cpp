@@ -33,6 +33,16 @@ void Processor::Detector::Overtake::Init(Processor::Data::SessionRecord* session
 
 
 
+void Processor::Detector::Overtake::Deinit() {
+
+    if (!m_sessionRecord || !m_driverRecords) return;
+
+    Processor::Detector::Interface::doDeinit();
+
+}
+
+
+
 void Processor::Detector::Overtake::AddPositionChange(const uint8_t id, const uint8_t oldPosition, const uint8_t newPosition) {
 
     m_positionChanges.push_back({ id, oldPosition, newPosition });

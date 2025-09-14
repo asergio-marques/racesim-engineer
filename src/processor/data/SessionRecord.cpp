@@ -21,7 +21,12 @@ Processor::Data::SessionRecord::SessionRecord(const uint64_t initTimestamp, cons
 
 Processor::Data::SessionRecord::~SessionRecord() {
 
+    if (m_state) {
+    
+        delete m_state;
 
+    }
+    m_state = nullptr;
 
 }
 

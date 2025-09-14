@@ -29,6 +29,16 @@ void Processor::Detector::ParticipantStatusChanged::Init(Processor::Data::Sessio
 
 
 
+void Processor::Detector::ParticipantStatusChanged::Deinit() {
+
+    if (!m_sessionRecord || !m_driverRecords) return;
+
+    Processor::Detector::Interface::doDeinit();
+
+}
+
+
+
 void Processor::Detector::ParticipantStatusChanged::AddStatusChange(const uint8_t id, const Participant::Internal::Status newStatus) {
 
     Packet::Event::ParticipantStatusChanged* packet = new Packet::Event::ParticipantStatusChanged();

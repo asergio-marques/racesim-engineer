@@ -45,6 +45,9 @@ namespace Processor {
             void Init(Processor::Data::SessionRecord* sessionRecord,
                 std::map<const uint8_t, Processor::Data::DriverRecord*>* driverRecords) override final;
 
+            // Clears all data to ready the detector for a new session
+            void Deinit() override final;
+
             // Returns the identifying type of this detector
             const Processor::Detector::Type GetType() const override;
 

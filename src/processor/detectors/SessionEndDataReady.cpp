@@ -12,7 +12,8 @@
 
 
 Processor::Detector::SessionEndDataReady::SessionEndDataReady() :
-    Processor::Detector::Interface() {
+    Processor::Detector::Interface(),
+    m_sentSessionEnd(true) {
 
 
 
@@ -37,6 +38,7 @@ void Processor::Detector::SessionEndDataReady::Init(Processor::Data::SessionReco
 
     if (m_sessionRecord && m_driverRecords) {
 
+        m_sentSessionEnd = false;
         m_workerThread = std::thread(&Processor::Detector::SessionEndDataReady::Exec, this);
 
     }
@@ -45,9 +47,19 @@ void Processor::Detector::SessionEndDataReady::Init(Processor::Data::SessionReco
 
 
 
+void Processor::Detector::SessionEndDataReady::Deinit() {
+
+    if (!m_sessionRecord || !m_driverRecords) return;
+
+    Processor::Detector::Interface::doDeinit();
+
+}
+
+
+
 void Processor::Detector::SessionEndDataReady::Exec() {
 
-    while (m_sessionRecord && m_driverRecords) {
+    while (!m_sentSessionEnd && m_sessionRecord && m_driverRecords) {
 
         bool isAllFinished = !(m_sessionRecord->getModifiableState()->isSessionRunning());
 
@@ -84,9 +96,7 @@ void Processor::Detector::SessionEndDataReady::Exec() {
 
             }
 
-            // Clear pointers to prepare detector for new init
-            m_sessionRecord = nullptr;
-            m_driverRecords = nullptr;
+            m_sentSessionEnd = true;
 
         }
 

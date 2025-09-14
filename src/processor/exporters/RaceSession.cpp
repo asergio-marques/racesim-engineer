@@ -55,6 +55,16 @@ void Processor::Exporter::RaceSession::InjectRecords(Processor::Data::SessionRec
 
 
 
+void Processor::Exporter::RaceSession::ClearRecords() {
+
+    m_sessionRecord = nullptr;
+    m_playerDriverRecord = nullptr;
+    m_driverRecords = nullptr;
+
+}
+
+
+
 bool Processor::Exporter::RaceSession::Export(std::string path) const {
 
     // actual code

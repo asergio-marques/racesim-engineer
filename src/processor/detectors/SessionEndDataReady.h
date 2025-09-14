@@ -37,6 +37,9 @@ namespace Processor {
             void Init(Processor::Data::SessionRecord* sessionRecord,
                 std::map<const uint8_t, Processor::Data::DriverRecord*>* driverRecords) override final;
 
+            // Clears all data to ready the detector for a new session
+            void Deinit() override final;
+
             private:
             // Main execution function to be overridden by all concrete detectors
             void Exec() override final;
@@ -44,6 +47,9 @@ namespace Processor {
             // Auxiliary function to construct a packet with all the necessary data
             // to note the end of a free practice, quali, or race session
             void BuildRoundSessionEndPacket();
+
+            // Whether the packet informing of the current session's end has been sent
+            bool m_sentSessionEnd;
 
         };
 

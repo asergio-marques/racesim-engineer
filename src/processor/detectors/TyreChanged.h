@@ -37,6 +37,9 @@ namespace Processor {
             virtual void Init(Processor::Data::SessionRecord* sessionRecord,
                 std::map<const uint8_t, Processor::Data::DriverRecord*>* driverRecords) override final;
 
+            // Clears all data to ready the detector for a new session
+            void Deinit() override final;
+
             // Prepares a packet informing that a change of tyres was performed
             void addTyreChangeInfo(const uint8_t driverID, const Tyre::Internal::Data newTyreData);
 

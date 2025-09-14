@@ -44,6 +44,9 @@ namespace Processor {
             virtual void InjectRecords(Processor::Data::SessionRecord* sessionRecord,
                 std::map<const uint8_t, Processor::Data::DriverRecord*>* driverRecords) override final;
 
+            // Clears the references to the session records held, making it impossible to export results
+            virtual void ClearRecords() override final;
+
             // Parses the information from the records into a pre-defined XML schema and outputs it
             // Returns the success of the operation
             virtual bool Export(std::string path) const override final;

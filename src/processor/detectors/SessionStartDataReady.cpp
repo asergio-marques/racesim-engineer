@@ -51,6 +51,18 @@ void Processor::Detector::SessionStartDataReady::Init(Processor::Data::SessionRe
 
 
 
+void Processor::Detector::SessionStartDataReady::Deinit() {
+
+    if (!m_sessionRecord || !m_driverRecords) return;
+
+    Processor::Detector::Interface::doDeinit();
+
+    m_sentSessionStart = false;
+
+}
+
+
+
 void Processor::Detector::SessionStartDataReady::Exec() {
 
     while (!m_sentSessionStart) {

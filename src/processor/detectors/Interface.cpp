@@ -53,3 +53,12 @@ void Processor::Detector::Interface::doInit(Processor::Data::SessionRecord* sess
     }
 
 }
+
+
+void Processor::Detector::Interface::doDeinit() {
+
+    m_sessionRecord = nullptr;
+    m_driverRecords = nullptr;
+    m_packetsToBeProcessed.clear();
+
+}

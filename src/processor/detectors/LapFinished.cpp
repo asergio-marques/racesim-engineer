@@ -30,6 +30,16 @@ void Processor::Detector::LapFinished::Init(Processor::Data::SessionRecord* sess
 
 
 
+void Processor::Detector::LapFinished::Deinit() {
+
+    if (!m_sessionRecord || !m_driverRecords) return;
+
+    Processor::Detector::Interface::doDeinit();
+
+}
+
+
+
 bool Processor::Detector::LapFinished::checkFastestInSession(const Processor::Data::LapInfo& finishedLap) {
 
     if (!m_sessionRecord || !m_sessionRecord->getModifiableState() || !finishedLap.m_isValid) return false;

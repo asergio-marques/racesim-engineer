@@ -36,6 +36,16 @@ void Processor::Detector::TyreChanged::Init(Processor::Data::SessionRecord* sess
 
 
 
+void Processor::Detector::TyreChanged::Deinit() {
+
+    if (!m_sessionRecord || !m_driverRecords) return;
+
+    Processor::Detector::Interface::doDeinit();
+
+}
+
+
+
 void Processor::Detector::TyreChanged::addTyreChangeInfo(const uint8_t driverID, const Tyre::Internal::Data newTyreData) {
 
     if (!m_driverRecords) return;

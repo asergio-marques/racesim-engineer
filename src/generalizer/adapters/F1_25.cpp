@@ -3,6 +3,7 @@
 #include <iostream>
 #include <limits>
 #include <string>
+#include <map>
 #include <vector>
 #include "adapters/Interface.h"
 #include "data/game/F1_25/Event.h"
@@ -228,23 +229,23 @@ Generalizer::Adapter::F1_25::ConvertLapDataPacket(const Packet::Game::F1_25::Lap
         new Packet::Internal::PenaltyStatus(inputPacket->GetHeader()->GetFrameIdentifier());
     Packet::Internal::ParticipantStatus* statusPacket =
         new Packet::Internal::ParticipantStatus(inputPacket->GetHeader()->GetFrameIdentifier());
+
+    std::map<size_t, uint8_t> startingPlaces;
+    std::map<size_t, bool> gridPositionFilled;
+
     for (size_t i = 0; i < 22; ++i) {
 
         bool ok = false;
         const auto lapInfo = inputPacket->GetLapInfo(i, ok);
         if (ok) {
 
-            // in quali sessions, the grid position is effectively 0
-            if (lapInfo.m_gridPositionStart == 0) {
+            // due to some problems in qualifications sessions that have been restarted,
+            // a temporary map is needed to later disambiguate grid positions
+            uint8_t gridPosition = ((lapInfo.m_gridPositionStart == 0) ?
+                lapInfo.m_carPosition : lapInfo.m_gridPositionStart);
+            startingPlaces.emplace(i, gridPosition);
+            gridPositionFilled.emplace(i + 1, false);
 
-                gridPacket->InsertData(i, lapInfo.m_carPosition);
-                
-            }
-            else {
-
-                gridPacket->InsertData(i, lapInfo.m_gridPositionStart);
-
-            }
             standingsPacket->InsertData(i, lapInfo.m_carPosition);
             penaltiesPacket->InsertData(i, lapInfo.m_numTotalWarn,
                 lapInfo.m_numCornerCutWarn,
@@ -282,6 +283,33 @@ Generalizer::Adapter::F1_25::ConvertLapDataPacket(const Packet::Game::F1_25::Lap
         }
 
     }
+    for (size_t i = 0; i < 22; ++i) {
+
+        auto pos = startingPlaces[i];
+        // if there is a driver with the same grid position as the driver with this ID, 
+        // then find the highest position without a filled slot
+        if (!gridPositionFilled[pos]) gridPositionFilled[pos] = true;
+        else {
+
+            for (auto& posSlot : gridPositionFilled) {
+
+                if (!posSlot.second) {
+
+                    startingPlaces[i] = posSlot.first;
+                    pos = posSlot.first;
+                    posSlot.second = true;
+                    break;
+
+                }
+
+            }
+
+        }
+
+        gridPacket->InsertData(i, pos);
+
+    }
+
 
     return { gridPacket, standingsPacket, penaltiesPacket, statusPacket };
 
@@ -327,8 +355,9 @@ Generalizer::Adapter::F1_25::ConvertStandingsDataPacket(const Packet::Game::F1_2
         return {};
 
     }
+    // because this packet anyway has a frame identifier of 0, then hardcoding is necessary
     Packet::Internal::FinalResult* finalResult =
-        new Packet::Internal::FinalResult(inputPacket->GetHeader()->GetFrameIdentifier(), false);
+        new Packet::Internal::FinalResult(UINT32_MAX, false);
     for (size_t i = 0; i < 22; ++i) {
 
         bool ok = false;

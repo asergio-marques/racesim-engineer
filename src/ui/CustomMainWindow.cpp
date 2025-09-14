@@ -84,26 +84,13 @@ void UserInterface::CustomMainWindow::Startup() {
 void UserInterface::CustomMainWindow::OnSessionEnd() {
 
     uint8_t count = 30;
-    QMessageBox box;
+    QMessageBox box(this);
     box.setIcon(QMessageBox::Warning);
     box.setWindowTitle("Session has ended");
     box.setText(QString("The current session has been marked as finalized.\n"
-        "Please close this dialog to clear the session data and export it.\n"
-        "This dialog will be automatically closed in %1 seconds").arg(QString::number(count)));
+        "Please close this dialog to clear the session data and export it.\n"));
     box.setStandardButtons(QMessageBox::Close);
     box.exec();
-    while (count != 0) {
-        
-        --count;
-        QTimer::singleShot(1000, [&]() {
-
-            box.setText(QString("The current session has been marked as finalized.\n"
-                "Please close this dialog to clear the session data and export it.\n"
-                "This dialog will be automatically closed in %1 seconds").arg(QString::number(count)));
-
-        });
-
-    }
 
     if (m_presenter) {
 
@@ -116,7 +103,7 @@ void UserInterface::CustomMainWindow::OnSessionEnd() {
         }
 
     }
-
+    OnSessionDataClear();
 
 }
 

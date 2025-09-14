@@ -39,6 +39,7 @@ void Processor::Detector::SessionEndDataReady::Init(Processor::Data::SessionReco
     if (m_sessionRecord && m_driverRecords) {
 
         m_sentSessionEnd = false;
+        if (m_workerThread.joinable()) m_workerThread.join();
         m_workerThread = std::thread(&Processor::Detector::SessionEndDataReady::Exec, this);
 
     }

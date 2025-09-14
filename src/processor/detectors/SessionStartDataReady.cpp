@@ -43,6 +43,7 @@ void Processor::Detector::SessionStartDataReady::Init(Processor::Data::SessionRe
 
     if (m_sessionRecord && m_driverRecords) {
 
+        if (m_workerThread.joinable()) m_workerThread.join();
         m_workerThread = std::thread(&Processor::Detector::SessionStartDataReady::Exec, this);
 
     }

@@ -25,6 +25,7 @@ void Processor::Detector::Overtake::Init(Processor::Data::SessionRecord* session
 
     if (m_sessionRecord && m_driverRecords) {
 
+        if (m_workerThread.joinable()) m_workerThread.join();
         m_workerThread = std::thread(&Processor::Detector::Overtake::Exec, this);
 
     }

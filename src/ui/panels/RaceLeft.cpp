@@ -49,6 +49,14 @@ void UserInterface::Panel::RaceLeft::ResizePanel(const QSize& newUsefulSize) {
 
 
 
+void UserInterface::Panel::RaceLeft::Startup(const Packet::Event::Interface* startInfo) {
+
+    // TODO
+
+}
+
+
+
 void UserInterface::Panel::RaceLeft::Cleanup() {
 
     // TODO

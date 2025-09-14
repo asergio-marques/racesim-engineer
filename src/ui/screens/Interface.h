@@ -43,8 +43,6 @@ namespace UserInterface {
             public:
                 Interface(UserInterface::PacketHandler* handler, QWidget* parent = 0);
                 virtual ~Interface() = default;
-
-                virtual void Initialize() = 0;
                 virtual void Activate(const Packet::Event::Interface* startupInfo) = 0;
                 virtual void Deactivate() = 0;
                 virtual const UserInterface::Screen::Type Type() const = 0;

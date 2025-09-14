@@ -29,6 +29,14 @@ void UserInterface::Panel::FreePracticeRight::ResizePanel(const QSize& newUseful
 
 
 
+void UserInterface::Panel::FreePracticeRight::Startup(const Packet::Event::Interface* startInfo) {
+
+    // TODO
+
+}
+
+
+
 void UserInterface::Panel::FreePracticeRight::Cleanup() {
 
     // TODO

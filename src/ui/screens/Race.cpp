@@ -30,16 +30,15 @@ void UserInterface::Screen::Race::Activate(const Packet::Event::Interface* start
         if (!m_panelLeft) {
 
             m_panelLeft = new UserInterface::Panel::RaceLeft(m_handler, this);
-            m_panelLeft->Startup(startupInfo);
 
         }
         if (!m_panelRight) {
 
             m_panelRight = new UserInterface::Panel::RaceRight(m_handler, this);
-            m_panelRight->Startup(startupInfo);
 
         }
-        UserInterface::Screen::DualPanelInterface::Initialize();
+
+        UserInterface::Screen::DualPanelInterface::Initialize(startupInfo);
 
     }
 

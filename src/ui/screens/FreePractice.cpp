@@ -25,16 +25,21 @@ const UserInterface::Screen::Type UserInterface::Screen::FreePractice::Type() co
 
 void UserInterface::Screen::FreePractice::Activate(const Packet::Event::Interface* startupInfo) {
 
-    if (!m_panelLeft) {
+    if (startupInfo) {
 
-        m_panelLeft = new UserInterface::Panel::FreePracticeLeft(m_handler, this);
+        if (!m_panelLeft) {
+
+            m_panelLeft = new UserInterface::Panel::FreePracticeLeft(m_handler, this);
+
+        }
+        if (!m_panelRight) {
+
+            m_panelRight = new UserInterface::Panel::FreePracticeRight(m_handler, this);
+
+        }
+
+        UserInterface::Screen::DualPanelInterface::Initialize(startupInfo);
 
     }
-    if (!m_panelRight) {
-
-        m_panelRight = new UserInterface::Panel::FreePracticeRight(m_handler, this);
-
-    }
-    UserInterface::Screen::DualPanelInterface::Initialize();
 
 }

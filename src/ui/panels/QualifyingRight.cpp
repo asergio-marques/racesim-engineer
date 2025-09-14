@@ -66,6 +66,23 @@ void UserInterface::Panel::QualifyingRight::ResizePanel(const QSize& newUsefulSi
 
 
 
+void UserInterface::Panel::QualifyingRight::Startup(const Packet::Event::Interface* startInfo) {
+
+    if (startInfo) {
+
+        auto qualiStartInfo = dynamic_cast<const Packet::Event::QualiStart*>(startInfo);
+        if (qualiStartInfo && m_driverStandings) {
+
+            m_driverStandings->onQualiStart(qualiStartInfo);
+
+        }
+
+    }
+
+}
+
+
+
 
 void UserInterface::Panel::QualifyingRight::Cleanup() {
 

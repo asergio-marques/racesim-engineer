@@ -25,16 +25,21 @@ const UserInterface::Screen::Type UserInterface::Screen::TimeTrial::Type() const
 
 void UserInterface::Screen::TimeTrial::Activate(const Packet::Event::Interface* startupInfo) {
 
-    if (!m_panelLeft) {
+    if (startupInfo) {
 
-        m_panelLeft = new UserInterface::Panel::TimeTrialLeft(m_handler, this);
+        if (!m_panelLeft) {
+
+            m_panelLeft = new UserInterface::Panel::TimeTrialLeft(m_handler, this);
+
+        }
+        if (!m_panelRight) {
+
+            m_panelRight = new UserInterface::Panel::TimeTrialRight(m_handler, this);
+
+        }
+
+        UserInterface::Screen::DualPanelInterface::Initialize(startupInfo);
 
     }
-    if (!m_panelRight) {
-
-        m_panelRight = new UserInterface::Panel::TimeTrialRight(m_handler, this);
-
-    }
-    UserInterface::Screen::DualPanelInterface::Initialize();
 
 }

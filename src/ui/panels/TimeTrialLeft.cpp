@@ -8,6 +8,8 @@
 #include "general_use/ScreenTitle.h"
 
 
+
+
 UserInterface::Panel::TimeTrialLeft::TimeTrialLeft(UserInterface::PacketHandler* handler, QWidget* parent) :
     UserInterface::Panel::Interface(handler, parent),
     m_screenTitle(nullptr) {
@@ -42,6 +44,14 @@ void UserInterface::Panel::TimeTrialLeft::ResizePanel(const QSize& newUsefulSize
         m_screenTitle->move(0, 0, false, false);
 
     }
+
+}
+
+
+
+void UserInterface::Panel::TimeTrialLeft::Startup(const Packet::Event::Interface* startInfo) {
+
+    // TODO
 
 }
 

@@ -24,10 +24,12 @@ const UserInterface::Screen::Type UserInterface::Screen::Loading::Type() const {
 
 void UserInterface::Screen::Loading::Activate(const Packet::Event::Interface* startupInfo) {
 
+    // No need to check the packet; it's supposed to be null for loading
+
     if (!m_panel) {
 
         m_panel = new UserInterface::Panel::Loading(m_handler, this);
-        UserInterface::Screen::SinglePanelInterface::Initialize();
+        UserInterface::Screen::SinglePanelInterface::Initialize(startupInfo);
 
     }
 

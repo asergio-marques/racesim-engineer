@@ -238,15 +238,15 @@ bool UserInterface::CustomMainWindow::doSwitchScreen(const UserInterface::Screen
         // deactivate current screen if there is one, and retrieve ownership
         if (m_activeScreen) {
 
-            m_activeScreen->Deactivate();
             m_activeScreen->hide();
+            m_activeScreen->Deactivate();
             takeCentralWidget();
 
         }
 
         setCentralWidget(screenToBeActivated);
-        screenToBeActivated->Activate(startInfo);
         screenToBeActivated->show();
+        screenToBeActivated->Activate(startInfo);
         m_activeScreen = screenToBeActivated;
         return true;
 

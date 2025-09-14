@@ -7,6 +7,8 @@
 #include "widgets/general_use/ScreenTitle.h"
 
 
+
+
 UserInterface::Panel::TimeTrialRight::TimeTrialRight(UserInterface::PacketHandler* handler, QWidget* parent) :
     UserInterface::Panel::Interface(handler, parent) {
         
@@ -22,6 +24,14 @@ void UserInterface::Panel::TimeTrialRight::ResizePanel(const QSize& newUsefulSiz
 
     // call overridden function to resize background
     UserInterface::Panel::Interface::ResizePanel(newUsefulSize);
+
+}
+
+
+
+void UserInterface::Panel::TimeTrialRight::Startup(const Packet::Event::Interface* startInfo) {
+
+    // TODO
 
 }
 

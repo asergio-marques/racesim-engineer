@@ -25,16 +25,21 @@ const UserInterface::Screen::Type UserInterface::Screen::Qualifying::Type() cons
 
 void UserInterface::Screen::Qualifying::Activate(const Packet::Event::Interface* startupInfo) {
 
-    if (!m_panelLeft) {
+    if (startupInfo) {
 
-        m_panelLeft = new UserInterface::Panel::QualifyingLeft(m_handler, this);
+        if (!m_panelLeft) {
+
+            m_panelLeft = new UserInterface::Panel::QualifyingLeft(m_handler, this);
+
+        }
+        if (!m_panelRight) {
+
+            m_panelRight = new UserInterface::Panel::QualifyingRight(m_handler, this);
+
+        }
+
+        UserInterface::Screen::DualPanelInterface::Initialize(startupInfo);
 
     }
-    if (!m_panelRight) {
-
-        m_panelRight = new UserInterface::Panel::QualifyingRight(m_handler, this);
-
-    }
-    UserInterface::Screen::DualPanelInterface::Initialize();
 
 }

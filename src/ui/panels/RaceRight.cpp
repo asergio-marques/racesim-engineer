@@ -68,6 +68,23 @@ void UserInterface::Panel::RaceRight::ResizePanel(const QSize& newUsefulSize) {
 
 
 
+void UserInterface::Panel::RaceRight::Startup(const Packet::Event::Interface* startInfo) {
+
+    if (startInfo) {
+
+        auto raceStartInfo = dynamic_cast<const Packet::Event::RaceStart*>(startInfo);
+        if (raceStartInfo && m_driverStandings) {
+
+            m_driverStandings->onRaceStart(raceStartInfo);
+
+        }
+
+    }
+
+}
+
+
+
 
 void UserInterface::Panel::RaceRight::Cleanup() {
 

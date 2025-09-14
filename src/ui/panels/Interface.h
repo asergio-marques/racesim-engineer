@@ -10,7 +10,7 @@
 
 namespace Packet {
 
-    namespace Internal {
+    namespace Event {
 
         class Interface;
 

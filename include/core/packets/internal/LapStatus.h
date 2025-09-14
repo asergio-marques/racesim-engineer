@@ -14,8 +14,9 @@ namespace Packet {
 
     namespace Internal {
 
-        struct LapStatus : public Packet::Internal::Interface {
+        class LapStatus : public Packet::Internal::Interface {
 
+            public:
             struct Data {
 
                 public:
@@ -44,7 +45,7 @@ namespace Packet {
                 float_t m_lapDistanceRun = 0.0f;
 
             };
-            public:
+
             // Packet interface constructor
             LapStatus(const uint64_t timestamp, const uint8_t driverID);
 

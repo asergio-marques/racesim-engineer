@@ -14,7 +14,7 @@ namespace Packet {
 
     namespace Internal {
 
-        struct TyreSetUsage : public Packet::Internal::Interface {
+        class TyreSetUsage : public Packet::Internal::Interface {
 
             struct Data {
 

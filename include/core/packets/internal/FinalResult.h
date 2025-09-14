@@ -13,7 +13,7 @@ namespace Packet {
 
     namespace Internal {
 
-        struct FinalResult : public Packet::Internal::Interface {
+        class FinalResult : public Packet::Internal::Interface {
 
             struct Data {
 

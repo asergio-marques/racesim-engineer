@@ -23,7 +23,8 @@ target_sources(${PROJECT_NAME} PRIVATE
     Standings.cpp
     SessionParticipants.cpp
     SessionSettings.cpp
-    TyreSetUsage.cpp)
+    TyreSetUsage.cpp
+    WeatherStatus.cpp)
 
 set_target_properties(${PROJECT_NAME}
 	PROPERTIES

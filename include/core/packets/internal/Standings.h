@@ -12,7 +12,7 @@ namespace Packet {
 
     namespace Internal {
 
-        struct Standings : public Packet::Internal::Interface {
+        class Standings : public Packet::Internal::Interface {
 
             struct Data {
 

@@ -18,6 +18,33 @@ namespace Session::Internal {
         Race            = 4
 
     };
+
+    enum class TypeDetail : uint8_t {
+
+        InvalidUnknown                  = 0,
+        TimeTrial                       = 1,
+        FreePracticeSingle              = 2,
+        FreePractice1                   = 3,
+        FreePractice2                   = 4,
+        FreePractice3                   = 5,
+        LapLimitQualifying              = 6,
+        QualifyingSingleSession         = 7,
+        QualifyingSession1              = 8,
+        QualifyingSession2              = 9,
+        QualifyingSession3              = 10,
+        HyperpoleQualifying             = 11,
+        QualifyingSprintSingleSession   = 12,
+        QualifyingSprintSession1        = 13,
+        QualifyingSprintSession2        = 14,
+        QualifyingSprintSession3        = 15,
+        FeatureRace                     = 16,
+        SprintRace                      = 17,
+        RaceMultiple1                   = 18,
+        RaceMultiple2                   = 19,
+        RaceMultiple3                   = 20
+
+    };
+
     enum class LimitType : uint8_t {
 
         InvalidUnknown  = 0,
@@ -100,6 +127,33 @@ namespace Session::Internal {
 
     };
 
+    enum class WeatherType : uint8_t {
+
+        InvalidUnknown      = 0,
+        Clear               = 1,
+        Cloudy              = 2,
+        Overcast            = 3,
+        LightRain           = 4,
+        HeavyRain           = 5,
+        RainWithLightning   = 6
+
+    };
+
+    enum class Cardinality : uint8_t {
+
+        InvalidUnknown  = 0,
+        None            = 1,
+        North           = 2,
+        NorthEast       = 3,
+        East            = 4,
+        SouthEast       = 5,
+        South           = 6,
+        SouthWest       = 7,
+        West            = 8,
+        NorthWest       = 9
+
+    };
+
     struct Participant {
 
         // Whether the current participant is the player
@@ -174,6 +228,37 @@ namespace Session::Internal {
 
         // Distance of Sector 3, if available (meters)
         uint16_t m_sector3Distance = 0.0f;
+
+    };
+
+    struct WeatherSample {
+
+        // To what session type this weather sample pertains
+        Session::Internal::TypeDetail m_sessionType = Session::Internal::TypeDetail::InvalidUnknown;
+
+        // Number of minutes since the start of the session to which this sample pertains
+        uint16_t m_minutesSinceStart = 0;
+
+        // Overall descriptor for the weather felt at the moment this sample pertains to
+        Session::Internal::WeatherType m_overall = Session::Internal::WeatherType::InvalidUnknown;
+
+        // Atmospheric temperature (Celsius)
+        int8_t m_airTemp = 0;
+        
+        // Track temperature (Celsius)
+        int8_t m_trackTemp = 0;
+
+        // Relative atmospheric humidity (percentage)
+        uint8_t m_humidity = 0;
+
+        // Likelihood of rain (percentage)
+        uint8_t m_rain = 0;
+
+        // Velocity of the wind (tenth of a meter/second)
+        uint8_t m_windSpeed = 0;
+
+        // Direction from which the wind is blowing
+        Session::Internal::Cardinality m_windDirection = Session::Internal::Cardinality::InvalidUnknown;
 
     };
 

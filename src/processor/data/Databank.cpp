@@ -259,6 +259,7 @@ const Processor::Exporter::Interface* Processor::Data::Databank::getExporter() c
 
 void Processor::Data::Databank::triggerAutoExport() {
 
+    // TODO investigate why auto export of race is not being done correctly
     // Check if the user has activated the auto export option, and export if so
     if (m_presenter) {
 

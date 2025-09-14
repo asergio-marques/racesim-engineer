@@ -98,8 +98,8 @@ void Processor::Data::LapHistoryData::completeData(const uint8_t id, const uint8
     if (!m_isDataComplete) {
 
         // check for the final lap entry
-        auto it = m_laps.find(numLaps);
-        if (it != m_laps.end()) {
+        auto it = m_laps.rbegin();
+        if (it != m_laps.rend()) {
 
             auto& lap = it->second;
 

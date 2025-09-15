@@ -108,56 +108,88 @@ Generalizer::Adapter::F1_25::ConvertSessionDataPacket(const Packet::Game::F1_25:
     ExtractSessionSettings(inputPacket, trackInfo, settings);
     Packet::Internal::SessionSettings* sessionDataPacket =
         new Packet::Internal::SessionSettings(inputPacket->GetHeader()->GetFrameIdentifier(), trackInfo, settings);
-    
-    Session::Internal::RoundDetail currentRoundType = Session::Internal::RoundDetail::InvalidUnknown;
-    Session::Internal::TypeDetail currentSessionType = Session::Internal::TypeDetail::InvalidUnknown;
-            
-    auto typeIt = Generalizer::Maps::F1_25::SESSION_TYPE_MAP.find({ inputPacket->GetFormula(), inputPacket->GetSessionType() });
-    if (typeIt != Generalizer::Maps::F1_25::SESSION_TYPE_MAP.end()) {
-                
-        currentRoundType = typeIt->second.first;
-        currentSessionType = typeIt->second.second;
+
+    // This is extremely ugly, but if the weekend has a sprint format, then Race1 is the sprint and Race2 the feature
+    // However, if the weekend does not have a sprint format, then Race1 is the feature
+    // We need to check the entire structure to then do the correct mapping; since it's easier to assume sprint by default,
+    // we only need to correct this after using this check
+    std::vector<Session::Game::F1_25::Type> allSessions;
+    auto* weekendEntry = inputPacket->GetWeekendStructure();
+    bool hasSprint = false;
+    for (size_t i = 0; i < inputPacket->GetNumSessionsInWeekend(); ++i && ++weekendEntry) {
+
+        allSessions.push_back(weekendEntry ? *weekendEntry : Session::Game::F1_25::Type::InvalidUnknown);
 
     }
+    if (std::find(allSessions.begin(), allSessions.end(), Session::Game::F1_25::Type::Race1) != allSessions.end() &&
+        std::find(allSessions.begin(), allSessions.end(), Session::Game::F1_25::Type::Race2) != allSessions.end()) {
+        
+        hasSprint = true;
 
-    Packet::Internal::WeatherStatus* weatherPacket =
-        new Packet::Internal::WeatherStatus(inputPacket->GetHeader()->GetFrameIdentifier(),
-            currentRoundType,
-            currentSessionType,
-            (inputPacket->GetSessionDuration() / 60) - (inputPacket->GetSessionTimeLeft() / 60));
+    }
+    // only create and send the weather packet if the input packet actually contains all the needed information
+    // there is a problem in frame 0 that the number of sessions in the weekend is 0, and for that reason the weather data cannot be properly parsed
+    bool isValid = !allSessions.empty();
+    if (isValid) {
 
-    auto* sample = inputPacket->GetWeatherForecastSamples();
-    for (size_t i = 0; i < inputPacket->GetNumWeatherForecastSamples(); ++i && ++sample) {
+        Session::Internal::RoundDetail currentRoundType = Session::Internal::RoundDetail::InvalidUnknown;
+        Session::Internal::TypeDetail currentSessionType = Session::Internal::TypeDetail::InvalidUnknown;
 
-        if (sample) {
+        auto typeIt = Generalizer::Maps::F1_25::SESSION_TYPE_MAP.find({ inputPacket->GetFormula(), inputPacket->GetSessionType() });
+        if (typeIt != Generalizer::Maps::F1_25::SESSION_TYPE_MAP.end()) {
 
-            Session::Internal::WeatherSample data;
-            
-            typeIt = Generalizer::Maps::F1_25::SESSION_TYPE_MAP.find({ inputPacket->GetFormula(), sample->m_sessionType });
-            if (typeIt != Generalizer::Maps::F1_25::SESSION_TYPE_MAP.end()) {
-                
-                Session::Internal::Descriptor d{typeIt->second.first, typeIt->second.second};
-                data.m_descriptor = d;
-
-            }
-            data.m_timeOffset = sample->m_timeOffset;
-            auto weatherIt = Generalizer::Maps::F1_25::WEATHER_TYPE_MAP.find(sample->m_weather);
-            if (weatherIt != Generalizer::Maps::F1_25::WEATHER_TYPE_MAP.end()) {
-                
-                data.m_overall = weatherIt->second;
-
-            }
-            data.m_airTemp = sample->m_airTemperature;
-            data.m_trackTemp = sample->m_trackTemperature;
-            data.m_rain = sample->m_rainPercentage;
-
-            weatherPacket->InsertData(data);
+            currentRoundType = typeIt->second.first;
+            currentSessionType = typeIt->second.second;
 
         }
 
+        Packet::Internal::WeatherStatus* weatherPacket =
+            new Packet::Internal::WeatherStatus(inputPacket->GetHeader()->GetFrameIdentifier(),
+                currentRoundType,
+                currentSessionType,
+                (inputPacket->GetSessionDuration() / 60) - (inputPacket->GetSessionTimeLeft() / 60));
+        auto* sample = inputPacket->GetWeatherForecastSamples();
+        for (size_t i = 0; i < inputPacket->GetNumWeatherForecastSamples(); ++i && ++sample) {
+
+            if (sample) {
+
+                Session::Internal::WeatherSample data;
+                // see comment above regarding sprint sessions and Race1/Race2 (thank you Codemasters)
+                auto actualSessionType = sample->m_sessionType;
+                if (!hasSprint && (actualSessionType == Session::Game::F1_25::Type::Race1)) {
+
+                    actualSessionType = Session::Game::F1_25::Type::Race2;
+
+                }
+                typeIt = Generalizer::Maps::F1_25::SESSION_TYPE_MAP.find({ inputPacket->GetFormula(), actualSessionType });
+                if (typeIt != Generalizer::Maps::F1_25::SESSION_TYPE_MAP.end()) {
+
+                    Session::Internal::Descriptor d{ typeIt->second.first, typeIt->second.second };
+                    data.m_descriptor = d;
+
+                }
+                data.m_timeOffset = sample->m_timeOffset;
+                auto weatherIt = Generalizer::Maps::F1_25::WEATHER_TYPE_MAP.find(sample->m_weather);
+                if (weatherIt != Generalizer::Maps::F1_25::WEATHER_TYPE_MAP.end()) {
+
+                    data.m_overall = weatherIt->second;
+
+                }
+                data.m_airTemp = sample->m_airTemperature;
+                data.m_trackTemp = sample->m_trackTemperature;
+                data.m_rain = sample->m_rainPercentage;
+
+                weatherPacket->InsertData(data);
+
+            }
+
+        }
+
+        return { sessionDataPacket, weatherPacket };
+
     }
 
-    return { sessionDataPacket, weatherPacket };
+    return { sessionDataPacket };
 
 }
 

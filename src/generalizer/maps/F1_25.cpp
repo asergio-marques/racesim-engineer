@@ -89,10 +89,10 @@ Generalizer::Maps::F1_25::SESSION_TYPE_MAP = {
         { Session::Internal::RoundDetail::Sprint, Session::Internal::TypeDetail::LapLimitQualifying } },
 
     { { Session::Game::F1_25::Formula::F1_Modern, Session::Game::F1_25::Type::Race1 },
-        { Session::Internal::RoundDetail::Feature, Session::Internal::TypeDetail::Race } },
+        { Session::Internal::RoundDetail::Sprint, Session::Internal::TypeDetail::Race } },
 
     { { Session::Game::F1_25::Formula::F1_Modern, Session::Game::F1_25::Type::Race2 },
-        { Session::Internal::RoundDetail::Sprint, Session::Internal::TypeDetail::Race } },
+        { Session::Internal::RoundDetail::Feature, Session::Internal::TypeDetail::Race } },
 
     { { Session::Game::F1_25::Formula::F1_Modern, Session::Game::F1_25::Type::Race3 },
         { Session::Internal::RoundDetail::Feature, Session::Internal::TypeDetail::Race } },
@@ -144,10 +144,10 @@ Generalizer::Maps::F1_25::SESSION_TYPE_MAP = {
         { Session::Internal::RoundDetail::Sprint, Session::Internal::TypeDetail::LapLimitQualifying } },
 
     { { Session::Game::F1_25::Formula::F1_Generic, Session::Game::F1_25::Type::Race1 },
-        { Session::Internal::RoundDetail::Feature, Session::Internal::TypeDetail::Race } },
+        { Session::Internal::RoundDetail::Sprint, Session::Internal::TypeDetail::Race } },
 
     { { Session::Game::F1_25::Formula::F1_Generic, Session::Game::F1_25::Type::Race2 },
-        { Session::Internal::RoundDetail::Sprint, Session::Internal::TypeDetail::Race } },
+        { Session::Internal::RoundDetail::Feature, Session::Internal::TypeDetail::Race } },
 
     { { Session::Game::F1_25::Formula::F1_Generic, Session::Game::F1_25::Type::Race3 },
         { Session::Internal::RoundDetail::Feature, Session::Internal::TypeDetail::Race } },
@@ -200,10 +200,10 @@ Generalizer::Maps::F1_25::SESSION_TYPE_MAP = {
         { Session::Internal::RoundDetail::Sprint, Session::Internal::TypeDetail::LapLimitQualifying } },
 
     { { Session::Game::F1_25::Formula::Esports, Session::Game::F1_25::Type::Race1 },
-        { Session::Internal::RoundDetail::Feature, Session::Internal::TypeDetail::Race } },
+        { Session::Internal::RoundDetail::Sprint, Session::Internal::TypeDetail::Race } },
 
     { { Session::Game::F1_25::Formula::Esports, Session::Game::F1_25::Type::Race2 },
-        { Session::Internal::RoundDetail::Sprint, Session::Internal::TypeDetail::Race } },
+        { Session::Internal::RoundDetail::Feature, Session::Internal::TypeDetail::Race } },
 
     { { Session::Game::F1_25::Formula::Esports, Session::Game::F1_25::Type::Race3 },
         { Session::Internal::RoundDetail::Feature, Session::Internal::TypeDetail::Race } },
@@ -255,10 +255,10 @@ Generalizer::Maps::F1_25::SESSION_TYPE_MAP = {
         { Session::Internal::RoundDetail::Sprint, Session::Internal::TypeDetail::LapLimitQualifying } },
 
     { { Session::Game::F1_25::Formula::F1_World, Session::Game::F1_25::Type::Race1 },
-        { Session::Internal::RoundDetail::Feature, Session::Internal::TypeDetail::Race } },
+        { Session::Internal::RoundDetail::Sprint, Session::Internal::TypeDetail::Race } },
 
     { { Session::Game::F1_25::Formula::F1_World, Session::Game::F1_25::Type::Race2 },
-        { Session::Internal::RoundDetail::Sprint, Session::Internal::TypeDetail::Race } },
+        { Session::Internal::RoundDetail::Feature, Session::Internal::TypeDetail::Race } },
 
     { { Session::Game::F1_25::Formula::F1_World, Session::Game::F1_25::Type::Race3 },
         { Session::Internal::RoundDetail::Feature, Session::Internal::TypeDetail::Race } },

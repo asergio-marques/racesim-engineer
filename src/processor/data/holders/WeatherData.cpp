@@ -11,7 +11,7 @@
 
 
 
-void Processor::Data::WeatherData::Initialized() const {
+bool Processor::Data::WeatherData::Initialized() const {
 
     return !m_weatherMap.empty();
 
@@ -24,7 +24,7 @@ void Processor::Data::WeatherData::updateWeather(const Session::Internal::Descri
     
     Processor::Data::OrderedWeatherData orderedData{ minutesSinceStart, sample.m_timeOffset };
 
-    const auto it = m_weatherMap.find(descriptor)
+    const auto it = m_weatherMap.find(descriptor);
     if (it != m_weatherMap.end()){
 
         auto& sessionWeatherEntry = it->second;
@@ -34,8 +34,10 @@ void Processor::Data::WeatherData::updateWeather(const Session::Internal::Descri
 
     }
     else {
+        std::vector<Processor::Data::OrderedWeatherData> v;
+        v.push_back(orderedData);
 
-        m_weatherMap.emplace(descriptor, { orderedData });
+        m_weatherMap.emplace(descriptor, v);
 
     }
 
@@ -156,7 +158,7 @@ void Processor::Data::WeatherData::Print() {
             std::cout << "| " << sessionString << " | "
             << std::to_string(data.m_minutesSinceStart) << " mins | "
             << weatherType << " | "
-            << std::to_string(data.m_sample.m_rainPercentage) << "% rain | "
+            << std::to_string(data.m_sample.m_rain) << "% rain | "
             << std::to_string(data.m_sample.m_trackTemp) << "ºC track temp | "
             << std::to_string(data.m_sample.m_airTemp) << "ºC air temp | "
             << std::endl;

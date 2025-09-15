@@ -26,10 +26,10 @@ namespace Session::Internal {
         Session1        = 2,
         Session2        = 3,
         Session3        = 4,
-        Feature         = 5,
-        Sprint          = 6
+        Sprint          = 5,
+        Feature         = 6
 
-    }
+    };
 
     enum class TypeDetail : uint8_t {
 
@@ -194,13 +194,23 @@ namespace Session::Internal {
 
     struct Descriptor {
 
+        bool operator<(const Descriptor& other) const {
+            if (m_roundType < other.m_roundType) {
+                return true;
+            }
+            else if (m_roundType == other.m_roundType) {
+                return (m_sessionType < other.m_sessionType);
+            }
+            return false;
+        }
+
         // The session format to which this data pertains (e.g. sprint/feature)
         Session::Internal::RoundDetail m_roundType = Session::Internal::RoundDetail::InvalidUnknown;
 
         // Session type to which this data pertains
         Session::Internal::TypeDetail m_sessionType = Session::Internal::TypeDetail::InvalidUnknown;
 
-    }
+    };
 
     struct Settings {
 

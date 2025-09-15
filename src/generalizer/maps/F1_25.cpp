@@ -46,155 +46,224 @@ const std::map<
 Generalizer::Maps::F1_25::SESSION_TYPE_MAP = {
     
     // F1_Modern ruleset
-    { { Session::Game::F1_25::F1_Modern, Session::Game::F1_25::FreePractice1 },
+    { { Session::Game::F1_25::Formula::F1_Modern, Session::Game::F1_25::Type::FreePractice1 },
         { Session::Internal::RoundDetail::Feature, Session::Internal::TypeDetail::FreePractice1 } },
-    { { Session::Game::F1_25::F1_Modern, Session::Game::F1_25::FreePractice2 },
+
+    { { Session::Game::F1_25::Formula::F1_Modern, Session::Game::F1_25::Type::FreePractice2 },
         { Session::Internal::RoundDetail::Feature, Session::Internal::TypeDetail::FreePractice2 } },
-    { { Session::Game::F1_25::F1_Modern, Session::Game::F1_25::FreePractice3 },
+
+    { { Session::Game::F1_25::Formula::F1_Modern, Session::Game::F1_25::Type::FreePractice3 },
         { Session::Internal::RoundDetail::Feature, Session::Internal::TypeDetail::FreePractice3 } },
-    { { Session::Game::F1_25::F1_Modern, Session::Game::F1_25::ShortPractice },
+
+    { { Session::Game::F1_25::Formula::F1_Modern, Session::Game::F1_25::Type::ShortPractice },
         { Session::Internal::RoundDetail::Feature, Session::Internal::TypeDetail::FreePracticeSingle } },
-    { { Session::Game::F1_25::F1_Modern, Session::Game::F1_25::Qualifying1 },
-        { Session::Internal::RoundDetail::Feature, Session::Internal::TypeDetail::Qualifying1 } },
-    { { Session::Game::F1_25::F1_Modern, Session::Game::F1_25::Qualifying2 },
-        { Session::Internal::RoundDetail::Feature, Session::Internal::TypeDetail::Qualifying2 } },
-    { { Session::Game::F1_25::F1_Modern, Session::Game::F1_25::Qualifying3 },
-        { Session::Internal::RoundDetail::Feature, Session::Internal::TypeDetail::Qualifying3 } },
-    { { Session::Game::F1_25::F1_Modern, Session::Game::F1_25::ShortQualifying },
+
+    { { Session::Game::F1_25::Formula::F1_Modern, Session::Game::F1_25::Type::Qualifying1 },
+        { Session::Internal::RoundDetail::Feature, Session::Internal::TypeDetail::QualifyingSession1 } },
+
+    { { Session::Game::F1_25::Formula::F1_Modern, Session::Game::F1_25::Type::Qualifying2 },
+        { Session::Internal::RoundDetail::Feature, Session::Internal::TypeDetail::QualifyingSession2 } },
+
+    { { Session::Game::F1_25::Formula::F1_Modern, Session::Game::F1_25::Type::Qualifying3 },
+        { Session::Internal::RoundDetail::Feature, Session::Internal::TypeDetail::QualifyingSession3 } },
+
+    { { Session::Game::F1_25::Formula::F1_Modern, Session::Game::F1_25::Type::ShortQualifying },
         { Session::Internal::RoundDetail::Feature, Session::Internal::TypeDetail::QualifyingSingleSession } },
-    { { Session::Game::F1_25::F1_Modern, Session::Game::F1_25::OneShotQualifying },
+
+    { { Session::Game::F1_25::Formula::F1_Modern, Session::Game::F1_25::Type::OneShotQualifying },
         { Session::Internal::RoundDetail::Feature, Session::Internal::TypeDetail::LapLimitQualifying } },
-    { { Session::Game::F1_25::F1_Modern, Session::Game::F1_25::SprintShootout1 },
+
+    { { Session::Game::F1_25::Formula::F1_Modern, Session::Game::F1_25::Type::SprintShootout1 },
         { Session::Internal::RoundDetail::Sprint, Session::Internal::TypeDetail::QualifyingSession1 } },
-    { { Session::Game::F1_25::F1_Modern, Session::Game::F1_25::SprintShootout2 },
+
+    { { Session::Game::F1_25::Formula::F1_Modern, Session::Game::F1_25::Type::SprintShootout2 },
         { Session::Internal::RoundDetail::Sprint, Session::Internal::TypeDetail::QualifyingSession2 } },
-    { { Session::Game::F1_25::F1_Modern, Session::Game::F1_25::SprintShootout3 },
+
+    { { Session::Game::F1_25::Formula::F1_Modern, Session::Game::F1_25::Type::SprintShootout3 },
         { Session::Internal::RoundDetail::Sprint, Session::Internal::TypeDetail::QualifyingSession3 } },
-    { { Session::Game::F1_25::F1_Modern, Session::Game::F1_25::ShortSprintShootout },
+
+    { { Session::Game::F1_25::Formula::F1_Modern, Session::Game::F1_25::Type::ShortSprintShootout },
         { Session::Internal::RoundDetail::Sprint, Session::Internal::TypeDetail::QualifyingSingleSession } },
-    { { Session::Game::F1_25::F1_Modern, Session::Game::F1_25::OneShotSprintShootout },
+
+    { { Session::Game::F1_25::Formula::F1_Modern, Session::Game::F1_25::Type::OneShotSprintShootout },
         { Session::Internal::RoundDetail::Sprint, Session::Internal::TypeDetail::LapLimitQualifying } },
-    { { Session::Game::F1_25::F1_Modern, Session::Game::F1_25::Race1 },
+
+    { { Session::Game::F1_25::Formula::F1_Modern, Session::Game::F1_25::Type::Race1 },
         { Session::Internal::RoundDetail::Feature, Session::Internal::TypeDetail::Race } },
-    { { Session::Game::F1_25::F1_Modern, Session::Game::F1_25::Race2 },
+
+    { { Session::Game::F1_25::Formula::F1_Modern, Session::Game::F1_25::Type::Race2 },
         { Session::Internal::RoundDetail::Sprint, Session::Internal::TypeDetail::Race } },
-    { { Session::Game::F1_25::F1_Modern, Session::Game::F1_25::Race3 },
+
+    { { Session::Game::F1_25::Formula::F1_Modern, Session::Game::F1_25::Type::Race3 },
         { Session::Internal::RoundDetail::Feature, Session::Internal::TypeDetail::Race } },
-    { { Session::Game::F1_25::F1_Modern, Session::Game::F1_25::TimeTrial },
+
+    { { Session::Game::F1_25::Formula::F1_Modern, Session::Game::F1_25::Type::TimeTrial },
         { Session::Internal::RoundDetail::NotApplicable, Session::Internal::TypeDetail::TimeTrial } },
 
     // F1_Generic ruleset
-    { { Session::Game::F1_25::F1_Generic, Session::Game::F1_25::FreePractice1 },
+    { { Session::Game::F1_25::Formula::F1_Generic, Session::Game::F1_25::Type::FreePractice1 },
         { Session::Internal::RoundDetail::Feature, Session::Internal::TypeDetail::FreePractice1 } },
-    { { Session::Game::F1_25::F1_Generic, Session::Game::F1_25::FreePractice2 },
+
+    { { Session::Game::F1_25::Formula::F1_Generic, Session::Game::F1_25::Type::FreePractice2 },
         { Session::Internal::RoundDetail::Feature, Session::Internal::TypeDetail::FreePractice2 } },
-    { { Session::Game::F1_25::F1_Generic, Session::Game::F1_25::FreePractice3 },
+
+    { { Session::Game::F1_25::Formula::F1_Generic, Session::Game::F1_25::Type::FreePractice3 },
         { Session::Internal::RoundDetail::Feature, Session::Internal::TypeDetail::FreePractice3 } },
-    { { Session::Game::F1_25::F1_Generic, Session::Game::F1_25::ShortPractice },
+
+    { { Session::Game::F1_25::Formula::F1_Generic, Session::Game::F1_25::Type::ShortPractice },
         { Session::Internal::RoundDetail::Feature, Session::Internal::TypeDetail::FreePracticeSingle } },
-    { { Session::Game::F1_25::F1_Generic, Session::Game::F1_25::Qualifying1 },
-        { Session::Internal::RoundDetail::Feature, Session::Internal::TypeDetail::Qualifying1 } },
-    { { Session::Game::F1_25::F1_Generic, Session::Game::F1_25::Qualifying2 },
-        { Session::Internal::RoundDetail::Feature, Session::Internal::TypeDetail::Qualifying2 } },
-    { { Session::Game::F1_25::F1_Generic, Session::Game::F1_25::Qualifying3 },
-        { Session::Internal::RoundDetail::Feature, Session::Internal::TypeDetail::Qualifying3 } },
-    { { Session::Game::F1_25::F1_Generic, Session::Game::F1_25::ShortQualifying },
+
+    { { Session::Game::F1_25::Formula::F1_Generic, Session::Game::F1_25::Type::Qualifying1 },
+        { Session::Internal::RoundDetail::Feature, Session::Internal::TypeDetail::QualifyingSession1 } },
+
+    { { Session::Game::F1_25::Formula::F1_Generic, Session::Game::F1_25::Type::Qualifying2 },
+        { Session::Internal::RoundDetail::Feature, Session::Internal::TypeDetail::QualifyingSession2 } },
+
+    { { Session::Game::F1_25::Formula::F1_Generic, Session::Game::F1_25::Type::Qualifying3 },
+        { Session::Internal::RoundDetail::Feature, Session::Internal::TypeDetail::QualifyingSession3 } },
+
+    { { Session::Game::F1_25::Formula::F1_Generic, Session::Game::F1_25::Type::ShortQualifying },
         { Session::Internal::RoundDetail::Feature, Session::Internal::TypeDetail::QualifyingSingleSession } },
-    { { Session::Game::F1_25::F1_Generic, Session::Game::F1_25::OneShotQualifying },
+
+    { { Session::Game::F1_25::Formula::F1_Generic, Session::Game::F1_25::Type::OneShotQualifying },
         { Session::Internal::RoundDetail::Feature, Session::Internal::TypeDetail::LapLimitQualifying } },
-    { { Session::Game::F1_25::F1_Generic, Session::Game::F1_25::SprintShootout1 },
+
+    { { Session::Game::F1_25::Formula::F1_Generic, Session::Game::F1_25::Type::SprintShootout1 },
         { Session::Internal::RoundDetail::Sprint, Session::Internal::TypeDetail::QualifyingSession1 } },
-    { { Session::Game::F1_25::F1_Generic, Session::Game::F1_25::SprintShootout2 },
+
+    { { Session::Game::F1_25::Formula::F1_Generic, Session::Game::F1_25::Type::SprintShootout2 },
         { Session::Internal::RoundDetail::Sprint, Session::Internal::TypeDetail::QualifyingSession2 } },
-    { { Session::Game::F1_25::F1_Generic, Session::Game::F1_25::SprintShootout3 },
+
+    { { Session::Game::F1_25::Formula::F1_Generic, Session::Game::F1_25::Type::SprintShootout3 },
         { Session::Internal::RoundDetail::Sprint, Session::Internal::TypeDetail::QualifyingSession3 } },
-    { { Session::Game::F1_25::F1_Generic, Session::Game::F1_25::ShortSprintShootout },
+
+    { { Session::Game::F1_25::Formula::F1_Generic, Session::Game::F1_25::Type::ShortSprintShootout },
         { Session::Internal::RoundDetail::Sprint, Session::Internal::TypeDetail::QualifyingSingleSession } },
-    { { Session::Game::F1_25::F1_Generic, Session::Game::F1_25::OneShotSprintShootout },
+
+    { { Session::Game::F1_25::Formula::F1_Generic, Session::Game::F1_25::Type::OneShotSprintShootout },
         { Session::Internal::RoundDetail::Sprint, Session::Internal::TypeDetail::LapLimitQualifying } },
-    { { Session::Game::F1_25::F1_Generic, Session::Game::F1_25::Race1 },
+
+    { { Session::Game::F1_25::Formula::F1_Generic, Session::Game::F1_25::Type::Race1 },
         { Session::Internal::RoundDetail::Feature, Session::Internal::TypeDetail::Race } },
-    { { Session::Game::F1_25::F1_Generic, Session::Game::F1_25::Race2 },
+
+    { { Session::Game::F1_25::Formula::F1_Generic, Session::Game::F1_25::Type::Race2 },
         { Session::Internal::RoundDetail::Sprint, Session::Internal::TypeDetail::Race } },
-    { { Session::Game::F1_25::F1_Generic, Session::Game::F1_25::Race3 },
+
+    { { Session::Game::F1_25::Formula::F1_Generic, Session::Game::F1_25::Type::Race3 },
         { Session::Internal::RoundDetail::Feature, Session::Internal::TypeDetail::Race } },
-    { { Session::Game::F1_25::F1_Generic, Session::Game::F1_25::TimeTrial },
+
+    { { Session::Game::F1_25::Formula::F1_Generic, Session::Game::F1_25::Type::TimeTrial },
         { Session::Internal::RoundDetail::NotApplicable, Session::Internal::TypeDetail::TimeTrial } },
 
+
     // Esports ruleset
-    { { Session::Game::F1_25::Esports, Session::Game::F1_25::FreePractice1 },
+    { { Session::Game::F1_25::Formula::Esports, Session::Game::F1_25::Type::FreePractice1 },
         { Session::Internal::RoundDetail::Feature, Session::Internal::TypeDetail::FreePractice1 } },
-    { { Session::Game::F1_25::Esports, Session::Game::F1_25::FreePractice2 },
+
+    { { Session::Game::F1_25::Formula::Esports, Session::Game::F1_25::Type::FreePractice2 },
         { Session::Internal::RoundDetail::Feature, Session::Internal::TypeDetail::FreePractice2 } },
-    { { Session::Game::F1_25::Esports, Session::Game::F1_25::FreePractice3 },
+
+    { { Session::Game::F1_25::Formula::Esports, Session::Game::F1_25::Type::FreePractice3 },
         { Session::Internal::RoundDetail::Feature, Session::Internal::TypeDetail::FreePractice3 } },
-    { { Session::Game::F1_25::Esports, Session::Game::F1_25::ShortPractice },
+
+    { { Session::Game::F1_25::Formula::Esports, Session::Game::F1_25::Type::ShortPractice },
         { Session::Internal::RoundDetail::Feature, Session::Internal::TypeDetail::FreePracticeSingle } },
-    { { Session::Game::F1_25::Esports, Session::Game::F1_25::Qualifying1 },
-        { Session::Internal::RoundDetail::Feature, Session::Internal::TypeDetail::Qualifying1 } },
-    { { Session::Game::F1_25::Esports, Session::Game::F1_25::Qualifying2 },
-        { Session::Internal::RoundDetail::Feature, Session::Internal::TypeDetail::Qualifying2 } },
-    { { Session::Game::F1_25::Esports, Session::Game::F1_25::Qualifying3 },
-        { Session::Internal::RoundDetail::Feature, Session::Internal::TypeDetail::Qualifying3 } },
-    { { Session::Game::F1_25::Esports, Session::Game::F1_25::ShortQualifying },
+
+    { { Session::Game::F1_25::Formula::Esports, Session::Game::F1_25::Type::Qualifying1 },
+        { Session::Internal::RoundDetail::Feature, Session::Internal::TypeDetail::QualifyingSession1 } },
+
+    { { Session::Game::F1_25::Formula::Esports, Session::Game::F1_25::Type::Qualifying2 },
+        { Session::Internal::RoundDetail::Feature, Session::Internal::TypeDetail::QualifyingSession2 } },
+
+    { { Session::Game::F1_25::Formula::Esports, Session::Game::F1_25::Type::Qualifying3 },
+        { Session::Internal::RoundDetail::Feature, Session::Internal::TypeDetail::QualifyingSession3 } },
+
+    { { Session::Game::F1_25::Formula::Esports, Session::Game::F1_25::Type::ShortQualifying },
         { Session::Internal::RoundDetail::Feature, Session::Internal::TypeDetail::QualifyingSingleSession } },
-    { { Session::Game::F1_25::Esports, Session::Game::F1_25::OneShotQualifying },
+
+    { { Session::Game::F1_25::Formula::Esports, Session::Game::F1_25::Type::OneShotQualifying },
         { Session::Internal::RoundDetail::Feature, Session::Internal::TypeDetail::LapLimitQualifying } },
-    { { Session::Game::F1_25::Esports, Session::Game::F1_25::SprintShootout1 },
+
+    { { Session::Game::F1_25::Formula::Esports, Session::Game::F1_25::Type::SprintShootout1 },
         { Session::Internal::RoundDetail::Sprint, Session::Internal::TypeDetail::QualifyingSession1 } },
-    { { Session::Game::F1_25::Esports, Session::Game::F1_25::SprintShootout2 },
+
+    { { Session::Game::F1_25::Formula::Esports, Session::Game::F1_25::Type::SprintShootout2 },
         { Session::Internal::RoundDetail::Sprint, Session::Internal::TypeDetail::QualifyingSession2 } },
-    { { Session::Game::F1_25::Esports, Session::Game::F1_25::SprintShootout3 },
+
+    { { Session::Game::F1_25::Formula::Esports, Session::Game::F1_25::Type::SprintShootout3 },
         { Session::Internal::RoundDetail::Sprint, Session::Internal::TypeDetail::QualifyingSession3 } },
-    { { Session::Game::F1_25::Esports, Session::Game::F1_25::ShortSprintShootout },
+
+    { { Session::Game::F1_25::Formula::Esports, Session::Game::F1_25::Type::ShortSprintShootout },
         { Session::Internal::RoundDetail::Sprint, Session::Internal::TypeDetail::QualifyingSingleSession } },
-    { { Session::Game::F1_25::Esports, Session::Game::F1_25::OneShotSprintShootout },
+
+    { { Session::Game::F1_25::Formula::Esports, Session::Game::F1_25::Type::OneShotSprintShootout },
         { Session::Internal::RoundDetail::Sprint, Session::Internal::TypeDetail::LapLimitQualifying } },
-    { { Session::Game::F1_25::Esports, Session::Game::F1_25::Race1 },
+
+    { { Session::Game::F1_25::Formula::Esports, Session::Game::F1_25::Type::Race1 },
         { Session::Internal::RoundDetail::Feature, Session::Internal::TypeDetail::Race } },
-    { { Session::Game::F1_25::Esports, Session::Game::F1_25::Race2 },
+
+    { { Session::Game::F1_25::Formula::Esports, Session::Game::F1_25::Type::Race2 },
         { Session::Internal::RoundDetail::Sprint, Session::Internal::TypeDetail::Race } },
-    { { Session::Game::F1_25::Esports, Session::Game::F1_25::Race3 },
+
+    { { Session::Game::F1_25::Formula::Esports, Session::Game::F1_25::Type::Race3 },
         { Session::Internal::RoundDetail::Feature, Session::Internal::TypeDetail::Race } },
-    { { Session::Game::F1_25::Esports, Session::Game::F1_25::TimeTrial },
+
+    { { Session::Game::F1_25::Formula::Esports, Session::Game::F1_25::Type::TimeTrial },
         { Session::Internal::RoundDetail::NotApplicable, Session::Internal::TypeDetail::TimeTrial } },
 
     // F1_World ruleset
-    { { Session::Game::F1_25::F1_World, Session::Game::F1_25::FreePractice1 },
+    { { Session::Game::F1_25::Formula::F1_World, Session::Game::F1_25::Type::FreePractice1 },
         { Session::Internal::RoundDetail::Feature, Session::Internal::TypeDetail::FreePractice1 } },
-    { { Session::Game::F1_25::F1_World, Session::Game::F1_25::FreePractice2 },
+
+    { { Session::Game::F1_25::Formula::F1_World, Session::Game::F1_25::Type::FreePractice2 },
         { Session::Internal::RoundDetail::Feature, Session::Internal::TypeDetail::FreePractice2 } },
-    { { Session::Game::F1_25::F1_World, Session::Game::F1_25::FreePractice3 },
+
+    { { Session::Game::F1_25::Formula::F1_World, Session::Game::F1_25::Type::FreePractice3 },
         { Session::Internal::RoundDetail::Feature, Session::Internal::TypeDetail::FreePractice3 } },
-    { { Session::Game::F1_25::F1_World, Session::Game::F1_25::ShortPractice },
+
+    { { Session::Game::F1_25::Formula::F1_World, Session::Game::F1_25::Type::ShortPractice },
         { Session::Internal::RoundDetail::Feature, Session::Internal::TypeDetail::FreePracticeSingle } },
-    { { Session::Game::F1_25::F1_World, Session::Game::F1_25::Qualifying1 },
-        { Session::Internal::RoundDetail::Feature, Session::Internal::TypeDetail::Qualifying1 } },
-    { { Session::Game::F1_25::F1_World, Session::Game::F1_25::Qualifying2 },
-        { Session::Internal::RoundDetail::Feature, Session::Internal::TypeDetail::Qualifying2 } },
-    { { Session::Game::F1_25::F1_World, Session::Game::F1_25::Qualifying3 },
-        { Session::Internal::RoundDetail::Feature, Session::Internal::TypeDetail::Qualifying3 } },
-    { { Session::Game::F1_25::F1_World, Session::Game::F1_25::ShortQualifying },
+
+    { { Session::Game::F1_25::Formula::F1_World, Session::Game::F1_25::Type::Qualifying1 },
+        { Session::Internal::RoundDetail::Feature, Session::Internal::TypeDetail::QualifyingSession1 } },
+
+    { { Session::Game::F1_25::Formula::F1_World, Session::Game::F1_25::Type::Qualifying2 },
+        { Session::Internal::RoundDetail::Feature, Session::Internal::TypeDetail::QualifyingSession2 } },
+
+    { { Session::Game::F1_25::Formula::F1_World, Session::Game::F1_25::Type::Qualifying3 },
+        { Session::Internal::RoundDetail::Feature, Session::Internal::TypeDetail::QualifyingSession3 } },
+
+    { { Session::Game::F1_25::Formula::F1_World, Session::Game::F1_25::Type::ShortQualifying },
         { Session::Internal::RoundDetail::Feature, Session::Internal::TypeDetail::QualifyingSingleSession } },
-    { { Session::Game::F1_25::F1_World, Session::Game::F1_25::OneShotQualifying },
+
+    { { Session::Game::F1_25::Formula::F1_World, Session::Game::F1_25::Type::OneShotQualifying },
         { Session::Internal::RoundDetail::Feature, Session::Internal::TypeDetail::LapLimitQualifying } },
-    { { Session::Game::F1_25::F1_World, Session::Game::F1_25::SprintShootout1 },
+
+    { { Session::Game::F1_25::Formula::F1_World, Session::Game::F1_25::Type::SprintShootout1 },
         { Session::Internal::RoundDetail::Sprint, Session::Internal::TypeDetail::QualifyingSession1 } },
-    { { Session::Game::F1_25::F1_World, Session::Game::F1_25::SprintShootout2 },
+
+    { { Session::Game::F1_25::Formula::F1_World, Session::Game::F1_25::Type::SprintShootout2 },
         { Session::Internal::RoundDetail::Sprint, Session::Internal::TypeDetail::QualifyingSession2 } },
-    { { Session::Game::F1_25::F1_World, Session::Game::F1_25::SprintShootout3 },
+
+    { { Session::Game::F1_25::Formula::F1_World, Session::Game::F1_25::Type::SprintShootout3 },
         { Session::Internal::RoundDetail::Sprint, Session::Internal::TypeDetail::QualifyingSession3 } },
-    { { Session::Game::F1_25::F1_World, Session::Game::F1_25::ShortSprintShootout },
+
+    { { Session::Game::F1_25::Formula::F1_World, Session::Game::F1_25::Type::ShortSprintShootout },
         { Session::Internal::RoundDetail::Sprint, Session::Internal::TypeDetail::QualifyingSingleSession } },
-    { { Session::Game::F1_25::F1_World, Session::Game::F1_25::OneShotSprintShootout },
+
+    { { Session::Game::F1_25::Formula::F1_World, Session::Game::F1_25::Type::OneShotSprintShootout },
         { Session::Internal::RoundDetail::Sprint, Session::Internal::TypeDetail::LapLimitQualifying } },
-    { { Session::Game::F1_25::F1_World, Session::Game::F1_25::Race1 },
+
+    { { Session::Game::F1_25::Formula::F1_World, Session::Game::F1_25::Type::Race1 },
         { Session::Internal::RoundDetail::Feature, Session::Internal::TypeDetail::Race } },
-    { { Session::Game::F1_25::F1_World, Session::Game::F1_25::Race2 },
+
+    { { Session::Game::F1_25::Formula::F1_World, Session::Game::F1_25::Type::Race2 },
         { Session::Internal::RoundDetail::Sprint, Session::Internal::TypeDetail::Race } },
-    { { Session::Game::F1_25::F1_World, Session::Game::F1_25::Race3 },
+
+    { { Session::Game::F1_25::Formula::F1_World, Session::Game::F1_25::Type::Race3 },
         { Session::Internal::RoundDetail::Feature, Session::Internal::TypeDetail::Race } },
-    { { Session::Game::F1_25::F1_World, Session::Game::F1_25::TimeTrial },
+
+    { { Session::Game::F1_25::Formula::F1_World, Session::Game::F1_25::Type::TimeTrial },
         { Session::Internal::RoundDetail::NotApplicable, Session::Internal::TypeDetail::TimeTrial } }
 
     // TODO F2 ruleset
@@ -212,8 +281,8 @@ Generalizer::Maps::F1_25::WEATHER_TYPE_MAP = {
     { Session::Game::F1_25::Weather::LightRain      , Session::Internal::WeatherType::LightRain },
     { Session::Game::F1_25::Weather::HeavyRain      , Session::Internal::WeatherType::HeavyRain },
     { Session::Game::F1_25::Weather::StormRain      , Session::Internal::WeatherType::RainWithLightning }
-    
-}
+
+};
 
 
 

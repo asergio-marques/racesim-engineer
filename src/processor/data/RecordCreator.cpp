@@ -236,7 +236,7 @@ void Processor::Data::RecordCreator::Init(const Packet::Internal::WeatherStatus*
         const auto& weatherData = packet->GetData(session);
         for (const auto& sample : weatherData) {
 
-            m_sessionRecord->updateWeather(packet->m_currentSession, sample, packet->m_minutesSinceStart);
+            m_sessionRecord->updateWeather(packet->GetCurrentSession(), sample, packet->m_minutesSinceStart);
 
         }
 

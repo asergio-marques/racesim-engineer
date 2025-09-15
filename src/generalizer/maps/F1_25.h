@@ -2,7 +2,7 @@
 #define GENERALIZER_MAPS_INCLUDE_F1_25_H_
 
 #include <map>
-#include <pair>
+#include <utility>
 #include "data/internal/Session.h"
 #include "data/internal/Tyre.h"
 #include "data/game/F1_25/Participant.h"

@@ -19,6 +19,7 @@ Processor::Data::OrderedWeatherData::OrderedWeatherData(const uint16_t minutesSi
 Processor::Data::OrderedWeatherData& Processor::Data::OrderedWeatherData::operator=(const Processor::Data::OrderedWeatherData& other) {
 
     m_sample = other.m_sample;
+    return *this;
 
 }
 

@@ -3,7 +3,7 @@
 
 #include <cstdint>
 #include <map>
-#include <pair>
+#include <vector>
 #include "data/internal/Session.h"
 #include "packets/internal/Interface.h"
 #include "packets/internal/Type.h"
@@ -29,19 +29,22 @@ namespace Packet {
             // Adds a weather sample into the packet
             void InsertData(Session::Internal::WeatherSample data);
 
+            // Retrieve the current session's format and type
+            const Session::Internal::Descriptor& GetCurrentSession() const;
+
             // Retrieve all the weather samples for a given format and session
             const std::vector<Session::Internal::WeatherSample>& GetData(Session::Internal::Descriptor descriptor) const;
 
             // Retrieve the session configurations for which samples are available in this packet
             const std::vector<Session::Internal::Descriptor> GetSessions() const;
 
-            // Identifies the current session's format (e.g. sprint, feature) and type (e.g. quali, race)
-            const Session::Internal::Descriptor m_currentSession;
-
             // Elapsed time since the start of the current session (minutes)
             const uint16_t m_minutesSinceStart;
 
             private:
+            // Identifies the current session's format (e.g. sprint, feature) and type (e.g. quali, race)
+            Session::Internal::Descriptor m_currentSession;
+
             // Map with weather samples organized in chronological order, per session type
             std::map<Session::Internal::Descriptor, std::vector<Session::Internal::WeatherSample>> m_weatherSamples;
 

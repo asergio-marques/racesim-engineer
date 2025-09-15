@@ -1,6 +1,6 @@
 #include "adapters/F1_25.h"
 
-#include <iostream>
+#include <cmath>
 #include <limits>
 #include <string>
 #include <map>
@@ -138,7 +138,7 @@ Generalizer::Adapter::F1_25::ConvertSessionDataPacket(const Packet::Game::F1_25:
 
             }
             data.m_timeOffset = sample->m_timeOffset;
-            weatherIt = Generalizer::Maps::F1_25::WEATHER_TYPE_MAP.find();
+            auto weatherIt = Generalizer::Maps::F1_25::WEATHER_TYPE_MAP.find(sample->m_weather);
             if (weatherIt != Generalizer::Maps::F1_25::WEATHER_TYPE_MAP.end()) {
                 
                 data.m_overall = weatherIt->second;

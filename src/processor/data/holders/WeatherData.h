@@ -22,7 +22,7 @@ namespace Processor {
             ~WeatherData() = default;
             
             // Validates the internal information and returns true if it meets the conditions for the start of a session
-            void Initialized() const;
+            bool Initialized() const;
 
             // Updates the weather samples stored with new information
             void updateWeather(const Session::Internal::Descriptor descriptor,

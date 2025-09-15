@@ -53,7 +53,8 @@ void Processor::Data::SessionRecord::updateWeather(const Session::Internal::Desc
     // update the current state for accuracy
     if (m_state && (sample.m_timeOffset == 0)) {
 
-        m_state->updateCurrentWeather(descriptor, sample, minutesSinceStart);
+        // TODO implement this
+        // m_state->updateCurrentWeather(descriptor, sample, minutesSinceStart);
 
     }
 

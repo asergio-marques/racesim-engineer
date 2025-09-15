@@ -110,104 +110,42 @@ Generalizer::Adapter::F1_25::ConvertSessionDataPacket(const Packet::Game::F1_25:
         new Packet::Internal::SessionSettings(inputPacket->GetHeader()->GetFrameIdentifier(), trackInfo, settings);
     Packet::Internal::WeatherStatus* weatherPacket =
         new Packet::Internal::WeatherStatus(inputPacket->GetHeader()->GetFrameIdentifier());
+    
+    Session::Internal::RoundDetail roundType = Session::Internal::RoundDetail::InvalidUnknown;
+    Session::Internal::TypeDetail sessionType = Session::Internal::TypeDetail::InvalidUnknown;
+    auto typeIt = Generalizer::Maps::F1_25::SESSION_TYPE_MAP.find({ inputPacket->GetFormula(), inputPacket->GetSessionType() });
+    if (typeIt != Generalizer::Maps::F1_25::SESSION_TYPE_MAP.end()) {
+                
+        roundType = typeIt->second.first;
+        sessionType =  typeIt->second.second;
+
+    }
     auto* sample = inputPacket->GetWeatherForecastSamples();
     for (size_t i = 0; i < inputPacket->GetNumWeatherForecastSamples(); ++i && ++sample) {
 
         if (sample) {
 
             Session::Internal::WeatherSample data;
-            //data.m_sessionType = 
+            data.m_roundType = roundType;
+            data.m_sessionType = sessionType;
+            data.m_minutesSinceStart = sample->m_timeOffset;
+            auto weatherIt = Generalizer::Maps::F1_25::WEATHER_TYPE_MAP.find();
+            if (weatherIt != Generalizer::Maps::F1_25::WEATHER_TYPE_MAP.end()) {
+                
+                data.m_overall = weatherIt->second;
 
+            }
+            data.m_airTemp = sample->m_airTemperature;
+            data.m_trackTemp = sample->m_trackTemperature;
+            data.m_rain = sample->m_rainPercentage;
 
             weatherPacket->InsertData(data);
 
         }
 
-        // TODO: implement a rudimentary session weather packet to be printed on the processor only when a session is deemed as started
-        std::string sessionType;
-        std::string weatherType;
-        if (sample) {
-            switch (sample->m_sessionType) {
-
-                case Session::Game::F1_25::Type::Qualifying1:
-                    sessionType = "Quali 1";
-                    break;
-
-                case Session::Game::F1_25::Type::Qualifying2:
-                    sessionType = "Quali 2";
-                    break;
-
-                case Session::Game::F1_25::Type::Qualifying3:
-                    sessionType = "Quali 3";
-                    break;
-
-                case Session::Game::F1_25::Type::ShortQualifying:
-                case Session::Game::F1_25::Type::OneShotQualifying:
-                    sessionType = "Quali";
-                    break;
-
-                case Session::Game::F1_25::Type::SprintShootout1:
-                    sessionType = "Sprint Quali 1";
-                    break;
-
-                case Session::Game::F1_25::Type::SprintShootout2:
-                    sessionType = "Sprint Quali 2";
-                    break;
-
-                case Session::Game::F1_25::Type::SprintShootout3:
-                    sessionType = "Sprint Quali 3";
-                    break;
-
-                case Session::Game::F1_25::Type::ShortSprintShootout:
-                case Session::Game::F1_25::Type::OneShotSprintShootout:
-                    sessionType = "Sprint Quali";
-                    break;
-
-                case Session::Game::F1_25::Type::Race1:
-                case Session::Game::F1_25::Type::Race2:
-                case Session::Game::F1_25::Type::Race3:
-                    // TODO what is sprint what is feature? it's weird so I'm not even gonna bother
-                    sessionType = "Race";
-                    break;
-
-                default:
-                    sessionType = "idk";
-
-            }
-            switch (sample->m_weather) {
-                case Session::Game::F1_25::Weather::Clear:
-                    weatherType = "Clear";
-                    break;
-
-                case Session::Game::F1_25::Weather::LightClouds:
-                    weatherType = "Cloudy";
-                    break;
-
-                case Session::Game::F1_25::Weather::Overcast:
-                    weatherType = "Overcast";
-                    break;
-
-                case Session::Game::F1_25::Weather::LightRain:
-                    weatherType = "Wet";
-                    break;
-                case Session::Game::F1_25::Weather::HeavyRain:
-                    weatherType = "Very Wet";
-                    break;
-
-                case Session::Game::F1_25::Weather::StormRain:
-                    weatherType = "Thunderstorm";
-                    break;
-
-                default:
-                    weatherType = "idk";
-
-            }
-
-        }
-
     }
 
-    return { sessionDataPacket };
+    return { sessionDataPacket, weatherPacket };
 
 }
 

@@ -19,6 +19,18 @@ namespace Session::Internal {
 
     };
 
+    enum class RoundDetail : uint8_t {
+
+        InvalidUnknown  = 0,
+        NotApplicable   = 1,
+        Session1        = 2,
+        Session2        = 3,
+        Session3        = 4,
+        Feature         = 5,
+        Sprint          = 6
+
+    }
+
     enum class TypeDetail : uint8_t {
 
         InvalidUnknown                  = 0,
@@ -33,15 +45,10 @@ namespace Session::Internal {
         QualifyingSession2              = 9,
         QualifyingSession3              = 10,
         HyperpoleQualifying             = 11,
-        QualifyingSprintSingleSession   = 12,
-        QualifyingSprintSession1        = 13,
-        QualifyingSprintSession2        = 14,
-        QualifyingSprintSession3        = 15,
-        FeatureRace                     = 16,
-        SprintRace                      = 17,
-        RaceMultiple1                   = 18,
-        RaceMultiple2                   = 19,
-        RaceMultiple3                   = 20
+        Race                            = 12,
+        RaceMultiple1                   = 13,
+        RaceMultiple2                   = 14,
+        RaceMultiple3                   = 15
 
     };
 
@@ -233,7 +240,10 @@ namespace Session::Internal {
 
     struct WeatherSample {
 
-        // To what session type this weather sample pertains
+        // The session format to which this weather sample pertains (e.g. sprint/feature)
+        Session::Internal::RoundDetail m_roundType = Session::Internal::RoundDetail::InvalidUnknown;
+
+        // Session type to which this weather sample pertains
         Session::Internal::TypeDetail m_sessionType = Session::Internal::TypeDetail::InvalidUnknown;
 
         // Number of minutes since the start of the session to which this sample pertains

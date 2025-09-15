@@ -108,28 +108,37 @@ Generalizer::Adapter::F1_25::ConvertSessionDataPacket(const Packet::Game::F1_25:
     ExtractSessionSettings(inputPacket, trackInfo, settings);
     Packet::Internal::SessionSettings* sessionDataPacket =
         new Packet::Internal::SessionSettings(inputPacket->GetHeader()->GetFrameIdentifier(), trackInfo, settings);
-    Packet::Internal::WeatherStatus* weatherPacket =
-        new Packet::Internal::WeatherStatus(inputPacket->GetHeader()->GetFrameIdentifier());
     
-    Session::Internal::RoundDetail roundType = Session::Internal::RoundDetail::InvalidUnknown;
-    Session::Internal::TypeDetail sessionType = Session::Internal::TypeDetail::InvalidUnknown;
+    Session::Internal::RoundDetail currentRoundType = Session::Internal::RoundDetail::InvalidUnknown;
+    Session::Internal::TypeDetail currentSessionType = Session::Internal::TypeDetail::InvalidUnknown;
+            
     auto typeIt = Generalizer::Maps::F1_25::SESSION_TYPE_MAP.find({ inputPacket->GetFormula(), inputPacket->GetSessionType() });
     if (typeIt != Generalizer::Maps::F1_25::SESSION_TYPE_MAP.end()) {
                 
-        roundType = typeIt->second.first;
-        sessionType =  typeIt->second.second;
+        currentRoundType = typeIt->second.first;
+        currentSessionType = typeIt->second.second;
 
     }
+
+    Packet::Internal::WeatherStatus* weatherPacket =
+        new Packet::Internal::WeatherStatus(inputPacket->GetHeader()->GetFrameIdentifier(), currentRoundType, currentSessionType, inputPacket->GetSessionDuration());
+
     auto* sample = inputPacket->GetWeatherForecastSamples();
     for (size_t i = 0; i < inputPacket->GetNumWeatherForecastSamples(); ++i && ++sample) {
 
         if (sample) {
 
             Session::Internal::WeatherSample data;
-            data.m_roundType = roundType;
-            data.m_sessionType = sessionType;
+            
+            typeIt = Generalizer::Maps::F1_25::SESSION_TYPE_MAP.find({ inputPacket->GetFormula(), sample->m_sessionType });
+            if (typeIt != Generalizer::Maps::F1_25::SESSION_TYPE_MAP.end()) {
+                
+                data.m_roundType = typeIt->second.first;
+                data.m_sessionType = typeIt->second.second;
+
+            }
             data.m_minutesSinceStart = sample->m_timeOffset;
-            auto weatherIt = Generalizer::Maps::F1_25::WEATHER_TYPE_MAP.find();
+            weatherIt = Generalizer::Maps::F1_25::WEATHER_TYPE_MAP.find();
             if (weatherIt != Generalizer::Maps::F1_25::WEATHER_TYPE_MAP.end()) {
                 
                 data.m_overall = weatherIt->second;

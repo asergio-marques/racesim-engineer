@@ -161,7 +161,7 @@ void Packet::Game::F1_25::SessionData::BuildPacket(const char* packetInfo, Packe
     helper->getVariableFromByteStream<>(packetInfo, &m_safetyCarStatus, arrayStatus);
     helper->getVariableFromByteStream<>(packetInfo, &m_isNetwork, arrayStatus);
     helper->getVariableFromByteStream<>(packetInfo, &m_numWeatherForecastSamples, arrayStatus);
-    helper->getVariableArrayFromByteStream<>(packetInfo, m_weatherForecastSamples, 56, arrayStatus);
+    helper->getVariableArrayFromByteStream<>(packetInfo, m_weatherForecastSamples, 64, arrayStatus);
     helper->getVariableFromByteStream<>(packetInfo, &m_isForecastApproximate, arrayStatus);
     helper->getVariableFromByteStream<>(packetInfo, &m_aiDifficulty, arrayStatus);
     helper->getVariableFromByteStream<>(packetInfo, &m_seasonLinkIdentifier, arrayStatus);

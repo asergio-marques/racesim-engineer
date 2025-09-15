@@ -253,8 +253,8 @@ namespace Session::Internal {
         // Descriptor of the format and session type to which this sample pertains
         Session::Internal::Descriptor m_descriptor{};
 
-        // Number of minutes since the start of the session to which this sample pertains
-        uint16_t m_minutesSinceStart = 0;
+        // Number of minutes from the current point in time to which this sample pertains
+        uint16_t m_timeOffset = 0;
 
         // Overall descriptor for the weather felt at the moment this sample pertains to
         Session::Internal::WeatherType m_overall = Session::Internal::WeatherType::InvalidUnknown;

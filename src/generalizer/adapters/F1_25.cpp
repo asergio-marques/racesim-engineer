@@ -137,7 +137,7 @@ Generalizer::Adapter::F1_25::ConvertSessionDataPacket(const Packet::Game::F1_25:
                 data.m_descriptor = d;
 
             }
-            data.m_minutesSinceStart = sample->m_timeOffset;
+            data.m_timeOffset = sample->m_timeOffset;
             weatherIt = Generalizer::Maps::F1_25::WEATHER_TYPE_MAP.find();
             if (weatherIt != Generalizer::Maps::F1_25::WEATHER_TYPE_MAP.end()) {
                 

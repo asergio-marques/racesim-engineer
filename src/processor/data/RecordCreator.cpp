@@ -231,13 +231,19 @@ void Processor::Data::RecordCreator::Init(const Packet::Internal::WeatherStatus*
 
     if (!packet || !m_sessionRecord) return;
 
-    for (const auto& session : packet->GetSessions()){
+    for (const auto& session : packet->GetSessions()) {
 
         const auto& weatherData = packet->GetData(session);
+        for (const auto& sample : weatherData) {
+
+            m_sessionRecord->updateWeather(packet->m_currentSession, sample, packet->m_minutesSinceStart);
+
+        }
 
     }
-
-
+    
+    // TODO remove this, this is temporary
+    m_sessionRecord->PrintWeather();
 
     VerifyAndPropagate();
 

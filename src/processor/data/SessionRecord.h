@@ -24,6 +24,10 @@ namespace Processor {
             // Validates the internal information and returns true if it meets the conditions for the start of a session
             const bool Initialized() const;
 
+            // Updates the weather data for this session (and other associated sessions) with further samples
+            void updateWeather(const Session::Internal::Descriptor descriptor,
+                const Session::Internal::WeatherSample& sample, const uint16_t minutesSinceStart);
+
             // Exposes the full info of the track the session is running on
             const Session::Internal::TrackInfo& getTrackInfo();
 
@@ -32,6 +36,9 @@ namespace Processor {
 
             // Exposes the internal state object for easier modification
             Processor::Data::SessionState* getModifiableState();
+
+            // TODO remove this once weather info is sent to the UI
+            void PrintWeather();
 
             private:
             // Holds the value of the most recent timestamp

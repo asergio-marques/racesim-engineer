@@ -34,6 +34,9 @@ namespace Processor {
             // To be used when the one running the app is not a player
             virtual void InjectRecords(Processor::Data::SessionRecord* sessionRecord,
                 std::map<const uint8_t, Processor::Data::DriverRecord*>* driverRecords) = 0;
+            
+            // Clears the references to the session records held, making it impossible to export results
+            virtual void ClearRecords() = 0;
 
             // Parses the information from the records into a pre-defined XML schema and outputs it
             // Returns the success of the operation

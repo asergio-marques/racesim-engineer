@@ -43,9 +43,22 @@ void Processor::Detector::SessionStartDataReady::Init(Processor::Data::SessionRe
 
     if (m_sessionRecord && m_driverRecords) {
 
+        if (m_workerThread.joinable()) m_workerThread.join();
         m_workerThread = std::thread(&Processor::Detector::SessionStartDataReady::Exec, this);
 
     }
+
+}
+
+
+
+void Processor::Detector::SessionStartDataReady::Deinit() {
+
+    if (!m_sessionRecord || !m_driverRecords) return;
+
+    Processor::Detector::Interface::doDeinit();
+
+    m_sentSessionStart = false;
 
 }
 
@@ -83,7 +96,7 @@ void Processor::Detector::SessionStartDataReady::Exec() {
 
         }
         // Thread is executed at 10Hz
-        std::this_thread::sleep_for(std::chrono::milliseconds(100));
+        std::this_thread::sleep_for(std::chrono::milliseconds(10));
 
     }
 

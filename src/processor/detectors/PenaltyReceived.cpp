@@ -28,6 +28,16 @@ void Processor::Detector::PenaltyReceived::Init(Processor::Data::SessionRecord* 
 
 
 
+void Processor::Detector::PenaltyReceived::Deinit() {
+
+    if (!m_sessionRecord || !m_driverRecords) return;
+
+    Processor::Detector::Interface::doDeinit();
+
+}
+
+
+
 void Processor::Detector::PenaltyReceived::AddWarnPenChange(const int8_t id, const int8_t diffWarns,
                 const int8_t diffTrackLims, const int32_t diffTimePens,
                 const int8_t diffStopGo, const int8_t diffDriveThrough) {

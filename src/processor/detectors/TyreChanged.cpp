@@ -28,9 +28,20 @@ void Processor::Detector::TyreChanged::Init(Processor::Data::SessionRecord* sess
 
     if (m_sessionRecord && m_driverRecords) {
 
+        if (m_workerThread.joinable()) m_workerThread.join();
         m_workerThread = std::thread(&Processor::Detector::TyreChanged::Exec, this);
 
     }
+
+}
+
+
+
+void Processor::Detector::TyreChanged::Deinit() {
+
+    if (!m_sessionRecord || !m_driverRecords) return;
+
+    Processor::Detector::Interface::doDeinit();
 
 }
 

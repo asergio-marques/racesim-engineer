@@ -12,7 +12,8 @@ namespace Presenter {
         public:
         IProcessor() = default;
         virtual ~IProcessor() = default;
-        virtual bool exportRaceToFolder(QString folderPath) = 0;
+        virtual bool exportSessionToFolder(QString folderPath) = 0;
+        virtual void clearSessionData() = 0;
 
     };
 

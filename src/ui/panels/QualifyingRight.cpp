@@ -25,15 +25,18 @@ UserInterface::Panel::QualifyingRight::QualifyingRight(UserInterface::PacketHand
 
     }
     m_driverStandings = new UserInterface::Widget::Standings(this);
-    if (m_driverStandings) {
+    if (handler) {
 
-        RegisterWidget(m_driverStandings);
-        connect(handler, &UserInterface::PacketHandler::QualiStart, m_driverStandings, &UserInterface::Widget::Standings::onQualiStart);
-        connect(handler, &UserInterface::PacketHandler::OvertakePerformed, m_driverStandings, &UserInterface::Widget::Standings::onOvertake);
-        connect(handler, &UserInterface::PacketHandler::PenaltyReceived, m_driverStandings, &UserInterface::Widget::Standings::onPenaltyReceived);
-        connect(handler, &UserInterface::PacketHandler::ParticipantStatusChanged, m_driverStandings, &UserInterface::Widget::Standings::onParticipantStatusChanged);
-        connect(handler, &UserInterface::PacketHandler::LapFinished, m_driverStandings, &UserInterface::Widget::Standings::onLapFinished);
-        connect(handler, &UserInterface::PacketHandler::TyreChanged, m_driverStandings, &UserInterface::Widget::Standings::onTyreChanged);
+        connect(handler, &UserInterface::PacketHandler::SessionEnd, this, &UserInterface::Panel::QualifyingRight::Cleanup);
+
+        if (m_driverStandings) {
+
+            RegisterWidget(m_driverStandings);
+            connect(handler, &UserInterface::PacketHandler::OvertakePerformed, m_driverStandings, &UserInterface::Widget::Standings::onOvertake);
+            connect(handler, &UserInterface::PacketHandler::ParticipantStatusChanged, m_driverStandings, &UserInterface::Widget::Standings::onParticipantStatusChanged);
+            connect(handler, &UserInterface::PacketHandler::LapFinished, m_driverStandings, &UserInterface::Widget::Standings::onLapFinished);
+
+        }
 
     }
 
@@ -56,6 +59,36 @@ void UserInterface::Panel::QualifyingRight::ResizePanel(const QSize& newUsefulSi
         uint16_t centerX = newUsefulSize.width() / 2;
         uint16_t centerY = newUsefulSize.height() / 2;
         m_driverStandings->move(centerX, centerY, true, true);
+
+    }
+
+}
+
+
+
+void UserInterface::Panel::QualifyingRight::Startup(const Packet::Event::Interface* startInfo) {
+
+    if (startInfo) {
+
+        auto qualiStartInfo = dynamic_cast<const Packet::Event::QualiStart*>(startInfo);
+        if (qualiStartInfo && m_driverStandings) {
+
+            m_driverStandings->onQualiStart(qualiStartInfo);
+
+        }
+
+    }
+
+}
+
+
+
+
+void UserInterface::Panel::QualifyingRight::Cleanup() {
+
+    if (m_driverStandings) {
+
+        m_driverStandings->cleanup();
 
     }
 

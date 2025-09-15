@@ -6,8 +6,10 @@
 
 
 
-UserInterface::Screen::Interface::Interface(QWidget* parent) :
-    QWidget(parent) {
+
+UserInterface::Screen::Interface::Interface(UserInterface::PacketHandler* handler, QWidget* parent) :
+    QWidget(parent),
+    m_handler(handler) {
 
 
 

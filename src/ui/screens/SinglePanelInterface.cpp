@@ -8,8 +8,8 @@
 
 
 
-UserInterface::Screen::SinglePanelInterface::SinglePanelInterface(QWidget* parent) :
-    UserInterface::Screen::Interface(parent),
+UserInterface::Screen::SinglePanelInterface::SinglePanelInterface(UserInterface::PacketHandler* handler, QWidget* parent) :
+    UserInterface::Screen::Interface(handler, parent),
     m_mode(Settings::WindowNumber::SingleWindow),
     m_panel(nullptr) {
 
@@ -18,22 +18,39 @@ UserInterface::Screen::SinglePanelInterface::SinglePanelInterface(QWidget* paren
 }
 
 
+void UserInterface::Screen::SinglePanelInterface::handleResizeEvent(const QSize newUsefulSize) {
 
-void UserInterface::Screen::SinglePanelInterface::Initialize() {
-
-    Q_ASSERT(m_panel);
     if (m_panel) {
 
-        m_panel->setBaseSize(1920, 1080);
-        m_panel->setMinimumSize(1920, 1080);
+        m_panel->ResizePanel(newUsefulSize);
 
     }
 
 }
 
 
-void UserInterface::Screen::SinglePanelInterface::handleResizeEvent(const QSize newUsefulSize) {
 
-    m_panel->ResizePanel(newUsefulSize);
+void UserInterface::Screen::SinglePanelInterface::Deactivate() {
+
+    if (m_panel) {
+
+        delete m_panel;
+        m_panel = nullptr;
+
+    }
+
+}
+
+
+
+void UserInterface::Screen::SinglePanelInterface::Initialize(const Packet::Event::Interface* startupInfo) {
+
+    if (m_panel) {
+
+        handleResizeEvent(size());
+        m_panel->Startup(startupInfo);
+        m_panel->show();
+
+    }
 
 }

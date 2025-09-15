@@ -29,6 +29,23 @@ UserInterface::Widget::Standings::Standings(QWidget* parent) :
 
 
 
+void UserInterface::Widget::Standings::cleanup() {
+
+    for (const auto driverInfo : m_driverData) {
+
+        if (driverInfo) {
+
+            delete driverInfo;
+
+        }
+
+    }
+    m_driverData.clear();
+
+}
+
+
+
 void UserInterface::Widget::Standings::onQualiStart(const Packet::Event::QualiStart* dataPacket) {
 
     if (dataPacket && !m_initialParamsSet) {

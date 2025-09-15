@@ -14,6 +14,7 @@
 
 
 
+
 UserInterface::Panel::Loading::Loading(UserInterface::PacketHandler* handler, QWidget* parent) :
     UserInterface::Panel::Interface(handler, parent),
     m_loadingIcon(nullptr),
@@ -72,5 +73,21 @@ void UserInterface::Panel::Loading::ResizePanel(const QSize& newUsefulSize) {
         m_loadingText->move((width / 2), newY, true, true);
 
     }
+
+}
+
+
+
+void UserInterface::Panel::Loading::Startup(const Packet::Event::Interface* startInfo) {
+
+    // TODO
+
+}
+
+
+
+void UserInterface::Panel::Loading::Cleanup() {
+
+    // TODO
 
 }

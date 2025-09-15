@@ -2,10 +2,13 @@
 
 #include <QApplication>
 #include <QMainWindow>
+#include <QMessageBox>
 #include <QResizeEvent>
 #include <QTimer>
 #include <QWidget>
 #include <QWindow>
+#include "ICompFacade.h"
+#include "IProcessor.h"
 #include "core/Screen.h"
 #include "screens/Interface.h"
 #include "widgets/general_use/MenuBar.h"
@@ -14,11 +17,11 @@
 
 UserInterface::CustomMainWindow::CustomMainWindow(Presenter::ICompFacade* presenter, QWidget* parent) :
     QMainWindow(parent),
-    m_menuBar(nullptr),
+    m_menuBar(new UserInterface::Widgets::MenuBar(presenter, this)),
     m_screens(),
-    m_activeScreen(nullptr) {
+    m_activeScreen(nullptr),
+    m_presenter(presenter) {
 
-    m_menuBar = new UserInterface::Widgets::MenuBar(presenter, this);
     Q_ASSERT(m_menuBar);
     setMenuBar(m_menuBar);
 
@@ -71,42 +74,57 @@ void UserInterface::CustomMainWindow::addScreen(UserInterface::Screen::Interface
 
 void UserInterface::CustomMainWindow::Startup() {
 
-    doSwitchScreen(UserInterface::Screen::Type::Loading);
+    doSwitchScreen(UserInterface::Screen::Type::Loading, nullptr);
     QCoreApplication::setApplicationName("RaceSimEngineer - Waiting for Session...");
 
 }
 
 
 
-void UserInterface::CustomMainWindow::OnSessionEnd(bool withDelay) {
+void UserInterface::CustomMainWindow::OnSessionEnd() {
 
-    // TODO figure a way to make this work so the "result screen" hangs on for 
-    // a (configurable?) time at the end before switching to the loading screen
-    if (withDelay) {
-        QTimer::singleShot(120000, this, [&]() {
-            if (doSwitchScreen(UserInterface::Screen::Type::Loading)) {
-                QCoreApplication::setApplicationName("RaceSimEngineer - Waiting for Session...");
-            };
-        });
-    }
-    else {
-        if (doSwitchScreen(UserInterface::Screen::Type::Loading)) {
-            // TODO: Isn't working for some reason
-            QCoreApplication::setApplicationName("RaceSimEngineer - Waiting for Session...");
+    uint8_t count = 30;
+    QMessageBox box(this);
+    box.setIcon(QMessageBox::Warning);
+    box.setWindowTitle("Session has ended");
+    box.setText(QString("The current session has been marked as finalized.\n"
+        "Please close this dialog to clear the session data and export it.\n"));
+    box.setStandardButtons(QMessageBox::Close);
+    box.exec();
+
+    if (m_presenter) {
+
+        auto procPresenter = dynamic_cast<Presenter::IProcessor*>(m_presenter);
+        if (procPresenter) {
+
+            procPresenter->exportSessionToFolder(".");
+            procPresenter->clearSessionData();
+
         }
-    }
 
-    // TODO this isn't working properly
-    //Q_ASSERT(m_menuBar);
-    //m_menuBar->enableSessionActions(false);
+    }
+    OnSessionDataClear();
 
 }
 
 
 
-void UserInterface::CustomMainWindow::OnTimeTrialStart() {
+void UserInterface::CustomMainWindow::OnSessionDataClear() {
 
-    if (doSwitchScreen(UserInterface::Screen::Type::TimeTrial)) {
+    if (doSwitchScreen(UserInterface::Screen::Type::Loading, nullptr)) {
+
+        // TODO: Isn't working for some reason
+        QCoreApplication::setApplicationName("RaceSimEngineer - Waiting for Session...");
+
+    }
+
+}
+
+
+
+void UserInterface::CustomMainWindow::OnTimeTrialStart(const Packet::Event::Interface* packet) {
+
+    if (doSwitchScreen(UserInterface::Screen::Type::TimeTrial, packet)) {
 
         Q_ASSERT(m_menuBar);
         m_menuBar->enableSessionActions(true);
@@ -120,9 +138,9 @@ void UserInterface::CustomMainWindow::OnTimeTrialStart() {
 
 
 
-void UserInterface::CustomMainWindow::OnFreePracticeStart() {
+void UserInterface::CustomMainWindow::OnFreePracticeStart(const Packet::Event::Interface* packet) {
 
-    if (doSwitchScreen(UserInterface::Screen::Type::FreePractice)) {
+    if (doSwitchScreen(UserInterface::Screen::Type::FreePractice, packet)) {
 
         Q_ASSERT(m_menuBar);
         m_menuBar->enableSessionActions(true);
@@ -136,9 +154,9 @@ void UserInterface::CustomMainWindow::OnFreePracticeStart() {
 
 
 
-void UserInterface::CustomMainWindow::OnQualiStart() {
+void UserInterface::CustomMainWindow::OnQualiStart(const Packet::Event::Interface* packet) {
 
-    if (doSwitchScreen(UserInterface::Screen::Type::Qualifying)) {
+    if (doSwitchScreen(UserInterface::Screen::Type::Qualifying, packet)) {
 
         Q_ASSERT(m_menuBar);
         m_menuBar->enableSessionActions(true);
@@ -152,9 +170,9 @@ void UserInterface::CustomMainWindow::OnQualiStart() {
 
 
 
-void UserInterface::CustomMainWindow::OnRaceStart() {
+void UserInterface::CustomMainWindow::OnRaceStart(const Packet::Event::Interface* packet) {
 
-    if (doSwitchScreen(UserInterface::Screen::Type::Race)) {
+    if (doSwitchScreen(UserInterface::Screen::Type::Race, packet)) {
 
         Q_ASSERT(m_menuBar);
         m_menuBar->enableSessionActions(true);
@@ -173,13 +191,12 @@ void UserInterface::CustomMainWindow::doAddScreen(UserInterface::Screen::Interfa
     newScreen->setParent(this);
     m_screens.push_back(newScreen);
     connect(this, &UserInterface::CustomMainWindow::onResizeEvent, newScreen, &UserInterface::Screen::Interface::handleResizeEvent);
-    newScreen->Initialize();
 
 }
 
 
 
-bool UserInterface::CustomMainWindow::doSwitchScreen(const UserInterface::Screen::Type type) {
+bool UserInterface::CustomMainWindow::doSwitchScreen(const UserInterface::Screen::Type type, const Packet::Event::Interface* startInfo) {
 
     // avoid switching screen to already-present screen by returning early
     if (m_activeScreen && (m_activeScreen->Type() == type)) {
@@ -209,12 +226,14 @@ bool UserInterface::CustomMainWindow::doSwitchScreen(const UserInterface::Screen
         if (m_activeScreen) {
 
             m_activeScreen->hide();
+            m_activeScreen->Deactivate();
             takeCentralWidget();
 
         }
 
         setCentralWidget(screenToBeActivated);
         screenToBeActivated->show();
+        screenToBeActivated->Activate(startInfo);
         m_activeScreen = screenToBeActivated;
         return true;
 

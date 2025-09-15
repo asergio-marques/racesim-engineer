@@ -7,9 +7,10 @@
 
 
 
+
 namespace Packet {
 
-    namespace Internal {
+    namespace Event {
 
         class Interface;
 
@@ -18,6 +19,8 @@ namespace Packet {
 }
 
 namespace UserInterface {
+
+    class PacketHandler;
 
     namespace Style {
 
@@ -38,15 +41,15 @@ namespace UserInterface {
             Q_OBJECT
 
             public:
-                Interface(QWidget* parent = 0);
+                Interface(UserInterface::PacketHandler* handler, QWidget* parent = 0);
                 virtual ~Interface() = default;
-
-                virtual void Initialize() = 0;
+                virtual void Activate(const Packet::Event::Interface* startupInfo) = 0;
+                virtual void Deactivate() = 0;
                 virtual const UserInterface::Screen::Type Type() const = 0;
-
-            public slots:
                 virtual void handleResizeEvent(const QSize newUsefulSize) = 0;
 
+            protected:
+                UserInterface::PacketHandler* m_handler;
         };
 
     }

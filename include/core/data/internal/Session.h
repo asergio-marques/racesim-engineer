@@ -18,6 +18,40 @@ namespace Session::Internal {
         Race            = 4
 
     };
+
+    enum class RoundDetail : uint8_t {
+
+        InvalidUnknown  = 0,
+        NotApplicable   = 1,
+        Session1        = 2,
+        Session2        = 3,
+        Session3        = 4,
+        Sprint          = 5,
+        Feature         = 6
+
+    };
+
+    enum class TypeDetail : uint8_t {
+
+        InvalidUnknown                  = 0,
+        TimeTrial                       = 1,
+        FreePracticeSingle              = 2,
+        FreePractice1                   = 3,
+        FreePractice2                   = 4,
+        FreePractice3                   = 5,
+        LapLimitQualifying              = 6,
+        QualifyingSingleSession         = 7,
+        QualifyingSession1              = 8,
+        QualifyingSession2              = 9,
+        QualifyingSession3              = 10,
+        HyperpoleQualifying             = 11,
+        Race                            = 12,
+        RaceMultiple1                   = 13,
+        RaceMultiple2                   = 14,
+        RaceMultiple3                   = 15
+
+    };
+
     enum class LimitType : uint8_t {
 
         InvalidUnknown  = 0,
@@ -100,6 +134,33 @@ namespace Session::Internal {
 
     };
 
+    enum class WeatherType : uint8_t {
+
+        InvalidUnknown      = 0,
+        Clear               = 1,
+        Cloudy              = 2,
+        Overcast            = 3,
+        LightRain           = 4,
+        HeavyRain           = 5,
+        RainWithLightning   = 6
+
+    };
+
+    enum class Cardinality : uint8_t {
+
+        InvalidUnknown  = 0,
+        None            = 1,
+        North           = 2,
+        NorthEast       = 3,
+        East            = 4,
+        SouthEast       = 5,
+        South           = 6,
+        SouthWest       = 7,
+        West            = 8,
+        NorthWest       = 9
+
+    };
+
     struct Participant {
 
         // Whether the current participant is the player
@@ -128,6 +189,26 @@ namespace Session::Internal {
 
         // Number of laps done on the starting tyre for this participant
         uint8_t m_startTyreAge = UINT8_MAX;
+
+    };
+
+    struct Descriptor {
+
+        bool operator<(const Descriptor& other) const {
+            if (m_roundType < other.m_roundType) {
+                return true;
+            }
+            else if (m_roundType == other.m_roundType) {
+                return (m_sessionType < other.m_sessionType);
+            }
+            return false;
+        }
+
+        // The session format to which this data pertains (e.g. sprint/feature)
+        Session::Internal::RoundDetail m_roundType = Session::Internal::RoundDetail::InvalidUnknown;
+
+        // Session type to which this data pertains
+        Session::Internal::TypeDetail m_sessionType = Session::Internal::TypeDetail::InvalidUnknown;
 
     };
 
@@ -174,6 +255,37 @@ namespace Session::Internal {
 
         // Distance of Sector 3, if available (meters)
         uint16_t m_sector3Distance = 0.0f;
+
+    };
+
+    struct WeatherSample {
+
+        // Descriptor of the format and session type to which this sample pertains
+        Session::Internal::Descriptor m_descriptor{};
+
+        // Number of minutes from the current point in time to which this sample pertains
+        uint16_t m_timeOffset = 0;
+
+        // Overall descriptor for the weather felt at the moment this sample pertains to
+        Session::Internal::WeatherType m_overall = Session::Internal::WeatherType::InvalidUnknown;
+
+        // Atmospheric temperature (Celsius)
+        int8_t m_airTemp = 0;
+        
+        // Track temperature (Celsius)
+        int8_t m_trackTemp = 0;
+
+        // Relative atmospheric humidity (percentage)
+        uint8_t m_humidity = 0;
+
+        // Likelihood of rain (percentage)
+        uint8_t m_rain = 0;
+
+        // Velocity of the wind (tenth of a meter/second)
+        uint8_t m_windSpeed = 0;
+
+        // Direction from which the wind is blowing
+        Session::Internal::Cardinality m_windDirection = Session::Internal::Cardinality::InvalidUnknown;
 
     };
 

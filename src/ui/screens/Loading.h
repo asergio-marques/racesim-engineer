@@ -39,6 +39,7 @@ namespace UserInterface {
                 Loading(UserInterface::PacketHandler* handler, QWidget* parent = 0);
                 virtual ~Loading() = default;
                 virtual const UserInterface::Screen::Type Type() const override;
+                void Activate(const Packet::Event::Interface* startupInfo) override final;
 
         };
 

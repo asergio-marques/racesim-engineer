@@ -17,6 +17,7 @@
 #include "detectors/SessionStartDataReady.h"
 #include "detectors/TyreChanged.h"
 #include "exporters/RaceSession.h"
+#include "packets/internal/FinalResult.h"
 #include "packets/internal/GridPosition.h"
 #include "packets/internal/Interface.h"
 #include "packets/internal/ParticipantStatus.h"
@@ -26,6 +27,7 @@
 #include "packets/internal/SessionParticipants.h"
 #include "packets/internal/SessionSettings.h"
 #include "packets/internal/TyreSetUsage.h"
+#include "packets/internal/WeatherStatus.h"
 
 
 #ifndef LINUX
@@ -102,15 +104,23 @@ void Processor::Data::Databank::updateData(const Packet::Internal::Interface* pa
                 case Packet::Internal::Type::GridPosition:
                     m_creator->Init(dynamic_cast<const Packet::Internal::GridPosition*>(packet));
                     break;
+
                 case Packet::Internal::Type::SessionSettings:
                     m_creator->Init(dynamic_cast<const Packet::Internal::SessionSettings*>(packet));
                     break;
+
                 case Packet::Internal::Type::SessionParticipants:
                     m_creator->Init(dynamic_cast<const Packet::Internal::SessionParticipants*>(packet));
                     break;
+
                 case Packet::Internal::Type::TyreSetUsage:
                     m_creator->Init(dynamic_cast<const Packet::Internal::TyreSetUsage*>(packet));
                     break;
+
+                case Packet::Internal::Type::WeatherStatus:
+                    m_creator->Init(dynamic_cast<const Packet::Internal::WeatherStatus*>(packet));
+                    break;
+
                 default:
                     // do nothing
                     break;
@@ -118,6 +128,8 @@ void Processor::Data::Databank::updateData(const Packet::Internal::Interface* pa
 
         }
         else {
+
+            std::lock_guard guard(m_recordMutex);
 
             switch (packet->packetType()) {
 
@@ -141,6 +153,10 @@ void Processor::Data::Databank::updateData(const Packet::Internal::Interface* pa
                     updateCurrentTyreUsage(dynamic_cast<const Packet::Internal::TyreSetUsage*>(packet));
                     break;
 
+                case Packet::Internal::Type::FinalResult:
+                    prepareSessionEnd(dynamic_cast<const Packet::Internal::FinalResult*>(packet));
+                    break;
+
                 default:
                     // do nothing
                     break;
@@ -152,6 +168,57 @@ void Processor::Data::Databank::updateData(const Packet::Internal::Interface* pa
     }
 
 }
+
+
+
+void Processor::Data::Databank::clearData() {
+
+    std::lock_guard guard(m_recordMutex);
+
+    // uninstall records from detectors
+    for (auto detectorEntry : m_activeDetectors) {
+
+        auto detector = detectorEntry.second;
+        if (detector) {
+
+            detector->Deinit();
+
+        }
+
+    }
+    // uninstall records from exporter
+    if (m_exporter) {
+
+        m_exporter->ClearRecords();
+
+    }
+    // ready the record creator again
+    if (m_creator) {
+
+        m_creator->ClearRecords();
+
+    }
+    // delete records and states, and clear maps/pointers
+    if (m_sessionRecord) {
+
+        delete m_sessionRecord;
+        m_sessionRecord = nullptr;
+
+    }
+    for (const auto& entry : m_driverRecords) {
+
+        if (entry.second) {
+
+            delete entry.second;
+
+        }
+
+    }
+    m_driverRecords.clear();
+
+}
+
+
 
 void Processor::Data::Databank::installDetector(Processor::Detector::Interface* detector) {
 
@@ -199,23 +266,9 @@ const Processor::Exporter::Interface* Processor::Data::Databank::getExporter() c
 
 
 
-void Processor::Data::Databank::markAsFinished() {
-
-    for (auto record : m_driverRecords) {
-
-        record.second->markAsFinished();
-
-    }
-
-    // TODO what would this even be for
-    // m_sessionRecord->markAsFinished();
-
-}
-
-
-
 void Processor::Data::Databank::triggerAutoExport() {
 
+    // TODO investigate why auto export of race is not being done correctly
     // Check if the user has activated the auto export option, and export if so
     if (m_presenter) {
 
@@ -496,22 +549,9 @@ void Processor::Data::Databank::updateLapStatus(const Packet::Internal::LapStatu
                     prevLapData = Packet::Internal::LapStatus::Data();
                 }
 
-                auto lapEntryCompleted = driverData->getModifiableState()->updateLap(currLapData.m_lapID, currLapData.m_type,
+                driverData->getModifiableState()->updateLap(currLapData.m_lapID, currLapData.m_type,
                         currLapData.m_status, currLapData.m_time, currLapData.m_sectorTimes,
                         currLapData.m_lapDistanceRun, prevLapData.m_time);
-
-                if (m_sessionRecord && lapEntryCompleted) {
-
-                    bool allDriversComplete =
-                        m_sessionRecord->getModifiableState()->updateDriverStatus(lapPacket->m_driverID, lapEntryCompleted);
-
-                    if (allDriversComplete) {
-
-                        triggerAutoExport();
-
-                    }
-
-                }
 
             }
 
@@ -542,6 +582,43 @@ void Processor::Data::Databank::updateCurrentTyreUsage(const Packet::Internal::T
                 }
 
             }
+
+        }
+
+    }
+
+}
+
+
+
+void Processor::Data::Databank::prepareSessionEnd(const Packet::Internal::FinalResult* finalResult) {
+
+    if (finalResult) {
+
+        for (const auto& finalData : finalResult->GetData()) {
+
+            auto entry = m_driverRecords.find(finalData.m_driverID);
+            if (entry != m_driverRecords.end()) {
+
+                auto driverData = entry->second;
+
+                if (driverData &&
+                    driverData->updateLastTimestamp(finalResult->m_timestamp) &&
+                    !driverData->Finalized()) {
+
+                    driverData->getModifiableState()->finalize(finalData.m_driverID, finalData.m_position, finalData.m_numLaps, finalData.m_sessionTime);
+
+                }
+
+            }
+
+        }
+
+        if (m_sessionRecord &&
+            m_sessionRecord->getModifiableState() &&
+            m_sessionRecord->getModifiableState()->isSessionRunning()) {
+
+            m_sessionRecord->getModifiableState()->sessionFinalized();
 
         }
 

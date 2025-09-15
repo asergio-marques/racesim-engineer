@@ -8,8 +8,8 @@
 
 
 
-UserInterface::Screen::DualPanelInterface::DualPanelInterface(QWidget* parent) :
-    UserInterface::Screen::Interface(parent),
+UserInterface::Screen::DualPanelInterface::DualPanelInterface(UserInterface::PacketHandler* handler, QWidget* parent) :
+    UserInterface::Screen::Interface(handler, parent),
     m_mode(Settings::WindowNumber::DEFAULT),
     m_panelLeft(nullptr),
     m_panelRight(nullptr) {
@@ -20,23 +20,19 @@ UserInterface::Screen::DualPanelInterface::DualPanelInterface(QWidget* parent) :
 
 
 
-void UserInterface::Screen::DualPanelInterface::Initialize() {
+void UserInterface::Screen::DualPanelInterface::Deactivate() {
 
-    Q_ASSERT(m_panelLeft);
-    Q_ASSERT(m_panelRight);
     if (m_panelLeft) {
 
-        // put right panel to the right
-        m_panelLeft->setBaseSize(960, 1080);
-        m_panelLeft->setMinimumSize(960, 1080);
+        delete m_panelLeft;
+        m_panelLeft = nullptr;
 
     }
+
     if (m_panelRight) {
 
-        // put right panel to the right
-        m_panelRight->move(960, 0);
-        m_panelRight->setBaseSize(960, 1080);
-        m_panelRight->setMinimumSize(960, 1080);
+        delete m_panelRight;
+        m_panelRight = nullptr;
 
     }
 
@@ -51,6 +47,26 @@ void UserInterface::Screen::DualPanelInterface::handleResizeEvent(const QSize ne
     if (m_panelRight) {
         m_panelRight->move(newUsefulSize.width() / 2, 0);
         m_panelRight->ResizePanel(newPanelSize);
+    }
+
+}
+
+
+
+void UserInterface::Screen::DualPanelInterface::Initialize(const Packet::Event::Interface* startupInfo) {
+
+    handleResizeEvent(size());
+    if (m_panelLeft) {
+
+        m_panelLeft->Startup(startupInfo);
+        m_panelLeft->show();
+
+    }
+    if (m_panelRight) {
+
+        m_panelRight->Startup(startupInfo);
+        m_panelRight->show();
+
     }
 
 }

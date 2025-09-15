@@ -36,13 +36,11 @@ namespace Processor {
             // Destructor
             ~DriverState() = default;
 
+            // Provides a specialized way to feed session-end information
+            void finalize(const uint8_t id, const uint8_t position, const uint8_t numLaps, const Lap::Internal::Time sessionTime);
+
             // Add relevant detectors to then be called when relevant
             bool installDetector(Processor::Detector::Interface* detector);
-
-            // Informs the driver record that the session has ended, so that certain information only available
-            // after its end is accepted
-            // Note that the driver status does not change, and hence the driver is not yet officially finished!
-            void markAsFinished();
 
             // Set the initial grid position of the driver at the start of the session
             void setGridPosition(const uint8_t gridPosition);
@@ -63,7 +61,7 @@ namespace Processor {
 
             // Alter the status of the driver's most recent lap in the session
             // Returns true if this update has "completed" the lap entry database
-            bool updateLap(const uint8_t lapID, const Lap::Internal::Type type,
+            void updateLap(const uint8_t lapID, const Lap::Internal::Type type,
                 const Lap::Internal::Status status, const Lap::Internal::Time currentLapTime, const std::vector<Lap::Internal::Time> sectorTimes,
                 const float_t lapDistanceRun, const Lap::Internal::Time previousLapTime);
 
@@ -82,9 +80,6 @@ namespace Processor {
             private:
             // Pointer to the driver record holding this state
             const Processor::Data::DriverRecord* const m_parentRecord;
-
-            // Denotes whether the session has ended or not, important for last lap info
-            bool m_isFinished;
 
             // Holder of all position and time gap information
             Processor::Data::PositionTimingData m_posTimeData;

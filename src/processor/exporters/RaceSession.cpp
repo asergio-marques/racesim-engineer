@@ -55,6 +55,16 @@ void Processor::Exporter::RaceSession::InjectRecords(Processor::Data::SessionRec
 
 
 
+void Processor::Exporter::RaceSession::ClearRecords() {
+
+    m_sessionRecord = nullptr;
+    m_playerDriverRecord = nullptr;
+    m_driverRecords = nullptr;
+
+}
+
+
+
 bool Processor::Exporter::RaceSession::Export(std::string path) const {
 
     // actual code
@@ -92,7 +102,7 @@ bool Processor::Exporter::RaceSession::Export(std::string path) const {
     }
     if (m_playerDriverRecord) {
         addChildNodeCharacterData(&rootNode, m_schemaV1.completionTag,
-            m_playerDriverRecord->isFinished());
+            m_playerDriverRecord->Finalized());
         addChildNodeCharacterData(&rootNode, m_schemaV1.gridPosTag,
             m_playerDriverRecord->getModifiableState()->posTimeData().getGridPosition());
 

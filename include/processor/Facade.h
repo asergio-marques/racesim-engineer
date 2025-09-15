@@ -46,7 +46,10 @@ namespace Processor {
             Packet::Event::Broadcaster* exposeBroadcasterInterface() override final;
 
             // Trigger function for the export of the current dataset
-            virtual bool ExportCurrentRaceData(std::string path) override final;
+            virtual bool ExportCurrentSessionData(std::string path) override final;
+
+            // Trigger the wipe of all current session data, preparing the processor for a new session
+            void clearSessionData() override final;
 
         private:
             // Main handler object for all driver and session data

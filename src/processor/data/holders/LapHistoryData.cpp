@@ -14,7 +14,8 @@
 
 Processor::Data::LapHistoryData::LapHistoryData() :
     m_laps(),
-    m_isComplete(false),
+    m_totalTime(),
+    m_isDataComplete(false),
     m_fastestLapID(UINT16_MAX),
     m_fastestSector1LapID(UINT16_MAX),
     m_fastestSector2LapID(UINT16_MAX),
@@ -69,6 +70,14 @@ const bool Processor::Data::LapHistoryData::Initialized() const {
 
 
 
+const bool Processor::Data::LapHistoryData::Finalized() const {
+
+    return m_isDataComplete;
+
+}
+
+
+
 void Processor::Data::LapHistoryData::initialize(const uint8_t driverID, const Tyre::Internal::Data data) {
 
     // create new lap entry only if there are no laps yet; we only want 1 lap with ID 0
@@ -84,12 +93,47 @@ void Processor::Data::LapHistoryData::initialize(const uint8_t driverID, const T
 
 
 
-bool Processor::Data::LapHistoryData::updateLap(const uint8_t id, const uint8_t lapID, const Lap::Internal::Type type,
+void Processor::Data::LapHistoryData::completeData(const uint8_t id, const uint8_t numLaps, Lap::Internal::Time sessionTime) {
+
+    if (!m_isDataComplete) {
+
+        // check for the final lap entry
+        auto it = m_laps.rbegin();
+        if (it != m_laps.rend()) {
+
+            auto& lap = it->second;
+
+            // now that we know how many laps this driver did from the game (source of truth), we can validate whether
+            // all data is complete
+            // this should also work well enough in the case of early retirement
+            if (lap.m_isFinished) {
+
+                m_isDataComplete = true;
+
+            }
+            else {
+
+                // extract the final lap's lap time from the total time
+                lap.m_totalLapTime = sessionTime - m_totalTime;
+                evaluateFinishedLap(lap);
+                m_isDataComplete = true;
+
+            }
+
+        }
+
+    }
+
+}
+
+
+
+void Processor::Data::LapHistoryData::updateLap(const uint8_t id, const uint8_t lapID, const Lap::Internal::Type type,
     const Lap::Internal::Status lapStatus, const Lap::Internal::Time currentLapTime, const std::vector<Lap::Internal::Time> sectorTimes,
     const float_t lapDistanceRun, const Lap::Internal::Time previousLapTime, const Participant::Internal::Status participantStatus) {
 
     // Only add new info if we know we still have missing info
-    if (!m_isComplete) {
+    if (!m_isDataComplete) {
 
         // new entry creation should always happen if the map is empty
         bool createNew = m_laps.empty();
@@ -109,20 +153,13 @@ bool Processor::Data::LapHistoryData::updateLap(const uint8_t id, const uint8_t 
                 lap.m_totalLapTime = currentLapTime;
                 lap.m_status = lapStatus;
                 lap.m_distanceFulfilled = lapDistanceRun;
-                if (participantStatus == Participant::Internal::Status::FinishedSession) {
-
-                    lap.m_isFinished = true;
-                    evaluateFinishedLap(lap);
-                    m_isComplete = true;
-
-                }
-                else if (participantStatus == Participant::Internal::Status::DNF ||
+                if (participantStatus == Participant::Internal::Status::DNF ||
                     participantStatus == Participant::Internal::Status::DSQ) {
 
                     lap.m_isFinished = true;
                     lap.m_isValid = false;
                     evaluateFinishedLap(lap);
-                    m_isComplete = true;
+                    m_isDataComplete = true;
 
                 }
 
@@ -170,8 +207,6 @@ bool Processor::Data::LapHistoryData::updateLap(const uint8_t id, const uint8_t 
         }
 
     }
-
-    return m_isComplete;
 
 }
 
@@ -224,6 +259,8 @@ const uint16_t Processor::Data::LapHistoryData::numLapsAvailable() const {
 void Processor::Data::LapHistoryData::evaluateFinishedLap(const Processor::Data::LapInfo& finishedLap) {
 
     if (!m_installedFinishedLapDetector || finishedLap.m_lapId == 0) return;
+
+    m_totalTime += finishedLap.m_totalLapTime;
 
     // check if this new fastest lap is the fastest in the session
     // if it is, it's also this driver's PB

@@ -39,6 +39,12 @@ namespace UserInterface {
                 virtual ~TimeTrialLeft() = default;
                 virtual void ResizePanel(const QSize& newUsefulSize) override final;
 
+                // Set the starting information of a new time trial session
+                void Startup(const Packet::Event::Interface* startInfo) override final;
+
+                // Prepare this panel for a new session to begin, cleaning up its members
+                void Cleanup() override final;
+
             private:
                 UserInterface::Widget::ScreenTitle* m_screenTitle;
 

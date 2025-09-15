@@ -46,3 +46,19 @@ void UserInterface::Panel::FreePracticeLeft::ResizePanel(const QSize& newUsefulS
     }
 
 }
+
+
+
+void UserInterface::Panel::FreePracticeLeft::Startup(const Packet::Event::Interface* startInfo) {
+
+    // TODO
+
+}
+
+
+
+void UserInterface::Panel::FreePracticeLeft::Cleanup() {
+
+    // TODO
+
+}

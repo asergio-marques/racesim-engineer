@@ -36,6 +36,9 @@ namespace Processor {
             void Init(Processor::Data::SessionRecord* sessionRecord,
                 std::map<const uint8_t, Processor::Data::DriverRecord*>* driverRecords) override final;
 
+            // Clears all data to ready the detector for a new session
+            void Deinit() override final;
+
             // Interface function to create new packets for communicating changes to the UI
             void AddStatusChange(const uint8_t id, const Participant::Internal::Status newStatus);
 

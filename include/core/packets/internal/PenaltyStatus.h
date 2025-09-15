@@ -12,7 +12,7 @@ namespace Packet {
 
     namespace Internal {
 
-        struct PenaltyStatus : public Packet::Internal::Interface {
+        class PenaltyStatus : public Packet::Internal::Interface {
 
             struct Data {
 

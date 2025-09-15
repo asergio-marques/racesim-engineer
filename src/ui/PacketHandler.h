@@ -8,13 +8,10 @@
 #include <QTimer>
 // packet headers need to be added here for signals to work
 #include "packets/event/LapFinished.h"
+#include "packets/event/Interface.h"
 #include "packets/event/ParticipantStatusChanged.h"
 #include "packets/event/PenaltyReceived.h"
-#include "packets/event/PracticeStart.h"
 #include "packets/event/Overtake.h"
-#include "packets/event/QualiStart.h"
-#include "packets/event/RaceStart.h"
-#include "packets/event/TimeTrialStart.h"
 #include "packets/event/TyreChanged.h"
 
 
@@ -31,11 +28,11 @@ namespace UserInterface {
         void AcceptPacket(Packet::Event::Interface* packet);
 
         signals:
-        void TimeTrialStart(const Packet::Event::TimeTrialStart*);
-        void PracticeStart(const Packet::Event::PracticeStart*);
-        void QualiStart(const Packet::Event::QualiStart*);
-        void RaceStart(const Packet::Event::RaceStart*);
-        void SessionEnd(bool withDelay);
+        void TimeTrialStart(const Packet::Event::Interface*);
+        void PracticeStart(const Packet::Event::Interface*);
+        void QualiStart(const Packet::Event::Interface*);
+        void RaceStart(const Packet::Event::Interface*);
+        void SessionEnd();
         void OvertakePerformed(const Packet::Event::Overtake*);
         void PenaltyReceived(const Packet::Event::PenaltyReceived*);
         void ParticipantStatusChanged(const Packet::Event::ParticipantStatusChanged*);

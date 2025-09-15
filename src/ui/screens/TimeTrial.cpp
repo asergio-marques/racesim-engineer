@@ -9,10 +9,7 @@
 
 
 UserInterface::Screen::TimeTrial::TimeTrial(UserInterface::PacketHandler* handler, QWidget* parent) :
-    UserInterface::Screen::DualPanelInterface(parent) {
-
-    m_panelLeft = new UserInterface::Panel::TimeTrialLeft(handler, this);
-    m_panelRight = new UserInterface::Panel::TimeTrialRight(handler, this);
+    UserInterface::Screen::DualPanelInterface(handler, parent) {
 
 }
 
@@ -21,5 +18,28 @@ UserInterface::Screen::TimeTrial::TimeTrial(UserInterface::PacketHandler* handle
 const UserInterface::Screen::Type UserInterface::Screen::TimeTrial::Type() const {
 
     return UserInterface::Screen::Type::TimeTrial;
+
+}
+
+
+
+void UserInterface::Screen::TimeTrial::Activate(const Packet::Event::Interface* startupInfo) {
+
+    if (startupInfo) {
+
+        if (!m_panelLeft) {
+
+            m_panelLeft = new UserInterface::Panel::TimeTrialLeft(m_handler, this);
+
+        }
+        if (!m_panelRight) {
+
+            m_panelRight = new UserInterface::Panel::TimeTrialRight(m_handler, this);
+
+        }
+
+        UserInterface::Screen::DualPanelInterface::Initialize(startupInfo);
+
+    }
 
 }

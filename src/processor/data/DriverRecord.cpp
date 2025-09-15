@@ -10,8 +10,7 @@
 Processor::Data::DriverRecord::DriverRecord(const uint64_t initTimestamp, const Session::Internal::Participant& driverData) :
     m_lastStateTimestamp(initTimestamp),
     m_info(driverData),
-    m_state(nullptr),
-    m_isFinished(false) {
+    m_state(nullptr) {
 
 
 
@@ -21,7 +20,11 @@ Processor::Data::DriverRecord::DriverRecord(const uint64_t initTimestamp, const 
 
 Processor::Data::DriverRecord::~DriverRecord() {
 
-    delete m_state;
+    if (m_state) {
+
+        delete m_state;
+
+    }
     m_state = nullptr;
 
 }
@@ -46,10 +49,20 @@ const bool Processor::Data::DriverRecord::Initialized() const {
 
 
 
+const bool Processor::Data::DriverRecord::Finalized() const {
+    
+    // driver info should be always valid as it's statically initialized when the driver record is as well
+    // warning data is irrelevant
+    return m_state && m_state->posTimeData().Finalized() && m_state->lapData().Finalized();
+
+}
+
+
+
 const bool Processor::Data::DriverRecord::updateLastTimestamp(const uint64_t newTimestamp) {
 
     // When the session has been finalized, the timestamp might be sent as 0, so we need to take precautions regarding it
-    if ((newTimestamp >= m_lastStateTimestamp) || m_isFinished) {
+    if ((newTimestamp >= m_lastStateTimestamp) && !Finalized()) {
 
         m_lastStateTimestamp = newTimestamp;
         return true;
@@ -70,25 +83,8 @@ const uint8_t Processor::Data::DriverRecord::getDriverId() const {
 
 
 
-void Processor::Data::DriverRecord::markAsFinished() {
-
-    m_isFinished = true;
-    m_state->markAsFinished();
-
-}
-
-
-
 Processor::Data::DriverState* Processor::Data::DriverRecord::getModifiableState() {
 
     return m_state;
-
-}
-
-
-
-const bool Processor::Data::DriverRecord::isFinished() const {
-
-    return m_isFinished;
 
 }

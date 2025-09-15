@@ -31,6 +31,9 @@ namespace Processor {
             // Validates the internal information and returns true if it meets the conditions for the start of a session
             const bool Initialized() const;
 
+            // Returns true if the participant status is marked as one of the finished states
+            const bool Finalized() const;
+
             // Alter the status of the driver itself in the session, and feed it to the detector
             void updateStatus(const uint8_t id, const Participant::Internal::Status status);
 

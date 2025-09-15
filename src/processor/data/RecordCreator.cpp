@@ -9,6 +9,7 @@
 #include "packets/internal/SessionParticipants.h"
 #include "packets/internal/SessionSettings.h"
 #include "packets/internal/TyreSetUsage.h"
+#include "packets/internal/WeatherStatus.h"
 
 
 
@@ -82,9 +83,10 @@ const bool Processor::Data::RecordCreator::IsWorking() const {
 
 void Processor::Data::RecordCreator::ClearRecords() {
 
-    m_driverRecords.clear();
     m_sessionRecord = nullptr;
+    m_driverRecords.clear();
     m_playerId = UINT8_MAX;
+    m_workComplete = false;
 
 }
 
@@ -204,8 +206,6 @@ void Processor::Data::RecordCreator::Init(const Packet::Internal::TyreSetUsage* 
     auto tyreData = packet->GetData();
     for (auto data : tyreData) {
 
-
-
         auto entry = m_driverRecords.find(data.m_driverID);
         if (entry != m_driverRecords.end()) {
 
@@ -227,19 +227,40 @@ void Processor::Data::RecordCreator::Init(const Packet::Internal::TyreSetUsage* 
 
 
 
+void Processor::Data::RecordCreator::Init(const Packet::Internal::WeatherStatus* packet) {
+
+    if (!packet || !m_sessionRecord || m_sessionRecord->Initialized()) return;
+
+    for (const auto& session : packet->GetSessions()) {
+
+        const auto& weatherData = packet->GetData(session);
+        for (const auto& sample : weatherData) {
+
+            m_sessionRecord->updateWeather(packet->GetCurrentSession(), sample, packet->m_minutesSinceStart);
+
+        }
+
+    }
+    
+    // TODO remove this, this is temporary
+    m_sessionRecord->PrintWeather(packet->GetCurrentSession());
+
+    VerifyAndPropagate();
+
+}
+
+
+
 void Processor::Data::RecordCreator::VerifyAndPropagate() {
 
     if (!m_workComplete && m_sessionRecord && !(m_driverRecords.empty()) &&
     (m_driverRecords.size() == m_totalParticipants)) {
 
-        std::map<const uint8_t, bool> participantTracker;
         bool initialized = m_sessionRecord->Initialized();
 
         for (const auto& driverEntry : m_driverRecords) {
 
             if (driverEntry.second) {
-
-                participantTracker.emplace(driverEntry.first, !(driverEntry.second->isFinished()));
                 initialized &= driverEntry.second->Initialized();
 
             }
@@ -253,8 +274,6 @@ void Processor::Data::RecordCreator::VerifyAndPropagate() {
         }
 
         if (initialized) {
-
-            m_sessionRecord->getModifiableState()->Init(participantTracker);
 
             m_regFullRecordsFunc(m_sessionRecord, m_driverRecords);
             m_workComplete = true;

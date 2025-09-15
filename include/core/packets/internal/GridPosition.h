@@ -12,7 +12,7 @@ namespace Packet {
 
     namespace Internal {
 
-        struct GridPosition : public Packet::Internal::Interface {
+        class GridPosition : public Packet::Internal::Interface {
 
             struct Data {
 

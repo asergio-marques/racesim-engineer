@@ -3,6 +3,7 @@
 
 #include <cstdint>
 #include <map>
+#include <mutex>
 #include "detectors/Type.h"
 
 
@@ -11,6 +12,7 @@ namespace Packet {
 
     namespace Internal {
 
+        class FinalResult;
         class Interface;
         class Standings;
         class PenaltyStatus;
@@ -63,6 +65,9 @@ namespace Processor {
             // Main entry function for new packets
             void updateData(const Packet::Internal::Interface* packet);
 
+            // Clears all session and driver records from the databank and the detectors, preparing for the start of a new session
+            void clearData();
+
             // Add a detector to the databank's own list of active detectors, avoiding duplicates
             void installDetector(Processor::Detector::Interface* detector);
 
@@ -70,9 +75,6 @@ namespace Processor {
             const Processor::Exporter::Interface* getExporter() const;
 
             private:
-            // Closes down the session, marking the session as finalized, to accept packets pertaining to the final lap
-            void markAsFinished();
-
             // Checks the auto export user setting and outputs the session data if so
             void triggerAutoExport();
 
@@ -97,6 +99,10 @@ namespace Processor {
             // Interfaces with the DriverState class to update the current tyre usage of the session participants
             void updateCurrentTyreUsage(const Packet::Internal::TyreSetUsage* tyrePacket);
 
+            // Interfaces with the SessionState and DriverState classes to inform that the session has been deemed as finished
+            // and to ready for any final data to arrive; only after all data is verified as complete can the session end packet be sent
+            void prepareSessionEnd(const Packet::Internal::FinalResult* finalResult);
+
             // General interface for communicating with other modules
             Presenter::ICompFacade* m_presenter;
 
@@ -114,6 +120,9 @@ namespace Processor {
 
             // Holds a list of the currently added detectors, using the detector type as index
             std::map<Processor::Detector::Type, Processor::Detector::Interface*> m_activeDetectors;
+
+            // Mutex to guard against simultaneous access of the driver records
+            std::mutex m_recordMutex;
 
         };
 

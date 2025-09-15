@@ -138,22 +138,22 @@ void UserInterface::PacketHandler::NotifySessionStartObservers(Packet::Event::In
 
             case Packet::Event::Type::PracticeStart:
                 packet->markAsProcessed();
-                emit PracticeStart(dynamic_cast<const Packet::Event::PracticeStart*>(packet));
+                emit PracticeStart(packet);
                 break;
 
             case Packet::Event::Type::QualiStart:
                 packet->markAsProcessed();
-                emit QualiStart(dynamic_cast<const Packet::Event::QualiStart*>(packet));
+                emit QualiStart(packet);
                 break;
 
             case Packet::Event::Type::RaceStart:
                 packet->markAsProcessed();
-                emit RaceStart(dynamic_cast<const Packet::Event::RaceStart*>(packet));
+                emit RaceStart(packet);
                 break;
 
             case Packet::Event::Type::TimeTrialStart:
                 packet->markAsProcessed();
-                emit TimeTrialStart(dynamic_cast<const Packet::Event::TimeTrialStart*>(packet));
+                emit TimeTrialStart(packet);
                 break;
 
             default:
@@ -174,7 +174,7 @@ void UserInterface::PacketHandler::NotifySessionEndObservers(Packet::Event::Inte
     if (packet) {
 
         packet->markAsProcessed();
-        emit SessionEnd(true);
+        emit SessionEnd();
 
     }
 

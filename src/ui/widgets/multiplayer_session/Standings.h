@@ -31,7 +31,7 @@ namespace UserInterface {
             public:
             Standings(QWidget* parent = 0);
             virtual ~Standings() = default;
-            void reorderStandings();
+            void cleanup();
             void onQualiStart(const Packet::Event::QualiStart* dataPacket);
             void onRaceStart(const Packet::Event::RaceStart* dataPacket);
             void onOvertake(const Packet::Event::Overtake* packet);
@@ -53,6 +53,8 @@ namespace UserInterface {
             const int16_t y() const override final;
 
             private:
+            void reorderStandings();
+
             QWidget* m_parent;
             QMap<const uint8_t, UserInterface::Widget::IDriverEntry*> m_driverData;
             UserInterface::Widget::IDriverEntry* m_currentFastestLapHolder;

@@ -9,10 +9,7 @@
 
 
 UserInterface::Screen::FreePractice::FreePractice(UserInterface::PacketHandler* handler, QWidget* parent) :
-    UserInterface::Screen::DualPanelInterface(parent) {
-
-    m_panelLeft = new UserInterface::Panel::FreePracticeLeft(handler, this);
-    m_panelRight = new UserInterface::Panel::FreePracticeRight(handler, this);
+    UserInterface::Screen::DualPanelInterface(handler, parent) {
 
 }
 
@@ -21,5 +18,28 @@ UserInterface::Screen::FreePractice::FreePractice(UserInterface::PacketHandler* 
 const UserInterface::Screen::Type UserInterface::Screen::FreePractice::Type() const {
 
     return UserInterface::Screen::Type::FreePractice;
+
+}
+
+
+
+void UserInterface::Screen::FreePractice::Activate(const Packet::Event::Interface* startupInfo) {
+
+    if (startupInfo) {
+
+        if (!m_panelLeft) {
+
+            m_panelLeft = new UserInterface::Panel::FreePracticeLeft(m_handler, this);
+
+        }
+        if (!m_panelRight) {
+
+            m_panelRight = new UserInterface::Panel::FreePracticeRight(m_handler, this);
+
+        }
+
+        UserInterface::Screen::DualPanelInterface::Initialize(startupInfo);
+
+    }
 
 }

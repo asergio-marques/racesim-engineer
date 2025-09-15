@@ -14,12 +14,23 @@
 
 Processor::Data::DriverState::DriverState(const Processor::Data::DriverRecord* const parent, const uint8_t startingPosition) :
     m_parentRecord(parent),
-    m_isFinished(false),
     m_posTimeData(),
-    m_warnPenData() {
+    m_warnPenData(),
+    m_lapData() {
 
 
 
+
+}
+
+
+
+void Processor::Data::DriverState::finalize(const uint8_t id, const uint8_t position, const uint8_t numLaps, const Lap::Internal::Time sessionTime) {
+
+    m_lapData.completeData(id, numLaps, sessionTime);
+    // TODO investigate this better because it doesn't look like it's working perfectly
+    // m_posTimeData.updateCurrentPosition(id, position);
+    m_posTimeData.updateStatus(id, Participant::Internal::Status::FinishedSession);
 
 }
 
@@ -37,14 +48,6 @@ bool Processor::Data::DriverState::installDetector(Processor::Detector::Interfac
     installed |= m_warnPenData.installDetector(detector);
 
     return installed;
-
-}
-
-
-
-void Processor::Data::DriverState::markAsFinished() {
-
-    m_isFinished = true;
 
 }
 
@@ -91,15 +94,14 @@ void Processor::Data::DriverState::updateStatus(const Participant::Internal::Sta
 }
 
 
-bool Processor::Data::DriverState::updateLap(const uint8_t lapID, const Lap::Internal::Type type,
+void Processor::Data::DriverState::updateLap(const uint8_t lapID, const Lap::Internal::Type type,
     const Lap::Internal::Status status, const Lap::Internal::Time currentLapTime, const std::vector<Lap::Internal::Time> sectorTimes,
     const float_t lapDistanceRun, const Lap::Internal::Time previousLapTime) {
 
     // Checking the finished status rather than using the SessionEnd packet solely as source of truth means that in multiplayer sessions
     // the user may not have to wait until the very last packet and may get info before
-    auto newDriverStatus = m_lapData.updateLap(m_parentRecord->m_info.m_driverID, lapID, type,
+    m_lapData.updateLap(m_parentRecord->m_info.m_driverID, lapID, type,
         status, currentLapTime, sectorTimes, lapDistanceRun, previousLapTime, m_posTimeData.getStatus());
-    return newDriverStatus;
 
 }
 

@@ -16,7 +16,7 @@ namespace Packet {
 
         struct Participant;
 
-        struct SessionParticipants : public Packet::Internal::Interface {
+        class SessionParticipants : public Packet::Internal::Interface {
 
             public:
             // Packet interface constructor

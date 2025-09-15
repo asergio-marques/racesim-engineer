@@ -19,7 +19,9 @@ namespace Packet {
             ParticipantStatus       = 5,
             LapStatus               = 6,
             PenaltyStatus           = 7,
-            TyreSetUsage            = 8
+            TyreSetUsage            = 8,
+            FinalResult             = 9,
+            WeatherStatus           = 10
 
         };
     

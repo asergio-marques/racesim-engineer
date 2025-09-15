@@ -45,3 +45,19 @@ void UserInterface::Panel::QualifyingLeft::ResizePanel(const QSize& newUsefulSiz
     }
 
 }
+
+
+
+void UserInterface::Panel::QualifyingLeft::Startup(const Packet::Event::Interface* startInfo) {
+
+    // TODO
+
+}
+
+
+
+void UserInterface::Panel::QualifyingLeft::Cleanup() {
+
+    // TODO
+
+}

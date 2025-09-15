@@ -1,8 +1,9 @@
 #include "adapters/F1_25.h"
 
-#include <iostream>
+#include <cmath>
 #include <limits>
 #include <string>
+#include <map>
 #include <vector>
 #include "adapters/Interface.h"
 #include "data/game/F1_25/Event.h"
@@ -12,6 +13,7 @@
 #include "maps/F1_25.h"
 #include "packets/game/Helper.h"
 #include "packets/game/Interface.h"
+#include "packets/internal/FinalResult.h"
 #include "packets/internal/GridPosition.h"
 #include "packets/internal/Interface.h"
 #include "packets/internal/LapStatus.h"
@@ -20,6 +22,7 @@
 #include "packets/internal/SessionParticipants.h"
 #include "packets/internal/SessionSettings.h"
 #include "packets/internal/Standings.h"
+#include "packets/internal/WeatherStatus.h"
 #include "packets/internal/TyreSetUsage.h"
 #include "packets/game/F1_25/Interface.h"
 #include "packets/game/F1_25/Header.h"
@@ -71,6 +74,10 @@ Generalizer::Adapter::F1_25::ConvertPacket(const Packet::Game::Interface* packet
             outputPackets = ConvertParticipantDataPacket(dynamic_cast<const Packet::Game::F1_25::ParticipantData*>(gamePacket));
             break;
 
+        case Packet::Game::F1_25::Type::StandingsData:
+            outputPackets = ConvertStandingsDataPacket(dynamic_cast<const Packet::Game::F1_25::StandingsData*>(gamePacket));
+            break;
+
         case Packet::Game::F1_25::Type::SessionHistoryData:
             outputPackets = ConvertSessionHistoryDataPacket(dynamic_cast<const Packet::Game::F1_25::SessionHistoryData*>(gamePacket));
             break;
@@ -101,101 +108,84 @@ Generalizer::Adapter::F1_25::ConvertSessionDataPacket(const Packet::Game::F1_25:
     ExtractSessionSettings(inputPacket, trackInfo, settings);
     Packet::Internal::SessionSettings* sessionDataPacket =
         new Packet::Internal::SessionSettings(inputPacket->GetHeader()->GetFrameIdentifier(), trackInfo, settings);
-    
-    static bool gotWeatherData = false;
 
-    if (!gotWeatherData) {
+    // This is extremely ugly, but if the weekend has a sprint format, then Race1 is the sprint and Race2 the feature
+    // However, if the weekend does not have a sprint format, then Race1 is the feature
+    // We need to check the entire structure to then do the correct mapping; since it's easier to assume sprint by default,
+    // we only need to correct this after using this check
+    std::vector<Session::Game::F1_25::Type> allSessions;
+    auto* weekendEntry = inputPacket->GetWeekendStructure();
+    bool hasSprint = false;
+    for (size_t i = 0; i < inputPacket->GetNumSessionsInWeekend(); ++i && ++weekendEntry) {
 
+        allSessions.push_back(weekendEntry ? *weekendEntry : Session::Game::F1_25::Type::InvalidUnknown);
+
+    }
+    if (std::find(allSessions.begin(), allSessions.end(), Session::Game::F1_25::Type::Race1) != allSessions.end() &&
+        std::find(allSessions.begin(), allSessions.end(), Session::Game::F1_25::Type::Race2) != allSessions.end()) {
+        
+        hasSprint = true;
+
+    }
+    // only create and send the weather packet if the input packet actually contains all the needed information
+    // there is a problem in frame 0 that the number of sessions in the weekend is 0, and for that reason the weather data cannot be properly parsed
+    bool isValid = !allSessions.empty();
+    if (isValid) {
+
+        Session::Internal::RoundDetail currentRoundType = Session::Internal::RoundDetail::InvalidUnknown;
+        Session::Internal::TypeDetail currentSessionType = Session::Internal::TypeDetail::InvalidUnknown;
+
+        auto typeIt = Generalizer::Maps::F1_25::SESSION_TYPE_MAP.find({ inputPacket->GetFormula(), inputPacket->GetSessionType() });
+        if (typeIt != Generalizer::Maps::F1_25::SESSION_TYPE_MAP.end()) {
+
+            currentRoundType = typeIt->second.first;
+            currentSessionType = typeIt->second.second;
+
+        }
+
+        Packet::Internal::WeatherStatus* weatherPacket =
+            new Packet::Internal::WeatherStatus(inputPacket->GetHeader()->GetFrameIdentifier(),
+                currentRoundType,
+                currentSessionType,
+                (inputPacket->GetSessionDuration() / 60) - (inputPacket->GetSessionTimeLeft() / 60));
         auto* sample = inputPacket->GetWeatherForecastSamples();
         for (size_t i = 0; i < inputPacket->GetNumWeatherForecastSamples(); ++i && ++sample) {
 
-            std::string sessionType;
-            std::string weatherType;
             if (sample) {
-                switch (sample->m_sessionType) {
 
-                    case Session::Game::F1_25::Type::Qualifying1:
-                        sessionType = "Quali 1";
-                        break;
+                Session::Internal::WeatherSample data;
+                // see comment above regarding sprint sessions and Race1/Race2 (thank you Codemasters)
+                auto actualSessionType = sample->m_sessionType;
+                if (!hasSprint && (actualSessionType == Session::Game::F1_25::Type::Race1)) {
 
-                    case Session::Game::F1_25::Type::Qualifying2:
-                        sessionType = "Quali 2";
-                        break;
-
-                    case Session::Game::F1_25::Type::Qualifying3:
-                        sessionType = "Quali 3";
-                        break;
-
-                    case Session::Game::F1_25::Type::ShortQualifying:
-                    case Session::Game::F1_25::Type::OneShotQualifying:
-                        sessionType = "Quali";
-                        break;
-
-                    case Session::Game::F1_25::Type::SprintShootout1:
-                        sessionType = "Sprint Quali 1";
-                        break;
-
-                    case Session::Game::F1_25::Type::SprintShootout2:
-                        sessionType = "Sprint Quali 2";
-                        break;
-
-                    case Session::Game::F1_25::Type::SprintShootout3:
-                        sessionType = "Sprint Quali 3";
-                        break;
-
-                    case Session::Game::F1_25::Type::ShortSprintShootout:
-                    case Session::Game::F1_25::Type::OneShotSprintShootout:
-                        sessionType = "Sprint Quali";
-                        break;
-
-                    case Session::Game::F1_25::Type::Race1:
-                    case Session::Game::F1_25::Type::Race2:
-                    case Session::Game::F1_25::Type::Race3:
-                        // TODO what is sprint what is feature? it's weird so I'm not even gonna bother
-                        sessionType = "Race";
-                        break;
-
-                    default:
-                        sessionType = "idk";
+                    actualSessionType = Session::Game::F1_25::Type::Race2;
 
                 }
-                switch (sample->m_weather) {
-                    case Session::Game::F1_25::Weather::Clear:
-                        weatherType = "Clear";
-                        break;
+                typeIt = Generalizer::Maps::F1_25::SESSION_TYPE_MAP.find({ inputPacket->GetFormula(), actualSessionType });
+                if (typeIt != Generalizer::Maps::F1_25::SESSION_TYPE_MAP.end()) {
 
-                    case Session::Game::F1_25::Weather::LightClouds:
-                        weatherType = "Cloudy";
-                        break;
-
-                    case Session::Game::F1_25::Weather::Overcast:
-                        weatherType = "Overcast";
-                        break;
-
-                    case Session::Game::F1_25::Weather::LightRain:
-                        weatherType = "Wet";
-                        break;
-                    case Session::Game::F1_25::Weather::HeavyRain:
-                        weatherType = "Very Wet";
-                        break;
-
-                    case Session::Game::F1_25::Weather::StormRain:
-                        weatherType = "Thunderstorm";
-                        break;
-
-                    default:
-                        weatherType = "idk";
+                    Session::Internal::Descriptor d{ typeIt->second.first, typeIt->second.second };
+                    data.m_descriptor = d;
 
                 }
+                data.m_timeOffset = sample->m_timeOffset;
+                auto weatherIt = Generalizer::Maps::F1_25::WEATHER_TYPE_MAP.find(sample->m_weather);
+                if (weatherIt != Generalizer::Maps::F1_25::WEATHER_TYPE_MAP.end()) {
 
-                std::cout << "| " << sessionType << " | " << std::to_string(sample->m_timeOffset) << " mins | " << weatherType << " | " << std::to_string(sample->m_rainPercentage) << "% rain |" << std::endl;
+                    data.m_overall = weatherIt->second;
 
+                }
+                data.m_airTemp = sample->m_airTemperature;
+                data.m_trackTemp = sample->m_trackTemperature;
+                data.m_rain = sample->m_rainPercentage;
 
-                gotWeatherData = true;
+                weatherPacket->InsertData(data);
 
             }
 
         }
+
+        return { sessionDataPacket, weatherPacket };
 
     }
 
@@ -223,23 +213,23 @@ Generalizer::Adapter::F1_25::ConvertLapDataPacket(const Packet::Game::F1_25::Lap
         new Packet::Internal::PenaltyStatus(inputPacket->GetHeader()->GetFrameIdentifier());
     Packet::Internal::ParticipantStatus* statusPacket =
         new Packet::Internal::ParticipantStatus(inputPacket->GetHeader()->GetFrameIdentifier());
+
+    std::map<size_t, uint8_t> startingPlaces;
+    std::map<size_t, bool> gridPositionFilled;
+
     for (size_t i = 0; i < 22; ++i) {
 
         bool ok = false;
         const auto lapInfo = inputPacket->GetLapInfo(i, ok);
         if (ok) {
 
-            // in quali sessions, the grid position is effectively 0
-            if (lapInfo.m_gridPositionStart == 0) {
+            // due to some problems in qualifications sessions that have been restarted,
+            // a temporary map is needed to later disambiguate grid positions
+            uint8_t gridPosition = ((lapInfo.m_gridPositionStart == 0) ?
+                lapInfo.m_carPosition : lapInfo.m_gridPositionStart);
+            startingPlaces.emplace(i, gridPosition);
+            gridPositionFilled.emplace(i + 1, false);
 
-                gridPacket->InsertData(i, lapInfo.m_carPosition);
-                
-            }
-            else {
-
-                gridPacket->InsertData(i, lapInfo.m_gridPositionStart);
-
-            }
             standingsPacket->InsertData(i, lapInfo.m_carPosition);
             penaltiesPacket->InsertData(i, lapInfo.m_numTotalWarn,
                 lapInfo.m_numCornerCutWarn,
@@ -277,6 +267,33 @@ Generalizer::Adapter::F1_25::ConvertLapDataPacket(const Packet::Game::F1_25::Lap
         }
 
     }
+    for (size_t i = 0; i < 22; ++i) {
+
+        auto pos = startingPlaces[i];
+        // if there is a driver with the same grid position as the driver with this ID, 
+        // then find the highest position without a filled slot
+        if (!gridPositionFilled[pos]) gridPositionFilled[pos] = true;
+        else {
+
+            for (auto& posSlot : gridPositionFilled) {
+
+                if (!posSlot.second) {
+
+                    startingPlaces[i] = posSlot.first;
+                    pos = posSlot.first;
+                    posSlot.second = true;
+                    break;
+
+                }
+
+            }
+
+        }
+
+        gridPacket->InsertData(i, pos);
+
+    }
+
 
     return { gridPacket, standingsPacket, penaltiesPacket, statusPacket };
 
@@ -299,7 +316,7 @@ Generalizer::Adapter::F1_25::ConvertParticipantDataPacket(const Packet::Game::F1
     for (size_t i = 0; i < inputPacket->GetNumActiveCars(); ++i) {
 
         bool ok = false;
-        const Packet::Game::F1_25::ParticipantInfo rawInfo = inputPacket->GetParticipantInfo(i, ok);
+        const auto rawInfo = inputPacket->GetParticipantInfo(i, ok);
         if (ok) {
 
             participantsPacket->InsertData(GetSingleParticipantData(rawInfo, i, playerIndex));
@@ -311,6 +328,38 @@ Generalizer::Adapter::F1_25::ConvertParticipantDataPacket(const Packet::Game::F1
     return { participantsPacket };
 
 }
+
+
+
+std::vector<Packet::Internal::Interface*>
+Generalizer::Adapter::F1_25::ConvertStandingsDataPacket(const Packet::Game::F1_25::StandingsData* inputPacket) {
+
+    if (!inputPacket || !(inputPacket->GetHeader())) {
+
+        return {};
+
+    }
+    // because this packet anyway has a frame identifier of 0, then hardcoding is necessary
+    Packet::Internal::FinalResult* finalResult =
+        new Packet::Internal::FinalResult(UINT32_MAX, false);
+    for (size_t i = 0; i < 22; ++i) {
+
+        bool ok = false;
+        const auto data = inputPacket->GetSessionResult(i, ok);
+        if (ok) {
+
+            // convert time from seconds to milliseconds
+            uint32_t endTime = std::round(data.m_totalRaceTime * 1000);
+            finalResult->InsertData(i, data.m_endPosition, data.m_numLaps, endTime, data.m_bestLapTime);
+
+        }
+
+
+    }
+    return { finalResult };
+
+}
+
 
 
 std::vector<Packet::Internal::Interface*>

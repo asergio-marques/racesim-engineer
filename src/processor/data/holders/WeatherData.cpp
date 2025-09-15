@@ -24,6 +24,7 @@ void Processor::Data::WeatherData::updateWeather(const Session::Internal::Descri
     const Session::Internal::WeatherSample& sample, const uint16_t minutesSinceStart) {
 
     Processor::Data::OrderedWeatherData orderedData{ minutesSinceStart, sample.m_timeOffset };
+    orderedData.m_sample = sample;
 
     const auto it = m_weatherMap.find(sample.m_descriptor);
     if (it != m_weatherMap.end()) {
@@ -68,7 +69,6 @@ void Processor::Data::WeatherData::updateWeather(const Session::Internal::Descri
 
         std::vector<Processor::Data::OrderedWeatherData> v;
         v.push_back(orderedData);
-
         m_weatherMap.emplace(sample.m_descriptor, v);
 
     }

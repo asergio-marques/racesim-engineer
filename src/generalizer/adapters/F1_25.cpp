@@ -121,7 +121,10 @@ Generalizer::Adapter::F1_25::ConvertSessionDataPacket(const Packet::Game::F1_25:
     }
 
     Packet::Internal::WeatherStatus* weatherPacket =
-        new Packet::Internal::WeatherStatus(inputPacket->GetHeader()->GetFrameIdentifier(), currentRoundType, currentSessionType, inputPacket->GetSessionDuration());
+        new Packet::Internal::WeatherStatus(inputPacket->GetHeader()->GetFrameIdentifier(),
+            currentRoundType,
+            currentSessionType,
+            (inputPacket->GetSessionDuration() / 60) - (inputPacket->GetSessionTimeLeft() / 60));
 
     auto* sample = inputPacket->GetWeatherForecastSamples();
     for (size_t i = 0; i < inputPacket->GetNumWeatherForecastSamples(); ++i && ++sample) {

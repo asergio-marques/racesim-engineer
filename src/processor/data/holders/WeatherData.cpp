@@ -1,5 +1,6 @@
 #include "data/holders/WeatherData.h"
 
+#include <algorithm>
 #include <cstdint>
 #include <iostream>
 #include <map>
@@ -21,23 +22,54 @@ bool Processor::Data::WeatherData::Initialized() const {
 
 void Processor::Data::WeatherData::updateWeather(const Session::Internal::Descriptor& descriptor,
     const Session::Internal::WeatherSample& sample, const uint16_t minutesSinceStart) {
-    
+
     Processor::Data::OrderedWeatherData orderedData{ minutesSinceStart, sample.m_timeOffset };
 
-    const auto it = m_weatherMap.find(descriptor);
-    if (it != m_weatherMap.end()){
+    const auto it = m_weatherMap.find(sample.m_descriptor);
+    if (it != m_weatherMap.end()) {
 
         auto& sessionWeatherEntry = it->second;
-        // TODO find if there's an entry with the same "minutesSince" attribute
-        // if yes, update value
-        // otherwise, add new entry and resort the entire vector
+
+        // find if there's an entry with the same "minutesSince" attribute
+        // if there is, merely update the value
+        // otherwise, add a new entry and resort the entire vector
+        auto entry = std::find_if(sessionWeatherEntry.begin(), sessionWeatherEntry.end(),
+            [&orderedData](const Processor::Data::OrderedWeatherData& entry) {
+
+                return (entry.m_minutesSinceStart == orderedData.m_minutesSinceStart);
+
+            });
+        if (entry != sessionWeatherEntry.end()) {
+
+            entry->m_sample.m_overall = sample.m_overall;
+            entry->m_sample.m_airTemp = sample.m_airTemp;
+            entry->m_sample.m_trackTemp = sample.m_trackTemp;
+            entry->m_sample.m_humidity = sample.m_humidity;
+            entry->m_sample.m_rain = sample.m_rain;
+            entry->m_sample.m_windSpeed = sample.m_windSpeed;
+            entry->m_sample.m_windDirection = sample.m_windDirection;
+
+        }
+        else {
+
+            sessionWeatherEntry.push_back(orderedData);
+            std::sort(sessionWeatherEntry.begin(), sessionWeatherEntry.end(),
+                [](const Processor::Data::OrderedWeatherData& a, const Processor::Data::OrderedWeatherData& b) {
+
+                    return a.m_minutesSinceStart < b.m_minutesSinceStart;
+
+            });
+
+        }
+
 
     }
     else {
+
         std::vector<Processor::Data::OrderedWeatherData> v;
         v.push_back(orderedData);
 
-        m_weatherMap.emplace(descriptor, v);
+        m_weatherMap.emplace(sample.m_descriptor, v);
 
     }
 
@@ -47,12 +79,14 @@ void Processor::Data::WeatherData::updateWeather(const Session::Internal::Descri
 
 void Processor::Data::WeatherData::Print(const Session::Internal::Descriptor& currentSession) {
 
+    std::cout << "-----------------------------------------------------------------"
+        "-------------------------------------------------------------------------" << std::endl;
     // assume everything is already ordered
     for (const auto& entry : m_weatherMap) {
-        
+
         const auto session = entry.first;
         const auto weatherList = entry.second;
-        
+
         std::string formatString = "";
         switch (session.m_roundType) {
 
@@ -61,18 +95,18 @@ void Processor::Data::WeatherData::Print(const Session::Internal::Descriptor& cu
                 break;
 
             case Session::Internal::RoundDetail::Feature:
-                formatString = "";
+                formatString = "Feature";
                 break;
 
             case Session::Internal::RoundDetail::Sprint:
-                formatString = "";
+                formatString = "Sprint";
                 break;
 
             default:
                 formatString = "Unknown";
 
         }
-        std::string sessionString;
+        std::string sessionString = "";
         switch (session.m_sessionType) {
 
             case Session::Internal::TypeDetail::TimeTrial:
@@ -118,7 +152,7 @@ void Processor::Data::WeatherData::Print(const Session::Internal::Descriptor& cu
             case Session::Internal::TypeDetail::Race:
                 sessionString = formatString + " Race";
                 break;
-            
+
             default:
                 sessionString = "Unknown";
 
@@ -129,29 +163,32 @@ void Processor::Data::WeatherData::Print(const Session::Internal::Descriptor& cu
 
             switch (data.m_sample.m_overall) {
 
-                    case Session::Internal::WeatherType::Clear:
-                        weatherType = "Clear";
-                        break;
+                case Session::Internal::WeatherType::Clear:
+                    weatherType = "Clear";
+                    break;
 
-                    case Session::Internal::WeatherType::Cloudy:
-                        weatherType = "Cloudy";
-                        break;
+                case Session::Internal::WeatherType::Cloudy:
+                    weatherType = "Cloudy";
+                    break;
 
-                    case Session::Internal::WeatherType::Overcast:
-                        weatherType = "Overcast";
-                        break;
+                case Session::Internal::WeatherType::Overcast:
+                    weatherType = "Overcast";
+                    break;
 
-                    case Session::Internal::WeatherType::LightRain:
-                        weatherType = "Wet";
-                        break;
-                        
-                    case Session::Internal::WeatherType::HeavyRain:
-                        weatherType = "Very Wet";
-                        break;
+                case Session::Internal::WeatherType::LightRain:
+                    weatherType = "Wet";
+                    break;
 
-                    case Session::Internal::WeatherType::RainWithLightning:
-                        weatherType = "Thunderstorm";
-                        break;
+                case Session::Internal::WeatherType::HeavyRain:
+                    weatherType = "Very Wet";
+                    break;
+
+                case Session::Internal::WeatherType::RainWithLightning:
+                    weatherType = "Thunderstorm";
+                    break;
+
+                default:
+                    weatherType = "Unknown";
 
             }
 
@@ -164,16 +201,19 @@ void Processor::Data::WeatherData::Print(const Session::Internal::Descriptor& cu
 
             }
 
-            std::cout << "| " << sessionString << " | " <<
-                std::to_string(data.m_minutesSinceStart) << " mins | " <<
-                weatherType << " | " <<
-                std::to_string(data.m_sample.m_rain) << "% rain | " <<
-                std::to_string(data.m_sample.m_trackTemp) << "ºC track temp | " <<
-                std::to_string(data.m_sample.m_airTemp) << "ºC air temp | " <<
+            std::cout << "| " << sessionString << "\t| " <<
+                std::to_string(data.m_minutesSinceStart) << " mins\t| " <<
+                weatherType << "\t| " <<
+                std::to_string(data.m_sample.m_rain) << "% rain\t| " <<
+                std::to_string(data.m_sample.m_trackTemp) << "degC track temp\t| " <<
+                std::to_string(data.m_sample.m_airTemp) << "degC air temp\t| " <<
                 currentSeasonStartString << std::endl;
 
         }
 
     }
+    
+    std::cout << "-----------------------------------------------------------------"
+        "-------------------------------------------------------------------------" << std::endl;
 
 }

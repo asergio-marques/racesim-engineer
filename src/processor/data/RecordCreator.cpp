@@ -229,7 +229,7 @@ void Processor::Data::RecordCreator::Init(const Packet::Internal::TyreSetUsage* 
 
 void Processor::Data::RecordCreator::Init(const Packet::Internal::WeatherStatus* packet) {
 
-    if (!packet || !m_sessionRecord) return;
+    if (!packet || !m_sessionRecord || m_sessionRecord->Initialized()) return;
 
     for (const auto& session : packet->GetSessions()) {
 

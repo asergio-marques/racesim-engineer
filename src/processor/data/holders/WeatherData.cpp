@@ -19,7 +19,7 @@ bool Processor::Data::WeatherData::Initialized() const {
 
 
 
-void Processor::Data::WeatherData::updateWeather(const Session::Internal::Descriptor descriptor,
+void Processor::Data::WeatherData::updateWeather(const Session::Internal::Descriptor& descriptor,
     const Session::Internal::WeatherSample& sample, const uint16_t minutesSinceStart) {
     
     Processor::Data::OrderedWeatherData orderedData{ minutesSinceStart, sample.m_timeOffset };
@@ -45,7 +45,7 @@ void Processor::Data::WeatherData::updateWeather(const Session::Internal::Descri
 
 
 
-void Processor::Data::WeatherData::Print() {
+void Processor::Data::WeatherData::Print(const Session::Internal::Descriptor& currentSession) {
 
     // assume everything is already ordered
     for (const auto& entry : m_weatherMap) {
@@ -155,13 +155,22 @@ void Processor::Data::WeatherData::Print() {
 
             }
 
-            std::cout << "| " << sessionString << " | "
-            << std::to_string(data.m_minutesSinceStart) << " mins | "
-            << weatherType << " | "
-            << std::to_string(data.m_sample.m_rain) << "% rain | "
-            << std::to_string(data.m_sample.m_trackTemp) << "ºC track temp | "
-            << std::to_string(data.m_sample.m_airTemp) << "ºC air temp | "
-            << std::endl;
+            std::string currentSeasonStartString = "";
+            if ((session.m_roundType == currentSession.m_roundType) &&
+                (session.m_sessionType == currentSession.m_sessionType) &&
+                data.m_minutesSinceStart == 0) {
+
+                currentSeasonStartString = "<== CURRENT!";
+
+            }
+
+            std::cout << "| " << sessionString << " | " <<
+                std::to_string(data.m_minutesSinceStart) << " mins | " <<
+                weatherType << " | " <<
+                std::to_string(data.m_sample.m_rain) << "% rain | " <<
+                std::to_string(data.m_sample.m_trackTemp) << "ºC track temp | " <<
+                std::to_string(data.m_sample.m_airTemp) << "ºC air temp | " <<
+                currentSeasonStartString << std::endl;
 
         }
 

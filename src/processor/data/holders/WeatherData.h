@@ -25,11 +25,11 @@ namespace Processor {
             bool Initialized() const;
 
             // Updates the weather samples stored with new information
-            void updateWeather(const Session::Internal::Descriptor descriptor,
+            void updateWeather(const Session::Internal::Descriptor& descriptor,
                 const Session::Internal::WeatherSample& sample, const uint16_t minutesSinceStart);
 
             // TODO remove this once weather info is sent to the UI
-            void Print();
+            void Print(const Session::Internal::Descriptor& currentSession);
 
             private:
             // Format and type of the current session taking place, used to "locate" the current weather

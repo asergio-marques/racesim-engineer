@@ -227,7 +227,7 @@ void Processor::Data::RecordCreator::Init(const Packet::Internal::TyreSetUsage* 
 
 
 
-void Processor::Data::RecordCreator::Init(const Packet::Internal::WeatherStatus* packet){
+void Processor::Data::RecordCreator::Init(const Packet::Internal::WeatherStatus* packet) {
 
     if (!packet || !m_sessionRecord) return;
 
@@ -243,7 +243,7 @@ void Processor::Data::RecordCreator::Init(const Packet::Internal::WeatherStatus*
     }
     
     // TODO remove this, this is temporary
-    m_sessionRecord->PrintWeather();
+    m_sessionRecord->PrintWeather(packet->GetCurrentSession());
 
     VerifyAndPropagate();
 

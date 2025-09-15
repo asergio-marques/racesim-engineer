@@ -47,7 +47,7 @@ const bool Processor::Data::SessionRecord::Initialized() const {
 
 
 
-void Processor::Data::SessionRecord::updateWeather(const Session::Internal::Descriptor descriptor,
+void Processor::Data::SessionRecord::updateWeather(const Session::Internal::Descriptor& descriptor,
     const Session::Internal::WeatherSample& sample, const uint16_t minutesSinceStart) {
 
     m_weather.updateWeather(descriptor, sample, minutesSinceStart);
@@ -88,8 +88,8 @@ Processor::Data::SessionState* Processor::Data::SessionRecord::getModifiableStat
 
 
 
-void Processor::Data::SessionRecord::PrintWeather() {
+void Processor::Data::SessionRecord::PrintWeather(const Session::Internal::Descriptor& descriptor) {
 
-    m_weather.Print();
+    m_weather.Print(descriptor);
 
 }

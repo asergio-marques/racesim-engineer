@@ -26,11 +26,14 @@ namespace Packet {
             // Type identifier for the packet
             const Packet::Internal::Type packetType() const override final;
 
-            // Adds grid position data into the packet
+            // Adds a weather sample into the packet
             void InsertData(Session::Internal::WeatherSample data);
 
-            // Retrieve grid position data from the packet
+            // Retrieve all the weather samples for a given format and session
             const std::vector<Session::Internal::WeatherSample>& GetData(Session::Internal::RoundDetail round, Session::Internal::TypeDetail session) const;
+
+            // Retrieve the session configurations for which samples are available in this packet
+            const std::vector<std::pair<Session::Internal::RoundDetail, Session::Internal::TypeDetail>> GetSessions() const;
 
             // Identifies the current session's format (e.g. sprint, feature)
             const Session::Internal::RoundDetail m_currentSessionFormat;

@@ -57,6 +57,33 @@ void Packet::Internal::WeatherStatus::InsertData(Session::Internal::WeatherSampl
 
 
 
+const std::vector<std::pair<Session::Internal::RoundDetail, Session::Internal::TypeDetail>> Packet::Internal::WeatherStatus::GetSessions() const{
+
+    std::vector<std::pair<Session::Internal::RoundDetail, Session::Internal::TypeDetail>> temp;
+
+    for (const auto& sample : m_weatherSamples) {
+        
+        bool found = false;
+
+        if (std::find(temp.begin(), temp.end(), sample->first) != temp.end()) {
+
+            found = true;
+
+        }
+        if (!found){
+
+            temp.push_back({ sample->first.first, sample->first.second });
+
+        }
+
+    }
+
+    return temp;
+
+}
+
+
+
 const std::vector<Session::Internal::WeatherSample>& Packet::Internal::WeatherStatus::GetData(Session::Internal::RoundDetail round, Session::Internal::TypeDetail session) const {
 
     auto& it = m_weatherSamples.find({round, session});

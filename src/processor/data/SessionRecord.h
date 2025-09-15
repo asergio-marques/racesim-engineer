@@ -3,6 +3,7 @@
 
 #include <cstdint>
 #include "data/SessionState.h"
+#include "data/holders/WeatherData.h"
 #include "data/internal/Session.h"
 
 
@@ -41,6 +42,9 @@ namespace Processor {
 
             // Full info and characteristics of the track the session is running on
             const Session::Internal::TrackInfo m_trackInfo;
+
+            // Holder of all weather information for this lobby
+            Processor::Data::WeatherData m_weather;
 
             // Internal state of the session record, where all changes to the state of the session are made
             Processor::Data::SessionState* m_state;

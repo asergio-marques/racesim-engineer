@@ -192,6 +192,16 @@ namespace Session::Internal {
 
     };
 
+    struct Descriptor {
+
+        // The session format to which this data pertains (e.g. sprint/feature)
+        Session::Internal::RoundDetail m_roundType = Session::Internal::RoundDetail::InvalidUnknown;
+
+        // Session type to which this data pertains
+        Session::Internal::TypeDetail m_sessionType = Session::Internal::TypeDetail::InvalidUnknown;
+
+    }
+
     struct Settings {
 
         // What determines the end of this session
@@ -240,11 +250,8 @@ namespace Session::Internal {
 
     struct WeatherSample {
 
-        // The session format to which this weather sample pertains (e.g. sprint/feature)
-        Session::Internal::RoundDetail m_roundType = Session::Internal::RoundDetail::InvalidUnknown;
-
-        // Session type to which this weather sample pertains
-        Session::Internal::TypeDetail m_sessionType = Session::Internal::TypeDetail::InvalidUnknown;
+        // Descriptor of the format and session type to which this sample pertains
+        Session::Internal::Descriptor m_descriptor{};
 
         // Number of minutes since the start of the session to which this sample pertains
         uint16_t m_minutesSinceStart = 0;

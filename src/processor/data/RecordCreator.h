@@ -18,6 +18,7 @@ namespace Packet {
         class SessionSettings;
         class SessionParticipants;
         class TyreSetUsage;
+        class WeatherStatus;
 
        }
 
@@ -64,6 +65,9 @@ namespace Processor {
 
             // Initializes starting tyre data to the driver records
             void Init(const Packet::Internal::TyreSetUsage* packet);
+
+            // Initializes weather information for this and every session in this lobby
+            void Init(const Packet::Internal::WeatherStatus* packet);
 
             private:
             // Auxiliary function to be called whenever the full suite of driver records, or the session record, has been prepared

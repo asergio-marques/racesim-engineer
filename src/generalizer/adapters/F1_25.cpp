@@ -133,8 +133,8 @@ Generalizer::Adapter::F1_25::ConvertSessionDataPacket(const Packet::Game::F1_25:
             typeIt = Generalizer::Maps::F1_25::SESSION_TYPE_MAP.find({ inputPacket->GetFormula(), sample->m_sessionType });
             if (typeIt != Generalizer::Maps::F1_25::SESSION_TYPE_MAP.end()) {
                 
-                data.m_roundType = typeIt->second.first;
-                data.m_sessionType = typeIt->second.second;
+                Session::Internal::Descriptor d{typeIt->second.first, typeIt->second.second};
+                data.m_descriptor = d;
 
             }
             data.m_minutesSinceStart = sample->m_timeOffset;

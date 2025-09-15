@@ -27,6 +27,7 @@
 #include "packets/internal/SessionParticipants.h"
 #include "packets/internal/SessionSettings.h"
 #include "packets/internal/TyreSetUsage.h"
+#include "packets/internal/WeatherStatus.h"
 
 
 #ifndef LINUX
@@ -103,15 +104,23 @@ void Processor::Data::Databank::updateData(const Packet::Internal::Interface* pa
                 case Packet::Internal::Type::GridPosition:
                     m_creator->Init(dynamic_cast<const Packet::Internal::GridPosition*>(packet));
                     break;
+
                 case Packet::Internal::Type::SessionSettings:
                     m_creator->Init(dynamic_cast<const Packet::Internal::SessionSettings*>(packet));
                     break;
+
                 case Packet::Internal::Type::SessionParticipants:
                     m_creator->Init(dynamic_cast<const Packet::Internal::SessionParticipants*>(packet));
                     break;
+
                 case Packet::Internal::Type::TyreSetUsage:
                     m_creator->Init(dynamic_cast<const Packet::Internal::TyreSetUsage*>(packet));
                     break;
+
+                case Packet::Internal::Type::WeatherStatus:
+                    m_creator->Init(dynamic_cast<const Packet::Internal::WeatherStatus*>(packet));
+                    break;
+
                 default:
                     // do nothing
                     break;

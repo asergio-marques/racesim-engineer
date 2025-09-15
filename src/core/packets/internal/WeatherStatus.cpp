@@ -14,8 +14,7 @@
 Packet::Internal::WeatherStatus::WeatherStatus(const uint64_t timestamp, const Session::Internal::RoundDetail currentSessionFormat,
     const Session::Internal::TypeDetail currentSession, const uint16_t secondsSinceStart) :
     Packet::Internal::Interface(timestamp),
-    m_currentSessionFormat(currentSessionFormat),
-    m_currentSession(currentSession),
+    m_currentSession(currentSessionFormat, currentSession),
     m_minutesSinceStart(std::floor(secondsSinceStart / 60)),
     m_weatherSamples() {
 
@@ -33,7 +32,8 @@ const Packet::Internal::Type Packet::Internal::WeatherStatus::packetType() const
 
 void Packet::Internal::WeatherStatus::InsertData(Session::Internal::WeatherSample data) {
 
-    auto it = m_weatherSamples.find({ data.m_roundType, data.m_sessionType });
+    Session::Internal::Descriptor des{data.m_roundType, data.m_sessionType};
+    auto it = m_weatherSamples.find(des);
     if (it != m_weatherSamples.end()) {
 
         auto& v = it->second;
@@ -49,7 +49,7 @@ void Packet::Internal::WeatherStatus::InsertData(Session::Internal::WeatherSampl
 
         std::vector<Session::Internal::WeatherSample> v;
         v.push_back(data);
-        m_weatherSamples.emplace({ data.m_roundType, data.m_sessionType }, v);
+        m_weatherSamples.emplace(des, v);
 
     }
 
@@ -57,9 +57,9 @@ void Packet::Internal::WeatherStatus::InsertData(Session::Internal::WeatherSampl
 
 
 
-const std::vector<std::pair<Session::Internal::RoundDetail, Session::Internal::TypeDetail>> Packet::Internal::WeatherStatus::GetSessions() const{
+const std::vector<Session::Internal::Descriptor> Packet::Internal::WeatherStatus::GetSessions() const{
 
-    std::vector<std::pair<Session::Internal::RoundDetail, Session::Internal::TypeDetail>> temp;
+    std::vector<Session::Internal::Descriptor> temp;
 
     for (const auto& sample : m_weatherSamples) {
         
@@ -72,7 +72,7 @@ const std::vector<std::pair<Session::Internal::RoundDetail, Session::Internal::T
         }
         if (!found){
 
-            temp.push_back({ sample->first.first, sample->first.second });
+            temp.push_back(sample->first);
 
         }
 
@@ -84,9 +84,9 @@ const std::vector<std::pair<Session::Internal::RoundDetail, Session::Internal::T
 
 
 
-const std::vector<Session::Internal::WeatherSample>& Packet::Internal::WeatherStatus::GetData(Session::Internal::RoundDetail round, Session::Internal::TypeDetail session) const {
+const std::vector<Session::Internal::WeatherSample>& Packet::Internal::WeatherStatus::GetData(Session::Internal::Descriptor descriptor) const {
 
-    auto& it = m_weatherSamples.find({round, session});
+    auto& it = m_weatherSamples.find(descriptor);
     if (it != m_weatherSamples.end()) {
 
         return it->second;

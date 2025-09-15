@@ -9,6 +9,7 @@
 #include "packets/internal/SessionParticipants.h"
 #include "packets/internal/SessionSettings.h"
 #include "packets/internal/TyreSetUsage.h"
+#include "packets/internal/WeatherStatus.h"
 
 
 
@@ -205,8 +206,6 @@ void Processor::Data::RecordCreator::Init(const Packet::Internal::TyreSetUsage* 
     auto tyreData = packet->GetData();
     for (auto data : tyreData) {
 
-
-
         auto entry = m_driverRecords.find(data.m_driverID);
         if (entry != m_driverRecords.end()) {
 
@@ -221,6 +220,24 @@ void Processor::Data::RecordCreator::Init(const Packet::Internal::TyreSetUsage* 
         }
 
     }
+
+    VerifyAndPropagate();
+
+}
+
+
+
+void Processor::Data::RecordCreator::Init(const Packet::Internal::WeatherStatus* packet){
+
+    if (!packet || !m_sessionRecord) return;
+
+    for (const auto& session : packet->GetSessions()){
+
+        const auto& weatherData = packet->GetData(session);
+
+    }
+
+
 
     VerifyAndPropagate();
 

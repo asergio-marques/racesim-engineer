@@ -30,23 +30,20 @@ namespace Packet {
             void InsertData(Session::Internal::WeatherSample data);
 
             // Retrieve all the weather samples for a given format and session
-            const std::vector<Session::Internal::WeatherSample>& GetData(Session::Internal::RoundDetail round, Session::Internal::TypeDetail session) const;
+            const std::vector<Session::Internal::WeatherSample>& GetData(Session::Internal::Descriptor descriptor) const;
 
             // Retrieve the session configurations for which samples are available in this packet
-            const std::vector<std::pair<Session::Internal::RoundDetail, Session::Internal::TypeDetail>> GetSessions() const;
+            const std::vector<Session::Internal::Descriptor> GetSessions() const;
 
-            // Identifies the current session's format (e.g. sprint, feature)
-            const Session::Internal::RoundDetail m_currentSessionFormat;
-
-            // Identifies the nature of the current session (e.g. quali, race)
-            const Session::Internal::TypeDetail m_currentSession;
+            // Identifies the current session's format (e.g. sprint, feature) and type (e.g. quali, race)
+            const Session::Internal::Descriptor m_currentSession;
 
             // Elapsed time since the start of the current session (minutes)
             const uint16_t m_minutesSinceStart;
 
             private:
             // Map with weather samples organized in chronological order, per session type
-            std::map<std::pair<Session::Internal::RoundDetail, Session::Internal::TypeDetail>, std::vector<Session::Internal::WeatherSample>> m_weatherSamples;
+            std::map<Session::Internal::Descriptor, std::vector<Session::Internal::WeatherSample>> m_weatherSamples;
 
         };
 

@@ -31,6 +31,7 @@ target_sources(${PROJECT_NAME} PRIVATE
     data/holders/LapHistoryData.cpp
     data/holders/PositionTimingData.cpp
     data/holders/WarningPenaltyData.cpp
+    data/holders/WeatherData.cpp
     detectors/Interface.cpp
     detectors/LapFinished.cpp
     detectors/Overtake.cpp

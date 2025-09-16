@@ -26,11 +26,18 @@ namespace Processor {
             // Marks the state of the current session as finalized
             void sessionFinalized();
 
-            // Exposes whether this session is currently ongoing
-            const bool isSessionRunning();
+            // Validates the internal information and returns true if it meets the conditions for the start of a session
+            bool Initialized();
 
             // Checks if a newly-finished lap is a new fastest lap for the current session
             bool evaluateCompletedLap(const Processor::Data::LapInfo& finishedLap);
+
+            // Updates the weather data for this session (and other associated sessions) with further samples
+            void updateWeather(const Session::Internal::Descriptor& descriptor,
+                const Session::Internal::WeatherSample& sample, const uint16_t minutesSinceStart);
+
+            // Exposes the session weather data
+            const Processor::Data::WeatherData& weather() const;
 
             // Exposes the session fastest lap data
             const Processor::Data::LapInfo& fastestLap() const;
@@ -41,6 +48,9 @@ namespace Processor {
 
             // Whether this session is currently ongoing
             bool m_running;
+
+            // Holder of all weather information for this lobby
+            Processor::Data::WeatherData m_weather;
 
             // Records the fastest lap of the current session
             Processor::Data::LapInfo m_fastestLap;

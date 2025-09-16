@@ -10,11 +10,8 @@ Processor::Data::SessionRecord::SessionRecord(const uint64_t initTimestamp, cons
     const Session::Internal::TrackInfo trackInfo) :
     m_lastStateTimestamp(initTimestamp),
     m_settings(settings),
-    m_trackInfo(trackInfo),
-    m_weather(),
-    m_state(nullptr)  {
-
-    m_state = new Processor::Data::SessionState(this);
+    m_track(trackInfo),
+    m_state(new Processor::Data::SessionState(this))  {
 
 }
 
@@ -41,7 +38,7 @@ const bool Processor::Data::SessionRecord::Initialized() const {
         (m_settings.m_sessionLimit != Session::Internal::LimitType::InvalidUnknown) &&
         sessionLimitSet &&
         (m_settings.m_sessionType != Session::Internal::Type::InvalidUnknown) &&
-        m_weather.Initialized();
+        m_state && m_state->Initialized();
 
 }
 
@@ -50,7 +47,7 @@ const bool Processor::Data::SessionRecord::Initialized() const {
 void Processor::Data::SessionRecord::updateWeather(const Session::Internal::Descriptor& descriptor,
     const Session::Internal::WeatherSample& sample, const uint16_t minutesSinceStart) {
 
-    m_weather.updateWeather(descriptor, sample, minutesSinceStart);
+    m_state.updateWeather(descriptor, sample, minutesSinceStart);
     // update the current state for accuracy
     if (m_state && (sample.m_timeOffset == 0)) {
 
@@ -59,6 +56,13 @@ void Processor::Data::SessionRecord::updateWeather(const Session::Internal::Desc
 
     }
 
+}
+
+
+
+const Session::Internal::TrackData& Processor::Data::SessionRecord::getTrackData() {
+
+    return m_track;
 
 }
 
@@ -67,14 +71,6 @@ void Processor::Data::SessionRecord::updateWeather(const Session::Internal::Desc
 const Session::Internal::Settings& Processor::Data::SessionRecord::getSessionSettings() {
 
     return m_settings;
-
-}
-
-
-
-const Session::Internal::TrackInfo& Processor::Data::SessionRecord::getTrackInfo() {
-
-    return m_trackInfo;
 
 }
 
@@ -90,6 +86,6 @@ Processor::Data::SessionState* Processor::Data::SessionRecord::getModifiableStat
 
 void Processor::Data::SessionRecord::PrintWeather(const Session::Internal::Descriptor& descriptor) {
 
-    m_weather.Print(descriptor);
+    m_state->weather().Print(descriptor);
 
 }

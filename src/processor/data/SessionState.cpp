@@ -36,9 +36,9 @@ void Processor::Data::SessionState::sessionFinalized() {
 
 
 
-const bool Processor::Data::SessionState::isSessionRunning() {
+bool Processor::Data::SessionState::Initialized() {
 
-    return m_running;
+    return m_running && m_weather.Initialized();
 
 }
 
@@ -60,6 +60,22 @@ bool Processor::Data::SessionState::evaluateCompletedLap(const Processor::Data::
 
 }
 
+
+
+void Processor::Data::SessionState::updateWeather(const Session::Internal::Descriptor& descriptor,
+    const Session::Internal::WeatherSample& sample, const uint16_t minutesSinceStart) {
+
+    m_weather.updateWeather(descriptor, sample, minutesSinceStart);
+
+}
+
+
+
+const Processor::Data::WeatherData& Processor::Data::SessionState::weather() const{
+
+    return m_weather;
+
+}
 
 
 const Processor::Data::LapInfo& Processor::Data::SessionState::fastestLap() const {

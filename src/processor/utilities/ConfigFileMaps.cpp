@@ -7,8 +7,17 @@
 
 
 
+const std::vector<Session::Internal::Track>
+Processor::Utility::ConfigFileMaps::SUPPORTED_TRACKS = {
+
+
+
+}
+
+
+
 static const std::map<Session::Internal::Track, std::string>
-Processor::Utility::ConfigFileMaps::ID_FILENAME_MAP ={
+Processor::Utility::ConfigFileMaps::ID_FILENAME_MAP = {
 
 
     

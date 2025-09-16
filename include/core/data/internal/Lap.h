@@ -7,22 +7,32 @@
 
 namespace Lap::Internal {
 
-    enum class Type : uint8_t {
+    enum class Status {
 
-        InvalidUnknown  = 0,
-        FlyingLap       = 1,
-        OutLap          = 2,
-        InLap           = 3
+        InvalidUnknown      = 0,
+        FlyingLap           = 1,
+        FlyingLapInvalid    = 2,
+        InPits              = 3,
+        PitIn               = 4,
+        PitOut              = 5,
+        Retired             = 6,
+        Finished            = 7
 
-    };
+    }
 
-    enum class Status : uint8_t {
+    enum class Performance : uint8_t {
 
-        InvalidUnknown      = 0,    // Not to be confused with an invalid lap,
-                                    // this is only an error state!
-        Invalid             = 1,
-        Valid               = 2,
-        PossibleCoolDown    = 3
+        InvalidUnknown              = 0,
+        NotRun                      = 1,
+        CurrentlyRunning            = 2,
+        CurrentlyRunningPits        = 3,
+        CurrentlyRunningInvalid     = 4,
+        FinishedNormal              = 5,
+        FinishedPits                = 6,
+        FinishedPersonalBest        = 7,
+        FinishedSessionBest         = 8,
+        FinishedRetired             = 9,
+        FinishedInvalidated         = 10
 
     };
 

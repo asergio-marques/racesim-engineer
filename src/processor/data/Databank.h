@@ -49,6 +49,7 @@ namespace Processor {
         class DriverRecord;
         class RecordCreator;
         class SessionRecord;
+        class TrackDataStore;
 
         class Databank {
 
@@ -108,6 +109,9 @@ namespace Processor {
 
             // Dedicated object to hold all the relevant data at session start to create the records
             Processor::Data::RecordCreator* m_creator;
+
+            // Dedicated repository of the detailed data of all supported tracks
+            Processor::Data::TrackDataStore* m_trackStore;
 
             // Holds a list of the driver records for the current session, using the driver ID as index
             std::map<const uint8_t, Processor::Data::DriverRecord*> m_driverRecords;

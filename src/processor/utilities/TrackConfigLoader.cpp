@@ -20,8 +20,8 @@ Processor::Utility::TrackConfigLoader::TrackConfigLoader(Session::Internal::Trac
 
 
 
-bool Processor::Utility::TrackConfigLoader::readConfig() const {
+Processor::Data::TrackData Processor::Utility::TrackConfigLoader::readConfig() const {
 
-    return false;
+    ok = false;
 
 }

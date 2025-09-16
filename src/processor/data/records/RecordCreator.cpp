@@ -3,8 +3,9 @@
 #include <cstdint>
 #include <map>
 #include "data/internal/Session.h"
-#include "data/DriverRecord.h"
-#include "data/SessionRecord.h"
+#include "data/records/DriverRecord.h"
+#include "data/records/SessionRecord.h"
+#include "data/store/TrackDataStore.h"
 #include "packets/internal/GridPosition.h"
 #include "packets/internal/SessionParticipants.h"
 #include "packets/internal/SessionSettings.h"
@@ -129,11 +130,12 @@ void Processor::Data::RecordCreator::Init(const Packet::Internal::GridPosition* 
 
 
 
-void Processor::Data::RecordCreator::Init(const Packet::Internal::SessionSettings* packet) {
+void Processor::Data::RecordCreator::Init(const Packet::Internal::SessionSettings* packet,
+    const Processor::Data::TrackDataStore* const trackStore) {
 
-    if (!packet || m_sessionRecord) return;
+    if (!packet || !trackStore || m_sessionRecord ) return;
 
-    m_sessionRecord = new Processor::Data::SessionRecord(packet->m_timestamp, packet->m_settings, packet->m_track);
+    m_sessionRecord = new Processor::Data::SessionRecord(packet->m_timestamp, packet->m_settings, trackDataStore->GetTrackData(packet->m_track));
 
     VerifyAndPropagate();
 

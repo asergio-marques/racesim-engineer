@@ -23,17 +23,18 @@ target_link_directories(${PROJECT_NAME} PRIVATE "${PROJECT_ROOT}/lib/")
 target_sources(${PROJECT_NAME} PRIVATE
     Facade.cpp
     data/Databank.cpp
-    data/DriverRecord.cpp
-    data/DriverState.cpp
-    data/RecordCreator.cpp
-    data/SessionRecord.cpp
-    data/SessionState.cpp
     data/holders/LapHistoryData.cpp
     data/holders/OrderedWeatherData.cpp
     data/holders/PositionTimingData.cpp
     data/holders/TrackData.cpp
     data/holders/WarningPenaltyData.cpp
     data/holders/WeatherData.cpp
+    data/records/DriverRecord.cpp
+    data/records/DriverState.cpp
+    data/records/RecordCreator.cpp
+    data/records/SessionRecord.cpp
+    data/records/SessionState.cpp
+    data/stores/TrackDataStore.cpp
     detectors/Interface.cpp
     detectors/LapFinished.cpp
     detectors/Overtake.cpp

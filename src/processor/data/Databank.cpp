@@ -7,9 +7,10 @@
 #include <thread>
 #include "ICompFacade.h"
 #include "ISettings.h"
-#include "data/DriverRecord.h"
-#include "data/RecordCreator.h"
-#include "data/SessionRecord.h"
+#include "data/records/DriverRecord.h"
+#include "data/records/RecordCreator.h"
+#include "data/records/SessionRecord.h"
+#include "data/stores/TrackDataStore.h"
 #include "data/internal/Participant.h"
 #include "data/internal/TyreData.h"
 #include "detectors/Interface.h"
@@ -38,6 +39,7 @@
 Processor::Data::Databank::Databank() :
     m_presenter(nullptr),
     m_creator(new Processor::Data::RecordCreator),
+    m_trackStore(new Processor::Data::TrackDataStore),
     m_driverRecords(),
     m_sessionRecord(nullptr),
     m_exporter(nullptr),
@@ -82,6 +84,12 @@ void Processor::Data::Databank::Init(Presenter::ICompFacade* presenter) {
         m_presenter = presenter;
 
     }
+    if (m_trackStore) {
+
+        m_trackStore->Build();
+
+    }
+    // TODO communicate with UI that loading is finished and to change the screen (I think bigger changes might be needed)
 
 }
 
@@ -92,7 +100,7 @@ void Processor::Data::Databank::updateData(const Packet::Internal::Interface* pa
 
     if (packet) {
 
-        if (m_creator && m_creator->IsWorking()) {
+        if (m_creator && m_creator->IsWorking() && m_trackStore && m_trackStore->Initialized()) {
 
             // if the databank is not working, then the existing records should be verified
             // if there are no records, we create them anew
@@ -106,7 +114,7 @@ void Processor::Data::Databank::updateData(const Packet::Internal::Interface* pa
                     break;
 
                 case Packet::Internal::Type::SessionSettings:
-                    m_creator->Init(dynamic_cast<const Packet::Internal::SessionSettings*>(packet));
+                    m_creator->Init(dynamic_cast<const Packet::Internal::SessionSettings*>(packet), m_trackStore);
                     break;
 
                 case Packet::Internal::Type::SessionParticipants:

@@ -18,7 +18,7 @@ namespace Processor {
             public:
             // Constructor
             SessionRecord(const uint64_t initTimestamp, const Session::Internal::Settings settings,
-                const Session::Internal::TrackInfo trackInfo);
+                const Processor::Data::TrackData& detailedTrackData);
 
             // Destructor
             ~SessionRecord();

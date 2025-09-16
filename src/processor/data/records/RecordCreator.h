@@ -28,6 +28,8 @@ namespace Processor {
 
     namespace Data {
 
+        class TrackDataStore;
+
         class RecordCreator {
 
             public:
@@ -58,7 +60,8 @@ namespace Processor {
             void Init(const Packet::Internal::GridPosition* packet);
 
             // Initializes session records
-            void Init(const Packet::Internal::SessionSettings* packet);
+            void Init(const Packet::Internal::SessionSettings* packet,
+                const Processor::Data::TrackDataStore* const trackStore);
 
             // Initializes driver records
             void Init(const Packet::Internal::SessionParticipants* packet);

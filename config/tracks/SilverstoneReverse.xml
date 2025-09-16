@@ -1,0 +1,36 @@
+<?xml version='1.0' encoding='utf-8'?>
+<track name="SilverstoneR" id="27">
+	<aliases>
+		<alias>Silverstone R</alias>
+		<alias>UK Reverse</alias>
+		<alias>Great Britain R</alias>
+	</aliases>
+	<layout name="F1" id="0">
+		<sector>
+			<minisector start="0" end="0" />
+			<minisector start="0" end="0" />
+			<minisector start="0" end="0" />
+			<minisector start="0" end="0" />
+			<minisector start="0" end="0" />
+			<minisector start="0" end="0" />
+		</sector>
+		<sector>
+			<minisector start="0" end="0" />
+			<minisector start="0" end="0" />
+			<minisector start="0" end="0" />
+			<minisector start="0" end="0" />
+			<minisector start="0" end="0" />
+			<minisector start="0" end="0" />
+			<minisector start="0" end="0" />
+			<minisector start="0" end="0" />
+			<minisector start="0" end="0" />
+		</sector>
+		<sector>
+			<minisector start="0" end="0" />
+			<minisector start="0" end="0" />
+			<minisector start="0" end="0" />
+			<minisector start="0" end="0" />
+			<minisector start="0" end="0" />
+		</sector>
+	</layout>
+</track>

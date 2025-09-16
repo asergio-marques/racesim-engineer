@@ -1,6 +1,7 @@
 #ifndef PROCESSOR_DATA_INCLUDE_LAP_TRACK_DATA_H_
 #define PROCESSOR_DATA_INCLUDE_LAP_TRACK_DATA_H_
 
+#include "data/internal/Session.h"
 
 
 
@@ -21,7 +22,7 @@ namespace Processor {
 
             public:
             // Constructor
-            TrackData();
+            TrackData(const Session::Internal::TrackInfo baseInfo);
 
             // Destructor
             ~TrackData() = default;

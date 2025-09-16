@@ -42,7 +42,9 @@ target_sources(${PROJECT_NAME} PRIVATE
     detectors/SessionEndDataReady.cpp
     detectors/SessionStartDataReady.cpp
     detectors/TyreChanged.cpp
-    exporters/RaceSession.cpp)
+    exporters/RaceSession.cpp
+    utilities/ConfigFileMaps.cpp
+    utilities/TrackConfigLoader.cpp)
 
 target_link_libraries(${PROJECT_NAME} PUBLIC
     RaceSimEngineerCore

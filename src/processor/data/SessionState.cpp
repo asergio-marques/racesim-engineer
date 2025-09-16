@@ -10,7 +10,9 @@
 Processor::Data::SessionState::SessionState(Processor::Data::SessionRecord* parent) :
     m_parentRecord(parent),
     m_fastestLap(),
-    m_running(true) {
+    m_running(true),
+    m_weather(),
+    m_fastestLap() {
 
 
 

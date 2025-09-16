@@ -34,6 +34,11 @@ target_link_libraries(${PROJECT_NAME} PRIVATE
     RaceSimEngineerSettings
     RaceSimEngineerUIWidgets
     RaceSimEngineerUI)
+    
+add_custom_command(TARGET ${PROJECT_NAME}
+    POST_BUILD
+    COMMAND ${CMAKE_COMMAND} -E copy_directory_if_different "${CMAKE_CURRENT_SOURCE_DIR}/config"
+    "${CMAKE_CURRENT_LIST_DIR}/build/${TARGET_ARCH}/$<CONFIG>/config")
 
 add_custom_command(TARGET ${PROJECT_NAME}
     POST_BUILD

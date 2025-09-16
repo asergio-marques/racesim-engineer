@@ -11,7 +11,8 @@
 
 
 
-const std::string Processor::Utility::TrackConfigLoader::TRACK_CONFIG_DIR = "./config/tracks";
+const std::string Processor::Utility::TrackConfigLoader::CONFIG_DIR = "config";
+const std::string Processor::Utility::TrackConfigLoader::TRACKS_DIR = "tracks";
 
 
 
@@ -35,10 +36,12 @@ Processor::Data::TrackData Processor::Utility::TrackConfigLoader::readConfig() {
         return trackData;
 
     }
-    std::filesystem::path trackConfigDir = Processor::Utility::TrackConfigLoader::TRACK_CONFIG_DIR;
+    std::filesystem::path trackConfigDir = std::filesystem::current_path() /
+        Processor::Utility::TrackConfigLoader::CONFIG_DIR /
+        Processor::Utility::TrackConfigLoader::TRACKS_DIR;
     std::filesystem::path fullPath = trackConfigDir / (filenameIt->second + ".xml");
 
-    if (!std::filesystem::is_regular_file(fullPath)) {
+    if (!std::filesystem::exists(fullPath)) {
 
         return trackData;
 
@@ -51,8 +54,13 @@ Processor::Data::TrackData Processor::Utility::TrackConfigLoader::readConfig() {
 
     }
 
+    pugi::xml_node root = doc.child("track");
+    if (!root) {
+        return trackData;
+    }
+
     // hardcoded to layout id 0 for the time being
-    pugi::xml_node layout = doc.find_child_by_attribute("layout", "id", "0");
+    pugi::xml_node layout = root.find_child_by_attribute("layout", "id", "0");
     if (!layout) {
 
         return trackData;
@@ -61,18 +69,21 @@ Processor::Data::TrackData Processor::Utility::TrackConfigLoader::readConfig() {
 
     std::map<uint8_t, Lap::Internal::Sector> sectors;
     uint8_t latestSectorID = 1;
-    for (pugi::xml_node sectorNode : layout.child("sectors").children("sector")) {
+    for (const auto& sectorNode : layout.children("sector")) {
         
-        uint32_t start = sectorNode.attribute("start").as_uint();
-        uint32_t end = sectorNode.attribute("end").as_uint();
+        uint32_t start = UINT32_MAX;
+        uint32_t end = 0;
 
         std::map<uint8_t, Lap::Internal::Sector> miniSectors;
         uint8_t latestMiniSectorID = 1;
 
-        for (pugi::xml_node miniNode : sectorNode.child("minisectors").children("minisector")) {
+        for (const auto& miniNode : sectorNode.children("minisector")) {
             
             uint32_t miniStart = miniNode.attribute("start").as_uint();
             uint32_t miniEnd = miniNode.attribute("end").as_uint();
+            
+            if (miniStart < start) start = miniStart;
+            if (miniEnd > end) end = miniEnd;
 
             Lap::Internal::Sector s{ latestMiniSectorID, miniStart, miniEnd };
             miniSectors.emplace(latestMiniSectorID, s);

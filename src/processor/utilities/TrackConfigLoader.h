@@ -25,8 +25,11 @@ namespace Processor {
             // Non-mutable identifier of the track which this object is set to read the config of
             const Session::Internal::Track m_ID;
 
+            // Path to the directory in which the config files are kept
+            static const std::string CONFIG_DIR;
+
             // Path to the directory in which the track config files are kept
-            static const std::string TRACK_CONFIG_DIR;
+            static const std::string TRACKS_DIR;
 
         };
 

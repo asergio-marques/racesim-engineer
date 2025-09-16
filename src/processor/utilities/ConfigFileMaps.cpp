@@ -10,7 +10,7 @@
 const std::vector<Session::Internal::Track>
 Processor::Utility::ConfigFileMaps::SUPPORTED_TRACKS = {
 
-
+    Session::Internal::Track::AUS_Melbourne
 
 };
 
@@ -19,6 +19,6 @@ Processor::Utility::ConfigFileMaps::SUPPORTED_TRACKS = {
 const std::map<Session::Internal::Track, std::string>
 Processor::Utility::ConfigFileMaps::ID_FILENAME_MAP = {
 
-
+    { Session::Internal::Track::AUS_Melbourne, "1_AlbertPark" }
 
 };

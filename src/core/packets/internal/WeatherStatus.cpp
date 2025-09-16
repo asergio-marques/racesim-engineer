@@ -100,7 +100,7 @@ const std::vector<Session::Internal::Descriptor> Packet::Internal::WeatherStatus
 
 
 
-const std::vector<Session::Internal::WeatherSample>& Packet::Internal::WeatherStatus::GetData(Session::Internal::Descriptor descriptor) const {
+const std::vector<Session::Internal::WeatherSample> Packet::Internal::WeatherStatus::GetData(Session::Internal::Descriptor descriptor) const {
 
     auto& it = m_weatherSamples.find(descriptor);
     if (it != m_weatherSamples.end()) {

@@ -2,10 +2,9 @@
 #define PROCESSOR_DATA_INCLUDE_SESSION_RECORD_H_
 
 #include <cstdint>
-#include "data/SessionState.h"
+#include "data/records/SessionState.h"
 #include "data/holders/TrackData.h"
 #include "data/holders/WeatherData.h"
-#include "data/internal/Session.h"
 
 
 
@@ -31,7 +30,7 @@ namespace Processor {
                 const Session::Internal::WeatherSample& sample, const uint16_t minutesSinceStart);
 
             // Expose the detailed data pertaining to the track the session is running on
-            const Session::Internal::TrackData& getTrackData();
+            const Processor::Data::TrackData& getTrackData();
 
             // Exposes the full settings of the current session
             const Session::Internal::Settings& getSessionSettings();

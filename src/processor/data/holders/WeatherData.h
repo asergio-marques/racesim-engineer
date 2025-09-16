@@ -29,7 +29,7 @@ namespace Processor {
                 const Session::Internal::WeatherSample& sample, const uint16_t minutesSinceStart);
 
             // TODO remove this once weather info is sent to the UI
-            void Print(const Session::Internal::Descriptor& currentSession);
+            void Print(const Session::Internal::Descriptor& currentSession) const;
 
             private:
             // Format and type of the current session taking place, used to "locate" the current weather

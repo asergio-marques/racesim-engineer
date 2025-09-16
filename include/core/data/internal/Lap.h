@@ -9,16 +9,16 @@ namespace Lap::Internal {
 
     enum class Status {
 
-        InvalidUnknown      = 0,
-        FlyingLap           = 1,
-        FlyingLapInvalid    = 2,
-        InPits              = 3,
-        PitIn               = 4,
-        PitOut              = 5,
-        Retired             = 6,
-        Finished            = 7
+        InvalidUnknown = 0,
+        FlyingLap = 1,
+        FlyingLapInvalid = 2,
+        InPits = 3,
+        PitIn = 4,
+        PitOut = 5,
+        Retired = 6,
+        Finished = 7
 
-    }
+    };
 
     enum class Performance : uint8_t {
 

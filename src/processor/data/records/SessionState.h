@@ -4,7 +4,8 @@
 #include <cstdint>
 #include <map>
 #include "data/internal/Participant.h"
-#include "holders/LapInfo.h"
+#include "data/holders/LapInfo.h"
+#include "data/holders/WeatherData.h"
 
 
 

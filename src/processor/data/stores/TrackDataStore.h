@@ -15,8 +15,11 @@ namespace Processor {
         class TrackDataStore {
 
             public:
-            // Default constructor
-            TrackDataStore() = default;
+            // Constructor
+            TrackDataStore();
+
+            // Destructor
+            ~TrackDataStore() = default;
 
             // Denotes whether the TrackDataStore has been built properly
             bool Initialized() const;
@@ -27,9 +30,6 @@ namespace Processor {
 
             // Retrieves base detailed track data for a requested track; param "ok" is true if the track ID was found in the map
             const Processor::Data::TrackData& GetTrackData(const Session::Internal::Track track, bool& ok) const;
-
-            // Destructor
-            ~TrackDataStore() = default;
 
             private:
             // Container that maps the built detailed track data to each track ID

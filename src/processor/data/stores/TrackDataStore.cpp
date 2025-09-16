@@ -1,4 +1,4 @@
-#include "data/TrackDataStore.h"
+#include "data/stores/TrackDataStore.h"
 
 #include <future>
 #include <map>
@@ -8,6 +8,16 @@
 #include "utilities/ConfigFileMaps.h"
 #include "utilities/TrackConfigLoader.h"
 
+
+
+
+Processor::Data::TrackDataStore::TrackDataStore() :
+    m_tracks(),
+    m_invalid(Session::Internal::Track::InvalidUnknown, 0) {
+
+
+
+}
 
 
 
@@ -40,7 +50,7 @@ void Processor::Data::TrackDataStore::Build() {
     for (const auto& track : Processor::Utility::ConfigFileMaps::SUPPORTED_TRACKS) {
 
         Processor::Utility::TrackConfigLoader loader{track};
-        std::future<Processor::Data::TrackData> ret = std::async(std::launch::async, &Processor::Utility::TrackConfigLoader::readConfig, &loader, track);
+        std::future<Processor::Data::TrackData> ret = std::async(std::launch::async, &Processor::Utility::TrackConfigLoader::readConfig, &loader);
         auto data = ret.get();
         m_tracks.emplace(track, data);        
 

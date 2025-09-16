@@ -4,6 +4,7 @@
 #include <cstdint>
 #include <map>
 #include "data/internal/Sector.h"
+#include "data/internal/Session.h"
 
 
 
@@ -15,18 +16,20 @@ namespace Processor {
         class TrackData {
 
             public:
-            // Constructors
-            TrackData() = default;
-            TrackData& operator=(const TrackData& other) = default;
-            TrackData(const TrackData& other) = default;
-            TrackData& operator=(const TrackData&& other) = default;
-            TrackData(const TrackData&& other) = default;
+            // Constructor
+            TrackData(const Session::Internal::Track trackId, const uint8_t layoutId);
 
             // Destructor
             ~TrackData() = default;
 
             // Sets the sector information for this track
             void setSectorInfo(const std::map<uint8_t, Lap::Internal::Sector>& sectors);
+
+            // Retrieves the name of the track based on its ID and layout
+            const std::string getTrackName() const;
+
+            // Retrieves the total length of the track in meters by adding all sectors together
+            const uint32_t getTotalTrackDistance() const;
 
             // Retrieves data about a sector of the track in which this position of a lap is located in
             Lap::Internal::Sector& getSectorByDistance(const uint32_t distance);
@@ -39,6 +42,12 @@ namespace Processor {
 
             // Retrieves data about a minisector of the track based on its sector and minisector IDs
             Lap::Internal::Sector& getMiniSectorById(const uint8_t sectorId, const uint8_t miniSectorId);
+
+            // Unique identifier for this track
+            const Session::Internal::Track m_trackId;
+
+            // Unique identifier for the layout of this track
+            const uint8_t m_layoutId;
 
             private:
             // Maps the sectors of this track to their IDs, allowing for easy lookup

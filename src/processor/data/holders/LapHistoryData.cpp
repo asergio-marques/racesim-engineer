@@ -128,8 +128,8 @@ void Processor::Data::LapHistoryData::completeData(const uint8_t id, const uint8
 
 
 
-void Processor::Data::LapHistoryData::updateLap(const uint8_t id, const uint8_t lapID, const Lap::Internal::Type type,
-    const Lap::Internal::Status lapStatus, const Lap::Internal::Time currentLapTime, const std::vector<Lap::Internal::Time> sectorTimes,
+void Processor::Data::LapHistoryData::updateLap(const uint8_t id, const uint8_t lapID, const Lap::Internal::Status lapStatus,
+    const Lap::Internal::Time currentLapTime, const std::vector<Lap::Internal::Time> sectorTimes,
     const float_t lapDistanceRun, const Lap::Internal::Time previousLapTime, const Participant::Internal::Status participantStatus) {
 
     // Only add new info if we know we still have missing info

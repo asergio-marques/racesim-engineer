@@ -26,9 +26,6 @@ namespace Packet {
                 // ID of the lap to which this information pertains
                 uint8_t m_lapID = 0;
 
-                // Whether is lap is an outlap, inlap or regular lap
-                Lap::Internal::Type m_type = Lap::Internal::Type::InvalidUnknown;
-
                 // Whether the lap has been invalidated (or not) or if it's a simple cooldown lap in between pushlaps
                 Lap::Internal::Status m_status = Lap::Internal::Status::InvalidUnknown;
 

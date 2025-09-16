@@ -77,7 +77,7 @@ void Processor::Data::WeatherData::updateWeather(const Session::Internal::Descri
 
 
 
-void Processor::Data::WeatherData::Print(const Session::Internal::Descriptor& currentSession) {
+void Processor::Data::WeatherData::Print(const Session::Internal::Descriptor& currentSession) const {
 
     std::cout << "-----------------------------------------------------------------"
         "-------------------------------------------------------------------------" << std::endl;

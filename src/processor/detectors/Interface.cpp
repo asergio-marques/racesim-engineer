@@ -2,8 +2,8 @@
 
 #include <thread>
 #include <vector>
-#include "data/DriverRecord.h"
-#include "data/DriverState.h"
+#include "data/records/DriverRecord.h"
+#include "data/records/DriverState.h"
 #include "detectors/Type.h"
 
 

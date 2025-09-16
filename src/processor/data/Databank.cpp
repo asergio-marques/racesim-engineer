@@ -557,9 +557,8 @@ void Processor::Data::Databank::updateLapStatus(const Packet::Internal::LapStatu
                     prevLapData = Packet::Internal::LapStatus::Data();
                 }
 
-                driverData->getModifiableState()->updateLap(currLapData.m_lapID, currLapData.m_type,
-                        currLapData.m_status, currLapData.m_time, currLapData.m_sectorTimes,
-                        currLapData.m_lapDistanceRun, prevLapData.m_time);
+                driverData->getModifiableState()->updateLap(currLapData.m_lapID, currLapData.m_status, currLapData.m_time,
+                    currLapData.m_sectorTimes, currLapData.m_lapDistanceRun, prevLapData.m_time);
 
             }
 
@@ -624,7 +623,7 @@ void Processor::Data::Databank::prepareSessionEnd(const Packet::Internal::FinalR
 
         if (m_sessionRecord &&
             m_sessionRecord->getModifiableState() &&
-            m_sessionRecord->getModifiableState()->isSessionRunning()) {
+            m_sessionRecord->getModifiableState()->Initialized()) {
 
             m_sessionRecord->getModifiableState()->sessionFinalized();
 

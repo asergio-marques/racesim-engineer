@@ -6,10 +6,10 @@
 #include <string>
 #include <pugixml.hpp>
 #include "exporters/Interface.h"
-#include "data/DriverRecord.h"
-#include "data/DriverState.h"
-#include "data/SessionRecord.h"
-#include "data/SessionState.h"
+#include "data/records/DriverRecord.h"
+#include "data/records/DriverState.h"
+#include "data/records/SessionRecord.h"
+#include "data/records/SessionState.h"
 
 
 
@@ -90,10 +90,9 @@ bool Processor::Exporter::RaceSession::Export(std::string path) const {
 
         addChildNodeCharacterData(&rootNode, m_schemaV1.versionTag,
             m_schemaV1.version);
-        addChildNodeCharacterData(&rootNode, m_schemaV1.trackIdTag,
-            static_cast<uint8_t>(m_sessionRecord->getTrackInfo().m_sessionTrack));
+        addChildNodeCharacterData(&rootNode, m_schemaV1.trackIdTag, static_cast<uint8_t>(m_sessionRecord->getTrackData().m_trackId));
         // TODO: converter map
-        // addChildNodeCharacterData(&rootNode, m_schemaV1.trackNameTag, ConvertTrackId(m_sessionRecord->getTrackID()));
+        addChildNodeCharacterData(&rootNode, m_schemaV1.trackNameTag, m_sessionRecord->getTrackData().getTrackName());
         addChildNodeCharacterData(&rootNode, m_schemaV1.numLapsTag,
             static_cast<uint8_t>(m_sessionRecord->getSessionSettings().m_sessionDurationLaps));
         addChildNodeCharacterData(&rootNode, m_schemaV1.fastestOverallTag,

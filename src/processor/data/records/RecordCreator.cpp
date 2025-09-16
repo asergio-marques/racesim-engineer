@@ -1,11 +1,11 @@
-#include "data/RecordCreator.h"
+#include "data/records/RecordCreator.h"
 
 #include <cstdint>
 #include <map>
 #include "data/internal/Session.h"
 #include "data/records/DriverRecord.h"
 #include "data/records/SessionRecord.h"
-#include "data/store/TrackDataStore.h"
+#include "data/stores/TrackDataStore.h"
 #include "packets/internal/GridPosition.h"
 #include "packets/internal/SessionParticipants.h"
 #include "packets/internal/SessionSettings.h"
@@ -134,8 +134,14 @@ void Processor::Data::RecordCreator::Init(const Packet::Internal::SessionSetting
     const Processor::Data::TrackDataStore* const trackStore) {
 
     if (!packet || !trackStore || m_sessionRecord ) return;
+    
+    bool ok = false;
+    const auto& trackData = trackStore->GetTrackData(packet->m_track.m_sessionTrack, ok);
+    if (ok) {
 
-    m_sessionRecord = new Processor::Data::SessionRecord(packet->m_timestamp, packet->m_settings, trackDataStore->GetTrackData(packet->m_track));
+        m_sessionRecord = new Processor::Data::SessionRecord(packet->m_timestamp, packet->m_settings, trackData);
+
+    }
 
     VerifyAndPropagate();
 

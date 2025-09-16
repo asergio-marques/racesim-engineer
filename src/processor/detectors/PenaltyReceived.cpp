@@ -1,6 +1,6 @@
 #include "detectors/PenaltyReceived.h"
 
-#include "data/DriverRecord.h"
+#include "data/records/DriverRecord.h"
 #include "detectors/Interface.h"
 #include "detectors/Type.h"
 #include "packets/event/PenaltyReceived.h"

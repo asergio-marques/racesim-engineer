@@ -2,10 +2,10 @@
 #define DATA_INTERNAL_INCLUDE_SECTOR_H_
 
 #include <cstdint>
+#include <map>
 #include <vector>
 #include "data/internal/Lap.h"
 #include "data/internal/LapTime.h"
-#include "data/internal/Minisector.h"
 
 
 
@@ -20,6 +20,10 @@ namespace Lap::Internal {
         // Constructor for a sector
         Sector(const uint8_t id, uint32_t startDistance, uint32_t endDistance,
             const std::vector<Lap::Internal::Sector>& miniSectors);
+
+        // Alternative constructor for a sector
+        Sector(const uint8_t id, uint32_t startDistance, uint32_t endDistance,
+            const std::map<uint8_t, Lap::Internal::Sector>& miniSectors);
 
         // Identifier of this sector in the lap/sector (in the case of minisector)
         const uint8_t m_ID;
@@ -47,7 +51,7 @@ namespace Lap::Internal {
         const bool m_isMiniSector;
 
         // Array that contains the minisectors that compose this sector (empty if m_isMiniSector is true)
-        std::vector<Lap::Internal::Sector> m_minisectors;
+        std::map<uint8_t, Lap::Internal::Sector> m_minisectors;
 
     };
 

@@ -1,15 +1,15 @@
-#include "data/SessionState.h"
+#include "data/records/SessionState.h"
 
 #include <algorithm>
-#include "data/SessionRecord.h"
+#include "data/records/SessionRecord.h"
+#include "data/holders/LapInfo.h"
+#include "data/holders/WeatherData.h"
 #include "data/internal/Participant.h"
-#include "holders/LapInfo.h"
 
 
 
 Processor::Data::SessionState::SessionState(Processor::Data::SessionRecord* parent) :
     m_parentRecord(parent),
-    m_fastestLap(),
     m_running(true),
     m_weather(),
     m_fastestLap() {

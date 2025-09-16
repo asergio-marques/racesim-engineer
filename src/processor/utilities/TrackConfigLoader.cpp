@@ -1,9 +1,11 @@
 #include "utilities/TrackConfigLoader.h"
 
-#include <filename>
+#include <filesystem>
 #include <map>
 #include <string>
+#include <pugixml.hpp>
 #include "data/internal/Session.h"
+#include "data/holders/TrackData.h"
 #include "utilities/ConfigFileMaps.h"
 
 
@@ -22,9 +24,9 @@ Processor::Utility::TrackConfigLoader::TrackConfigLoader(Session::Internal::Trac
 
 
 
-Processor::Data::TrackData Processor::Utility::TrackConfigLoader::readConfig() const {
+Processor::Data::TrackData Processor::Utility::TrackConfigLoader::readConfig() {
     
-    Processor::Data::TrackData trackData;
+    Processor::Data::TrackData trackData{ m_ID, 0 };
 
     // get the filename based on the ID
     auto filenameIt = Processor::Utility::ConfigFileMaps::ID_FILENAME_MAP.find(m_ID);
@@ -34,7 +36,7 @@ Processor::Data::TrackData Processor::Utility::TrackConfigLoader::readConfig() c
 
     }
     std::filesystem::path trackConfigDir = Processor::Utility::TrackConfigLoader::TRACK_CONFIG_DIR;
-    std::filesystem::path fullPath = trackConfigDir / (filenameIt.second() + ".xml");
+    std::filesystem::path fullPath = trackConfigDir / (filenameIt->second + ".xml");
 
     if (!std::filesystem::is_regular_file(fullPath)) {
 
@@ -73,13 +75,13 @@ Processor::Data::TrackData Processor::Utility::TrackConfigLoader::readConfig() c
             uint32_t miniEnd = miniNode.attribute("end").as_uint();
 
             Lap::Internal::Sector s{ latestMiniSectorID, miniStart, miniEnd };
-            miniSectors.emplace_back(latestMiniSectorID, s);
+            miniSectors.emplace(latestMiniSectorID, s);
             ++latestMiniSectorID;
 
         }
 
         Lap::Internal::Sector s{ latestSectorID, start, end, miniSectors };
-        sectors.emplace_back(latestSectorID, s);
+        sectors.emplace(latestSectorID, s);
         ++latestSectorID;
 
     }

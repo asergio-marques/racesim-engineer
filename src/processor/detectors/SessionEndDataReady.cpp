@@ -1,9 +1,9 @@
 #include "detectors/SessionEndDataReady.h"
 
-#include "data/DriverRecord.h"
-#include "data/DriverState.h"
-#include "data/SessionRecord.h"
-#include "data/SessionState.h"
+#include "data/records/DriverRecord.h"
+#include "data/records/DriverState.h"
+#include "data/records/SessionRecord.h"
+#include "data/records/SessionState.h"
 #include "detectors/Interface.h"
 #include "detectors/Type.h"
 #include "packets/event/RoundSessionEnd.h"
@@ -62,7 +62,7 @@ void Processor::Detector::SessionEndDataReady::Exec() {
 
     while (!m_sentSessionEnd && m_sessionRecord && m_driverRecords) {
 
-        bool isAllFinished = !(m_sessionRecord->getModifiableState()->isSessionRunning());
+        bool isAllFinished = !(m_sessionRecord->getModifiableState()->Initialized());
 
         for (const auto driver : *m_driverRecords) {
 

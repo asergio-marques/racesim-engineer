@@ -47,8 +47,8 @@ namespace Processor {
 
             // Alter the status of the driver's most recent lap in the session
             // Returns true if the lap data is regarded as complete
-            void updateLap(const uint8_t id, const uint8_t lapID, const Lap::Internal::Type type,
-                const Lap::Internal::Status lapStatus, const Lap::Internal::Time currentLapTime, const std::vector<Lap::Internal::Time> sectorTimes,
+            void updateLap(const uint8_t id, const uint8_t lapID, const Lap::Internal::Status lapStatus,
+                const Lap::Internal::Time currentLapTime, const std::vector<Lap::Internal::Time> sectorTimes,
                 const float_t lapDistanceRun, const Lap::Internal::Time previousLapTime, const Participant::Internal::Status participantStatus);
 
             // Alter the tyre data of the driver's most recent lap

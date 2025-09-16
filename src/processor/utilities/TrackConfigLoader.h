@@ -12,14 +12,14 @@ namespace Processor {
 
     namespace Utility {
 
-        class TrackConfigLoader  {
+        class TrackConfigLoader {
 
             public:
             TrackConfigLoader(Session::Internal::Track id);
             virtual ~TrackConfigLoader() = default;
 
             // Performs the actual reading of the track config file
-            Processor::Data::TrackData readConfig() const;
+            Processor::Data::TrackData readConfig();
 
             private:
             // Non-mutable identifier of the track which this object is set to read the config of
@@ -28,7 +28,7 @@ namespace Processor {
             // Path to the directory in which the track config files are kept
             static const std::string TRACK_CONFIG_DIR;
 
-        }
+        };
 
     }
 

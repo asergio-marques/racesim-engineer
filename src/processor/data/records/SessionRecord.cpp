@@ -1,7 +1,7 @@
-#include "data/SessionRecord.h"
+#include "data/records/SessionRecord.h"
 
 #include <cstdint>
-#include "data/SessionState.h"
+#include "data/records/SessionState.h"
 #include "data/internal/Session.h"
 
 
@@ -34,7 +34,7 @@ const bool Processor::Data::SessionRecord::Initialized() const {
     const bool sessionLimitSet = (m_settings.m_sessionDurationTime != 0) ||
         (m_settings.m_sessionDurationLaps != 0);
 
-    return (m_trackInfo.m_sessionTrack != Session::Internal::Track::InvalidUnknown) &&
+    return (m_track.m_trackId != Session::Internal::Track::InvalidUnknown) &&
         (m_settings.m_sessionLimit != Session::Internal::LimitType::InvalidUnknown) &&
         sessionLimitSet &&
         (m_settings.m_sessionType != Session::Internal::Type::InvalidUnknown) &&
@@ -47,7 +47,7 @@ const bool Processor::Data::SessionRecord::Initialized() const {
 void Processor::Data::SessionRecord::updateWeather(const Session::Internal::Descriptor& descriptor,
     const Session::Internal::WeatherSample& sample, const uint16_t minutesSinceStart) {
 
-    m_state.updateWeather(descriptor, sample, minutesSinceStart);
+    m_state->updateWeather(descriptor, sample, minutesSinceStart);
     // update the current state for accuracy
     if (m_state && (sample.m_timeOffset == 0)) {
 
@@ -60,7 +60,7 @@ void Processor::Data::SessionRecord::updateWeather(const Session::Internal::Desc
 
 
 
-const Session::Internal::TrackData& Processor::Data::SessionRecord::getTrackData() {
+const Processor::Data::TrackData& Processor::Data::SessionRecord::getTrackData() {
 
     return m_track;
 

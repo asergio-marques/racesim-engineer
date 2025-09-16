@@ -1,0 +1,37 @@
+<?xml version='1.0' encoding='utf-8'?>
+<track name="JeddahCorniche" id="20">
+	<aliases>
+		<alias>Jeddah Corniche</alias>
+		<alias>Saudi Arabia</alias>
+		<alias>Jeddah</alias>
+	</aliases>
+	<layout name="F1" id="0">
+		<sector>
+			<minisector start="0" end="0" />
+			<minisector start="0" end="0" />
+			<minisector start="0" end="0" />
+			<minisector start="0" end="0" />
+			<minisector start="0" end="0" />
+			<minisector start="0" end="0" />
+			<minisector start="0" end="0" />
+			<minisector start="0" end="0" />
+		</sector>
+		<sector>
+			<minisector start="0" end="0" />
+			<minisector start="0" end="0" />
+			<minisector start="0" end="0" />
+			<minisector start="0" end="0" />
+			<minisector start="0" end="0" />
+			<minisector start="0" end="0" />
+		</sector>
+		<sector>
+			<minisector start="0" end="0" />
+			<minisector start="0" end="0" />
+			<minisector start="0" end="0" />
+			<minisector start="0" end="0" />
+			<minisector start="0" end="0" />
+			<minisector start="0" end="0" />
+			<minisector start="0" end="0" />
+		</sector>
+	</layout>
+</track>

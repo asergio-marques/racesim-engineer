@@ -5,7 +5,7 @@
 	</aliases>
 	<layout name="F1" id="0">
 		<sector>
-			<minisector start="000" end="100" />
+			<minisector start="0" end="100" />
 			<minisector start="100" end="200" />
 			<minisector start="200" end="300" />
 			<minisector start="300" end="400" />

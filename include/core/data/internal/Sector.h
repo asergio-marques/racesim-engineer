@@ -1,6 +1,7 @@
 #ifndef DATA_INTERNAL_INCLUDE_SECTOR_H_
 #define DATA_INTERNAL_INCLUDE_SECTOR_H_
 
+#include <cmath>
 #include <cstdint>
 #include <map>
 #include <vector>
@@ -15,27 +16,24 @@ namespace Lap::Internal {
     struct Sector {
 
         // Constructor for a minisector
-        Sector(const uint8_t id, uint32_t startDistance, uint32_t endDistance);
+        Sector(const uint8_t id, float_t startDistance, float_t endDistance);
 
         // Constructor for a sector
-        Sector(const uint8_t id, uint32_t startDistance, uint32_t endDistance,
+        Sector(const uint8_t id, float_t startDistance, float_t endDistance,
             const std::vector<Lap::Internal::Sector>& miniSectors);
 
         // Alternative constructor for a sector
-        Sector(const uint8_t id, uint32_t startDistance, uint32_t endDistance,
+        Sector(const uint8_t id, float_t startDistance, float_t endDistance,
             const std::map<uint8_t, Lap::Internal::Sector>& miniSectors);
 
         // Identifier of this sector in the lap/sector (in the case of minisector)
         const uint8_t m_ID;
 
         // The lap distance at which this (mini)sector begins (meters)
-        const uint32_t m_startPoint;
+        const float_t m_startPoint;
 
         // The lap distance at which this (mini)sector ends (meters)
-        const uint32_t m_endPoint;
-
-        // How much distance of this (mini)sector has been run (meters)
-        const uint32_t m_distanceRan;
+        const float_t m_endPoint;
 
         // The time the driver has spent running in this (mini)sector
         // If m_performance notes that the sector has been finished, then this is the final sector time

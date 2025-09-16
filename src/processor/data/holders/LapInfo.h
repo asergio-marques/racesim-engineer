@@ -2,9 +2,10 @@
 #define PROCESSOR_DATA_INCLUDE_LAP_INFO_H_
 
 #include <cstdint>
-#include <vector>
+#include <map>
 #include "data/internal/Lap.h"
 #include "data/internal/LapTime.h"
+#include "data/internal/Sector.h"
 #include "data/internal/TyreData.h"
 
 
@@ -35,29 +36,14 @@ namespace Processor {
             // Note: If the lap has not been completed, then this denotes the current time of the lap
             Lap::Internal::Time m_totalLapTime{};
 
-            // How much time Sector 1 of the lap has taken
-            // Note: If the sector has not been completed, then this denotes the current time of the sector
-            Lap::Internal::Time m_sector1Time{};
+            // Map containing information about all sectors in this lap
+            std::map<uint8_t, Lap::Internal::Sector> m_sectors;
 
-            // How much time Sector 2 of the lap has taken
-            // Note: If the sector has not been completed, then this denotes the current time of the sector
-            Lap::Internal::Time m_sector2Time{};
+            // Pointer to the current sector being run by the driver
+            Lap::Internal::Sector* m_currentSector = nullptr;
 
-            // How much time Sector 3 of the lap has taken
-            // Note: If the sector has not been completed, then this denotes the current time of the sector
-            Lap::Internal::Time m_sector3Time{};
-
-            // How much time the mini sectors of Sector 1 of the lap have taken
-            // Note: If a mini sector has not been completed, then the current time of the mini sector will be noted down
-            std::vector<Lap::Internal::Time> m_sector1MiniSectorsTime{};
-
-            // How much time the mini sectors of Sector 2 of the lap have taken
-            // Note: If a mini sector has not been completed, then the current time of the mini sector will be noted down
-            std::vector<Lap::Internal::Time> m_sector2MiniSectorsTime{};
-
-            // How much time the mini sectors of Sector 3 of the lap have taken
-            // Note: If a mini sector has not been completed, then the current time of the mini sector will be noted down
-            std::vector<Lap::Internal::Time> m_sector3MiniSectorsTime{};
+            // Pointer to the current minisector being run by the driver
+            Lap::Internal::Sector* m_currentMiniSector = nullptr;
 
             // Data structure holding all relevant information
             Tyre::Internal::Data m_tyre;

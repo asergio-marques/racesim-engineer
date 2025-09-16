@@ -10,6 +10,7 @@
 #include "packets/event/QualiStart.h"
 #include "packets/event/RaceStart.h"
 #include "packets/event/TimeTrialStart.h"
+#include "utilities/Sector.h"
 
 
 
@@ -122,9 +123,15 @@ void Processor::Detector::SessionStartDataReady::BuildQualiStartPacket() {
     Session::Internal::TrackInfo trackInfo;
     trackInfo.m_sessionTrack = trackData.m_trackId;
     trackInfo.m_lapDistanceTotal = trackData.getTotalTrackDistance();
-    trackInfo.m_sector1Distance = (trackData.getSectorById(1).m_endPoint - trackData.getSectorById(1).m_startPoint);
-    trackInfo.m_sector2Distance = (trackData.getSectorById(2).m_endPoint - trackData.getSectorById(2).m_startPoint);
-    trackInfo.m_sector3Distance = (trackData.getSectorById(3).m_endPoint - trackData.getSectorById(3).m_startPoint);
+
+    auto sectors = trackData.copySectors();
+    const auto& sector1 = Processor::Utility::Sector::getSectorById(sectors, 1);
+    const auto& sector2 = Processor::Utility::Sector::getSectorById(sectors, 2);
+    const auto& sector3 = Processor::Utility::Sector::getSectorById(sectors, 3);
+    trackInfo.m_sector1Distance = (sector1.m_endPoint - sector1.m_startPoint);
+    trackInfo.m_sector2Distance = (sector2.m_endPoint - sector2.m_startPoint);
+    trackInfo.m_sector3Distance = (sector3.m_endPoint - sector3.m_startPoint);
+
     packet->m_trackInfo = trackInfo;
     packet->m_settings = m_sessionRecord->getSessionSettings();
     for (const auto& recordEntry : *m_driverRecords) {
@@ -163,9 +170,15 @@ void Processor::Detector::SessionStartDataReady::BuildRaceStartPacket() {
     Session::Internal::TrackInfo trackInfo;
     trackInfo.m_sessionTrack = trackData.m_trackId;
     trackInfo.m_lapDistanceTotal = trackData.getTotalTrackDistance();
-    trackInfo.m_sector1Distance = (trackData.getSectorById(1).m_endPoint - trackData.getSectorById(1).m_startPoint);
-    trackInfo.m_sector2Distance = (trackData.getSectorById(2).m_endPoint - trackData.getSectorById(2).m_startPoint);
-    trackInfo.m_sector3Distance = (trackData.getSectorById(3).m_endPoint - trackData.getSectorById(3).m_startPoint);
+
+    auto sectors = trackData.copySectors();
+    const auto& sector1 = Processor::Utility::Sector::getSectorById(sectors, 1);
+    const auto& sector2 = Processor::Utility::Sector::getSectorById(sectors, 2);
+    const auto& sector3 = Processor::Utility::Sector::getSectorById(sectors, 3);
+    trackInfo.m_sector1Distance = (sector1.m_endPoint - sector1.m_startPoint);
+    trackInfo.m_sector2Distance = (sector2.m_endPoint - sector2.m_startPoint);
+    trackInfo.m_sector3Distance = (sector3.m_endPoint - sector3.m_startPoint);
+
     packet->m_trackInfo = trackInfo;
     packet->m_settings = m_sessionRecord->getSessionSettings();
     for (const auto& recordEntry : *m_driverRecords) {

@@ -1,5 +1,7 @@
 #include "utilities/TrackConfigLoader.h"
 
+#include <cstdint>
+#include <cmath>
 #include <filesystem>
 #include <map>
 #include <string>
@@ -74,16 +76,16 @@ Processor::Data::TrackData Processor::Utility::TrackConfigLoader::readConfig() {
     uint8_t latestSectorID = 1;
     for (const auto& sectorNode : layout.children("sector")) {
         
-        uint32_t start = UINT32_MAX;
-        uint32_t end = 0;
+        float_t start = UINT32_MAX;
+        float_t end = 0;
 
         std::map<uint8_t, Lap::Internal::Sector> miniSectors;
         uint8_t latestMiniSectorID = 1;
 
         for (const auto& miniNode : sectorNode.children("minisector")) {
             
-            uint32_t miniStart = miniNode.attribute("start").as_uint();
-            uint32_t miniEnd = miniNode.attribute("end").as_uint();
+            float_t miniStart = miniNode.attribute("start").as_float();
+            float_t miniEnd = miniNode.attribute("end").as_float();
             
             if (miniStart < start) start = miniStart;
             if (miniEnd > end) end = miniEnd;

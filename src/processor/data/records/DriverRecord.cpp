@@ -31,9 +31,9 @@ Processor::Data::DriverRecord::~DriverRecord() {
 
 
 
-void Processor::Data::DriverRecord::Init(const uint8_t startPosition) {
+void Processor::Data::DriverRecord::Init(const uint8_t startPosition, const Processor::Data::TrackData& trackData) {
 
-    m_state = new DriverState(this, startPosition);
+    m_state = new DriverState(this, startPosition, trackData);
 
 }
 

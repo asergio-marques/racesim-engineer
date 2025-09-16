@@ -45,6 +45,7 @@ target_sources(${PROJECT_NAME} PRIVATE
     detectors/TyreChanged.cpp
     exporters/RaceSession.cpp
     utilities/ConfigFileMaps.cpp
+    utilities/Sector.cpp
     utilities/TrackConfigLoader.cpp)
 
 target_link_libraries(${PROJECT_NAME} PUBLIC

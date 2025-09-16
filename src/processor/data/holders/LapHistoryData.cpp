@@ -1,18 +1,23 @@
 #include "data/holders/LapHistoryData.h"
 
+#include <cmath>
 #include <cstdint>
+#include <limits>
 #include <map>
 #include "data/holders/LapInfo.h"
+#include "data/holders/TrackData.h"
 #include "data/internal/Participant.h"
 #include "data/internal/Tyre.h"
 #include "detectors/LapFinished.h"
 #include "detectors/Interface.h"
 #include "detectors/Type.h"
 #include "detectors/TyreChanged.h"
+#include "utilities/Sector.h"
 
 
 
-Processor::Data::LapHistoryData::LapHistoryData() :
+
+Processor::Data::LapHistoryData::LapHistoryData(const Processor::Data::TrackData& trackDataReference) :
     m_laps(),
     m_totalTime(),
     m_isDataComplete(false),
@@ -20,6 +25,7 @@ Processor::Data::LapHistoryData::LapHistoryData() :
     m_fastestSector1LapID(UINT16_MAX),
     m_fastestSector2LapID(UINT16_MAX),
     m_fastestSector3LapID(UINT16_MAX),
+    m_trackDataReference(trackDataReference),
     m_installedFinishedLapDetector(nullptr),
     m_installedTyreChangeDetector(nullptr) {
 
@@ -146,9 +152,7 @@ void Processor::Data::LapHistoryData::updateLap(const uint8_t id, const uint8_t 
             auto& lap = it->second;
             if (!lap.m_isFinished) {
 
-                lap.m_sector1Time = sectorTimes.at(0);
-                lap.m_sector2Time = sectorTimes.at(1);
-                lap.m_sector3Time = sectorTimes.at(2);
+                // TODO rework with sector structs
                 lap.m_totalLapTime.zero();
                 lap.m_totalLapTime = currentLapTime;
                 lap.m_status = lapStatus;
@@ -174,9 +178,7 @@ void Processor::Data::LapHistoryData::updateLap(const uint8_t id, const uint8_t 
             auto& finishedLap = it->second;
             finishedLap.m_isFinished = true;
             finishedLap.m_totalLapTime = previousLapTime;
-            finishedLap.m_sector3Time = previousLapTime;
-            finishedLap.m_sector3Time -= finishedLap.m_sector2Time;
-            finishedLap.m_sector3Time -= finishedLap.m_sector1Time;
+            // TODO rework with sector structs
             evaluateFinishedLap(finishedLap);
 
             // record this finished lap's tyre usage to transmit the information to the next one
@@ -190,12 +192,35 @@ void Processor::Data::LapHistoryData::updateLap(const uint8_t id, const uint8_t 
             lap.m_driverId = id;
             lap.m_lapId = lapID;
             lap.m_isFinished = false;
-            lap.m_sector1Time = sectorTimes.at(0);
-            lap.m_sector2Time = sectorTimes.at(1);
-            lap.m_sector3Time = sectorTimes.at(2);
-            lap.m_totalLapTime = lap.m_sector1Time + lap.m_sector2Time + lap.m_sector3Time;
+            lap.m_totalLapTime = currentLapTime;
             lap.m_status = lapStatus;
             lap.m_distanceFulfilled = lapDistanceRun;
+
+            // work sectors and minisectors
+            lap.m_sectors = m_trackDataReference.copySectors();
+            auto& currentSector = Processor::Utility::Sector::getSectorByDistance(lap.m_sectors, lap.m_distanceFulfilled);
+            auto& currentMinisector = Processor::Utility::Sector::getMiniSectorByDistance(lap.m_sectors, lap.m_distanceFulfilled);
+            if (Processor::Utility::Sector::validate(currentSector) &&
+                Processor::Utility::Sector::validate(currentMinisector)) {
+
+                // set initial current sector parameters
+                currentSector.m_currentTime = currentLapTime;
+                if (lap.m_distanceFulfilled >=
+                    (currentSector.m_endPoint - std::numeric_limits<float_t>::epsilon())) {
+
+                    // TODO
+
+                }
+                // set initial current minisector parameters
+                currentMinisector.m_currentTime = currentLapTime;
+                if (lap.m_distanceFulfilled >=
+                    (currentMinisector.m_endPoint - std::numeric_limits<float_t>::epsilon())) {
+
+                    // TODO
+
+                }
+
+            }
 
             // increment tyre age before setting it
             // note that the ID has not been set just to guarantee comparison when tyre data is received

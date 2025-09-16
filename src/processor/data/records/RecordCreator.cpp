@@ -151,7 +151,7 @@ void Processor::Data::RecordCreator::Init(const Packet::Internal::SessionSetting
 
 void Processor::Data::RecordCreator::Init(const Packet::Internal::SessionParticipants* packet) {
 
-    if (!packet) return;
+    if (!packet || !m_sessionRecord || !m_sessionRecord->Initialized()) return;
 
     m_totalParticipants = packet->GetTotalParticipants();
     auto participantData = packet->GetData();
@@ -162,7 +162,7 @@ void Processor::Data::RecordCreator::Init(const Packet::Internal::SessionPartici
 
             auto data = participantData[i];
             Processor::Data::DriverRecord* record = new Processor::Data::DriverRecord(packet->m_timestamp, data);
-            record->Init(data.m_startPosition);
+            record->Init(data.m_startPosition, m_sessionRecord->getTrackData());
             m_driverRecords.emplace(record->getDriverId(), record);
             if (data.m_isPlayer) {
 
@@ -186,7 +186,7 @@ void Processor::Data::RecordCreator::Init(const Packet::Internal::SessionPartici
             Processor::Data::DriverRecord* record = new Processor::Data::DriverRecord(packet->m_timestamp, data);
             if (record) {
 
-                record->Init(data.m_startPosition);
+                record->Init(data.m_startPosition, m_sessionRecord->getTrackData());
                 m_driverRecords.emplace(record->getDriverId(), record);
 
                 if (data.m_isPlayer) {

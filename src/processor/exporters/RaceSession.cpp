@@ -115,9 +115,10 @@ bool Processor::Exporter::RaceSession::Export(std::string path) const {
                 pugi::xml_node lapNode = lapsNode.append_child("lap");
                 addChildNodeCharacterData(&lapNode, m_schemaV1.lapIdTag, lap->m_lapId);
                 addChildNodeCharacterData(&lapNode, m_schemaV1.lapTimeTag, lap->m_totalLapTime);
-                addChildNodeCharacterData(&lapNode, m_schemaV1.sector1TimeTag, lap->m_sector1Time);
-                addChildNodeCharacterData(&lapNode, m_schemaV1.sector2TimeTag, lap->m_sector2Time);
-                addChildNodeCharacterData(&lapNode, m_schemaV1.sector3TimeTag, lap->m_sector3Time);
+                // TODO rework with new sector concept
+                // addChildNodeCharacterData(&lapNode, m_schemaV1.sector1TimeTag, lap->m_sector1Time);
+                // addChildNodeCharacterData(&lapNode, m_schemaV1.sector2TimeTag, lap->m_sector2Time);
+                // addChildNodeCharacterData(&lapNode, m_schemaV1.sector3TimeTag, lap->m_sector3Time);
                 addChildNodeCharacterData(&lapNode, m_schemaV1.tyreVisualTag, lap->m_tyre.m_visualTyre);
                 addChildNodeCharacterData(&lapNode, m_schemaV1.tyreCompoundTag, lap->m_tyre.m_actualTyre);
 

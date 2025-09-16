@@ -10,8 +10,9 @@
 #include "data/internal/Tyre.h"
 #include "data/internal/TyreData.h"
 #include "data/holders/LapHistoryData.h"
-#include "data/holders/WarningPenaltyData.h"
 #include "data/holders/PositionTimingData.h"
+#include "data/holders/TrackData.h"
+#include "data/holders/WarningPenaltyData.h"
 
 
 
@@ -31,7 +32,8 @@ namespace Processor {
 
             public:
             // Constructor
-            DriverState(const Processor::Data::DriverRecord* const parent, const uint8_t startingPosition);
+            DriverState(const Processor::Data::DriverRecord* const parent,
+                const uint8_t startingPosition, const Processor::Data::TrackData& trackData);
 
             // Destructor
             ~DriverState() = default;

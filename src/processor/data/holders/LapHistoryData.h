@@ -4,6 +4,7 @@
 #include <cstdint>
 #include <map>
 #include "data/holders/LapInfo.h"
+#include "data/holders/TrackData.h"
 #include "data/internal/Participant.h"
 #include "data/internal/Tyre.h"
 
@@ -25,7 +26,7 @@ namespace Processor {
 
             public:
             // Constructor
-            LapHistoryData();
+            LapHistoryData(const Processor::Data::TrackData& trackDataReference);
 
             // Destructor
             ~LapHistoryData() = default;
@@ -85,6 +86,9 @@ namespace Processor {
 
             // Index of the lap in which the fastest sector 3 was driven for this driver
             uint16_t m_fastestSector3LapID;
+
+            // An immutable reference to the track data, for creating new laps
+            const Processor::Data::TrackData& m_trackDataReference;
 
             // Pointer to the fastest lap detector currently installed
             Processor::Detector::LapFinished* m_installedFinishedLapDetector;

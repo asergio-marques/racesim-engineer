@@ -5,18 +5,20 @@
 #include <vector>
 #include "data/records/DriverRecord.h"
 #include "data/holders/LapInfo.h"
-#include "data/holders/WarningPenaltyData.h"
 #include "data/holders/PositionTimingData.h"
+#include "data/holders/TrackData.h"
+#include "data/holders/WarningPenaltyData.h"
 #include "detectors/Interface.h"
 #include "detectors/Type.h"
 
 
 
-Processor::Data::DriverState::DriverState(const Processor::Data::DriverRecord* const parent, const uint8_t startingPosition) :
+Processor::Data::DriverState::DriverState(const Processor::Data::DriverRecord* const parent,
+    const uint8_t startingPosition, const Processor::Data::TrackData& trackData) :
     m_parentRecord(parent),
     m_posTimeData(),
     m_warnPenData(),
-    m_lapData() {
+    m_lapData(trackData) {
 
 
 
@@ -25,7 +27,8 @@ Processor::Data::DriverState::DriverState(const Processor::Data::DriverRecord* c
 
 
 
-void Processor::Data::DriverState::finalize(const uint8_t id, const uint8_t position, const uint8_t numLaps, const Lap::Internal::Time sessionTime) {
+void Processor::Data::DriverState::finalize(const uint8_t id, const uint8_t position,
+    const uint8_t numLaps, const Lap::Internal::Time sessionTime) {
 
     m_lapData.completeData(id, numLaps, sessionTime);
     // TODO investigate this better because it doesn't look like it's working perfectly

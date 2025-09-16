@@ -23,7 +23,7 @@ namespace Processor {
             ~DriverRecord();
 
             // Initializes the driver state, should be called after construction
-            void Init(const uint8_t startPosition);
+            void Init(const uint8_t startPosition, const Processor::Data::TrackData& trackData);
 
             // Validates the internal information and returns true if it meets the conditions for the start of a session
             const bool Initialized() const;

@@ -57,7 +57,9 @@ Processor::Data::TrackData Processor::Utility::TrackConfigLoader::readConfig() {
     pugi::xml_node root = doc.child("track");
     // check ID validity
     if (!root || root.attribute("id").as_uint() != static_cast<uint8_t>(m_ID)) {
+
         return trackData;
+
     }
 
     // hardcoded to layout id 0 for the time being

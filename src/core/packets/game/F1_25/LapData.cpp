@@ -70,6 +70,7 @@ void Packet::Game::F1_25::LapData::Print() const {
         header->Print();
 
     }
+    //std::cout << "current lap distance of player: " << m_lapData[this->GetHeader()->GetCarIndexPlayer1()].m_lapDistance << " m" << std::endl;
 
     // Packet print TBD
 

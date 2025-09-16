@@ -203,7 +203,7 @@ Generalizer::Adapter::F1_25::ConvertLapDataPacket(const Packet::Game::F1_25::Lap
         return {};
 
     }
-
+    // inputPacket->Print()
     // TODO it doesn't make sense to be creating a gridpacket every time we get a lapdata packet...
     Packet::Internal::GridPosition* gridPacket =
         new Packet::Internal::GridPosition(inputPacket->GetHeader()->GetFrameIdentifier());

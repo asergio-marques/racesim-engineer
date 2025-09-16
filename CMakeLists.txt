@@ -35,6 +35,17 @@ target_link_libraries(${PROJECT_NAME} PRIVATE
     RaceSimEngineerUIWidgets
     RaceSimEngineerUI)
 
+# copy the config files into the build folder
+set(CONFIG_DIR "${PROJECT_ROOT}/config")
+file(GLOB_RECURSE APP_CONFIG_FILES RELATIVE "${CONFIG_DIR}" "${CONFIG_DIR}/*")
+foreach(FILE_PATH IN LISTS APP_CONFIG_FILES)
+    set(INPUT "${CONFIG_DIR}/${FILE_PATH}")
+    set(OUTPUT "${CMAKE_CURRENT_BINARY_DIR}/${FILE_PATH}")
+    get_filename_component(OUTPUT_DIR "${OUTPUT}" DIRECTORY)
+    file(MAKE_DIRECTORY "${OUTPUT_DIR}")
+    file(COPY "${INPUT}" DESTINATION "${OUTPUT_DIR}")
+endforeach()
+
 add_custom_command(TARGET ${PROJECT_NAME}
 	POST_BUILD
 	COMMAND ${CMAKE_COMMAND} -E copy $<TARGET_FILE:${PROJECT_NAME}>

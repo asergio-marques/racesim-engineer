@@ -125,8 +125,6 @@ Lap::Internal::Sector& Processor::Utility::Sector::getPreviousMiniSectorByDistan
     usePreviousLap = true;
     return Processor::Utility::Sector::INVALID_SECTOR;
 
-
-
 }
 
 

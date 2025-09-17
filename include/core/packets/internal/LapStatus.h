@@ -26,17 +26,17 @@ namespace Packet {
                 // ID of the lap to which this information pertains
                 uint8_t m_lapID = 0;
 
-                // Whether the lap has been invalidated (or not) or if it's a simple cooldown lap in between pushlaps
+                // The overall type and status of a lap
                 Lap::Internal::Status m_status = Lap::Internal::Status::InvalidUnknown;
+
+                // Whether this lap has been invalidated or not
+                bool m_valid;
 
                 // Time for the current run around the track
                 Lap::Internal::Time m_time{};
 
                 // Container for the times for each sector of the track (0 = sector 1, 1 = sector 2...)
                 std::vector<Lap::Internal::Time> m_sectorTimes{};
-
-                // Container for the times for each mini-sector of the track (0 = mini-sector 1, 1 = mini-sector 2...)
-                std::vector<Lap::Internal::Time> m_miniSectorTimes{};
 
                 // Track distance the vehicle has travelled in the current lap (meters)
                 float_t m_lapDistanceRun = 0.0f;

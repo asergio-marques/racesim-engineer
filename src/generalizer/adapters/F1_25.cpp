@@ -216,12 +216,21 @@ Generalizer::Adapter::F1_25::ConvertLapDataPacket(const Packet::Game::F1_25::Lap
 
     std::map<size_t, uint8_t> startingPlaces;
     std::map<size_t, bool> gridPositionFilled;
+    std::vector<Packet::Internal::Interface*> v;
+    v.push_back(gridPacket);
+    v.push_back(standingsPacket);
+    v.push_back(penaltiesPacket);
+    v.push_back(statusPacket);
 
     for (size_t i = 0; i < 22; ++i) {
 
         bool ok = false;
         const auto lapInfo = inputPacket->GetLapInfo(i, ok);
         if (ok) {
+
+            Packet::Internal::LapStatus* lapPacket =
+                new Packet::Internal::LapStatus(inputPacket->GetHeader()->GetFrameIdentifier(), i);
+            v.push_back(lapPacket);
 
             // due to some problems in qualifications sessions that have been restarted,
             // a temporary map is needed to later disambiguate grid positions
@@ -264,6 +273,39 @@ Generalizer::Adapter::F1_25::ConvertLapDataPacket(const Packet::Game::F1_25::Lap
 
             statusPacket->InsertData(i, status);
 
+            // work current lap
+            Packet::Internal::LapStatus::Data currentLapData;
+            currentLapData.m_lapID = lapInfo.m_currentLapNum;
+            currentLapData.m_time = lapInfo.m_currentLapTime;
+            uint32_t sector1TimeMS = (lapInfo.m_sector1TimeMin * 60 * 1000) + lapInfo.m_sector1TimeRemainderMS;
+            uint32_t sector2TimeMS = (lapInfo.m_sector2TimeMin * 60 * 1000) + lapInfo.m_sector2TimeRemainderMS;
+            uint32_t sector3TimeMS = lapInfo.m_currentLapTime - sector2TimeMS - sector1TimeMS;
+            currentLapData.m_valid = lapInfo.m_currentLapInvalid;
+            currentLapData.m_sectorTimes = { sector1TimeMS, sector2TimeMS, sector3TimeMS };
+            // use only general members; pit in/out/cooldown status is to be extracted in processor
+            switch (lapInfo.m_pitStatus) {
+
+                case Lap::Game::F1_25::PitStatus::NotInPits:
+                    currentLapData.m_status = Lap::Internal::Status::FlyingLap;
+                    break;
+
+                case Lap::Game::F1_25::PitStatus::Pitting:
+                case Lap::Game::F1_25::PitStatus::InPitArea:
+                    currentLapData.m_status = Lap::Internal::Status::InPits;
+                    break;
+                    
+                default:
+                    currentLapData.m_status = Lap::Internal::Status::InvalidUnknown;
+
+            }
+
+            // add also previous lap with whatever little data we can provide
+            Packet::Internal::LapStatus::Data previousLapData;
+            previousLapData.m_lapID = lapInfo.m_currentLapNum - 1;
+            previousLapData.m_time = lapInfo.m_lastLapTime;
+            lapPacket->InsertData(currentLapData);
+            lapPacket->InsertData(previousLapData);
+
         }
 
     }
@@ -294,8 +336,7 @@ Generalizer::Adapter::F1_25::ConvertLapDataPacket(const Packet::Game::F1_25::Lap
 
     }
 
-
-    return { gridPacket, standingsPacket, penaltiesPacket, statusPacket };
+    return v;
 
 }
 
@@ -384,7 +425,6 @@ Generalizer::Adapter::F1_25::ConvertSessionHistoryDataPacket(const Packet::Game:
     const auto* currentLapInfo = inputPacket->GetCurrentLapInfo();
     AddLapStatusInfo(inputPacket->GetNumLaps(), currentLapInfo, lapPacket);
 
-
     Packet::Internal::TyreSetUsage* tyrePacket =
         new Packet::Internal::TyreSetUsage(inputPacket->GetHeader()->GetFrameIdentifier());
     Tyre::Internal::Data tyreData;
@@ -438,6 +478,7 @@ void Generalizer::Adapter::F1_25::AddLapStatusInfo(const uint8_t lapNo,
         uint32_t sector1TimeMS = (inputInfo->m_sector1TimeMin * 60 * 1000) + inputInfo->m_sector1TimeRemainderMS;
         uint32_t sector2TimeMS = (inputInfo->m_sector2TimeMin * 60 * 1000) + inputInfo->m_sector2TimeRemainderMS;
         uint32_t sector3TimeMS = (inputInfo->m_sector3TimeMin * 60 * 1000) + inputInfo->m_sector3TimeRemainderMS;
+        lapData.m_valid = ((inputInfo->m_lapValidBitFlags & 0x00000001) == 0x00000001);
         lapData.m_sectorTimes = { sector1TimeMS, sector2TimeMS, sector3TimeMS };
         castOutputPacket->InsertData(lapData);
 

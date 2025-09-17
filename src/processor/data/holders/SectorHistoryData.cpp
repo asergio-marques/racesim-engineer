@@ -1,5 +1,11 @@
 #include "data/holders/SectorHistoryData.h"
 
+#include <cstdint>
+#include <vector>
+#include <map>
+#include "data/internal/Lap.h"
+#include "data/internal/Sector.h"
+#include "data/holders/TrackData.h"
 #include "utilities/Sector.h"
 
 
@@ -80,6 +86,105 @@ void Processor::Data::SectorHistoryData::completeData() {
 
 
 
+void Processor::Data::SectorHistoryData::update(const uint8_t id, const float_t lapDistanceRun,
+    const Lap::Internal::Time currentLapTime, const Lap::Internal::Time previousLapTime, const Lap::Internal::Status status) {
+
+    // function is only meant to be used for minisectors
+    if (!m_minisector) return;
+    bool createNew = m_sectors.empty();
+
+    auto& currentSector = m_sectors.rbegin()->second;
+    auto& previousSector = currentSector;
+    if (m_sectors.size() > 1) {
+
+        previousSector = std::prev(m_sectors.rbegin())->second;
+
+    }
+    updateSector(previousSector, currentSector, currentLapTime, status);
+    if (lapDistanceRun >= currentSector.getEndPoint()) {
+
+        // TODO what do when sector finished, aside from creating a new one
+        createNew = true;
+
+    }
+    if (createNew) {
+
+        // Initialize new sectors, and add them to the overall map and to the lap data
+        auto sectors = m_trackDataReference.copySectors();
+        auto minisectors = m_trackDataReference.copyMiniSectors();
+        const uint16_t lapID = std::floor(m_sectors.size() / minisectors.size()) + 1;
+
+        const auto& currentSectorTemplate = Processor::Utility::Sector::getSectorByDistance(sectors, lapDistanceRun);
+        const auto& currentMinisectorTemplate = Processor::Utility::Sector::getSectorByDistance(minisectors, lapDistanceRun);
+
+        Lap::Internal::Sector newMinisector{ currentMinisectorTemplate.getLapOrderID(),
+            static_cast<uint16_t>(lapID - 1),
+            minisectors.size(),
+            currentSectorTemplate.getLapOrderID(),
+            currentMinisectorTemplate.getParentOrderID(),
+            currentMinisectorTemplate.getStartPoint(),
+            currentMinisectorTemplate.getEndPoint(),
+            currentLapTime };
+
+        initializeSector(newMinisector, currentLapTime, status);
+        m_sectors.emplace(newMinisector.getUniqueOverallID(), newMinisector);
+
+    }
+
+}
+
+
+
+void Processor::Data::SectorHistoryData::update(const uint8_t id, const float_t lapDistanceRun,
+    const std::vector<Lap::Internal::Time>& sectorTimes, const Lap::Internal::Time previousLapTime,
+    const Lap::Internal::Status status) {
+
+    // function is only meant to be used for sectors
+    if (m_minisector || sectorTimes.empty()) return;
+
+    bool createNew = m_sectors.empty();
+
+    auto& currentSector = m_sectors.rbegin()->second;
+    auto& previousSector = currentSector;
+    if (m_sectors.size() > 1) {
+
+        previousSector = std::prev(m_sectors.rbegin())->second;
+
+    }
+    // TODO figure out what to do here with the sector times
+    // updateSector(previousSector, currentSector, currentLapTime, status);
+    if (lapDistanceRun >= currentSector.getEndPoint()) {
+
+        // TODO what do when sector finished, aside from creating a new one
+        createNew = true;
+
+    }
+    if (createNew) {
+
+        // Initialize new sectors, and add them to the overall map and to the lap data
+        auto sectors = m_trackDataReference.copySectors();
+        const uint16_t lapID = std::floor(m_sectors.size() / sectors.size()) + 1;
+
+        const auto& currentSectorTemplate = Processor::Utility::Sector::getSectorByDistance(sectors, lapDistanceRun);
+
+        Lap::Internal::Sector newSector{ currentSectorTemplate.getLapOrderID(),
+            static_cast<uint16_t>(lapID - 1),
+            sectors.size(),
+            currentSectorTemplate.getStartPoint(),
+            currentSectorTemplate.getEndPoint(),
+            sectorTimes[0]};
+
+        initializeSector(newSector, sectorTimes[0], status);
+        m_sectors.emplace(newSector.getUniqueOverallID(), newSector);
+
+    }
+
+
+
+}
+
+
+
 void Processor::Data::SectorHistoryData::initializeSector(Lap::Internal::Sector& sector,
     const Lap::Internal::Time currentLapTime, const Lap::Internal::Status lapStatus) {
 
@@ -138,79 +243,5 @@ void Processor::Data::SectorHistoryData::updateSector(Lap::Internal::Sector& pre
             currentSector.m_performance = Lap::Internal::Performance::InvalidUnknown;
 
     }
-
-}
-
-
-
-
-// just to backup
-void Processor::Data::SectorHistoryData::temp() {
-
-    /*
-    bool createNewSector = m_sectors.empty();
-    bool createNewMinisector = m_minisectors.empty();
-
-    auto& currentSector = m_sectors.rbegin()->second;
-    auto& previousSector = currentSector;
-    if (m_sectors.size() > 1) {
-
-        previousSector = std::prev(m_sectors.rbegin())->second;
-
-    }
-    auto& currentMiniSector = m_minisectors.rbegin()->second;
-    auto& previousMiniSector = currentMiniSector;
-    if (m_sectors.size() > 1) {
-
-        previousMiniSector = std::prev(m_minisectors.rbegin())->second;
-
-    }
-    updateSector(previousSector, currentSector, lap.m_totalLapTime, lap.m_status);
-    updateSector(previousMiniSector, currentMiniSector, lap.m_totalLapTime, lap.m_status);
-    if (lap.m_distanceFulfilled >= currentSector.getEndPoint()) {
-
-        // TODO what do when sector finished, aside from creating a new one + minisector?
-        createNewSector = true;
-
-    }
-    if (lap.m_distanceFulfilled >= currentMiniSector.getEndPoint()) {
-
-        // TODO what do when minisector finished
-        createNewMinisector = true;
-
-    }
-    if (createNewSector) {
-
-        // Initialize new sectors, and add them to the overall map and to the lap data
-        auto sectors = m_trackDataReference.copySectors();
-        const auto& currentSectorTemplate = Processor::Utility::Sector::getSectorByDistance(sectors, lapDistanceRun);
-        Lap::Internal::Sector newSector{ currentSectorTemplate.getLapOrderID(),
-            static_cast<uint16_t>(lapID - 1),
-            sectors.size(),
-            currentSectorTemplate.getStartPoint(),
-            currentSectorTemplate.getEndPoint(),
-            currentLapTime };
-        initializeSector(newSector, currentLapTime, lapStatus);
-        m_sectors.emplace(newSector.getUniqueOverallID(), newSector);
-
-    }
-    if (createNewMinisector) {
-
-        auto sectors = m_trackDataReference.copySectors();
-        auto minisectors = m_trackDataReference.copyMiniSectors();
-        const auto& currentSectorTemplate = Processor::Utility::Sector::getSectorByDistance(sectors, lapDistanceRun);
-        const auto& currentMinisectorTemplate = Processor::Utility::Sector::getSectorByDistance(minisectors, lapDistanceRun);
-        Lap::Internal::Sector newMinisector{ currentMinisectorTemplate.getLapOrderID(),
-            static_cast<uint16_t>(lapID - 1),
-            minisectors.size(),
-            currentSectorTemplate.getLapOrderID(),
-            currentMinisectorTemplate.getParentOrderID(),
-            currentMinisectorTemplate.getStartPoint(),
-            currentMinisectorTemplate.getEndPoint(),
-            currentLapTime };
-        initializeSector(newMinisector, currentLapTime, lapStatus);
-        m_minisectors.emplace(newMinisector.getUniqueOverallID(), newMinisector);
-    }
-    */
 
 }

@@ -2,7 +2,9 @@
 #define PROCESSOR_DATA_INCLUDE_SECTOR_HISTORY_DATA_H_
 
 #include <cstdint>
+#include <vector>
 #include <map>
+#include "data/internal/Lap.h"
 #include "data/internal/Sector.h"
 #include "data/holders/TrackData.h"
 
@@ -42,6 +44,16 @@ namespace Processor {
             // Finalizes the record for the final sector if necessary
             void completeData();
 
+            // Function to update sector or minisector times by deducing from the lap distance
+            void update(const uint8_t id, const float_t lapDistanceRun,
+                const Lap::Internal::Time currentLapTime, const Lap::Internal::Time previousLapTime,
+                const Lap::Internal::Status status);
+            
+            // Function to update sector times from a vector rather than deducing from lap distance
+            void update(const uint8_t id, const float_t lapDistanceRun,
+                const std::vector<Lap::Internal::Time>& sectorTimes, const Lap::Internal::Time previousLapTime,
+                const Lap::Internal::Status status);
+
             private:
             // Auxiliary function that initializes a sector's information
             void initializeSector(Lap::Internal::Sector& sector, const Lap::Internal::Time currentLapTime,
@@ -51,8 +63,6 @@ namespace Processor {
             // and to the previous sector's information to deduce a new state
             void updateSector(Lap::Internal::Sector& previousSector, Lap::Internal::Sector& currentSector,
                 const Lap::Internal::Time currentLapTime, const Lap::Internal::Status lapStatus);
-
-            void temp();
 
             // Holder of data pertaining to all sectors of already finished laps exclusively
             std::map<uint16_t, Lap::Internal::Sector> m_sectors;

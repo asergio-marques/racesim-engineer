@@ -2,7 +2,7 @@
 #define PROCESSOR_DATA_INCLUDE_LAP_TRACK_DATA_H_
 
 #include <cstdint>
-#include <map>
+#include <vector>
 #include "data/internal/Sector.h"
 #include "data/internal/Session.h"
 
@@ -23,10 +23,16 @@ namespace Processor {
             ~TrackData() = default;
 
             // Sets the sector information for this track
-            void setSectorInfo(const std::map<uint8_t, Lap::Internal::Sector>& sectors);
+            void setSectorInfo(const std::vector<Lap::Internal::Sector>& sectors);
 
-            // Returns a copy of the base sectors map
-            std::map<uint8_t, Lap::Internal::Sector> copySectors() const;
+            // Sets the sector information for this track
+            void setMiniSectorInfo(const std::vector<Lap::Internal::Sector>& minisectors);
+
+            // Returns a copy of the base sectors array
+            std::vector<Lap::Internal::Sector> copySectors() const;
+
+            // Returns a copy of the base minisectors array
+            std::vector<Lap::Internal::Sector> copyMiniSectors() const;
 
             // Retrieves the name of the track based on its ID and layout
             const std::string getTrackName() const;
@@ -41,8 +47,14 @@ namespace Processor {
             const uint8_t m_layoutId;
 
             private:
-            // Maps the sectors of this track to their IDs, allowing for easy lookup
-            std::map<uint8_t, Lap::Internal::Sector> m_sectors;
+            // Linked list of all sectors contained in a lap of this track
+            std::vector<Lap::Internal::Sector> m_sectors;
+
+            // Linked list of all minisectors contained in a lap of this track
+            std::vector<Lap::Internal::Sector> m_minisectors;
+
+
+
 
         };
 

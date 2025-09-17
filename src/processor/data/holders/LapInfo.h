@@ -2,7 +2,7 @@
 #define PROCESSOR_DATA_INCLUDE_LAP_INFO_H_
 
 #include <cstdint>
-#include <map>
+#include <vector>
 #include "data/internal/Lap.h"
 #include "data/internal/LapTime.h"
 #include "data/internal/Sector.h"
@@ -36,8 +36,11 @@ namespace Processor {
             // Note: If the lap has not been completed, then this denotes the current time of the lap
             Lap::Internal::Time m_totalLapTime{};
 
-            // Map containing information about all sectors in this lap
-            std::map<uint8_t, Lap::Internal::Sector> m_sectors;
+            // Array of all sectors in this lap
+            std::vector<Lap::Internal::Sector> m_sectors;
+
+            // Array of all minisectors in this lap
+            std::vector<Lap::Internal::Sector> m_minisectors;
 
             // Pointer to the current sector being run by the driver
             Lap::Internal::Sector* m_currentSector = nullptr;

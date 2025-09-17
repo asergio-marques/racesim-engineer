@@ -3,8 +3,8 @@
 #include <cstdint>
 #include <cmath>
 #include <filesystem>
-#include <map>
 #include <string>
+#include <vector>
 #include <pugixml.hpp>
 #include "data/internal/Session.h"
 #include "data/holders/TrackData.h"
@@ -72,16 +72,17 @@ Processor::Data::TrackData Processor::Utility::TrackConfigLoader::readConfig() {
 
     }
 
-    std::map<uint8_t, Lap::Internal::Sector> sectors;
+    std::vector<Lap::Internal::Sector> sectors;
+    std::vector<Lap::Internal::Sector> minisectors;
     uint8_t latestSectorID = 1;
+    uint8_t latestMiniSectorOrderID = 1;
+
     for (const auto& sectorNode : layout.children("sector")) {
         
         float_t start = UINT32_MAX;
         float_t end = 0;
 
-        std::map<uint8_t, Lap::Internal::Sector> miniSectors;
-        uint8_t latestMiniSectorID = 1;
-
+        uint8_t latestMiniSectorUniqueID = 1;
         for (const auto& miniNode : sectorNode.children("minisector")) {
             
             float_t miniStart = miniNode.attribute("start").as_float();
@@ -90,14 +91,16 @@ Processor::Data::TrackData Processor::Utility::TrackConfigLoader::readConfig() {
             if (miniStart < start) start = miniStart;
             if (miniEnd > end) end = miniEnd;
 
-            Lap::Internal::Sector s{ latestMiniSectorID, miniStart, miniEnd };
-            miniSectors.emplace(latestMiniSectorID, s);
-            ++latestMiniSectorID;
+            // The number of minisectors/lap can be assumed as zero as this is merely a template
+            Lap::Internal::Sector s{ latestMiniSectorOrderID, latestMiniSectorUniqueID, 0, 0, miniStart, miniEnd};
+            minisectors.push_back(s);
+            ++latestMiniSectorOrderID;
+            ++latestMiniSectorUniqueID;
 
         }
-
-        Lap::Internal::Sector s{ latestSectorID, start, end, miniSectors };
-        sectors.emplace(latestSectorID, s);
+        // The number of sectors/lap can be assumed as zero as this is merely a template
+        Lap::Internal::Sector s{ latestSectorID, 0, 0, start, end};
+        sectors.push_back(s);
         ++latestSectorID;
 
     }

@@ -1,7 +1,6 @@
 #include "data/holders/TrackData.h"
 
 #include <cstdint>
-#include <map>
 #include <vector>
 #include "data/internal/Sector.h"
 
@@ -20,7 +19,7 @@ Processor::Data::TrackData::TrackData(const Session::Internal::Track trackId, co
 
 
 
-void Processor::Data::TrackData::setSectorInfo(const std::map<uint8_t, Lap::Internal::Sector>& sectors) {
+void Processor::Data::TrackData::setSectorInfo(const std::vector<Lap::Internal::Sector>& sectors) {
 
     if (sectors.empty()) return;
 
@@ -29,11 +28,31 @@ void Processor::Data::TrackData::setSectorInfo(const std::map<uint8_t, Lap::Inte
 }
 
 
-std::map<uint8_t, Lap::Internal::Sector> Processor::Data::TrackData::copySectors() const {
+
+void Processor::Data::TrackData::setMiniSectorInfo(const std::vector<Lap::Internal::Sector>& minisectors) {
+
+    if (minisectors.empty()) return;
+
+    m_minisectors = minisectors;
+
+}
+
+
+
+std::vector<Lap::Internal::Sector> Processor::Data::TrackData::copySectors() const {
 
     return m_sectors;
 
 }
+
+
+
+std::vector<Lap::Internal::Sector> Processor::Data::TrackData::copyMiniSectors() const {
+
+    return m_minisectors;
+
+}
+
 
 
 const std::string Processor::Data::TrackData::getTrackName() const {
@@ -48,9 +67,10 @@ const uint32_t Processor::Data::TrackData::getTotalTrackDistance() const {
 
     uint32_t totalDistance = 0;
 
+    // sectors are a more reliable source of truth since the data is more granular and not made-up
     for (const auto& sector : m_sectors) {
 
-        totalDistance += (sector.second.m_endPoint - sector.second.m_startPoint);
+        totalDistance += (sector.getEndPoint() - sector.getStartPoint());
 
     }
 

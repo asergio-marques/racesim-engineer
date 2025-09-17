@@ -88,10 +88,14 @@ namespace Processor {
             uint16_t m_fastestLapID;
 
             // Maps the ID of the lap in which each of the fastest sectors was achieved by the driver to the IDs of the sectors themselves, providing easy lookup
+            //     first - m_lapOrderID of the sector
+            //     second - ID of the lap in which the sector was achieved, can be used to find the sector time in m_laps
             std::map<uint8_t, uint8_t> m_personalBestSectorMap;
 
-            // For each sector, it maps the IP of the lap in which each of the fastest minisectors was achieved by the driver to the IDs of the minisectors, providing easy lookup
-            std::map<uint8_t, std::map<uint8_t, uint8_t>> m_personalBestMiniSectorMap;
+            // Maps the ID of the lap in which each of the fastest minisectors was achieved by the driver to the order ID of the minisectors, providing easy lookup
+            //     first - m_lapOrderID of the minisector
+            //     second - ID of the lap in which the sector was achieved, can be used to find the sector time in m_laps
+            std::map<uint8_t, uint16_t> m_personalBestMiniSectorMap;
 
             // An immutable reference to the track data, for creating new laps
             const Processor::Data::TrackData& m_trackDataReference;

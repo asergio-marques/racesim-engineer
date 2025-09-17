@@ -3,7 +3,6 @@
 
 #include <cmath>
 #include <cstdint>
-#include <map>
 #include <vector>
 #include "data/internal/Lap.h"
 #include "data/internal/LapTime.h"
@@ -15,25 +14,28 @@ namespace Lap::Internal {
 
     struct Sector {
 
-        // Constructor for a minisector
-        Sector(const uint8_t id, float_t startDistance, float_t endDistance);
-
         // Constructor for a sector
-        Sector(const uint8_t id, float_t startDistance, float_t endDistance,
-            const std::vector<Lap::Internal::Sector>& miniSectors);
+        Sector(const uint8_t orderID, const uint8_t numPreviousLaps, const uint8_t numSectorsLap,
+            float_t startDistance, float_t endDistance);
 
-        // Alternative constructor for a sector
-        Sector(const uint8_t id, float_t startDistance, float_t endDistance,
-            const std::map<uint8_t, Lap::Internal::Sector>& miniSectors);
+        // Constructor for a minisector
+        Sector(const uint8_t orderID, const uint8_t minisectorNum, const uint8_t numPreviousLaps,
+            const uint8_t numSectorsLap, float_t startDistance, float_t endDistance);
 
-        // Identifier of this sector in the lap/sector (in the case of minisector)
-        const uint8_t m_ID;
+        // Retrieves the identifier of this sector/minisector in the overall lap
+        const uint8_t getLapOrderID() const;
 
-        // The lap distance at which this (mini)sector begins (meters)
-        const float_t m_startPoint;
+        // Retrieves the identifier of this sector/minisector in the immediately larger container
+        const uint8_t getParentOrderID() const;
 
-        // The lap distance at which this (mini)sector ends (meters)
-        const float_t m_endPoint;
+        // Retrieves the identifier of this sector/minisector in the entire race
+        const uint16_t getUniqueOverallID() const;
+
+        // Retrieves the lap distance at which this (mini)sector begins
+        const float_t getStartPoint() const;
+
+        // Retrieves the lap distance at which this (mini)sector ends
+        const float_t getEndPoint() const;
 
         // The time the driver has spent running in this (mini)sector
         // If m_performance notes that the sector has been finished, then this is the final sector time
@@ -45,11 +47,31 @@ namespace Lap::Internal {
         // Notes the performance of the driver in this (mini)sector in terms of improvement/pits/retirement
         Lap::Internal::Performance m_performance;
 
-        // Denotes whether this object actually represents a mini-sector; if so, m_minisectors must be empty
-        const bool m_isMiniSector;
+        private:
+        // Identifier of this sector/minisector in the overall lap
+        // - If this is a minisector, then it's a unique ID among all minisectors of this lap, in order
+        //      (e.g. if sector 1 had 4 minisectors, minisector 2 of sector 2 means m_lapOrderID == 6)
+        uint8_t m_lapOrderID;
 
-        // Array that contains the minisectors that compose this sector (empty if m_isMiniSector is true)
-        std::map<uint8_t, Lap::Internal::Sector> m_minisectors;
+        // Identifier of this sector/minisector in the immediately larger container
+        // - If this is a sector, then it's the same as the m_orderID
+        // - If this is a minisector, then it's a unique ID among all minisectors of this sector, in order
+        //      (e.g. if sector 1 had 4 minisectors, minisector 2 of sector 2 means m_parentOrderID == 2)
+        uint8_t m_parentOrderID;
+
+        // Identifier of this sector/minisector in the entire race
+        //      (e.g. if a track has 3 sectors per lap, m_uniqueOverallID == 4 means sector 1 of lap 2)
+        //      (e.g. if a track has 20 minisectors per lap, m_uniqueOverallID == 125 means sector 5 of lap 7)
+        uint16_t m_uniqueOverallID;
+
+        // The lap distance at which this (mini)sector begins (meters)
+        float_t m_startPoint;
+
+        // The lap distance at which this (mini)sector ends (meters)
+        float_t m_endPoint;
+
+        // Denotes whether this object actually represents a mini-sector; if so, m_minisectors must be empty
+        bool m_isMiniSector;
 
     };
 

@@ -30,19 +30,18 @@ Processor::Data::LapHistoryData::LapHistoryData(const Processor::Data::TrackData
 
     // Build PB sector and minisector map based on trackdata
     // Default PB lap is 0 for sectors and minisectors both
-    const auto& sectors = trackDataReference.copySectors();
-    for (const auto sector : sectors) {
+    const auto& s = trackDataReference.copySectors();
+    const auto& ms = trackDataReference.copyMiniSectors();
 
-        m_personalBestSectorMap.emplace(sector.second.m_ID, 0);
+    for (const auto& sector : s) {
 
-        std::map<uint8_t, uint8_t> miniSectorMap;
-        for (const auto& miniSector : sector.second.m_minisectors) {
+        m_personalBestSectorMap.emplace(sector.getLapOrderID(), 0);
 
-            miniSectorMap.emplace(miniSector.second.m_ID, 0);
+    }
 
-        }
+    for (const auto& minisector : ms) {
 
-        m_personalBestMiniSectorMap.emplace(sector.second.m_ID, std::move(miniSectorMap));
+        m_personalBestMiniSectorMap.emplace(minisector.getLapOrderID(), 0);
 
     }
 
@@ -172,6 +171,42 @@ void Processor::Data::LapHistoryData::updateLap(const uint8_t id, const uint8_t 
                 lap.m_totalLapTime = currentLapTime;
                 lap.m_status = lapStatus;
                 lap.m_distanceFulfilled = lapDistanceRun;
+
+                auto& currentSector = Processor::Utility::Sector::getSectorByDistance(lap.m_sectors, lap.m_distanceFulfilled);
+                /*auto& currentMinisector = Processor::Utility::Sector::getSectorByDistance(lap.m_minisectors, lap.m_distanceFulfilled);
+                bool getPreviousSector = false;
+                bool getPreviousMiniSector = false;
+                auto& previousSector = Processor::Utility::Sector::getPreviousSectorByDistance(lap.m_sectors, lap.m_distanceFulfilled, getPreviousSector);
+                auto& previousMinisector = Processor::Utility::Sector::getPreviousMiniSectorByDistance(lap.m_sectors, lap.m_distanceFulfilled, getPreviousMiniSector);
+                // if it was impossible to get the previous sector in this lap, attempt to get it in the prior lap
+                if (getPreviousSector) {
+
+                    previousSector = Processor::Utility::Sector::getSectorById(previousSector.m_ID);
+
+                }
+                // if it was impossible to get the previous minisector in this lap, attempt to get it in the prior sector
+                if (getPreviousMiniSector) {
+
+
+
+                }
+                // if still impossible to get the previous minisector in the prior sector, attempt to get it in the prior lap
+                if (getPreviousMiniSector) {
+
+
+
+                }
+
+                if (Processor::Utility::Sector::validate(currentSector) &&
+                    Processor::Utility::Sector::validate(currentMinisector)) {
+
+                    // set initial current sector and minisector parameters
+                    updateSector(currentSector, currentLapTime, lapStatus);
+                    updateMiniSector(currentMinisector, currentLapTime, lapStatus);
+
+                }*/
+
+
                 if (participantStatus == Participant::Internal::Status::DNF ||
                     participantStatus == Participant::Internal::Status::DSQ) {
 
@@ -211,8 +246,8 @@ void Processor::Data::LapHistoryData::updateLap(const uint8_t id, const uint8_t 
             lap.m_status = lapStatus;
             lap.m_distanceFulfilled = lapDistanceRun;
 
-            // work sectors and minisectors
-            lap.m_sectors = m_trackDataReference.copySectors();
+            // TODO rework sectors and minisectors
+            /*lap.m_sectors = m_trackDataReference.copySectors();
             auto& currentSector = Processor::Utility::Sector::getSectorByDistance(lap.m_sectors, lap.m_distanceFulfilled);
             auto& currentMinisector = Processor::Utility::Sector::getMiniSectorByDistance(lap.m_sectors, lap.m_distanceFulfilled);
             if (Processor::Utility::Sector::validate(currentSector) &&
@@ -222,7 +257,7 @@ void Processor::Data::LapHistoryData::updateLap(const uint8_t id, const uint8_t 
                 initializeSector(currentSector, currentLapTime, lapStatus);
                 initializeSector(currentMinisector, currentLapTime, lapStatus);
 
-            }
+            }*/
 
             // increment tyre age before setting it
             // note that the ID has not been set just to guarantee comparison when tyre data is received

@@ -62,13 +62,18 @@ namespace Processor {
             const uint16_t numLapsAvailable() const;
 
             private:
-            void initializeSector(Lap::Internal::Sector& sector, const Lap::Internal::Time currentLapTime, const Lap::Internal::Status lapStatus);
+            // Auxiliary function that initializes a sector's information
+            void initializeSector(Lap::Internal::Sector& sector, const Lap::Internal::Time currentLapTime,
+                const Lap::Internal::Status lapStatus);
 
-            void updateSector(Lap::Internal::Sector& previousSector, Lap::Internal::Sector& currentSector, const Lap::Internal::Time currentLapTime, const Lap::Internal::Status lapStatus);
+            // Auxiliary function that compares the current sector's current information to new information
+            // and to the previous sector's information to deduce a new state
+            void updateSector(Lap::Internal::Sector& previousSector, Lap::Internal::Sector& currentSector,
+                const Lap::Internal::Time currentLapTime, const Lap::Internal::Status lapStatus);
 
+            // Auxiliary function that checks whether a finished lap is a session best, a personal best, or nothing special
+            // Communicates with the detector
             void evaluateFinishedLap(const Processor::Data::LapInfo& finishedLap);
-
-            void evaluateTyreDataChanged(const Processor::Data::LapInfo& currentLap);
 
             // Holder of data pertaining to all laps run
             std::map<uint16_t, Processor::Data::LapInfo> m_laps;
@@ -82,14 +87,11 @@ namespace Processor {
             // Index of the fastest lap in the session for this driver
             uint16_t m_fastestLapID;
 
-            // Index of the lap in which the fastest sector 1 was driven for this driver
-            uint16_t m_fastestSector1LapID;
+            // Maps the ID of the lap in which each of the fastest sectors was achieved by the driver to the IDs of the sectors themselves, providing easy lookup
+            std::map<uint8_t, uint8_t> m_personalBestSectorMap;
 
-            // Index of the lap in which the fastest sector 2 was driven for this driver
-            uint16_t m_fastestSector2LapID;
-
-            // Index of the lap in which the fastest sector 3 was driven for this driver
-            uint16_t m_fastestSector3LapID;
+            // For each sector, it maps the IP of the lap in which each of the fastest minisectors was achieved by the driver to the IDs of the minisectors, providing easy lookup
+            std::map<uint8_t, std::map<uint8_t, uint8_t>> m_personalBestMiniSectorMap;
 
             // An immutable reference to the track data, for creating new laps
             const Processor::Data::TrackData& m_trackDataReference;

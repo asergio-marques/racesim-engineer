@@ -22,14 +22,29 @@ Processor::Data::LapHistoryData::LapHistoryData(const Processor::Data::TrackData
     m_totalTime(),
     m_isDataComplete(false),
     m_fastestLapID(UINT16_MAX),
-    m_fastestSector1LapID(UINT16_MAX),
-    m_fastestSector2LapID(UINT16_MAX),
-    m_fastestSector3LapID(UINT16_MAX),
+    m_personalBestSectorMap(),
+    m_personalBestMiniSectorMap(),
     m_trackDataReference(trackDataReference),
     m_installedFinishedLapDetector(nullptr),
     m_installedTyreChangeDetector(nullptr) {
 
+    // Build PB sector and minisector map based on trackdata
+    // Default PB lap is 0 for sectors and minisectors both
+    const auto& sectors = trackDataReference.copySectors();
+    for (const auto sector : sectors) {
 
+        m_personalBestSectorMap.emplace(sector.second.m_ID, 0);
+
+        std::map<uint8_t, uint8_t> miniSectorMap;
+        for (const auto& miniSector : sector.second.m_minisectors) {
+
+            miniSectorMap.emplace(miniSector.second.m_ID, 0);
+
+        }
+
+        m_personalBestMiniSectorMap.emplace(sector.second.m_ID, std::move(miniSectorMap));
+
+    }
 
 }
 
@@ -237,7 +252,11 @@ void Processor::Data::LapHistoryData::updateTyre(const uint8_t driverID, const T
 
         // if the stint number has changed, then we can assume a tyre change has happened
         currentLap.m_tyre = data;
-        evaluateTyreDataChanged(currentLap);
+        if (m_installedTyreChangeDetector) {
+
+            m_installedTyreChangeDetector->addTyreChangeInfo(currentLap.m_driverId, currentLap.m_tyre);
+
+        }
 
     }
 
@@ -363,18 +382,6 @@ void Processor::Data::LapHistoryData::evaluateFinishedLap(const Processor::Data:
             m_installedFinishedLapDetector->addFinishedLapInfo(finishedLap, Lap::Internal::InfoType::PersonalBest);
 
         }
-
-    }
-
-}
-
-
-
-void Processor::Data::LapHistoryData::evaluateTyreDataChanged(const Processor::Data::LapInfo& currentLap) {
-
-    if (m_installedTyreChangeDetector) {
-
-        m_installedTyreChangeDetector->addTyreChangeInfo(currentLap.m_driverId, currentLap.m_tyre);
 
     }
 

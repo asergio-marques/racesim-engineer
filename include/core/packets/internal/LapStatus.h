@@ -30,7 +30,7 @@ namespace Packet {
                 Lap::Internal::Status m_status = Lap::Internal::Status::InvalidUnknown;
 
                 // Whether this lap has been invalidated or not
-                bool m_valid;
+                bool m_valid = true;
 
                 // Time for the current run around the track
                 Lap::Internal::Time m_time{};

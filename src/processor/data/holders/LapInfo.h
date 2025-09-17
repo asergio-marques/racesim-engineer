@@ -42,12 +42,6 @@ namespace Processor {
             // Array of all minisectors in this lap
             std::vector<Lap::Internal::Sector> m_minisectors;
 
-            // Pointer to the current sector being run by the driver
-            Lap::Internal::Sector* m_currentSector = nullptr;
-
-            // Pointer to the current minisector being run by the driver
-            Lap::Internal::Sector* m_currentMiniSector = nullptr;
-
             // Data structure holding all relevant information
             Tyre::Internal::Data m_tyre;
 

@@ -15,12 +15,12 @@ namespace Lap::Internal {
     struct Sector {
 
         // Constructor for a sector
-        Sector(const uint8_t orderID, const uint8_t numPreviousLaps, const uint8_t numSectorsLap,
+        Sector(const uint8_t orderID, const uint16_t numPreviousLaps, const size_t numSectorsLap,
             float_t startDistance, float_t endDistance);
 
         // Constructor for a minisector
-        Sector(const uint8_t orderID, const uint8_t minisectorNum, const uint8_t numPreviousLaps,
-            const uint8_t numSectorsLap, float_t startDistance, float_t endDistance);
+        Sector(const uint8_t orderID, const uint16_t numPreviousLaps, const size_t numMiniSectorsLap,
+            const uint8_t sectorOrderID, float_t startDistance, float_t endDistance);
 
         // Retrieves the identifier of this sector/minisector in the overall lap
         const uint8_t getLapOrderID() const;

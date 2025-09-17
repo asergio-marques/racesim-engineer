@@ -78,6 +78,12 @@ namespace Processor {
             // Holder of data pertaining to all laps run
             std::map<uint16_t, Processor::Data::LapInfo> m_laps;
 
+            // Holder of data pertaining to all sectors of already finished laps exclusively
+            std::map<uint16_t, Lap::Internal::Sector> m_sectors;
+
+            // Holder of data pertaining to all minisectors of already finished laps exclusively
+            std::map<uint16_t, Lap::Internal::Sector> m_minisectors;
+
             // Cumulative time of all laps completed
             Lap::Internal::Time m_totalTime;
 

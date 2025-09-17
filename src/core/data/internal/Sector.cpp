@@ -9,11 +9,11 @@
 
 
 
-Lap::Internal::Sector::Sector(const uint8_t orderID, const uint8_t numPreviousLaps,
-    const uint8_t numSectorsLap, float_t startDistance, float_t endDistance) :
+Lap::Internal::Sector::Sector(const uint8_t orderID, const uint16_t numPreviousLaps,
+    const size_t numSectorsLap, float_t startDistance, float_t endDistance) :
     m_lapOrderID(orderID),
     m_parentOrderID(orderID),
-    m_uniqueOverallID((numPreviousLaps* numSectorsLap) + orderID),
+    m_uniqueOverallID((numPreviousLaps * numSectorsLap) + orderID),
     m_startPoint(startDistance),
     m_endPoint(endDistance),
     m_currentTime(0),
@@ -25,11 +25,11 @@ Lap::Internal::Sector::Sector(const uint8_t orderID, const uint8_t numPreviousLa
 
 
 
-Lap::Internal::Sector::Sector(const uint8_t orderID, const uint8_t minisectorNum, const uint8_t numPreviousLaps,
-    const uint8_t numSectorsLap, float_t startDistance, float_t endDistance) :
+Lap::Internal::Sector::Sector(const uint8_t orderID, const uint16_t numPreviousLaps, const size_t numMiniSectorsLap,
+            const uint8_t sectorOrderID, float_t startDistance, float_t endDistance) :
     m_lapOrderID(orderID),
-    m_parentOrderID(orderID),
-    m_uniqueOverallID((numPreviousLaps* numSectorsLap) + orderID),
+    m_parentOrderID(sectorOrderID),
+    m_uniqueOverallID((numPreviousLaps * numMiniSectorsLap) + orderID),
     m_startPoint(startDistance),
     m_endPoint(endDistance),
     m_currentTime(0),

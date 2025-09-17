@@ -172,9 +172,10 @@ void Processor::Data::LapHistoryData::updateLap(const uint8_t id, const uint8_t 
                 lap.m_status = lapStatus;
                 lap.m_distanceFulfilled = lapDistanceRun;
 
-                auto& currentSector = Processor::Utility::Sector::getSectorByDistance(lap.m_sectors, lap.m_distanceFulfilled);
-                /*auto& currentMinisector = Processor::Utility::Sector::getSectorByDistance(lap.m_minisectors, lap.m_distanceFulfilled);
-                bool getPreviousSector = false;
+                auto latestSector = m_sectors.rbegin()->second;
+                auto latestMiniSector = m_minisectors.rbegin()->second;
+
+                /*bool getPreviousSector = false;
                 bool getPreviousMiniSector = false;
                 auto& previousSector = Processor::Utility::Sector::getPreviousSectorByDistance(lap.m_sectors, lap.m_distanceFulfilled, getPreviousSector);
                 auto& previousMinisector = Processor::Utility::Sector::getPreviousMiniSectorByDistance(lap.m_sectors, lap.m_distanceFulfilled, getPreviousMiniSector);
@@ -246,18 +247,29 @@ void Processor::Data::LapHistoryData::updateLap(const uint8_t id, const uint8_t 
             lap.m_status = lapStatus;
             lap.m_distanceFulfilled = lapDistanceRun;
 
-            // TODO rework sectors and minisectors
-            /*lap.m_sectors = m_trackDataReference.copySectors();
-            auto& currentSector = Processor::Utility::Sector::getSectorByDistance(lap.m_sectors, lap.m_distanceFulfilled);
-            auto& currentMinisector = Processor::Utility::Sector::getMiniSectorByDistance(lap.m_sectors, lap.m_distanceFulfilled);
-            if (Processor::Utility::Sector::validate(currentSector) &&
-                Processor::Utility::Sector::validate(currentMinisector)) {
+            // Initialize new sectors, and add them to the overall map and to the lap data
+            auto sectors = m_trackDataReference.copySectors();
+            const auto& currentSectorTemplate = Processor::Utility::Sector::getSectorByDistance(sectors, lap.m_distanceFulfilled);
+            Lap::Internal::Sector newSector{ currentSectorTemplate.getLapOrderID(),
+                static_cast<uint16_t>(lap.m_lapId - 1),
+                sectors.size(),
+                currentSectorTemplate.getStartPoint(),
+                currentSectorTemplate.getEndPoint() };
+            initializeSector(newSector, currentLapTime, lapStatus);
+            m_sectors.emplace(newSector.getUniqueOverallID(), newSector);
+            lap.m_sectors.push_back(newSector);
 
-                // set initial current sector and minisector parameters
-                initializeSector(currentSector, currentLapTime, lapStatus);
-                initializeSector(currentMinisector, currentLapTime, lapStatus);
-
-            }*/
+            auto minisectors = m_trackDataReference.copyMiniSectors();
+            const auto& currentMinisectorTemplate = Processor::Utility::Sector::getSectorByDistance(minisectors, lap.m_distanceFulfilled);
+            Lap::Internal::Sector newMinisector{ currentMinisectorTemplate.getLapOrderID(),
+                static_cast<uint16_t>(lap.m_lapId - 1),
+                minisectors.size(),
+                currentMinisectorTemplate.getParentOrderID(),
+                currentMinisectorTemplate.getStartPoint(),
+                currentMinisectorTemplate.getEndPoint(), };
+            initializeSector(newMinisector, currentLapTime, lapStatus);
+            m_minisectors.emplace(newMinisector.getUniqueOverallID(), newMinisector);
+            lap.m_minisectors.push_back(newMinisector);
 
             // increment tyre age before setting it
             // note that the ID has not been set just to guarantee comparison when tyre data is received
@@ -321,10 +333,11 @@ const uint16_t Processor::Data::LapHistoryData::numLapsAvailable() const {
 }
 
 
-void Processor::Data::LapHistoryData::initializeSector(Lap::Internal::Sector& sector, const Lap::Internal::Time currentLapTime, const Lap::Internal::Status lapStatus) {
+void Processor::Data::LapHistoryData::initializeSector(Lap::Internal::Sector& sector,
+    const Lap::Internal::Time currentLapTime, const Lap::Internal::Status lapStatus) {
 
-    // if current time is not absolute zero, then this sector was already initialized
-    if (sector.m_currentTime != 0) return;
+    // Validate the sector first, and verify if it hasn't been inited yet
+    if (!Processor::Utility::Sector::validate(sector) || sector.m_currentTime != 0) return;
 
     sector.m_currentTime = currentLapTime;
     // Only "flying lap" (interpreted as on-track) and "in pits" are expected inputs

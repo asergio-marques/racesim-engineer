@@ -194,7 +194,7 @@ Generalizer::Adapter::F1_25::ConvertSessionDataPacket(const Packet::Game::F1_25:
 }
 
 
-
+#include <iostream>
 std::vector<Packet::Internal::Interface*>
 Generalizer::Adapter::F1_25::ConvertLapDataPacket(const Packet::Game::F1_25::LapData* inputPacket) {
 
@@ -288,9 +288,11 @@ Generalizer::Adapter::F1_25::ConvertLapDataPacket(const Packet::Game::F1_25::Lap
                 case Lap::Game::F1_25::PitStatus::NotInPits:
                     currentLapData.m_status = Lap::Internal::Status::FlyingLap;
                     break;
-
                 case Lap::Game::F1_25::PitStatus::Pitting:
                 case Lap::Game::F1_25::PitStatus::InPitArea:
+                    // Pitting means that the car is in the pitlane
+                    // InPitArea is applicable only to race and means the car is currently stopped
+                    // No distinction is made here
                     currentLapData.m_status = Lap::Internal::Status::InPits;
                     break;
                     

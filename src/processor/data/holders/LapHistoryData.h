@@ -62,6 +62,10 @@ namespace Processor {
             const uint16_t numLapsAvailable() const;
 
             private:
+            void initializeSector(Lap::Internal::Sector& sector, const Lap::Internal::Time currentLapTime, const Lap::Internal::Status lapStatus);
+
+            void updateSector(Lap::Internal::Sector& previousSector, Lap::Internal::Sector& currentSector, const Lap::Internal::Time currentLapTime, const Lap::Internal::Status lapStatus);
+
             void evaluateFinishedLap(const Processor::Data::LapInfo& finishedLap);
 
             void evaluateTyreDataChanged(const Processor::Data::LapInfo& currentLap);

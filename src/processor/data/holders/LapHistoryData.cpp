@@ -203,22 +203,9 @@ void Processor::Data::LapHistoryData::updateLap(const uint8_t id, const uint8_t 
             if (Processor::Utility::Sector::validate(currentSector) &&
                 Processor::Utility::Sector::validate(currentMinisector)) {
 
-                // set initial current sector parameters
-                currentSector.m_currentTime = currentLapTime;
-                if (lap.m_distanceFulfilled >=
-                    (currentSector.m_endPoint - std::numeric_limits<float_t>::epsilon())) {
-
-                    // TODO
-
-                }
-                // set initial current minisector parameters
-                currentMinisector.m_currentTime = currentLapTime;
-                if (lap.m_distanceFulfilled >=
-                    (currentMinisector.m_endPoint - std::numeric_limits<float_t>::epsilon())) {
-
-                    // TODO
-
-                }
+                // set initial current sector and minisector parameters
+                initializeSector(currentSector, currentLapTime, lapStatus);
+                initializeSector(currentMinisector, currentLapTime, lapStatus);
 
             }
 
@@ -276,6 +263,60 @@ const Processor::Data::LapInfo* Processor::Data::LapHistoryData::getLapData(cons
 const uint16_t Processor::Data::LapHistoryData::numLapsAvailable() const {
 
     return m_laps.size();
+
+}
+
+
+void Processor::Data::LapHistoryData::initializeSector(Lap::Internal::Sector& sector, const Lap::Internal::Time currentLapTime, const Lap::Internal::Status lapStatus) {
+
+    // if current time is not absolute zero, then this sector was already initialized
+    if (sector.m_currentTime != 0) return;
+
+    sector.m_currentTime = currentLapTime;
+    // Only "flying lap" (interpreted as on-track) and "in pits" are expected inputs
+    // the other status/performance levels are derived off of that
+    switch (lapStatus) {
+        case Lap::Internal::Status::FlyingLap:
+            sector.m_status = lapStatus;
+            sector.m_performance = Lap::Internal::Performance::CurrentlyRunning;
+            break;
+
+        case Lap::Internal::Status::InPits:
+            sector.m_status = lapStatus;
+            sector.m_performance = Lap::Internal::Performance::CurrentlyRunningPits;
+            break;
+
+        default:
+            sector.m_status = Lap::Internal::Status::InvalidUnknown;
+            sector.m_performance = Lap::Internal::Performance::InvalidUnknown;
+
+    }
+
+}
+
+
+
+void Processor::Data::LapHistoryData::updateSector(Lap::Internal::Sector& previousSector, Lap::Internal::Sector& currentSector,
+    const Lap::Internal::Time currentLapTime, const Lap::Internal::Status lapStatus) {
+
+    // if current time is not absolute zero, then this sector was already initialized
+    if (currentSector.m_currentTime == 0) return;
+
+    currentSector.m_currentTime = currentLapTime;
+    // Only "flying lap" (interpreted as on-track) and "in pits" are expected inputs
+    // the status may depend on the previous sector, hence why we need it here as well
+    switch (lapStatus) {
+        case Lap::Internal::Status::FlyingLap:
+            break;
+
+        case Lap::Internal::Status::InPits:
+            break;
+
+        default:
+            currentSector.m_status = Lap::Internal::Status::InvalidUnknown;
+            currentSector.m_performance = Lap::Internal::Performance::InvalidUnknown;
+
+    }
 
 }
 

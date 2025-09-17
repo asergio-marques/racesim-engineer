@@ -11,8 +11,10 @@
 #include "data/internal/TyreData.h"
 #include "data/holders/LapHistoryData.h"
 #include "data/holders/PositionTimingData.h"
+#include "data/holders/SectorHistoryData.h"
 #include "data/holders/TrackData.h"
 #include "data/holders/WarningPenaltyData.h"
+
 
 
 
@@ -91,6 +93,12 @@ namespace Processor {
 
             // Holder of data for all laps run for this driver in the current session
             Processor::Data::LapHistoryData m_lapData;
+
+            // Holder of data for all lap sectors run for this driver in the current session
+            Processor::Data::SectorHistoryData m_sectorData;
+
+            // Holder of data for all lap minisectors run for this driver in the current session
+            Processor::Data::SectorHistoryData m_miniSectorData;
 
         };
 

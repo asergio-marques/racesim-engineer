@@ -12,38 +12,17 @@
 #include "detectors/Interface.h"
 #include "detectors/Type.h"
 #include "detectors/TyreChanged.h"
-#include "utilities/Sector.h"
 
 
 
 
-Processor::Data::LapHistoryData::LapHistoryData(const Processor::Data::TrackData& trackDataReference) :
+Processor::Data::LapHistoryData::LapHistoryData() :
     m_laps(),
     m_totalTime(),
     m_isDataComplete(false),
     m_fastestLapID(UINT16_MAX),
-    m_personalBestSectorMap(),
-    m_personalBestMiniSectorMap(),
-    m_trackDataReference(trackDataReference),
     m_installedFinishedLapDetector(nullptr),
     m_installedTyreChangeDetector(nullptr) {
-
-    // Build PB sector and minisector map based on trackdata
-    // Default PB lap is 0 for sectors and minisectors both
-    const auto& s = trackDataReference.copySectors();
-    const auto& ms = trackDataReference.copyMiniSectors();
-
-    for (const auto& sector : s) {
-
-        m_personalBestSectorMap.emplace(sector.getLapOrderID(), 0);
-
-    }
-
-    for (const auto& minisector : ms) {
-
-        m_personalBestMiniSectorMap.emplace(minisector.getLapOrderID(), 0);
-
-    }
 
 }
 
@@ -157,8 +136,6 @@ void Processor::Data::LapHistoryData::updateLap(const uint8_t id, const uint8_t 
 
         // new entry creation should always happen if the map is empty
         bool createNewLap = m_laps.empty();
-        bool createNewSector = m_sectors.empty();
-        bool createNewMinisector = m_minisectors.empty();
         Tyre::Internal::Data tyreData;
 
         // First try to find the lap with the same ID, alter it
@@ -173,37 +150,6 @@ void Processor::Data::LapHistoryData::updateLap(const uint8_t id, const uint8_t 
                 lap.m_totalLapTime = currentLapTime;
                 lap.m_status = lapStatus;
                 lap.m_distanceFulfilled = lapDistanceRun;
-
-                auto& currentSector = m_sectors.rbegin()->second;
-                auto& previousSector = currentSector;
-                if (m_sectors.size() > 1) {
-
-                    previousSector = std::prev(m_sectors.rbegin())->second;
-
-                }
-                auto& currentMiniSector = m_minisectors.rbegin()->second;
-                auto& previousMiniSector = currentMiniSector;
-                if (m_sectors.size() > 1) {
-
-                    previousMiniSector = std::prev(m_minisectors.rbegin())->second;
-
-                }
-                updateSector(previousSector, currentSector, lap.m_totalLapTime, lap.m_status);
-                updateSector(previousMiniSector, currentMiniSector, lap.m_totalLapTime, lap.m_status);
-                if (lap.m_distanceFulfilled >= currentSector.getEndPoint()) {
-
-                    // TODO what do when sector finished, aside from creating a new one + minisector?
-                    createNewSector = true;
-
-                }
-                if (lap.m_distanceFulfilled >= currentMiniSector.getEndPoint()) {
-
-                    // TODO what do when minisector finished
-                    createNewMinisector = true;
-
-                }
-
-
                 if (participantStatus == Participant::Internal::Status::DNF ||
                     participantStatus == Participant::Internal::Status::DSQ) {
 
@@ -249,41 +195,7 @@ void Processor::Data::LapHistoryData::updateLap(const uint8_t id, const uint8_t 
             lap.m_tyre = tyreData;
 
             m_laps.emplace(lap.m_lapId, lap);
-            createNewSector = true;
-            createNewMinisector = true;
 
-        }
-        if (createNewSector) {
-
-            // Initialize new sectors, and add them to the overall map and to the lap data
-            auto sectors = m_trackDataReference.copySectors();
-            const auto& currentSectorTemplate = Processor::Utility::Sector::getSectorByDistance(sectors, lapDistanceRun);
-            Lap::Internal::Sector newSector{ currentSectorTemplate.getLapOrderID(),
-                static_cast<uint16_t>(lapID - 1),
-                sectors.size(),
-                currentSectorTemplate.getStartPoint(),
-                currentSectorTemplate.getEndPoint(),
-                currentLapTime };
-            initializeSector(newSector, currentLapTime, lapStatus);
-            m_sectors.emplace(newSector.getUniqueOverallID(), newSector);
-
-        }
-        if (createNewMinisector) {
-
-            auto sectors = m_trackDataReference.copySectors();
-            auto minisectors = m_trackDataReference.copyMiniSectors();
-            const auto& currentSectorTemplate = Processor::Utility::Sector::getSectorByDistance(sectors, lapDistanceRun);
-            const auto& currentMinisectorTemplate = Processor::Utility::Sector::getSectorByDistance(minisectors, lapDistanceRun);
-            Lap::Internal::Sector newMinisector{ currentMinisectorTemplate.getLapOrderID(),
-                static_cast<uint16_t>(lapID - 1),
-                minisectors.size(),
-                currentSectorTemplate.getLapOrderID(),
-                currentMinisectorTemplate.getParentOrderID(),
-                currentMinisectorTemplate.getStartPoint(),
-                currentMinisectorTemplate.getEndPoint(),
-                currentLapTime };
-            initializeSector(newMinisector, currentLapTime, lapStatus);
-            m_minisectors.emplace(newMinisector.getUniqueOverallID(), newMinisector);
         }
 
     }
@@ -335,68 +247,6 @@ const Processor::Data::LapInfo* Processor::Data::LapHistoryData::getLapData(cons
 const uint16_t Processor::Data::LapHistoryData::numLapsAvailable() const {
 
     return m_laps.size();
-
-}
-
-
-void Processor::Data::LapHistoryData::initializeSector(Lap::Internal::Sector& sector,
-    const Lap::Internal::Time currentLapTime, const Lap::Internal::Status lapStatus) {
-
-    // Validate the sector first, and verify if it hasn't been inited yet
-    if (!Processor::Utility::Sector::validate(sector) || sector.m_finalLapTime != 0) return;
-
-    sector.m_finalLapTime = currentLapTime;
-    // Only "flying lap" (interpreted as on-track) and "in pits" are expected inputs
-    // the other status/performance levels are derived off of that
-    switch (lapStatus) {
-        case Lap::Internal::Status::FlyingLap:
-            sector.m_status = lapStatus;
-            sector.m_performance = Lap::Internal::Performance::CurrentlyRunning;
-            break;
-
-        case Lap::Internal::Status::InPits:
-            sector.m_status = lapStatus;
-            sector.m_performance = Lap::Internal::Performance::CurrentlyRunningPits;
-            break;
-
-        default:
-            sector.m_status = Lap::Internal::Status::InvalidUnknown;
-            sector.m_performance = Lap::Internal::Performance::InvalidUnknown;
-
-    }
-
-}
-
-
-
-void Processor::Data::LapHistoryData::updateSector(Lap::Internal::Sector& previousSector, Lap::Internal::Sector& currentSector,
-    const Lap::Internal::Time currentLapTime, const Lap::Internal::Status lapStatus) {
-
-    // check if previous sector is the same as the current sector;
-    // this will make the first sector and minisector easier to handle
-    if (previousSector == currentSector) {
-
-        // TODO
-        return;
-    }
-
-    // if we actually have a good previous sector, let's use it as a basis for other stuff shall we
-
-    currentSector.m_finalLapTime = currentLapTime;
-    // Only "flying lap" (interpreted as on-track) and "in pits" are expected inputs
-    // the status may depend on the previous sector, hence why we need it here as well
-    switch (lapStatus) {
-        case Lap::Internal::Status::FlyingLap:
-            break;
-
-        case Lap::Internal::Status::InPits:
-            break;
-
-        default:
-            currentSector.m_status = Lap::Internal::Status::InvalidUnknown;
-            currentSector.m_performance = Lap::Internal::Performance::InvalidUnknown;
-
-    }
 
 }
 

@@ -1,0 +1,80 @@
+#ifndef PROCESSOR_DATA_INCLUDE_SECTOR_HISTORY_DATA_H_
+#define PROCESSOR_DATA_INCLUDE_SECTOR_HISTORY_DATA_H_
+
+#include <cstdint>
+#include <map>
+#include "data/internal/Sector.h"
+#include "data/holders/TrackData.h"
+
+
+
+namespace Processor {
+
+    namespace Detector {
+
+        class Interface;
+
+    }
+
+    namespace Data {
+
+        class SectorHistoryData {
+
+            public:
+            // Constructor
+            SectorHistoryData(const bool minisector, const Processor::Data::TrackData& trackDataReference);
+
+            // Destructor
+            ~SectorHistoryData() = default;
+
+            // Add relevant detectors to then be called when relevant
+            bool installDetector(Processor::Detector::Interface* detector);
+
+            // Validates the internal information and returns true if it meets the conditions for the start of a session
+            const bool Initialized() const;
+
+            // Validates the internal information and returns true if the lap data is complete
+            const bool Finalized() const;
+
+            // Creates a record for the first lap of the session, initializing tyre data
+            void initialize();
+
+            // Finalizes the record for the final sector if necessary
+            void completeData();
+
+            private:
+            // Auxiliary function that initializes a sector's information
+            void initializeSector(Lap::Internal::Sector& sector, const Lap::Internal::Time currentLapTime,
+                const Lap::Internal::Status lapStatus);
+
+            // Auxiliary function that compares the current sector's current information to new information
+            // and to the previous sector's information to deduce a new state
+            void updateSector(Lap::Internal::Sector& previousSector, Lap::Internal::Sector& currentSector,
+                const Lap::Internal::Time currentLapTime, const Lap::Internal::Status lapStatus);
+
+            void temp();
+
+            // Holder of data pertaining to all sectors of already finished laps exclusively
+            std::map<uint16_t, Lap::Internal::Sector> m_sectors;
+
+            // Maps the order ID of each sector in the template for the current track to the unique overall ID of the sector
+            // with the same order ID with the fastest time for this driver
+            //     first - m_lapOrderID of the sector
+            //     second - m_uniqueOverallID of the sector
+            std::map<uint8_t, uint16_t> m_personalBestSectorMap;
+
+            // An immutable reference to the track data, for creating new sector
+            const Processor::Data::TrackData& m_trackDataReference;
+
+            // Whether this container holds information for minisectors; if false, then it holds information for sectors
+            const bool m_minisector;
+
+            // Whether the data for all the sectirs has been filled
+            bool m_isDataComplete;
+        };
+
+    }
+
+}
+
+#endif // PROCESSOR_DATA_INCLUDE_SECTOR_HISTORY_DATA_H_

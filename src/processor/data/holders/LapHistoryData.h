@@ -26,7 +26,7 @@ namespace Processor {
 
             public:
             // Constructor
-            LapHistoryData(const Processor::Data::TrackData& trackDataReference);
+            LapHistoryData();
 
             // Destructor
             ~LapHistoryData() = default;
@@ -62,27 +62,12 @@ namespace Processor {
             const uint16_t numLapsAvailable() const;
 
             private:
-            // Auxiliary function that initializes a sector's information
-            void initializeSector(Lap::Internal::Sector& sector, const Lap::Internal::Time currentLapTime,
-                const Lap::Internal::Status lapStatus);
-
-            // Auxiliary function that compares the current sector's current information to new information
-            // and to the previous sector's information to deduce a new state
-            void updateSector(Lap::Internal::Sector& previousSector, Lap::Internal::Sector& currentSector,
-                const Lap::Internal::Time currentLapTime, const Lap::Internal::Status lapStatus);
-
             // Auxiliary function that checks whether a finished lap is a session best, a personal best, or nothing special
             // Communicates with the detector
             void evaluateFinishedLap(const Processor::Data::LapInfo& finishedLap);
 
             // Holder of data pertaining to all laps run
             std::map<uint16_t, Processor::Data::LapInfo> m_laps;
-
-            // Holder of data pertaining to all sectors of already finished laps exclusively
-            std::map<uint16_t, Lap::Internal::Sector> m_sectors;
-
-            // Holder of data pertaining to all minisectors of already finished laps exclusively
-            std::map<uint16_t, Lap::Internal::Sector> m_minisectors;
 
             // Cumulative time of all laps completed
             Lap::Internal::Time m_totalTime;
@@ -92,19 +77,6 @@ namespace Processor {
 
             // Index of the fastest lap in the session for this driver
             uint16_t m_fastestLapID;
-
-            // Maps the ID of the lap in which each of the fastest sectors was achieved by the driver to the IDs of the sectors themselves, providing easy lookup
-            //     first - m_lapOrderID of the sector
-            //     second - ID of the lap in which the sector was achieved, can be used to find the sector time in m_laps
-            std::map<uint8_t, uint8_t> m_personalBestSectorMap;
-
-            // Maps the ID of the lap in which each of the fastest minisectors was achieved by the driver to the order ID of the minisectors, providing easy lookup
-            //     first - m_lapOrderID of the minisector
-            //     second - ID of the lap in which the sector was achieved, can be used to find the sector time in m_laps
-            std::map<uint8_t, uint16_t> m_personalBestMiniSectorMap;
-
-            // An immutable reference to the track data, for creating new laps
-            const Processor::Data::TrackData& m_trackDataReference;
 
             // Pointer to the fastest lap detector currently installed
             Processor::Detector::LapFinished* m_installedFinishedLapDetector;

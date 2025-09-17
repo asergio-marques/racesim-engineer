@@ -18,7 +18,9 @@ Processor::Data::DriverState::DriverState(const Processor::Data::DriverRecord* c
     m_parentRecord(parent),
     m_posTimeData(),
     m_warnPenData(),
-    m_lapData(trackData) {
+    m_lapData(),
+    m_sectorData(false, trackData),
+    m_miniSectorData(true, trackData) {
 
 
 

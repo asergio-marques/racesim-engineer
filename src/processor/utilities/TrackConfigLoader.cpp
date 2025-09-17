@@ -92,14 +92,14 @@ Processor::Data::TrackData Processor::Utility::TrackConfigLoader::readConfig() {
             if (miniEnd > end) end = miniEnd;
 
             // The number of minisectors/lap can be assumed as zero as this is merely a template
-            Lap::Internal::Sector s{ latestMiniSectorOrderID, latestMiniSectorUniqueID, 0, 0, miniStart, miniEnd};
+            Lap::Internal::Sector s{ latestMiniSectorOrderID, latestMiniSectorUniqueID, 0, latestSectorID, 0, miniStart, miniEnd, 0};
             minisectors.push_back(s);
             ++latestMiniSectorOrderID;
             ++latestMiniSectorUniqueID;
 
         }
         // The number of sectors/lap can be assumed as zero as this is merely a template
-        Lap::Internal::Sector s{ latestSectorID, 0, 0, start, end};
+        Lap::Internal::Sector s{ latestSectorID, 0, 0, start, end, 0};
         sectors.push_back(s);
         ++latestSectorID;
 

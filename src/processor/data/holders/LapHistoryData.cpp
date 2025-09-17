@@ -156,7 +156,9 @@ void Processor::Data::LapHistoryData::updateLap(const uint8_t id, const uint8_t 
     if (!m_isDataComplete) {
 
         // new entry creation should always happen if the map is empty
-        bool createNew = m_laps.empty();
+        bool createNewLap = m_laps.empty();
+        bool createNewSector = m_sectors.empty();
+        bool createNewMinisector = m_minisectors.empty();
         Tyre::Internal::Data tyreData;
 
         // First try to find the lap with the same ID, alter it
@@ -172,40 +174,34 @@ void Processor::Data::LapHistoryData::updateLap(const uint8_t id, const uint8_t 
                 lap.m_status = lapStatus;
                 lap.m_distanceFulfilled = lapDistanceRun;
 
-                auto latestSector = m_sectors.rbegin()->second;
-                auto latestMiniSector = m_minisectors.rbegin()->second;
+                auto& currentSector = m_sectors.rbegin()->second;
+                auto& previousSector = currentSector;
+                if (m_sectors.size() > 1) {
 
-                /*bool getPreviousSector = false;
-                bool getPreviousMiniSector = false;
-                auto& previousSector = Processor::Utility::Sector::getPreviousSectorByDistance(lap.m_sectors, lap.m_distanceFulfilled, getPreviousSector);
-                auto& previousMinisector = Processor::Utility::Sector::getPreviousMiniSectorByDistance(lap.m_sectors, lap.m_distanceFulfilled, getPreviousMiniSector);
-                // if it was impossible to get the previous sector in this lap, attempt to get it in the prior lap
-                if (getPreviousSector) {
-
-                    previousSector = Processor::Utility::Sector::getSectorById(previousSector.m_ID);
+                    previousSector = std::prev(m_sectors.rbegin())->second;
 
                 }
-                // if it was impossible to get the previous minisector in this lap, attempt to get it in the prior sector
-                if (getPreviousMiniSector) {
+                auto& currentMiniSector = m_minisectors.rbegin()->second;
+                auto& previousMiniSector = currentMiniSector;
+                if (m_sectors.size() > 1) {
 
-
-
-                }
-                // if still impossible to get the previous minisector in the prior sector, attempt to get it in the prior lap
-                if (getPreviousMiniSector) {
-
-
+                    previousMiniSector = std::prev(m_minisectors.rbegin())->second;
 
                 }
+                updateSector(previousSector, currentSector, lap.m_totalLapTime, lap.m_status);
+                updateSector(previousMiniSector, currentMiniSector, lap.m_totalLapTime, lap.m_status);
+                if (lap.m_distanceFulfilled >= currentSector.getEndPoint()) {
 
-                if (Processor::Utility::Sector::validate(currentSector) &&
-                    Processor::Utility::Sector::validate(currentMinisector)) {
+                    // TODO what do when sector finished, aside from creating a new one + minisector?
+                    createNewSector = true;
 
-                    // set initial current sector and minisector parameters
-                    updateSector(currentSector, currentLapTime, lapStatus);
-                    updateMiniSector(currentMinisector, currentLapTime, lapStatus);
+                }
+                if (lap.m_distanceFulfilled >= currentMiniSector.getEndPoint()) {
 
-                }*/
+                    // TODO what do when minisector finished
+                    createNewMinisector = true;
+
+                }
 
 
                 if (participantStatus == Participant::Internal::Status::DNF ||
@@ -225,7 +221,7 @@ void Processor::Data::LapHistoryData::updateLap(const uint8_t id, const uint8_t 
         // first, find the previous lap and finalize its entry
         else if ((it = m_laps.find(lapID - 1)) != m_laps.end()) {
 
-            createNew = true;
+            createNewLap = true;
             auto& finishedLap = it->second;
             finishedLap.m_isFinished = true;
             finishedLap.m_totalLapTime = previousLapTime;
@@ -237,7 +233,7 @@ void Processor::Data::LapHistoryData::updateLap(const uint8_t id, const uint8_t 
 
         }
         // Either if a new lap has just been started, or if the map is empty, we need to create a new lap entry
-        if (createNew) {
+        if (createNewLap) {
 
             Processor::Data::LapInfo lap;
             lap.m_driverId = id;
@@ -247,37 +243,47 @@ void Processor::Data::LapHistoryData::updateLap(const uint8_t id, const uint8_t 
             lap.m_status = lapStatus;
             lap.m_distanceFulfilled = lapDistanceRun;
 
-            // Initialize new sectors, and add them to the overall map and to the lap data
-            auto sectors = m_trackDataReference.copySectors();
-            const auto& currentSectorTemplate = Processor::Utility::Sector::getSectorByDistance(sectors, lap.m_distanceFulfilled);
-            Lap::Internal::Sector newSector{ currentSectorTemplate.getLapOrderID(),
-                static_cast<uint16_t>(lap.m_lapId - 1),
-                sectors.size(),
-                currentSectorTemplate.getStartPoint(),
-                currentSectorTemplate.getEndPoint() };
-            initializeSector(newSector, currentLapTime, lapStatus);
-            m_sectors.emplace(newSector.getUniqueOverallID(), newSector);
-            lap.m_sectors.push_back(newSector);
-
-            auto minisectors = m_trackDataReference.copyMiniSectors();
-            const auto& currentMinisectorTemplate = Processor::Utility::Sector::getSectorByDistance(minisectors, lap.m_distanceFulfilled);
-            Lap::Internal::Sector newMinisector{ currentMinisectorTemplate.getLapOrderID(),
-                static_cast<uint16_t>(lap.m_lapId - 1),
-                minisectors.size(),
-                currentMinisectorTemplate.getParentOrderID(),
-                currentMinisectorTemplate.getStartPoint(),
-                currentMinisectorTemplate.getEndPoint(), };
-            initializeSector(newMinisector, currentLapTime, lapStatus);
-            m_minisectors.emplace(newMinisector.getUniqueOverallID(), newMinisector);
-            lap.m_minisectors.push_back(newMinisector);
-
             // increment tyre age before setting it
             // note that the ID has not been set just to guarantee comparison when tyre data is received
             ++tyreData.m_stintLength;
             lap.m_tyre = tyreData;
 
             m_laps.emplace(lap.m_lapId, lap);
+            createNewSector = true;
+            createNewMinisector = true;
 
+        }
+        if (createNewSector) {
+
+            // Initialize new sectors, and add them to the overall map and to the lap data
+            auto sectors = m_trackDataReference.copySectors();
+            const auto& currentSectorTemplate = Processor::Utility::Sector::getSectorByDistance(sectors, lapDistanceRun);
+            Lap::Internal::Sector newSector{ currentSectorTemplate.getLapOrderID(),
+                static_cast<uint16_t>(lapID - 1),
+                sectors.size(),
+                currentSectorTemplate.getStartPoint(),
+                currentSectorTemplate.getEndPoint(),
+                currentLapTime };
+            initializeSector(newSector, currentLapTime, lapStatus);
+            m_sectors.emplace(newSector.getUniqueOverallID(), newSector);
+
+        }
+        if (createNewMinisector) {
+
+            auto sectors = m_trackDataReference.copySectors();
+            auto minisectors = m_trackDataReference.copyMiniSectors();
+            const auto& currentSectorTemplate = Processor::Utility::Sector::getSectorByDistance(sectors, lapDistanceRun);
+            const auto& currentMinisectorTemplate = Processor::Utility::Sector::getSectorByDistance(minisectors, lapDistanceRun);
+            Lap::Internal::Sector newMinisector{ currentMinisectorTemplate.getLapOrderID(),
+                static_cast<uint16_t>(lapID - 1),
+                minisectors.size(),
+                currentSectorTemplate.getLapOrderID(),
+                currentMinisectorTemplate.getParentOrderID(),
+                currentMinisectorTemplate.getStartPoint(),
+                currentMinisectorTemplate.getEndPoint(),
+                currentLapTime };
+            initializeSector(newMinisector, currentLapTime, lapStatus);
+            m_minisectors.emplace(newMinisector.getUniqueOverallID(), newMinisector);
         }
 
     }
@@ -337,9 +343,9 @@ void Processor::Data::LapHistoryData::initializeSector(Lap::Internal::Sector& se
     const Lap::Internal::Time currentLapTime, const Lap::Internal::Status lapStatus) {
 
     // Validate the sector first, and verify if it hasn't been inited yet
-    if (!Processor::Utility::Sector::validate(sector) || sector.m_currentTime != 0) return;
+    if (!Processor::Utility::Sector::validate(sector) || sector.m_finalLapTime != 0) return;
 
-    sector.m_currentTime = currentLapTime;
+    sector.m_finalLapTime = currentLapTime;
     // Only "flying lap" (interpreted as on-track) and "in pits" are expected inputs
     // the other status/performance levels are derived off of that
     switch (lapStatus) {
@@ -366,10 +372,17 @@ void Processor::Data::LapHistoryData::initializeSector(Lap::Internal::Sector& se
 void Processor::Data::LapHistoryData::updateSector(Lap::Internal::Sector& previousSector, Lap::Internal::Sector& currentSector,
     const Lap::Internal::Time currentLapTime, const Lap::Internal::Status lapStatus) {
 
-    // if current time is not absolute zero, then this sector was already initialized
-    if (currentSector.m_currentTime == 0) return;
+    // check if previous sector is the same as the current sector;
+    // this will make the first sector and minisector easier to handle
+    if (previousSector == currentSector) {
 
-    currentSector.m_currentTime = currentLapTime;
+        // TODO
+        return;
+    }
+
+    // if we actually have a good previous sector, let's use it as a basis for other stuff shall we
+
+    currentSector.m_finalLapTime = currentLapTime;
     // Only "flying lap" (interpreted as on-track) and "in pits" are expected inputs
     // the status may depend on the previous sector, hence why we need it here as well
     switch (lapStatus) {

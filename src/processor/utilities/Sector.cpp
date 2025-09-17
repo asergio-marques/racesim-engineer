@@ -7,7 +7,7 @@
 
 
 
-Lap::Internal::Sector Processor::Utility::Sector::INVALID_SECTOR = Lap::Internal::Sector(0, 0, 0, 0, 0, 0);
+Lap::Internal::Sector Processor::Utility::Sector::INVALID_SECTOR = Lap::Internal::Sector(0, 0, 0, 0, 0, 0, 0, 0);
 
 
 

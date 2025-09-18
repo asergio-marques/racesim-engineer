@@ -15,11 +15,11 @@ namespace Lap::Internal {
     struct Sector {
 
         // Constructor for a sector
-        Sector(const uint8_t orderID, const uint16_t numPreviousLaps, const size_t numSectorsLap,
+        Sector(const uint8_t driverID, const uint8_t orderID, const uint16_t numPreviousLaps, const size_t numSectorsLap,
             float_t startDistance, float_t endDistance, Lap::Internal::Time initialLapTime);
 
         // Constructor for a minisector
-        Sector(const uint8_t orderID, const uint16_t numPreviousLaps, const size_t numMiniSectorsLap,
+        Sector(const uint8_t driverID, const uint8_t orderID, const uint16_t numPreviousLaps, const size_t numMiniSectorsLap,
             const uint8_t parentID, const uint8_t sectorOrderID, float_t startDistance, float_t endDistance,
             Lap::Internal::Time initialLapTime);
 
@@ -29,11 +29,17 @@ namespace Lap::Internal {
         // Retrieves the total run time spent inside this sector/minisector
         const Lap::Internal::Time totalTime() const;
 
+        // Retrieves the identifier of the driver who drove this sector/minisector
+        const uint8_t getDriverID() const;
+
         // Retrieves the identifier of this sector/minisector in the overall lap
         const uint8_t getLapOrderID() const;
 
         // Retrieves the identifier of this sector/minisector in the entire race
         const uint16_t getUniqueOverallID() const;
+
+        // Retrieves the identifier of the sector this minisector belongs to
+        const uint8_t getParentID() const;
 
         // Retrieves the identifier of this sector/minisector in the immediately larger container
         const uint8_t getParentOrderID() const;
@@ -43,6 +49,9 @@ namespace Lap::Internal {
 
         // Retrieves the lap distance at which this (mini)sector ends
         const float_t getEndPoint() const;
+
+        // Retrieves whether this object actually represents a mini-sector
+        const bool isMiniSector() const;
 
         // The time the driver has spent running in this (mini)sector
         // If m_performance notes that the sector has been finished, then this is the final sector time
@@ -55,6 +64,9 @@ namespace Lap::Internal {
         Lap::Internal::Performance m_performance;
 
         private:
+        // Identifier of the driver who drove this sector/minisector
+        uint8_t m_driverID;
+
         // Identifier of this sector/minisector in the overall lap
         // - If this is a minisector, then it's a unique ID among all minisectors of this lap, in order
         //      (e.g. if sector 1 had 4 minisectors, minisector 2 of sector 2 means m_lapOrderID == 6)

@@ -9,11 +9,12 @@
 
 
 
-Lap::Internal::Sector::Sector(const uint8_t orderID, const uint16_t numPreviousLaps,
+Lap::Internal::Sector::Sector(const uint8_t driverID, const uint8_t orderID, const uint16_t numPreviousLaps,
     const size_t numSectorsLap, float_t startDistance, float_t endDistance, Lap::Internal::Time initialLapTime) :
     m_finalLapTime(0),
     m_status(Lap::Internal::Status::InvalidUnknown),
     m_performance(Lap::Internal::Performance::InvalidUnknown), m_lapOrderID(orderID),
+    m_driverID(driverID),
     m_uniqueOverallID((numPreviousLaps* numSectorsLap) + orderID),
     m_lapID(numPreviousLaps + 1),
     m_parentID(0),
@@ -27,12 +28,13 @@ Lap::Internal::Sector::Sector(const uint8_t orderID, const uint16_t numPreviousL
 
 
 
-Lap::Internal::Sector::Sector(const uint8_t orderID, const uint16_t numPreviousLaps, const size_t numMiniSectorsLap,
+Lap::Internal::Sector::Sector(const uint8_t driverID, const uint8_t orderID, const uint16_t numPreviousLaps, const size_t numMiniSectorsLap,
     const uint8_t parentID, const uint8_t sectorOrderID, float_t startDistance, float_t endDistance,
     Lap::Internal::Time initialLapTime) :
     m_finalLapTime(0),
     m_status(Lap::Internal::Status::InvalidUnknown),
     m_performance(Lap::Internal::Performance::InvalidUnknown),
+    m_driverID(driverID),
     m_lapOrderID(orderID),
     m_uniqueOverallID((numPreviousLaps* numMiniSectorsLap) + orderID),
     m_lapID(numPreviousLaps + 1),
@@ -51,7 +53,8 @@ Lap::Internal::Sector::Sector(const uint8_t orderID, const uint16_t numPreviousL
 
 bool Lap::Internal::Sector::operator==(const Lap::Internal::Sector& other) const {
 
-    return (m_uniqueOverallID == other.m_uniqueOverallID) &&
+    return (m_lapOrderID == other.m_lapOrderID) &&
+        (m_uniqueOverallID == other.m_uniqueOverallID) &&
         (m_lapID == other.m_lapID) &&
         (m_parentID == other.m_parentID) &&
         (m_parentOrderID == other.m_parentOrderID) &&
@@ -73,6 +76,14 @@ const Lap::Internal::Time Lap::Internal::Sector::totalTime() const {
 
 
 
+const uint8_t Lap::Internal::Sector::getDriverID() const {
+    
+    return m_driverID;
+
+}
+
+
+
 const uint8_t Lap::Internal::Sector::getLapOrderID() const {
 
     return m_lapOrderID;
@@ -84,6 +95,14 @@ const uint8_t Lap::Internal::Sector::getLapOrderID() const {
 const uint16_t Lap::Internal::Sector::getUniqueOverallID() const {
 
     return m_uniqueOverallID;
+
+}
+
+
+
+const uint8_t Lap::Internal::Sector::getParentID() const {
+
+    return m_parentID;
 
 }
 
@@ -112,3 +131,9 @@ const float_t Lap::Internal::Sector::getEndPoint() const {
 }
 
 
+
+const bool Lap::Internal::Sector::isMiniSector() const {
+
+    return m_isMiniSector;
+
+}

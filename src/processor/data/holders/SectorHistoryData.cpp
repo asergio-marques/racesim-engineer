@@ -192,7 +192,7 @@ void Processor::Data::SectorHistoryData::update(const uint8_t id, const float_t 
         const auto& currentSectorTemplate = Processor::Utility::Sector::getSectorByDistance(sectors, lapDistanceRun);
         const auto& currentMinisectorTemplate = Processor::Utility::Sector::getSectorByDistance(minisectors, lapDistanceRun);
 
-        Lap::Internal::Sector newMinisector{ currentMinisectorTemplate.getLapOrderID(),
+        Lap::Internal::Sector newMinisector{ id, currentMinisectorTemplate.getLapOrderID(),
             static_cast<uint16_t>(lapID - 1),
             minisectors.size(),
             currentSectorTemplate.getLapOrderID(),
@@ -242,7 +242,7 @@ void Processor::Data::SectorHistoryData::update(const uint8_t id, const float_t 
 
         const auto& currentSectorTemplate = Processor::Utility::Sector::getSectorByDistance(sectors, lapDistanceRun);
 
-        Lap::Internal::Sector newSector{ currentSectorTemplate.getLapOrderID(),
+        Lap::Internal::Sector newSector{ id, currentSectorTemplate.getLapOrderID(),
             static_cast<uint16_t>(lapID - 1),
             sectors.size(),
             currentSectorTemplate.getStartPoint(),
@@ -323,11 +323,49 @@ void Processor::Data::SectorHistoryData::updateSector(Lap::Internal::Sector& pre
 
 
 
-void Processor::Data::SectorHistoryData::evaluateFinishedSector(const Lap::Internal::Sector& finishedSector) {
+void Processor::Data::SectorHistoryData::evaluateFinishedSector(Lap::Internal::Sector& finishedSector) {
 
     // TODO implement detector to send event packet
     if (!m_installedFinishedSectorDetector || finishedSector.getUniqueOverallID() == 0) return;
 
+    // check if this new finished sector is the fastest in the session
+    // if it is, it's also this driver's PB
+    if (m_installedFinishedSectorDetector->checkFastestInSession(finishedSector)) {
 
+        m_personalBestSectorMap[finishedSector.getLapOrderID()] = finishedSector.getUniqueOverallID();
+
+    }
+    else {
+
+        if ((finishedSector.m_performance == Lap::Internal::Performance::FinishedPits) ||
+            (finishedSector.m_performance == Lap::Internal::Performance::FinishedInvalid) ||
+            (finishedSector.m_performance == Lap::Internal::Performance::FinishedRetired))
+            return;
+
+        // check if this is a new personal best for this driver
+        // first get the overallUniqueID of the sector object with the fastest lap for this finished sector's lapOrderID
+        auto overallIdIt = m_personalBestSectorMap.find(finishedSector.getLapOrderID());
+        if (overallIdIt != m_personalBestSectorMap.end()) {
+
+            // Now get the actual sector object and check times
+            auto sectorIt = m_sectors.find(overallIdIt->second);
+            if (sectorIt != m_sectors.end()) {
+
+                auto& fastestSector = sectorIt->second;
+                if (finishedSector.m_finalLapTime.valid() &&
+                finishedSector.m_finalLapTime < fastestSector.m_finalLapTime) {
+
+                    m_personalBestSectorMap[finishedSector.getLapOrderID()] = finishedSector.getUniqueOverallID();
+                    finishedSector.m_performance = Lap::Internal::Performance::FinishedPersonalBest;
+
+                }
+
+                m_installedFinishedSectorDetector->AddFinishedSectorInfo(finishedSector);
+
+            }
+
+        }
+
+    }
 
 }

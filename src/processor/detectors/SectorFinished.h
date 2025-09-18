@@ -1,8 +1,10 @@
 #ifndef PROCESSOR_DETECTOR_INCLUDE_SECTOR_FINISHED_H_
 #define PROCESSOR_DETECTOR_INCLUDE_SECTOR_FINISHED_H_
 
+#include "data/internal/Sector.h"
 #include "detectors/Interface.h"
 #include "detectors/Type.h"
+
 
 
 
@@ -36,8 +38,12 @@ namespace Processor {
             // Clears all data to ready the detector for a new session
             void Deinit() override final;
 
+            // Compares a new completed sector with the current session best,
+            // returning true and preparing the packet if this sector is indeed the session best
+            bool checkFastestInSession(Lap::Internal::Sector& finishedSector);
+
             // Interface function to create new packets for communicating changes to the UI
-            void AddFinishedSectorInfo();
+            void AddFinishedSectorInfo(Lap::Internal::Sector& finishedSector);
 
             private:
             // Main execution function (does nothing)

@@ -4,6 +4,7 @@
 #include <cstdint>
 #include <map>
 #include "data/internal/Participant.h"
+#include "data/internal/Sector.h"
 #include "data/holders/LapInfo.h"
 #include "data/holders/WeatherData.h"
 
@@ -33,6 +34,9 @@ namespace Processor {
             // Checks if a newly-finished lap is a new fastest lap for the current session
             bool evaluateCompletedLap(const Processor::Data::LapInfo& finishedLap);
 
+            // Checks if a newly-finished sector or minisector is a new fastest for the current session
+            bool evaluateCompletedSector(Lap::Internal::Sector& finishedSector);
+
             // Updates the weather data for this session (and other associated sessions) with further samples
             void updateWeather(const Session::Internal::Descriptor& descriptor,
                 const Session::Internal::WeatherSample& sample, const uint16_t minutesSinceStart);
@@ -55,6 +59,14 @@ namespace Processor {
 
             // Records the fastest lap of the current session
             Processor::Data::LapInfo m_fastestLap;
+
+            // Maps the order ID of each sector in the template for the current track
+            // to a copy of the sector with the fastest time
+            std::map<uint8_t, Lap::Internal::Sector> m_fastestSectors;
+
+            // Maps the order ID of each minisector in the template for the current track
+            // to the unique overall ID of the sector with the fastest time for this driver
+            std::map<uint8_t, Lap::Internal::Sector> m_fastestMinisectors;
 
         };
 

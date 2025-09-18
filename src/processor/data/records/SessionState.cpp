@@ -5,6 +5,7 @@
 #include "data/holders/LapInfo.h"
 #include "data/holders/WeatherData.h"
 #include "data/internal/Participant.h"
+#include "utilities/Sector.h"
 
 
 
@@ -54,11 +55,46 @@ bool Processor::Data::SessionState::evaluateCompletedLap(const Processor::Data::
         m_fastestLap = finishedLap;
         return true;
 
-    } else {
+    }
+    else {
 
         return false;
 
     }
+
+}
+
+
+bool Processor::Data::SessionState::evaluateCompletedSector(Lap::Internal::Sector& finishedSector) {
+
+    if (!Processor::Utility::Sector::validate(finishedSector) || !finishedSector.m_finalLapTime.valid()) return false;
+
+    auto& mapToChange = m_fastestSectors;
+
+    if (finishedSector.isMiniSector()) {
+
+        mapToChange = m_fastestMinisectors;
+
+    }
+
+    auto it = mapToChange.find(finishedSector.getLapOrderID());
+    if (it != mapToChange.end()) {
+
+        auto& fastestMinisector = it->second;
+        if (finishedSector.m_finalLapTime.valid() &&
+            finishedSector.m_finalLapTime < fastestMinisector.m_finalLapTime) {
+
+            finishedSector.m_performance == Lap::Internal::Performance::FinishedSessionBest;
+            fastestMinisector = finishedSector;
+            return true;
+
+        }
+
+        return false;
+
+    }
+
+    return false;
 
 }
 
@@ -73,7 +109,7 @@ void Processor::Data::SessionState::updateWeather(const Session::Internal::Descr
 
 
 
-const Processor::Data::WeatherData& Processor::Data::SessionState::weather() const{
+const Processor::Data::WeatherData& Processor::Data::SessionState::weather() const {
 
     return m_weather;
 

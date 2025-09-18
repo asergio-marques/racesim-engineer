@@ -68,15 +68,17 @@ namespace Processor {
 
             // Auxiliary function that checks whether a finished sector is a session best, a personal best, or nothing special
             // Communicates with the detector
-            void evaluateFinishedSector(const Lap::Internal::Sector& finishedSector);
+            void evaluateFinishedSector(Lap::Internal::Sector& finishedSector);
 
             // Holder of data pertaining to all sectors of already finished laps exclusively
+            //      first - m_uniqueOverallID of the sector
+            //      second - sector object itself
             std::map<uint16_t, Lap::Internal::Sector> m_sectors;
 
-            // Maps the order ID of each sector in the template for the current track to the unique overall ID of the sector
-            // with the same order ID with the fastest time for this driver
-            //     first - m_lapOrderID of the sector
-            //     second - m_uniqueOverallID of the sector
+            // Maps the order ID of each sector in the template for the current track
+            // to the unique overall ID of the sector with the fastest time for this driver
+            //      first - m_lapOrderID of the sector
+            //      second - m_uniqueOverallID of the sector
             std::map<uint8_t, uint16_t> m_personalBestSectorMap;
 
             // An immutable reference to the track data, for creating new sector

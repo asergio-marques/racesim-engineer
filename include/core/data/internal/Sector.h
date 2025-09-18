@@ -87,7 +87,7 @@ namespace Lap::Internal {
         // The lap time the driver was at when first reaching this sector
         Lap::Internal::Time m_initialLapTime;
 
-        // Denotes whether this object actually represents a mini-sector; if so, m_minisectors must be empty
+        // Whether this object actually represents a mini-sector; if so, m_minisectors must be empty
         bool m_isMiniSector;
 
     };

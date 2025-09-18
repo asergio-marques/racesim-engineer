@@ -13,11 +13,9 @@ namespace Lap::Internal {
         FlyingLap           = 1,
         FlyingLapInvalid    = 2,
         InPits              = 3,
-        PitIn               = 4,
-        PitOut              = 5,
-        Cooldown            = 6,
-        Retired             = 7,
-        Finished            = 8
+        SlowLap             = 4,
+        Retired             = 5,
+        Finished            = 6
 
     };
 
@@ -30,10 +28,10 @@ namespace Lap::Internal {
         CurrentlyRunningInvalid     = 4,
         FinishedNormal              = 5,
         FinishedPits                = 6,
-        FinishedPersonalBest        = 7,
-        FinishedSessionBest         = 8,
-        FinishedRetired             = 9,
-        FinishedInvalidated         = 10
+        FinishedInvalid             = 7,
+        FinishedPersonalBest        = 8,
+        FinishedSessionBest         = 9,
+        FinishedRetired             = 10
 
     };
 

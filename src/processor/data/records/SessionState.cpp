@@ -82,10 +82,10 @@ bool Processor::Data::SessionState::evaluateCompletedSector(Lap::Internal::Secto
     if (it != mapToChange.end()) {
 
         auto& fastestMinisector = it->second;
-        if (finishedSector.m_finalLapTime.valid() &&
-            finishedSector.m_finalLapTime < fastestMinisector.m_finalLapTime) {
+        if (finishedSector.totalTime().valid() &&
+            finishedSector.totalTime() < fastestMinisector.totalTime()) {
 
-            finishedSector.m_performance == Lap::Internal::Performance::FinishedSessionBest;
+            finishedSector.m_performance = Lap::Internal::Performance::FinishedSessionBest;
             fastestMinisector = finishedSector;
             return true;
 

@@ -16,7 +16,7 @@ namespace Lap::Internal {
 
         // Constructor for a sector
         Sector(const uint8_t driverID, const uint8_t orderID, const uint16_t numPreviousLaps, const size_t numSectorsLap,
-            float_t startDistance, float_t endDistance, Lap::Internal::Time initialLapTime);
+            float_t startDistance, float_t endDistance);
 
         // Constructor for a minisector
         Sector(const uint8_t driverID, const uint8_t orderID, const uint16_t numPreviousLaps, const size_t numMiniSectorsLap,

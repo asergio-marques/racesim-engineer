@@ -11,7 +11,7 @@
 
 // Constructor for a sector
 Lap::Internal::Sector::Sector(const uint8_t driverID, const uint8_t orderID, const uint16_t numPreviousLaps,
-    const size_t numSectorsLap, float_t startDistance, float_t endDistance, Lap::Internal::Time initialLapTime) :
+    const size_t numSectorsLap, float_t startDistance, float_t endDistance) :
     m_finalLapTime(0),
     m_status(Lap::Internal::Status::InvalidUnknown),
     m_performance(Lap::Internal::Performance::InvalidUnknown),
@@ -23,7 +23,7 @@ Lap::Internal::Sector::Sector(const uint8_t driverID, const uint8_t orderID, con
     m_parentOrderID(orderID),
     m_startPoint(startDistance),
     m_endPoint(endDistance),
-    m_initialLapTime(initialLapTime),
+    m_initialLapTime(0),
     m_isMiniSector(false) {
 
 }

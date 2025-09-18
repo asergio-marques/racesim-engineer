@@ -118,8 +118,7 @@ void Processor::Data::SectorHistoryData::initialize(const uint8_t driverID) {
             0,
             sectors.size(),
             sectors.begin()->getStartPoint(),
-            sectors.begin()->getEndPoint(),
-            0 };
+            sectors.begin()->getEndPoint()};
 
         initializeSector(newSector, 0, Lap::Internal::Status::InvalidUnknown);
         m_sectors.emplace(newSector.getUniqueOverallID(), newSector);
@@ -303,8 +302,7 @@ void Processor::Data::SectorHistoryData::update(const uint8_t id, const float_t 
             0,
             sectors.size(),
             currentSectorTemplate.getStartPoint(),
-            currentSectorTemplate.getEndPoint(),
-            sectorTimes[currentSectorTemplate.getLapOrderID()]};
+            currentSectorTemplate.getEndPoint()};
 
         initializeSector(newSector, sectorTimes[0], status);
         m_sectors.emplace(newSector.getUniqueOverallID(), newSector);
@@ -446,17 +444,19 @@ void Processor::Data::SectorHistoryData::evaluateFinishedSector(Lap::Internal::S
             auto sectorIt = m_sectors.find(overallIdIt->second);
             if (sectorIt != m_sectors.end()) {
 
-                auto& fastestSector = sectorIt->second;
-                if (finishedSector.m_finalLapTime.valid() &&
-                finishedSector.m_finalLapTime < fastestSector.m_finalLapTime) {
+                auto fastestSectorTime = sectorIt->second.totalTime();
+                auto currentSectorTime = finishedSector.totalTime();
+
+                if (currentSectorTime.valid() &&
+                    currentSectorTime < fastestSectorTime) {
 
                     m_personalBestSectorMap[finishedSector.getLapOrderID()] = finishedSector.getUniqueOverallID();
                     finishedSector.m_performance = Lap::Internal::Performance::FinishedPersonalBest;
 
                 }
-                if (finishedSector.m_finalLapTime.valid() &&
-                    (finishedSector.m_finalLapTime > (fastestSector.m_finalLapTime * 1.2f)) &&
-                    (finishedSector.m_finalLapTime > (fastestSector.m_finalLapTime + 1000))) {
+                if (currentSectorTime.valid() &&
+                    (currentSectorTime > (fastestSectorTime * 1.2f)) &&
+                    (currentSectorTime > (fastestSectorTime + 1000))) {
 
                     finishedSector.m_status = Lap::Internal::Status::SlowLap;
 

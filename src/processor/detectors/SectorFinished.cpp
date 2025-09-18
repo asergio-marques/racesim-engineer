@@ -5,6 +5,7 @@
 #include "data/internal/Sector.h"
 #include "detectors/Interface.h"
 #include "detectors/Type.h"
+#include "packets/event/SectorFinished.h"
 
 
 
@@ -50,19 +51,18 @@ bool Processor::Detector::SectorFinished::checkFastestInSession(Lap::Internal::S
         auto it = m_driverRecords->find(finishedSector.getDriverID());
         if (it != m_driverRecords->end()) {
 
-            // TODO implement packet
-            /*Packet::Event::SectorFinished* packet = new Packet::Event::SectorFinished(
+            Packet::Event::SectorFinished* packet = new Packet::Event::SectorFinished(
                     it->second->m_info.m_isPlayer,
                     it->second->m_info.m_fullName,
                     it->second->getModifiableState()->posTimeData().getCurrentPosition());
             packet->m_index = finishedSector.getDriverID();
-            packet->m_sectorParentID = finishedSector.getParentID();
+            packet->m_parentID = finishedSector.getParentID();
             packet->m_sectorParentOrderID = finishedSector.getParentOrderID();
             packet->m_isMiniSector = finishedSector.isMiniSector();
             packet->m_sectorStatus = finishedSector.m_status;
             packet->m_sectorPerformance = finishedSector.m_performance;
-            packet->m_sectorTime = finishedSector.m_finalLapTime;
-            m_packetsToBeProcessed.push_back(packet);*/
+            packet->m_time = finishedSector.totalTime();
+            m_packetsToBeProcessed.push_back(packet);
             return true;
 
         }
@@ -85,19 +85,18 @@ void Processor::Detector::SectorFinished::AddFinishedSectorInfo(Lap::Internal::S
     auto it = m_driverRecords->find(finishedSector.getDriverID());
     if (it != m_driverRecords->end()) {
 
-        // TODO implement packet
-        /*Packet::Event::SectorFinished* packet = new Packet::Event::SectorFinished(
+        Packet::Event::SectorFinished* packet = new Packet::Event::SectorFinished(
                     it->second->m_info.m_isPlayer,
                     it->second->m_info.m_fullName,
                     it->second->getModifiableState()->posTimeData().getCurrentPosition());
         packet->m_index = finishedSector.getDriverID();
-        packet->m_sectorParentID = finishedSector.getParentID();
+        packet->m_parentID = finishedSector.getParentID();
         packet->m_sectorParentOrderID = finishedSector.getParentOrderID();
         packet->m_isMiniSector = finishedSector.isMiniSector();
         packet->m_sectorStatus = finishedSector.m_status;
         packet->m_sectorPerformance = finishedSector.m_performance;
-        packet->m_sectorTime = finishedSector.m_finalLapTime;
-        m_packetsToBeProcessed.push_back(packet);*/
+        packet->m_time = finishedSector.totalTime();
+        m_packetsToBeProcessed.push_back(packet);
 
     }
 

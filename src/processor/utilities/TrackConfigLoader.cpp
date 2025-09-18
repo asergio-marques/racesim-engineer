@@ -99,7 +99,7 @@ Processor::Data::TrackData Processor::Utility::TrackConfigLoader::readConfig() {
 
         }
         // The number of sectors/lap can be assumed as zero as this is merely a template
-        Lap::Internal::Sector s{ 0, latestSectorID, 0, 0, start, end, 0};
+        Lap::Internal::Sector s{ 0, latestSectorID, 0, 0, start, end};
         sectors.push_back(s);
         ++latestSectorID;
 

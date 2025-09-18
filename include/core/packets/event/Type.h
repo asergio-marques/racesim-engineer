@@ -22,7 +22,8 @@ namespace Packet {
             ParticipantStatusChanged    = 8,
             LapFinished                 = 9,
             PenaltyReceived             = 10,
-            TyreChanged                 = 11
+            TyreChanged                 = 11,
+            SectorFinished              = 12
 
         };
     

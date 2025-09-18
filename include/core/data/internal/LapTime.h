@@ -1,6 +1,7 @@
 #ifndef DATA_INTERNAL_INCLUDE_LAP_TIME_H_
 #define DATA_INTERNAL_INCLUDE_LAP_TIME_H_
 
+#include <cmath>
 #include <cstdint>
 #include <string>
 
@@ -19,6 +20,7 @@ namespace Lap::Internal {
         Time& operator-=(const Time& other);
         Time operator+(const Time& other);
         Time operator-(const Time& other);
+        Time operator*(const float_t& coef);
         bool operator==(const Time& other) const;
         bool operator!=(const Time& other) const;
         bool operator>(const Time& other) const;

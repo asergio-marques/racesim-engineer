@@ -5,8 +5,10 @@
 #include <vector>
 #include <map>
 #include "data/internal/Lap.h"
+#include "data/internal/Participant.h"
 #include "data/internal/Sector.h"
 #include "data/holders/TrackData.h"
+
 
 
 
@@ -16,7 +18,6 @@ namespace Processor {
 
         class Interface;
         class SectorFinished;
-        class SectorStateChanged;
 
     }
 
@@ -41,7 +42,7 @@ namespace Processor {
             const bool Finalized() const;
 
             // Creates a record for the first lap of the session, initializing tyre data
-            void initialize();
+            void initialize(const uint8_t driverID);
 
             // Finalizes the record for the final sector if necessary
             void completeData();
@@ -55,6 +56,9 @@ namespace Processor {
             void update(const uint8_t id, const float_t lapDistanceRun,
                 const std::vector<Lap::Internal::Time>& sectorTimes, const Lap::Internal::Time previousLapTime,
                 const Lap::Internal::Status status, const bool isValid);
+
+            // Function to update lap status in case of retirement or session end
+            void updateStatus(const uint8_t id, const Participant::Internal::Status status);
 
             private:
             // Auxiliary function that initializes a sector's information
@@ -87,14 +91,11 @@ namespace Processor {
             // Whether this container holds information for minisectors; if false, then it holds information for sectors
             const bool m_minisector;
 
-            // Whether the data for all the sectirs has been filled
+            // Whether the data for all the sectors has been filled
             bool m_isDataComplete;
 
-            // Pointer to the fastest lap detector currently installed
+            // Pointer to the finished sector detector currently installed
             Processor::Detector::SectorFinished* m_installedFinishedSectorDetector;
-
-            // Pointer to the tyre changed detector currently installed
-            Processor::Detector::SectorStateChanged* m_installedSectorStateChangedDetector;
 
         };
 

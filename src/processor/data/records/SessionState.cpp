@@ -65,6 +65,7 @@ bool Processor::Data::SessionState::evaluateCompletedLap(const Processor::Data::
 }
 
 
+
 bool Processor::Data::SessionState::evaluateCompletedSector(Lap::Internal::Sector& finishedSector) {
 
     if (!Processor::Utility::Sector::validate(finishedSector) || !finishedSector.m_finalLapTime.valid()) return false;

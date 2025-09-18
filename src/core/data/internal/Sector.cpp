@@ -9,13 +9,15 @@
 
 
 
+// Constructor for a sector
 Lap::Internal::Sector::Sector(const uint8_t driverID, const uint8_t orderID, const uint16_t numPreviousLaps,
     const size_t numSectorsLap, float_t startDistance, float_t endDistance, Lap::Internal::Time initialLapTime) :
     m_finalLapTime(0),
     m_status(Lap::Internal::Status::InvalidUnknown),
-    m_performance(Lap::Internal::Performance::InvalidUnknown), m_lapOrderID(orderID),
+    m_performance(Lap::Internal::Performance::InvalidUnknown),
+    m_lapOrderID(orderID),
     m_driverID(driverID),
-    m_uniqueOverallID((numPreviousLaps* numSectorsLap) + orderID),
+    m_uniqueOverallID((numPreviousLaps * numSectorsLap) + orderID),
     m_lapID(numPreviousLaps + 1),
     m_parentID(0),
     m_parentOrderID(orderID),
@@ -28,15 +30,16 @@ Lap::Internal::Sector::Sector(const uint8_t driverID, const uint8_t orderID, con
 
 
 
-Lap::Internal::Sector::Sector(const uint8_t driverID, const uint8_t orderID, const uint16_t numPreviousLaps, const size_t numMiniSectorsLap,
-    const uint8_t parentID, const uint8_t sectorOrderID, float_t startDistance, float_t endDistance,
-    Lap::Internal::Time initialLapTime) :
+// Constructor for a minisector
+Lap::Internal::Sector::Sector(const uint8_t driverID, const uint8_t orderID, const uint16_t numPreviousLaps,
+    const size_t numMiniSectorsLap, const uint8_t parentID, const uint8_t sectorOrderID,
+    float_t startDistance, float_t endDistance, Lap::Internal::Time initialLapTime) :
     m_finalLapTime(0),
     m_status(Lap::Internal::Status::InvalidUnknown),
     m_performance(Lap::Internal::Performance::InvalidUnknown),
     m_driverID(driverID),
     m_lapOrderID(orderID),
-    m_uniqueOverallID((numPreviousLaps* numMiniSectorsLap) + orderID),
+    m_uniqueOverallID((numPreviousLaps * numMiniSectorsLap) + orderID),
     m_lapID(numPreviousLaps + 1),
     m_parentID(parentID),
     m_parentOrderID(sectorOrderID),

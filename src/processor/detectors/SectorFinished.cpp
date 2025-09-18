@@ -50,7 +50,7 @@ bool Processor::Detector::SectorFinished::checkFastestInSession(Lap::Internal::S
         auto it = m_driverRecords->find(finishedSector.getDriverID());
         if (it != m_driverRecords->end()) {
 
-            // TODO implement
+            // TODO implement packet
             /*Packet::Event::SectorFinished* packet = new Packet::Event::SectorFinished(
                     it->second->m_info.m_isPlayer,
                     it->second->m_info.m_fullName,
@@ -59,6 +59,7 @@ bool Processor::Detector::SectorFinished::checkFastestInSession(Lap::Internal::S
             packet->m_sectorParentID = finishedSector.getParentID();
             packet->m_sectorParentOrderID = finishedSector.getParentOrderID();
             packet->m_isMiniSector = finishedSector.isMiniSector();
+            packet->m_sectorStatus = finishedSector.m_status;
             packet->m_sectorPerformance = finishedSector.m_performance;
             packet->m_sectorTime = finishedSector.m_finalLapTime;
             m_packetsToBeProcessed.push_back(packet);*/
@@ -84,6 +85,7 @@ void Processor::Detector::SectorFinished::AddFinishedSectorInfo(Lap::Internal::S
     auto it = m_driverRecords->find(finishedSector.getDriverID());
     if (it != m_driverRecords->end()) {
 
+        // TODO implement packet
         /*Packet::Event::SectorFinished* packet = new Packet::Event::SectorFinished(
                     it->second->m_info.m_isPlayer,
                     it->second->m_info.m_fullName,
@@ -92,6 +94,7 @@ void Processor::Detector::SectorFinished::AddFinishedSectorInfo(Lap::Internal::S
         packet->m_sectorParentID = finishedSector.getParentID();
         packet->m_sectorParentOrderID = finishedSector.getParentOrderID();
         packet->m_isMiniSector = finishedSector.isMiniSector();
+        packet->m_sectorStatus = finishedSector.m_status;
         packet->m_sectorPerformance = finishedSector.m_performance;
         packet->m_sectorTime = finishedSector.m_finalLapTime;
         m_packetsToBeProcessed.push_back(packet);*/

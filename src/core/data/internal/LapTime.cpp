@@ -79,6 +79,17 @@ Lap::Internal::Time Lap::Internal::Time::operator-(const Lap::Internal::Time& ot
 }
 
 
+Lap::Internal::Time Lap::Internal::Time::operator*(const float_t& coef) {
+
+    uint32_t totalMs = (m_seconds * 1000) + m_milliseconds;
+    totalMs *= coef;
+    m_seconds = totalMs / 1000;
+    m_milliseconds = totalMs % 1000;
+    return *this;
+
+}
+
+
 
 bool Lap::Internal::Time::operator==(const Time& other) const {
 

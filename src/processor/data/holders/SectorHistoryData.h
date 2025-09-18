@@ -15,6 +15,8 @@ namespace Processor {
     namespace Detector {
 
         class Interface;
+        class SectorFinished;
+        class SectorStateChanged;
 
     }
 
@@ -85,6 +87,13 @@ namespace Processor {
 
             // Whether the data for all the sectirs has been filled
             bool m_isDataComplete;
+
+            // Pointer to the fastest lap detector currently installed
+            Processor::Detector::SectorFinished* m_installedFinishedSectorDetector;
+
+            // Pointer to the tyre changed detector currently installed
+            Processor::Detector::SectorStateChanged* m_installedSectorStateChangedDetector;
+
         };
 
     }

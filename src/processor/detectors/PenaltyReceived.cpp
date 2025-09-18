@@ -18,8 +18,6 @@ const Processor::Detector::Type Processor::Detector::PenaltyReceived::GetType() 
 void Processor::Detector::PenaltyReceived::Init(Processor::Data::SessionRecord* sessionRecord,
                 std::map<const uint8_t, Processor::Data::DriverRecord*>* driverRecords) {
 
-    // TODO this will disable graceful closing and reinit once another session is started
-    // no need to do anything if we already have the record
     if (m_sessionRecord && m_driverRecords) return;
 
     Processor::Detector::Interface::doInit(sessionRecord, driverRecords);

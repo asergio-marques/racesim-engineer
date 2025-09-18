@@ -6,6 +6,8 @@
 #include "data/internal/Lap.h"
 #include "data/internal/Sector.h"
 #include "data/holders/TrackData.h"
+#include "detectors/SectorFinished.h"
+#include "detectors/SectorStateChanged.h"
 #include "utilities/Sector.h"
 
 
@@ -17,7 +19,9 @@ Processor::Data::SectorHistoryData::SectorHistoryData(const bool isMinisector,
     m_personalBestSectorMap(),
     m_trackDataReference(trackDataReference),
     m_minisector(isMinisector),
-    m_isDataComplete(false) {
+    m_isDataComplete(false),
+    m_installedFinishedSectorDetector(nullptr),
+    m_installedSectorStateChangedDetector(nullptr) {
 
     // Build PB map based on trackdata
     // Default PB lap is 0 for sectors and minisectors both
@@ -48,7 +52,23 @@ Processor::Data::SectorHistoryData::SectorHistoryData(const bool isMinisector,
 
 bool Processor::Data::SectorHistoryData::installDetector(Processor::Detector::Interface* detector) {
 
-    return true;
+    if (!detector) return false;
+
+    switch (detector->GetType()) {
+
+        case Processor::Detector::Type::SectorFinished:
+            m_installedFinishedSectorDetector = dynamic_cast<Processor::Detector::SectorFinished*>(detector);
+            return true;
+
+        case Processor::Detector::Type::SectorStateChanged:
+            m_installedSectorStateChangedDetector = dynamic_cast<Processor::Detector::SectorStateChanged*>(detector);
+            return true;
+
+        default:
+            // do nothing
+            return false;
+
+    }
 
 }
 
@@ -306,8 +326,7 @@ void Processor::Data::SectorHistoryData::updateSector(Lap::Internal::Sector& pre
 void Processor::Data::SectorHistoryData::evaluateFinishedSector(const Lap::Internal::Sector& finishedSector) {
 
     // TODO implement detector to send event packet
-    // if (!m_installedFinishedSectorDetector || finishedSector.getUniqueOverallID() == 0) return;
-    if (finishedSector.getUniqueOverallID() == 0) return;
+    if (!m_installedFinishedSectorDetector || finishedSector.getUniqueOverallID() == 0) return;
 
 
 

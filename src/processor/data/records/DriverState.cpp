@@ -34,8 +34,10 @@ void Processor::Data::DriverState::finalize(const uint8_t id, const uint8_t posi
 
     m_lapData.completeData(id, numLaps, sessionTime);
     // TODO investigate this better because it doesn't look like it's working perfectly
-    // m_posTimeData.updateCurrentPosition(id, position);
+    //m_posTimeData.updateCurrentPosition(id, position);
     m_posTimeData.updateStatus(id, Participant::Internal::Status::FinishedSession);
+    m_sectorData.updateStatus(id, Participant::Internal::Status::FinishedSession);
+    m_miniSectorData.updateStatus(id, Participant::Internal::Status::FinishedSession);
 
 }
 

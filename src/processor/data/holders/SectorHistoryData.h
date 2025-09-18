@@ -47,12 +47,12 @@ namespace Processor {
             // Function to update sector or minisector times by deducing from the lap distance
             void update(const uint8_t id, const float_t lapDistanceRun,
                 const Lap::Internal::Time currentLapTime, const Lap::Internal::Time previousLapTime,
-                const Lap::Internal::Status status);
+                const Lap::Internal::Status status, const bool isValid);
             
             // Function to update sector times from a vector rather than deducing from lap distance
             void update(const uint8_t id, const float_t lapDistanceRun,
                 const std::vector<Lap::Internal::Time>& sectorTimes, const Lap::Internal::Time previousLapTime,
-                const Lap::Internal::Status status);
+                const Lap::Internal::Status status, const bool isValid);
 
             private:
             // Auxiliary function that initializes a sector's information
@@ -63,6 +63,10 @@ namespace Processor {
             // and to the previous sector's information to deduce a new state
             void updateSector(Lap::Internal::Sector& previousSector, Lap::Internal::Sector& currentSector,
                 const Lap::Internal::Time currentLapTime, const Lap::Internal::Status lapStatus);
+
+            // Auxiliary function that checks whether a finished sector is a session best, a personal best, or nothing special
+            // Communicates with the detector
+            void evaluateFinishedSector(const Lap::Internal::Sector& finishedSector);
 
             // Holder of data pertaining to all sectors of already finished laps exclusively
             std::map<uint16_t, Lap::Internal::Sector> m_sectors;

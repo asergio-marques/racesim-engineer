@@ -87,7 +87,7 @@ void Processor::Data::SectorHistoryData::completeData() {
 
 
 void Processor::Data::SectorHistoryData::update(const uint8_t id, const float_t lapDistanceRun,
-    const Lap::Internal::Time currentLapTime, const Lap::Internal::Time previousLapTime, const Lap::Internal::Status status) {
+    const Lap::Internal::Time currentLapTime, const Lap::Internal::Time previousLapTime, const Lap::Internal::Status status, const bool isValid) {
 
     // function is only meant to be used for minisectors
     if (!m_minisector) return;
@@ -100,10 +100,65 @@ void Processor::Data::SectorHistoryData::update(const uint8_t id, const float_t 
         previousSector = std::prev(m_sectors.rbegin())->second;
 
     }
-    updateSector(previousSector, currentSector, currentLapTime, status);
+
+    //updateSector(previousSector, currentSector, currentLapTime, status);
+    currentSector.m_finalLapTime = currentLapTime;
+    // TODO, I need to map this out...
+    // the relevant variables are:
+    // - Packet::Internal::LapStatus::Data::m_valid - true or false
+    // - Packet::Internal::LapStatus::Data::m_status - FlyingLap or InPits
+    // - How to reliably determine cooldown, though?
+    if ((currentSector.m_status == Lap::Internal::Status::FlyingLap) &&
+        (status == Lap::Internal::Status::FlyingLap) &&
+        isValid) {
+
+        // no change
+
+    }
+    // If the current sector is marked as flying, pits has priority
+    else if ((currentSector.m_status == Lap::Internal::Status::FlyingLap) &&
+        (status == Lap::Internal::Status::FlyingLap) &&
+        !isValid) {
+
+        currentSector.m_status = Lap::Internal::Status::FlyingLapInvalid;
+        currentSector.m_performance = Lap::Internal::Performance::CurrentlyRunningInvalid;
+        // TODO implement detector to send event packet
+        // m_installedSectorStateChanged->AddSectorChange(id, currentSector, m_minisector);
+
+    }
+    // If the current sector is marked as flying or flying invalid, pits has priority
+    else if (((currentSector.m_status == Lap::Internal::Status::FlyingLap) ||
+        (currentSector.m_status == Lap::Internal::Status::FlyingLapInvalid)) &&
+        (status == Lap::Internal::Status::InPits)) {
+
+        currentSector.m_status = Lap::Internal::Status::InPits;
+        currentSector.m_performance = Lap::Internal::Performance::CurrentlyRunningPits;
+        // TODO implement detector to send event packet
+        // m_installedSectorStateChanged->AddSectorChange(id, currentSector, m_minisector);
+
+    }
+
     if (lapDistanceRun >= currentSector.getEndPoint()) {
 
         // TODO what do when sector finished, aside from creating a new one
+        switch (currentSector.m_performance) {
+
+            case Lap::Internal::Performance::CurrentlyRunning:
+                currentSector.m_performance = Lap::Internal::Performance::FinishedNormal;
+                break;
+            case Lap::Internal::Performance::CurrentlyRunningPits:
+                currentSector.m_performance = Lap::Internal::Performance::FinishedPits;
+                break;
+            case Lap::Internal::Performance::CurrentlyRunningInvalid:
+                currentSector.m_performance = Lap::Internal::Performance::FinishedInvalid;
+                break;
+
+            default:
+                // do nothing, these are the only expected statuses if we've just finished this sector
+                break;
+
+        }
+        evaluateFinishedSector(currentSector);
         createNew = true;
 
     }
@@ -137,7 +192,7 @@ void Processor::Data::SectorHistoryData::update(const uint8_t id, const float_t 
 
 void Processor::Data::SectorHistoryData::update(const uint8_t id, const float_t lapDistanceRun,
     const std::vector<Lap::Internal::Time>& sectorTimes, const Lap::Internal::Time previousLapTime,
-    const Lap::Internal::Status status) {
+    const Lap::Internal::Status status, const bool isValid) {
 
     // function is only meant to be used for sectors
     if (m_minisector || sectorTimes.empty()) return;
@@ -243,5 +298,17 @@ void Processor::Data::SectorHistoryData::updateSector(Lap::Internal::Sector& pre
             currentSector.m_performance = Lap::Internal::Performance::InvalidUnknown;
 
     }
+
+}
+
+
+
+void Processor::Data::SectorHistoryData::evaluateFinishedSector(const Lap::Internal::Sector& finishedSector) {
+
+    // TODO implement detector to send event packet
+    // if (!m_installedFinishedSectorDetector || finishedSector.getUniqueOverallID() == 0) return;
+    if (finishedSector.getUniqueOverallID() == 0) return;
+
+
 
 }

@@ -67,7 +67,7 @@ namespace Processor {
             // Returns true if this update has "completed" the lap entry database
             void updateLap(const uint8_t lapID, const Lap::Internal::Status status,
                 const Lap::Internal::Time currentLapTime, const std::vector<Lap::Internal::Time> sectorTimes,
-                const float_t lapDistanceRun, const Lap::Internal::Time previousLapTime);
+                const float_t lapDistanceRun, const bool isValid, const Lap::Internal::Time previousLapTime);
 
             // Alter the data of the tyre set in use for the current lap
             void updateCurrentTyre(const uint8_t driverID, const Tyre::Internal::Data data);

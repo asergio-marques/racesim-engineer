@@ -8,6 +8,7 @@
 #include "data/internal/LapTime.h"
 #include "multiplayer_session/sectors/MiniSectorIcon.h"
 #include "multiplayer_session/sectors/SectorTimeText.h"
+#include "styles/DriverInfo.h"
 
 
 
@@ -180,6 +181,31 @@ void UserInterface::Widget::SectorInfoContainer::updateMiniSector(const uint8_t 
 
 void UserInterface::Widget::SectorInfoContainer::redoLayout() {
 
+    const uint16_t rowHeight = UserInterface::Style::RowHeight.GetValue(height());
+    const uint16_t miniSectorIconHeight = UserInterface::Style::RowHeight.GetValue(height() / 2);
+    if (!m_miniSectorIcons.empty() && m_sectorTimeText) {
 
+        m_sectorTimeText->setFontSize(UserInterface::Style::SectorTimeStatusFontSize.GetValue(height()));
+        m_sectorTimeText->adjustSize();
+        m_sectorTimeText->show();
+
+        const uint16_t widthMiniSectorIcon = qFloor(m_width / m_miniSectorIcons.size());
+        uint16_t totalWidth = 0;
+
+        for (auto* icon : m_miniSectorIcons) {
+
+            if (icon) {
+
+                icon->setSize(widthMiniSectorIcon, miniSectorIconHeight, false);
+                icon->adjustSize();
+                icon->move(x() + totalWidth, y(), false, false);
+                icon->show();
+                totalWidth += widthMiniSectorIcon - UserInterface::Style::MiniSectorIconSpacingX;
+
+            }
+
+        }
+
+    }
 
 }

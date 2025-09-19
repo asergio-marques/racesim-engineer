@@ -150,16 +150,17 @@ void Lap::Internal::Time::zero() {
 
 
 
-const std::string Lap::Internal::Time::formattedPrint(bool minutes) const {
+const std::string Lap::Internal::Time::formattedPrint(bool useMinutes) const {
 
     std::string minutesString = "";
     std::string secondsString = "";
     std::string millisecondsString = "";
     uint32_t seconds = m_seconds;
+    uint32_t minutes = m_seconds / 60;
 
     // Prepare minutes if needed
-    if (minutes) {
-        std::string minutesString = std::to_string(m_seconds / 60);
+    if (useMinutes) {
+        std::string minutesString = std::to_string(minutes);
         seconds = m_seconds % 60;
     }
 
@@ -184,7 +185,7 @@ const std::string Lap::Internal::Time::formattedPrint(bool minutes) const {
     }
 
     // return the appropriate value
-    if (minutes) {
+    if (useMinutes && minutes > 0) {
         return minutesString + ":" + secondsString + "." + millisecondsString;
     }    
     return secondsString + "." + millisecondsString;

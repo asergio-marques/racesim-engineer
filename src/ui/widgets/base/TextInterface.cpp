@@ -13,10 +13,11 @@
 
 UserInterface::Widget::TextInterface::TextInterface(UserInterface::Widget::ID id, QWidget* parent) :
     QLabel(parent),
-    UserInterface::Widget::Interface(id) {
+    UserInterface::Widget::Interface(id),
+    m_currentFontString("font : Manrope"),
+    m_currentColorString("color : white") {
 
-    setStyleSheet("QLabel { color : white; font : Manrope }");
-    update();
+    updateFont();
 
 }
 
@@ -86,19 +87,21 @@ void UserInterface::Widget::TextInterface::setFontThickness(const UserInterface:
     switch (thickness) {
 
         case UserInterface::Widget::FontThickness::Bold:
-            setStyleSheet("QLabel { color : white; font : Manrope Bold }");
+            m_currentFontString = "font: Manrope Bold";
             break;
 
         case UserInterface::Widget::FontThickness::ExtraBold:
-            setStyleSheet("QLabel { color : white; font : Manrope ExtraBold }");
+            m_currentFontString = "font: Manrope ExtraBold";
             break;
 
         // also includes the case where Regular is requested
         default:
-            setStyleSheet("QLabel { color : white; font : Manrope }");
+            m_currentFontString = "font: Manrope";
             break;
 
     }
+
+    updateFont();
 
 }
 
@@ -117,5 +120,14 @@ const uint16_t UserInterface::Widget::TextInterface::getTextHeight() const {
 
     QFontMetrics fm(font());
     return fm.height();
+
+}
+
+
+
+void UserInterface::Widget::TextInterface::updateFont() {
+
+    setStyleSheet("QLabel { " + m_currentColorString + "; " + m_currentFontString + " }");
+    update();
 
 }

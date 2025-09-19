@@ -16,7 +16,7 @@ namespace UserInterface {
         class MiniSectorIcon : public UserInterface::Widget::ImageInterface {
 
             public:
-            MiniSectorIcon(UserInterface::Widget::ID id, const uint8_t numMinis, QWidget* parent = 0);
+            MiniSectorIcon(const uint8_t numMinis, QWidget* parent = 0);
             ~MiniSectorIcon() = default;
             void performanceChanged(Lap::Internal::Performance perf);
             void reset();

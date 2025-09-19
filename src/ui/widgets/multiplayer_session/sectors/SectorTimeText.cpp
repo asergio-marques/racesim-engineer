@@ -20,41 +20,46 @@ void UserInterface::Widget::SectorTimeText::setTextAndColor(const Lap::Internal:
 
     switch (perf) {
 
+        case Lap::Internal::Performance::NotRun:
+            // clear text
+            setText("");
+            break;
+
         case Lap::Internal::Performance::CurrentlyRunning:
         case Lap::Internal::Performance::CurrentlyRunningPits:
         case Lap::Internal::Performance::CurrentlyRunningInvalid:
-            setStyleSheet("QLabel { color : white; font : Manrope }");
+            m_currentColorString = "color : white";
             setText("IN SECTOR");
             break;
 
         case Lap::Internal::Performance::FinishedNormal:
         case Lap::Internal::Performance::FinishedInvalid:
             // show "FinishedNotImprovement" color
-            setStyleSheet("QLabel { color : rgb(234, 235, 0); font : Manrope }");
+            m_currentColorString = "color : rgb(234, 235, 0)";
             setText(time.formattedPrint(true));
             break;
 
         case Lap::Internal::Performance::FinishedPits:
             // show "FinishedInPits" color
-            setStyleSheet("QLabel { color : rgb(85, 161, 255); font : Manrope }");
+            m_currentColorString = "color : rgb(85, 161, 255)";
             setText(time.formattedPrint(true));
             break;
 
         case Lap::Internal::Performance::FinishedPersonalBest:
-            // show "FinishedPersonalBest" color
-            setStyleSheet("QLabel { color : rgb(37, 183, 39); font : Manrope }");
             setText(time.formattedPrint(true));
+            // show "FinishedPersonalBest" color
+            m_currentColorString = "color : rgb(37, 183, 39)";
             break;
 
         case Lap::Internal::Performance::FinishedSessionBest:
             // show "FinishedSessionBest" color
-            setStyleSheet("QLabel { color : rgb(140, 37, 183); font : Manrope }");
+            m_currentColorString = "color : rgb(140, 37, 183)";
             setText(time.formattedPrint(true));
             break;
 
         case Lap::Internal::Performance::FinishedRetired:
             // show "FinishedRetirementComplete" color
-            setStyleSheet("QLabel { color : rgb(212, 44, 44); font : Manrope }");
+            m_currentColorString = "color : rgb(212, 44, 44)";
             setText("RETIRED");
             break;
 
@@ -63,5 +68,7 @@ void UserInterface::Widget::SectorTimeText::setTextAndColor(const Lap::Internal:
             break;
 
     }
+
+    updateFont();
 
 }

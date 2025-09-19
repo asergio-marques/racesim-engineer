@@ -6,9 +6,8 @@
 
 
 
-UserInterface::Widget::MiniSectorIcon::MiniSectorIcon(UserInterface::Widget::ID id,
-    const uint8_t numMinis, QWidget* parent) :
-    UserInterface::Widget::ImageInterface(id, parent),
+UserInterface::Widget::MiniSectorIcon::MiniSectorIcon(const uint8_t numMinis, QWidget* parent) :
+    UserInterface::Widget::ImageInterface(UserInterface::Widget::ID::SectorInfo, parent),
     m_numMinis(numMinis),
     m_finished(false) {
 

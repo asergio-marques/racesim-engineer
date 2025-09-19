@@ -15,19 +15,6 @@ namespace UserInterface {
         class TyreIcon : public UserInterface::Widget::ImageInterface {
 
             public:
-            enum class Type : uint8_t {
-
-                Unknown     = 0,
-                HyperSoft   = 1,
-                SuperSoft   = 2,
-                Soft        = 3,
-                Medium      = 4,
-                Hard        = 5,
-                Inter       = 6,
-                Wet         = 7
-
-            };
-
             TyreIcon(UserInterface::Widget::ID id, QWidget* parent = 0);
             ~TyreIcon() = default;
             void SetType(Tyre::Internal::Visual type);

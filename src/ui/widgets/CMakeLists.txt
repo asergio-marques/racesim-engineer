@@ -43,6 +43,10 @@ target_sources(${PROJECT_NAME} PRIVATE
     multiplayer_session/penalty/PenaltyIcon.cpp
     multiplayer_session/penalty/PenaltyFlag.cpp
     multiplayer_session/penalty/PenaltyTextBackground.cpp
+    multiplayer_session/sectors/MiniSectorIcon.cpp
+    multiplayer_session/sectors/SectorInfoArray.cpp
+    multiplayer_session/sectors/SectorInfoContainer.cpp
+    multiplayer_session/sectors/SectorTimeText.cpp
     multiplayer_session/warning/WarningIcon.cpp
     multiplayer_session/warning/WarningContainer.cpp
     multiplayer_session/other/RetirementIcon.cpp

@@ -106,6 +106,7 @@ Processor::Data::TrackData Processor::Utility::TrackConfigLoader::readConfig() {
     }
 
     trackData.setSectorInfo(sectors);
+    trackData.setMiniSectorInfo(minisectors);
     return trackData;
 
 }

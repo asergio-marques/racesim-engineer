@@ -54,6 +54,7 @@ namespace UserInterface {
 
             // Sector icons
             //// Finished in pits
+            FinishedInPitsBase      = 1000,
             FinishedInPitsSectorOf3 = 1003,
             FinishedInPitsSectorOf4 = 1004,
             FinishedInPitsSectorOf5 = 1005,
@@ -66,6 +67,7 @@ namespace UserInterface {
             FinishedInPitsSectorOf12 = 1012,
 
             //// Finished invalid
+            FinishedInvalidBase = 1100,
             FinishedInvalidSectorOf3 = 1103,
             FinishedInvalidSectorOf4 = 1104,
             FinishedInvalidSectorOf5 = 1105,
@@ -78,6 +80,7 @@ namespace UserInterface {
             FinishedInvalidSectorOf12 = 1112,
 
             //// Finished not improvement
+            FinishedNotImprovementBase = 1200,
             FinishedNotImprovementSectorOf3 = 1203,
             FinishedNotImprovementSectorOf4 = 1204,
             FinishedNotImprovementSectorOf5 = 1205,
@@ -90,6 +93,7 @@ namespace UserInterface {
             FinishedNotImprovementSectorOf12 = 1212,
 
             //// Finished personal best
+            FinishedPersonalBestBase = 1300,
             FinishedPersonalBestSectorOf3 = 1303,
             FinishedPersonalBestSectorOf4 = 1304,
             FinishedPersonalBestSectorOf5 = 1305,
@@ -102,6 +106,7 @@ namespace UserInterface {
             FinishedPersonalBestSectorOf12 = 1312,
 
             //// Finished retirement or complete
+            FinishedRetirementCompleteBase = 1400,
             FinishedRetirementCompleteSectorOf3 = 1403,
             FinishedRetirementCompleteSectorOf4 = 1404,
             FinishedRetirementCompleteSectorOf5 = 1405,
@@ -114,6 +119,7 @@ namespace UserInterface {
             FinishedRetirementCompleteSectorOf12 = 1412,
 
             //// Finished session fastest
+            FinishedSessionFastestBase = 1500,
             FinishedSessionFastestSectorOf3 = 1503,
             FinishedSessionFastestSectorOf4 = 1504,
             FinishedSessionFastestSectorOf5 = 1505,
@@ -126,6 +132,7 @@ namespace UserInterface {
             FinishedSessionFastestSectorOf12 = 1512,
 
             //// Not run
+            NotRunBase = 1600,
             NotRunSectorOf3 = 1603,
             NotRunSectorOf4 = 1604,
             NotRunSectorOf5 = 1605,
@@ -138,6 +145,7 @@ namespace UserInterface {
             NotRunSectorOf12 = 1612,
 
             //// Running in pits
+            RunningInPitsBase = 1700,
             RunningInPitsSectorOf3 = 1703,
             RunningInPitsSectorOf4 = 1704,
             RunningInPitsSectorOf5 = 1705,
@@ -150,6 +158,7 @@ namespace UserInterface {
             RunningInPitsSectorOf12 = 1712,
 
             //// Running invalid
+            RunningInvalidBase = 1800,
             RunningInvalidSectorOf3 = 1803,
             RunningInvalidSectorOf4 = 1804,
             RunningInvalidSectorOf5 = 1805,
@@ -162,6 +171,7 @@ namespace UserInterface {
             RunningInvalidSectorOf12 = 1812,
 
             //// Running on track
+            RunningOnTrackBase = 1900,
             RunningOnTrackSectorOf3 = 1903,
             RunningOnTrackSectorOf4 = 1904,
             RunningOnTrackSectorOf5 = 1905,

@@ -53,11 +53,18 @@ void UserInterface::Widget::Standings::onQualiStart(const Packet::Event::QualiSt
         for (const auto driverInfo : dataPacket->m_participants) {
 
             UserInterface::Widget::DriverEntryQuali* entry = new UserInterface::Widget::DriverEntryQuali(m_parent);
-            m_driverData.insert(driverInfo.m_index, entry);
             if (entry) {
 
+                m_driverData.insert(driverInfo.m_index, entry);
                 entry->setSize(m_width, std::ceil(m_height / 22), false);
-                entry->init(driverInfo);
+                QList<uint8_t> convertedList;
+                // just copying to a Qt container
+                for (const uint8_t& sectorConf : dataPacket->m_sectorConfiguration) {
+
+                    convertedList.push_back(sectorConf);
+
+                }
+                entry->init(driverInfo, convertedList);
 
             }
 
@@ -79,11 +86,12 @@ void UserInterface::Widget::Standings::onRaceStart(const Packet::Event::RaceStar
         for (const auto driverInfo : dataPacket->m_participants) {
 
             UserInterface::Widget::DriverEntryRace* entry = new UserInterface::Widget::DriverEntryRace(m_parent);
-            m_driverData.insert(driverInfo.m_index, entry);
             if (entry) {
 
+                m_driverData.insert(driverInfo.m_index, entry);
                 entry->setSize(m_width, std::ceil(m_height / 22), false);
-                entry->init(driverInfo);
+                // the sector configuration is not needed; hence, pass just an empty list
+                entry->init(driverInfo, {});
 
             }
 

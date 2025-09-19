@@ -2,6 +2,7 @@
 #define USERINTERFACE_WIDGETS_INCLUDE_DRIVER_ENTRY_QUALI_H_
 
 #include <cstdint>
+#include <QList>
 #include "base/Container.h"
 #include "data/internal/LapTime.h"
 #include "data/internal/Participant.h"
@@ -18,6 +19,7 @@ namespace UserInterface {
     namespace Widget {
 
         class LapInfoContainer;
+        class SectorInfoArray;
         class TeamIcon;
         class TextInterface;
 
@@ -28,7 +30,7 @@ namespace UserInterface {
             public:
             DriverEntryQuali(QWidget* parent = 0);
             virtual ~DriverEntryQuali() = default;
-            void init(const Session::Internal::Participant& dataPacket);
+            void init(const Session::Internal::Participant& dataPacket, const QList<uint8_t> sectorConfiguration);
             void updatePosition(const uint8_t newPosition);
             void updateStatus(const Participant::Internal::Status status);
             void newSessionBestLap(const Lap::Internal::Time newLapTime, const bool isThisDrivers);
@@ -54,6 +56,7 @@ namespace UserInterface {
             UserInterface::Widget::TextInterface* m_driverName;
             UserInterface::Widget::LapInfoContainer* m_personalBestLap;
             UserInterface::Widget::LapInfoContainer* m_lastLap;
+            UserInterface::Widget::SectorInfoArray* m_sectorArray;
 
         };
 

@@ -26,7 +26,7 @@ namespace UserInterface {
             public:
             IDriverEntry();
             virtual ~IDriverEntry() = default;
-            virtual void init(const Session::Internal::Participant& dataPacket) = 0;
+            virtual void init(const Session::Internal::Participant& dataPacket, const QList<uint8_t> sectorConfiguration) = 0;
             virtual void updatePosition(const uint8_t newPosition) {};
             virtual void updatePenalties(const Penalty::Internal::Type type, const int32_t change) {};
             virtual void updateStatus(const Participant::Internal::Status status) {};

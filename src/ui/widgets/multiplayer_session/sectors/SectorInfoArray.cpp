@@ -126,6 +126,8 @@ void UserInterface::Widget::SectorInfoArray::Init(QList<uint8_t> sectorConfigura
 
 	}
 
+	RedoDisplay();
+
 }
 
 
@@ -142,6 +144,8 @@ void UserInterface::Widget::SectorInfoArray::updateSector(const uint8_t sectorID
 
 	}
 
+	RedoDisplay();
+
 }
 
 
@@ -157,6 +161,8 @@ void UserInterface::Widget::SectorInfoArray::updateMiniSector(const uint8_t sect
 		sector->updateMiniSector(miniSectorID, perf);
 
 	}
+
+	RedoDisplay();
 
 }
 
@@ -190,7 +196,7 @@ void UserInterface::Widget::SectorInfoArray::RedoDisplay() {
 		}
 
 		// display maximum of 3 sectors
-        if (displayCount == (UserInterface::Style::SectorInfoContainerMaxNum - 1)) break;
+        if (displayCount == UserInterface::Style::SectorInfoContainerMaxNum) break;
 
     }
 

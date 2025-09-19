@@ -192,6 +192,29 @@ void UserInterface::Widget::DriverEntryQuali::newLatestLap(const Lap::Internal::
 
 
 
+void UserInterface::Widget::DriverEntryQuali::sectorChange(const bool isMinisector, const uint8_t orderID, const uint8_t parentOrderID,
+    const Lap::Internal::Status sectorStatus, const Lap::Internal::Performance sectorPerf, const Lap::Internal::Time& sectorTime) {
+
+    if (m_sectorArray) {
+
+        if (isMinisector) {
+
+            m_sectorArray->updateMiniSector(parentOrderID, orderID, sectorPerf);
+
+        }
+        else
+        {
+
+            m_sectorArray->updateSector(orderID, sectorTime, sectorPerf);
+
+        }
+
+    }
+
+}
+
+
+
 void UserInterface::Widget::DriverEntryQuali::move(const uint16_t x, const uint16_t y, const bool centerAlignmentX, const bool centerAlignmentY) {
 
     m_x = centerAlignmentX ? x - (width() / 2) : x;

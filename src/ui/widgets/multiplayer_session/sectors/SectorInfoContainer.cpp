@@ -169,7 +169,9 @@ void UserInterface::Widget::SectorInfoContainer::updateSector(const Lap::Interna
 
 void UserInterface::Widget::SectorInfoContainer::updateMiniSector(const uint8_t minisectorParentOrderID, const Lap::Internal::Performance perf) {
 
-    if (!m_miniSectorIcons.empty() || minisectorParentOrderID > m_miniSectorIcons.size()) return;
+    if (!m_miniSectorIcons.empty() ||
+        minisectorParentOrderID > m_miniSectorIcons.size() ||
+        minisectorParentOrderID == 0) return;
 
     m_miniSectorIcons[minisectorParentOrderID - 1]->performanceChanged(perf);
 

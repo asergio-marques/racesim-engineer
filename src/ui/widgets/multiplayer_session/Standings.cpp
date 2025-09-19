@@ -50,7 +50,7 @@ void UserInterface::Widget::Standings::onQualiStart(const Packet::Event::QualiSt
 
     if (dataPacket && !m_initialParamsSet) {
 
-        for (const auto driverInfo : dataPacket->m_participants) {
+        for (const auto& driverInfo : dataPacket->m_participants) {
 
             UserInterface::Widget::DriverEntryQuali* entry = new UserInterface::Widget::DriverEntryQuali(m_parent);
             if (entry) {
@@ -83,7 +83,7 @@ void UserInterface::Widget::Standings::onRaceStart(const Packet::Event::RaceStar
 
     if (dataPacket && !m_initialParamsSet) {
 
-        for (const auto driverInfo : dataPacket->m_participants) {
+        for (const auto& driverInfo : dataPacket->m_participants) {
 
             UserInterface::Widget::DriverEntryRace* entry = new UserInterface::Widget::DriverEntryRace(m_parent);
             if (entry) {
@@ -110,7 +110,7 @@ void UserInterface::Widget::Standings::onOvertake(const Packet::Event::Overtake*
 
     if (packet && m_initialParamsSet) {
 
-        for (const auto overtakeData : packet->GetData()) {
+        for (const auto& overtakeData : packet->GetData()) {
 
             UserInterface::Widget::IDriverEntry* entry = m_driverData[overtakeData.m_driverID];
             if (entry) {
@@ -205,6 +205,25 @@ void UserInterface::Widget::Standings::onTyreChanged(const Packet::Event::TyreCh
                 dataPacket->m_tyreInfo.m_visualTyre,
                 dataPacket->m_tyreInfo.m_stintNo,
                 dataPacket->m_tyreInfo.m_stintLength);
+
+        }
+
+    }
+
+}
+
+
+
+
+void UserInterface::Widget::Standings::onSectorStateChanged(const Packet::Event::SectorStateChanged* dataPacket) {
+
+    if (dataPacket && m_initialParamsSet) {
+
+        UserInterface::Widget::IDriverEntry* entry = m_driverData[dataPacket->m_index];
+        if (entry) {
+
+            entry->sectorChange(dataPacket->m_isMiniSector, dataPacket->m_sectorParentOrderID, dataPacket->m_parentID,
+                dataPacket->m_sectorStatus, dataPacket->m_sectorPerformance, dataPacket->m_time);
 
         }
 

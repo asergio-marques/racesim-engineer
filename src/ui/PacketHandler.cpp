@@ -91,6 +91,10 @@ void UserInterface::PacketHandler::Exec() {
                     break;
                 case Packet::Event::Type::TyreChanged:
                     NotifyTyreObservers(packet);
+                    break;
+                case Packet::Event::Type::SectorStateChanged:
+                    NotifySectorChangeObservers(packet);
+                    break;
                 default:
                     // whoopsie daisy
                     break;
@@ -240,6 +244,19 @@ void UserInterface::PacketHandler::NotifyTyreObservers(Packet::Event::Interface*
 
         packet->markAsProcessed();
         emit TyreChanged(dynamic_cast<const Packet::Event::TyreChanged*>(packet));
+
+    }
+
+}
+
+
+
+void UserInterface::PacketHandler::NotifySectorChangeObservers(Packet::Event::Interface* packet) {
+
+    if (packet) {
+
+        packet->markAsProcessed();
+        emit SectorStateChanged(dynamic_cast<const Packet::Event::SectorStateChanged*>(packet));
 
     }
 

@@ -12,6 +12,7 @@
 #include "packets/event/ParticipantStatusChanged.h"
 #include "packets/event/PenaltyReceived.h"
 #include "packets/event/Overtake.h"
+#include "packets/event/SectorStateChanged.h"
 #include "packets/event/TyreChanged.h"
 
 
@@ -38,6 +39,7 @@ namespace UserInterface {
         void ParticipantStatusChanged(const Packet::Event::ParticipantStatusChanged*);
         void LapFinished(const Packet::Event::LapFinished*);
         void TyreChanged(const Packet::Event::TyreChanged*);
+        void SectorStateChanged(const Packet::Event::SectorStateChanged*);
 
         private:
         void StartTimer();
@@ -52,6 +54,7 @@ namespace UserInterface {
         void NotifyStatusChangeObservers(Packet::Event::Interface* packet);
         void NotifyLapObservers(Packet::Event::Interface* packet);
         void NotifyTyreObservers(Packet::Event::Interface* packet);
+        void NotifySectorChangeObservers(Packet::Event::Interface* packet);
 
         QList<Packet::Event::Interface*> m_packetList;
         QThread m_workerThread;

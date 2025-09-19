@@ -1,5 +1,5 @@
-#ifndef PACKETS_EVENT_INCLUDE_SECTOR_FINISHED_H_
-#define PACKETS_EVENT_INCLUDE_SECTOR_FINISHED_H_
+#ifndef PACKETS_EVENT_INCLUDE_SECTOR_STATE_CHANGED_H_
+#define PACKETS_EVENT_INCLUDE_SECTOR_STATE_CHANGED_H_
 
 #include <cstdint>
 #include <string>
@@ -15,14 +15,14 @@ namespace Packet {
 
     namespace Event {
 
-        struct SectorFinished : public Packet::Event::Interface {
+        struct SectorStateChanged : public Packet::Event::Interface {
 
             public:
             // Packet interface constructor
-            SectorFinished(const bool isPlayer, const std::string fullName, const uint8_t currentPosition);
+            SectorStateChanged(const bool isPlayer, const std::string fullName, const uint8_t currentPosition);
 
             // Destructor
-            virtual ~SectorFinished() = default;
+            virtual ~SectorStateChanged() = default;
 
             // Type identifier for the packet
             const Packet::Event::Type packetType() const override final;
@@ -54,4 +54,4 @@ namespace Packet {
 
 }
 
-#endif  //  PACKETS_EVENT_INCLUDE_SECTOR_FINISHED_H_
+#endif  //  PACKETS_EVENT_INCLUDE_SECTOR_STATE_CHANGED_H_

@@ -23,7 +23,7 @@ target_sources(${PROJECT_NAME} PRIVATE
 	QualiStart.cpp
 	RaceStart.cpp
 	RoundSessionEnd.cpp
-	SectorFinished.cpp
+	SectorStateChanged.cpp
 	TimeTrialEnd.cpp
 	TimeTrialStart.cpp
 	TyreChanged.cpp)

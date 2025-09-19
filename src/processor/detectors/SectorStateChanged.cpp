@@ -5,7 +5,7 @@
 #include "data/internal/Sector.h"
 #include "detectors/Interface.h"
 #include "detectors/Type.h"
-#include "packets/event/SectorFinished.h"
+#include "packets/event/SectorStateChanged.h"
 
 
 
@@ -51,7 +51,7 @@ bool Processor::Detector::SectorStateChanged::checkFastestInSession(Lap::Interna
         auto it = m_driverRecords->find(finishedSector.getDriverID());
         if (it != m_driverRecords->end()) {
 
-            Packet::Event::SectorFinished* packet = new Packet::Event::SectorFinished(
+            Packet::Event::SectorStateChanged* packet = new Packet::Event::SectorStateChanged(
                     it->second->m_info.m_isPlayer,
                     it->second->m_info.m_fullName,
                     it->second->getModifiableState()->posTimeData().getCurrentPosition());
@@ -85,7 +85,7 @@ void Processor::Detector::SectorStateChanged::addChangedSectorInfo(Lap::Internal
     auto it = m_driverRecords->find(finishedSector.getDriverID());
     if (it != m_driverRecords->end()) {
 
-        Packet::Event::SectorFinished* packet = new Packet::Event::SectorFinished(
+        Packet::Event::SectorStateChanged* packet = new Packet::Event::SectorStateChanged(
                     it->second->m_info.m_isPlayer,
                     it->second->m_info.m_fullName,
                     it->second->getModifiableState()->posTimeData().getCurrentPosition());

@@ -23,7 +23,7 @@ namespace Packet {
             LapFinished                 = 9,
             PenaltyReceived             = 10,
             TyreChanged                 = 11,
-            SectorFinished              = 12
+            SectorStateChanged          = 12
 
         };
     

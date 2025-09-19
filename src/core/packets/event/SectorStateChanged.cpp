@@ -1,4 +1,4 @@
-#include "packets/event/SectorFinished.h"
+#include "packets/event/SectorStateChanged.h"
 
 #include <cstdint>
 #include "data/internal/Lap.h"
@@ -9,7 +9,7 @@
 
 
 
-Packet::Event::SectorFinished::SectorFinished(const bool isPlayer, const std::string fullName, const uint8_t currentPosition) :
+Packet::Event::SectorStateChanged::SectorStateChanged(const bool isPlayer, const std::string fullName, const uint8_t currentPosition) :
     Packet::Event::Interface(isPlayer, fullName, currentPosition),
     m_index(0),
     m_parentID(0),
@@ -25,8 +25,8 @@ Packet::Event::SectorFinished::SectorFinished(const bool isPlayer, const std::st
 
 
 
-const Packet::Event::Type Packet::Event::SectorFinished::packetType() const {
+const Packet::Event::Type Packet::Event::SectorStateChanged::packetType() const {
 
-    return Packet::Event::Type::SectorFinished;
+    return Packet::Event::Type::SectorStateChanged;
 
 }

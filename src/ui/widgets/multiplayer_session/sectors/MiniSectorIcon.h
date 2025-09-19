@@ -28,7 +28,9 @@ namespace UserInterface {
             bool m_finished;
 
         };
+
     }
+
 }
 
 #endif // USERINTERFACE_WIDGETS_INCLUDE_MINI_SECTOR_ICON_H_

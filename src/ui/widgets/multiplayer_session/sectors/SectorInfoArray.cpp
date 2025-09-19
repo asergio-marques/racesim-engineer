@@ -188,7 +188,7 @@ void UserInterface::Widget::SectorInfoArray::RedoDisplay() {
 			sector->setSize(calculateSingleWidth - calcPadding, m_height, false);
 			sector->adjustSize();
 
-			uint16_t baseX = x() + ((calculateSingleWidth + calcPadding) * displayCount);
+			uint16_t baseX = x() + ((calculateSingleWidth) * displayCount);
 			sector->move(baseX, y(), false, false);
 
 			++displayCount;

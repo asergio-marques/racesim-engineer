@@ -387,7 +387,7 @@ void UserInterface::Widget::DriverEntryQuali::redoLayout() {
         m_sectorArray->adjustSize();
 
         // Add the padding, again! And the maximum width for centering!
-        totalWidth += (calcPadding * 2);
+        totalWidth += (calcPadding * 5);
         m_sectorArray->move(x() + totalWidth, y(), false, false);
 
         // Padding to be added to every tyre container icon as well, so multiply it by the number of icons to be displayed

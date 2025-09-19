@@ -1,5 +1,7 @@
 #include "detectors/SessionStartDataReady.h"
 
+#include <algorithm>
+#include "data/internal/Sector.h"
 #include "data/records/DriverRecord.h"
 #include "data/records/DriverState.h"
 #include "data/records/SessionRecord.h"
@@ -10,7 +12,6 @@
 #include "packets/event/QualiStart.h"
 #include "packets/event/RaceStart.h"
 #include "packets/event/TimeTrialStart.h"
-#include "utilities/Sector.h"
 
 
 
@@ -125,14 +126,18 @@ void Processor::Detector::SessionStartDataReady::BuildQualiStartPacket() {
     trackInfo.m_lapDistanceTotal = trackData.getTotalTrackDistance();
 
     auto sectors = trackData.copySectors();
-    const auto& sector1 = Processor::Utility::Sector::getSectorByOrderId(sectors, 1);
-    const auto& sector2 = Processor::Utility::Sector::getSectorByOrderId(sectors, 2);
-    const auto& sector3 = Processor::Utility::Sector::getSectorByOrderId(sectors, 3);
-    trackInfo.m_sector1Distance = (sector1.getEndPoint() - sector1.getStartPoint());
-    trackInfo.m_sector2Distance = (sector2.getEndPoint() - sector2.getStartPoint());
-    trackInfo.m_sector3Distance = (sector3.getEndPoint() - sector3.getStartPoint());
+    auto miniSectors = trackData.copyMiniSectors();
+    for (size_t sectorIndex = 0; sectorIndex < sectors.size(); ++sectorIndex) {
 
-    packet->m_trackInfo = trackInfo;
+        const uint8_t sectorID = sectorIndex + 1;
+        uint8_t count = std::count_if(miniSectors.begin(), miniSectors.end(), [sectorID](const Lap::Internal::Sector& miniSectorEntry) {
+            return (miniSectorEntry.getParentID() == sectorID);
+        });
+
+        packet->m_sectorConfiguration.push_back(count);
+
+    }
+    
     packet->m_settings = m_sessionRecord->getSessionSettings();
     for (const auto& recordEntry : *m_driverRecords) {
 
@@ -172,14 +177,17 @@ void Processor::Detector::SessionStartDataReady::BuildRaceStartPacket() {
     trackInfo.m_lapDistanceTotal = trackData.getTotalTrackDistance();
 
     auto sectors = trackData.copySectors();
-    const auto& sector1 = Processor::Utility::Sector::getSectorByOrderId(sectors, 1);
-    const auto& sector2 = Processor::Utility::Sector::getSectorByOrderId(sectors, 2);
-    const auto& sector3 = Processor::Utility::Sector::getSectorByOrderId(sectors, 3);
-    trackInfo.m_sector1Distance = (sector1.getEndPoint() - sector1.getStartPoint());
-    trackInfo.m_sector2Distance = (sector2.getEndPoint() - sector2.getStartPoint());
-    trackInfo.m_sector3Distance = (sector3.getEndPoint() - sector3.getStartPoint());
+    auto miniSectors = trackData.copyMiniSectors();
+    for (size_t sectorIndex = 0; sectorIndex < sectors.size(); ++sectorIndex) {
 
-    packet->m_trackInfo = trackInfo;
+        const uint8_t sectorID = sectorIndex + 1;
+        uint8_t count = std::count_if(miniSectors.begin(), miniSectors.end(), [sectorID](const Lap::Internal::Sector& miniSectorEntry) {
+            return (miniSectorEntry.getParentID() == sectorID);
+        });
+
+        packet->m_sectorConfiguration.push_back(count);
+
+    }
     packet->m_settings = m_sessionRecord->getSessionSettings();
     for (const auto& recordEntry : *m_driverRecords) {
 

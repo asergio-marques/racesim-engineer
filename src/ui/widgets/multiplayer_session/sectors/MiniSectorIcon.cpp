@@ -87,7 +87,7 @@ void UserInterface::Widget::MiniSectorIcon::reset() {
 void UserInterface::Widget::MiniSectorIcon::calculateIDAndFetch(UserInterface::Widget::StandardImage baseID) {
 
     UserInterface::PixmapFactory* instance = UserInterface::PixmapFactory::instance();
-    uint16_t basePixmapID = static_cast<uint16_t>(baseID) + m_numMinis;
+    const auto basePixmapID = static_cast<uint16_t>(baseID) + m_numMinis;
     Q_ASSERT(instance);
     if (instance) {
 

@@ -66,27 +66,43 @@ qt_add_resources(${PROJECT_NAME} "ui_elements"
     PREFIX "/"
     BASE "../resources"
     FILES
+        # Backup unknown
+        ../resources/img/icons/UnknownImageRequested.png
+        # Backgrounds
         ../resources/img/background/BackgroundLeft.png
         ../resources/img/background/BackgroundRight.png
         ../resources/img/background/SingleScreenBG.png
+        # Lap details
         ../resources/img/icons/FastestLap.png
         ../resources/img/icons/LapDetailsDarkGreen.png
         ../resources/img/icons/LapDetailsLightGreen.png
         ../resources/img/icons/LapDetailsPurple.png
         ../resources/img/icons/LapDetailsRed.png
+        # Loading logo
         ../resources/img/icons/LogoLoadingCenter.png
         ../resources/img/icons/LogoLoadingRotate.png
+        # Warnings and penalties
         ../resources/img/icons/OtherWarningIcon.png
         ../resources/img/icons/PenaltyIndicator.png
         ../resources/img/icons/PenaltyIndicatorTextBG.png
         ../resources/img/icons/RetirementIndicator.png
         ../resources/img/icons/TrackLimitWarningIcon.png
-        ../resources/img/icons/UnknownImageRequested.png
         ../resources/img/icons/tyres/Hards.png
         ../resources/img/icons/tyres/Inters.png
         ../resources/img/icons/tyres/Mediums.png
         ../resources/img/icons/tyres/Softs.png
         ../resources/img/icons/tyres/Wets.png
+        ../resources/img/icons/tyres/Wets.png
+        ../resources/img/icons/sectors//SectorOf3.png
+        ../resources/img/icons/sectors//SectorOf4.png
+        ../resources/img/icons/sectors//SectorOf5.png
+        ../resources/img/icons/sectors//SectorOf6.png
+        ../resources/img/icons/sectors//SectorOf7.png
+        ../resources/img/icons/sectors//SectorOf8.png
+        ../resources/img/icons/sectors//SectorOf9.png
+        ../resources/img/icons/sectors//SectorOf10.png
+        ../resources/img/icons/sectors//SectorOf11.png
+        ../resources/img/icons/sectors//SectorOf12.png
         ../resources/img/teams/AlfaRomeoLogo.png
         ../resources/img/teams/AlphaTauriLogo.png
         ../resources/img/teams/AlpineLogo.png

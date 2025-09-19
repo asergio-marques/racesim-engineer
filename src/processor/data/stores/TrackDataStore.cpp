@@ -25,7 +25,7 @@ bool Processor::Data::TrackDataStore::Initialized() const{
 
     if (m_tracks.empty()) return false;
 
-    bool ok = false;
+    bool ok = true;
     // check if all supported tracks have detailed data
     for (const auto& track : Processor::Utility::ConfigFileMaps::SUPPORTED_TRACKS) {
 

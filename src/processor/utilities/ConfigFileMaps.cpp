@@ -10,7 +10,7 @@
 const std::vector<Session::Internal::Track>
 Processor::Utility::ConfigFileMaps::SUPPORTED_TRACKS = {
 
-    Session::Internal::Track::AUS_Melbourne,
+    Session::Internal::Track::AUS_Melbourne/*,
     Session::Internal::Track::AUT_RedBullRing,
     Session::Internal::Track::AZE_Baku,
     Session::Internal::Track::BAH_Sakhir,
@@ -36,7 +36,7 @@ Processor::Utility::ConfigFileMaps::SUPPORTED_TRACKS = {
     Session::Internal::Track::USA_Texas,
     Session::Internal::Track::ENG_ReverseSilverstone,
     Session::Internal::Track::AUT_ReverseRedBullRing,
-    Session::Internal::Track::NED_ReverseZandvoort
+    Session::Internal::Track::NED_ReverseZandvoort*/
 
 };
 
@@ -45,7 +45,7 @@ Processor::Utility::ConfigFileMaps::SUPPORTED_TRACKS = {
 const std::map<Session::Internal::Track, std::string>
 Processor::Utility::ConfigFileMaps::ID_FILENAME_MAP = {
 
-    { Session::Internal::Track::AUS_Melbourne,              "AlbertPark" },
+    { Session::Internal::Track::AUS_Melbourne,              "AlbertPark" }/*,
     { Session::Internal::Track::AUT_RedBullRing,            "RedBullRing" },
     { Session::Internal::Track::AZE_Baku,                   "BakuStreet" },
     { Session::Internal::Track::BAH_Sakhir,                 "BahrainInternational" },
@@ -71,6 +71,6 @@ Processor::Utility::ConfigFileMaps::ID_FILENAME_MAP = {
     { Session::Internal::Track::USA_Texas,                  "COTA" },
     { Session::Internal::Track::ENG_ReverseSilverstone,     "SilverstoneReverse" },
     { Session::Internal::Track::AUT_ReverseRedBullRing,     "RedBullRingReverse" },
-    { Session::Internal::Track::NED_ReverseZandvoort,       "ZandvoortReverse" }
+    { Session::Internal::Track::NED_ReverseZandvoort,       "ZandvoortReverse" }*/
 
 };

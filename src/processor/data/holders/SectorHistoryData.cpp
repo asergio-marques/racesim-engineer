@@ -143,7 +143,7 @@ void Processor::Data::SectorHistoryData::update(const uint8_t id, const float_t 
     const Lap::Internal::Time currentLapTime, const Lap::Internal::Time previousLapTime, const Lap::Internal::Status status, const bool isValid) {
 
     // function is only meant to be used for minisectors
-    if (!m_minisector || m_isDataComplete) return;
+    if (!m_minisector || m_sectors.empty() || m_isDataComplete) return;
     bool createNew = m_sectors.empty();
 
     auto& currentSector = m_sectors.rbegin()->second;
@@ -183,7 +183,7 @@ void Processor::Data::SectorHistoryData::update(const uint8_t id, const float_t 
     const Lap::Internal::Status status, const bool isValid) {
 
     // function is only meant to be used for sectors
-    if (m_minisector || sectorTimes.empty() || m_isDataComplete) return;
+    if (m_minisector || m_sectors.empty() || sectorTimes.empty() || m_isDataComplete) return;
     bool createNew = m_sectors.empty();
 
     auto& currentSector = m_sectors.rbegin()->second;

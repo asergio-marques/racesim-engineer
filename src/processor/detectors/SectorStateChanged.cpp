@@ -1,4 +1,4 @@
-#include "detectors/SectorFinished.h"
+#include "detectors/SectorStateChanged.h"
 
 #include "data/records/DriverRecord.h"
 #include "data/records/SessionRecord.h"
@@ -10,15 +10,15 @@
 
 
 
-const Processor::Detector::Type Processor::Detector::SectorFinished::GetType() const {
+const Processor::Detector::Type Processor::Detector::SectorStateChanged::GetType() const {
 
-    return Processor::Detector::Type::SectorFinished;
+    return Processor::Detector::Type::SectorStateChanged;
 
 }
 
 
 
-void Processor::Detector::SectorFinished::Init(Processor::Data::SessionRecord* sessionRecord,
+void Processor::Detector::SectorStateChanged::Init(Processor::Data::SessionRecord* sessionRecord,
     std::map<const uint8_t, Processor::Data::DriverRecord*>* driverRecords) {
 
     if (m_sessionRecord && m_driverRecords) return;
@@ -29,7 +29,7 @@ void Processor::Detector::SectorFinished::Init(Processor::Data::SessionRecord* s
 
 
 
-void Processor::Detector::SectorFinished::Deinit() {
+void Processor::Detector::SectorStateChanged::Deinit() {
 
     if (!m_sessionRecord || !m_driverRecords) return;
 
@@ -39,7 +39,7 @@ void Processor::Detector::SectorFinished::Deinit() {
 
 
 
-bool Processor::Detector::SectorFinished::checkFastestInSession(Lap::Internal::Sector& finishedSector) {
+bool Processor::Detector::SectorStateChanged::checkFastestInSession(Lap::Internal::Sector& finishedSector) {
 
     if (!m_sessionRecord || !m_sessionRecord->getModifiableState() ||
         (finishedSector.m_performance == Lap::Internal::Performance::FinishedPits) ||
@@ -75,7 +75,7 @@ bool Processor::Detector::SectorFinished::checkFastestInSession(Lap::Internal::S
 
 
 
-void Processor::Detector::SectorFinished::AddFinishedSectorInfo(Lap::Internal::Sector& finishedSector) {
+void Processor::Detector::SectorStateChanged::addChangedSectorInfo(Lap::Internal::Sector& finishedSector) {
 
     if (!m_sessionRecord || !m_sessionRecord->getModifiableState() ||
         (finishedSector.m_performance == Lap::Internal::Performance::FinishedPits) ||

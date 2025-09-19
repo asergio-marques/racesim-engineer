@@ -41,7 +41,7 @@ target_sources(${PROJECT_NAME} PRIVATE
     detectors/Overtake.cpp
     detectors/ParticipantStatusChanged.cpp
     detectors/PenaltyReceived.cpp
-    detectors/SectorFinished.cpp
+    detectors/SectorStateChanged.cpp
     detectors/SessionEndDataReady.cpp
     detectors/SessionStartDataReady.cpp
     detectors/TyreChanged.cpp

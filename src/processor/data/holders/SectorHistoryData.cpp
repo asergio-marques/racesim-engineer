@@ -6,7 +6,7 @@
 #include "data/internal/Lap.h"
 #include "data/internal/Sector.h"
 #include "data/holders/TrackData.h"
-#include "detectors/SectorFinished.h"
+#include "detectors/SectorStateChanged.h"
 #include "utilities/Sector.h"
 
 
@@ -19,7 +19,7 @@ Processor::Data::SectorHistoryData::SectorHistoryData(const bool isMinisector,
     m_trackDataReference(trackDataReference),
     m_minisector(isMinisector),
     m_isDataComplete(false),
-    m_installedFinishedSectorDetector(nullptr) {
+    m_installedChangedSectorStateDetector(nullptr) {
 
     // Build PB map based on trackdata
     // Default PB lap is 0 for sectors and minisectors both
@@ -54,8 +54,8 @@ bool Processor::Data::SectorHistoryData::installDetector(Processor::Detector::In
 
     switch (detector->GetType()) {
 
-        case Processor::Detector::Type::SectorFinished:
-            m_installedFinishedSectorDetector = dynamic_cast<Processor::Detector::SectorFinished*>(detector);
+        case Processor::Detector::Type::SectorStateChanged:
+            m_installedChangedSectorStateDetector = dynamic_cast<Processor::Detector::SectorStateChanged*>(detector);
             return true;
 
         default:
@@ -147,57 +147,7 @@ void Processor::Data::SectorHistoryData::update(const uint8_t id, const float_t 
     bool createNew = m_sectors.empty();
 
     auto& currentSector = m_sectors.rbegin()->second;
-
-    currentSector.m_finalLapTime = currentLapTime;
-    if ((currentSector.m_status == Lap::Internal::Status::FlyingLap) &&
-        (status == Lap::Internal::Status::FlyingLap) &&
-        isValid) {
-
-        // no change
-
-    }
-    // If the current sector is marked as flying, pits has priority
-    else if ((currentSector.m_status == Lap::Internal::Status::FlyingLap) &&
-        (status == Lap::Internal::Status::FlyingLap) &&
-        !isValid) {
-
-        currentSector.m_status = Lap::Internal::Status::FlyingLapInvalid;
-        currentSector.m_performance = Lap::Internal::Performance::CurrentlyRunningInvalid;
-
-    }
-    // If the current sector is marked as flying or flying invalid, pits has priority
-    else if (((currentSector.m_status == Lap::Internal::Status::FlyingLap) ||
-        (currentSector.m_status == Lap::Internal::Status::FlyingLapInvalid)) &&
-        (status == Lap::Internal::Status::InPits)) {
-
-        currentSector.m_status = Lap::Internal::Status::InPits;
-        currentSector.m_performance = Lap::Internal::Performance::CurrentlyRunningPits;
-
-    }
-
-    if (lapDistanceRun >= currentSector.getEndPoint()) {
-
-        switch (currentSector.m_performance) {
-
-            case Lap::Internal::Performance::CurrentlyRunning:
-                currentSector.m_performance = Lap::Internal::Performance::FinishedNormal;
-                break;
-            case Lap::Internal::Performance::CurrentlyRunningPits:
-                currentSector.m_performance = Lap::Internal::Performance::FinishedPits;
-                break;
-            case Lap::Internal::Performance::CurrentlyRunningInvalid:
-                currentSector.m_performance = Lap::Internal::Performance::FinishedInvalid;
-                break;
-
-            default:
-                // do nothing, these are the only expected statuses if we've just finished this sector
-                break;
-
-        }
-        evaluateFinishedSector(currentSector);
-        createNew = true;
-
-    }
+    createNew = updateSector(currentSector, lapDistanceRun, currentLapTime, status, isValid);    
     if (createNew) {
 
         // Initialize new sectors, and add them to the overall map and to the lap data
@@ -237,57 +187,7 @@ void Processor::Data::SectorHistoryData::update(const uint8_t id, const float_t 
     bool createNew = m_sectors.empty();
 
     auto& currentSector = m_sectors.rbegin()->second;
-
-    currentSector.m_finalLapTime = sectorTimes[currentSector.getLapOrderID()];
-    if ((currentSector.m_status == Lap::Internal::Status::FlyingLap) &&
-        (status == Lap::Internal::Status::FlyingLap) &&
-        isValid) {
-
-        // no change
-
-    }
-    // If the current sector is marked as flying, pits has priority
-    else if ((currentSector.m_status == Lap::Internal::Status::FlyingLap) &&
-        (status == Lap::Internal::Status::FlyingLap) &&
-        !isValid) {
-
-        currentSector.m_status = Lap::Internal::Status::FlyingLapInvalid;
-        currentSector.m_performance = Lap::Internal::Performance::CurrentlyRunningInvalid;
-
-    }
-    // If the current sector is marked as flying or flying invalid, pits has priority
-    else if (((currentSector.m_status == Lap::Internal::Status::FlyingLap) ||
-        (currentSector.m_status == Lap::Internal::Status::FlyingLapInvalid)) &&
-        (status == Lap::Internal::Status::InPits)) {
-
-        currentSector.m_status = Lap::Internal::Status::InPits;
-        currentSector.m_performance = Lap::Internal::Performance::CurrentlyRunningPits;
-
-    }
-
-    if (lapDistanceRun >= currentSector.getEndPoint()) {
-
-        switch (currentSector.m_performance) {
-
-            case Lap::Internal::Performance::CurrentlyRunning:
-                currentSector.m_performance = Lap::Internal::Performance::FinishedNormal;
-                break;
-            case Lap::Internal::Performance::CurrentlyRunningPits:
-                currentSector.m_performance = Lap::Internal::Performance::FinishedPits;
-                break;
-            case Lap::Internal::Performance::CurrentlyRunningInvalid:
-                currentSector.m_performance = Lap::Internal::Performance::FinishedInvalid;
-                break;
-
-            default:
-                // do nothing, these are the only expected statuses if we've just finished this sector
-                break;
-
-        }
-        evaluateFinishedSector(currentSector);
-        createNew = true;
-
-    }
+    createNew = updateSector(currentSector, lapDistanceRun, sectorTimes[currentSector.getLapOrderID()], status, isValid);
     if (createNew) {
 
         // Initialize new sectors, and add them to the overall map and to the lap data
@@ -386,34 +286,53 @@ void Processor::Data::SectorHistoryData::initializeSector(Lap::Internal::Sector&
 
 
 
-void Processor::Data::SectorHistoryData::updateSector(Lap::Internal::Sector& previousSector, Lap::Internal::Sector& currentSector,
-    const Lap::Internal::Time currentLapTime, const Lap::Internal::Status lapStatus) {
-
-    // check if previous sector is the same as the current sector;
-    // this will make the first sector and minisector easier to handle
-    if (previousSector == currentSector) {
-
-        // TODO
-        return;
-    }
-
-    // if we actually have a good previous sector, let's use it as a basis for other stuff shall we
+bool Processor::Data::SectorHistoryData::updateSector(Lap::Internal::Sector& currentSector, const float_t lapDistanceRun,
+    const Lap::Internal::Time currentLapTime, const Lap::Internal::Status lapStatus, const bool isValid) {
 
     currentSector.m_finalLapTime = currentLapTime;
-    // Only "flying lap" (interpreted as on-track) and "in pits" are expected inputs
-    // the status may depend on the previous sector, hence why we need it here as well
-    switch (lapStatus) {
-        case Lap::Internal::Status::FlyingLap:
-            break;
+    if ((currentSector.m_status == Lap::Internal::Status::FlyingLap) &&
+        (lapStatus == Lap::Internal::Status::FlyingLap) &&
+        !isValid) {
 
-        case Lap::Internal::Status::InPits:
-            break;
-
-        default:
-            currentSector.m_status = Lap::Internal::Status::InvalidUnknown;
-            currentSector.m_performance = Lap::Internal::Performance::InvalidUnknown;
+        currentSector.m_status = Lap::Internal::Status::FlyingLapInvalid;
+        currentSector.m_performance = Lap::Internal::Performance::CurrentlyRunningInvalid;
+        m_installedChangedSectorStateDetector->addChangedSectorInfo(currentSector);
 
     }
+    // If the current sector is marked as flying or flying invalid, pits has priority
+    else if (((currentSector.m_status == Lap::Internal::Status::FlyingLap) ||
+        (currentSector.m_status == Lap::Internal::Status::FlyingLapInvalid)) &&
+        (lapStatus == Lap::Internal::Status::InPits)) {
+
+        currentSector.m_status = Lap::Internal::Status::InPits;
+        currentSector.m_performance = Lap::Internal::Performance::CurrentlyRunningPits;
+        m_installedChangedSectorStateDetector->addChangedSectorInfo(currentSector);
+
+    }
+    if (lapDistanceRun >= currentSector.getEndPoint()) {
+
+        switch (currentSector.m_performance) {
+
+            case Lap::Internal::Performance::CurrentlyRunning:
+                currentSector.m_performance = Lap::Internal::Performance::FinishedNormal;
+                break;
+            case Lap::Internal::Performance::CurrentlyRunningPits:
+                currentSector.m_performance = Lap::Internal::Performance::FinishedPits;
+                break;
+            case Lap::Internal::Performance::CurrentlyRunningInvalid:
+                currentSector.m_performance = Lap::Internal::Performance::FinishedInvalid;
+                break;
+
+            default:
+                // do nothing, these are the only expected statuses if we've just finished this sector
+                break;
+
+        }
+        evaluateFinishedSector(currentSector);
+        return true;
+
+    }
+    return false;
 
 }
 
@@ -421,14 +340,14 @@ void Processor::Data::SectorHistoryData::updateSector(Lap::Internal::Sector& pre
 
 void Processor::Data::SectorHistoryData::evaluateFinishedSector(Lap::Internal::Sector& finishedSector) {
 
-    if (!m_installedFinishedSectorDetector || finishedSector.getUniqueOverallID() == 0 ||
+    if (!m_installedChangedSectorStateDetector || finishedSector.getUniqueOverallID() == 0 ||
         (finishedSector.m_performance == Lap::Internal::Performance::FinishedPits) ||
         (finishedSector.m_performance == Lap::Internal::Performance::FinishedInvalid) ||
         (finishedSector.m_performance == Lap::Internal::Performance::FinishedRetired)) return;
 
     // check if this new finished sector is the fastest in the session
     // if it is, it's also this driver's PB
-    if (m_installedFinishedSectorDetector->checkFastestInSession(finishedSector)) {
+    if (m_installedChangedSectorStateDetector->checkFastestInSession(finishedSector)) {
 
         m_personalBestSectorMap[finishedSector.getLapOrderID()] = finishedSector.getUniqueOverallID();
 
@@ -462,7 +381,7 @@ void Processor::Data::SectorHistoryData::evaluateFinishedSector(Lap::Internal::S
 
                 }
 
-                m_installedFinishedSectorDetector->AddFinishedSectorInfo(finishedSector);
+                m_installedChangedSectorStateDetector->addChangedSectorInfo(finishedSector);
 
             }
 

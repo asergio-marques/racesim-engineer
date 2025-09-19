@@ -17,7 +17,7 @@ namespace Processor {
     namespace Detector {
 
         class Interface;
-        class SectorFinished;
+        class SectorStateChanged;
 
     }
 
@@ -67,8 +67,9 @@ namespace Processor {
 
             // Auxiliary function that compares the current sector's current information to new information
             // and to the previous sector's information to deduce a new state
-            void updateSector(Lap::Internal::Sector& previousSector, Lap::Internal::Sector& currentSector,
-                const Lap::Internal::Time currentLapTime, const Lap::Internal::Status lapStatus);
+            // returns true if a new sector should be created
+            bool updateSector(Lap::Internal::Sector& currentSector, const float_t lapDistanceRun,
+                const Lap::Internal::Time currentLapTime, const Lap::Internal::Status lapStatus, const bool isValid);
 
             // Auxiliary function that checks whether a finished sector is a session best, a personal best, or nothing special
             // Communicates with the detector
@@ -95,7 +96,7 @@ namespace Processor {
             bool m_isDataComplete;
 
             // Pointer to the finished sector detector currently installed
-            Processor::Detector::SectorFinished* m_installedFinishedSectorDetector;
+            Processor::Detector::SectorStateChanged* m_installedChangedSectorStateDetector;
 
         };
 

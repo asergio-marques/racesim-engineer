@@ -19,14 +19,14 @@ namespace Processor {
 
     namespace Detector {
 
-        class SectorFinished final : public Processor::Detector::Interface {
+        class SectorStateChanged final : public Processor::Detector::Interface {
 
             public:
             // Default constructor
-            SectorFinished() = default;
+            SectorStateChanged() = default;
 
             // Default destructor
-            ~SectorFinished() = default;
+            ~SectorStateChanged() = default;
 
             // Returns the identifying type of this detector
             const Processor::Detector::Type GetType() const override;
@@ -43,7 +43,7 @@ namespace Processor {
             bool checkFastestInSession(Lap::Internal::Sector& finishedSector);
 
             // Interface function to create new packets for communicating changes to the UI
-            void AddFinishedSectorInfo(Lap::Internal::Sector& finishedSector);
+            void addChangedSectorInfo(Lap::Internal::Sector& changedSector);
 
             private:
             // Main execution function (does nothing)

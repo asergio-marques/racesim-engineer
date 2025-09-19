@@ -7,6 +7,7 @@
 #include "detectors/Overtake.h"
 #include "detectors/PenaltyReceived.h"
 #include "detectors/ParticipantStatusChanged.h"
+#include "detectors/SectorStateChanged.h"
 #include "detectors/SessionStartDataReady.h"
 #include "detectors/SessionEndDataReady.h"
 #include "detectors/TyreChanged.h"
@@ -34,6 +35,7 @@ Processor::Facade::Facade() :
         m_detectors.push_back(new Processor::Detector::PenaltyReceived);
         m_detectors.push_back(new Processor::Detector::ParticipantStatusChanged);
         m_detectors.push_back(new Processor::Detector::TyreChanged);
+        m_detectors.push_back(new Processor::Detector::SectorStateChanged);
 
     }
 

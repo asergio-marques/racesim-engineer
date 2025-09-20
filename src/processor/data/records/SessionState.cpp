@@ -66,9 +66,9 @@ bool Processor::Data::SessionState::evaluateCompletedLap(const Processor::Data::
 
 
 
-bool Processor::Data::SessionState::evaluateCompletedSector(Lap::Internal::Sector& finishedSector) {
+const Lap::Internal::Sector Processor::Data::SessionState::evaluateCompletedSector(Lap::Internal::Sector& finishedSector, bool& isFastestSector) {
 
-    if (!Processor::Utility::Sector::validate(finishedSector) || !finishedSector.m_finalLapTime.valid()) return false;
+    if (!Processor::Utility::Sector::validate(finishedSector) || !finishedSector.m_finalLapTime.valid()) return Processor::Utility::Sector::INVALID_SECTOR;
 
     auto& mapToChange = m_fastestSectors;
 
@@ -81,21 +81,26 @@ bool Processor::Data::SessionState::evaluateCompletedSector(Lap::Internal::Secto
     auto it = mapToChange.find(finishedSector.getLapOrderID());
     if (it != mapToChange.end()) {
 
-        auto& fastestMinisector = it->second;
+        auto& fastestSector = it->second;
+        auto oldFastestSector = fastestSector;
         if (finishedSector.totalTime().valid() &&
-            finishedSector.totalTime() < fastestMinisector.totalTime()) {
+            finishedSector.totalTime() < fastestSector.totalTime()) {
 
+            isFastestSector = true;
             finishedSector.m_performance = Lap::Internal::Performance::FinishedSessionBest;
-            fastestMinisector = finishedSector;
-            return true;
+            fastestSector = finishedSector;
+            oldFastestSector.m_performance = Lap::Internal::Performance::FinishedPersonalBest;
+            return oldFastestSector;
 
         }
 
-        return false;
+        isFastestSector = false;
+        return Processor::Utility::Sector::INVALID_SECTOR;
 
     }
 
-    return false;
+    isFastestSector = false;
+    return Processor::Utility::Sector::INVALID_SECTOR;
 
 }
 

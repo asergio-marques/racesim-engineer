@@ -119,7 +119,8 @@ void UserInterface::Widget::SectorInfoArray::Init(QList<uint8_t> sectorConfigura
         auto sector = new UserInterface::Widget::SectorInfoContainer(m_widgetParent);
         if (sector) {
 
-            sector->init(sectorConfiguration[i]);
+            // Assume lap 1 when init
+            sector->init(1, sectorConfiguration[i]);
             m_sectors.push_back(sector);
 
         }
@@ -132,19 +133,20 @@ void UserInterface::Widget::SectorInfoArray::Init(QList<uint8_t> sectorConfigura
 
 
 
-void UserInterface::Widget::SectorInfoArray::updateSector(const uint8_t sectorID, const Lap::Internal::Time& time,
-    const Lap::Internal::Performance perf) {
+void UserInterface::Widget::SectorInfoArray::updateSector(const uint8_t lapID, const uint8_t sectorID,
+    const Lap::Internal::Time& time, const Lap::Internal::Performance perf) {
 
     if (m_sectors.empty() || sectorID > m_sectors.size()) return;
 
     auto* sector = m_sectors[sectorID - 1];
     if (sector) {
 
-        sector->updateSector(perf, time);
+        sector->updateSector(lapID, perf, time);
 
     }
     // If sector 1 was finished, all other sectors should be cleared
-    if (sectorID == 1 &&
+    // Avoid doing it on lap 1 otherwise sectors 2+ will be out of sync
+    if (sectorID == 1 && lapID != 1 &&
         (perf == Lap::Internal::Performance::FinishedNormal ||
             perf == Lap::Internal::Performance::FinishedPits ||
             perf == Lap::Internal::Performance::FinishedInvalid ||
@@ -158,6 +160,7 @@ void UserInterface::Widget::SectorInfoArray::updateSector(const uint8_t sectorID
             if (otherSector) {
 
                 otherSector->clear();
+                otherSector->incrementLap();
 
             }
 
@@ -171,15 +174,32 @@ void UserInterface::Widget::SectorInfoArray::updateSector(const uint8_t sectorID
 
 
 
-void UserInterface::Widget::SectorInfoArray::updateMiniSector(const uint8_t sectorID, const uint8_t miniSectorID,
-    const Lap::Internal::Performance perf) {
+void UserInterface::Widget::SectorInfoArray::updateMiniSector(const uint8_t lapID, const uint8_t sectorID,
+    const uint8_t miniSectorID, const Lap::Internal::Performance perf) {
 
     if (m_sectors.empty() || sectorID > m_sectors.size()) return;
 
     auto* sector = m_sectors[sectorID - 1];
     if (sector) {
 
-        sector->updateMiniSector(miniSectorID, perf);
+        sector->updateMiniSector(lapID, miniSectorID, perf);
+
+    }
+
+    RedoDisplay();
+
+}
+
+
+
+void UserInterface::Widget::SectorInfoArray::incrementLap() {
+
+    if (m_sectors.empty()) return;
+
+    auto* sector = m_sectors[0];
+    if (sector) {
+
+        sector->incrementLap();
 
     }
 

@@ -102,6 +102,13 @@ const uint16_t Lap::Internal::Sector::getUniqueOverallID() const {
 }
 
 
+const uint8_t Lap::Internal::Sector::getLapID() const {
+
+    return m_lapID;
+
+}
+
+
 
 const uint8_t Lap::Internal::Sector::getParentID() const {
 

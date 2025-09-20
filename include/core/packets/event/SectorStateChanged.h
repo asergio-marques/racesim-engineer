@@ -30,6 +30,9 @@ namespace Packet {
             // Index for the participant which finished this sector
             uint8_t m_index;
 
+            // Identifier of the lap to which this sector/minisector belongs to
+            uint8_t m_lapID;
+
             // Identifier of the sector this minisector belongs to (see Lap::Internal::Sector class)
             uint8_t m_parentID;
 

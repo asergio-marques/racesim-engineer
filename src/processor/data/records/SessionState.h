@@ -35,7 +35,7 @@ namespace Processor {
             bool evaluateCompletedLap(const Processor::Data::LapInfo& finishedLap);
 
             // Checks if a newly-finished sector or minisector is a new fastest for the current session
-            bool evaluateCompletedSector(Lap::Internal::Sector& finishedSector);
+            const Lap::Internal::Sector evaluateCompletedSector(Lap::Internal::Sector& finishedSector, bool& isFastestSector);
 
             // Updates the weather data for this session (and other associated sessions) with further samples
             void updateWeather(const Session::Internal::Descriptor& descriptor,

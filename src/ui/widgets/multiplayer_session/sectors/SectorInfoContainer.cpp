@@ -16,7 +16,8 @@
 UserInterface::Widget::SectorInfoContainer::SectorInfoContainer(QWidget* parent) :
     UserInterface::Widget::Container(UserInterface::Widget::ID::SectorInfo),
     m_sectorTimeText(nullptr),
-    m_miniSectorIcons() {
+    m_miniSectorIcons(),
+    m_lapID(0) {
 
     m_sectorTimeText = new UserInterface::Widget::SectorTimeText(UserInterface::Widget::ID::TyreInfo, parent);
     Q_ASSERT(m_sectorTimeText);
@@ -118,7 +119,9 @@ const int16_t UserInterface::Widget::SectorInfoContainer::y() const {
 
 
 
-void UserInterface::Widget::SectorInfoContainer::init(const uint8_t numSectors) {
+void UserInterface::Widget::SectorInfoContainer::init(const uint8_t lapID, const uint8_t numSectors) {
+
+    m_lapID = lapID;
 
     if (m_sectorTimeText) {
 
@@ -155,9 +158,10 @@ void UserInterface::Widget::SectorInfoContainer::clear() {
 
 
 
-void UserInterface::Widget::SectorInfoContainer::updateSector(const Lap::Internal::Performance perf, const Lap::Internal::Time& time) {
+void UserInterface::Widget::SectorInfoContainer::updateSector(const uint8_t lapID,
+    const Lap::Internal::Performance perf, const Lap::Internal::Time& time) {
 
-    if (m_sectorTimeText) {
+    if ((lapID == m_lapID) && m_sectorTimeText) {
         
         m_sectorTimeText->setTextAndColor(time, perf);
 
@@ -167,13 +171,22 @@ void UserInterface::Widget::SectorInfoContainer::updateSector(const Lap::Interna
 
 
 
-void UserInterface::Widget::SectorInfoContainer::updateMiniSector(const uint8_t minisectorParentOrderID, const Lap::Internal::Performance perf) {
+void UserInterface::Widget::SectorInfoContainer::updateMiniSector(const uint8_t lapID,
+    const uint8_t minisectorParentOrderID, const Lap::Internal::Performance perf) {
 
     if (!m_miniSectorIcons.empty() ||
         minisectorParentOrderID > m_miniSectorIcons.size() ||
-        minisectorParentOrderID == 0) return;
+        (minisectorParentOrderID == 0) ||
+        (lapID != m_lapID)) return;
 
     m_miniSectorIcons[minisectorParentOrderID - 1]->performanceChanged(perf);
+
+}
+
+
+void UserInterface::Widget::SectorInfoContainer::incrementLap() {
+
+    ++m_lapID;
 
 }
 

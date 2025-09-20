@@ -38,6 +38,9 @@ namespace Lap::Internal {
         // Retrieves the identifier of this sector/minisector in the entire race
         const uint16_t getUniqueOverallID() const;
 
+        // Retrieves the identifier of the lap this sector/minisector is part of
+        const uint8_t getLapID() const;
+
         // Retrieves the identifier of the sector this minisector belongs to
         const uint8_t getParentID() const;
 

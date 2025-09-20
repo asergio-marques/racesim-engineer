@@ -36,7 +36,7 @@ namespace UserInterface {
             virtual void newLatestLap(const Lap::Internal::Time newLapTime) {}
             virtual void newTyres(const Tyre::Internal::Actual actualTyre, const Tyre::Internal::Visual visualTyre,
                 const uint8_t stintNo, const uint8_t tyreAge) {}
-            virtual void sectorChange(const bool isMinisector, const uint8_t orderID, const uint8_t parentOrderID,
+            virtual void sectorChange(const bool isMinisector, const uint8_t lapID, const uint8_t orderID, const uint8_t parentOrderID,
                 const Lap::Internal::Status sectorStatus, const Lap::Internal::Performance sectorPerf, const Lap::Internal::Time& sectorTime) {}
             const uint8_t GetCurrentPosition() const;
 

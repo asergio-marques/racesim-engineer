@@ -33,8 +33,9 @@ namespace UserInterface {
             const int16_t y() const override;
 
             void Init(QList<uint8_t> sectorConfiguration);
-            void updateSector(const uint8_t sectorID, const Lap::Internal::Time& time, const Lap::Internal::Performance perf);
-            void updateMiniSector(const uint8_t sectorID, const uint8_t miniSectorID, const Lap::Internal::Performance perf);
+            void updateSector(const uint8_t lapID, const uint8_t sectorID, const Lap::Internal::Time& time, const Lap::Internal::Performance perf);
+            void updateMiniSector(const uint8_t lapID, const uint8_t sectorID, const uint8_t miniSectorID, const Lap::Internal::Performance perf);
+            void incrementLap();
 
             private:
             void RedoDisplay();

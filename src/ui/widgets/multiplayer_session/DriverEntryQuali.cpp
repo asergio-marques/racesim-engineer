@@ -158,6 +158,11 @@ void UserInterface::Widget::DriverEntryQuali::newSessionBestLap(const Lap::Inter
         }
 
     }
+    if (m_sectorArray) {
+
+        m_sectorArray->incrementLap();
+
+    }
 
 }
 
@@ -174,6 +179,11 @@ void UserInterface::Widget::DriverEntryQuali::newPersonalBestLap(const Lap::Inte
         m_lastLap->updateTime(newLapTime);
 
     }
+    if (m_sectorArray) {
+
+        m_sectorArray->incrementLap();
+
+    }
 
 }
 
@@ -187,25 +197,30 @@ void UserInterface::Widget::DriverEntryQuali::newLatestLap(const Lap::Internal::
         m_lastLap->updateTime(newLapTime);
 
     }
+    if (m_sectorArray) {
+
+        m_sectorArray->incrementLap();
+
+    }
 
 }
 
 
 
-void UserInterface::Widget::DriverEntryQuali::sectorChange(const bool isMinisector, const uint8_t orderID, const uint8_t parentOrderID,
+void UserInterface::Widget::DriverEntryQuali::sectorChange(const bool isMinisector, const uint8_t lapID, const uint8_t orderID, const uint8_t parentOrderID,
     const Lap::Internal::Status sectorStatus, const Lap::Internal::Performance sectorPerf, const Lap::Internal::Time& sectorTime) {
 
     if (m_sectorArray) {
 
         if (isMinisector) {
 
-            m_sectorArray->updateMiniSector(parentOrderID, orderID, sectorPerf);
+            m_sectorArray->updateMiniSector(lapID, parentOrderID, orderID, sectorPerf);
 
         }
         else
         {
 
-            m_sectorArray->updateSector(orderID, sectorTime, sectorPerf);
+            m_sectorArray->updateSector(lapID, orderID, sectorTime, sectorPerf);
 
         }
 

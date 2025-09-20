@@ -36,7 +36,7 @@ namespace UserInterface {
             void newSessionBestLap(const Lap::Internal::Time newLapTime, const bool isThisDrivers) override final;
             void newPersonalBestLap(const Lap::Internal::Time newLapTime) override final;
             void newLatestLap(const Lap::Internal::Time newLapTime) override final;
-            virtual void sectorChange(const bool isMinisector, const uint8_t orderID, const uint8_t parentOrderID,
+            virtual void sectorChange(const bool isMinisector, const uint8_t lapID, const uint8_t orderID, const uint8_t parentOrderID,
                 const Lap::Internal::Status sectorStatus, const Lap::Internal::Performance sectorPerf, const Lap::Internal::Time& sectorTime) override final;
             virtual void move(const uint16_t x, const uint16_t y, const bool centerAlignmentX, const bool centerAlignmentY) override final;
             void scale(const uint8_t percent) override final;

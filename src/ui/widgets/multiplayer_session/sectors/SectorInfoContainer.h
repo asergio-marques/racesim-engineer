@@ -33,15 +33,19 @@ namespace UserInterface {
             const int16_t x() const override;
             const int16_t y() const override;
 
-            void init(const uint8_t numSectors);
+            void init(const uint8_t lapID, const uint8_t numSectors);
             void clear();
-            void updateSector(const Lap::Internal::Performance perf, const Lap::Internal::Time& time);
-            void updateMiniSector(const uint8_t minisectorParentOrderID, const Lap::Internal::Performance perf);
+            void updateSector(const uint8_t lapID, const Lap::Internal::Performance perf,
+                const Lap::Internal::Time& time);
+            void updateMiniSector(const uint8_t lapID, const uint8_t minisectorParentOrderID,
+                const Lap::Internal::Performance perf);
+            void incrementLap();
 
             protected:
             void redoLayout();
             UserInterface::Widget::SectorTimeText* m_sectorTimeText;
             QList<UserInterface::Widget::MiniSectorIcon*> m_miniSectorIcons;
+            uint8_t m_lapID;
 
         };
     }

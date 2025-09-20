@@ -222,7 +222,7 @@ void UserInterface::Widget::Standings::onSectorStateChanged(const Packet::Event:
         UserInterface::Widget::IDriverEntry* entry = m_driverData[dataPacket->m_index];
         if (entry) {
 
-            entry->sectorChange(dataPacket->m_isMiniSector, dataPacket->m_sectorParentOrderID, dataPacket->m_parentID,
+            entry->sectorChange(dataPacket->m_isMiniSector, dataPacket->m_lapID, dataPacket->m_sectorParentOrderID, dataPacket->m_parentID,
                 dataPacket->m_sectorStatus, dataPacket->m_sectorPerformance, dataPacket->m_time);
 
         }

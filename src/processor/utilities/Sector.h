@@ -16,6 +16,9 @@ namespace Processor {
             // Retrieves data about a sector of the track in which this position of a lap is located in
             static bool validate(const Lap::Internal::Sector& sector);
 
+            // Retrieves the length of one lap from the sum of the sectors' distances
+            static float_t getTotalLapDistanceFromSectors(std::vector<Lap::Internal::Sector>& sectors);
+
             // Retrieves data about a sector of the track in which this position of a lap is located in
             static Lap::Internal::Sector& getSectorByDistance(std::vector<Lap::Internal::Sector>& sectors, const uint32_t distance);
 

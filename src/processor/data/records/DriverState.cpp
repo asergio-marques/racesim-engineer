@@ -22,8 +22,8 @@ Processor::Data::DriverState::DriverState(const Processor::Data::DriverRecord* c
     m_sectorData(false, trackData),
     m_miniSectorData(true, trackData) {
 
-
-
+    m_sectorData.initialize(m_parentRecord->m_info.m_driverID);
+    m_miniSectorData.initialize(m_parentRecord->m_info.m_driverID);
 
 }
 
@@ -113,10 +113,8 @@ void Processor::Data::DriverState::updateLap(const uint8_t lapID, const Lap::Int
     // the user may not have to wait until the very last packet and may get info before
     m_lapData.updateLap(m_parentRecord->m_info.m_driverID, lapID, status,
         currentLapTime, sectorTimes, lapDistanceRun, previousLapTime, m_posTimeData.getStatus());
-    m_sectorData.update(m_parentRecord->m_info.m_driverID, lapDistanceRun,
-        sectorTimes, previousLapTime, status, isValid);
-    m_miniSectorData.update(m_parentRecord->m_info.m_driverID, lapDistanceRun,
-        currentLapTime, previousLapTime, status, isValid);
+    m_sectorData.update(m_parentRecord->m_info.m_driverID, lapDistanceRun, sectorTimes, status, isValid);
+    m_miniSectorData.update(m_parentRecord->m_info.m_driverID, lapDistanceRun, currentLapTime, status, isValid);
 
 }
 
@@ -149,5 +147,21 @@ const Processor::Data::WarningPenaltyData& Processor::Data::DriverState::warnPen
 const Processor::Data::LapHistoryData& Processor::Data::DriverState::lapData() const {
 
     return m_lapData;
+
+}
+
+
+
+const Processor::Data::SectorHistoryData& Processor::Data::DriverState::sectorData() const {
+
+    return m_sectorData;
+
+}
+
+
+
+const Processor::Data::SectorHistoryData& Processor::Data::DriverState::miniSectorData() const {
+
+    return m_miniSectorData;
 
 }

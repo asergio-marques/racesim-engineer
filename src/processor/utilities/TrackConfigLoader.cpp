@@ -77,8 +77,14 @@ Processor::Data::TrackData Processor::Utility::TrackConfigLoader::readConfig() {
     uint8_t latestSectorID = 1;
     uint8_t latestMiniSectorOrderID = 1;
 
+    // determine total number of minisectors in the layout
+    uint8_t totalMiniSectors = 0;
+    for (const auto& sectorNode : layout.children("sector"))
+        for (const auto& miniNode : sectorNode.children("minisector"))
+            ++totalMiniSectors;
+
     for (const auto& sectorNode : layout.children("sector")) {
-        
+
         float_t start = UINT32_MAX;
         float_t end = 0;
 
@@ -92,14 +98,27 @@ Processor::Data::TrackData Processor::Utility::TrackConfigLoader::readConfig() {
             if (miniEnd > end) end = miniEnd;
 
             // The number of minisectors/lap can be assumed as zero as this is merely a template
-            Lap::Internal::Sector s{ 0, latestMiniSectorOrderID, latestMiniSectorUniqueID, 0, latestSectorID, 0, miniStart, miniEnd, 0};
+            Lap::Internal::Sector s{ 0,
+                latestMiniSectorOrderID,
+                0,
+                totalMiniSectors,
+                latestSectorID,
+                latestMiniSectorUniqueID,
+                miniStart,
+                miniEnd,
+                0};
             minisectors.push_back(s);
             ++latestMiniSectorOrderID;
             ++latestMiniSectorUniqueID;
 
         }
         // The number of sectors/lap can be assumed as zero as this is merely a template
-        Lap::Internal::Sector s{ 0, latestSectorID, 0, 0, start, end};
+        Lap::Internal::Sector s{ 0,
+            latestSectorID,
+            0,
+            0,
+            start,
+            end};
         sectors.push_back(s);
         ++latestSectorID;
 

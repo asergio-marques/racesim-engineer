@@ -45,7 +45,8 @@ bool Processor::Detector::SectorStateChanged::checkFastestInSession(Lap::Interna
     if (!m_sessionRecord || !m_sessionRecord->getModifiableState() ||
         (finishedSector.m_performance == Lap::Internal::Performance::FinishedPits) ||
         (finishedSector.m_performance == Lap::Internal::Performance::FinishedInvalid) ||
-        (finishedSector.m_performance == Lap::Internal::Performance::FinishedRetired)) return false;
+        (finishedSector.m_performance == Lap::Internal::Performance::FinishedRetired) ||
+        (finishedSector.m_performance == Lap::Internal::Performance::InvalidUnknown)) return false;
 
     // If this section that has just finished is indeed the fastest in the session of its kind,
     // then the previous best is required to be revised
@@ -80,21 +81,21 @@ bool Processor::Detector::SectorStateChanged::checkFastestInSession(Lap::Interna
 
     if (Processor::Utility::Sector::validate(revisedSector)) {
 
-        auto oldBestIt = m_driverRecords->find(finishedSector.getDriverID());
+        auto oldBestIt = m_driverRecords->find(revisedSector.getDriverID());
         if (oldBestIt != m_driverRecords->end()) {
 
             Packet::Event::SectorStateChanged* oldBestSectorPacket = new Packet::Event::SectorStateChanged(
                     oldBestIt->second->m_info.m_isPlayer,
                     oldBestIt->second->m_info.m_fullName,
                     oldBestIt->second->getModifiableState()->posTimeData().getCurrentPosition());
-            oldBestSectorPacket->m_index = finishedSector.getDriverID();
-            oldBestSectorPacket->m_lapID = finishedSector.getLapID();
-            oldBestSectorPacket->m_parentID = finishedSector.getParentID();
-            oldBestSectorPacket->m_sectorParentOrderID = finishedSector.getParentOrderID();
-            oldBestSectorPacket->m_isMiniSector = finishedSector.isMiniSector();
-            oldBestSectorPacket->m_sectorStatus = finishedSector.m_status;
-            oldBestSectorPacket->m_sectorPerformance = finishedSector.m_performance;
-            oldBestSectorPacket->m_time = finishedSector.totalTime();
+            oldBestSectorPacket->m_index = revisedSector.getDriverID();
+            oldBestSectorPacket->m_lapID = revisedSector.getLapID();
+            oldBestSectorPacket->m_parentID = revisedSector.getParentID();
+            oldBestSectorPacket->m_sectorParentOrderID = revisedSector.getParentOrderID();
+            oldBestSectorPacket->m_isMiniSector = revisedSector.isMiniSector();
+            oldBestSectorPacket->m_sectorStatus = revisedSector.m_status;
+            oldBestSectorPacket->m_sectorPerformance = revisedSector.m_performance;
+            oldBestSectorPacket->m_time = revisedSector.totalTime();
             m_packetsToBeProcessed.push_back(oldBestSectorPacket);
 
         }
@@ -110,9 +111,7 @@ bool Processor::Detector::SectorStateChanged::checkFastestInSession(Lap::Interna
 void Processor::Detector::SectorStateChanged::addChangedSectorInfo(Lap::Internal::Sector& finishedSector) {
 
     if (!m_sessionRecord || !m_sessionRecord->getModifiableState() ||
-        (finishedSector.m_performance == Lap::Internal::Performance::FinishedPits) ||
-        (finishedSector.m_performance == Lap::Internal::Performance::FinishedInvalid) ||
-        (finishedSector.m_performance == Lap::Internal::Performance::FinishedRetired)) return;
+        (finishedSector.m_performance == Lap::Internal::Performance::InvalidUnknown)) return;
 
     auto it = m_driverRecords->find(finishedSector.getDriverID());
     if (it != m_driverRecords->end()) {
@@ -122,6 +121,7 @@ void Processor::Detector::SectorStateChanged::addChangedSectorInfo(Lap::Internal
                     it->second->m_info.m_fullName,
                     it->second->getModifiableState()->posTimeData().getCurrentPosition());
         packet->m_index = finishedSector.getDriverID();
+        packet->m_lapID = finishedSector.getLapID();
         packet->m_parentID = finishedSector.getParentID();
         packet->m_sectorParentOrderID = finishedSector.getParentOrderID();
         packet->m_isMiniSector = finishedSector.isMiniSector();

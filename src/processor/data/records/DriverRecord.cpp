@@ -43,7 +43,10 @@ const bool Processor::Data::DriverRecord::Initialized() const {
 
     // driver info should be always valid as it's statically initialized when the driver record is as well
     // warning data is always blank at the start
-    return m_state && m_state->posTimeData().Initialized() && m_state->lapData().Initialized();
+    return m_state && m_state->posTimeData().Initialized() &&
+        m_state->lapData().Initialized() &&
+        m_state->sectorData().Initialized() &&
+        m_state->miniSectorData().Initialized();
 
 }
 
@@ -53,7 +56,10 @@ const bool Processor::Data::DriverRecord::Finalized() const {
     
     // driver info should be always valid as it's statically initialized when the driver record is as well
     // warning data is irrelevant
-    return m_state && m_state->posTimeData().Finalized() && m_state->lapData().Finalized();
+    return m_state && m_state->posTimeData().Finalized() &&
+        m_state->lapData().Finalized() &&
+        m_state->sectorData().Finalized() &&
+        m_state->miniSectorData().Finalized();
 
 }
 

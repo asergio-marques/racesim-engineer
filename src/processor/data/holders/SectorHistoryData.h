@@ -44,18 +44,13 @@ namespace Processor {
             // Creates a record for the first lap of the session, initializing tyre data
             void initialize(const uint8_t driverID);
 
-            // Finalizes the record for the final sector if necessary
-            void completeData();
-
             // Function to update sector or minisector times by deducing from the lap distance
             void update(const uint8_t id, const float_t lapDistanceRun,
-                const Lap::Internal::Time currentLapTime, const Lap::Internal::Time previousLapTime,
-                const Lap::Internal::Status status, const bool isValid);
+                const Lap::Internal::Time currentLapTime, const Lap::Internal::Status status, const bool isValid);
             
             // Function to update sector times from a vector rather than deducing from lap distance
             void update(const uint8_t id, const float_t lapDistanceRun,
-                const std::vector<Lap::Internal::Time>& sectorTimes, const Lap::Internal::Time previousLapTime,
-                const Lap::Internal::Status status, const bool isValid);
+                const std::vector<Lap::Internal::Time>& sectorTimes, const Lap::Internal::Status status, const bool isValid);
 
             // Function to update lap status in case of retirement or session end
             void updateStatus(const uint8_t id, const Participant::Internal::Status status);
@@ -68,7 +63,7 @@ namespace Processor {
             // Auxiliary function that compares the current sector's current information to new information
             // and to the previous sector's information to deduce a new state
             // returns true if a new sector should be created
-            bool updateSector(Lap::Internal::Sector& currentSector, const float_t lapDistanceRun,
+            bool updateSector(Lap::Internal::Sector& currentSector, float_t lapDistanceRun,
                 const Lap::Internal::Time currentLapTime, const Lap::Internal::Status lapStatus, const bool isValid);
 
             // Auxiliary function that checks whether a finished sector is a session best, a personal best, or nothing special

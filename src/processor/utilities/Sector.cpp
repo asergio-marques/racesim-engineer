@@ -20,6 +20,27 @@ bool Processor::Utility::Sector::validate(const Lap::Internal::Sector& sector) {
 
 
 
+
+float_t Processor::Utility::Sector::getTotalLapDistanceFromSectors(std::vector<Lap::Internal::Sector>& sectors) {
+
+    float_t startDistance = 0.0f;
+    float_t endDistance = 0.0f;
+    for (const auto& sector : sectors) {
+
+        if (sector.getStartPoint() < startDistance)
+            startDistance = sector.getStartPoint();
+        if (sector.getEndPoint() > endDistance)
+            endDistance = sector.getEndPoint();
+
+    }
+
+
+    return endDistance - startDistance;
+
+}
+
+
+
 Lap::Internal::Sector& Processor::Utility::Sector::getSectorByDistance(
     std::vector<Lap::Internal::Sector>& sectors, const uint32_t distance) {
 

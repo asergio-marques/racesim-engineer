@@ -123,7 +123,7 @@ Generalizer::Adapter::F1_25::ConvertSessionDataPacket(const Packet::Game::F1_25:
     }
     if (std::find(allSessions.begin(), allSessions.end(), Session::Game::F1_25::Type::Race1) != allSessions.end() &&
         std::find(allSessions.begin(), allSessions.end(), Session::Game::F1_25::Type::Race2) != allSessions.end()) {
-        
+
         hasSprint = true;
 
     }
@@ -230,7 +230,6 @@ Generalizer::Adapter::F1_25::ConvertLapDataPacket(const Packet::Game::F1_25::Lap
 
             Packet::Internal::LapStatus* lapPacket =
                 new Packet::Internal::LapStatus(inputPacket->GetHeader()->GetFrameIdentifier(), i);
-            v.push_back(lapPacket);
 
             // due to some problems in qualifications sessions that have been restarted,
             // a temporary map is needed to later disambiguate grid positions
@@ -280,7 +279,7 @@ Generalizer::Adapter::F1_25::ConvertLapDataPacket(const Packet::Game::F1_25::Lap
             uint32_t sector1TimeMS = (lapInfo.m_sector1TimeMin * 60 * 1000) + lapInfo.m_sector1TimeRemainderMS;
             uint32_t sector2TimeMS = (lapInfo.m_sector2TimeMin * 60 * 1000) + lapInfo.m_sector2TimeRemainderMS;
             uint32_t sector3TimeMS = lapInfo.m_currentLapTime - sector2TimeMS - sector1TimeMS;
-            currentLapData.m_valid = lapInfo.m_currentLapInvalid;
+            currentLapData.m_valid = !lapInfo.m_currentLapInvalid;
             currentLapData.m_sectorTimes = { sector1TimeMS, sector2TimeMS, sector3TimeMS };
             // use only general members; pit in/out/cooldown status is to be extracted in processor
             switch (lapInfo.m_pitStatus) {
@@ -295,18 +294,20 @@ Generalizer::Adapter::F1_25::ConvertLapDataPacket(const Packet::Game::F1_25::Lap
                     // No distinction is made here
                     currentLapData.m_status = Lap::Internal::Status::InPits;
                     break;
-                    
+
                 default:
                     currentLapData.m_status = Lap::Internal::Status::InvalidUnknown;
 
             }
+            // in outlaps at the start of quali/practice and also formation laps in race, this is annoyingly the case
+            if (lapInfo.m_lapDistance < 0.0f) {
 
-            // add also previous lap with whatever little data we can provide
-            Packet::Internal::LapStatus::Data previousLapData;
-            previousLapData.m_lapID = lapInfo.m_currentLapNum - 1;
-            previousLapData.m_time = lapInfo.m_lastLapTime;
+                currentLapData.m_lapID = 0;
+
+            }
+            currentLapData.m_lapDistanceRun = lapInfo.m_lapDistance;
             lapPacket->InsertData(currentLapData);
-            lapPacket->InsertData(previousLapData);
+            v.push_back(lapPacket);
 
         }
 

@@ -81,6 +81,12 @@ namespace Processor {
             // Expose lap data
             const Processor::Data::LapHistoryData& lapData() const;
 
+            // Expose sector data
+            const Processor::Data::SectorHistoryData& sectorData() const;
+
+            // Expose minisector data
+            const Processor::Data::SectorHistoryData& miniSectorData() const;
+
             private:
             // Pointer to the driver record holding this state
             const Processor::Data::DriverRecord* const m_parentRecord;

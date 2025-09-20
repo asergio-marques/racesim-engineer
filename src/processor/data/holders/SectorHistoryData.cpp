@@ -107,7 +107,7 @@ void Processor::Data::SectorHistoryData::initialize(const uint8_t driverID) {
             0 };
 
         initializeSector(newMinisector, 0, Lap::Internal::Status::InvalidUnknown);
-        m_sectors.emplace(newMinisector.getUniqueOverallID(), newMinisector);
+        m_sectors.emplace(0, newMinisector);
 
     }
     else {
@@ -121,7 +121,7 @@ void Processor::Data::SectorHistoryData::initialize(const uint8_t driverID) {
             sectors.begin()->getEndPoint()};
 
         initializeSector(newSector, 0, Lap::Internal::Status::InvalidUnknown);
-        m_sectors.emplace(newSector.getUniqueOverallID(), newSector);
+        m_sectors.emplace(0, newSector);
 
     }
 
@@ -131,23 +131,18 @@ void Processor::Data::SectorHistoryData::initialize(const uint8_t driverID) {
 
 
 
-void Processor::Data::SectorHistoryData::completeData() {
-
-    // TODO
-
-}
-
-
-
 void Processor::Data::SectorHistoryData::update(const uint8_t id, const float_t lapDistanceRun,
-    const Lap::Internal::Time currentLapTime, const Lap::Internal::Time previousLapTime, const Lap::Internal::Status status, const bool isValid) {
+    const Lap::Internal::Time currentLapTime, const Lap::Internal::Status status, const bool isValid) {
 
     // function is only meant to be used for minisectors
-    if (!m_minisector || m_sectors.empty() || m_isDataComplete) return;
-    bool createNew = m_sectors.empty();
+    if (!m_minisector ||
+        m_sectors.empty() ||
+        m_isDataComplete ||
+        (status == Lap::Internal::Status::InvalidUnknown)) return;
+    bool createNew = (m_sectors.size() == 1);
 
     auto& currentSector = m_sectors.rbegin()->second;
-    createNew = updateSector(currentSector, lapDistanceRun, currentLapTime, status, isValid);    
+    createNew |= updateSector(currentSector, lapDistanceRun, currentLapTime, status, isValid);    
     if (createNew) {
 
         // Initialize new sectors, and add them to the overall map and to the lap data
@@ -163,7 +158,7 @@ void Processor::Data::SectorHistoryData::update(const uint8_t id, const float_t 
             currentMinisectorTemplate.getLapOrderID(),
             static_cast<uint16_t>(lapID - 1),
             minisectors.size(),
-            currentSectorTemplate.getParentID(),
+            currentSectorTemplate.getLapOrderID(),
             currentMinisectorTemplate.getParentOrderID(),
             currentMinisectorTemplate.getStartPoint(),
             currentMinisectorTemplate.getEndPoint(),
@@ -171,6 +166,7 @@ void Processor::Data::SectorHistoryData::update(const uint8_t id, const float_t 
 
         initializeSector(newMinisector, currentLapTime, status);
         m_sectors.emplace(newMinisector.getUniqueOverallID(), newMinisector);
+        m_installedChangedSectorStateDetector->addChangedSectorInfo(newMinisector);
 
     }
 
@@ -179,15 +175,18 @@ void Processor::Data::SectorHistoryData::update(const uint8_t id, const float_t 
 
 
 void Processor::Data::SectorHistoryData::update(const uint8_t id, const float_t lapDistanceRun,
-    const std::vector<Lap::Internal::Time>& sectorTimes, const Lap::Internal::Time previousLapTime,
-    const Lap::Internal::Status status, const bool isValid) {
+    const std::vector<Lap::Internal::Time>& sectorTimes, const Lap::Internal::Status status, const bool isValid) {
 
     // function is only meant to be used for sectors
-    if (m_minisector || m_sectors.empty() || sectorTimes.empty() || m_isDataComplete) return;
-    bool createNew = m_sectors.empty();
+    if (m_minisector ||
+        m_sectors.empty() ||
+        sectorTimes.empty() ||
+        m_isDataComplete ||
+        (status == Lap::Internal::Status::InvalidUnknown)) return;
+    bool createNew = (m_sectors.size() == 1);
 
     auto& currentSector = m_sectors.rbegin()->second;
-    createNew = updateSector(currentSector, lapDistanceRun, sectorTimes[currentSector.getLapOrderID()], status, isValid);
+    createNew |= updateSector(currentSector, lapDistanceRun, sectorTimes[currentSector.getLapOrderID()], status, isValid);
     if (createNew) {
 
         // Initialize new sectors, and add them to the overall map and to the lap data
@@ -206,6 +205,7 @@ void Processor::Data::SectorHistoryData::update(const uint8_t id, const float_t 
 
         initializeSector(newSector, sectorTimes[0], status);
         m_sectors.emplace(newSector.getUniqueOverallID(), newSector);
+        m_installedChangedSectorStateDetector->addChangedSectorInfo(newSector);
 
     }
 
@@ -260,7 +260,7 @@ void Processor::Data::SectorHistoryData::initializeSector(Lap::Internal::Sector&
     const Lap::Internal::Time currentLapTime, const Lap::Internal::Status lapStatus) {
 
     // Validate the sector first, and verify if it hasn't been inited yet
-    if (!Processor::Utility::Sector::validate(sector) || sector.m_finalLapTime != 0) return;
+    if (!Processor::Utility::Sector::validate(sector)) return;
 
     sector.m_finalLapTime = currentLapTime;
     // Only "flying lap" (interpreted as on-track) and "in pits" are expected inputs
@@ -286,7 +286,7 @@ void Processor::Data::SectorHistoryData::initializeSector(Lap::Internal::Sector&
 
 
 
-bool Processor::Data::SectorHistoryData::updateSector(Lap::Internal::Sector& currentSector, const float_t lapDistanceRun,
+bool Processor::Data::SectorHistoryData::updateSector(Lap::Internal::Sector& currentSector, float_t lapDistanceRun,
     const Lap::Internal::Time currentLapTime, const Lap::Internal::Status lapStatus, const bool isValid) {
 
     currentSector.m_finalLapTime = currentLapTime;
@@ -309,6 +309,16 @@ bool Processor::Data::SectorHistoryData::updateSector(Lap::Internal::Sector& cur
         m_installedChangedSectorStateDetector->addChangedSectorInfo(currentSector);
 
     }
+    // HACK: because in some sims the outlap at the start of quali comes with negative distance run, we need to find a way to calculate
+    // how much distance was actually covered on this outlap
+    // I really don't understand why they took this absolute assbackwards way of handling outlaps...
+    if (lapDistanceRun < 0.0f) {
+        
+        if (m_minisector) lapDistanceRun += Processor::Utility::Sector::getTotalLapDistanceFromSectors(m_trackDataReference.copyMiniSectors());
+        else lapDistanceRun += Processor::Utility::Sector::getTotalLapDistanceFromSectors(m_trackDataReference.copySectors());
+        
+    }
+
     if (lapDistanceRun >= currentSector.getEndPoint()) {
 
         switch (currentSector.m_performance) {

@@ -161,9 +161,12 @@ void UserInterface::Widget::SectorInfoContainer::clear() {
 void UserInterface::Widget::SectorInfoContainer::updateSector(const uint8_t lapID,
     const Lap::Internal::Performance perf, const Lap::Internal::Time& time) {
 
+    qDebug() << "(lapID != m_lapID) = " << (lapID != m_lapID);
+
     if ((lapID == m_lapID) && m_sectorTimeText) {
         
         m_sectorTimeText->setTextAndColor(time, perf);
+        redoLayout();
 
     }
 
@@ -174,8 +177,13 @@ void UserInterface::Widget::SectorInfoContainer::updateSector(const uint8_t lapI
 void UserInterface::Widget::SectorInfoContainer::updateMiniSector(const uint8_t lapID,
     const uint8_t minisectorParentOrderID, const Lap::Internal::Performance perf) {
 
-    if (!m_miniSectorIcons.empty() ||
-        minisectorParentOrderID > m_miniSectorIcons.size() ||
+    qDebug() << "(m_miniSectorIcons.empty()) = " << (m_miniSectorIcons.empty());
+    qDebug() << "(minisectorParentOrderID > m_miniSectorIcons.size()) = " << (minisectorParentOrderID > m_miniSectorIcons.size());
+    qDebug() << "(minisectorParentOrderID) = " << (minisectorParentOrderID);
+    qDebug() << "(lapID != m_lapID) = " << (lapID != m_lapID);
+
+    if (m_miniSectorIcons.empty() ||
+        (minisectorParentOrderID > m_miniSectorIcons.size()) ||
         (minisectorParentOrderID == 0) ||
         (lapID != m_lapID)) return;
 
@@ -195,12 +203,15 @@ void UserInterface::Widget::SectorInfoContainer::incrementLap() {
 void UserInterface::Widget::SectorInfoContainer::redoLayout() {
 
     const uint16_t rowHeight = UserInterface::Style::RowHeight.GetValue(height());
-    const uint16_t miniSectorIconHeight = UserInterface::Style::RowHeight.GetValue(height() / 2);
+    const uint16_t miniSectorIconHeight = UserInterface::Style::RowHeight.GetValue(height()) / 2;
     if (!m_miniSectorIcons.empty() && m_sectorTimeText) {
 
         m_sectorTimeText->setFontSize(UserInterface::Style::SectorTimeStatusFontSize.GetValue(height()));
         m_sectorTimeText->adjustSize();
         m_sectorTimeText->show();
+
+        // sector time text is centered horizontally to the whole widget width
+        QFontMetrics fmlaps(m_sectorTimeText->font());
 
         const uint16_t widthMiniSectorIcon = qFloor(m_width / m_miniSectorIcons.size());
         uint16_t totalWidth = 0;
@@ -218,6 +229,10 @@ void UserInterface::Widget::SectorInfoContainer::redoLayout() {
             }
 
         }
+        // center the text according to all the mini sector icons
+        const uint16_t baseXAge = x() + ((totalWidth) / 2);
+        m_sectorTimeText->move(baseXAge, y() + miniSectorIconHeight, true, false);
+
 
     }
 

@@ -45,12 +45,12 @@ namespace Processor {
             void initialize(const uint8_t driverID);
 
             // Function to update sector or minisector times by deducing from the lap distance
-            void update(const uint8_t id, const float_t lapDistanceRun,
-                const Lap::Internal::Time currentLapTime, const Lap::Internal::Status status, const bool isValid);
+            void update(const uint8_t id, float_t lapDistanceRun, const Lap::Internal::Time currentLapTime,
+                const Lap::Internal::Status status, const bool isValid);
             
             // Function to update sector times from a vector rather than deducing from lap distance
-            void update(const uint8_t id, const float_t lapDistanceRun,
-                const std::vector<Lap::Internal::Time>& sectorTimes, const Lap::Internal::Status status, const bool isValid);
+            void update(const uint8_t id, float_t lapDistanceRun, const std::vector<Lap::Internal::Time>& sectorTimes,
+                const Lap::Internal::Status status, const bool isValid);
 
             // Function to update lap status in case of retirement or session end
             void updateStatus(const uint8_t id, const Participant::Internal::Status status);

@@ -108,26 +108,26 @@ bool Processor::Detector::SectorStateChanged::checkFastestInSession(Lap::Interna
 
 
 
-void Processor::Detector::SectorStateChanged::addChangedSectorInfo(Lap::Internal::Sector& finishedSector) {
+void Processor::Detector::SectorStateChanged::addChangedSectorInfo(Lap::Internal::Sector& changedSector) {
 
     if (!m_sessionRecord || !m_sessionRecord->getModifiableState() ||
-        (finishedSector.m_performance == Lap::Internal::Performance::InvalidUnknown)) return;
+        (changedSector.m_performance == Lap::Internal::Performance::InvalidUnknown)) return;
 
-    auto it = m_driverRecords->find(finishedSector.getDriverID());
+    auto it = m_driverRecords->find(changedSector.getDriverID());
     if (it != m_driverRecords->end()) {
 
         Packet::Event::SectorStateChanged* packet = new Packet::Event::SectorStateChanged(
                     it->second->m_info.m_isPlayer,
                     it->second->m_info.m_fullName,
                     it->second->getModifiableState()->posTimeData().getCurrentPosition());
-        packet->m_index = finishedSector.getDriverID();
-        packet->m_lapID = finishedSector.getLapID();
-        packet->m_parentID = finishedSector.getParentID();
-        packet->m_sectorParentOrderID = finishedSector.getParentOrderID();
-        packet->m_isMiniSector = finishedSector.isMiniSector();
-        packet->m_sectorStatus = finishedSector.m_status;
-        packet->m_sectorPerformance = finishedSector.m_performance;
-        packet->m_time = finishedSector.totalTime();
+        packet->m_index = changedSector.getDriverID();
+        packet->m_lapID = changedSector.getLapID();
+        packet->m_parentID = changedSector.getParentID();
+        packet->m_sectorParentOrderID = changedSector.getParentOrderID();
+        packet->m_isMiniSector = changedSector.isMiniSector();
+        packet->m_sectorStatus = changedSector.m_status;
+        packet->m_sectorPerformance = changedSector.m_performance;
+        packet->m_time = changedSector.totalTime();
         m_packetsToBeProcessed.push_back(packet);
 
     }

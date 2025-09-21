@@ -18,7 +18,7 @@ Processor::Data::SectorHistoryData::SectorHistoryData(const bool isMinisector,
     m_personalBestSectorMap(),
     m_trackDataReference(trackDataReference),
     m_minisector(isMinisector),
-    m_isDataComplete(false),
+    m_isDataComplete(true),
     m_installedChangedSectorStateDetector(nullptr) {
 
     // Build PB map based on trackdata
@@ -131,7 +131,7 @@ void Processor::Data::SectorHistoryData::initialize(const uint8_t driverID) {
 
 
 
-void Processor::Data::SectorHistoryData::update(const uint8_t id, const float_t lapDistanceRun,
+void Processor::Data::SectorHistoryData::update(const uint8_t id, float_t lapDistanceRun,
     const Lap::Internal::Time currentLapTime, const Lap::Internal::Status status, const bool isValid) {
 
     // function is only meant to be used for minisectors
@@ -149,6 +149,17 @@ void Processor::Data::SectorHistoryData::update(const uint8_t id, const float_t 
         auto sectors = m_trackDataReference.copySectors();
         auto minisectors = m_trackDataReference.copyMiniSectors();
         const uint16_t lapID = std::floor(m_sectors.size() / minisectors.size()) + 1;
+
+        // HACK: because in some sims the outlap at the start of quali comes with negative distance run, we need to find a way to calculate
+        // how much distance was actually covered on this outlap
+        // I really don't understand why they took this absolute assbackwards way of handling outlaps...
+        // Even after that we need to guarantee that the distance is not negative
+        if (lapDistanceRun < 0.0f) {
+
+            lapDistanceRun += Processor::Utility::Sector::getTotalLapDistanceFromSectors(minisectors);
+            lapDistanceRun = std::fmax(0.01f, lapDistanceRun);
+
+        }
 
         const auto& currentSectorTemplate = Processor::Utility::Sector::getSectorByDistance(sectors, lapDistanceRun);
         const auto& currentMinisectorTemplate = Processor::Utility::Sector::getSectorByDistance(minisectors, lapDistanceRun);
@@ -174,7 +185,7 @@ void Processor::Data::SectorHistoryData::update(const uint8_t id, const float_t 
 
 
 
-void Processor::Data::SectorHistoryData::update(const uint8_t id, const float_t lapDistanceRun,
+void Processor::Data::SectorHistoryData::update(const uint8_t id, float_t lapDistanceRun,
     const std::vector<Lap::Internal::Time>& sectorTimes, const Lap::Internal::Status status, const bool isValid) {
 
     // function is only meant to be used for sectors
@@ -186,13 +197,23 @@ void Processor::Data::SectorHistoryData::update(const uint8_t id, const float_t 
     bool createNew = (m_sectors.size() == 1);
 
     auto& currentSector = m_sectors.rbegin()->second;
-    createNew |= updateSector(currentSector, lapDistanceRun, sectorTimes[currentSector.getLapOrderID()], status, isValid);
+    createNew |= updateSector(currentSector, lapDistanceRun, sectorTimes[currentSector.getLapOrderID() - 1], status, isValid);
     if (createNew) {
 
         // Initialize new sectors, and add them to the overall map and to the lap data
         auto sectors = m_trackDataReference.copySectors();
         const uint16_t lapID = std::floor(m_sectors.size() / sectors.size()) + 1;
 
+        // HACK: because in some sims the outlap at the start of quali comes with negative distance run, we need to find a way to calculate
+        // how much distance was actually covered on this outlap
+        // I really don't understand why they took this absolute assbackwards way of handling outlaps...
+        // Even after that we need to guarantee that the distance is not negative
+        if (lapDistanceRun < 0.0f) {
+
+            lapDistanceRun += Processor::Utility::Sector::getTotalLapDistanceFromSectors(sectors);
+            lapDistanceRun = std::fmax(0.01f, lapDistanceRun);
+
+        }
         const auto& currentSectorTemplate = Processor::Utility::Sector::getSectorByDistance(sectors, lapDistanceRun);
 
         Lap::Internal::Sector newSector{
@@ -289,8 +310,17 @@ void Processor::Data::SectorHistoryData::initializeSector(Lap::Internal::Sector&
 bool Processor::Data::SectorHistoryData::updateSector(Lap::Internal::Sector& currentSector, float_t lapDistanceRun,
     const Lap::Internal::Time currentLapTime, const Lap::Internal::Status lapStatus, const bool isValid) {
 
+    bool alwaysOverride = (currentSector.m_status == Lap::Internal::Status::InvalidUnknown);
+
     currentSector.m_finalLapTime = currentLapTime;
-    if ((currentSector.m_status == Lap::Internal::Status::FlyingLap) &&
+    if (alwaysOverride && (lapStatus == Lap::Internal::Status::FlyingLap) && isValid) {
+
+        currentSector.m_status = Lap::Internal::Status::FlyingLap;
+        currentSector.m_performance = Lap::Internal::Performance::CurrentlyRunning;
+        m_installedChangedSectorStateDetector->addChangedSectorInfo(currentSector);
+
+    }
+    else if ((alwaysOverride || (currentSector.m_status == Lap::Internal::Status::FlyingLap)) &&
         (lapStatus == Lap::Internal::Status::FlyingLap) &&
         !isValid) {
 
@@ -300,7 +330,7 @@ bool Processor::Data::SectorHistoryData::updateSector(Lap::Internal::Sector& cur
 
     }
     // If the current sector is marked as flying or flying invalid, pits has priority
-    else if (((currentSector.m_status == Lap::Internal::Status::FlyingLap) ||
+    else if ((alwaysOverride || (currentSector.m_status == Lap::Internal::Status::FlyingLap) ||
         (currentSector.m_status == Lap::Internal::Status::FlyingLapInvalid)) &&
         (lapStatus == Lap::Internal::Status::InPits)) {
 
@@ -350,10 +380,7 @@ bool Processor::Data::SectorHistoryData::updateSector(Lap::Internal::Sector& cur
 
 void Processor::Data::SectorHistoryData::evaluateFinishedSector(Lap::Internal::Sector& finishedSector) {
 
-    if (!m_installedChangedSectorStateDetector || finishedSector.getUniqueOverallID() == 0 ||
-        (finishedSector.m_performance == Lap::Internal::Performance::FinishedPits) ||
-        (finishedSector.m_performance == Lap::Internal::Performance::FinishedInvalid) ||
-        (finishedSector.m_performance == Lap::Internal::Performance::FinishedRetired)) return;
+    if (!m_installedChangedSectorStateDetector || finishedSector.getUniqueOverallID() == 0) return;
 
     // check if this new finished sector is the fastest in the session
     // if it is, it's also this driver's PB

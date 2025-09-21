@@ -41,7 +41,7 @@ void UserInterface::Widget::SectorTimeText::setTextAndColor(const Lap::Internal:
 
         case Lap::Internal::Performance::FinishedPits:
             // show "FinishedInPits" color
-            m_currentColorString = "color : rgb(85, 161, 255)";
+            m_currentColorString = "color : rgb(102, 170, 255)";
             setText(time.formattedPrint(true));
             break;
 

@@ -1,0 +1,239 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   width="1350"
+   height="800"
+   viewBox="0 0 357.18749 211.66666"
+   version="1.1"
+   id="svg1"
+   inkscape:version="1.4 (86a8ad7, 2024-10-11)"
+   sodipodi:docname="MiniSector_Color_Coding.svg"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <sodipodi:namedview
+     id="namedview1"
+     pagecolor="#ffffff"
+     bordercolor="#999999"
+     borderopacity="1"
+     inkscape:showpageshadow="2"
+     inkscape:pageopacity="0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1"
+     inkscape:document-units="mm"
+     inkscape:zoom="1.0396254"
+     inkscape:cx="545.38874"
+     inkscape:cy="360.2259"
+     inkscape:window-width="2560"
+     inkscape:window-height="1369"
+     inkscape:window-x="-8"
+     inkscape:window-y="-8"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="layer1" />
+  <defs
+     id="defs1" />
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1">
+    <rect
+       style="fill:#373737;fill-opacity:1;stroke-width:0.264583;stroke-linecap:round"
+       id="rect1"
+       width="399.1463"
+       height="243.66281"
+       x="-21.235016"
+       y="-10.437551" />
+    <rect
+       style="display:inline;fill:#d4539c;fill-opacity:1;stroke:#ffffff;stroke-width:0;stroke-dasharray:none;stroke-opacity:1"
+       id="rect442-8-37-5-9-2-2"
+       width="14.816667"
+       height="9.8610058"
+       x="37.461735"
+       y="102.87791"
+       transform="matrix(1,0,-0.25881905,0.96592583,0,0)" />
+    <rect
+       style="display:inline;fill:#eaeb00;fill-opacity:1;stroke:#ffffff;stroke-width:0;stroke-dasharray:none;stroke-opacity:1"
+       id="rect442-8-37-5-9-2-8"
+       width="14.816667"
+       height="9.8610058"
+       x="42.204433"
+       y="121.20228"
+       transform="matrix(1,0,-0.25881905,0.96592583,0,0)" />
+    <text
+       xml:space="preserve"
+       style="font-weight:800;font-size:12.7px;font-family:Manrope;-inkscape-font-specification:'Manrope Ultra-Bold';text-align:start;writing-mode:lr-tb;direction:ltr;text-anchor:start;fill:#373737;fill-opacity:1;stroke-width:0.264583;stroke-linecap:round"
+       x="38.068249"
+       y="72.574295"
+       id="text1"><tspan
+         sodipodi:role="line"
+         id="tspan1"
+         style="font-size:12.7px;fill:#ffffff;fill-opacity:1;stroke-width:0.264583"
+         x="38.068249"
+         y="72.574295">Running in pits</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-weight:800;font-size:12.7px;font-family:Manrope;-inkscape-font-specification:'Manrope Ultra-Bold';text-align:start;writing-mode:lr-tb;direction:ltr;text-anchor:start;fill:#ffffff;fill-opacity:1;stroke-width:0.264583;stroke-linecap:round"
+       x="38.068249"
+       y="55.148163"
+       id="text2"><tspan
+         sodipodi:role="line"
+         id="tspan2"
+         style="stroke-width:0.264583"
+         x="38.068249"
+         y="55.148163">Running invalid</tspan></text>
+    <rect
+       style="display:inline;fill:#25b727;fill-opacity:1;stroke:#ffffff;stroke-width:0;stroke-dasharray:none;stroke-opacity:1"
+       id="rect442-8-37-5-9-2-7"
+       width="14.816667"
+       height="9.8610058"
+       x="51.689827"
+       y="157.85103"
+       transform="matrix(1,0,-0.25881905,0.96592583,0,0)" />
+    <text
+       xml:space="preserve"
+       style="font-weight:800;font-size:12.7px;font-family:Manrope;-inkscape-font-specification:'Manrope Ultra-Bold';text-align:start;writing-mode:lr-tb;direction:ltr;text-anchor:start;fill:#ffffff;fill-opacity:1;stroke-width:0.264583;stroke-linecap:round"
+       x="38.068249"
+       y="37.722027"
+       id="text3"><tspan
+         sodipodi:role="line"
+         id="tspan3"
+         style="stroke-width:0.264583"
+         x="38.068249"
+         y="37.722027">Running normal</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-weight:800;font-size:12.7px;font-family:Manrope;-inkscape-font-specification:'Manrope Ultra-Bold';text-align:start;writing-mode:lr-tb;direction:ltr;text-anchor:start;fill:#ffffff;fill-opacity:1;stroke-width:0.264583;stroke-linecap:round"
+       x="38.068249"
+       y="90.000427"
+       id="text4"><tspan
+         sodipodi:role="line"
+         id="tspan4"
+         style="stroke-width:0.264583"
+         x="38.068249"
+         y="90.000427">Finished in pits</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-weight:800;font-size:12.7px;font-family:Manrope;-inkscape-font-specification:'Manrope Ultra-Bold';text-align:start;writing-mode:lr-tb;direction:ltr;text-anchor:start;fill:#ffffff;fill-opacity:1;stroke-width:0.264583;stroke-linecap:round"
+       x="38.068249"
+       y="126.36399"
+       id="text5"><tspan
+         sodipodi:role="line"
+         id="tspan5"
+         style="stroke-width:0.264583"
+         x="38.068249"
+         y="126.36399">Finished not improvement (yellow)</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-weight:800;font-size:12.7px;font-family:Manrope;-inkscape-font-specification:'Manrope Ultra-Bold';text-align:start;writing-mode:lr-tb;direction:ltr;text-anchor:start;fill:#ffffff;fill-opacity:1;stroke-width:0.264583;stroke-linecap:round"
+       x="38.068249"
+       y="107.42656"
+       id="text6"><tspan
+         sodipodi:role="line"
+         id="tspan6"
+         style="stroke-width:0.264583"
+         x="38.068249"
+         y="107.42656">Finished invalid</tspan></text>
+    <rect
+       style="display:inline;fill:#d42c2c;fill-opacity:1;stroke:#ffffff;stroke-width:0;stroke-dasharray:none;stroke-opacity:1"
+       id="rect442-8-37-5-9-2-3"
+       width="14.816667"
+       height="9.8610058"
+       x="46.947132"
+       y="139.52666"
+       transform="matrix(1,0,-0.25881905,0.96592583,0,0)" />
+    <rect
+       style="display:inline;fill:#8c25b7;fill-opacity:1;stroke:#ffffff;stroke-width:0;stroke-dasharray:none;stroke-opacity:1"
+       id="rect442-8-37-5-9-2-38"
+       width="14.816667"
+       height="9.8610058"
+       x="56.432522"
+       y="176.1754"
+       transform="matrix(1,0,-0.25881905,0.96592583,0,0)" />
+    <rect
+       style="display:inline;fill:#808080;fill-opacity:1;stroke:#ffffff;stroke-width:0;stroke-dasharray:none;stroke-opacity:1"
+       id="rect442-8-37-5-9-2-77"
+       width="14.816667"
+       height="9.8610058"
+       x="13.748251"
+       y="11.256037"
+       transform="matrix(1,0,-0.25881905,0.96592583,0,0)" />
+    <text
+       xml:space="preserve"
+       style="font-weight:800;font-size:12.7px;font-family:Manrope;-inkscape-font-specification:'Manrope Ultra-Bold';text-align:start;writing-mode:lr-tb;direction:ltr;text-anchor:start;fill:#ffffff;fill-opacity:1;stroke-width:0.264583;stroke-linecap:round"
+       x="38.068249"
+       y="143.79013"
+       id="text7"><tspan
+         sodipodi:role="line"
+         id="tspan7"
+         style="stroke-width:0.264583"
+         x="38.068249"
+         y="143.79013">Finished retired (e.g. crash)</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-weight:800;font-size:12.7px;font-family:Manrope;-inkscape-font-specification:'Manrope Ultra-Bold';text-align:start;writing-mode:lr-tb;direction:ltr;text-anchor:start;fill:#ffffff;fill-opacity:1;stroke-width:0.264583;stroke-linecap:round"
+       x="38.068249"
+       y="20.105396"
+       id="text8"><tspan
+         sodipodi:role="line"
+         id="tspan8"
+         style="stroke-width:0.264583"
+         x="38.068249"
+         y="20.105396">Not run</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-weight:800;font-size:12.7px;font-family:Manrope;-inkscape-font-specification:'Manrope Ultra-Bold';text-align:start;writing-mode:lr-tb;direction:ltr;text-anchor:start;fill:#ffffff;fill-opacity:1;stroke-width:0.264583;stroke-linecap:round"
+       x="38.068249"
+       y="159.70496"
+       id="text9"><tspan
+         sodipodi:role="line"
+         id="tspan9"
+         style="stroke-width:0.264583"
+         x="38.068249"
+         y="159.70496">Finished personal best</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-weight:800;font-size:12.7px;font-family:Manrope;-inkscape-font-specification:'Manrope Ultra-Bold';text-align:start;writing-mode:lr-tb;direction:ltr;text-anchor:start;fill:#ffffff;fill-opacity:1;stroke-width:0.264583;stroke-linecap:round"
+       x="38.068249"
+       y="177.13109"
+       id="text10"><tspan
+         sodipodi:role="line"
+         id="tspan10"
+         style="stroke-width:0.264583"
+         x="38.068249"
+         y="177.13109">Finished session best</tspan></text>
+    <rect
+       style="display:inline;fill:#0071ff;fill-opacity:1;stroke:#ffffff;stroke-width:0;stroke-dasharray:none;stroke-opacity:1"
+       id="rect442-8-37-5-9-2"
+       width="14.816667"
+       height="9.8610058"
+       x="27.976341"
+       y="66.229156"
+       transform="matrix(1,0,-0.25881905,0.96592583,0,0)" />
+    <rect
+       style="display:inline;fill:#66aaff;fill-opacity:1;stroke:#ffffff;stroke-width:0;stroke-dasharray:none;stroke-opacity:1"
+       id="rect442-8-37-5-9-2-0"
+       width="14.816667"
+       height="9.8610058"
+       x="32.719036"
+       y="84.553528"
+       transform="matrix(1,0,-0.25881905,0.96592583,0,0)" />
+    <rect
+       style="display:inline;fill:#ffb2f0;fill-opacity:1;stroke:#ffffff;stroke-width:0;stroke-dasharray:none;stroke-opacity:1"
+       id="rect442-8-37-5-9-2-02"
+       width="14.816667"
+       height="9.8610058"
+       x="23.233644"
+       y="47.904785"
+       transform="matrix(1,0,-0.25881905,0.96592583,0,0)" />
+    <rect
+       style="display:inline;fill:#e0e0e0;fill-opacity:1;stroke:#ffffff;stroke-width:0;stroke-dasharray:none;stroke-opacity:1"
+       id="rect442-8-37-5-9-2-5"
+       width="14.816667"
+       height="9.8610058"
+       x="18.490948"
+       y="29.58041"
+       transform="matrix(1,0,-0.25881905,0.96592583,0,0)" />
+  </g>
+</svg>

@@ -142,13 +142,13 @@ void Processor::Data::SectorHistoryData::update(const uint8_t id, float_t lapDis
     bool createNew = (m_sectors.size() == 1);
 
     auto& currentSector = m_sectors.rbegin()->second;
-    createNew |= updateSector(currentSector, lapDistanceRun, currentLapTime, status, isValid);    
+    createNew |= updateSector(currentSector, lapDistanceRun, currentLapTime, status, isValid);
     if (createNew) {
 
         // Initialize new sectors, and add them to the overall map and to the lap data
         auto sectors = m_trackDataReference.copySectors();
         auto minisectors = m_trackDataReference.copyMiniSectors();
-        const uint16_t lapID = std::floor(m_sectors.size() / minisectors.size()) + 1;
+        const uint16_t lapID = std::floor((m_sectors.size() + 1) / minisectors.size()) + 1;
 
         // HACK: because in some sims the outlap at the start of quali comes with negative distance run, we need to find a way to calculate
         // how much distance was actually covered on this outlap
@@ -202,7 +202,7 @@ void Processor::Data::SectorHistoryData::update(const uint8_t id, float_t lapDis
 
         // Initialize new sectors, and add them to the overall map and to the lap data
         auto sectors = m_trackDataReference.copySectors();
-        const uint16_t lapID = std::floor(m_sectors.size() / sectors.size()) + 1;
+        const uint16_t lapID = std::floor((m_sectors.size() + 1) / sectors.size()) + 1;
 
         // HACK: because in some sims the outlap at the start of quali comes with negative distance run, we need to find a way to calculate
         // how much distance was actually covered on this outlap
@@ -219,7 +219,7 @@ void Processor::Data::SectorHistoryData::update(const uint8_t id, float_t lapDis
         Lap::Internal::Sector newSector{
             id,
             currentSectorTemplate.getLapOrderID(),
-            0,
+            static_cast<uint16_t>(lapID - 1),
             sectors.size(),
             currentSectorTemplate.getStartPoint(),
             currentSectorTemplate.getEndPoint()};
@@ -350,6 +350,29 @@ bool Processor::Data::SectorHistoryData::updateSector(Lap::Internal::Sector& cur
     }
 
     if (lapDistanceRun >= currentSector.getEndPoint()) {
+
+        switch (currentSector.m_performance) {
+
+            case Lap::Internal::Performance::CurrentlyRunning:
+                currentSector.m_performance = Lap::Internal::Performance::FinishedNormal;
+                break;
+            case Lap::Internal::Performance::CurrentlyRunningPits:
+                currentSector.m_performance = Lap::Internal::Performance::FinishedPits;
+                break;
+            case Lap::Internal::Performance::CurrentlyRunningInvalid:
+                currentSector.m_performance = Lap::Internal::Performance::FinishedInvalid;
+                break;
+
+            default:
+                // do nothing, these are the only expected statuses if we've just finished this sector
+                break;
+
+        }
+        evaluateFinishedSector(currentSector);
+        return true;
+
+    }
+    if (lapDistanceRun < currentSector.getStartPoint() && currentSector.isFinalSector()) {
 
         switch (currentSector.m_performance) {
 

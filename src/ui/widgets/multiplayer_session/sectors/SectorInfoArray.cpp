@@ -167,6 +167,24 @@ void UserInterface::Widget::SectorInfoArray::updateSector(const uint8_t lapID, c
         }
 
     }
+    // If the last sector was finished, sector 1 should be cleared
+    if (sectorID == 3 &&
+        (perf == Lap::Internal::Performance::FinishedNormal ||
+            perf == Lap::Internal::Performance::FinishedPits ||
+            perf == Lap::Internal::Performance::FinishedInvalid ||
+            perf == Lap::Internal::Performance::FinishedPersonalBest ||
+            perf == Lap::Internal::Performance::FinishedSessionBest ||
+            perf == Lap::Internal::Performance::FinishedRetired)) {
+
+        auto* firstSector = m_sectors[0];
+        if (firstSector) {
+
+            firstSector->clear();
+            firstSector->incrementLap();
+
+        }
+
+    }
 
     RedoDisplay();
 

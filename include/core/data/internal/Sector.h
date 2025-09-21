@@ -53,6 +53,9 @@ namespace Lap::Internal {
         // Retrieves the lap distance at which this (mini)sector ends
         const float_t getEndPoint() const;
 
+        // Retrieves whether this section/minisector is the final one in the lap
+        const bool isFinalSector() const;
+
         // Retrieves whether this object actually represents a mini-sector
         const bool isMiniSector() const;
 
@@ -101,6 +104,9 @@ namespace Lap::Internal {
 
         // The lap time the driver was at when first reaching this sector
         Lap::Internal::Time m_initialLapTime;
+
+        // Whether this section/minisector is the final one in the lap
+        bool m_isFinalSector;
 
         // Whether this object actually represents a mini-sector; if so, m_minisectors must be empty
         bool m_isMiniSector;

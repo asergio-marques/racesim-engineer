@@ -24,6 +24,7 @@ Lap::Internal::Sector::Sector(const uint8_t driverID, const uint8_t orderID, con
     m_startPoint(startDistance),
     m_endPoint(endDistance),
     m_initialLapTime(0),
+    m_isFinalSector(m_lapOrderID == numSectorsLap),
     m_isMiniSector(false) {
 
 }
@@ -46,6 +47,7 @@ Lap::Internal::Sector::Sector(const uint8_t driverID, const uint8_t orderID, con
     m_startPoint(startDistance),
     m_endPoint(endDistance),
     m_initialLapTime(initialLapTime),
+    m_isFinalSector(m_lapOrderID == numMiniSectorsLap),
     m_isMiniSector(true) {
 
 
@@ -137,6 +139,14 @@ const float_t Lap::Internal::Sector::getStartPoint() const {
 const float_t Lap::Internal::Sector::getEndPoint() const {
 
     return m_endPoint;
+
+}
+
+
+
+const bool Lap::Internal::Sector::isFinalSector() const {
+
+    return m_isFinalSector;
 
 }
 

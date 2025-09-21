@@ -109,12 +109,17 @@ void Processor::Data::DriverState::updateLap(const uint8_t lapID, const Lap::Int
     const Lap::Internal::Time currentLapTime, const std::vector<Lap::Internal::Time> sectorTimes,
     const float_t lapDistanceRun, const bool isValid, const Lap::Internal::Time previousLapTime) {
 
-    // Checking the finished status rather than using the SessionEnd packet solely as source of truth means that in multiplayer sessions
-    // the user may not have to wait until the very last packet and may get info before
-    m_lapData.updateLap(m_parentRecord->m_info.m_driverID, lapID, status,
-        currentLapTime, sectorTimes, lapDistanceRun, previousLapTime, m_posTimeData.getStatus());
-    m_sectorData.update(m_parentRecord->m_info.m_driverID, lapDistanceRun, sectorTimes, status, isValid);
-    m_miniSectorData.update(m_parentRecord->m_info.m_driverID, lapDistanceRun, currentLapTime, status, isValid);
+    // TODO remove, is for testing
+    if (m_parentRecord->m_info.m_isPlayer) {
+
+        // Checking the finished status rather than using the SessionEnd packet solely as source of truth means that in multiplayer sessions
+        // the user may not have to wait until the very last packet and may get info before
+        m_lapData.updateLap(m_parentRecord->m_info.m_driverID, lapID, status,
+            currentLapTime, sectorTimes, lapDistanceRun, previousLapTime, m_posTimeData.getStatus());
+        m_sectorData.update(m_parentRecord->m_info.m_driverID, lapDistanceRun, sectorTimes, status, isValid);
+        m_miniSectorData.update(m_parentRecord->m_info.m_driverID, lapDistanceRun, currentLapTime, status, isValid);
+
+    }
 
 }
 

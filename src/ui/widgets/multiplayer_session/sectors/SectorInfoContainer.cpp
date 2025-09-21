@@ -161,8 +161,6 @@ void UserInterface::Widget::SectorInfoContainer::clear() {
 void UserInterface::Widget::SectorInfoContainer::updateSector(const uint8_t lapID,
     const Lap::Internal::Performance perf, const Lap::Internal::Time& time) {
 
-    qDebug() << "(lapID != m_lapID) = " << (lapID != m_lapID);
-
     if ((lapID == m_lapID) && m_sectorTimeText) {
         
         m_sectorTimeText->setTextAndColor(time, perf);
@@ -176,11 +174,6 @@ void UserInterface::Widget::SectorInfoContainer::updateSector(const uint8_t lapI
 
 void UserInterface::Widget::SectorInfoContainer::updateMiniSector(const uint8_t lapID,
     const uint8_t minisectorParentOrderID, const Lap::Internal::Performance perf) {
-
-    qDebug() << "(m_miniSectorIcons.empty()) = " << (m_miniSectorIcons.empty());
-    qDebug() << "(minisectorParentOrderID > m_miniSectorIcons.size()) = " << (minisectorParentOrderID > m_miniSectorIcons.size());
-    qDebug() << "(minisectorParentOrderID) = " << (minisectorParentOrderID);
-    qDebug() << "(lapID != m_lapID) = " << (lapID != m_lapID);
 
     if (m_miniSectorIcons.empty() ||
         (minisectorParentOrderID > m_miniSectorIcons.size()) ||

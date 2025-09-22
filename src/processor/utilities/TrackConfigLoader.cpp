@@ -118,7 +118,8 @@ Processor::Data::TrackData Processor::Utility::TrackConfigLoader::readConfig() {
             0,
             0,
             start,
-            end};
+            end,
+            0 };
         sectors.push_back(s);
         ++latestSectorID;
 

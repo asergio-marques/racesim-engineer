@@ -45,11 +45,7 @@ namespace Processor {
             void initialize(const uint8_t driverID);
 
             // Function to update sector or minisector times by deducing from the lap distance
-            void update(const uint8_t id, float_t lapDistanceRun, const Lap::Internal::Time currentLapTime,
-                const Lap::Internal::Status status, const bool isValid, const Lap::Internal::Time previousLapTime);
-            
-            // Function to update sector times from a vector rather than deducing from lap distance
-            void update(const uint8_t id, float_t lapDistanceRun, const std::vector<Lap::Internal::Time>& sectorTimes,
+            void update(const uint8_t id, const float_t lapDistanceRun, const Lap::Internal::Time currentLapTime,
                 const Lap::Internal::Status status, const bool isValid, const Lap::Internal::Time previousLapTime);
 
             // Function to update lap status in case of retirement or session end
@@ -63,9 +59,17 @@ namespace Processor {
             // Auxiliary function that compares the current sector's current information to new information
             // and to the previous sector's information to deduce a new state
             // returns true if a new sector should be created
-            bool updateSector(Lap::Internal::Sector& currentSector, float_t lapDistanceRun,
+            bool doUpdate(Lap::Internal::Sector& currentSector, float_t lapDistanceRun,
                 const Lap::Internal::Time currentLapTime, const Lap::Internal::Status lapStatus, const bool isValid,
                 const Lap::Internal::Time previousLapTime);
+
+            // Auxiliary function that determines what sector shall be initialized and adds it to the array
+            void createNewSector(const uint8_t id, float_t lapDistanceRun, const Lap::Internal::Time currentLapTime,
+                const Lap::Internal::Status status);
+
+            // Auxiliary function that determines what minisector shall be initialized and adds it to the array
+            void createNewMiniSector(const uint8_t id, float_t lapDistanceRun, const Lap::Internal::Time currentLapTime,
+                const Lap::Internal::Status status);
 
             // Auxiliary function that checks whether a finished sector is a session best, a personal best, or nothing special
             // Communicates with the detector

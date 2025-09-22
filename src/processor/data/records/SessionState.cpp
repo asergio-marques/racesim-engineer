@@ -3,20 +3,36 @@
 #include <algorithm>
 #include "data/records/SessionRecord.h"
 #include "data/holders/LapInfo.h"
+#include "data/holders/TrackData.h"
 #include "data/holders/WeatherData.h"
 #include "data/internal/Participant.h"
 #include "utilities/Sector.h"
 
 
 
-Processor::Data::SessionState::SessionState(Processor::Data::SessionRecord* parent) :
+
+Processor::Data::SessionState::SessionState(Processor::Data::SessionRecord* parent, const Processor::Data::TrackData& detailedTrackData) :
     m_parentRecord(parent),
     m_running(true),
     m_weather(),
-    m_fastestLap() {
+    m_fastestLap(),
+    m_fastestSectors(),
+    m_fastestMinisectors() {
 
+    // initialize fastest sectors/minisectors maps with the default sectors
+    const auto& sectors = detailedTrackData.copySectors();
+    for (const auto& sector : sectors) {
 
+        m_fastestSectors.emplace(sector.getLapOrderID(), sector);
 
+    }
+
+    const auto& minisectors = detailedTrackData.copyMiniSectors();
+    for (const auto& minisector : minisectors) {
+
+        m_fastestMinisectors.emplace(minisector.getLapOrderID(), minisector);
+
+    }
 
 }
 
@@ -66,9 +82,11 @@ bool Processor::Data::SessionState::evaluateCompletedLap(const Processor::Data::
 
 
 
-const Lap::Internal::Sector Processor::Data::SessionState::evaluateCompletedSector(Lap::Internal::Sector& finishedSector, bool& isFastestSector) {
+Lap::Internal::Sector Processor::Data::SessionState::evaluateCompletedSector(Lap::Internal::Sector& finishedSector, bool& isFastestSector) {
 
-    if (!Processor::Utility::Sector::validate(finishedSector) || !finishedSector.m_finalLapTime.valid()) return Processor::Utility::Sector::INVALID_SECTOR;
+    const auto finishedSectorTime = finishedSector.totalTime();
+
+    if (!Processor::Utility::Sector::validate(finishedSector) || !finishedSectorTime.valid()) return Processor::Utility::Sector::INVALID_SECTOR;
 
     auto& mapToChange = m_fastestSectors;
 
@@ -83,8 +101,10 @@ const Lap::Internal::Sector Processor::Data::SessionState::evaluateCompletedSect
 
         auto& fastestSector = it->second;
         auto oldFastestSector = fastestSector;
-        if (finishedSector.totalTime().valid() &&
-            finishedSector.totalTime() < fastestSector.totalTime()) {
+        const auto fastestSectorTime = fastestSector.totalTime();
+        // if the currently registered fastest sector is invalid, then any valid sector is a new fastest
+        if (finishedSectorTime.valid() &&
+            (!fastestSectorTime.valid() || (finishedSectorTime < fastestSectorTime))) {
 
             isFastestSector = true;
             finishedSector.m_performance = Lap::Internal::Performance::FinishedSessionBest;

@@ -6,7 +6,9 @@
 #include "data/internal/Participant.h"
 #include "data/internal/Sector.h"
 #include "data/holders/LapInfo.h"
+#include "data/holders/TrackData.h"
 #include "data/holders/WeatherData.h"
+
 
 
 
@@ -20,7 +22,7 @@ namespace Processor {
 
             public:
             // Default constructor
-            SessionState(Processor::Data::SessionRecord* parent);
+            SessionState(Processor::Data::SessionRecord* parent, const Processor::Data::TrackData& detailedTrackData);
 
             // Destructor
             ~SessionState();
@@ -35,7 +37,7 @@ namespace Processor {
             bool evaluateCompletedLap(const Processor::Data::LapInfo& finishedLap);
 
             // Checks if a newly-finished sector or minisector is a new fastest for the current session
-            const Lap::Internal::Sector evaluateCompletedSector(Lap::Internal::Sector& finishedSector, bool& isFastestSector);
+            Lap::Internal::Sector evaluateCompletedSector(Lap::Internal::Sector& finishedSector, bool& isFastestSector);
 
             // Updates the weather data for this session (and other associated sessions) with further samples
             void updateWeather(const Session::Internal::Descriptor& descriptor,

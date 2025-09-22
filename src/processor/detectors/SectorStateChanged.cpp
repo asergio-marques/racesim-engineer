@@ -51,7 +51,7 @@ bool Processor::Detector::SectorStateChanged::checkFastestInSession(Lap::Interna
     // If this section that has just finished is indeed the fastest in the session of its kind,
     // then the previous best is required to be revised
     bool isSessionFastest = false;
-    const Lap::Internal::Sector revisedSector = m_sessionRecord->getModifiableState()->evaluateCompletedSector(finishedSector, isSessionFastest);
+    Lap::Internal::Sector revisedSector = m_sessionRecord->getModifiableState()->evaluateCompletedSector(finishedSector, isSessionFastest);
     if (!isSessionFastest) {
 
         return false;
@@ -79,10 +79,12 @@ bool Processor::Detector::SectorStateChanged::checkFastestInSession(Lap::Interna
     newBestSectorPacket->m_time = finishedSector.totalTime();
     m_packetsToBeProcessed.push_back(newBestSectorPacket);
 
-    if (Processor::Utility::Sector::validate(revisedSector)) {
+    if (Processor::Utility::Sector::validate(revisedSector) && revisedSector.totalTime().valid()) {
 
         auto oldBestIt = m_driverRecords->find(revisedSector.getDriverID());
         if (oldBestIt != m_driverRecords->end()) {
+
+            revisedSector.m_performance = Lap::Internal::Performance::FinishedPersonalBest;
 
             Packet::Event::SectorStateChanged* oldBestSectorPacket = new Packet::Event::SectorStateChanged(
                     oldBestIt->second->m_info.m_isPlayer,

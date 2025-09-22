@@ -13,8 +13,10 @@ Lap::Internal::Sector Processor::Utility::Sector::INVALID_SECTOR = Lap::Internal
 
 bool Processor::Utility::Sector::validate(const Lap::Internal::Sector& sector) {
 
-    return (sector.getLapOrderID() == 0 || sector.getParentOrderID() == 0 || sector.getUniqueOverallID() == 0 ||
-        (sector.getStartPoint() == 0 && sector.getEndPoint() == 0));
+    // startpoint should not be checked, because if the sector is the first one of a lap,
+    // then it is expected that the startpoint is 0
+    return ((sector.getLapOrderID() != 0) && (sector.getParentOrderID() != 0) &&
+        (sector.getUniqueOverallID() != 0) && (sector.getEndPoint() != 0));
 
 }
 

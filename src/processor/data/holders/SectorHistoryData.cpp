@@ -433,14 +433,15 @@ void Processor::Data::SectorHistoryData::evaluateFinishedSector(Lap::Internal::S
                 auto fastestSectorTime = sectorIt->second.totalTime();
                 auto currentSectorTime = finishedSector.totalTime();
 
+                // if the currently registered personal best sector is invalid, then any valid sector is a new PB
                 if (currentSectorTime.valid() &&
-                    currentSectorTime < fastestSectorTime) {
+                    (!fastestSectorTime.valid() || (currentSectorTime < fastestSectorTime))) {
 
-                    m_personalBestSectorMap[finishedSector.getLapOrderID()] = finishedSector.getUniqueOverallID();
                     finishedSector.m_performance = Lap::Internal::Performance::FinishedPersonalBest;
+                    m_personalBestSectorMap[finishedSector.getLapOrderID()] = finishedSector.getUniqueOverallID();
 
                 }
-                if (currentSectorTime.valid() &&
+                if (currentSectorTime.valid() && fastestSectorTime.valid() &&
                     (currentSectorTime > (fastestSectorTime * 1.2f)) &&
                     (currentSectorTime > (fastestSectorTime + 1000))) {
 

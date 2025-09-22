@@ -13,7 +13,7 @@ namespace Processor {
 
         struct Sector {
 
-            // Retrieves data about a sector of the track in which this position of a lap is located in
+            // Returns true if all the necessary data of the sector has been set correctly
             static bool validate(const Lap::Internal::Sector& sector);
 
             // Retrieves the length of one lap from the sum of the sectors' distances

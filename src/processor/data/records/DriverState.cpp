@@ -110,7 +110,7 @@ void Processor::Data::DriverState::updateLap(const uint8_t lapID, const Lap::Int
     const float_t lapDistanceRun, const bool isValid, const Lap::Internal::Time previousLapTime) {
 
     // TODO remove, is for testing
-    if (m_parentRecord->m_info.m_isPlayer) {
+    //if (m_parentRecord->m_info.m_isPlayer) {
 
         // Checking the finished status rather than using the SessionEnd packet solely as source of truth means that in multiplayer sessions
         // the user may not have to wait until the very last packet and may get info before
@@ -119,7 +119,7 @@ void Processor::Data::DriverState::updateLap(const uint8_t lapID, const Lap::Int
         m_sectorData.update(m_parentRecord->m_info.m_driverID, lapDistanceRun, sectorTimes, status, isValid, previousLapTime);
         m_miniSectorData.update(m_parentRecord->m_info.m_driverID, lapDistanceRun, currentLapTime, status, isValid, previousLapTime);
 
-    }
+    //}
 
 }
 

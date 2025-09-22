@@ -158,11 +158,6 @@ void UserInterface::Widget::DriverEntryQuali::newSessionBestLap(const Lap::Inter
         }
 
     }
-    if (m_sectorArray) {
-
-        m_sectorArray->incrementLap();
-
-    }
 
 }
 
@@ -179,11 +174,6 @@ void UserInterface::Widget::DriverEntryQuali::newPersonalBestLap(const Lap::Inte
         m_lastLap->updateTime(newLapTime);
 
     }
-    if (m_sectorArray) {
-
-        m_sectorArray->incrementLap();
-
-    }
 
 }
 
@@ -195,11 +185,6 @@ void UserInterface::Widget::DriverEntryQuali::newLatestLap(const Lap::Internal::
 
         m_lastLap->changePersonalBestStatus(false);
         m_lastLap->updateTime(newLapTime);
-
-    }
-    if (m_sectorArray) {
-
-        m_sectorArray->incrementLap();
 
     }
 

@@ -23,6 +23,12 @@ namespace Lap::Internal {
             const uint8_t parentID, const uint8_t sectorOrderID, float_t startDistance, float_t endDistance,
             Lap::Internal::Time initialLapTime);
 
+        // Copy constructor
+        Sector(const Sector& other);
+
+        // Assignment constructor
+        Sector& operator=(const Sector& other);
+
         // Comparison operator
         bool operator==(const Sector& other) const;
 

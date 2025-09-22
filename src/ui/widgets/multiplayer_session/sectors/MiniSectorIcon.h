@@ -25,7 +25,6 @@ namespace UserInterface {
             void calculateIDAndFetch(UserInterface::Widget::StandardImage baseID);
 
             const uint8_t m_numMinis;
-            bool m_finished;
 
         };
 

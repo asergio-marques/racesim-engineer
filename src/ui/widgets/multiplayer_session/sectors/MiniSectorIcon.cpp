@@ -8,8 +8,7 @@
 
 UserInterface::Widget::MiniSectorIcon::MiniSectorIcon(const uint8_t numMinis, QWidget* parent) :
     UserInterface::Widget::ImageInterface(UserInterface::Widget::ID::SectorInfo, parent),
-    m_numMinis(numMinis),
-    m_finished(false) {
+    m_numMinis(numMinis) {
 
     calculateIDAndFetch(UserInterface::Widget::StandardImage::NotRunBase);
 
@@ -19,7 +18,7 @@ UserInterface::Widget::MiniSectorIcon::MiniSectorIcon(const uint8_t numMinis, QW
 
 void UserInterface::Widget::MiniSectorIcon::performanceChanged(Lap::Internal::Performance perf) {
 
-    if (m_finished || perf == Lap::Internal::Performance::NotRun) return;
+    if ( perf == Lap::Internal::Performance::NotRun) return;
 
     switch (perf) {
 
@@ -37,32 +36,26 @@ void UserInterface::Widget::MiniSectorIcon::performanceChanged(Lap::Internal::Pe
 
         case Lap::Internal::Performance::FinishedNormal:
             calculateIDAndFetch(UserInterface::Widget::StandardImage::FinishedNotImprovementBase);
-            m_finished = true;
             break;
 
         case Lap::Internal::Performance::FinishedPits:
             calculateIDAndFetch(UserInterface::Widget::StandardImage::FinishedInPitsBase);
-            m_finished = true;
             break;
 
         case Lap::Internal::Performance::FinishedInvalid:
             calculateIDAndFetch(UserInterface::Widget::StandardImage::FinishedInvalidBase);
-            m_finished = true;
             break;
 
         case Lap::Internal::Performance::FinishedPersonalBest:
             calculateIDAndFetch(UserInterface::Widget::StandardImage::FinishedPersonalBestBase);
-            m_finished = true;
             break;
 
         case Lap::Internal::Performance::FinishedSessionBest:
             calculateIDAndFetch(UserInterface::Widget::StandardImage::FinishedSessionFastestBase);
-            m_finished = true;
             break;
 
         case Lap::Internal::Performance::FinishedRetired:
             calculateIDAndFetch(UserInterface::Widget::StandardImage::FinishedRetirementCompleteBase);
-            m_finished = true;
             break;
         
         default:
@@ -78,7 +71,6 @@ void UserInterface::Widget::MiniSectorIcon::performanceChanged(Lap::Internal::Pe
 void UserInterface::Widget::MiniSectorIcon::reset() {
 
     calculateIDAndFetch(UserInterface::Widget::StandardImage::NotRunBase);
-    m_finished = false;
 
 }
 

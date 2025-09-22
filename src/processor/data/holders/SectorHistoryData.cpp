@@ -162,9 +162,15 @@ void Processor::Data::SectorHistoryData::update(const uint8_t id, float_t lapDis
 
         }
 
-        const auto& currentSectorTemplate = Processor::Utility::Sector::getSectorByDistance(sectors, lapDistanceRun);
-        const auto& currentMinisectorTemplate = Processor::Utility::Sector::getSectorByDistance(minisectors, lapDistanceRun);
+        auto& currentSectorTemplate = Processor::Utility::Sector::getSectorByDistance(sectors, lapDistanceRun);
+        auto& currentMinisectorTemplate = Processor::Utility::Sector::getSectorByDistance(minisectors, lapDistanceRun);
+        if (currentSector == currentMinisectorTemplate) {
 
+            // HACK: if there is a failure in getting by distance, as is, pretend it's higher up ahead
+            currentSectorTemplate = Processor::Utility::Sector::getSectorByDistance(sectors, lapDistanceRun + 1.0f);
+            currentMinisectorTemplate = Processor::Utility::Sector::getSectorByDistance(minisectors, lapDistanceRun + 1.0f);
+
+        }
         Lap::Internal::Sector newMinisector{
             id,
             currentMinisectorTemplate.getLapOrderID(),
@@ -216,7 +222,13 @@ void Processor::Data::SectorHistoryData::update(const uint8_t id, float_t lapDis
             lapDistanceRun = std::fmax(0.01f, lapDistanceRun);
 
         }
-        const auto& currentSectorTemplate = Processor::Utility::Sector::getSectorByDistance(sectors, lapDistanceRun);
+        auto& currentSectorTemplate = Processor::Utility::Sector::getSectorByDistance(sectors, lapDistanceRun);
+        if (currentSector == currentSectorTemplate) {
+
+            // HACK: if there is a failure in getting by distance, as is, pretend it's higher up ahead
+            currentSectorTemplate = Processor::Utility::Sector::getSectorByDistance(sectors, lapDistanceRun + 1.0f);
+
+        }
 
         Lap::Internal::Sector newSector{
             id,
@@ -434,7 +446,9 @@ void Processor::Data::SectorHistoryData::evaluateFinishedSector(Lap::Internal::S
                 auto currentSectorTime = finishedSector.totalTime();
 
                 // if the currently registered personal best sector is invalid, then any valid sector is a new PB
-                if (currentSectorTime.valid() &&
+                if ((finishedSector.m_performance != Lap::Internal::Performance::FinishedInvalid) &&
+                    (finishedSector.m_performance != Lap::Internal::Performance::FinishedRetired) && 
+                    currentSectorTime.valid() &&
                     (!fastestSectorTime.valid() || (currentSectorTime < fastestSectorTime))) {
 
                     finishedSector.m_performance = Lap::Internal::Performance::FinishedPersonalBest;

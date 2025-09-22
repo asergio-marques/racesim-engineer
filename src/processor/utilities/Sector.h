@@ -2,6 +2,7 @@
 #define PROCESSOR_UTILITIES_SECTOR_H_
 
 #include <cstdint>
+#include <cmath>
 #include <vector>
 #include "data/internal/Sector.h"
 
@@ -20,7 +21,7 @@ namespace Processor {
             static float_t getTotalLapDistanceFromSectors(std::vector<Lap::Internal::Sector>& sectors);
 
             // Retrieves data about a sector of the track in which this position of a lap is located in
-            static Lap::Internal::Sector& getSectorByDistance(std::vector<Lap::Internal::Sector>& sectors, const uint32_t distance);
+            static Lap::Internal::Sector& getSectorByDistance(std::vector<Lap::Internal::Sector>& sectors, const float_t distance);
 
             // Retrieves data about a sector or minisector of the track based on its order around a lap
             // Be wary about what vector is being passed in, as this does not discriminate between sectors and minisectors

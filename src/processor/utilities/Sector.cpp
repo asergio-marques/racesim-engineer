@@ -1,5 +1,6 @@
 #include "utilities/Sector.h"
 
+#include <cmath>
 #include <cstdint>
 #include <vector>
 #include "data/internal/Sector.h"
@@ -44,11 +45,11 @@ float_t Processor::Utility::Sector::getTotalLapDistanceFromSectors(std::vector<L
 
 
 Lap::Internal::Sector& Processor::Utility::Sector::getSectorByDistance(
-    std::vector<Lap::Internal::Sector>& sectors, const uint32_t distance) {
+    std::vector<Lap::Internal::Sector>& sectors, const float_t distance) {
 
     for (auto& sector : sectors) {
 
-        if (distance >= sector.getStartPoint() && distance <= sector.getEndPoint()) {
+        if (distance >= sector.getStartPoint() && distance < sector.getEndPoint()) {
 
             return sector;
 

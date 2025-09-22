@@ -88,27 +88,29 @@ Lap::Internal::Sector Processor::Data::SessionState::evaluateCompletedSector(Lap
 
     if (!Processor::Utility::Sector::validate(finishedSector) || !finishedSectorTime.valid()) return Processor::Utility::Sector::INVALID_SECTOR;
 
-    auto& mapToChange = m_fastestSectors;
+    auto* mapToChange = &m_fastestSectors;
 
     if (finishedSector.isMiniSector()) {
 
-        mapToChange = m_fastestMinisectors;
+        mapToChange = &m_fastestMinisectors;
 
     }
 
-    auto it = mapToChange.find(finishedSector.getLapOrderID());
-    if (it != mapToChange.end()) {
+    auto it = mapToChange->find(finishedSector.getLapOrderID());
+    if (it != mapToChange->end()) {
 
-        auto& fastestSector = it->second;
-        auto oldFastestSector = fastestSector;
-        const auto fastestSectorTime = fastestSector.totalTime();
+        auto oldFastestSector = it->second;
+        const auto fastestSectorTime = oldFastestSector.totalTime();
         // if the currently registered fastest sector is invalid, then any valid sector is a new fastest
         if (finishedSectorTime.valid() &&
             (!fastestSectorTime.valid() || (finishedSectorTime < fastestSectorTime))) {
 
             isFastestSector = true;
             finishedSector.m_performance = Lap::Internal::Performance::FinishedSessionBest;
-            fastestSector = finishedSector;
+            mapToChange->insert_or_assign(finishedSector.getLapOrderID(), finishedSector);
+            //mapToChange.at(finishedSector.getLapOrderID()) = finishedSector;
+            //mapToChange[finishedSector.getLapOrderID()] = finishedSector;
+            //mapToChange.emplace(finishedSector.getLapOrderID(), finishedSector);
             oldFastestSector.m_performance = Lap::Internal::Performance::FinishedPersonalBest;
             return oldFastestSector;
 

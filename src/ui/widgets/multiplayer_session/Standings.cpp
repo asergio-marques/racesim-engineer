@@ -222,7 +222,6 @@ void UserInterface::Widget::Standings::onSectorStateChanged(const Packet::Event:
         UserInterface::Widget::IDriverEntry* entry = m_driverData[dataPacket->m_index];
         if (entry) {
 
-            // TODO sector packets are blowing up everything because parent order ID == 0, something is wrong in the config, fix it
             entry->sectorChange(dataPacket->m_isMiniSector, dataPacket->m_lapID, dataPacket->m_sectorParentOrderID, dataPacket->m_parentID,
                 dataPacket->m_sectorStatus, dataPacket->m_sectorPerformance, dataPacket->m_time);
 

@@ -132,7 +132,8 @@ void Processor::Data::SectorHistoryData::initialize(const uint8_t driverID) {
 
 
 void Processor::Data::SectorHistoryData::update(const uint8_t id, float_t lapDistanceRun,
-    const Lap::Internal::Time currentLapTime, const Lap::Internal::Status status, const bool isValid) {
+    const Lap::Internal::Time currentLapTime, const Lap::Internal::Status status, const bool isValid,
+    const Lap::Internal::Time previousLapTime) {
 
     // function is only meant to be used for minisectors
     if (!m_minisector ||
@@ -142,13 +143,13 @@ void Processor::Data::SectorHistoryData::update(const uint8_t id, float_t lapDis
     bool createNew = (m_sectors.size() == 1);
 
     auto& currentSector = m_sectors.rbegin()->second;
-    createNew |= updateSector(currentSector, lapDistanceRun, currentLapTime, status, isValid);
+    createNew |= updateSector(currentSector, lapDistanceRun, currentLapTime, status, isValid, previousLapTime);
     if (createNew) {
 
         // Initialize new sectors, and add them to the overall map and to the lap data
         auto sectors = m_trackDataReference.copySectors();
         auto minisectors = m_trackDataReference.copyMiniSectors();
-        const uint16_t lapID = std::floor((m_sectors.size() + 1) / minisectors.size()) + 1;
+        const uint16_t lapID = std::floor((m_sectors.size() - 1) / minisectors.size()) + 1;
 
         // HACK: because in some sims the outlap at the start of quali comes with negative distance run, we need to find a way to calculate
         // how much distance was actually covered on this outlap
@@ -186,7 +187,8 @@ void Processor::Data::SectorHistoryData::update(const uint8_t id, float_t lapDis
 
 
 void Processor::Data::SectorHistoryData::update(const uint8_t id, float_t lapDistanceRun,
-    const std::vector<Lap::Internal::Time>& sectorTimes, const Lap::Internal::Status status, const bool isValid) {
+    const std::vector<Lap::Internal::Time>& sectorTimes, const Lap::Internal::Status status, const bool isValid,
+    const Lap::Internal::Time previousLapTime) {
 
     // function is only meant to be used for sectors
     if (m_minisector ||
@@ -197,12 +199,12 @@ void Processor::Data::SectorHistoryData::update(const uint8_t id, float_t lapDis
     bool createNew = (m_sectors.size() == 1);
 
     auto& currentSector = m_sectors.rbegin()->second;
-    createNew |= updateSector(currentSector, lapDistanceRun, sectorTimes[currentSector.getLapOrderID() - 1], status, isValid);
+    createNew |= updateSector(currentSector, lapDistanceRun, sectorTimes[currentSector.getLapOrderID() - 1], status, isValid, previousLapTime);
     if (createNew) {
 
         // Initialize new sectors, and add them to the overall map and to the lap data
         auto sectors = m_trackDataReference.copySectors();
-        const uint16_t lapID = std::floor((m_sectors.size() + 1) / sectors.size()) + 1;
+        const uint16_t lapID = std::floor((m_sectors.size() - 1) / sectors.size()) + 1;
 
         // HACK: because in some sims the outlap at the start of quali comes with negative distance run, we need to find a way to calculate
         // how much distance was actually covered on this outlap
@@ -308,7 +310,8 @@ void Processor::Data::SectorHistoryData::initializeSector(Lap::Internal::Sector&
 
 
 bool Processor::Data::SectorHistoryData::updateSector(Lap::Internal::Sector& currentSector, float_t lapDistanceRun,
-    const Lap::Internal::Time currentLapTime, const Lap::Internal::Status lapStatus, const bool isValid) {
+    const Lap::Internal::Time currentLapTime, const Lap::Internal::Status lapStatus, const bool isValid,
+    const Lap::Internal::Time previousLapTime) {
 
     bool alwaysOverride = (currentSector.m_status == Lap::Internal::Status::InvalidUnknown);
 
@@ -373,6 +376,10 @@ bool Processor::Data::SectorHistoryData::updateSector(Lap::Internal::Sector& cur
 
     }
     if (lapDistanceRun < currentSector.getStartPoint() && currentSector.isFinalSector()) {
+
+        // Use the previous lap time, because if we're here it means we've started a new lap,
+        // so the current lap time is representative of this new lap's first sector
+        currentSector.m_finalLapTime = previousLapTime;
 
         switch (currentSector.m_performance) {
 

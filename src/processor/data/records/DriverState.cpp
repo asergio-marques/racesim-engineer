@@ -116,8 +116,8 @@ void Processor::Data::DriverState::updateLap(const uint8_t lapID, const Lap::Int
         // the user may not have to wait until the very last packet and may get info before
         m_lapData.updateLap(m_parentRecord->m_info.m_driverID, lapID, status,
             currentLapTime, sectorTimes, lapDistanceRun, previousLapTime, m_posTimeData.getStatus());
-        m_sectorData.update(m_parentRecord->m_info.m_driverID, lapDistanceRun, sectorTimes, status, isValid);
-        m_miniSectorData.update(m_parentRecord->m_info.m_driverID, lapDistanceRun, currentLapTime, status, isValid);
+        m_sectorData.update(m_parentRecord->m_info.m_driverID, lapDistanceRun, sectorTimes, status, isValid, previousLapTime);
+        m_miniSectorData.update(m_parentRecord->m_info.m_driverID, lapDistanceRun, currentLapTime, status, isValid, previousLapTime);
 
     }
 

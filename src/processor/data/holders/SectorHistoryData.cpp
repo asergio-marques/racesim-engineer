@@ -238,7 +238,7 @@ void Processor::Data::SectorHistoryData::update(const uint8_t id, float_t lapDis
             currentSectorTemplate.getStartPoint(),
             currentSectorTemplate.getEndPoint()};
 
-        initializeSector(newSector, sectorTimes[0], status);
+        initializeSector(newSector, sectorTimes[newSector.getLapOrderID() - 1], status);
         m_sectors.emplace(newSector.getUniqueOverallID(), newSector);
         m_installedChangedSectorStateDetector->addChangedSectorInfo(newSector);
 

@@ -34,27 +34,68 @@ void UserInterface::Widget::SectorTimeText::setTextAndColor(const Lap::Internal:
 
         case Lap::Internal::Performance::FinishedNormal:
         case Lap::Internal::Performance::FinishedInvalid:
-            // show "FinishedNotImprovement" color
-            m_currentColorString = "color : rgb(234, 235, 0)";
-            setText(time.formattedPrint(true));
+
+            if (time.valid()) {
+                // show "FinishedNotImprovement" color
+                m_currentColorString = "color : rgb(234, 235, 0)";
+                setText(time.formattedPrint(true));
+
+            }
+            else {
+
+                m_currentColorString = "color : white";
+                setText("N/A");
+
+            }
             break;
 
         case Lap::Internal::Performance::FinishedPits:
-            // show "FinishedInPits" color
-            m_currentColorString = "color : rgb(102, 170, 255)";
-            setText(time.formattedPrint(true));
+
+            if (time.valid()) {
+
+                // show "FinishedInPits" color
+                m_currentColorString = "color : rgb(102, 170, 255)";
+                setText(time.formattedPrint(true));
+
+            }
+            else {
+
+                m_currentColorString = "color : white";
+                setText("N/A");
+
+            }
             break;
 
         case Lap::Internal::Performance::FinishedPersonalBest:
-            setText(time.formattedPrint(true));
-            // show "FinishedPersonalBest" color
-            m_currentColorString = "color : rgb(37, 183, 39)";
+            if (time.valid()) {
+
+                // show "FinishedPersonalBest" color
+                m_currentColorString = "color : rgb(37, 183, 39)";
+                setText(time.formattedPrint(true));
+
+            }
+            else {
+
+                m_currentColorString = "color : white";
+                setText("N/A");
+
+            }
             break;
 
         case Lap::Internal::Performance::FinishedSessionBest:
-            // show "FinishedSessionBest" color
-            m_currentColorString = "color : rgb(140, 37, 183)";
-            setText(time.formattedPrint(true));
+            if (time.valid()) {
+
+                // show "FinishedSessionBest" color
+                m_currentColorString = "color : rgb(140, 37, 183)";
+                setText(time.formattedPrint(true));
+
+            }
+            else {
+
+                m_currentColorString = "color : white";
+                setText("N/A");
+
+            }
             break;
 
         case Lap::Internal::Performance::FinishedRetired:

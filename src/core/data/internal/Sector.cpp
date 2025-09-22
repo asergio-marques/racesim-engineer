@@ -101,14 +101,14 @@ Lap::Internal::Sector& Lap::Internal::Sector::operator=(const Lap::Internal::Sec
 
 bool Lap::Internal::Sector::operator==(const Lap::Internal::Sector& other) const {
 
+    // compare only the key aspects of the sector rather than all the variable members
     return (m_lapOrderID == other.m_lapOrderID) &&
-        (m_uniqueOverallID == other.m_uniqueOverallID) &&
         (m_lapID == other.m_lapID) &&
         (m_parentID == other.m_parentID) &&
         (m_parentOrderID == other.m_parentOrderID) &&
         (m_startPoint == other.m_startPoint) &&
         (m_endPoint == other.m_endPoint) &&
-        (m_initialLapTime == other.m_initialLapTime) &&
+        (m_isFinalSector == other.m_isFinalSector) &&
         (m_isMiniSector == other.m_isMiniSector);
 
 }

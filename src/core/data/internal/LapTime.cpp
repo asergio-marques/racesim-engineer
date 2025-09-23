@@ -161,7 +161,7 @@ const std::string Lap::Internal::Time::formattedPrint(bool useMinutes) const {
 
     // Prepare minutes if needed
     if (useMinutes) {
-        std::string minutesString = std::to_string(minutes);
+        minutesString = std::to_string(minutes);
         seconds = m_seconds % 60;
     }
 

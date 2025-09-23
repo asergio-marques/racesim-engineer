@@ -12,15 +12,15 @@
 			<minisector start="585" end="961" />
 			<minisector start="961" end="1169" />
 			<minisector start="1169" end="1534" />
-			<minisector start="1534" end="1757" />
+			<minisector start="1534" end="1757.05261" />
 		</sector>
 		<sector>
-			<minisector start="1757" end="2041" />
+			<minisector start="1757.05261" end="2041" />
 			<minisector start="2041" end="2549" />
-			<minisector start="2549" end="3178" />
+			<minisector start="2549" end="3178.60376" />
 		</sector>
 		<sector>
-			<minisector start="3178" end="3557" />
+			<minisector start="3178.60376" end="3557" />
 			<minisector start="3557" end="3988" />
 			<minisector start="3988" end="4251" />
 			<minisector start="4251" end="4567" />

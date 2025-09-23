@@ -108,9 +108,6 @@ Lap::Internal::Sector Processor::Data::SessionState::evaluateCompletedSector(Lap
             isFastestSector = true;
             finishedSector.m_performance = Lap::Internal::Performance::FinishedSessionBest;
             mapToChange->insert_or_assign(finishedSector.getLapOrderID(), finishedSector);
-            //mapToChange.at(finishedSector.getLapOrderID()) = finishedSector;
-            //mapToChange[finishedSector.getLapOrderID()] = finishedSector;
-            //mapToChange.emplace(finishedSector.getLapOrderID(), finishedSector);
             oldFastestSector.m_performance = Lap::Internal::Performance::FinishedPersonalBest;
             return oldFastestSector;
 

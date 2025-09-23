@@ -70,7 +70,7 @@ bool Processor::Data::SectorHistoryData::installDetector(Processor::Detector::In
 
 const bool Processor::Data::SectorHistoryData::Initialized() const {
 
-    return !m_sectors.empty();
+    return !m_isDataComplete;
 
 }
 
@@ -105,7 +105,7 @@ void Processor::Data::SectorHistoryData::initialize(const uint8_t driverID) {
             0 };
 
         initializeSector(newMinisector, 0, Lap::Internal::Status::InvalidUnknown);
-        m_sectors.emplace(0, newMinisector);
+        m_sectors.emplace(newMinisector.getUniqueOverallID(), newMinisector);
 
     }
     else {
@@ -122,7 +122,7 @@ void Processor::Data::SectorHistoryData::initialize(const uint8_t driverID) {
             0 };
 
         initializeSector(newSector, 0, Lap::Internal::Status::InvalidUnknown);
-        m_sectors.emplace(0, newSector);
+        m_sectors.emplace(newSector.getUniqueOverallID(), newSector);
 
     }
 
@@ -351,10 +351,11 @@ void Processor::Data::SectorHistoryData::createNewSector(const uint8_t id, float
     }
 
     auto& newSectorTemplate = Processor::Utility::Sector::getSectorByDistance(sectors, lapDistanceRun);
-    if (m_sectors.rbegin()->second == newSectorTemplate) {
+    if (m_sectors.rbegin()->second.getLapOrderID() == newSectorTemplate.getLapOrderID()) {
 
-        // HACK: if there is a failure in getting by distance, as is, pretend it's higher up ahead
-        newSectorTemplate = Processor::Utility::Sector::getSectorByDistance(sectors, lapDistanceRun + 1.0f);
+        // if there is a failure in getting by distance as-is, get by ID + 1
+        uint16_t newID = (m_sectors.rbegin()->second.getLapOrderID() + 1) % m_sectors.size();
+        newSectorTemplate = Processor::Utility::Sector::getSectorByOrderId(sectors, newID);
 
     }
 
@@ -395,10 +396,11 @@ void Processor::Data::SectorHistoryData::createNewMiniSector(const uint8_t id, f
     }
 
     auto& newMinisectorTemplate = Processor::Utility::Sector::getSectorByDistance(minisectors, lapDistanceRun);
-    if (m_sectors.rbegin()->second == newMinisectorTemplate) {
+    if (m_sectors.rbegin()->second.getLapOrderID() == newMinisectorTemplate.getLapOrderID()) {
 
-        // HACK: if there is a failure in getting by distance, as is, pretend it's higher up ahead
-        newMinisectorTemplate = Processor::Utility::Sector::getSectorByDistance(minisectors, lapDistanceRun + 1.0f);
+        // if there is a failure in getting by distance as-is, get by ID + 1
+        uint16_t newID = (m_sectors.rbegin()->second.getLapOrderID() + 1) % m_sectors.size();
+        newMinisectorTemplate = Processor::Utility::Sector::getSectorByOrderId(sectors, newID);
 
     }
 
@@ -465,9 +467,15 @@ void Processor::Data::SectorHistoryData::evaluateFinishedSector(Lap::Internal::S
 
                 }
 
-                m_installedChangedSectorStateDetector->addChangedSectorInfo(finishedSector);
+            }
+            else {
+
+                // if this sector ID could not be found, then at least insert the current ID to primer the personal best sector map
+                m_personalBestSectorMap.insert_or_assign(finishedSector.getLapOrderID(), finishedSector.getUniqueOverallID());
 
             }
+
+            m_installedChangedSectorStateDetector->addChangedSectorInfo(finishedSector);
 
         }
 

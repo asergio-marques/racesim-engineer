@@ -1,6 +1,7 @@
 #include "data/internal/LapTime.h"
 
 #include <cstdint>
+#include <cassert>
 #include <string>
 #include <stdexcept>
 
@@ -67,14 +68,14 @@ Lap::Internal::Time Lap::Internal::Time::Time::operator+(const Time& other) {
 
 Lap::Internal::Time Lap::Internal::Time::operator-(const Lap::Internal::Time& other) {
 
-    if (*this >= other) {
+    if (*this > other) {
 
-        const uint16_t msSub = m_milliseconds + 1000 - other.m_milliseconds;
-        m_seconds -= other.m_seconds - (((msSub / 1000) > 0) ? 0 : 1);
-        m_milliseconds = msSub % 1000;
+        const uint32_t diffTimeMs = ((m_seconds * 1000) + m_milliseconds) - ((other.m_seconds) * 1000 + other.m_milliseconds);
+        return Lap::Internal::Time{ diffTimeMs };
+
     }
 
-    return *this;
+    return Lap::Internal::Time{ 0 };
 
 }
 
@@ -181,13 +182,13 @@ const std::string Lap::Internal::Time::formattedPrint(bool useMinutes) const {
     }
     else {
         millisecondsString = std::to_string(m_milliseconds);
-    
+
     }
 
     // return the appropriate value
     if (useMinutes && minutes > 0) {
         return minutesString + ":" + secondsString + "." + millisecondsString;
-    }    
+    }
     return secondsString + "." + millisecondsString;
 
 }

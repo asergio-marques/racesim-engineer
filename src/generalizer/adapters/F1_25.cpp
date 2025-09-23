@@ -299,13 +299,22 @@ Generalizer::Adapter::F1_25::ConvertLapDataPacket(const Packet::Game::F1_25::Lap
                     currentLapData.m_status = Lap::Internal::Status::InvalidUnknown;
 
             }
+            currentLapData.m_lapDistanceRun = lapInfo.m_lapDistance;
             // in outlaps at the start of quali/practice and also formation laps in race, this is annoyingly the case
             if (lapInfo.m_lapDistance < 0.0f) {
 
                 currentLapData.m_lapID = 0;
 
             }
-            currentLapData.m_lapDistanceRun = lapInfo.m_lapDistance;
+            else {
+
+                // add also previous lap with whatever little data we can provide
+                Packet::Internal::LapStatus::Data previousLapData;
+                previousLapData.m_lapID = lapInfo.m_currentLapNum - 1;
+                previousLapData.m_time = lapInfo.m_lastLapTime;
+                lapPacket->InsertData(previousLapData);
+
+            }
             lapPacket->InsertData(currentLapData);
             v.push_back(lapPacket);
 
@@ -483,6 +492,8 @@ void Generalizer::Adapter::F1_25::AddLapStatusInfo(const uint8_t lapNo,
         uint32_t sector3TimeMS = (inputInfo->m_sector3TimeMin * 60 * 1000) + inputInfo->m_sector3TimeRemainderMS;
         lapData.m_valid = ((inputInfo->m_lapValidBitFlags & 0x00000001) == 0x00000001);
         lapData.m_sectorTimes = { sector1TimeMS, sector2TimeMS, sector3TimeMS };
+        // leave configuration as InvalidUnknown; because of the lack of lap distance details,
+        // we don't want to use this for the sectors
         castOutputPacket->InsertData(lapData);
 
     }

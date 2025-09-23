@@ -17,6 +17,7 @@ UserInterface::Widget::SectorInfoContainer::SectorInfoContainer(QWidget* parent)
     UserInterface::Widget::Container(UserInterface::Widget::ID::SectorInfo),
     m_sectorTimeText(nullptr),
     m_miniSectorIcons(),
+    m_currentPerf(Lap::Internal::Performance::InvalidUnknown),
     m_lapID(0) {
 
     m_sectorTimeText = new UserInterface::Widget::SectorTimeText(UserInterface::Widget::ID::TyreInfo, parent);
@@ -158,7 +159,7 @@ void UserInterface::Widget::SectorInfoContainer::clear() {
 
 
 
-void UserInterface::Widget::SectorInfoContainer::updateSector(const uint8_t lapID,
+bool UserInterface::Widget::SectorInfoContainer::updateSector(const uint8_t lapID,
     const Lap::Internal::Performance perf, const Lap::Internal::Time& time) {
 
     if ((lapID == m_lapID) && m_sectorTimeText) {
@@ -167,6 +168,30 @@ void UserInterface::Widget::SectorInfoContainer::updateSector(const uint8_t lapI
         redoLayout();
 
     }
+
+    // Check if only now did this sector's state change from a running one to a finished one
+    // Signal the clearance of sectors only if this is the case
+    // This prevents downgrade revisions (SessionBest -> PersonalBest) and double packets (for some reason)
+    // From incrementing the lapID too much
+    bool wasNotFinished = (m_currentPerf == Lap::Internal::Performance::CurrentlyRunning ||
+            m_currentPerf == Lap::Internal::Performance::CurrentlyRunningInvalid ||
+            m_currentPerf == Lap::Internal::Performance::CurrentlyRunningPits);
+
+    bool isNowFinished = (perf == Lap::Internal::Performance::FinishedNormal ||
+            perf == Lap::Internal::Performance::FinishedPits ||
+            perf == Lap::Internal::Performance::FinishedInvalid ||
+            perf == Lap::Internal::Performance::FinishedPersonalBest ||
+            perf == Lap::Internal::Performance::FinishedSessionBest ||
+            perf == Lap::Internal::Performance::FinishedRetired);
+
+    m_currentPerf = perf;
+
+    if (wasNotFinished && isNowFinished) {
+
+        return true;
+
+    }
+    return false;
 
 }
 

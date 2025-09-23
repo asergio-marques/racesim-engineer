@@ -138,21 +138,16 @@ void UserInterface::Widget::SectorInfoArray::updateSector(const uint8_t lapID, c
 
     if (m_sectors.empty() || sectorID > m_sectors.size()) return;
 
+    bool wasFinalized = false;
     auto* sector = m_sectors[sectorID - 1];
     if (sector) {
 
-        sector->updateSector(lapID, perf, time);
+        wasFinalized = sector->updateSector(lapID, perf, time);
 
     }
     // If sector 1 was finished, all other sectors should be cleared
     // Avoid doing it on lap 1 otherwise sectors 2+ will be out of sync
-    if (sectorID == 1 && lapID != 1 &&
-        (perf == Lap::Internal::Performance::FinishedNormal ||
-            perf == Lap::Internal::Performance::FinishedPits ||
-            perf == Lap::Internal::Performance::FinishedInvalid ||
-            perf == Lap::Internal::Performance::FinishedPersonalBest ||
-            perf == Lap::Internal::Performance::FinishedSessionBest ||
-            perf == Lap::Internal::Performance::FinishedRetired)) {
+    if (sectorID == 1 && lapID != 1 && wasFinalized) {
 
         for (size_t i = 1; i < m_sectors.size(); ++i) {
 
@@ -168,13 +163,7 @@ void UserInterface::Widget::SectorInfoArray::updateSector(const uint8_t lapID, c
 
     }
     // If the last sector was finished, sector 1 should be cleared
-    if (sectorID == 3 &&
-        (perf == Lap::Internal::Performance::FinishedNormal ||
-            perf == Lap::Internal::Performance::FinishedPits ||
-            perf == Lap::Internal::Performance::FinishedInvalid ||
-            perf == Lap::Internal::Performance::FinishedPersonalBest ||
-            perf == Lap::Internal::Performance::FinishedSessionBest ||
-            perf == Lap::Internal::Performance::FinishedRetired)) {
+    if (sectorID == 3 && wasFinalized) {
 
         auto* firstSector = m_sectors[0];
         if (firstSector) {

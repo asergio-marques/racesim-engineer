@@ -193,14 +193,14 @@ void UserInterface::Widget::SectorInfoArray::updateSector(const uint8_t lapID, c
 
 
 void UserInterface::Widget::SectorInfoArray::updateMiniSector(const uint8_t lapID, const uint8_t sectorID,
-    const uint8_t miniSectorID, const Lap::Internal::Performance perf) {
+    const uint8_t miniSectorID, const Lap::Internal::Time& time, const Lap::Internal::Performance perf) {
 
     if (m_sectors.empty() || sectorID > m_sectors.size()) return;
 
     auto* sector = m_sectors[sectorID - 1];
     if (sector) {
 
-        sector->updateMiniSector(lapID, miniSectorID, perf);
+        sector->updateMiniSector(lapID, miniSectorID, time, perf);
 
     }
 

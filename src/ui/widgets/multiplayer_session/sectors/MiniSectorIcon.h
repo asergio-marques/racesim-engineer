@@ -4,6 +4,7 @@
 #include "Image.h"
 #include "base/ImageInterface.h"
 #include "data/internal/Lap.h"
+#include "data/internal/LapTime.h"
 
 
 
@@ -18,13 +19,15 @@ namespace UserInterface {
             public:
             MiniSectorIcon(const uint8_t numMinis, QWidget* parent = 0);
             ~MiniSectorIcon() = default;
-            void performanceChanged(Lap::Internal::Performance perf);
+            void performanceChanged(Lap::Internal::Performance perf, const Lap::Internal::Time& time, const uint8_t lapID);
             void reset();
 
             private:
             void calculateIDAndFetch(UserInterface::Widget::StandardImage baseID);
+            void appendTooltipText(const Lap::Internal::Time& time, const uint8_t lapID);
 
             const uint8_t m_numMinis;
+            QString m_toolTipText;
 
         };
 

@@ -199,7 +199,7 @@ void UserInterface::Widget::DriverEntryQuali::sectorChange(const bool isMinisect
 
         if (isMinisector) {
 
-            m_sectorArray->updateMiniSector(lapID, parentOrderID, orderID, sectorPerf);
+            m_sectorArray->updateMiniSector(lapID, parentOrderID, orderID, sectorTime, sectorPerf);
 
         }
         else

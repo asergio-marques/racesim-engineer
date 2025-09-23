@@ -173,14 +173,14 @@ void UserInterface::Widget::SectorInfoContainer::updateSector(const uint8_t lapI
 
 
 void UserInterface::Widget::SectorInfoContainer::updateMiniSector(const uint8_t lapID,
-    const uint8_t minisectorParentOrderID, const Lap::Internal::Performance perf) {
+    const uint8_t minisectorParentOrderID, const Lap::Internal::Time& time, const Lap::Internal::Performance perf) {
 
     if (m_miniSectorIcons.empty() ||
         (minisectorParentOrderID > m_miniSectorIcons.size()) ||
         (minisectorParentOrderID == 0) ||
         (lapID != m_lapID)) return;
 
-    m_miniSectorIcons[minisectorParentOrderID - 1]->performanceChanged(perf);
+    m_miniSectorIcons[minisectorParentOrderID - 1]->performanceChanged(perf, time, m_lapID);
 
 }
 

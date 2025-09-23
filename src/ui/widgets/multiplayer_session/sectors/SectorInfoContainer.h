@@ -38,7 +38,7 @@ namespace UserInterface {
             void updateSector(const uint8_t lapID, const Lap::Internal::Performance perf,
                 const Lap::Internal::Time& time);
             void updateMiniSector(const uint8_t lapID, const uint8_t minisectorParentOrderID,
-                const Lap::Internal::Performance perf);
+                const Lap::Internal::Time& time, const Lap::Internal::Performance perf);
             void incrementLap();
 
             protected:

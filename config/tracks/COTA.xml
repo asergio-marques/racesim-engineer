@@ -7,33 +7,30 @@
 		</aliases>
 	<layout name="F1" id="0">
 		<sector>
-			<minisector start="0" end="0" />
-			<minisector start="0" end="0" />
-			<minisector start="0" end="0" />
-			<minisector start="0" end="0" />
-			<minisector start="0" end="0" />
+			<minisector start="0" end="508.525818" />
+			<minisector start="508.525818" end="731.852295" />
+			<minisector start="731.852295" end="1102.206299" />
+			<minisector start="1102.206299" end="1334.439575" />
+			<minisector start="1334.439575" end="1660.550659" />
 		</sector>
 		<sector>
-			<minisector start="0" end="0" />
-			<minisector start="0" end="0" />
-			<minisector start="0" end="0" />
-			<minisector start="0" end="0" />
-			<minisector start="0" end="0" />
-			<minisector start="0" end="0" />
-			<minisector start="0" end="0" />
-			<minisector start="0" end="0" />
-			<minisector start="0" end="0" />
+			<minisector start="1660.550659" end="1809.375977" />
+			<minisector start="1809.375977" end="2067.051514" />
+			<minisector start="2067.051514" end="2257.718262" />
+			<minisector start="2257.718262" end="2463.438477" />
+			<minisector start="2463.438477" end="2682.461426" />
+			<minisector start="2682.461426" end="2975.418457" />
+			<minisector start="2975.418457" end="3651.595703" />
+			<minisector start="3651.595703" end="3923.414113" />
 		</sector>
 		<sector>
-			<minisector start="0" end="0" />
-			<minisector start="0" end="0" />
-			<minisector start="0" end="0" />
-			<minisector start="0" end="0" />
-			<minisector start="0" end="0" />
-			<minisector start="0" end="0" />
-			<minisector start="0" end="0" />
-			<minisector start="0" end="0" />
-			<minisector start="0" end="0" />
+			<minisector start="3923.414113" end="4067.258545" />
+			<minisector start="4067.258545" end="4188.983398" />
+			<minisector start="4188.983398" end="4363.898438" />
+			<minisector start="4363.898438" end="4668.687500" />
+			<minisector start="4668.687500" end="4948.731992" />
+			<minisector start="4948.731992" end="5260.112793" />
+			<minisector start="5260.112793" end="5515" />
 		</sector>
 	</layout>
 </track>

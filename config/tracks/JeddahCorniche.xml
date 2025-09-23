@@ -7,31 +7,30 @@
 	</aliases>
 	<layout name="F1" id="0">
 		<sector>
-			<minisector start="0" end="0" />
-			<minisector start="0" end="0" />
-			<minisector start="0" end="0" />
-			<minisector start="0" end="0" />
-			<minisector start="0" end="0" />
-			<minisector start="0" end="0" />
-			<minisector start="0" end="0" />
-			<minisector start="0" end="0" />
+			<minisector start="0" end="396.846436" />
+			<minisector start="396.846436" end="658.226990" />
+			<minisector start="658.226990" end="958.106567" />
+			<minisector start="958.106567" end="1247.956543" />
+			<minisector start="1247.956543" end="1563.783447" />
+			<minisector start="1563.783447" end="1850.236694" />
+			<minisector start="1850.236694" end="2108.476074" />
 		</sector>
 		<sector>
-			<minisector start="0" end="0" />
-			<minisector start="0" end="0" />
-			<minisector start="0" end="0" />
-			<minisector start="0" end="0" />
-			<minisector start="0" end="0" />
-			<minisector start="0" end="0" />
+			<minisector start="2108.476074" end="2319.199951" />
+			<minisector start="2319.199951" end="2626.413311" />
+			<minisector start="2626.413311" end="3038.853271" />
+			<minisector start="3038.853271" end="3308.346436" />
+			<minisector start="3308.346436" end="3689.623291" />
+			<minisector start="3689.623291" end="4174.383301" />
 		</sector>
 		<sector>
-			<minisector start="0" end="0" />
-			<minisector start="0" end="0" />
-			<minisector start="0" end="0" />
-			<minisector start="0" end="0" />
-			<minisector start="0" end="0" />
-			<minisector start="0" end="0" />
-			<minisector start="0" end="0" />
+			<minisector start="4174.383301" end="4465.657227" />
+			<minisector start="4465.657227" end="4721.723145" />
+			<minisector start="4721.723145" end="5099.859375" />
+			<minisector start="5099.859375" end="5450.620605" />
+			<minisector start="5450.620605" end="5667.272461" />
+			<minisector start="5667.272461" end="5882.194336" />
+			<minisector start="5882.194336" end="6176" />
 		</sector>
 	</layout>
 </track>

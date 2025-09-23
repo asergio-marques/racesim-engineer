@@ -239,7 +239,6 @@ bool Processor::Data::SectorHistoryData::doUpdate(Lap::Internal::Sector& current
 
     bool alwaysOverride = (currentSector.m_status == Lap::Internal::Status::InvalidUnknown);
 
-    currentSector.m_finalLapTime = currentLapTime;
     if (alwaysOverride && (lapStatus == Lap::Internal::Status::FlyingLap) && isValid) {
 
         currentSector.m_status = Lap::Internal::Status::FlyingLap;
@@ -275,19 +274,31 @@ bool Processor::Data::SectorHistoryData::doUpdate(Lap::Internal::Sector& current
         else lapDistanceRun += Processor::Utility::Sector::getTotalLapDistanceFromSectors(m_trackDataReference.copySectors());
 
     }
-
+    // Check if the length of the current sector was fulfilled
     if (lapDistanceRun >= currentSector.getEndPoint()) {
+
+        currentSector.m_finalLapTime = currentLapTime;
+
+        // Due to problems with outlaps, we only actually evaluate the finished sector if there is a change to
+        // a finished state in this cycle
+        // However, because the distance was fulfilled, the request for a new sector is always done
+        bool actuallyEvaluate = false;
 
         switch (currentSector.m_performance) {
 
             case Lap::Internal::Performance::CurrentlyRunning:
                 currentSector.m_performance = Lap::Internal::Performance::FinishedNormal;
+                actuallyEvaluate = true;
                 break;
+
             case Lap::Internal::Performance::CurrentlyRunningPits:
                 currentSector.m_performance = Lap::Internal::Performance::FinishedPits;
+                actuallyEvaluate = true;
                 break;
+
             case Lap::Internal::Performance::CurrentlyRunningInvalid:
                 currentSector.m_performance = Lap::Internal::Performance::FinishedInvalid;
+                actuallyEvaluate = true;
                 break;
 
             default:
@@ -295,7 +306,11 @@ bool Processor::Data::SectorHistoryData::doUpdate(Lap::Internal::Sector& current
                 break;
 
         }
-        evaluateFinishedSector(currentSector);
+        if (actuallyEvaluate) {
+
+            evaluateFinishedSector(currentSector);
+
+        }
         return true;
 
     }
@@ -303,16 +318,56 @@ bool Processor::Data::SectorHistoryData::doUpdate(Lap::Internal::Sector& current
 
         // Use the previous lap time, because if we're here it means we've started a new lap,
         // so the current lap time is representative of this new lap's first sector
-        currentSector.m_finalLapTime = previousLapTime;
+
+        // Due to problems with outlaps, we only actually evaluate the finished sector if there is a change to
+        // a finished state in this cycle
+        // However, because the distance was fulfilled, the request for a new sector is always done
+        switch (currentSector.m_performance) {
+
+            case Lap::Internal::Performance::CurrentlyRunning:
+                currentSector.m_finalLapTime = previousLapTime;
+                currentSector.m_performance = Lap::Internal::Performance::FinishedNormal;
+                break;
+
+            case Lap::Internal::Performance::CurrentlyRunningPits:
+                currentSector.m_finalLapTime = previousLapTime;
+                currentSector.m_performance = Lap::Internal::Performance::FinishedPits;
+                break;
+
+            case Lap::Internal::Performance::CurrentlyRunningInvalid:
+                currentSector.m_finalLapTime = previousLapTime;
+                currentSector.m_performance = Lap::Internal::Performance::FinishedInvalid;
+                break;
+
+            default:
+                // do nothing, these are the only expected statuses if we've just finished this sector
+                break;
+
+        }
+        if (Processor::Utility::Sector::isFinished(currentSector)) {
+
+            evaluateFinishedSector(currentSector);
+
+        }
+        return true;
+
+    }
+
+    // When entering the pits in quali, the inlap will be "erased"
+    // use the fact that the current lap time is rewinded to the last flying lap to reach the conclusion the in lap is finished
+    // this will not be precise, but it's better than nothing
+    if (currentLapTime < currentSector.m_finalLapTime && !Processor::Utility::Sector::isFinished(currentSector)) {
 
         switch (currentSector.m_performance) {
 
             case Lap::Internal::Performance::CurrentlyRunning:
                 currentSector.m_performance = Lap::Internal::Performance::FinishedNormal;
                 break;
+
             case Lap::Internal::Performance::CurrentlyRunningPits:
                 currentSector.m_performance = Lap::Internal::Performance::FinishedPits;
                 break;
+
             case Lap::Internal::Performance::CurrentlyRunningInvalid:
                 currentSector.m_performance = Lap::Internal::Performance::FinishedInvalid;
                 break;
@@ -323,7 +378,17 @@ bool Processor::Data::SectorHistoryData::doUpdate(Lap::Internal::Sector& current
 
         }
         evaluateFinishedSector(currentSector);
-        return true;
+
+        // As to not cause issues with sector init (initial lap time would be off), do not signal the request for a new sector
+        return false;
+
+    }
+
+    // only at the end, once detection of finished sectors is done,
+    // update the final lap time; this prevents updates that would cause issues with inlaps
+    if (!Processor::Utility::Sector::isFinished(currentSector)) {
+
+        currentSector.m_finalLapTime = currentLapTime;
 
     }
     return false;

@@ -27,6 +27,9 @@ namespace Processor {
             // Be wary about what vector is being passed in, as this does not discriminate between sectors and minisectors
             static Lap::Internal::Sector& getSectorByOrderId(std::vector<Lap::Internal::Sector>& sectors, const uint8_t id);
 
+            // Checks if the sector's data indicates that this sector is finished
+            static bool isFinished(Lap::Internal::Sector& sector);
+
             static Lap::Internal::Sector INVALID_SECTOR;
 
         };

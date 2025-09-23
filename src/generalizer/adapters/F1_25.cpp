@@ -303,12 +303,15 @@ Generalizer::Adapter::F1_25::ConvertLapDataPacket(const Packet::Game::F1_25::Lap
             // in outlaps at the start of quali/practice and also formation laps in race, this is annoyingly the case
             if (lapInfo.m_lapDistance < 0.0f) {
 
+                // Apparently if on an outlap, the first outlap's time is set as a previous lap time because why the fuck not
                 currentLapData.m_lapID = 0;
+                currentLapData.m_time = 0;
 
             }
-            else {
+            else if (lapInfo.m_currentLapNum != 1) {
 
                 // add also previous lap with whatever little data we can provide
+                // avoid giving it on lap index 1 because of weird outlap shenanigans (I'm so tired of it man)
                 Packet::Internal::LapStatus::Data previousLapData;
                 previousLapData.m_lapID = lapInfo.m_currentLapNum - 1;
                 previousLapData.m_time = lapInfo.m_lastLapTime;

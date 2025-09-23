@@ -77,3 +77,15 @@ Lap::Internal::Sector& Processor::Utility::Sector::getSectorByOrderId(
     return Processor::Utility::Sector::INVALID_SECTOR;
 
 }
+
+
+bool Processor::Utility::Sector::isFinished(Lap::Internal::Sector& sector) {
+
+    return sector.m_performance == Lap::Internal::Performance::FinishedNormal ||
+        sector.m_performance == Lap::Internal::Performance::FinishedInvalid ||
+        sector.m_performance == Lap::Internal::Performance::FinishedPits ||
+        sector.m_performance == Lap::Internal::Performance::FinishedRetired ||
+        sector.m_performance == Lap::Internal::Performance::FinishedPersonalBest ||
+        sector.m_performance == Lap::Internal::Performance::FinishedSessionBest;
+
+}

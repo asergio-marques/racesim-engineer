@@ -19,7 +19,11 @@ namespace UserInterface {
             public:
             SectorTimeText(UserInterface::Widget::ID id, QWidget* parent = 0);
             ~SectorTimeText() = default;
-            void setTextAndColor(const Lap::Internal::Time& finishedTime, Lap::Internal::Performance perf);
+            void setTextAndColor(const Lap::Internal::Time& finishedTime, Lap::Internal::Performance perf, const uint8_t lapID);
+
+            private:
+            void appendTooltipText(const Lap::Internal::Time& time, const uint8_t lapID);
+            QString m_toolTipText;
 
         };
     }

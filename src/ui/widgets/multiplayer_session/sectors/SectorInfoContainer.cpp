@@ -145,7 +145,7 @@ void UserInterface::Widget::SectorInfoContainer::clear() {
 
     if (m_sectorTimeText) {
 
-        m_sectorTimeText->setTextAndColor(0, Lap::Internal::Performance::NotRun);
+        m_sectorTimeText->setTextAndColor(0, Lap::Internal::Performance::NotRun, m_lapID);
 
     }
     for (auto* icon : m_miniSectorIcons) {
@@ -163,7 +163,7 @@ void UserInterface::Widget::SectorInfoContainer::updateSector(const uint8_t lapI
 
     if ((lapID == m_lapID) && m_sectorTimeText) {
         
-        m_sectorTimeText->setTextAndColor(time, perf);
+        m_sectorTimeText->setTextAndColor(time, perf, m_lapID);
         redoLayout();
 
     }

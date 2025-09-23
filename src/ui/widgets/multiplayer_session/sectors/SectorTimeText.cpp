@@ -8,15 +8,16 @@
 
 
 UserInterface::Widget::SectorTimeText::SectorTimeText(UserInterface::Widget::ID id, QWidget* parent) :
-    UserInterface::Widget::TextInterface(id, parent) {
+    UserInterface::Widget::TextInterface(id, parent),
+    m_toolTipText() {
 
-
+    setToolTipDuration(-1);
 
 }
 
 
 
-void UserInterface::Widget::SectorTimeText::setTextAndColor(const Lap::Internal::Time& time, Lap::Internal::Performance perf) {
+void UserInterface::Widget::SectorTimeText::setTextAndColor(const Lap::Internal::Time& time, Lap::Internal::Performance perf, const uint8_t lapID) {
 
     switch (perf) {
 
@@ -47,6 +48,7 @@ void UserInterface::Widget::SectorTimeText::setTextAndColor(const Lap::Internal:
                 setText("N/A");
 
             }
+            appendTooltipText(time, lapID);
             break;
 
         case Lap::Internal::Performance::FinishedPits:
@@ -64,6 +66,7 @@ void UserInterface::Widget::SectorTimeText::setTextAndColor(const Lap::Internal:
                 setText("N/A");
 
             }
+            appendTooltipText(time, lapID);
             break;
 
         case Lap::Internal::Performance::FinishedPersonalBest:
@@ -80,6 +83,7 @@ void UserInterface::Widget::SectorTimeText::setTextAndColor(const Lap::Internal:
                 setText("N/A");
 
             }
+            appendTooltipText(time, lapID);
             break;
 
         case Lap::Internal::Performance::FinishedSessionBest:
@@ -96,12 +100,14 @@ void UserInterface::Widget::SectorTimeText::setTextAndColor(const Lap::Internal:
                 setText("N/A");
 
             }
+            appendTooltipText(time, lapID);
             break;
 
         case Lap::Internal::Performance::FinishedRetired:
             // show "FinishedRetirementComplete" color
             m_currentColorString = "color : rgb(212, 44, 44)";
             setText("RETIRED");
+            appendTooltipText(0, lapID);
             break;
 
         default:
@@ -111,5 +117,24 @@ void UserInterface::Widget::SectorTimeText::setTextAndColor(const Lap::Internal:
     }
 
     updateFont();
+
+}
+
+
+
+void UserInterface::Widget::SectorTimeText::appendTooltipText(const Lap::Internal::Time& time, const uint8_t lapID) {
+
+    if (time.valid()) {
+
+        m_toolTipText += "Lap " + QString::number(lapID) + " - " + QString::fromStdString(time.formattedPrint(true)) + "\n";
+
+    }
+    else {
+
+        m_toolTipText += "Lap " + QString::number(lapID) + " - N/A\n";
+
+    }
+
+    setToolTip(m_toolTipText);
 
 }

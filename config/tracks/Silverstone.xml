@@ -7,30 +7,31 @@
 	</aliases>
 	<layout name="F1" id="0">
 		<sector>
-			<minisector start="0" end="0" />
-			<minisector start="0" end="0" />
-			<minisector start="0" end="0" />
-			<minisector start="0" end="0" />
-			<minisector start="0" end="0" />
-			<minisector start="0" end="0" />
+			<minisector start="0" end="310.309265" />
+			<minisector start="310.309265" end="530.580322" />
+			<minisector start="530.580322" end="739.376160" />
+			<minisector start="739.376160" end="991.723999" />
+			<minisector start="991.723999" end="1316.987793" />
+			<minisector start="1316.987793" end="1812.847534" />
 		</sector>
 		<sector>
-			<minisector start="0" end="0" />
-			<minisector start="0" end="0" />
-			<minisector start="0" end="0" />
-			<minisector start="0" end="0" />
-			<minisector start="0" end="0" />
-			<minisector start="0" end="0" />
-			<minisector start="0" end="0" />
-			<minisector start="0" end="0" />
-			<minisector start="0" end="0" />
+			<minisector start="1812.847534" end="2085.304688" />
+			<minisector start="2085.304688" end="2371.421143" />
+			<minisector start="2371.421143" end="2704.931641" />
+			<minisector start="2704.931641" end="2950.593018" />
+			<minisector start="2950.593018" end="3267.839355" />
+			<minisector start="3267.839355" end="3575.908203" />
+			<minisector start="3575.908203" end="3832.196533" />
+			<minisector start="3832.196533" end="4142.498047" />
+			<minisector start="4142.498047" end="4293.456055" />
 		</sector>
 		<sector>
-			<minisector start="0" end="0" />
-			<minisector start="0" end="0" />
-			<minisector start="0" end="0" />
-			<minisector start="0" end="0" />
-			<minisector start="0" end="0" />
+			<minisector start="4293.456055" end="4522.451660" />
+			<minisector start="4522.451660" end="4889.672852" />
+			<minisector start="4889.672852" end="5220.069824" />
+			<minisector start="5220.069824" end="5429.457520" />
+			<minisector start="5429.457520" end="5696.246582" />
+			<minisector start="5696.246582" end="5891" />
 		</sector>
 	</layout>
 </track>

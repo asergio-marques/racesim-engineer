@@ -6,26 +6,26 @@
 	</aliases>
 	<layout name="F1" id="0">
 		<sector>
-			<minisector start="0" end="0" />
-			<minisector start="0" end="0" />
-			<minisector start="0" end="0" />
-			<minisector start="0" end="0" />
-			<minisector start="0" end="0" />
+			<minisector start="0" end="408.286652" />
+			<minisector start="408.286652" end="789.685608" />
+			<minisector start="789.685608" end="1064.183716" />
+			<minisector start="1064.183716" end="1598.304077" />
+			<minisector start="1598.304077" end="1897.794037" />
 		</sector>
 		<sector>
-			<minisector start="0" end="0" />
-			<minisector start="0" end="0" />
-			<minisector start="0" end="0" />
-			<minisector start="0" end="0" />
-			<minisector start="0" end="0" />
-			<minisector start="0" end="0" />
+			<minisector start="1897.794037" end="2238.687744" />
+			<minisector start="2238.687744" end="2416.609131" />
+			<minisector start="2416.609131" end="2705.862764" />
+			<minisector start="2705.862764" end="2989.146484" />
+			<minisector start="2989.146484" end="3384.545898" />
+			<minisector start="3384.545898" end="3726.976318" />
 		</sector>
 		<sector>
-			<minisector start="0" end="0" />
-			<minisector start="0" end="0" />
-			<minisector start="0" end="0" />
-			<minisector start="0" end="0" />
-			<minisector start="0" end="0" />
+			<minisector start="3726.976318" end="4090.411377" />
+			<minisector start="4090.411377" end="4435.118164" />
+			<minisector start="4435.118164" end="5017.118652" />
+			<minisector start="5017.118652" end="5465.693359" />
+			<minisector start="5465.693359" end="5799" />
 		</sector>
 	</layout>
 </track>

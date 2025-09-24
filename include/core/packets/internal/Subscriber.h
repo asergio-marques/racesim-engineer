@@ -5,6 +5,7 @@
 
 
 
+
 namespace Packet {
 
     namespace Internal {
@@ -22,7 +23,7 @@ namespace Packet {
 
             // Overriddable function that handles all incoming packets, to be overriden
             // by derived classes
-            virtual void OnPacketBundleBroadcast(std::vector<Packet::Internal::Interface*> packet) = 0;
+            virtual void OnPacketBundleBroadcast(std::vector<std::shared_ptr<Packet::Internal::Interface>> packet) = 0;
 
         };
 

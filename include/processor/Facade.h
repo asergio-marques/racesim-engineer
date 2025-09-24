@@ -37,7 +37,7 @@ namespace Processor {
             virtual ~Facade();
 
             // Implements the internal packet subscriber handling function
-            virtual void OnPacketBundleBroadcast(std::vector<Packet::Internal::Interface*> packets) override final;
+            virtual void OnPacketBundleBroadcast(std::vector<std::shared_ptr<Packet::Internal::Interface>> packets) override final;
 
             // Initializes needed member variables and starts component
             virtual void Init(Presenter::ICompFacade* presenter) override final;

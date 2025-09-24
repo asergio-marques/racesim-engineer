@@ -96,7 +96,7 @@ void Processor::Data::Databank::Init(Presenter::ICompFacade* presenter) {
 
 
 
-void Processor::Data::Databank::updateData(const Packet::Internal::Interface* packet) {
+void Processor::Data::Databank::updateData(std::shared_ptr<Packet::Internal::Interface> packet) {
 
     if (packet) {
 
@@ -110,23 +110,23 @@ void Processor::Data::Databank::updateData(const Packet::Internal::Interface* pa
             switch (packet->packetType()) {
 
                 case Packet::Internal::Type::GridPosition:
-                    m_creator->Init(dynamic_cast<const Packet::Internal::GridPosition*>(packet));
+                    m_creator->Init(std::dynamic_pointer_cast<Packet::Internal::GridPosition>(packet));
                     break;
 
                 case Packet::Internal::Type::SessionSettings:
-                    m_creator->Init(dynamic_cast<const Packet::Internal::SessionSettings*>(packet), m_trackStore);
+                    m_creator->Init(std::dynamic_pointer_cast<Packet::Internal::SessionSettings>(packet), m_trackStore);
                     break;
 
                 case Packet::Internal::Type::SessionParticipants:
-                    m_creator->Init(dynamic_cast<const Packet::Internal::SessionParticipants*>(packet));
+                    m_creator->Init(std::dynamic_pointer_cast<Packet::Internal::SessionParticipants>(packet));
                     break;
 
                 case Packet::Internal::Type::TyreSetUsage:
-                    m_creator->Init(dynamic_cast<const Packet::Internal::TyreSetUsage*>(packet));
+                    m_creator->Init(std::dynamic_pointer_cast<Packet::Internal::TyreSetUsage>(packet));
                     break;
 
                 case Packet::Internal::Type::WeatherStatus:
-                    m_creator->Init(dynamic_cast<const Packet::Internal::WeatherStatus*>(packet));
+                    m_creator->Init(std::dynamic_pointer_cast<Packet::Internal::WeatherStatus>(packet));
                     break;
 
                 default:
@@ -142,27 +142,27 @@ void Processor::Data::Databank::updateData(const Packet::Internal::Interface* pa
             switch (packet->packetType()) {
 
                 case Packet::Internal::Type::Standings:
-                    updateStandings(dynamic_cast<const Packet::Internal::Standings*>(packet));
+                    updateStandings(std::dynamic_pointer_cast<Packet::Internal::Standings>(packet));
                     break;
 
                 case Packet::Internal::Type::PenaltyStatus:
-                    updatePenalties(dynamic_cast<const Packet::Internal::PenaltyStatus*>(packet));
+                    updatePenalties(std::dynamic_pointer_cast<Packet::Internal::PenaltyStatus>(packet));
                     break;
 
                 case Packet::Internal::Type::ParticipantStatus:
-                    updateParticipantStatus(dynamic_cast<const Packet::Internal::ParticipantStatus*>(packet));
+                    updateParticipantStatus(std::dynamic_pointer_cast<Packet::Internal::ParticipantStatus>(packet));
                     break;
 
                 case Packet::Internal::Type::LapStatus:
-                    updateLapStatus(dynamic_cast<const Packet::Internal::LapStatus*>(packet));
+                    updateLapStatus(std::dynamic_pointer_cast<Packet::Internal::LapStatus>(packet));
                     break;
 
                 case Packet::Internal::Type::TyreSetUsage:
-                    updateCurrentTyreUsage(dynamic_cast<const Packet::Internal::TyreSetUsage*>(packet));
+                    updateCurrentTyreUsage(std::dynamic_pointer_cast<Packet::Internal::TyreSetUsage>(packet));
                     break;
 
                 case Packet::Internal::Type::FinalResult:
-                    prepareSessionEnd(dynamic_cast<const Packet::Internal::FinalResult*>(packet));
+                    prepareSessionEnd(std::dynamic_pointer_cast<Packet::Internal::FinalResult>(packet));
                     break;
 
                 default:
@@ -420,7 +420,7 @@ void Processor::Data::Databank::OnNewDriverRecord(Processor::Data::DriverRecord*
 
 
 
-void Processor::Data::Databank::updateStandings(const Packet::Internal::Standings* standingsPacket) {
+void Processor::Data::Databank::updateStandings(std::shared_ptr < Packet::Internal::Standings> standingsPacket) {
 
     if (standingsPacket) {
 
@@ -457,7 +457,7 @@ void Processor::Data::Databank::updateStandings(const Packet::Internal::Standing
 
 
 
-void Processor::Data::Databank::updatePenalties(const Packet::Internal::PenaltyStatus* penaltyPacket) {
+void Processor::Data::Databank::updatePenalties(std::shared_ptr<Packet::Internal::PenaltyStatus> penaltyPacket) {
 
     if (penaltyPacket) {
         // for each standing data on the packet, check if the driver ID
@@ -497,7 +497,7 @@ void Processor::Data::Databank::updatePenalties(const Packet::Internal::PenaltyS
 
 
 
-void Processor::Data::Databank::updateParticipantStatus(const Packet::Internal::ParticipantStatus* statusPacket) {
+void Processor::Data::Databank::updateParticipantStatus(std::shared_ptr<Packet::Internal::ParticipantStatus> statusPacket) {
 
     if (statusPacket) {
         // for each participant data on the packet, check if the driver ID
@@ -533,7 +533,7 @@ void Processor::Data::Databank::updateParticipantStatus(const Packet::Internal::
 
 
 
-void Processor::Data::Databank::updateLapStatus(const Packet::Internal::LapStatus* lapPacket) {
+void Processor::Data::Databank::updateLapStatus(std::shared_ptr<Packet::Internal::LapStatus> lapPacket) {
 
     if (lapPacket) {
 
@@ -571,7 +571,7 @@ void Processor::Data::Databank::updateLapStatus(const Packet::Internal::LapStatu
 
 
 
-void Processor::Data::Databank::updateCurrentTyreUsage(const Packet::Internal::TyreSetUsage* tyrePacket) {
+void Processor::Data::Databank::updateCurrentTyreUsage(std::shared_ptr<Packet::Internal::TyreSetUsage> tyrePacket) {
 
     if (tyrePacket) {
 
@@ -598,7 +598,7 @@ void Processor::Data::Databank::updateCurrentTyreUsage(const Packet::Internal::T
 
 
 
-void Processor::Data::Databank::prepareSessionEnd(const Packet::Internal::FinalResult* finalResult) {
+void Processor::Data::Databank::prepareSessionEnd(std::shared_ptr<Packet::Internal::FinalResult> finalResult) {
 
     if (finalResult) {
 

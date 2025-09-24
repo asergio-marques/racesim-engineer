@@ -3,6 +3,7 @@
 
 #include <cstdint>
 #include <QMap>
+#include <QSharedPointer>
 #include "base/Container.h"
 #include "packets/event/LapFinished.h"
 #include "packets/event/Overtake.h"
@@ -33,14 +34,14 @@ namespace UserInterface {
             Standings(QWidget* parent = 0);
             virtual ~Standings() = default;
             void cleanup();
-            void onQualiStart(const Packet::Event::QualiStart* dataPacket);
-            void onRaceStart(const Packet::Event::RaceStart* dataPacket);
-            void onOvertake(const Packet::Event::Overtake* packet);
-            void onPenaltyReceived(const Packet::Event::PenaltyReceived* dataPacket);
-            void onParticipantStatusChanged(const Packet::Event::ParticipantStatusChanged* dataPacket);
-            void onLapFinished(const Packet::Event::LapFinished* dataPacket);
-            void onTyreChanged(const Packet::Event::TyreChanged* dataPacket);
-            void onSectorStateChanged(const Packet::Event::SectorStateChanged* dataPacket);
+            void onQualiStart(QSharedPointer<const Packet::Event::QualiStart> dataPacket);
+            void onRaceStart(QSharedPointer<const Packet::Event::RaceStart> dataPacket);
+            void onOvertake(QSharedPointer<const Packet::Event::Overtake> packet);
+            void onPenaltyReceived(QSharedPointer<const Packet::Event::PenaltyReceived> dataPacket);
+            void onParticipantStatusChanged(QSharedPointer<const Packet::Event::ParticipantStatusChanged> dataPacket);
+            void onLapFinished(QSharedPointer<const Packet::Event::LapFinished> dataPacket);
+            void onTyreChanged(QSharedPointer<const Packet::Event::TyreChanged> dataPacket);
+            void onSectorStateChanged(QSharedPointer<const Packet::Event::SectorStateChanged> dataPacket);
             void move(const uint16_t x, const uint16_t y, const bool centerAlignmentX, const bool centerAlignmentY) override final;
             void scale(const uint8_t percent) override final;
             void scale(const uint8_t percentX, const uint8_t percentY) override final;

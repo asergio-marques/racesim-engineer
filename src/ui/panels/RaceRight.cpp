@@ -1,5 +1,6 @@
 #include "panels/RaceRight.h"
 
+#include <QSharedPointer>
 #include <QSize>
 #include <QWidget>
 #include "PacketHandler.h"
@@ -68,11 +69,11 @@ void UserInterface::Panel::RaceRight::ResizePanel(const QSize& newUsefulSize) {
 
 
 
-void UserInterface::Panel::RaceRight::Startup(const Packet::Event::Interface* startInfo) {
+void UserInterface::Panel::RaceRight::Startup(QSharedPointer<const Packet::Event::Interface> startInfo) {
 
     if (startInfo) {
 
-        auto raceStartInfo = dynamic_cast<const Packet::Event::RaceStart*>(startInfo);
+        auto raceStartInfo = qSharedPointerDynamicCast<const Packet::Event::RaceStart>(startInfo);
         if (raceStartInfo && m_driverStandings) {
 
             m_driverStandings->onRaceStart(raceStartInfo);

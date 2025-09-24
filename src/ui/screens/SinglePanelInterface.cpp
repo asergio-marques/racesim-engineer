@@ -1,10 +1,12 @@
 #include "screens/SinglePanelInterface.h"
 
 #include <QResizeEvent>
+#include <QSharedPointer>
 #include <QWidget>
 #include "panels/Interface.h"
 #include "screens/Interface.h"
 #include "settings/WindowNumber.h"
+
 
 
 
@@ -43,7 +45,7 @@ void UserInterface::Screen::SinglePanelInterface::Deactivate() {
 
 
 
-void UserInterface::Screen::SinglePanelInterface::Initialize(const Packet::Event::Interface* startupInfo) {
+void UserInterface::Screen::SinglePanelInterface::Initialize(QSharedPointer<const Packet::Event::Interface> startupInfo) {
 
     if (m_panel) {
 

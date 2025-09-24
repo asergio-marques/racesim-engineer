@@ -61,7 +61,7 @@ Processor::Facade::~Facade() {
 
 
 
-void Processor::Facade::OnPacketBundleBroadcast(std::vector<Packet::Internal::Interface*> packets) {
+void Processor::Facade::OnPacketBundleBroadcast(std::vector<std::shared_ptr<Packet::Internal::Interface>> packets) {
 
     if (m_databank && !packets.empty()) {
 
@@ -70,7 +70,6 @@ void Processor::Facade::OnPacketBundleBroadcast(std::vector<Packet::Internal::In
             if (packet) {
 
                 m_databank->updateData(packet);
-                delete packet;
 
             }
 

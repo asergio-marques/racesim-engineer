@@ -1,6 +1,8 @@
 #ifndef PACKETS_GAME_INCLUDE_INTERFACE_H_
 #define PACKETS_GAME_INCLUDE_INTERFACE_H_
 
+#include <memory>
+
 
 
 namespace Packet {

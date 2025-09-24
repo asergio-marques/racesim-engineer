@@ -1,5 +1,6 @@
 #include "panels/RaceLeft.h"
 
+#include <QSharedPointer>
 #include <QSize>
 #include <QWidget>
 #include "panels/Interface.h"
@@ -49,7 +50,7 @@ void UserInterface::Panel::RaceLeft::ResizePanel(const QSize& newUsefulSize) {
 
 
 
-void UserInterface::Panel::RaceLeft::Startup(const Packet::Event::Interface* startInfo) {
+void UserInterface::Panel::RaceLeft::Startup(QSharedPointer<const Packet::Event::Interface> startInfo) {
 
     // TODO
 

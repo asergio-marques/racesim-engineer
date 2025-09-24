@@ -2,7 +2,10 @@
 #define PACKETS_INTERNAL_INCLUDE_BROADCASTER_H_
 
 #include <list>
+#include <memory>
 #include <vector>
+
+
 
 
 namespace Packet {
@@ -21,7 +24,7 @@ namespace Packet {
 
             protected:
             // General function to divulge packet information to all subscribers
-            void Broadcast(std::vector<Packet::Internal::Interface*> packets);
+            void Broadcast(std::vector<std::shared_ptr<Packet::Internal::Interface>> packets);
 
             // Container for all the subscribers that will receive new packets
             std::list<Packet::Internal::Subscriber*> m_subscribers;

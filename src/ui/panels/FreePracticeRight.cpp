@@ -1,5 +1,6 @@
 #include "panels/FreePracticeRight.h"
 
+#include <QSharedPointer>
 #include <QSize>
 #include <QWidget>
 #include "panels/Interface.h"
@@ -29,7 +30,7 @@ void UserInterface::Panel::FreePracticeRight::ResizePanel(const QSize& newUseful
 
 
 
-void UserInterface::Panel::FreePracticeRight::Startup(const Packet::Event::Interface* startInfo) {
+void UserInterface::Panel::FreePracticeRight::Startup(QSharedPointer<const Packet::Event::Interface> startInfo) {
 
     // TODO
 

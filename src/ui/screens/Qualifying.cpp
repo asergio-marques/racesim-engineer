@@ -1,10 +1,12 @@
 #include "screens/Qualifying.h"
 
+#include <QSharedPointer>
 #include <QWidget>
 #include "screens/DualPanelInterface.h"
 #include "core/Screen.h"
 #include "panels/QualifyingLeft.h"
 #include "panels/QualifyingRight.h"
+
 
 
 
@@ -23,7 +25,7 @@ const UserInterface::Screen::Type UserInterface::Screen::Qualifying::Type() cons
 
 
 
-void UserInterface::Screen::Qualifying::Activate(const Packet::Event::Interface* startupInfo) {
+void UserInterface::Screen::Qualifying::Activate(QSharedPointer<const Packet::Event::Interface> startupInfo) {
 
     if (startupInfo) {
 

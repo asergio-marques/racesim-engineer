@@ -1,10 +1,12 @@
 #include "screens/Race.h"
 
+#include <QSharedPointer>
 #include <QWidget>
 #include "screens/DualPanelInterface.h"
 #include "core/Screen.h"
 #include "panels/RaceLeft.h"
 #include "panels/RaceRight.h"
+
 
 
 
@@ -23,7 +25,7 @@ const UserInterface::Screen::Type UserInterface::Screen::Race::Type() const {
 
 
 
-void UserInterface::Screen::Race::Activate(const Packet::Event::Interface* startupInfo) {
+void UserInterface::Screen::Race::Activate(QSharedPointer<const Packet::Event::Interface> startupInfo) {
 
     if (startupInfo) {
 

@@ -17,7 +17,7 @@ namespace Packet {
             Interface(const uint64_t timestamp);
 
             // Destructor
-            virtual ~Interface() = default;
+            virtual ~Interface();
 
             // Type identifier for the packet, to be overridden
             virtual const Packet::Internal::Type packetType() const = 0;

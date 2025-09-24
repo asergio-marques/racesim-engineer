@@ -1,6 +1,7 @@
 #ifndef USERINTERFACE_SCREEN_INCLUDE_SINGLE_PANEL_INTERFACE_H_
 #define USERINTERFACE_SCREEN_INCLUDE_SINGLE_PANEL_INTERFACE_H_
 
+#include <QSharedPointer>
 #include <QWidget>
 #include "screens/Interface.h"
 #include "settings/WindowNumber.h"
@@ -39,7 +40,7 @@ namespace UserInterface {
                 virtual void handleResizeEvent(const QSize newUsefulSize) override final;
 
             protected:
-                void Initialize(const Packet::Event::Interface* startupInfo);
+                void Initialize(QSharedPointer<const Packet::Event::Interface> startupInfo);
                 Settings::WindowNumber m_mode;
                 UserInterface::Panel::Interface* m_panel;
 

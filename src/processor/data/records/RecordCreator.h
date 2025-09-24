@@ -2,6 +2,7 @@
 #define PROCESSOR_DATA_INCLUDE_RECORD_CREATOR_H_
 
 #include <cstdint>
+#include <memory>
 #include <functional>
 #include <map>
 #include "data/records/DriverRecord.h"
@@ -57,20 +58,20 @@ namespace Processor {
             bool FoundPlayer(uint8_t& playerId);
 
             // Initializes grid position data to the driver records
-            void Init(const Packet::Internal::GridPosition* packet);
+            void Init(std::shared_ptr<Packet::Internal::GridPosition> packet);
 
             // Initializes session records
-            void Init(const Packet::Internal::SessionSettings* packet,
+            void Init(std::shared_ptr<Packet::Internal::SessionSettings> packet,
                 const Processor::Data::TrackDataStore* const trackStore);
 
             // Initializes driver records
-            void Init(const Packet::Internal::SessionParticipants* packet);
+            void Init(std::shared_ptr<Packet::Internal::SessionParticipants> packet);
 
             // Initializes starting tyre data to the driver records
-            void Init(const Packet::Internal::TyreSetUsage* packet);
+            void Init(std::shared_ptr<Packet::Internal::TyreSetUsage> packet);
 
             // Initializes weather information for this and every session in this lobby
-            void Init(const Packet::Internal::WeatherStatus* packet);
+            void Init(std::shared_ptr<Packet::Internal::WeatherStatus> packet);
 
             private:
             // Auxiliary function to be called whenever the full suite of driver records, or the session record, has been prepared

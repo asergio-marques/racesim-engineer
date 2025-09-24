@@ -1,7 +1,7 @@
 #include "EventAnnouncer.h"
 
-#include <iostream>
 #include <QObject>
+#include <QSharedPointer>
 #include <QTextToSpeech>
 #include "packets/event/LapFinished.h"
 #include "packets/event/TyreChanged.h"
@@ -63,7 +63,7 @@ void UserInterface::EventAnnouncer::Init() {
 
 
 
-void UserInterface::EventAnnouncer::AnnounceFinishedLap(const Packet::Event::LapFinished* lap) {
+void UserInterface::EventAnnouncer::AnnounceFinishedLap(QSharedPointer<const Packet::Event::LapFinished> lap) {
 
     if (m_speechEngine && lap &&
         (lap->m_infoType == Lap::Internal::InfoType::FastestLap)) {
@@ -113,7 +113,7 @@ void UserInterface::EventAnnouncer::AnnounceFinishedLap(const Packet::Event::Lap
 
 
 
-void UserInterface::EventAnnouncer::AnnounceTyreChanged(const Packet::Event::TyreChanged* tyre) {
+void UserInterface::EventAnnouncer::AnnounceTyreChanged(QSharedPointer<const Packet::Event::TyreChanged> tyre) {
 
     // no need to inform if it was the player changing tyres
     if (m_speechEngine && tyre && !(tyre->m_isPlayer)) {
@@ -151,7 +151,7 @@ void UserInterface::EventAnnouncer::AnnounceTyreChanged(const Packet::Event::Tyr
 
 
 
-void UserInterface::EventAnnouncer::AnnouncePenaltyReceived(const Packet::Event::PenaltyReceived* pen) {
+void UserInterface::EventAnnouncer::AnnouncePenaltyReceived(QSharedPointer<const Packet::Event::PenaltyReceived> pen) {
 
     if (m_speechEngine && pen) {
 

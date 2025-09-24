@@ -6,6 +6,7 @@
 
 
 
+
 void Packet::Internal::Broadcaster::Subscribe(Packet::Internal::Subscriber* subscriber) {
 
     if (subscriber) {
@@ -18,7 +19,7 @@ void Packet::Internal::Broadcaster::Subscribe(Packet::Internal::Subscriber* subs
 
 
 
-void Packet::Internal::Broadcaster::Broadcast(std::vector<Packet::Internal::Interface*> packets) {
+void Packet::Internal::Broadcaster::Broadcast(std::vector<std::shared_ptr<Packet::Internal::Interface>> packets) {
 
     if (!packets.empty()) {
 

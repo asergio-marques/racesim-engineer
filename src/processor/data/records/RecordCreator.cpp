@@ -102,7 +102,7 @@ bool Processor::Data::RecordCreator::FoundPlayer(uint8_t& playerId) {
 
 
 
-void Processor::Data::RecordCreator::Init(const Packet::Internal::GridPosition* packet) {
+void Processor::Data::RecordCreator::Init(std::shared_ptr<Packet::Internal::GridPosition> packet) {
 
     if (!packet || m_driverRecords.empty()) return;
 
@@ -130,7 +130,7 @@ void Processor::Data::RecordCreator::Init(const Packet::Internal::GridPosition* 
 
 
 
-void Processor::Data::RecordCreator::Init(const Packet::Internal::SessionSettings* packet,
+void Processor::Data::RecordCreator::Init(std::shared_ptr<Packet::Internal::SessionSettings> packet,
     const Processor::Data::TrackDataStore* const trackStore) {
 
     if (!packet || !trackStore || m_sessionRecord ) return;
@@ -149,7 +149,7 @@ void Processor::Data::RecordCreator::Init(const Packet::Internal::SessionSetting
 
 
 
-void Processor::Data::RecordCreator::Init(const Packet::Internal::SessionParticipants* packet) {
+void Processor::Data::RecordCreator::Init(std::shared_ptr<Packet::Internal::SessionParticipants> packet) {
 
     if (!packet || !m_sessionRecord || !m_sessionRecord->Initialized()) return;
 
@@ -207,7 +207,7 @@ void Processor::Data::RecordCreator::Init(const Packet::Internal::SessionPartici
 
 
 
-void Processor::Data::RecordCreator::Init(const Packet::Internal::TyreSetUsage* packet) {
+void Processor::Data::RecordCreator::Init(std::shared_ptr<Packet::Internal::TyreSetUsage> packet) {
 
     if (!packet || m_driverRecords.empty()) return;
 
@@ -235,7 +235,7 @@ void Processor::Data::RecordCreator::Init(const Packet::Internal::TyreSetUsage* 
 
 
 
-void Processor::Data::RecordCreator::Init(const Packet::Internal::WeatherStatus* packet) {
+void Processor::Data::RecordCreator::Init(std::shared_ptr<Packet::Internal::WeatherStatus> packet) {
 
     if (!packet || !m_sessionRecord || m_sessionRecord->Initialized()) return;
 

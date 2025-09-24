@@ -1,6 +1,7 @@
 #include "listener/Director.h"
 
 #include <functional>
+#include <memory>
 #include "ICompFacade.h"
 #include "ISettings.h"
 #include "adapters/Interface.h"
@@ -113,8 +114,8 @@ void NetCom::Listener::Director::OnNewDatagramAvailable(const char* datagram, co
             #ifndef NDEBUG
             //packet->Print();
             #endif // NDEBUG
-
-            Broadcast(packet);
+            auto S = std::shared_ptr<Packet::Game::Interface>(packet);
+            Broadcast(S);
 
         }
         else {

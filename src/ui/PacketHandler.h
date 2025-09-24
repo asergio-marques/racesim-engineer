@@ -4,6 +4,7 @@
 #include <memory>
 #include <QList>
 #include <QObject>
+#include <QSharedPointer>
 #include <QThread>
 #include <QTimer>
 // packet headers need to be added here for signals to work
@@ -26,37 +27,36 @@ namespace UserInterface {
         public:
         PacketHandler();
         virtual ~PacketHandler();
-        void AcceptPacket(Packet::Event::Interface* packet);
+        void AcceptPacket(const Packet::Event::Interface* packet);
 
         signals:
-        void TimeTrialStart(const Packet::Event::Interface*);
-        void PracticeStart(const Packet::Event::Interface*);
-        void QualiStart(const Packet::Event::Interface*);
-        void RaceStart(const Packet::Event::Interface*);
+        void TimeTrialStart(QSharedPointer<const Packet::Event::Interface>);
+        void PracticeStart(QSharedPointer<const Packet::Event::Interface>);
+        void QualiStart(QSharedPointer<const Packet::Event::Interface>);
+        void RaceStart(QSharedPointer<const Packet::Event::Interface>);
         void SessionEnd();
-        void OvertakePerformed(const Packet::Event::Overtake*);
-        void PenaltyReceived(const Packet::Event::PenaltyReceived*);
-        void ParticipantStatusChanged(const Packet::Event::ParticipantStatusChanged*);
-        void LapFinished(const Packet::Event::LapFinished*);
-        void TyreChanged(const Packet::Event::TyreChanged*);
-        void SectorStateChanged(const Packet::Event::SectorStateChanged*);
+        void OvertakePerformed(QSharedPointer<const Packet::Event::Overtake>);
+        void PenaltyReceived(QSharedPointer<const Packet::Event::PenaltyReceived>);
+        void ParticipantStatusChanged(QSharedPointer<const Packet::Event::ParticipantStatusChanged>);
+        void LapFinished(QSharedPointer<const Packet::Event::LapFinished>);
+        void TyreChanged(QSharedPointer<const Packet::Event::TyreChanged>);
+        void SectorStateChanged(QSharedPointer<const Packet::Event::SectorStateChanged>);
 
         private:
         void StartTimer();
         void Exec();
-        void CleanupList();
 
         // Notify functions
-        void NotifySessionStartObservers(Packet::Event::Interface* packet);
-        void NotifySessionEndObservers(Packet::Event::Interface* packet);
-        void NotifyOvertakeObservers(Packet::Event::Interface* packet);
-        void NotifyPenaltyObservers(Packet::Event::Interface* packet);
-        void NotifyStatusChangeObservers(Packet::Event::Interface* packet);
-        void NotifyLapObservers(Packet::Event::Interface* packet);
-        void NotifyTyreObservers(Packet::Event::Interface* packet);
-        void NotifySectorChangeObservers(Packet::Event::Interface* packet);
+        void NotifySessionStartObservers(QSharedPointer<const Packet::Event::Interface> packet);
+        void NotifySessionEndObservers(QSharedPointer<const Packet::Event::Interface> packet);
+        void NotifyOvertakeObservers(QSharedPointer<const Packet::Event::Interface> packet);
+        void NotifyPenaltyObservers(QSharedPointer<const Packet::Event::Interface> packet);
+        void NotifyStatusChangeObservers(QSharedPointer<const Packet::Event::Interface> packet);
+        void NotifyLapObservers(QSharedPointer<const Packet::Event::Interface> packet);
+        void NotifyTyreObservers(QSharedPointer<const Packet::Event::Interface> packet);
+        void NotifySectorChangeObservers(QSharedPointer<const Packet::Event::Interface> packet);
 
-        QList<Packet::Event::Interface*> m_packetList;
+        QList<QSharedPointer<const Packet::Event::Interface>> m_packetList;
         QThread m_workerThread;
         QTimer m_execTimer;
 

@@ -15,6 +15,8 @@ Packet::Game::F1_25::Interface::Interface() :
 
 
 Packet::Game::F1_25::Interface::~Interface() {
+
+    std::cout << "F1 25 packet was destroyed" << std::endl;
     
     if (m_header) { delete m_header; }
 

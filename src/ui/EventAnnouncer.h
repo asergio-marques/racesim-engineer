@@ -2,6 +2,7 @@
 #define USERINTERFACE_INCLUDE_EVENT_ANNOUNCER_H_
 
 #include <QObject>
+#include <QSharedPointer>
 #include <QTextToSpeech>
 #include "data/internal/Tyre.h"
 #include "packets/event/LapFinished.h"
@@ -23,9 +24,9 @@ namespace UserInterface {
         EventAnnouncer();
         virtual ~EventAnnouncer();
         void Init();
-        void AnnounceFinishedLap(const Packet::Event::LapFinished* lap);
-        void AnnounceTyreChanged(const Packet::Event::TyreChanged* tyre);
-        void AnnouncePenaltyReceived(const Packet::Event::PenaltyReceived* pen);
+        void AnnounceFinishedLap(QSharedPointer<const Packet::Event::LapFinished> lap);
+        void AnnounceTyreChanged(QSharedPointer<const Packet::Event::TyreChanged> tyre);
+        void AnnouncePenaltyReceived(QSharedPointer<const Packet::Event::PenaltyReceived> pen);
 
         private:
         QString convertVisualTyres(Tyre::Internal::Visual tyre);

@@ -24,9 +24,9 @@ namespace UserInterface {
         EventAnnouncer();
         virtual ~EventAnnouncer();
         void Init();
-        void AnnounceFinishedLap(QSharedPointer<const Packet::Event::LapFinished> lap);
-        void AnnounceTyreChanged(QSharedPointer<const Packet::Event::TyreChanged> tyre);
-        void AnnouncePenaltyReceived(QSharedPointer<const Packet::Event::PenaltyReceived> pen);
+        void AnnounceFinishedLap(QSharedPointer<Packet::Event::LapFinished> lap);
+        void AnnounceTyreChanged(QSharedPointer<Packet::Event::TyreChanged> tyre);
+        void AnnouncePenaltyReceived(QSharedPointer<Packet::Event::PenaltyReceived> pen);
 
         private:
         QString convertVisualTyres(Tyre::Internal::Visual tyre);

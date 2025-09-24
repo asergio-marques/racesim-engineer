@@ -25,7 +25,7 @@ const UserInterface::Screen::Type UserInterface::Screen::TimeTrial::Type() const
 
 
 
-void UserInterface::Screen::TimeTrial::Activate(QSharedPointer<const Packet::Event::Interface> startupInfo) {
+void UserInterface::Screen::TimeTrial::Activate(QSharedPointer<Packet::Event::Interface> startupInfo) {
 
     if (startupInfo) {
 

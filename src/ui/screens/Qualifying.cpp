@@ -25,7 +25,7 @@ const UserInterface::Screen::Type UserInterface::Screen::Qualifying::Type() cons
 
 
 
-void UserInterface::Screen::Qualifying::Activate(QSharedPointer<const Packet::Event::Interface> startupInfo) {
+void UserInterface::Screen::Qualifying::Activate(QSharedPointer<Packet::Event::Interface> startupInfo) {
 
     if (startupInfo) {
 

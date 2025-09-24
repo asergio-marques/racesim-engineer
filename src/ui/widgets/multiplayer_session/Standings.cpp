@@ -47,7 +47,7 @@ void UserInterface::Widget::Standings::cleanup() {
 
 
 
-void UserInterface::Widget::Standings::onQualiStart(QSharedPointer<const Packet::Event::QualiStart> dataPacket) {
+void UserInterface::Widget::Standings::onQualiStart(QSharedPointer<Packet::Event::QualiStart> dataPacket) {
 
     if (dataPacket && !m_initialParamsSet) {
 
@@ -80,7 +80,7 @@ void UserInterface::Widget::Standings::onQualiStart(QSharedPointer<const Packet:
 
 
 
-void UserInterface::Widget::Standings::onRaceStart(QSharedPointer<const Packet::Event::RaceStart> dataPacket) {
+void UserInterface::Widget::Standings::onRaceStart(QSharedPointer<Packet::Event::RaceStart> dataPacket) {
 
     if (dataPacket && !m_initialParamsSet) {
 
@@ -107,7 +107,7 @@ void UserInterface::Widget::Standings::onRaceStart(QSharedPointer<const Packet::
 
 
 
-void UserInterface::Widget::Standings::onOvertake(QSharedPointer<const Packet::Event::Overtake> packet) {
+void UserInterface::Widget::Standings::onOvertake(QSharedPointer<Packet::Event::Overtake> packet) {
 
     if (packet && m_initialParamsSet) {
 
@@ -130,7 +130,7 @@ void UserInterface::Widget::Standings::onOvertake(QSharedPointer<const Packet::E
 
 
 
-void UserInterface::Widget::Standings::onPenaltyReceived(QSharedPointer<const Packet::Event::PenaltyReceived> dataPacket) {
+void UserInterface::Widget::Standings::onPenaltyReceived(QSharedPointer<Packet::Event::PenaltyReceived> dataPacket) {
 
     if (dataPacket && m_initialParamsSet) {
 
@@ -143,7 +143,7 @@ void UserInterface::Widget::Standings::onPenaltyReceived(QSharedPointer<const Pa
 
 
 
-void UserInterface::Widget::Standings::onParticipantStatusChanged(QSharedPointer<const Packet::Event::ParticipantStatusChanged> dataPacket) {
+void UserInterface::Widget::Standings::onParticipantStatusChanged(QSharedPointer<Packet::Event::ParticipantStatusChanged> dataPacket) {
 
     if (dataPacket && m_initialParamsSet) {
 
@@ -157,7 +157,7 @@ void UserInterface::Widget::Standings::onParticipantStatusChanged(QSharedPointer
 
 
 
-void UserInterface::Widget::Standings::onLapFinished(QSharedPointer<const Packet::Event::LapFinished> dataPacket) {
+void UserInterface::Widget::Standings::onLapFinished(QSharedPointer<Packet::Event::LapFinished> dataPacket) {
 
     if (dataPacket && m_initialParamsSet) {
 
@@ -195,7 +195,7 @@ void UserInterface::Widget::Standings::onLapFinished(QSharedPointer<const Packet
 
 
 
-void UserInterface::Widget::Standings::onTyreChanged(QSharedPointer<const Packet::Event::TyreChanged> dataPacket) {
+void UserInterface::Widget::Standings::onTyreChanged(QSharedPointer<Packet::Event::TyreChanged> dataPacket) {
 
     if (dataPacket && m_initialParamsSet) {
 
@@ -216,7 +216,7 @@ void UserInterface::Widget::Standings::onTyreChanged(QSharedPointer<const Packet
 
 
 
-void UserInterface::Widget::Standings::onSectorStateChanged(QSharedPointer<const Packet::Event::SectorStateChanged> dataPacket) {
+void UserInterface::Widget::Standings::onSectorStateChanged(QSharedPointer<Packet::Event::SectorStateChanged> dataPacket) {
 
     if (dataPacket && m_initialParamsSet) {
 

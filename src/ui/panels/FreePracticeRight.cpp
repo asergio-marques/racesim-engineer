@@ -30,7 +30,7 @@ void UserInterface::Panel::FreePracticeRight::ResizePanel(const QSize& newUseful
 
 
 
-void UserInterface::Panel::FreePracticeRight::Startup(QSharedPointer<const Packet::Event::Interface> startInfo) {
+void UserInterface::Panel::FreePracticeRight::Startup(QSharedPointer<Packet::Event::Interface> startInfo) {
 
     // TODO
 

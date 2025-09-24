@@ -50,7 +50,7 @@ void UserInterface::Panel::RaceLeft::ResizePanel(const QSize& newUsefulSize) {
 
 
 
-void UserInterface::Panel::RaceLeft::Startup(QSharedPointer<const Packet::Event::Interface> startInfo) {
+void UserInterface::Panel::RaceLeft::Startup(QSharedPointer<Packet::Event::Interface> startInfo) {
 
     // TODO
 

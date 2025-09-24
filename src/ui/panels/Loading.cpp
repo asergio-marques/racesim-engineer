@@ -79,7 +79,7 @@ void UserInterface::Panel::Loading::ResizePanel(const QSize& newUsefulSize) {
 
 
 
-void UserInterface::Panel::Loading::Startup(QSharedPointer<const Packet::Event::Interface> startInfo) {
+void UserInterface::Panel::Loading::Startup(QSharedPointer<Packet::Event::Interface> startInfo) {
 
     // TODO
 

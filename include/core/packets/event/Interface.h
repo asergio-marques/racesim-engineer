@@ -35,6 +35,9 @@ namespace Packet {
             // Current position of the participant to which this packet refers, useful for TTS announcement
             const uint8_t m_currentPosition;
 
+            // temp hack to fix issues with packet list clearance
+            bool m_isProcessed = false;
+
         };
 
     }

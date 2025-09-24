@@ -45,7 +45,7 @@ void UserInterface::Screen::SinglePanelInterface::Deactivate() {
 
 
 
-void UserInterface::Screen::SinglePanelInterface::Initialize(QSharedPointer<const Packet::Event::Interface> startupInfo) {
+void UserInterface::Screen::SinglePanelInterface::Initialize(QSharedPointer<Packet::Event::Interface> startupInfo) {
 
     if (m_panel) {
 

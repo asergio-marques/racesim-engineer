@@ -40,7 +40,7 @@ namespace UserInterface {
                 virtual void handleResizeEvent(const QSize newUsefulSize) override final;
 
             protected:
-                void Initialize(QSharedPointer<const Packet::Event::Interface> startupInfo);
+                void Initialize(QSharedPointer<Packet::Event::Interface> startupInfo);
                 Settings::WindowNumber m_mode;
                 UserInterface::Panel::Interface* m_panel;
 

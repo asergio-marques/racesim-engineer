@@ -25,7 +25,7 @@ const UserInterface::Screen::Type UserInterface::Screen::Race::Type() const {
 
 
 
-void UserInterface::Screen::Race::Activate(QSharedPointer<const Packet::Event::Interface> startupInfo) {
+void UserInterface::Screen::Race::Activate(QSharedPointer<Packet::Event::Interface> startupInfo) {
 
     if (startupInfo) {
 

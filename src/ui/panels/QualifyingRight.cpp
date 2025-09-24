@@ -68,11 +68,11 @@ void UserInterface::Panel::QualifyingRight::ResizePanel(const QSize& newUsefulSi
 
 
 
-void UserInterface::Panel::QualifyingRight::Startup(QSharedPointer<const Packet::Event::Interface> startInfo) {
+void UserInterface::Panel::QualifyingRight::Startup(QSharedPointer<Packet::Event::Interface> startInfo) {
 
     if (startInfo) {
 
-        auto qualiStartInfo = qSharedPointerDynamicCast<const Packet::Event::QualiStart>(startInfo);
+        auto qualiStartInfo = qSharedPointerDynamicCast<Packet::Event::QualiStart>(startInfo);
         if (qualiStartInfo && m_driverStandings) {
 
             m_driverStandings->onQualiStart(qualiStartInfo);

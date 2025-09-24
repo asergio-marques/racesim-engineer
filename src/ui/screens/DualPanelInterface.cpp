@@ -53,7 +53,7 @@ void UserInterface::Screen::DualPanelInterface::handleResizeEvent(const QSize ne
 
 
 
-void UserInterface::Screen::DualPanelInterface::Initialize(QSharedPointer<const Packet::Event::Interface> startupInfo) {
+void UserInterface::Screen::DualPanelInterface::Initialize(QSharedPointer<Packet::Event::Interface> startupInfo) {
 
     handleResizeEvent(size());
     if (m_panelLeft) {

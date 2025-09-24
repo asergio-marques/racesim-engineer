@@ -49,7 +49,7 @@ void UserInterface::Panel::QualifyingLeft::ResizePanel(const QSize& newUsefulSiz
 
 
 
-void UserInterface::Panel::QualifyingLeft::Startup(QSharedPointer<const Packet::Event::Interface> startInfo) {
+void UserInterface::Panel::QualifyingLeft::Startup(QSharedPointer<Packet::Event::Interface> startInfo) {
 
     // TODO
 

@@ -25,7 +25,7 @@ const UserInterface::Screen::Type UserInterface::Screen::FreePractice::Type() co
 
 
 
-void UserInterface::Screen::FreePractice::Activate(QSharedPointer<const Packet::Event::Interface> startupInfo) {
+void UserInterface::Screen::FreePractice::Activate(QSharedPointer<Packet::Event::Interface> startupInfo) {
 
     if (startupInfo) {
 

@@ -45,10 +45,10 @@ namespace UserInterface {
             void Startup();
             void OnSessionEnd();
             void OnSessionDataClear();
-            void OnTimeTrialStart(QSharedPointer<const Packet::Event::Interface> packet);
-            void OnFreePracticeStart(QSharedPointer<const Packet::Event::Interface> packet);
-            void OnQualiStart(QSharedPointer<const Packet::Event::Interface> packet);
-            void OnRaceStart(QSharedPointer<const Packet::Event::Interface> packet);
+            void OnTimeTrialStart(QSharedPointer<Packet::Event::Interface> packet);
+            void OnFreePracticeStart(QSharedPointer<Packet::Event::Interface> packet);
+            void OnQualiStart(QSharedPointer<Packet::Event::Interface> packet);
+            void OnRaceStart(QSharedPointer<Packet::Event::Interface> packet);
 
         signals:
             void onResizeEvent(const QSize newUsefulSize);
@@ -58,7 +58,7 @@ namespace UserInterface {
 
         private:
             void doAddScreen(UserInterface::Screen::Interface* newScreen);
-            bool doSwitchScreen(const UserInterface::Screen::Type type, QSharedPointer<const Packet::Event::Interface> startInfo);
+            bool doSwitchScreen(const UserInterface::Screen::Type type, QSharedPointer<Packet::Event::Interface> startInfo);
             UserInterface::Widgets::MenuBar* m_menuBar;
             std::list<UserInterface::Screen::Interface*> m_screens;
             UserInterface::Screen::Interface* m_activeScreen;

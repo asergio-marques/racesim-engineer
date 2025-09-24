@@ -24,7 +24,7 @@ namespace UserInterface {
                 Race(UserInterface::PacketHandler* handler, QWidget* parent = 0);
                 virtual ~Race() = default;
                 virtual const UserInterface::Screen::Type Type() const override;
-                void Activate(QSharedPointer<const Packet::Event::Interface> startupInfo) override final;
+                void Activate(QSharedPointer<Packet::Event::Interface> startupInfo) override final;
 
         };
 

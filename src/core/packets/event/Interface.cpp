@@ -21,11 +21,3 @@ Packet::Event::Interface::Interface(const bool isPlayer, const std::string fullN
     m_fullName(fullName) {
 
 }
-
-
-
-Packet::Event::Interface::~Interface() {
-
-    std::cout << "Event packet was destroyed" << std::endl;
-
-}

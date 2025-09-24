@@ -21,7 +21,7 @@ namespace Packet {
             Interface(const bool isPlayer, const std::string fullName, const uint8_t currentPosition);
 
             // Destructor
-            virtual ~Interface();
+            virtual ~Interface() = default;
 
             // Type identifier for the packet, to be overridden
             virtual const Packet::Event::Type packetType() const = 0;

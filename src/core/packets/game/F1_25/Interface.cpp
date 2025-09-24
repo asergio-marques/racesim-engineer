@@ -1,6 +1,5 @@
 #include "packets/game/F1_25/Interface.h"
 
-#include <iostream>
 #include "data/game/F1_25/Packet.h"
 #include "packets/game/Helper.h"
 #include "packets/game/F1_25/Header.h"
@@ -15,8 +14,6 @@ Packet::Game::F1_25::Interface::Interface() :
 
 
 Packet::Game::F1_25::Interface::~Interface() {
-
-    std::cout << "F1 25 packet was destroyed" << std::endl;
     
     if (m_header) { delete m_header; }
 

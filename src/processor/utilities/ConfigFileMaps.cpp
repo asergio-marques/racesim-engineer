@@ -34,9 +34,9 @@ Processor::Utility::ConfigFileMaps::SUPPORTED_TRACKS = {
     Session::Internal::Track::USA_LasVegas,
     Session::Internal::Track::USA_Miami,
     Session::Internal::Track::USA_Texas,
-    // Session::Internal::Track::ENG_ReverseSilverstone,
-    // Session::Internal::Track::AUT_ReverseRedBullRing,
-    // Session::Internal::Track::NED_ReverseZandvoort
+    Session::Internal::Track::ENG_ReverseSilverstone,
+    Session::Internal::Track::AUT_ReverseRedBullRing,
+    Session::Internal::Track::NED_ReverseZandvoort
 
 };
 

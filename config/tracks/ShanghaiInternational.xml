@@ -1,0 +1,33 @@
+<?xml version='1.0' encoding='utf-8'?>
+<track name="ShanghaiInternational" id="8">
+	<aliases>
+		<alias>Shanghai International</alias>
+		<alias>China</alias>
+		<alias>Shanghai</alias>
+	</aliases>
+	<layout name="F1" id="0">
+		<sector>
+			<minisector start="0" end="445.657135" />
+			<minisector start="445.657135" end="841.463562" />
+			<minisector start="841.463562" end="1079.639038" />
+			<minisector start="1079.639038" end="1417.472656" />
+	    </sector>
+		<sector>
+			<minisector start="1417.472656" end="1692.05835" />
+			<minisector start="1692.05835" end="2191.662109" />
+			<minisector start="2191.662109" end="2466.399902" />
+			<minisector start="2466.399902" end="2746.288818" />
+			<minisector start="2746.288818" end="2984.648926" />
+		</sector>
+		<sector>
+			<minisector start="2984.648926" end="3282.190674" />
+			<minisector start="3282.190674" end="3648.003418" />
+			<minisector start="3648.003418" end="4020.071777" />
+			<minisector start="4020.071777" end="4627.502441" />
+			<minisector start="4627.502441" end="4868.339844" />
+			<minisector start="4868.339844" end="5085.626465" />
+			<minisector start="5085.626465" end="5243.728516" />
+			<minisector start="5243.728516" end="5442" />
+		</sector>
+	</layout>
+</track>

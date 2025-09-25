@@ -6,10 +6,10 @@
 #include <string>
 #include <pugixml.hpp>
 #include "exporters/Interface.h"
-#include "data/DriverRecord.h"
-#include "data/DriverState.h"
-#include "data/SessionRecord.h"
-#include "data/SessionState.h"
+#include "data/records/DriverRecord.h"
+#include "data/records/DriverState.h"
+#include "data/records/SessionRecord.h"
+#include "data/records/SessionState.h"
 
 
 
@@ -90,10 +90,9 @@ bool Processor::Exporter::RaceSession::Export(std::string path) const {
 
         addChildNodeCharacterData(&rootNode, m_schemaV1.versionTag,
             m_schemaV1.version);
-        addChildNodeCharacterData(&rootNode, m_schemaV1.trackIdTag,
-            static_cast<uint8_t>(m_sessionRecord->getTrackInfo().m_sessionTrack));
+        addChildNodeCharacterData(&rootNode, m_schemaV1.trackIdTag, static_cast<uint8_t>(m_sessionRecord->getTrackData().m_trackId));
         // TODO: converter map
-        // addChildNodeCharacterData(&rootNode, m_schemaV1.trackNameTag, ConvertTrackId(m_sessionRecord->getTrackID()));
+        addChildNodeCharacterData(&rootNode, m_schemaV1.trackNameTag, m_sessionRecord->getTrackData().getTrackName());
         addChildNodeCharacterData(&rootNode, m_schemaV1.numLapsTag,
             static_cast<uint8_t>(m_sessionRecord->getSessionSettings().m_sessionDurationLaps));
         addChildNodeCharacterData(&rootNode, m_schemaV1.fastestOverallTag,
@@ -116,9 +115,10 @@ bool Processor::Exporter::RaceSession::Export(std::string path) const {
                 pugi::xml_node lapNode = lapsNode.append_child("lap");
                 addChildNodeCharacterData(&lapNode, m_schemaV1.lapIdTag, lap->m_lapId);
                 addChildNodeCharacterData(&lapNode, m_schemaV1.lapTimeTag, lap->m_totalLapTime);
-                addChildNodeCharacterData(&lapNode, m_schemaV1.sector1TimeTag, lap->m_sector1Time);
-                addChildNodeCharacterData(&lapNode, m_schemaV1.sector2TimeTag, lap->m_sector2Time);
-                addChildNodeCharacterData(&lapNode, m_schemaV1.sector3TimeTag, lap->m_sector3Time);
+                // TODO rework with new sector concept
+                // addChildNodeCharacterData(&lapNode, m_schemaV1.sector1TimeTag, lap->m_sector1Time);
+                // addChildNodeCharacterData(&lapNode, m_schemaV1.sector2TimeTag, lap->m_sector2Time);
+                // addChildNodeCharacterData(&lapNode, m_schemaV1.sector3TimeTag, lap->m_sector3Time);
                 addChildNodeCharacterData(&lapNode, m_schemaV1.tyreVisualTag, lap->m_tyre.m_visualTyre);
                 addChildNodeCharacterData(&lapNode, m_schemaV1.tyreCompoundTag, lap->m_tyre.m_actualTyre);
 

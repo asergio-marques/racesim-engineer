@@ -17,7 +17,7 @@ void Packet::Game::Broadcaster::Subscribe(Packet::Game::Subscriber* subscriber) 
 
 
 
-void Packet::Game::Broadcaster::Broadcast(Packet::Game::Interface* packet) {
+void Packet::Game::Broadcaster::Broadcast(std::shared_ptr<Packet::Game::Interface> packet) {
 
     if (packet) {
 

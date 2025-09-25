@@ -1,6 +1,5 @@
 #include "packets/game/F1_25/Interface.h"
 
-#include <iostream>
 #include "data/game/F1_25/Packet.h"
 #include "packets/game/Helper.h"
 #include "packets/game/F1_25/Header.h"

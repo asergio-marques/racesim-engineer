@@ -1,0 +1,32 @@
+<?xml version='1.0' encoding='utf-8'?>
+<track name="Zandvoort" id="17">
+	<aliases>
+		<alias>Zandvoort</alias>
+		<alias>Netherlands</alias>
+	</aliases>
+	<layout name="F1" id="0">
+		<sector>
+			<minisector start="0" end="193.856903" />
+			<minisector start="193.856903" end="485.557343" />
+			<minisector start="485.557343" end="652.797607" />
+			<minisector start="652.797607" end="978.466370" />
+			<minisector start="978.466370" end="1203.783081" />
+			<minisector start="1203.783081" end="1488.759521" />
+		</sector>
+		<sector>
+			<minisector start="1488.759521" end="1826.315674" />
+			<minisector start="1826.315674" end="1982.760376" />
+			<minisector start="1982.760376" end="2151.436035" />
+			<minisector start="2151.436035" end="2367.776855" />
+			<minisector start="2367.776855" end="2626.881836" />
+			<minisector start="2626.881836" end="2966.637939" />
+		</sector>
+		<sector>
+			<minisector start="2966.637939" end="3247.468018" />
+			<minisector start="3247.468018" end="3424.607310" />
+			<minisector start="3424.607310" end="3618.687256" />
+			<minisector start="3618.687256" end="4043.211426" />
+			<minisector start="4043.211426" end="4258" />
+		</sector>
+	</layout>
+</track>

@@ -1,7 +1,7 @@
 #include "detectors/LapFinished.h"
 
-#include "data/DriverRecord.h"
-#include "data/SessionRecord.h"
+#include "data/records/DriverRecord.h"
+#include "data/records/SessionRecord.h"
 #include "data/holders/LapInfo.h"
 #include "detectors/Interface.h"
 #include "detectors/Type.h"

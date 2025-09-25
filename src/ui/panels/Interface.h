@@ -2,6 +2,7 @@
 #define USERINTERFACE_PANELS_INCLUDE_INTERFACE_H_
 
 #include <map>
+#include <QSharedPointer>
 #include <QWidget>
 #include "core/Screen.h"
 #include "widgets/base/ID.h"
@@ -43,7 +44,7 @@ namespace UserInterface {
                 // Abstract function to be overridden by child classes that feels the race start information to
                 // the widgets that compose this panel
                 // Necessary to start displaying info about a new session
-                virtual void Startup(const Packet::Event::Interface* startInfo) = 0;
+                virtual void Startup(QSharedPointer<Packet::Event::Interface> startInfo) = 0;
 
                 // Abstract function to be overridden by child classes that orders the composing widgets to cleanup
                 // Necessary to ready a panel for a new session

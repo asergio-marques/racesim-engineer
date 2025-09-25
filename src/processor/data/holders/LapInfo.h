@@ -5,6 +5,7 @@
 #include <vector>
 #include "data/internal/Lap.h"
 #include "data/internal/LapTime.h"
+#include "data/internal/Sector.h"
 #include "data/internal/TyreData.h"
 
 
@@ -34,30 +35,6 @@ namespace Processor {
             // How much time this lap has taken
             // Note: If the lap has not been completed, then this denotes the current time of the lap
             Lap::Internal::Time m_totalLapTime{};
-
-            // How much time Sector 1 of the lap has taken
-            // Note: If the sector has not been completed, then this denotes the current time of the sector
-            Lap::Internal::Time m_sector1Time{};
-
-            // How much time Sector 2 of the lap has taken
-            // Note: If the sector has not been completed, then this denotes the current time of the sector
-            Lap::Internal::Time m_sector2Time{};
-
-            // How much time Sector 3 of the lap has taken
-            // Note: If the sector has not been completed, then this denotes the current time of the sector
-            Lap::Internal::Time m_sector3Time{};
-
-            // How much time the mini sectors of Sector 1 of the lap have taken
-            // Note: If a mini sector has not been completed, then the current time of the mini sector will be noted down
-            std::vector<Lap::Internal::Time> m_sector1MiniSectorsTime{};
-
-            // How much time the mini sectors of Sector 2 of the lap have taken
-            // Note: If a mini sector has not been completed, then the current time of the mini sector will be noted down
-            std::vector<Lap::Internal::Time> m_sector2MiniSectorsTime{};
-
-            // How much time the mini sectors of Sector 3 of the lap have taken
-            // Note: If a mini sector has not been completed, then the current time of the mini sector will be noted down
-            std::vector<Lap::Internal::Time> m_sector3MiniSectorsTime{};
 
             // Data structure holding all relevant information
             Tyre::Internal::Data m_tyre;

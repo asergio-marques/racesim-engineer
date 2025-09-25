@@ -1,8 +1,11 @@
 #include "data/holders/LapHistoryData.h"
 
+#include <cmath>
 #include <cstdint>
+#include <limits>
 #include <map>
 #include "data/holders/LapInfo.h"
+#include "data/holders/TrackData.h"
 #include "data/internal/Participant.h"
 #include "data/internal/Tyre.h"
 #include "detectors/LapFinished.h"
@@ -12,18 +15,14 @@
 
 
 
+
 Processor::Data::LapHistoryData::LapHistoryData() :
     m_laps(),
     m_totalTime(),
     m_isDataComplete(false),
     m_fastestLapID(UINT16_MAX),
-    m_fastestSector1LapID(UINT16_MAX),
-    m_fastestSector2LapID(UINT16_MAX),
-    m_fastestSector3LapID(UINT16_MAX),
     m_installedFinishedLapDetector(nullptr),
     m_installedTyreChangeDetector(nullptr) {
-
-
 
 }
 
@@ -128,15 +127,15 @@ void Processor::Data::LapHistoryData::completeData(const uint8_t id, const uint8
 
 
 
-void Processor::Data::LapHistoryData::updateLap(const uint8_t id, const uint8_t lapID, const Lap::Internal::Type type,
-    const Lap::Internal::Status lapStatus, const Lap::Internal::Time currentLapTime, const std::vector<Lap::Internal::Time> sectorTimes,
+void Processor::Data::LapHistoryData::updateLap(const uint8_t id, const uint8_t lapID, const Lap::Internal::Status lapStatus,
+    const Lap::Internal::Time currentLapTime, const std::vector<Lap::Internal::Time> sectorTimes,
     const float_t lapDistanceRun, const Lap::Internal::Time previousLapTime, const Participant::Internal::Status participantStatus) {
 
     // Only add new info if we know we still have missing info
     if (!m_isDataComplete) {
 
         // new entry creation should always happen if the map is empty
-        bool createNew = m_laps.empty();
+        bool createNewLap = m_laps.empty();
         Tyre::Internal::Data tyreData;
 
         // First try to find the lap with the same ID, alter it
@@ -146,9 +145,7 @@ void Processor::Data::LapHistoryData::updateLap(const uint8_t id, const uint8_t 
             auto& lap = it->second;
             if (!lap.m_isFinished) {
 
-                lap.m_sector1Time = sectorTimes.at(0);
-                lap.m_sector2Time = sectorTimes.at(1);
-                lap.m_sector3Time = sectorTimes.at(2);
+                // TODO rework with sector structs
                 lap.m_totalLapTime.zero();
                 lap.m_totalLapTime = currentLapTime;
                 lap.m_status = lapStatus;
@@ -170,13 +167,11 @@ void Processor::Data::LapHistoryData::updateLap(const uint8_t id, const uint8_t 
         // first, find the previous lap and finalize its entry
         else if ((it = m_laps.find(lapID - 1)) != m_laps.end()) {
 
-            createNew = true;
+            createNewLap = true;
             auto& finishedLap = it->second;
             finishedLap.m_isFinished = true;
             finishedLap.m_totalLapTime = previousLapTime;
-            finishedLap.m_sector3Time = previousLapTime;
-            finishedLap.m_sector3Time -= finishedLap.m_sector2Time;
-            finishedLap.m_sector3Time -= finishedLap.m_sector1Time;
+            // TODO rework with sector structs
             evaluateFinishedLap(finishedLap);
 
             // record this finished lap's tyre usage to transmit the information to the next one
@@ -184,16 +179,13 @@ void Processor::Data::LapHistoryData::updateLap(const uint8_t id, const uint8_t 
 
         }
         // Either if a new lap has just been started, or if the map is empty, we need to create a new lap entry
-        if (createNew) {
+        if (createNewLap) {
 
             Processor::Data::LapInfo lap;
             lap.m_driverId = id;
             lap.m_lapId = lapID;
             lap.m_isFinished = false;
-            lap.m_sector1Time = sectorTimes.at(0);
-            lap.m_sector2Time = sectorTimes.at(1);
-            lap.m_sector3Time = sectorTimes.at(2);
-            lap.m_totalLapTime = lap.m_sector1Time + lap.m_sector2Time + lap.m_sector3Time;
+            lap.m_totalLapTime = currentLapTime;
             lap.m_status = lapStatus;
             lap.m_distanceFulfilled = lapDistanceRun;
 
@@ -225,7 +217,11 @@ void Processor::Data::LapHistoryData::updateTyre(const uint8_t driverID, const T
 
         // if the stint number has changed, then we can assume a tyre change has happened
         currentLap.m_tyre = data;
-        evaluateTyreDataChanged(currentLap);
+        if (m_installedTyreChangeDetector) {
+
+            m_installedTyreChangeDetector->addTyreChangeInfo(currentLap.m_driverId, currentLap.m_tyre);
+
+        }
 
     }
 
@@ -297,18 +293,6 @@ void Processor::Data::LapHistoryData::evaluateFinishedLap(const Processor::Data:
             m_installedFinishedLapDetector->addFinishedLapInfo(finishedLap, Lap::Internal::InfoType::PersonalBest);
 
         }
-
-    }
-
-}
-
-
-
-void Processor::Data::LapHistoryData::evaluateTyreDataChanged(const Processor::Data::LapInfo& currentLap) {
-
-    if (m_installedTyreChangeDetector) {
-
-        m_installedTyreChangeDetector->addTyreChangeInfo(currentLap.m_driverId, currentLap.m_tyre);
 
     }
 

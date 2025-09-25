@@ -1,0 +1,34 @@
+<?xml version='1.0' encoding='utf-8'?>
+<track name="MiamiStreet" id="25">
+	<aliases>
+		<alias>Miami</alias>
+		<alias>USA</alias>
+	</aliases>
+	<layout name="F1" id="0">
+		<sector>
+			<minisector start="0" end="259.718781" />
+			<minisector start="259.718781" end="460.552094" />
+			<minisector start="460.552094" end="734.759583" />
+			<minisector start="734.759583" end="1076.178833" />
+			<minisector start="1076.178833" end="1380.457397" />
+			<minisector start="1380.457397" end="1616.262695" />
+			<minisector start="1616.262695" end="1816.991089" />
+		</sector>
+		<sector>
+			<minisector start="1816.991089" end="2336.418926" />
+			<minisector start="2336.418926" end="2614.935303" />
+			<minisector start="2614.935303" end="3010.100098" />
+			<minisector start="3010.100098" end="3191.611816" />
+			<minisector start="3191.611816" end="3350.604492" />
+			<minisector start="3350.604492" end="3545.815918" />
+			<minisector start="3545.815918" end="3685.846436" />
+		</sector>
+		<sector>
+			<minisector start="3685.846436" end="4142.374023" />
+			<minisector start="4142.374023" end="4750.699707" />
+			<minisector start="4750.699707" end="4984.582520" />
+			<minisector start="4984.582520" end="5193.624023" />
+			<minisector start="5193.624023" end="5411" />
+		</sector>
+	</layout>
+</track>

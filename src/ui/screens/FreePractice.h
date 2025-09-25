@@ -1,10 +1,12 @@
 #ifndef USERINTERFACE_SCREENS_INCLUDE_FREE_PRACTICE_H_
 #define USERINTERFACE_SCREENS_INCLUDE_FREE_PRACTICE_H_
 
+#include <QSharedPointer>
 #include "screens/DualPanelInterface.h"
 #include "core/Screen.h"
 
 class QWidget;
+
 
 
 
@@ -22,7 +24,7 @@ namespace UserInterface {
                 FreePractice(UserInterface::PacketHandler* handler, QWidget* parent = 0);
                 virtual ~FreePractice() = default;
                 virtual const UserInterface::Screen::Type Type() const override;
-                void Activate(const Packet::Event::Interface* startupInfo) override final;
+                void Activate(QSharedPointer<Packet::Event::Interface> startupInfo) override final;
 
         };
 

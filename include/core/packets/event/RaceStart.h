@@ -24,8 +24,8 @@ namespace Packet {
             // Type identifier for the packet
             const Packet::Event::Type packetType() const override final;
 
-			// Structure containing all relevant data about the track the session is taking place at
-			Session::Internal::TrackInfo m_trackInfo;
+            // Structure containing the number of minisectors per sector; sector IDs are index - 1
+            std::vector<uint8_t> m_sectorConfiguration;
 
             // Structure containing all relevant data about the session taking place
             Session::Internal::Settings m_settings;

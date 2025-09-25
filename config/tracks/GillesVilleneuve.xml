@@ -1,0 +1,31 @@
+<?xml version='1.0' encoding='utf-8'?>
+<track name="GillesVilleneuve" id="7">
+	<aliases>
+		<alias>Gilles Villeneuve</alias>
+		<alias>Canada</alias>
+		<alias>Montreal</alias>
+	</aliases>
+	<layout name="F1" id="0">
+		<sector>
+			<minisector start="0" end="151.010025" />
+			<minisector start="151.010025" end="435.647278" />
+			<minisector start="435.647278" end="653.300903" />
+			<minisector start="653.300903" end="880.863220" />
+			<minisector start="880.863220" end="1100.907715" />
+		</sector>
+		<sector>
+			<minisector start="1100.907715" end="1473.276367" />
+			<minisector start="1473.276367" end="1922.205078" />
+			<minisector start="1922.205078" end="2156.485352" />
+			<minisector start="2156.485352" end="2499.768311" />
+		</sector>
+		<sector>
+			<minisector start="2499.768311" end="2792.300049" />
+			<minisector start="2792.300049" end="3089.055176" />
+			<minisector start="3089.055176" end="3436.049072" />
+			<minisector start="3436.049072" end="3765.430664" />
+			<minisector start="3765.430664" end="4031.075195" />
+			<minisector start="4031.075195" end="4372" />
+		</sector>
+	</layout>
+</track>

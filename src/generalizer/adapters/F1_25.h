@@ -45,24 +45,24 @@ namespace Generalizer {
             public:
             F1_25() = default;
             virtual ~F1_25() = default;
-            std::vector<Packet::Internal::Interface*> ConvertPacket(const Packet::Game::Interface* packet) override final;
+            std::vector<std::shared_ptr<Packet::Internal::Interface>> ConvertPacket(std::shared_ptr<Packet::Game::Interface> packet) override final;
 
             private:
-            std::vector<Packet::Internal::Interface*> ConvertSessionDataPacket(const Packet::Game::F1_25::SessionData* inputPacket);
-            std::vector<Packet::Internal::Interface*> ConvertLapDataPacket(const Packet::Game::F1_25::LapData* inputPacket);
-            std::vector<Packet::Internal::Interface*> ConvertParticipantDataPacket(const Packet::Game::F1_25::ParticipantData* inputPacket);
-            std::vector<Packet::Internal::Interface*> ConvertStandingsDataPacket(const Packet::Game::F1_25::StandingsData* inputPacket);
-            std::vector<Packet::Internal::Interface*> ConvertSessionHistoryDataPacket(const Packet::Game::F1_25::SessionHistoryData* inputPacket);
+            std::vector<std::shared_ptr<Packet::Internal::Interface>> ConvertSessionDataPacket(std::shared_ptr < Packet::Game::F1_25::SessionData> inputPacket);
+            std::vector<std::shared_ptr<Packet::Internal::Interface>> ConvertLapDataPacket(std::shared_ptr<Packet::Game::F1_25::LapData> inputPacket);
+            std::vector<std::shared_ptr<Packet::Internal::Interface>> ConvertParticipantDataPacket(std::shared_ptr<Packet::Game::F1_25::ParticipantData> inputPacket);
+            std::vector<std::shared_ptr<Packet::Internal::Interface>> ConvertStandingsDataPacket(std::shared_ptr<Packet::Game::F1_25::StandingsData> inputPacket);
+            std::vector<std::shared_ptr<Packet::Internal::Interface>> ConvertSessionHistoryDataPacket(std::shared_ptr<Packet::Game::F1_25::SessionHistoryData> inputPacket);
             void AddLapStatusInfo(const uint8_t lapNo,
                 const Packet::Game::F1_25::LapHistoryInfo* inputInfo,
-                Packet::Internal::Interface* outputPacket) const;
+                std::shared_ptr<Packet::Internal::Interface> outputPacket) const;
 
             // Auxiliary functions
             const std::string ShortenDriverName(const char* originalName, uint8_t driverID);
             const Session::Internal::Participant GetSingleParticipantData(const Packet::Game::F1_25::ParticipantInfo& rawInfo,
                 const uint8_t& arrayIndex,
                 const uint8_t& playerIndex);
-            void ExtractSessionSettings(const Packet::Game::F1_25::SessionData* inputPacket,
+            void ExtractSessionSettings(std::shared_ptr<Packet::Game::F1_25::SessionData> inputPacket,
                 Session::Internal::TrackInfo& trackInfo,
                 Session::Internal::Settings& settings);
 

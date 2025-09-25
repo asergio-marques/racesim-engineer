@@ -124,9 +124,6 @@ void NetCom::Listener::UDPSocketWin64::Exec() {
 
         }
 
-        // Thread is executed at 50Hz
-        std::this_thread::sleep_for(std::chrono::milliseconds(1));
-
     }
 
 }

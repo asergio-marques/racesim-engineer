@@ -2,6 +2,7 @@
 
 #include <cstdint>
 #include <QMap>
+#include <QSharedPointer>
 #include <QWidget>
 #include "base/Container.h"
 #include "multiplayer_session/DriverEntryQuali.h"
@@ -46,18 +47,25 @@ void UserInterface::Widget::Standings::cleanup() {
 
 
 
-void UserInterface::Widget::Standings::onQualiStart(const Packet::Event::QualiStart* dataPacket) {
+void UserInterface::Widget::Standings::onQualiStart(QSharedPointer<Packet::Event::QualiStart> dataPacket) {
 
     if (dataPacket && !m_initialParamsSet) {
 
-        for (const auto driverInfo : dataPacket->m_participants) {
+        for (const auto& driverInfo : dataPacket->m_participants) {
 
             UserInterface::Widget::DriverEntryQuali* entry = new UserInterface::Widget::DriverEntryQuali(m_parent);
-            m_driverData.insert(driverInfo.m_index, entry);
             if (entry) {
 
+                m_driverData.insert(driverInfo.m_index, entry);
                 entry->setSize(m_width, std::ceil(m_height / 22), false);
-                entry->init(driverInfo);
+                QList<uint8_t> convertedList;
+                // just copying to a Qt container
+                for (const uint8_t& sectorConf : dataPacket->m_sectorConfiguration) {
+
+                    convertedList.push_back(sectorConf);
+
+                }
+                entry->init(driverInfo, convertedList);
 
             }
 
@@ -72,18 +80,19 @@ void UserInterface::Widget::Standings::onQualiStart(const Packet::Event::QualiSt
 
 
 
-void UserInterface::Widget::Standings::onRaceStart(const Packet::Event::RaceStart* dataPacket) {
+void UserInterface::Widget::Standings::onRaceStart(QSharedPointer<Packet::Event::RaceStart> dataPacket) {
 
     if (dataPacket && !m_initialParamsSet) {
 
-        for (const auto driverInfo : dataPacket->m_participants) {
+        for (const auto& driverInfo : dataPacket->m_participants) {
 
             UserInterface::Widget::DriverEntryRace* entry = new UserInterface::Widget::DriverEntryRace(m_parent);
-            m_driverData.insert(driverInfo.m_index, entry);
             if (entry) {
 
+                m_driverData.insert(driverInfo.m_index, entry);
                 entry->setSize(m_width, std::ceil(m_height / 22), false);
-                entry->init(driverInfo);
+                // the sector configuration is not needed; hence, pass just an empty list
+                entry->init(driverInfo, {});
 
             }
 
@@ -98,11 +107,11 @@ void UserInterface::Widget::Standings::onRaceStart(const Packet::Event::RaceStar
 
 
 
-void UserInterface::Widget::Standings::onOvertake(const Packet::Event::Overtake* packet) {
+void UserInterface::Widget::Standings::onOvertake(QSharedPointer<Packet::Event::Overtake> packet) {
 
     if (packet && m_initialParamsSet) {
 
-        for (const auto overtakeData : packet->GetData()) {
+        for (const auto& overtakeData : packet->GetData()) {
 
             UserInterface::Widget::IDriverEntry* entry = m_driverData[overtakeData.m_driverID];
             if (entry) {
@@ -121,7 +130,7 @@ void UserInterface::Widget::Standings::onOvertake(const Packet::Event::Overtake*
 
 
 
-void UserInterface::Widget::Standings::onPenaltyReceived(const Packet::Event::PenaltyReceived* dataPacket) {
+void UserInterface::Widget::Standings::onPenaltyReceived(QSharedPointer<Packet::Event::PenaltyReceived> dataPacket) {
 
     if (dataPacket && m_initialParamsSet) {
 
@@ -134,7 +143,7 @@ void UserInterface::Widget::Standings::onPenaltyReceived(const Packet::Event::Pe
 
 
 
-void UserInterface::Widget::Standings::onParticipantStatusChanged(const Packet::Event::ParticipantStatusChanged* dataPacket) {
+void UserInterface::Widget::Standings::onParticipantStatusChanged(QSharedPointer<Packet::Event::ParticipantStatusChanged> dataPacket) {
 
     if (dataPacket && m_initialParamsSet) {
 
@@ -148,7 +157,7 @@ void UserInterface::Widget::Standings::onParticipantStatusChanged(const Packet::
 
 
 
-void UserInterface::Widget::Standings::onLapFinished(const Packet::Event::LapFinished* dataPacket) {
+void UserInterface::Widget::Standings::onLapFinished(QSharedPointer<Packet::Event::LapFinished> dataPacket) {
 
     if (dataPacket && m_initialParamsSet) {
 
@@ -186,7 +195,7 @@ void UserInterface::Widget::Standings::onLapFinished(const Packet::Event::LapFin
 
 
 
-void UserInterface::Widget::Standings::onTyreChanged(const Packet::Event::TyreChanged* dataPacket) {
+void UserInterface::Widget::Standings::onTyreChanged(QSharedPointer<Packet::Event::TyreChanged> dataPacket) {
 
     if (dataPacket && m_initialParamsSet) {
 
@@ -197,6 +206,25 @@ void UserInterface::Widget::Standings::onTyreChanged(const Packet::Event::TyreCh
                 dataPacket->m_tyreInfo.m_visualTyre,
                 dataPacket->m_tyreInfo.m_stintNo,
                 dataPacket->m_tyreInfo.m_stintLength);
+
+        }
+
+    }
+
+}
+
+
+
+
+void UserInterface::Widget::Standings::onSectorStateChanged(QSharedPointer<Packet::Event::SectorStateChanged> dataPacket) {
+
+    if (dataPacket && m_initialParamsSet) {
+
+        UserInterface::Widget::IDriverEntry* entry = m_driverData[dataPacket->m_index];
+        if (entry) {
+
+            entry->sectorChange(dataPacket->m_isMiniSector, dataPacket->m_lapID, dataPacket->m_sectorParentOrderID, dataPacket->m_parentID,
+                dataPacket->m_sectorStatus, dataPacket->m_sectorPerformance, dataPacket->m_time);
 
         }
 

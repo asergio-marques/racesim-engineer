@@ -1,0 +1,31 @@
+<?xml version='1.0' encoding='utf-8'?>
+<track name="RedBullRingR" id="28">
+	<aliases>
+		<alias>Red Bull Ring R</alias>
+		<alias>Austria R</alias>
+		<alias>Spielberg R</alias>
+	</aliases>
+	<layout name="F1" id="0">
+		<sector>
+			<minisector start="0" end="249.765411" />
+			<minisector start="0" end="611.062378" />
+			<minisector start="0" end="906.056152" />
+			<minisector start="0" end="1185.132568" />
+			<minisector start="0" end="1388.552368" />
+		</sector>
+		<sector>
+			<minisector start="0" end="1716.836060" />
+			<minisector start="0" end="1975.854858" />
+			<minisector start="0" end="2304.126709" />
+			<minisector start="0" end="2763.810059" />
+			<minisector start="0" end="2963.443359" />
+			<minisector start="0" end="3119.523926" />
+		</sector>
+		<sector>
+			<minisector start="0" end="3388.551270" />
+			<minisector start="0" end="3746.452637" />
+			<minisector start="0" end="4000.005859" />
+			<minisector start="0" end="4324" />
+		</sector>
+	</layout>
+</track>

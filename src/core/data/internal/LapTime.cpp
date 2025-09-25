@@ -1,6 +1,7 @@
 #include "data/internal/LapTime.h"
 
 #include <cstdint>
+#include <cassert>
 #include <string>
 #include <stdexcept>
 
@@ -67,13 +68,24 @@ Lap::Internal::Time Lap::Internal::Time::Time::operator+(const Time& other) {
 
 Lap::Internal::Time Lap::Internal::Time::operator-(const Lap::Internal::Time& other) {
 
-    if (*this >= other) {
+    if (*this > other) {
 
-        const uint16_t msSub = m_milliseconds + 1000 - other.m_milliseconds;
-        m_seconds -= other.m_seconds - (((msSub / 1000) > 0) ? 0 : 1);
-        m_milliseconds = msSub % 1000;
+        const uint32_t diffTimeMs = ((m_seconds * 1000) + m_milliseconds) - ((other.m_seconds) * 1000 + other.m_milliseconds);
+        return Lap::Internal::Time{ diffTimeMs };
+
     }
 
+    return Lap::Internal::Time{ 0 };
+
+}
+
+
+Lap::Internal::Time Lap::Internal::Time::operator*(const float_t& coef) {
+
+    uint32_t totalMs = (m_seconds * 1000) + m_milliseconds;
+    totalMs *= coef;
+    m_seconds = totalMs / 1000;
+    m_milliseconds = totalMs % 1000;
     return *this;
 
 }
@@ -139,16 +151,17 @@ void Lap::Internal::Time::zero() {
 
 
 
-const std::string Lap::Internal::Time::formattedPrint(bool minutes) const {
+const std::string Lap::Internal::Time::formattedPrint(bool useMinutes) const {
 
     std::string minutesString = "";
     std::string secondsString = "";
     std::string millisecondsString = "";
     uint32_t seconds = m_seconds;
+    uint32_t minutes = m_seconds / 60;
 
     // Prepare minutes if needed
-    if (minutes) {
-        std::string minutesString = std::to_string(m_seconds / 60);
+    if (useMinutes) {
+        minutesString = std::to_string(minutes);
         seconds = m_seconds % 60;
     }
 
@@ -169,13 +182,13 @@ const std::string Lap::Internal::Time::formattedPrint(bool minutes) const {
     }
     else {
         millisecondsString = std::to_string(m_milliseconds);
-    
+
     }
 
     // return the appropriate value
-    if (minutes) {
+    if (useMinutes && minutes > 0) {
         return minutesString + ":" + secondsString + "." + millisecondsString;
-    }    
+    }
     return secondsString + "." + millisecondsString;
 
 }

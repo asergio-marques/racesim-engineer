@@ -1,0 +1,34 @@
+<?xml version='1.0' encoding='utf-8'?>
+<track name="Monaco" id="16">
+	<aliases>
+		<alias>Monaco</alias>
+		<alias>Monte Carlo</alias>
+	</aliases>
+	<layout name="F1" id="0">
+		<sector>
+			<minisector start="0" end="141.866898" />
+			<minisector start="141.866898" end="305.155945" />
+			<minisector start="305.155945" end="645.940002" />
+			<minisector start="645.940002" end="848.708252" />
+			<minisector start="848.708252" end="1059.331543" />
+		</sector>
+		<sector>
+			<minisector start="1059.331543" end="1198.185547" />
+			<minisector start="1198.185547" end="1306.437988" />
+			<minisector start="1306.437988" end="1394.415039" />
+			<minisector start="1394.415039" end="1489.811646" />
+			<minisector start="1489.811646" end="1680.033691" />
+			<minisector start="1680.033691" end="1961.652661" />
+			<minisector start="1961.652661" end="2193.191162" />
+			<minisector start="2193.191162" end="2317.234375" />
+			<minisector start="2317.234375" end="2470.236084" />
+		</sector>
+		<sector>
+			<minisector start="2470.236084" end="2649.945557" />
+			<minisector start="2649.945557" end="2853.439209" />
+			<minisector start="2853.439209" end="2973.527832" />
+			<minisector start="2973.527832" end="3048.203369" />
+			<minisector start="3048.203369" end="3323" />
+		</sector>
+	</layout>
+</track>

@@ -23,7 +23,7 @@ namespace Generalizer {
         virtual ~Facade() = default;
 
         Packet::Internal::Broadcaster* exposeBroadcasterInterface() override;
-        void OnPacketBroadcast(Packet::Game::Interface* packet) override;
+        void OnPacketBroadcast(std::shared_ptr<Packet::Game::Interface> packet) override;
 
         private:
 		Generalizer::Adapter::Interface* m_gameAdapter;

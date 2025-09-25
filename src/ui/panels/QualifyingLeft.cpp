@@ -1,5 +1,6 @@
 #include "panels/QualifyingLeft.h"
 
+#include <QSharedPointer>
 #include <QSize>
 #include <QWidget>
 #include "panels/Interface.h"
@@ -48,7 +49,7 @@ void UserInterface::Panel::QualifyingLeft::ResizePanel(const QSize& newUsefulSiz
 
 
 
-void UserInterface::Panel::QualifyingLeft::Startup(const Packet::Event::Interface* startInfo) {
+void UserInterface::Panel::QualifyingLeft::Startup(QSharedPointer<Packet::Event::Interface> startInfo) {
 
     // TODO
 

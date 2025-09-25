@@ -1,0 +1,13 @@
+<?xml version='1.0' encoding='utf-8'?>
+<track name="Portimao" id="18">
+	<aliases>
+		<alias>Portimao</alias>
+		<alias>Portugal</alias>
+		<alias>Algarve</alias>
+		</aliases>
+	<layout name="F1" id="0">
+		<sector />
+		<sector />
+		<sector />
+	</layout>
+</track>

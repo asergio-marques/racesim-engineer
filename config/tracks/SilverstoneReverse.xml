@@ -1,0 +1,38 @@
+<?xml version='1.0' encoding='utf-8'?>
+<track name="SilverstoneR" id="27">
+	<aliases>
+		<alias>Silverstone R</alias>
+		<alias>UK Reverse</alias>
+		<alias>Great Britain R</alias>
+	</aliases>
+	<layout name="F1" id="0">
+		<sector>
+			<minisector start="0" end="259.993530" />
+			<minisector start="259.993530" end="424.327026" />
+			<minisector start="424.327026" end="663.885010" />
+			<minisector start="663.885010" end="892.517517" />
+			<minisector start="892.517517" end="1312.11938" />
+			<minisector start="1312.11938" end="1573.025269" />
+			<minisector start="1573.025269" end="1852.596436" />
+		</sector>
+		<sector>
+			<minisector start="1852.596436" end="2171.161621" />
+			<minisector start="2171.161621" end="2365.833984" />
+			<minisector start="2365.833984" end="2624.526855" />
+			<minisector start="2624.526855" end="2895.715820" />
+			<minisector start="2895.715820" end="3234.545898" />
+			<minisector start="3234.545898" end="3543.697998" />
+			<minisector start="3543.697998" end="3765.351807" />
+			<minisector start="3765.351807" end="4054.506348" />
+			<minisector start="4054.506348" end="4338.049316" />
+		</sector>
+		<sector>
+			<minisector start="4338.049316" end="4582.868652" />
+			<minisector start="4582.868652" end="4964.028320" />
+			<minisector start="4964.028320" end="5152.910645" />
+			<minisector start="5152.910645" end="5349.236816" />
+			<minisector start="5349.236816" end="5619.359375" />
+			<minisector start="5619.359375" end="5891" />
+		</sector>
+	</layout>
+</track>

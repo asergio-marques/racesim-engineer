@@ -1,6 +1,7 @@
 #ifndef USERINTERFACE_PANELS_INCLUDE_LOADING_H_
 #define USERINTERFACE_PANELS_INCLUDE_LOADING_H_
 
+#include <QSharedPointer>
 #include "panels/Interface.h"
 
 
@@ -41,7 +42,7 @@ namespace UserInterface {
                 virtual void ResizePanel(const QSize& newUsefulSize) override final;
 
                 // Set up the loading panel while waiting for a new session to be established
-                void Startup(const Packet::Event::Interface* startInfo) override final;
+                void Startup(QSharedPointer<Packet::Event::Interface> startInfo) override final;
 
                 // Prepare this panel for a new session to begin, cleaning up its members
                 void Cleanup() override final;

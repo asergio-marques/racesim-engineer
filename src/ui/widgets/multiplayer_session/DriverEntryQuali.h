@@ -2,6 +2,7 @@
 #define USERINTERFACE_WIDGETS_INCLUDE_DRIVER_ENTRY_QUALI_H_
 
 #include <cstdint>
+#include <QList>
 #include "base/Container.h"
 #include "data/internal/LapTime.h"
 #include "data/internal/Participant.h"
@@ -18,6 +19,7 @@ namespace UserInterface {
     namespace Widget {
 
         class LapInfoContainer;
+        class SectorInfoArray;
         class TeamIcon;
         class TextInterface;
 
@@ -28,12 +30,14 @@ namespace UserInterface {
             public:
             DriverEntryQuali(QWidget* parent = 0);
             virtual ~DriverEntryQuali() = default;
-            void init(const Session::Internal::Participant& dataPacket);
-            void updatePosition(const uint8_t newPosition);
-            void updateStatus(const Participant::Internal::Status status);
-            void newSessionBestLap(const Lap::Internal::Time newLapTime, const bool isThisDrivers);
-            void newPersonalBestLap(const Lap::Internal::Time newLapTime);
-            void newLatestLap(const Lap::Internal::Time newLapTime);
+            void init(const Session::Internal::Participant& dataPacket, const QList<uint8_t> sectorConfiguration) override final;
+            void updatePosition(const uint8_t newPosition) override final;
+            void updateStatus(const Participant::Internal::Status status) override final;
+            void newSessionBestLap(const Lap::Internal::Time newLapTime, const bool isThisDrivers) override final;
+            void newPersonalBestLap(const Lap::Internal::Time newLapTime) override final;
+            void newLatestLap(const Lap::Internal::Time newLapTime) override final;
+            virtual void sectorChange(const bool isMinisector, const uint8_t lapID, const uint8_t orderID, const uint8_t parentOrderID,
+                const Lap::Internal::Status sectorStatus, const Lap::Internal::Performance sectorPerf, const Lap::Internal::Time& sectorTime) override final;
             virtual void move(const uint16_t x, const uint16_t y, const bool centerAlignmentX, const bool centerAlignmentY) override final;
             void scale(const uint8_t percent) override final;
             void scale(const uint8_t percentX, const uint8_t percentY) override final;
@@ -54,6 +58,7 @@ namespace UserInterface {
             UserInterface::Widget::TextInterface* m_driverName;
             UserInterface::Widget::LapInfoContainer* m_personalBestLap;
             UserInterface::Widget::LapInfoContainer* m_lastLap;
+            UserInterface::Widget::SectorInfoArray* m_sectorArray;
 
         };
 

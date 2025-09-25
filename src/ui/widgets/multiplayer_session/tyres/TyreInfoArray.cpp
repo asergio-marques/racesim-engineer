@@ -1,10 +1,10 @@
 #include "multiplayer_session/tyres/TyreInfoArray.h"
-#include "multiplayer_session/tyres/TyreInfoContainer.h"
 
 #include <cstdint>
 #include <QList>
 #include "base/Container.h"
 #include "data/internal/Tyre.h"
+#include "multiplayer_session/tyres/TyreInfoContainer.h"
 #include "styles/General.h"
 #include "styles/DriverInfo.h"
 
@@ -57,6 +57,8 @@ void UserInterface::Widget::TyreInfoArray::setSize(const uint16_t newWidth, cons
 	RedoDisplay();
 
 }
+
+
 
 void UserInterface::Widget::TyreInfoArray::show() {
 

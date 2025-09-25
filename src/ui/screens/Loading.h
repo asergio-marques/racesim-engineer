@@ -1,8 +1,10 @@
 #ifndef USERINTERFACE_SCREENS_INCLUDE_LOADING_H_
 #define USERINTERFACE_SCREENS_INCLUDE_LOADING_H_
 
+#include <QSharedPointer>
 #include "screens/SinglePanelInterface.h"
 #include "core/Screen.h"
+
 
 
 
@@ -39,7 +41,7 @@ namespace UserInterface {
                 Loading(UserInterface::PacketHandler* handler, QWidget* parent = 0);
                 virtual ~Loading() = default;
                 virtual const UserInterface::Screen::Type Type() const override;
-                void Activate(const Packet::Event::Interface* startupInfo) override final;
+                void Activate(QSharedPointer<Packet::Event::Interface> startupInfo) override final;
 
         };
 

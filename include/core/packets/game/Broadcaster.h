@@ -2,6 +2,7 @@
 #define PACKETS_GAME_INCLUDE_BROADCASTER_H_
 
 #include <list>
+#include <memory>
 
 
 
@@ -21,7 +22,7 @@ namespace Packet {
 
             protected:
             // General function to divulge packet information to all subscribers
-            void Broadcast(Packet::Game::Interface* packet);
+            void Broadcast(std::shared_ptr<Packet::Game::Interface> packet);
 
             // Container for all the subscribers that will receive new packets
             std::list<Packet::Game::Subscriber*> m_subscribers;

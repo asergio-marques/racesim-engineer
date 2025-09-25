@@ -1,5 +1,6 @@
 #include "panels/TimeTrialLeft.h"
 
+#include <QSharedPointer>
 #include <QSize>
 #include <QWidget>
 #include "panels/Interface.h"
@@ -49,7 +50,7 @@ void UserInterface::Panel::TimeTrialLeft::ResizePanel(const QSize& newUsefulSize
 
 
 
-void UserInterface::Panel::TimeTrialLeft::Startup(const Packet::Event::Interface* startInfo) {
+void UserInterface::Panel::TimeTrialLeft::Startup(QSharedPointer<Packet::Event::Interface> startInfo) {
 
     // TODO
 

@@ -43,6 +43,10 @@ target_sources(${PROJECT_NAME} PRIVATE
     multiplayer_session/penalty/PenaltyIcon.cpp
     multiplayer_session/penalty/PenaltyFlag.cpp
     multiplayer_session/penalty/PenaltyTextBackground.cpp
+    multiplayer_session/sectors/MiniSectorIcon.cpp
+    multiplayer_session/sectors/SectorInfoArray.cpp
+    multiplayer_session/sectors/SectorInfoContainer.cpp
+    multiplayer_session/sectors/SectorTimeText.cpp
     multiplayer_session/warning/WarningIcon.cpp
     multiplayer_session/warning/WarningContainer.cpp
     multiplayer_session/other/RetirementIcon.cpp
@@ -56,7 +60,7 @@ target_sources(${PROJECT_NAME} PRIVATE
 
 target_link_libraries(${PROJECT_NAME} PRIVATE
     RaceSimEngineerCore
-    RaceSimEngineerPacketsInternal
+    RaceSimEngineerPacketsEvent
     RaceSimEngineerPresenter
     Qt6::Core
     Qt6::Widgets
@@ -66,27 +70,145 @@ qt_add_resources(${PROJECT_NAME} "ui_elements"
     PREFIX "/"
     BASE "../resources"
     FILES
+        # Backup unknown
+        ../resources/img/icons/UnknownImageRequested.png
+        # Backgrounds
         ../resources/img/background/BackgroundLeft.png
         ../resources/img/background/BackgroundRight.png
         ../resources/img/background/SingleScreenBG.png
+        # Lap details
         ../resources/img/icons/FastestLap.png
         ../resources/img/icons/LapDetailsDarkGreen.png
         ../resources/img/icons/LapDetailsLightGreen.png
         ../resources/img/icons/LapDetailsPurple.png
         ../resources/img/icons/LapDetailsRed.png
+        # Loading logo
         ../resources/img/icons/LogoLoadingCenter.png
         ../resources/img/icons/LogoLoadingRotate.png
+        # Warnings and penalties
         ../resources/img/icons/OtherWarningIcon.png
         ../resources/img/icons/PenaltyIndicator.png
         ../resources/img/icons/PenaltyIndicatorTextBG.png
         ../resources/img/icons/RetirementIndicator.png
         ../resources/img/icons/TrackLimitWarningIcon.png
-        ../resources/img/icons/UnknownImageRequested.png
+        # Tyres
         ../resources/img/icons/tyres/Hards.png
         ../resources/img/icons/tyres/Inters.png
         ../resources/img/icons/tyres/Mediums.png
         ../resources/img/icons/tyres/Softs.png
         ../resources/img/icons/tyres/Wets.png
+        # Sectors
+        ## Finished in pits
+        ../resources/img/sectors/FinishedInPits/SectorOf3.png
+        ../resources/img/sectors/FinishedInPits/SectorOf4.png
+        ../resources/img/sectors/FinishedInPits/SectorOf5.png
+        ../resources/img/sectors/FinishedInPits/SectorOf6.png
+        ../resources/img/sectors/FinishedInPits/SectorOf7.png
+        ../resources/img/sectors/FinishedInPits/SectorOf8.png
+        ../resources/img/sectors/FinishedInPits/SectorOf9.png
+        ../resources/img/sectors/FinishedInPits/SectorOf10.png
+        ../resources/img/sectors/FinishedInPits/SectorOf11.png
+        ../resources/img/sectors/FinishedInPits/SectorOf12.png
+        ## Finished invalid
+        ../resources/img/sectors/FinishedInvalid/SectorOf3.png
+        ../resources/img/sectors/FinishedInvalid/SectorOf4.png
+        ../resources/img/sectors/FinishedInvalid/SectorOf5.png
+        ../resources/img/sectors/FinishedInvalid/SectorOf6.png
+        ../resources/img/sectors/FinishedInvalid/SectorOf7.png
+        ../resources/img/sectors/FinishedInvalid/SectorOf8.png
+        ../resources/img/sectors/FinishedInvalid/SectorOf9.png
+        ../resources/img/sectors/FinishedInvalid/SectorOf10.png
+        ../resources/img/sectors/FinishedInvalid/SectorOf11.png
+        ../resources/img/sectors/FinishedInvalid/SectorOf12.png
+        ## Finished not improvement
+        ../resources/img/sectors/FinishedNotImprovement/SectorOf3.png
+        ../resources/img/sectors/FinishedNotImprovement/SectorOf4.png
+        ../resources/img/sectors/FinishedNotImprovement/SectorOf5.png
+        ../resources/img/sectors/FinishedNotImprovement/SectorOf6.png
+        ../resources/img/sectors/FinishedNotImprovement/SectorOf7.png
+        ../resources/img/sectors/FinishedNotImprovement/SectorOf8.png
+        ../resources/img/sectors/FinishedNotImprovement/SectorOf9.png
+        ../resources/img/sectors/FinishedNotImprovement/SectorOf10.png
+        ../resources/img/sectors/FinishedNotImprovement/SectorOf11.png
+        ../resources/img/sectors/FinishedNotImprovement/SectorOf12.png
+        ## Finished personal best
+        ../resources/img/sectors/FinishedPersonalBest/SectorOf3.png
+        ../resources/img/sectors/FinishedPersonalBest/SectorOf4.png
+        ../resources/img/sectors/FinishedPersonalBest/SectorOf5.png
+        ../resources/img/sectors/FinishedPersonalBest/SectorOf6.png
+        ../resources/img/sectors/FinishedPersonalBest/SectorOf7.png
+        ../resources/img/sectors/FinishedPersonalBest/SectorOf8.png
+        ../resources/img/sectors/FinishedPersonalBest/SectorOf9.png
+        ../resources/img/sectors/FinishedPersonalBest/SectorOf10.png
+        ../resources/img/sectors/FinishedPersonalBest/SectorOf11.png
+        ../resources/img/sectors/FinishedPersonalBest/SectorOf12.png
+        ## Finished retirement or complete
+        ../resources/img/sectors/FinishedRetirementComplete/SectorOf3.png
+        ../resources/img/sectors/FinishedRetirementComplete/SectorOf4.png
+        ../resources/img/sectors/FinishedRetirementComplete/SectorOf5.png
+        ../resources/img/sectors/FinishedRetirementComplete/SectorOf6.png
+        ../resources/img/sectors/FinishedRetirementComplete/SectorOf7.png
+        ../resources/img/sectors/FinishedRetirementComplete/SectorOf8.png
+        ../resources/img/sectors/FinishedRetirementComplete/SectorOf9.png
+        ../resources/img/sectors/FinishedRetirementComplete/SectorOf10.png
+        ../resources/img/sectors/FinishedRetirementComplete/SectorOf11.png
+        ../resources/img/sectors/FinishedRetirementComplete/SectorOf12.png
+        ## Finished session fastest
+        ../resources/img/sectors/FinishedSessionFastest/SectorOf3.png
+        ../resources/img/sectors/FinishedSessionFastest/SectorOf4.png
+        ../resources/img/sectors/FinishedSessionFastest/SectorOf5.png
+        ../resources/img/sectors/FinishedSessionFastest/SectorOf6.png
+        ../resources/img/sectors/FinishedSessionFastest/SectorOf7.png
+        ../resources/img/sectors/FinishedSessionFastest/SectorOf8.png
+        ../resources/img/sectors/FinishedSessionFastest/SectorOf9.png
+        ../resources/img/sectors/FinishedSessionFastest/SectorOf10.png
+        ../resources/img/sectors/FinishedSessionFastest/SectorOf11.png
+        ../resources/img/sectors/FinishedSessionFastest/SectorOf12.png
+        ## Not run
+        ../resources/img/sectors/NotRun/SectorOf3.png
+        ../resources/img/sectors/NotRun/SectorOf4.png
+        ../resources/img/sectors/NotRun/SectorOf5.png
+        ../resources/img/sectors/NotRun/SectorOf6.png
+        ../resources/img/sectors/NotRun/SectorOf7.png
+        ../resources/img/sectors/NotRun/SectorOf8.png
+        ../resources/img/sectors/NotRun/SectorOf9.png
+        ../resources/img/sectors/NotRun/SectorOf10.png
+        ../resources/img/sectors/NotRun/SectorOf11.png
+        ../resources/img/sectors/NotRun/SectorOf12.png
+        ## Running in pits
+        ../resources/img/sectors/RunningInPits/SectorOf3.png
+        ../resources/img/sectors/RunningInPits/SectorOf4.png
+        ../resources/img/sectors/RunningInPits/SectorOf5.png
+        ../resources/img/sectors/RunningInPits/SectorOf6.png
+        ../resources/img/sectors/RunningInPits/SectorOf7.png
+        ../resources/img/sectors/RunningInPits/SectorOf8.png
+        ../resources/img/sectors/RunningInPits/SectorOf9.png
+        ../resources/img/sectors/RunningInPits/SectorOf10.png
+        ../resources/img/sectors/RunningInPits/SectorOf11.png
+        ../resources/img/sectors/RunningInPits/SectorOf12.png
+        ## Running invalid
+        ../resources/img/sectors/RunningInvalid/SectorOf3.png
+        ../resources/img/sectors/RunningInvalid/SectorOf4.png
+        ../resources/img/sectors/RunningInvalid/SectorOf5.png
+        ../resources/img/sectors/RunningInvalid/SectorOf6.png
+        ../resources/img/sectors/RunningInvalid/SectorOf7.png
+        ../resources/img/sectors/RunningInvalid/SectorOf8.png
+        ../resources/img/sectors/RunningInvalid/SectorOf9.png
+        ../resources/img/sectors/RunningInvalid/SectorOf10.png
+        ../resources/img/sectors/RunningInvalid/SectorOf11.png
+        ../resources/img/sectors/RunningInvalid/SectorOf12.png
+        ## Running on track
+        ../resources/img/sectors/RunningOnTrack/SectorOf3.png
+        ../resources/img/sectors/RunningOnTrack/SectorOf4.png
+        ../resources/img/sectors/RunningOnTrack/SectorOf5.png
+        ../resources/img/sectors/RunningOnTrack/SectorOf6.png
+        ../resources/img/sectors/RunningOnTrack/SectorOf7.png
+        ../resources/img/sectors/RunningOnTrack/SectorOf8.png
+        ../resources/img/sectors/RunningOnTrack/SectorOf9.png
+        ../resources/img/sectors/RunningOnTrack/SectorOf10.png
+        ../resources/img/sectors/RunningOnTrack/SectorOf11.png
+        ../resources/img/sectors/RunningOnTrack/SectorOf12.png
+        # Team logos
         ../resources/img/teams/AlfaRomeoLogo.png
         ../resources/img/teams/AlphaTauriLogo.png
         ../resources/img/teams/AlpineLogo.png
@@ -99,6 +221,7 @@ qt_add_resources(${PROJECT_NAME} "ui_elements"
         ../resources/img/teams/WilliamsLogo.png
         ../resources/img/teams/VCARBLogo.png
         ../resources/img/teams/KickLogo.png
+        # Fonts
         ../resources/fonts/static/Manrope-Regular.ttf
         ../resources/fonts/static/Manrope-Bold.ttf
         ../resources/fonts/static/Manrope-ExtraBold.ttf

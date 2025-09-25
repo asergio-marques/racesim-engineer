@@ -1,5 +1,6 @@
 #include "multiplayer_session/DriverEntryQuali.h"
 
+#include <QList>
 #include <QWidget>
 #include "base/Container.h"
 #include "base/TextInterface.h"
@@ -9,6 +10,7 @@
 #include "data/internal/Session.h"
 #include "multiplayer_session/FastestLapIndicator.h"
 #include "multiplayer_session/TeamIcon.h"
+#include "multiplayer_session/sectors/SectorInfoArray.h"
 #include "multiplayer_session/timing/LapInfoContainer.h"
 #include "styles/DriverInfo.h"
 #include "styles/General.h"
@@ -22,7 +24,8 @@ UserInterface::Widget::DriverEntryQuali::DriverEntryQuali(QWidget* parent) :
     m_teamIcon(new UserInterface::Widget::TeamIcon(parent)),
     m_driverName(new UserInterface::Widget::TextInterface(UserInterface::Widget::ID::DriverName, parent)),
     m_personalBestLap(new UserInterface::Widget::LapInfoContainer(UserInterface::Widget::TimeInfoContainer::Type::PersonalBestTime, parent)),
-    m_lastLap(new UserInterface::Widget::LapInfoContainer(UserInterface::Widget::TimeInfoContainer::Type::LastLapTime, parent)) {
+    m_lastLap(new UserInterface::Widget::LapInfoContainer(UserInterface::Widget::TimeInfoContainer::Type::LastLapTime, parent)),
+    m_sectorArray(new UserInterface::Widget::SectorInfoArray(parent)) {
 
     if (m_position) {
 
@@ -57,12 +60,17 @@ UserInterface::Widget::DriverEntryQuali::DriverEntryQuali(QWidget* parent) :
         m_allWidgets.append(m_personalBestLap);
 
     }
+    if (m_sectorArray) {
+
+        m_allWidgets.append(m_sectorArray);
+
+    }
 
 }
 
 
 
-void UserInterface::Widget::DriverEntryQuali::init(const Session::Internal::Participant& dataPacket) {
+void UserInterface::Widget::DriverEntryQuali::init(const Session::Internal::Participant& dataPacket, const QList<uint8_t> sectorConfiguration) {
 
     m_driverIndex = dataPacket.m_index;
     m_currentPosition = dataPacket.m_startPosition;
@@ -94,6 +102,11 @@ void UserInterface::Widget::DriverEntryQuali::init(const Session::Internal::Part
     if (m_lastLap) {
 
         m_lastLap->init();
+
+    }
+    if (m_sectorArray) {
+
+        m_sectorArray->Init(sectorConfiguration);
 
     }
 
@@ -172,6 +185,29 @@ void UserInterface::Widget::DriverEntryQuali::newLatestLap(const Lap::Internal::
 
         m_lastLap->changePersonalBestStatus(false);
         m_lastLap->updateTime(newLapTime);
+
+    }
+
+}
+
+
+
+void UserInterface::Widget::DriverEntryQuali::sectorChange(const bool isMinisector, const uint8_t lapID, const uint8_t orderID, const uint8_t parentOrderID,
+    const Lap::Internal::Status sectorStatus, const Lap::Internal::Performance sectorPerf, const Lap::Internal::Time& sectorTime) {
+
+    if (m_sectorArray) {
+
+        if (isMinisector) {
+
+            m_sectorArray->updateMiniSector(lapID, parentOrderID, orderID, sectorTime, sectorPerf);
+
+        }
+        else
+        {
+
+            m_sectorArray->updateSector(lapID, orderID, sectorTime, sectorPerf);
+
+        }
 
     }
 
@@ -342,6 +378,21 @@ void UserInterface::Widget::DriverEntryQuali::redoLayout() {
 
         // Add padding again to account for the right padding
         totalWidth += m_personalBestLap->width() + calcPadding;
+
+    }
+    if (m_sectorArray) {
+
+        // no calc, it's meant to happen "inside"
+        m_sectorArray->setSize(width(), height(), false);
+        m_sectorArray->adjustSize();
+
+        // Add the padding, again! And the maximum width for centering!
+        totalWidth += (calcPadding * 5);
+        m_sectorArray->move(x() + totalWidth, y(), false, false);
+
+        // Padding to be added to every tyre container icon as well, so multiply it by the number of icons to be displayed
+        totalWidth += ((UserInterface::Style::SectorInfoContainerMaxX.GetValue(width()) + calcPadding)
+            * UserInterface::Style::SectorInfoContainerMaxNum);
 
     }
 

@@ -3,6 +3,7 @@
 
 #include <cstdint>
 #include <QMap>
+#include <QSharedPointer>
 #include "base/Container.h"
 #include "packets/event/LapFinished.h"
 #include "packets/event/Overtake.h"
@@ -11,6 +12,7 @@
 #include "packets/event/PracticeStart.h"
 #include "packets/event/QualiStart.h"
 #include "packets/event/RaceStart.h"
+#include "packets/event/SectorStateChanged.h"
 #include "packets/event/TimeTrialStart.h"
 #include "packets/event/TyreChanged.h"
 
@@ -32,13 +34,14 @@ namespace UserInterface {
             Standings(QWidget* parent = 0);
             virtual ~Standings() = default;
             void cleanup();
-            void onQualiStart(const Packet::Event::QualiStart* dataPacket);
-            void onRaceStart(const Packet::Event::RaceStart* dataPacket);
-            void onOvertake(const Packet::Event::Overtake* packet);
-            void onPenaltyReceived(const Packet::Event::PenaltyReceived* dataPacket);
-            void onParticipantStatusChanged(const Packet::Event::ParticipantStatusChanged* dataPacket);
-            void onLapFinished(const Packet::Event::LapFinished* dataPacket);
-            void onTyreChanged(const Packet::Event::TyreChanged* dataPacket);
+            void onQualiStart(QSharedPointer<Packet::Event::QualiStart> dataPacket);
+            void onRaceStart(QSharedPointer<Packet::Event::RaceStart> dataPacket);
+            void onOvertake(QSharedPointer<Packet::Event::Overtake> packet);
+            void onPenaltyReceived(QSharedPointer<Packet::Event::PenaltyReceived> dataPacket);
+            void onParticipantStatusChanged(QSharedPointer<Packet::Event::ParticipantStatusChanged> dataPacket);
+            void onLapFinished(QSharedPointer<Packet::Event::LapFinished> dataPacket);
+            void onTyreChanged(QSharedPointer<Packet::Event::TyreChanged> dataPacket);
+            void onSectorStateChanged(QSharedPointer<Packet::Event::SectorStateChanged> dataPacket);
             void move(const uint16_t x, const uint16_t y, const bool centerAlignmentX, const bool centerAlignmentY) override final;
             void scale(const uint8_t percent) override final;
             void scale(const uint8_t percentX, const uint8_t percentY) override final;

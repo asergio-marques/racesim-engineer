@@ -1,5 +1,6 @@
 #include "panels/QualifyingRight.h"
 
+#include <QSharedPointer>
 #include <QSize>
 #include <QWidget>
 #include "PacketHandler.h"
@@ -35,6 +36,7 @@ UserInterface::Panel::QualifyingRight::QualifyingRight(UserInterface::PacketHand
             connect(handler, &UserInterface::PacketHandler::OvertakePerformed, m_driverStandings, &UserInterface::Widget::Standings::onOvertake);
             connect(handler, &UserInterface::PacketHandler::ParticipantStatusChanged, m_driverStandings, &UserInterface::Widget::Standings::onParticipantStatusChanged);
             connect(handler, &UserInterface::PacketHandler::LapFinished, m_driverStandings, &UserInterface::Widget::Standings::onLapFinished);
+            connect(handler, &UserInterface::PacketHandler::SectorStateChanged, m_driverStandings, &UserInterface::Widget::Standings::onSectorStateChanged);
 
         }
 
@@ -66,11 +68,11 @@ void UserInterface::Panel::QualifyingRight::ResizePanel(const QSize& newUsefulSi
 
 
 
-void UserInterface::Panel::QualifyingRight::Startup(const Packet::Event::Interface* startInfo) {
+void UserInterface::Panel::QualifyingRight::Startup(QSharedPointer<Packet::Event::Interface> startInfo) {
 
     if (startInfo) {
 
-        auto qualiStartInfo = dynamic_cast<const Packet::Event::QualiStart*>(startInfo);
+        auto qualiStartInfo = qSharedPointerDynamicCast<Packet::Event::QualiStart>(startInfo);
         if (qualiStartInfo && m_driverStandings) {
 
             m_driverStandings->onQualiStart(qualiStartInfo);

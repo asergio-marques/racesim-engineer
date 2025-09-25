@@ -1,7 +1,7 @@
 #include "detectors/TyreChanged.h"
 
-#include "data/DriverRecord.h"
 #include "data/internal/TyreData.h"
+#include "data/records/DriverRecord.h"
 #include "detectors/Interface.h"
 #include "detectors/Type.h"
 #include "packets/event/TyreChanged.h"

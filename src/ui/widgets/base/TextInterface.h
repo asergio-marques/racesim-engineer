@@ -44,7 +44,9 @@ namespace UserInterface {
                 virtual const uint16_t getTextHeight() const;
 
             protected:
-                uint16_t m_originalFontSize;
+                void updateFont();
+                QString m_currentColorString;
+                QString m_currentFontString;
 
         };
 

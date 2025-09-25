@@ -49,6 +49,7 @@ namespace Processor {
         class DriverRecord;
         class RecordCreator;
         class SessionRecord;
+        class TrackDataStore;
 
         class Databank {
 
@@ -63,7 +64,7 @@ namespace Processor {
             void Init(Presenter::ICompFacade* presenter);
 
             // Main entry function for new packets
-            void updateData(const Packet::Internal::Interface* packet);
+            void updateData(std::shared_ptr<Packet::Internal::Interface> packet);
 
             // Clears all session and driver records from the databank and the detectors, preparing for the start of a new session
             void clearData();
@@ -85,29 +86,32 @@ namespace Processor {
             void OnNewDriverRecord(Processor::Data::DriverRecord* record);
 
             // Interfaces with the DriverState class to update the driver position
-            void updateStandings(const Packet::Internal::Standings* standingsPacket);
+            void updateStandings(std::shared_ptr<Packet::Internal::Standings> standingsPacket);
 
             // Interfaces with the DriverState class to update the penalties and warnings
-            void updatePenalties(const Packet::Internal::PenaltyStatus* penaltyPacket);
+            void updatePenalties(std::shared_ptr<Packet::Internal::PenaltyStatus> penaltyPacket);
 
             // Interfaces with the DriverState class to update the status of the session participants
-            void updateParticipantStatus(const Packet::Internal::ParticipantStatus* statusPacket);
+            void updateParticipantStatus(std::shared_ptr<Packet::Internal::ParticipantStatus> statusPacket);
 
             // Interfaces with the DriverState class to update the status of the session participants' laps
-            void updateLapStatus(const Packet::Internal::LapStatus* lapPacket);
+            void updateLapStatus(std::shared_ptr<Packet::Internal::LapStatus> lapPacket);
 
             // Interfaces with the DriverState class to update the current tyre usage of the session participants
-            void updateCurrentTyreUsage(const Packet::Internal::TyreSetUsage* tyrePacket);
+            void updateCurrentTyreUsage(std::shared_ptr<Packet::Internal::TyreSetUsage> tyrePacket);
 
             // Interfaces with the SessionState and DriverState classes to inform that the session has been deemed as finished
             // and to ready for any final data to arrive; only after all data is verified as complete can the session end packet be sent
-            void prepareSessionEnd(const Packet::Internal::FinalResult* finalResult);
+            void prepareSessionEnd(std::shared_ptr<Packet::Internal::FinalResult> finalResult);
 
             // General interface for communicating with other modules
             Presenter::ICompFacade* m_presenter;
 
             // Dedicated object to hold all the relevant data at session start to create the records
             Processor::Data::RecordCreator* m_creator;
+
+            // Dedicated repository of the detailed data of all supported tracks
+            Processor::Data::TrackDataStore* m_trackStore;
 
             // Holds a list of the driver records for the current session, using the driver ID as index
             std::map<const uint8_t, Processor::Data::DriverRecord*> m_driverRecords;

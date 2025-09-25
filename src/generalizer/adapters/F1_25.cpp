@@ -43,8 +43,8 @@
 
 
 
-std::vector<Packet::Internal::Interface*>
-Generalizer::Adapter::F1_25::ConvertPacket(const Packet::Game::Interface* packet) {
+std::vector<std::shared_ptr<Packet::Internal::Interface>>
+Generalizer::Adapter::F1_25::ConvertPacket(std::shared_ptr<Packet::Game::Interface> packet) {
 
     if (!packet) {
 
@@ -52,34 +52,34 @@ Generalizer::Adapter::F1_25::ConvertPacket(const Packet::Game::Interface* packet
 
     }
 
-    auto gamePacket = dynamic_cast<const Packet::Game::F1_25::Interface*>(packet);
+    auto gamePacket = std::dynamic_pointer_cast<Packet::Game::F1_25::Interface>(packet);
     if (!gamePacket || !(gamePacket->GetHeader())) {
 
         return {};
 
     }
 
-    std::vector<Packet::Internal::Interface*> outputPackets;
+    std::vector<std::shared_ptr<Packet::Internal::Interface>> outputPackets;
     switch (gamePacket->GetHeader()->GetPacketType()) {
 
         case Packet::Game::F1_25::Type::SessionData:
-            outputPackets = ConvertSessionDataPacket(dynamic_cast<const Packet::Game::F1_25::SessionData*>(gamePacket));
+            outputPackets = ConvertSessionDataPacket(std::dynamic_pointer_cast<Packet::Game::F1_25::SessionData>(gamePacket));
             break;
 
         case Packet::Game::F1_25::Type::LapData:
-            outputPackets = ConvertLapDataPacket(dynamic_cast<const Packet::Game::F1_25::LapData*>(gamePacket));
+            outputPackets = ConvertLapDataPacket(std::dynamic_pointer_cast<Packet::Game::F1_25::LapData>(gamePacket));
             break;
 
         case Packet::Game::F1_25::Type::ParticipantData:
-            outputPackets = ConvertParticipantDataPacket(dynamic_cast<const Packet::Game::F1_25::ParticipantData*>(gamePacket));
+            outputPackets = ConvertParticipantDataPacket(std::dynamic_pointer_cast<Packet::Game::F1_25::ParticipantData>(gamePacket));
             break;
 
         case Packet::Game::F1_25::Type::StandingsData:
-            outputPackets = ConvertStandingsDataPacket(dynamic_cast<const Packet::Game::F1_25::StandingsData*>(gamePacket));
+            outputPackets = ConvertStandingsDataPacket(std::dynamic_pointer_cast<Packet::Game::F1_25::StandingsData>(gamePacket));
             break;
 
         case Packet::Game::F1_25::Type::SessionHistoryData:
-            outputPackets = ConvertSessionHistoryDataPacket(dynamic_cast<const Packet::Game::F1_25::SessionHistoryData*>(gamePacket));
+            outputPackets = ConvertSessionHistoryDataPacket(std::dynamic_pointer_cast<Packet::Game::F1_25::SessionHistoryData>(gamePacket));
             break;
 
         default:
@@ -94,8 +94,8 @@ Generalizer::Adapter::F1_25::ConvertPacket(const Packet::Game::Interface* packet
 
 
 
-std::vector<Packet::Internal::Interface*>
-Generalizer::Adapter::F1_25::ConvertSessionDataPacket(const Packet::Game::F1_25::SessionData* inputPacket) {
+std::vector<std::shared_ptr<Packet::Internal::Interface>>
+Generalizer::Adapter::F1_25::ConvertSessionDataPacket(std::shared_ptr<Packet::Game::F1_25::SessionData> inputPacket) {
 
     if (!inputPacket) {
 
@@ -106,8 +106,8 @@ Generalizer::Adapter::F1_25::ConvertSessionDataPacket(const Packet::Game::F1_25:
     Session::Internal::TrackInfo trackInfo;
     Session::Internal::Settings settings;
     ExtractSessionSettings(inputPacket, trackInfo, settings);
-    Packet::Internal::SessionSettings* sessionDataPacket =
-        new Packet::Internal::SessionSettings(inputPacket->GetHeader()->GetFrameIdentifier(), trackInfo, settings);
+    std::shared_ptr<Packet::Internal::SessionSettings> sessionDataPacket =
+        std::make_shared<Packet::Internal::SessionSettings>(inputPacket->GetHeader()->GetFrameIdentifier(), trackInfo, settings);
 
     // This is extremely ugly, but if the weekend has a sprint format, then Race1 is the sprint and Race2 the feature
     // However, if the weekend does not have a sprint format, then Race1 is the feature
@@ -123,7 +123,7 @@ Generalizer::Adapter::F1_25::ConvertSessionDataPacket(const Packet::Game::F1_25:
     }
     if (std::find(allSessions.begin(), allSessions.end(), Session::Game::F1_25::Type::Race1) != allSessions.end() &&
         std::find(allSessions.begin(), allSessions.end(), Session::Game::F1_25::Type::Race2) != allSessions.end()) {
-        
+
         hasSprint = true;
 
     }
@@ -143,8 +143,8 @@ Generalizer::Adapter::F1_25::ConvertSessionDataPacket(const Packet::Game::F1_25:
 
         }
 
-        Packet::Internal::WeatherStatus* weatherPacket =
-            new Packet::Internal::WeatherStatus(inputPacket->GetHeader()->GetFrameIdentifier(),
+        std::shared_ptr<Packet::Internal::WeatherStatus> weatherPacket =
+            std::make_shared<Packet::Internal::WeatherStatus>(inputPacket->GetHeader()->GetFrameIdentifier(),
                 currentRoundType,
                 currentSessionType,
                 (inputPacket->GetSessionDuration() / 60) - (inputPacket->GetSessionTimeLeft() / 60));
@@ -195,33 +195,44 @@ Generalizer::Adapter::F1_25::ConvertSessionDataPacket(const Packet::Game::F1_25:
 
 
 
-std::vector<Packet::Internal::Interface*>
-Generalizer::Adapter::F1_25::ConvertLapDataPacket(const Packet::Game::F1_25::LapData* inputPacket) {
+std::vector<std::shared_ptr<Packet::Internal::Interface>>
+Generalizer::Adapter::F1_25::ConvertLapDataPacket(std::shared_ptr<Packet::Game::F1_25::LapData> inputPacket) {
 
     if (!inputPacket || !(inputPacket->GetHeader())) {
 
         return {};
 
     }
-
+    // inputPacket->Print()
     // TODO it doesn't make sense to be creating a gridpacket every time we get a lapdata packet...
-    Packet::Internal::GridPosition* gridPacket =
-        new Packet::Internal::GridPosition(inputPacket->GetHeader()->GetFrameIdentifier());
-    Packet::Internal::Standings* standingsPacket =
-        new Packet::Internal::Standings(inputPacket->GetHeader()->GetFrameIdentifier());
-    Packet::Internal::PenaltyStatus* penaltiesPacket =
-        new Packet::Internal::PenaltyStatus(inputPacket->GetHeader()->GetFrameIdentifier());
-    Packet::Internal::ParticipantStatus* statusPacket =
-        new Packet::Internal::ParticipantStatus(inputPacket->GetHeader()->GetFrameIdentifier());
+    std::shared_ptr<Packet::Internal::GridPosition> gridPacket =
+        std::make_shared<Packet::Internal::GridPosition>(inputPacket->GetHeader()->GetFrameIdentifier());
+
+    std::shared_ptr<Packet::Internal::Standings> standingsPacket =
+        std::make_shared<Packet::Internal::Standings>(inputPacket->GetHeader()->GetFrameIdentifier());
+
+    std::shared_ptr<Packet::Internal::PenaltyStatus> penaltiesPacket =
+        std::make_shared<Packet::Internal::PenaltyStatus>(inputPacket->GetHeader()->GetFrameIdentifier());
+
+    std::shared_ptr<Packet::Internal::ParticipantStatus> statusPacket =
+        std::make_shared<Packet::Internal::ParticipantStatus>(inputPacket->GetHeader()->GetFrameIdentifier());
 
     std::map<size_t, uint8_t> startingPlaces;
     std::map<size_t, bool> gridPositionFilled;
+    std::vector<std::shared_ptr<Packet::Internal::Interface>> v;
+    v.push_back(gridPacket);
+    v.push_back(standingsPacket);
+    v.push_back(penaltiesPacket);
+    v.push_back(statusPacket);
 
     for (size_t i = 0; i < 22; ++i) {
 
         bool ok = false;
         const auto lapInfo = inputPacket->GetLapInfo(i, ok);
         if (ok) {
+
+            std::shared_ptr<Packet::Internal::LapStatus> lapPacket =
+                std::make_shared<Packet::Internal::LapStatus>(inputPacket->GetHeader()->GetFrameIdentifier(), i);
 
             // due to some problems in qualifications sessions that have been restarted,
             // a temporary map is needed to later disambiguate grid positions
@@ -264,6 +275,55 @@ Generalizer::Adapter::F1_25::ConvertLapDataPacket(const Packet::Game::F1_25::Lap
 
             statusPacket->InsertData(i, status);
 
+            // work current lap
+            Packet::Internal::LapStatus::Data currentLapData;
+            currentLapData.m_lapID = lapInfo.m_currentLapNum;
+            currentLapData.m_time = lapInfo.m_currentLapTime;
+            uint32_t sector1TimeMS = (lapInfo.m_sector1TimeMin * 60 * 1000) + lapInfo.m_sector1TimeRemainderMS;
+            uint32_t sector2TimeMS = (lapInfo.m_sector2TimeMin * 60 * 1000) + lapInfo.m_sector2TimeRemainderMS;
+            uint32_t sector3TimeMS = lapInfo.m_currentLapTime - sector2TimeMS - sector1TimeMS;
+            currentLapData.m_valid = !lapInfo.m_currentLapInvalid;
+            currentLapData.m_sectorTimes = { sector1TimeMS, sector2TimeMS, sector3TimeMS };
+            // use only general members; pit in/out/cooldown status is to be extracted in processor
+            switch (lapInfo.m_pitStatus) {
+
+                case Lap::Game::F1_25::PitStatus::NotInPits:
+                    currentLapData.m_status = Lap::Internal::Status::FlyingLap;
+                    break;
+                case Lap::Game::F1_25::PitStatus::Pitting:
+                case Lap::Game::F1_25::PitStatus::InPitArea:
+                    // Pitting means that the car is in the pitlane
+                    // InPitArea is applicable only to race and means the car is currently stopped
+                    // No distinction is made here
+                    currentLapData.m_status = Lap::Internal::Status::InPits;
+                    break;
+
+                default:
+                    currentLapData.m_status = Lap::Internal::Status::InvalidUnknown;
+
+            }
+            currentLapData.m_lapDistanceRun = lapInfo.m_lapDistance;
+            // in outlaps at the start of quali/practice and also formation laps in race, this is annoyingly the case
+            if (lapInfo.m_lapDistance < 0.0f) {
+
+                // Apparently if on an outlap, the first outlap's time is set as a previous lap time because why the fuck not
+                currentLapData.m_lapID = 0;
+                currentLapData.m_time = 0;
+
+            }
+            else if (lapInfo.m_currentLapNum != 1) {
+
+                // add also previous lap with whatever little data we can provide
+                // avoid giving it on lap index 1 because of weird outlap shenanigans (I'm so tired of it man)
+                Packet::Internal::LapStatus::Data previousLapData;
+                previousLapData.m_lapID = lapInfo.m_currentLapNum - 1;
+                previousLapData.m_time = lapInfo.m_lastLapTime;
+                lapPacket->InsertData(previousLapData);
+
+            }
+            lapPacket->InsertData(currentLapData);
+            v.push_back(lapPacket);
+
         }
 
     }
@@ -294,15 +354,14 @@ Generalizer::Adapter::F1_25::ConvertLapDataPacket(const Packet::Game::F1_25::Lap
 
     }
 
-
-    return { gridPacket, standingsPacket, penaltiesPacket, statusPacket };
+    return v;
 
 }
 
 
 
-std::vector<Packet::Internal::Interface*>
-Generalizer::Adapter::F1_25::ConvertParticipantDataPacket(const Packet::Game::F1_25::ParticipantData* inputPacket) {
+std::vector<std::shared_ptr<Packet::Internal::Interface>>
+Generalizer::Adapter::F1_25::ConvertParticipantDataPacket(std::shared_ptr<Packet::Game::F1_25::ParticipantData> inputPacket) {
 
     if (!inputPacket) {
 
@@ -310,8 +369,8 @@ Generalizer::Adapter::F1_25::ConvertParticipantDataPacket(const Packet::Game::F1
 
     }
 
-    Packet::Internal::SessionParticipants* participantsPacket =
-        new Packet::Internal::SessionParticipants(inputPacket->GetHeader()->GetFrameIdentifier(), inputPacket->GetNumActiveCars());
+    std::shared_ptr<Packet::Internal::SessionParticipants> participantsPacket =
+        std::make_shared<Packet::Internal::SessionParticipants>(inputPacket->GetHeader()->GetFrameIdentifier(), inputPacket->GetNumActiveCars());
     auto playerIndex = inputPacket->GetHeader()->GetCarIndexPlayer1();
     for (size_t i = 0; i < inputPacket->GetNumActiveCars(); ++i) {
 
@@ -331,8 +390,8 @@ Generalizer::Adapter::F1_25::ConvertParticipantDataPacket(const Packet::Game::F1
 
 
 
-std::vector<Packet::Internal::Interface*>
-Generalizer::Adapter::F1_25::ConvertStandingsDataPacket(const Packet::Game::F1_25::StandingsData* inputPacket) {
+std::vector<std::shared_ptr<Packet::Internal::Interface>>
+Generalizer::Adapter::F1_25::ConvertStandingsDataPacket(std::shared_ptr<Packet::Game::F1_25::StandingsData> inputPacket) {
 
     if (!inputPacket || !(inputPacket->GetHeader())) {
 
@@ -340,8 +399,8 @@ Generalizer::Adapter::F1_25::ConvertStandingsDataPacket(const Packet::Game::F1_2
 
     }
     // because this packet anyway has a frame identifier of 0, then hardcoding is necessary
-    Packet::Internal::FinalResult* finalResult =
-        new Packet::Internal::FinalResult(UINT32_MAX, false);
+    std::shared_ptr<Packet::Internal::FinalResult> finalResult =
+        std::make_shared<Packet::Internal::FinalResult>(UINT32_MAX, false);
     for (size_t i = 0; i < 22; ++i) {
 
         bool ok = false;
@@ -362,8 +421,8 @@ Generalizer::Adapter::F1_25::ConvertStandingsDataPacket(const Packet::Game::F1_2
 
 
 
-std::vector<Packet::Internal::Interface*>
-Generalizer::Adapter::F1_25::ConvertSessionHistoryDataPacket(const Packet::Game::F1_25::SessionHistoryData* inputPacket) {
+std::vector<std::shared_ptr<Packet::Internal::Interface>>
+Generalizer::Adapter::F1_25::ConvertSessionHistoryDataPacket(std::shared_ptr<Packet::Game::F1_25::SessionHistoryData> inputPacket) {
 
     if (!inputPacket || !(inputPacket->GetHeader())) {
 
@@ -371,8 +430,8 @@ Generalizer::Adapter::F1_25::ConvertSessionHistoryDataPacket(const Packet::Game:
 
     }
 
-    Packet::Internal::LapStatus* lapPacket =
-        new Packet::Internal::LapStatus(inputPacket->GetHeader()->GetFrameIdentifier(), inputPacket->GetCarIndex());
+    std::shared_ptr<Packet::Internal::LapStatus> lapPacket =
+        std::make_shared<Packet::Internal::LapStatus>(inputPacket->GetHeader()->GetFrameIdentifier(), inputPacket->GetCarIndex());
 
     // Add the previous lap info only if we're not on the first lap
     // Do it before so you guarantee the first member is the previous lap
@@ -384,9 +443,8 @@ Generalizer::Adapter::F1_25::ConvertSessionHistoryDataPacket(const Packet::Game:
     const auto* currentLapInfo = inputPacket->GetCurrentLapInfo();
     AddLapStatusInfo(inputPacket->GetNumLaps(), currentLapInfo, lapPacket);
 
-
-    Packet::Internal::TyreSetUsage* tyrePacket =
-        new Packet::Internal::TyreSetUsage(inputPacket->GetHeader()->GetFrameIdentifier());
+    std::shared_ptr<Packet::Internal::TyreSetUsage> tyrePacket =
+        std::make_shared<Packet::Internal::TyreSetUsage>(inputPacket->GetHeader()->GetFrameIdentifier());
     Tyre::Internal::Data tyreData;
     tyreData.m_stintNo = inputPacket->GetNumTyreStints();
     auto stintInfo = inputPacket->GetTyreStintHistoryInfo();
@@ -426,9 +484,9 @@ Generalizer::Adapter::F1_25::ConvertSessionHistoryDataPacket(const Packet::Game:
 
 void Generalizer::Adapter::F1_25::AddLapStatusInfo(const uint8_t lapNo,
     const Packet::Game::F1_25::LapHistoryInfo* inputInfo,
-    Packet::Internal::Interface* outputPacket) const {
+    std::shared_ptr<Packet::Internal::Interface> outputPacket) const {
 
-    auto castOutputPacket = dynamic_cast<Packet::Internal::LapStatus*>(outputPacket);
+    auto castOutputPacket = std::dynamic_pointer_cast<Packet::Internal::LapStatus>(outputPacket);
 
     if (inputInfo && castOutputPacket) {
 
@@ -438,7 +496,10 @@ void Generalizer::Adapter::F1_25::AddLapStatusInfo(const uint8_t lapNo,
         uint32_t sector1TimeMS = (inputInfo->m_sector1TimeMin * 60 * 1000) + inputInfo->m_sector1TimeRemainderMS;
         uint32_t sector2TimeMS = (inputInfo->m_sector2TimeMin * 60 * 1000) + inputInfo->m_sector2TimeRemainderMS;
         uint32_t sector3TimeMS = (inputInfo->m_sector3TimeMin * 60 * 1000) + inputInfo->m_sector3TimeRemainderMS;
+        lapData.m_valid = ((inputInfo->m_lapValidBitFlags & 0x00000001) == 0x00000001);
         lapData.m_sectorTimes = { sector1TimeMS, sector2TimeMS, sector3TimeMS };
+        // leave configuration as InvalidUnknown; because of the lack of lap distance details,
+        // we don't want to use this for the sectors
         castOutputPacket->InsertData(lapData);
 
     }
@@ -546,7 +607,7 @@ Generalizer::Adapter::F1_25::GetSingleParticipantData(const Packet::Game::F1_25:
 
 
 
-void Generalizer::Adapter::F1_25::ExtractSessionSettings(const Packet::Game::F1_25::SessionData* inputPacket,
+void Generalizer::Adapter::F1_25::ExtractSessionSettings(std::shared_ptr<Packet::Game::F1_25::SessionData> inputPacket,
     Session::Internal::TrackInfo& trackInfo,
     Session::Internal::Settings& settings) {
 

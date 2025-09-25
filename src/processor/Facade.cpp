@@ -7,6 +7,7 @@
 #include "detectors/Overtake.h"
 #include "detectors/PenaltyReceived.h"
 #include "detectors/ParticipantStatusChanged.h"
+#include "detectors/SectorStateChanged.h"
 #include "detectors/SessionStartDataReady.h"
 #include "detectors/SessionEndDataReady.h"
 #include "detectors/TyreChanged.h"
@@ -34,6 +35,7 @@ Processor::Facade::Facade() :
         m_detectors.push_back(new Processor::Detector::PenaltyReceived);
         m_detectors.push_back(new Processor::Detector::ParticipantStatusChanged);
         m_detectors.push_back(new Processor::Detector::TyreChanged);
+        m_detectors.push_back(new Processor::Detector::SectorStateChanged);
 
     }
 
@@ -59,7 +61,7 @@ Processor::Facade::~Facade() {
 
 
 
-void Processor::Facade::OnPacketBundleBroadcast(std::vector<Packet::Internal::Interface*> packets) {
+void Processor::Facade::OnPacketBundleBroadcast(std::vector<std::shared_ptr<Packet::Internal::Interface>> packets) {
 
     if (m_databank && !packets.empty()) {
 
@@ -68,7 +70,6 @@ void Processor::Facade::OnPacketBundleBroadcast(std::vector<Packet::Internal::In
             if (packet) {
 
                 m_databank->updateData(packet);
-                delete packet;
 
             }
 
@@ -165,7 +166,7 @@ void Processor::Facade::Exec() {
         Broadcast(packetsToSend);
 
         // Thread runs at 10Hz
-        std::this_thread::sleep_for(std::chrono::milliseconds(100));
+        std::this_thread::sleep_for(std::chrono::milliseconds(5));
 
     }
 

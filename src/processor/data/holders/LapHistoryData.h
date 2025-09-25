@@ -4,6 +4,7 @@
 #include <cstdint>
 #include <map>
 #include "data/holders/LapInfo.h"
+#include "data/holders/TrackData.h"
 #include "data/internal/Participant.h"
 #include "data/internal/Tyre.h"
 
@@ -47,8 +48,8 @@ namespace Processor {
 
             // Alter the status of the driver's most recent lap in the session
             // Returns true if the lap data is regarded as complete
-            void updateLap(const uint8_t id, const uint8_t lapID, const Lap::Internal::Type type,
-                const Lap::Internal::Status lapStatus, const Lap::Internal::Time currentLapTime, const std::vector<Lap::Internal::Time> sectorTimes,
+            void updateLap(const uint8_t id, const uint8_t lapID, const Lap::Internal::Status lapStatus,
+                const Lap::Internal::Time currentLapTime, const std::vector<Lap::Internal::Time> sectorTimes,
                 const float_t lapDistanceRun, const Lap::Internal::Time previousLapTime, const Participant::Internal::Status participantStatus);
 
             // Alter the tyre data of the driver's most recent lap
@@ -61,9 +62,9 @@ namespace Processor {
             const uint16_t numLapsAvailable() const;
 
             private:
+            // Auxiliary function that checks whether a finished lap is a session best, a personal best, or nothing special
+            // Communicates with the detector
             void evaluateFinishedLap(const Processor::Data::LapInfo& finishedLap);
-
-            void evaluateTyreDataChanged(const Processor::Data::LapInfo& currentLap);
 
             // Holder of data pertaining to all laps run
             std::map<uint16_t, Processor::Data::LapInfo> m_laps;
@@ -76,15 +77,6 @@ namespace Processor {
 
             // Index of the fastest lap in the session for this driver
             uint16_t m_fastestLapID;
-
-            // Index of the lap in which the fastest sector 1 was driven for this driver
-            uint16_t m_fastestSector1LapID;
-
-            // Index of the lap in which the fastest sector 2 was driven for this driver
-            uint16_t m_fastestSector2LapID;
-
-            // Index of the lap in which the fastest sector 3 was driven for this driver
-            uint16_t m_fastestSector3LapID;
 
             // Pointer to the fastest lap detector currently installed
             Processor::Detector::LapFinished* m_installedFinishedLapDetector;

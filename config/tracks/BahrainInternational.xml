@@ -1,0 +1,34 @@
+<?xml version='1.0' encoding='utf-8'?>
+<track name="BahrainInternational" id="4">
+	<aliases>
+		<alias>Bahrain</alias>
+		<alias>Sakhir</alias>
+	</aliases>
+	<layout name="F1" id="0">
+		<sector>
+			<minisector start="0" end="589.109863" />
+			<minisector start="589.109863" end="803.472717" />
+			<minisector start="803.472717" end="1006.472046" />
+			<minisector start="1006.472046" end="1396.191162" />
+			<minisector start="1396.191162" end="1643.938965" />
+			<minisector start="1643.938965" end="1799.472656" />
+		</sector>
+		<sector>
+			<minisector start="1799.472656" end="1961.194702" />
+			<minisector start="1961.194702" end="2179.632324" />
+			<minisector start="2179.632324" end="2333.138428" />
+			<minisector start="2333.138428" end="2559.455811" />
+			<minisector start="2559.455811" end="2815.435547" />
+			<minisector start="2815.435547" end="3335.446289" />
+			<minisector start="3335.446289" end="3693.701660" />
+			<minisector start="3693.701660" end="4001.111816" />
+		</sector>
+		<sector>
+			<minisector start="4001.111816" end="4212.152832" />
+			<minisector start="4212.152832" end="4510.293945" />
+			<minisector start="4510.293945" end="4763.632812" />
+			<minisector start="4763.632812" end="5073.976074" />
+			<minisector start="5073.976074" end="5409" />
+		</sector>
+	</layout>
+</track>

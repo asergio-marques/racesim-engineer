@@ -1,0 +1,115 @@
+#ifndef PROCESSOR_DATA_INCLUDE_DRIVER_STATE_H_
+#define PROCESSOR_DATA_INCLUDE_DRIVER_STATE_H_
+
+#include <cstdint>
+#include <map>
+#include <math.h>
+#include <vector>
+#include "data/internal/Lap.h"
+#include "data/internal/Participant.h"
+#include "data/internal/Tyre.h"
+#include "data/internal/TyreData.h"
+#include "data/holders/LapHistoryData.h"
+#include "data/holders/PositionTimingData.h"
+#include "data/holders/SectorHistoryData.h"
+#include "data/holders/TrackData.h"
+#include "data/holders/WarningPenaltyData.h"
+
+
+
+
+namespace Processor {
+    
+    namespace Detector {
+
+        class Interface;
+
+    }
+
+    namespace Data {
+
+        class DriverRecord;
+
+        class DriverState {
+
+            public:
+            // Constructor
+            DriverState(const Processor::Data::DriverRecord* const parent,
+                const uint8_t startingPosition, const Processor::Data::TrackData& trackData);
+
+            // Destructor
+            ~DriverState() = default;
+
+            // Provides a specialized way to feed session-end information
+            void finalize(const uint8_t id, const uint8_t position, const uint8_t numLaps, const Lap::Internal::Time sessionTime);
+
+            // Add relevant detectors to then be called when relevant
+            bool installDetector(Processor::Detector::Interface* detector);
+
+            // Set the initial grid position of the driver at the start of the session
+            void setGridPosition(const uint8_t gridPosition);
+
+            // Initialize tyre data at the start of the session
+            void setStartingTyreData(const Tyre::Internal::Data tyreData);
+
+            // Alter the position in this driver state, and feed it to the detector
+            void updateCurrentPosition(const uint8_t currentPosition);
+
+            // Alter the status of warnings and penalties, and feed it to the detector
+            void updateWarningPenalties(const uint8_t totalWarnings,
+                    const uint8_t trackLimitWarnings, const uint16_t timePenalties,
+                    const uint8_t stopGoPens, const uint8_t driveThroughPens);
+
+            // Alter the status of the driver itself in the session, and feed it to the detector
+            void updateStatus(const Participant::Internal::Status status);
+
+            // Alter the status of the driver's most recent lap in the session
+            // Returns true if this update has "completed" the lap entry database
+            void updateLap(const uint8_t lapID, const Lap::Internal::Status status,
+                const Lap::Internal::Time currentLapTime, const std::vector<Lap::Internal::Time> sectorTimes,
+                const float_t lapDistanceRun, const bool isValid, const Lap::Internal::Time previousLapTime);
+
+            // Alter the data of the tyre set in use for the current lap
+            void updateCurrentTyre(const uint8_t driverID, const Tyre::Internal::Data data);
+
+            // Expose position and timing data
+            const Processor::Data::PositionTimingData& posTimeData() const;
+
+            // Expose warning and penalty data
+            const Processor::Data::WarningPenaltyData& warnPenData() const;
+
+            // Expose lap data
+            const Processor::Data::LapHistoryData& lapData() const;
+
+            // Expose sector data
+            const Processor::Data::SectorHistoryData& sectorData() const;
+
+            // Expose minisector data
+            const Processor::Data::SectorHistoryData& miniSectorData() const;
+
+            private:
+            // Pointer to the driver record holding this state
+            const Processor::Data::DriverRecord* const m_parentRecord;
+
+            // Holder of all position and time gap information
+            Processor::Data::PositionTimingData m_posTimeData;
+
+            // Holder of all warning and penalty data
+            Processor::Data::WarningPenaltyData m_warnPenData;
+
+            // Holder of data for all laps run for this driver in the current session
+            Processor::Data::LapHistoryData m_lapData;
+
+            // Holder of data for all lap sectors run for this driver in the current session
+            Processor::Data::SectorHistoryData m_sectorData;
+
+            // Holder of data for all lap minisectors run for this driver in the current session
+            Processor::Data::SectorHistoryData m_miniSectorData;
+
+        };
+
+    }
+
+}
+
+#endif // PROCESSOR_DATA_INCLUDE_DRIVER_STATE_H_

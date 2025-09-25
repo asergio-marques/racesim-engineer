@@ -179,6 +179,27 @@ namespace UserInterface {
             100     // m_maxValuePoint
         };
 
+        // TODO it might be necessary to support more than 3 sectors with other games (e.g. iRacing)
+        static inline const uint8_t SectorInfoContainerMaxNum = 3;
+
+        static inline const Value SectorInfoContainerMaxX = {
+            Value::Type::Absolute,
+            44,     // m_minValue
+            392,    // m_minValuePoint
+            216,    // m_maxValue
+            1776    // m_maxValuePoint
+        };
+
+        static inline const Value SectorTimeStatusFontSize = {
+            Value::Type::Absolute,
+            6,      // m_minValue
+            22,     // m_minValuePoint
+            30,     // m_maxValue
+            100     // m_maxValuePoint
+        };
+
+        static inline const uint8_t MiniSectorIconSpacingX = 2;
+
     }
 
 }

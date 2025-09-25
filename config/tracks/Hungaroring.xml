@@ -1,0 +1,33 @@
+<?xml version='1.0' encoding='utf-8'?>
+<track name="Hungaroring" id="11">
+	<aliases>
+		<alias>Hungaroring</alias>
+		<alias>Hungary</alias>
+		<alias>Budapest</alias>
+	</aliases>
+	<layout name="F1" id="0">
+		<sector>
+			<minisector start="0" end="466.030670" />
+			<minisector start="466.030670" end="670.470215" />
+			<minisector start="670.470215" end="992.601013" />
+			<minisector start="992.601013" end="1250.964233" />
+			<minisector start="1250.964233" end="1426.282349" />
+			<minisector start="1426.282349" end="1689.487671" />
+		</sector>
+		<sector>
+			<minisector start="1689.487671" end="1927.723389" />
+			<minisector start="1927.723389" end="2270.087646" />
+			<minisector start="2270.087646" end="2534.710205" />
+			<minisector start="2534.710205" end="2820.920898" />
+			<minisector start="2820.920898" end="3016.334473" />
+			<minisector start="3016.334473" end="3246.123047" />
+		</sector>
+		<sector>
+			<minisector start="3246.123047" end="3411.327393" />
+			<minisector start="3411.327393" end="3694.812500" />
+			<minisector start="3694.812500" end="3948.382324" />
+			<minisector start="3948.382324" end="4222.596680" />
+			<minisector start="4222.596680" end="4379" />
+		</sector>
+	</layout>
+</track>

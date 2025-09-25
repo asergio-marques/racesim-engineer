@@ -1,10 +1,12 @@
 #include "screens/FreePractice.h"
 
+#include <QSharedPointer>
 #include <QWidget>
 #include "screens/DualPanelInterface.h"
 #include "core/Screen.h"
 #include "panels/FreePracticeLeft.h"
 #include "panels/FreePracticeRight.h"
+
 
 
 
@@ -23,7 +25,7 @@ const UserInterface::Screen::Type UserInterface::Screen::FreePractice::Type() co
 
 
 
-void UserInterface::Screen::FreePractice::Activate(const Packet::Event::Interface* startupInfo) {
+void UserInterface::Screen::FreePractice::Activate(QSharedPointer<Packet::Event::Interface> startupInfo) {
 
     if (startupInfo) {
 

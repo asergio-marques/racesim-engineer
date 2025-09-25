@@ -1,0 +1,30 @@
+<?xml version='1.0' encoding='utf-8'?>
+<track name="Generic" id="0">
+	<aliases>
+		<alias>Generic Track</alias>
+	</aliases>
+	<layout name="F1" id="0">
+		<sector>
+			<minisector start="0" end="100" />
+			<minisector start="100" end="200" />
+			<minisector start="200" end="300" />
+			<minisector start="300" end="400" />
+			<minisector start="400" end="500" />
+			<minisector start="500" end="600" />
+		</sector>
+		<sector>
+			<minisector start="600" end="700" />
+			<minisector start="700" end="800" />
+			<minisector start="800" end="900" />
+		</sector>
+		<sector>
+			<minisector start="900" end="1000" />
+			<minisector start="1000" end="1100" />
+			<minisector start="1100" end="1200" />
+			<minisector start="1200" end="1300" />
+			<minisector start="1300" end="1400" />
+			<minisector start="1400" end="1500" />
+			<minisector start="1500" end="1600" />
+		</sector>
+	</layout>
+</track>

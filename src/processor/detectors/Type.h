@@ -18,7 +18,8 @@ namespace Processor {
             Overtake                    = 4,
             LapFinished                 = 5,
             PenaltyReceived             = 6,
-            TyreChanged                 = 7
+            TyreChanged                 = 7,
+            SectorStateChanged          = 8
 
         };
 

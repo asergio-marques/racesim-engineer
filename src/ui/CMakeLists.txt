@@ -24,8 +24,8 @@ target_link_directories(${PROJECT_NAME} PRIVATE "${PROJECT_ROOT}/lib/")
 target_sources(${PROJECT_NAME} PRIVATE
     UIStarter.cpp
     CustomMainWindow.cpp
-    EventAnnouncer.cpp
-    PacketHandler.cpp
+    AnnouncementManager.cpp
+    core/PacketHandler.cpp
     core/PixmapFactory.cpp
     core/styles/Value.cpp
     # panels
@@ -53,10 +53,11 @@ target_link_libraries(${PROJECT_NAME} PRIVATE
     RaceSimEngineerCore
     RaceSimEngineerPacketsEvent
     RaceSimEngineerPresenter
+    RaceSimEngineerUISound
     RaceSimEngineerUIWidgets
     Qt6::Core
-    Qt6::Widgets
-    Qt6::TextToSpeech)
+    Qt6::TextToSpeech
+    Qt6::Widgets)
 
 set_target_properties(${PROJECT_NAME}
 	PROPERTIES

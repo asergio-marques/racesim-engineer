@@ -1,0 +1,35 @@
+<?xml version='1.0' encoding='utf-8'?>
+<track name="AbuDhabi" id="23">
+	<aliases>
+		<alias>Abu Dhabi</alias>
+		<alias>Yas Marina</alias>
+		<alias>UAE</alias>
+	</aliases>
+	<layout name="F1" id="0">
+		<sector>
+			<minisector start="0" end="299.922363" />
+			<minisector start="299.922363" end="485.224091" />
+			<minisector start="485.224091" end="710.513550" />
+			<minisector start="710.513550" end="967.789502" />
+			<minisector start="967.789502" end="1211.000122" />
+		</sector>
+		<sector>
+			<minisector start="1211.000122" end="1533.071289" />
+			<minisector start="1533.071289" end="1758.900024" />
+			<minisector start="1758.900024" end="2124.081299" />
+			<minisector start="2124.081299" end="2507.415527" />
+			<minisector start="2507.415527" end="2787.534180" />
+			<minisector start="2787.534180" end="2905.069092" />
+			<minisector start="2905.069092" end="3220.680664" />
+			<minisector start="3220.680664" end="3537.713135" />
+		</sector>
+		<sector>
+			<minisector start="3537.713135" end="3947.201172" />
+			<minisector start="3947.201172" end="4287.625488" />
+			<minisector start="4287.625488" end="4426.568359" />
+			<minisector start="4426.568359" end="4679.998047" />
+			<minisector start="4679.998047" end="4993.530273" />
+			<minisector start="4993.530273" end="5281" />
+		</sector>
+	</layout>
+</track>

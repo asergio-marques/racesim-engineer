@@ -4,6 +4,7 @@
 #include <QMainWindow>
 #include <QMessageBox>
 #include <QResizeEvent>
+#include <QSharedPointer>
 #include <QTimer>
 #include <QWidget>
 #include <QWindow>
@@ -122,7 +123,7 @@ void UserInterface::CustomMainWindow::OnSessionDataClear() {
 
 
 
-void UserInterface::CustomMainWindow::OnTimeTrialStart(const Packet::Event::Interface* packet) {
+void UserInterface::CustomMainWindow::OnTimeTrialStart(QSharedPointer<Packet::Event::Interface> packet) {
 
     if (doSwitchScreen(UserInterface::Screen::Type::TimeTrial, packet)) {
 
@@ -138,7 +139,7 @@ void UserInterface::CustomMainWindow::OnTimeTrialStart(const Packet::Event::Inte
 
 
 
-void UserInterface::CustomMainWindow::OnFreePracticeStart(const Packet::Event::Interface* packet) {
+void UserInterface::CustomMainWindow::OnFreePracticeStart(QSharedPointer<Packet::Event::Interface> packet) {
 
     if (doSwitchScreen(UserInterface::Screen::Type::FreePractice, packet)) {
 
@@ -154,7 +155,7 @@ void UserInterface::CustomMainWindow::OnFreePracticeStart(const Packet::Event::I
 
 
 
-void UserInterface::CustomMainWindow::OnQualiStart(const Packet::Event::Interface* packet) {
+void UserInterface::CustomMainWindow::OnQualiStart(QSharedPointer<Packet::Event::Interface> packet) {
 
     if (doSwitchScreen(UserInterface::Screen::Type::Qualifying, packet)) {
 
@@ -170,7 +171,7 @@ void UserInterface::CustomMainWindow::OnQualiStart(const Packet::Event::Interfac
 
 
 
-void UserInterface::CustomMainWindow::OnRaceStart(const Packet::Event::Interface* packet) {
+void UserInterface::CustomMainWindow::OnRaceStart(QSharedPointer<Packet::Event::Interface> packet) {
 
     if (doSwitchScreen(UserInterface::Screen::Type::Race, packet)) {
 
@@ -196,7 +197,7 @@ void UserInterface::CustomMainWindow::doAddScreen(UserInterface::Screen::Interfa
 
 
 
-bool UserInterface::CustomMainWindow::doSwitchScreen(const UserInterface::Screen::Type type, const Packet::Event::Interface* startInfo) {
+bool UserInterface::CustomMainWindow::doSwitchScreen(const UserInterface::Screen::Type type, QSharedPointer<Packet::Event::Interface> startInfo) {
 
     // avoid switching screen to already-present screen by returning early
     if (m_activeScreen && (m_activeScreen->Type() == type)) {

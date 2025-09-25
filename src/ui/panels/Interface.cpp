@@ -1,6 +1,7 @@
 #include "panels/Interface.h"
 
 #include <map>
+#include <QSharedPointer>
 #include <QWidget>
 #include "core/Screen.h"
 #include "widgets/base/ID.h"

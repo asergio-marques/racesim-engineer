@@ -33,7 +33,7 @@ namespace Packet {
             const Session::Internal::Descriptor& GetCurrentSession() const;
 
             // Retrieve all the weather samples for a given format and session
-            const std::vector<Session::Internal::WeatherSample>& GetData(Session::Internal::Descriptor descriptor) const;
+            const std::vector<Session::Internal::WeatherSample> GetData(Session::Internal::Descriptor descriptor) const;
 
             // Retrieve the session configurations for which samples are available in this packet
             const std::vector<Session::Internal::Descriptor> GetSessions() const;

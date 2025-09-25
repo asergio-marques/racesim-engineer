@@ -12,10 +12,12 @@
 #include "packets/event/TimeTrialStart.h"
 #include "packets/event/RoundSessionEnd.h"
 #include "sound/announcement/LapFinished.h"
-//#include "sound/announcer/FreePractice.h"
-//#include "sound/announcer/Qualifying.h"
+#include "sound/announcement/PenaltyReceived.h"
+#include "sound/announcement/TyreChanged.h"
+#include "sound/announcer/FreePractice.h"
+#include "sound/announcer/Qualifying.h"
 #include "sound/announcer/Race.h"
-//#include "sound/announcer/TimeTrial.h"
+#include "sound/announcer/TimeTrial.h"
 
 
 
@@ -84,7 +86,8 @@ UserInterface::AnnouncementManager::AnnouncementManager(UserInterface::PacketHan
 
 void UserInterface::AnnouncementManager::OnPracticeStart(QSharedPointer<Packet::Event::PracticeStart> packet) {
 
-
+    m_activeAnnouncer = new UserInterface::Announcer::FreePractice(this);
+    doStartAnnouncer();
 
 }
 
@@ -92,7 +95,8 @@ void UserInterface::AnnouncementManager::OnPracticeStart(QSharedPointer<Packet::
 
 void UserInterface::AnnouncementManager::OnQualiStart(QSharedPointer<Packet::Event::QualiStart> packet) {
 
-
+    m_activeAnnouncer = new UserInterface::Announcer::Qualifying(this);
+    doStartAnnouncer();
 
 }
 
@@ -109,7 +113,8 @@ void UserInterface::AnnouncementManager::OnRaceStart(QSharedPointer<Packet::Even
 
 void UserInterface::AnnouncementManager::OnTimeTrialStart(QSharedPointer<Packet::Event::TimeTrialStart> packet) {
 
-
+    m_activeAnnouncer = new UserInterface::Announcer::TimeTrial(this);
+    doStartAnnouncer();
 
 }
 
@@ -150,6 +155,12 @@ void UserInterface::AnnouncementManager::initAnnouncements() {
     
     UserInterface::Announcement::LapFinished* lapAnnounce = new UserInterface::Announcement::LapFinished(m_handler, m_speechEngine, this);
     m_announcements.insert(lapAnnounce->GetAcceptedType(), lapAnnounce);
+
+    UserInterface::Announcement::PenaltyReceived* penAnnounce = new UserInterface::Announcement::PenaltyReceived(m_handler, m_speechEngine, this);
+    m_announcements.insert(penAnnounce->GetAcceptedType(), penAnnounce);
+
+    UserInterface::Announcement::TyreChanged* tyreAnnounce = new UserInterface::Announcement::TyreChanged(m_handler, m_speechEngine, this);
+    m_announcements.insert(tyreAnnounce->GetAcceptedType(), tyreAnnounce);
 
 }
 

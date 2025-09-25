@@ -23,6 +23,8 @@ target_link_directories(${PROJECT_NAME} PRIVATE "${PROJECT_ROOT}/lib/")
 target_sources(${PROJECT_NAME} PRIVATE
     announcement/Interface.cpp
     announcement/LapFinished.cpp
+    announcement/PenaltyReceived.cpp
+    announcement/TyreChanged.cpp
     announcer/FreePractice.cpp
     announcer/Interface.cpp
     announcer/Qualifying.cpp

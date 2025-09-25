@@ -18,6 +18,8 @@ UserInterface::Announcer::Race::Race(QObject* parent) :
 
 QList<Packet::Event::Type> UserInterface::Announcer::Race::GetAnnouncementTypes() const {
 
-    return { Packet::Event::Type::LapFinished };
+    return { Packet::Event::Type::LapFinished,
+        Packet::Event::Type::PenaltyReceived,
+        Packet::Event::Type::TyreChanged };
 
 }

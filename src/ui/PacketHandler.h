@@ -57,7 +57,7 @@ namespace UserInterface {
         void NotifyTyreObservers(QSharedPointer<Packet::Event::Interface> packet);
         void NotifySectorChangeObservers(QSharedPointer<Packet::Event::Interface> packet);
 
-        QList<Packet::Event::Interface*> m_packetList;
+        QList<QSharedPointer<Packet::Event::Interface>> m_packetList;
         QThread m_workerThread;
         QMutex m_mutex;
         QTimer m_execTimer;

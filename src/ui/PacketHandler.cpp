@@ -44,7 +44,9 @@ void UserInterface::PacketHandler::AcceptPacket(Packet::Event::Interface* packet
     m_mutex.lock();
     if (packet) {
 
-        m_packetList.push_back(packet);
+        // capture the packet in a shared pointer for automatic memory management
+        QSharedPointer<Packet::Event::Interface> p(packet);
+        m_packetList.push_back(p);
 
     }
     m_mutex.unlock();
@@ -69,9 +71,7 @@ void UserInterface::PacketHandler::Exec() {
         // TODO proper packet handler, for now let's cast to our hearts' delight
         if (packet && !packet->m_isProcessed) {
 
-            // capture the packet in a shared pointer for automatic memory management
             QSharedPointer<Packet::Event::Interface> pktPtr(packet);
-            packet->m_isProcessed = true;
 
             switch (packet->packetType()) {
 

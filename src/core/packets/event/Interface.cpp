@@ -18,7 +18,6 @@ Packet::Event::Interface::Interface() :
 Packet::Event::Interface::Interface(const bool isPlayer, const std::string fullName, const uint8_t currentPosition) :
     m_isPlayer(isPlayer),
     m_currentPosition(currentPosition),
-    m_fullName(fullName),
-    m_isProcessed(false) {
+    m_fullName(fullName) {
 
 }

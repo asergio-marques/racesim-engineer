@@ -5,7 +5,7 @@ add_library(${PROJECT_NAME} STATIC)
 
 set(CMAKE_AUTORCC ON)
 
-find_package(Qt6 REQUIRED COMPONENTS Core Widgets)
+find_package(Qt6 REQUIRED COMPONENTS Core Widgets TextToSpeech)
 
 set_target_properties(${PROJECT_NAME} PROPERTIES AUTOMOC ON)
 
@@ -24,8 +24,8 @@ target_link_directories(${PROJECT_NAME} PRIVATE "${PROJECT_ROOT}/lib/")
 target_sources(${PROJECT_NAME} PRIVATE
     UIStarter.cpp
     CustomMainWindow.cpp
-    EventAnnouncer.cpp
-    PacketHandler.cpp
+    AnnouncementManager.cpp
+    core/PacketHandler.cpp
     core/PixmapFactory.cpp
     core/styles/Value.cpp
     # panels
@@ -53,8 +53,10 @@ target_link_libraries(${PROJECT_NAME} PRIVATE
     RaceSimEngineerCore
     RaceSimEngineerPacketsEvent
     RaceSimEngineerPresenter
+    RaceSimEngineerUISound
     RaceSimEngineerUIWidgets
     Qt6::Core
+    Qt6::TextToSpeech
     Qt6::Widgets)
 
 set_target_properties(${PROJECT_NAME}

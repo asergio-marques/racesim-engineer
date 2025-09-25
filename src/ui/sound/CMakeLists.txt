@@ -18,17 +18,16 @@ target_include_directories(${PROJECT_NAME} PUBLIC
     "${PROJECT_ROOT}/include/core"
     "${PROJECT_ROOT}/src/ui/core"
     "${PROJECT_ROOT}/src/ui/sound")
-target_include_directories(${PROJECT_NAME} PRIVATE
-    "${PROJECT_ROOT}/include/presenter")
 target_link_directories(${PROJECT_NAME} PRIVATE "${PROJECT_ROOT}/lib/")
 
 target_sources(${PROJECT_NAME} PRIVATE
-    announcement/FinishedLapAnnouncement.cpp
-    announcer/PracticeAnnouncer.cpp
-    announcer/QualiAnnouncer.cpp
-    announcer/RaceAnnouncer.cpp
-    announcer/TimeTrialAnnouncer.cpp
-    )
+    announcement/Interface.cpp
+    announcement/LapFinished.cpp
+    announcer/FreePractice.cpp
+    announcer/Interface.cpp
+    announcer/Qualifying.cpp
+    announcer/Race.cpp
+    announcer/TimeTrial.cpp)
 
 target_link_libraries(${PROJECT_NAME} PRIVATE
     RaceSimEngineerCore

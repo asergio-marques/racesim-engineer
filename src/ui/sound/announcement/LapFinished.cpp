@@ -5,17 +5,17 @@
 #include <QSharedPointer>
 #include <QString>
 #include <QTextToSpeech>
-#include "PacketHandler.h"
 #include "announcement/Interface.h"
+#include "PacketHandler.h"
 #include "packets/event/LapFinished.h"
 #include "packets/event/Type.h"
 
 
 
 
-UserInterface::Announcement::LapFinished::LapFinished(UserInterface::PacketHandler handler, QTextToSpeech* speechEngine, QObject* parent) :
+UserInterface::Announcement::LapFinished::LapFinished(UserInterface::PacketHandler* handler, QTextToSpeech* speechEngine, QObject* parent) :
     UserInterface::Announcement::Interface(parent),
-    m_speechEngine(speechEngine)
+    m_speechEngine(speechEngine),
     m_handler(handler) {
 
 
@@ -48,7 +48,7 @@ void UserInterface::Announcement::LapFinished::Deactivate() {
 
 
 
-void UserInterface::Announcement::LapFinished::onEvent(QSharedPointer<Packet::Event::LapFinished> packet){
+void UserInterface::Announcement::LapFinished::onEvent(QSharedPointer<Packet::Event::LapFinished> lap) {
 
     if (m_speechEngine && lap &&
         (lap->m_infoType == Lap::Internal::InfoType::FastestLap)) {

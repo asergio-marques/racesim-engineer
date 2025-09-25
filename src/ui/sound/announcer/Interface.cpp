@@ -22,7 +22,7 @@ void UserInterface::Announcer::Interface::InstallAnnouncement(UserInterface::Ann
 
     if (announcement) {
 
-        m_installedAnnouncements(announcement);
+        m_installedAnnouncements.push_back(announcement);
         announcement->setParent(this);
         announcement->Activate();
 

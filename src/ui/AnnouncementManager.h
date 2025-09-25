@@ -7,7 +7,7 @@
 #include "packets/event/PracticeStart.h"
 #include "packets/event/QualiStart.h"
 #include "packets/event/RaceStart.h"
-#include "packets/event/SessionEnd.h"
+#include "packets/event/RoundSessionEnd.h"
 #include "packets/event/TimeTrialStart.h"
 #include "packets/event/Type.h"
 
@@ -38,12 +38,12 @@ namespace UserInterface {
 
         public:
         AnnouncementManager(UserInterface::PacketHandler* handler);
-        virtual ~AnnouncementManager();
+        ~AnnouncementManager() = default;
         void OnPracticeStart(QSharedPointer<Packet::Event::PracticeStart> packet);
         void OnQualiStart(QSharedPointer<Packet::Event::QualiStart> packet);
         void OnRaceStart(QSharedPointer<Packet::Event::RaceStart> packet);
         void OnTimeTrialStart(QSharedPointer<Packet::Event::TimeTrialStart> packet);
-        void OnSessionEnd(QSharedPointer<Packet::Event::SessionEnd> packet);
+        void OnSessionEnd();
 
         private:
         void initAnnouncements();
@@ -53,10 +53,8 @@ namespace UserInterface {
         UserInterface::PacketHandler* m_handler;
         UserInterface::Announcer::Interface* m_activeAnnouncer;
         QMap<Packet::Event::Type, UserInterface::Announcement::Interface*> m_announcements;
-    
-        };
 
-    }
+    };
 
 }
 

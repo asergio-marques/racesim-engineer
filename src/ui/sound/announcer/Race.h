@@ -12,7 +12,7 @@ namespace UserInterface {
 
     namespace Announcer {
 
-        class Race final : class Interface {
+        class Race final : public Interface {
 
             Q_OBJECT
 

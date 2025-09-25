@@ -7,7 +7,16 @@
 
 
 
-QList<Packet::Event::Type> UserInterface::Announcer::Interface::GetAnnouncementTypes() const {
+UserInterface::Announcer::Race::Race(QObject* parent) :
+    Interface(parent) {
+
+
+
+}
+
+
+
+QList<Packet::Event::Type> UserInterface::Announcer::Race::GetAnnouncementTypes() const {
 
     return { Packet::Event::Type::LapFinished };
 

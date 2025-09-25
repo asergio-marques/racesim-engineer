@@ -18,19 +18,19 @@ namespace UserInterface {
 
     namespace Announcement {
 
-        class LapFinished final : class Interface {
+        class LapFinished final : public UserInterface::Announcement::Interface {
 
             Q_OBJECT
 
             public:
-                LapFinished(UserInterface::PacketHandler handler, QTextToSpeech* speechEngine, QObject* parent = 0);
+                LapFinished(UserInterface::PacketHandler* handler, QTextToSpeech* speechEngine, QObject* parent = 0);
                 virtual ~LapFinished() = default;
                 Packet::Event::Type GetAcceptedType() const override final;
                 void Activate() override final;
                 void Deactivate() override final;
             
             private:
-                void onEvent(QSharedPointer<Packet::Event::LapFinished> packet);
+                void onEvent(QSharedPointer<Packet::Event::LapFinished> lap);
                 UserInterface::PacketHandler* m_handler;
                 QTextToSpeech* m_speechEngine;
 

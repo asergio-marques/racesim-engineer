@@ -18,7 +18,7 @@ namespace UserInterface {
 
     namespace Announcer {
 
-        class Interface : class QObject {
+        class Interface : public QObject {
 
             Q_OBJECT
 

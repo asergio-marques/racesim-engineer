@@ -13,8 +13,12 @@
 #include "packets/event/Interface.h"
 #include "packets/event/ParticipantStatusChanged.h"
 #include "packets/event/PenaltyReceived.h"
+#include "packets/event/PracticeStart.h"
 #include "packets/event/Overtake.h"
+#include "packets/event/QualiStart.h"
+#include "packets/event/RaceStart.h"
 #include "packets/event/SectorStateChanged.h"
+#include "packets/event/TimeTrialStart.h"
 #include "packets/event/TyreChanged.h"
 
 
@@ -31,10 +35,10 @@ namespace UserInterface {
         void AcceptPacket(Packet::Event::Interface* packet);
 
         signals:
-        void TimeTrialStart(QSharedPointer<Packet::Event::Interface>);
-        void PracticeStart(QSharedPointer<Packet::Event::Interface>);
-        void QualiStart(QSharedPointer<Packet::Event::Interface>);
-        void RaceStart(QSharedPointer<Packet::Event::Interface>);
+        void PracticeStart(QSharedPointer<Packet::Event::PracticeStart>);
+        void QualiStart(QSharedPointer<Packet::Event::QualiStart>);
+        void RaceStart(QSharedPointer<Packet::Event::RaceStart>);
+        void TimeTrialStart(QSharedPointer<Packet::Event::TimeTrialStart>);
         void SessionEnd();
         void OvertakePerformed(QSharedPointer<Packet::Event::Overtake>);
         void PenaltyReceived(QSharedPointer<Packet::Event::PenaltyReceived>);

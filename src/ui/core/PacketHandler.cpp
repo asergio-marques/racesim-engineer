@@ -66,10 +66,10 @@ void UserInterface::PacketHandler::StartTimer() {
 void UserInterface::PacketHandler::Exec() {
 
     m_mutex.lock();
-    for (auto packet : m_packetList) {
+    for (auto& packet : m_packetList) {
 
         // TODO proper packet handler, for now let's cast to our hearts' delight
-        if (packet && !packet->m_isProcessed) {
+        if (packet) {
 
             QSharedPointer<Packet::Event::Interface> pktPtr(packet);
 
@@ -130,19 +130,19 @@ void UserInterface::PacketHandler::NotifySessionStartObservers(QSharedPointer<Pa
         switch (packet->packetType()) {
 
             case Packet::Event::Type::PracticeStart:
-                emit PracticeStart(packet);
+                emit PracticeStart(qSharedPointerDynamicCast<Packet::Event::PracticeStart>(packet));
                 break;
 
             case Packet::Event::Type::QualiStart:
-                emit QualiStart(packet);
+                emit QualiStart(qSharedPointerDynamicCast<Packet::Event::QualiStart>(packet));
                 break;
 
             case Packet::Event::Type::RaceStart:
-                emit RaceStart(packet);
+                emit RaceStart(qSharedPointerDynamicCast<Packet::Event::RaceStart>(packet));
                 break;
 
             case Packet::Event::Type::TimeTrialStart:
-                emit TimeTrialStart(packet);
+                emit TimeTrialStart(qSharedPointerDynamicCast<Packet::Event::TimeTrialStart>(packet));
                 break;
 
             default:

@@ -29,7 +29,7 @@ namespace Presenter {
 namespace UserInterface {
 
     class CustomMainWindow;
-    class EventAnnouncer;
+    class AnnouncementManager;
     class PacketHandler;
 
     class UIStarter : public Packet::Event::Subscriber {
@@ -47,7 +47,7 @@ namespace UserInterface {
         QApplication* m_app;
         UserInterface::CustomMainWindow* m_window;
         UserInterface::PacketHandler* m_handler;
-        UserInterface::EventAnnouncer* m_announcer;
+        UserInterface::AnnouncementManager* m_announcer;
 
     };
 

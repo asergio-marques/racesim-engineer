@@ -7,7 +7,7 @@
 #include <QTimer>
 #include "CustomMainWindow.h"
 #include "PacketHandler.h"
-#include "EventAnnouncer.h"
+#include "AnnouncementManager.h"
 #include "screens/Loading.h"
 #include "screens/TimeTrial.h"
 #include "screens/FreePractice.h"
@@ -20,7 +20,7 @@ UserInterface::UIStarter::UIStarter() :
     m_app(nullptr),
     m_window(nullptr),
     m_handler(nullptr),
-    m_announcer(new UserInterface::EventAnnouncer) {
+    m_announcer(nullptr) {
 
 
 
@@ -30,6 +30,7 @@ UserInterface::UIStarter::UIStarter() :
 
 UserInterface::UIStarter::~UIStarter() {
 
+    delete m_handler;
     delete m_window;
 
 }
@@ -39,7 +40,7 @@ UserInterface::UIStarter::~UIStarter() {
 void UserInterface::UIStarter::Init(int* argc, char*** argv, Presenter::ICompFacade* presenter) {
 
     m_app = new QApplication(*argc, *argv);
-    QCoreApplication::setOrganizationName("Sérgio Marques");
+    QCoreApplication::setOrganizationName("Sï¿½rgio Marques");
     QCoreApplication::setApplicationName("RaceSimEngineer");
     QCoreApplication::setApplicationVersion("0.0.1 alpha");
     Q_ASSERT(m_app);
@@ -54,9 +55,8 @@ void UserInterface::UIStarter::Init(int* argc, char*** argv, Presenter::ICompFac
     QGuiApplication::setFont(font);
     m_window = new UserInterface::CustomMainWindow(presenter);
     m_handler = new UserInterface::PacketHandler;
+    m_announcer = new UserInterface::AnnouncementManager(m_handler);
     if (m_window && m_handler && m_announcer) {
-
-        m_announcer->Init();
 
         // connect handler signals to main window
         m_handler->connect(m_handler, &UserInterface::PacketHandler::TimeTrialStart,
@@ -69,14 +69,6 @@ void UserInterface::UIStarter::Init(int* argc, char*** argv, Presenter::ICompFac
             m_window, &UserInterface::CustomMainWindow::OnRaceStart);
         m_handler->connect(m_handler, &UserInterface::PacketHandler::SessionEnd,
             m_window, &UserInterface::CustomMainWindow::OnSessionEnd);
-
-        // connect handler signals to announcer
-        m_handler->connect(m_handler, &UserInterface::PacketHandler::LapFinished,
-            m_announcer, &UserInterface::EventAnnouncer::AnnounceFinishedLap);
-        m_handler->connect(m_handler, &UserInterface::PacketHandler::PenaltyReceived,
-            m_announcer, &UserInterface::EventAnnouncer::AnnouncePenaltyReceived);
-        m_handler->connect(m_handler, &UserInterface::PacketHandler::TyreChanged,
-            m_announcer, &UserInterface::EventAnnouncer::AnnounceTyreChanged);
 
         m_window->setMinimumSize(848, 480);
         m_window->setBaseSize(1920, 1040);

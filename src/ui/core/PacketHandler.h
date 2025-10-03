@@ -62,6 +62,8 @@ namespace UserInterface {
         void NotifySectorChangeObservers(QSharedPointer<Packet::Event::Interface> packet);
 
         QList<QSharedPointer<Packet::Event::Interface>> m_packetList;
+        QList<QSharedPointer<Packet::Event::Interface>> m_garbageList;
+        QSharedPointer<Packet::Event::Interface> m_latestSessionEnd;
         QThread m_workerThread;
         QMutex m_mutex;
         QTimer m_execTimer;

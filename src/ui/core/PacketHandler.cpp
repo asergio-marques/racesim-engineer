@@ -12,6 +12,8 @@
 UserInterface::PacketHandler::PacketHandler() :
     QObject(),
     m_packetList(),
+    m_garbageList(),
+    m_latestSessionEnd(),
     m_execTimer(),
     m_workerThread() {
 
@@ -69,9 +71,7 @@ void UserInterface::PacketHandler::Exec() {
     for (auto& packet : m_packetList) {
 
         // TODO proper packet handler, for now let's cast to our hearts' delight
-        if (packet) {
-
-            QSharedPointer<Packet::Event::Interface> pktPtr(packet);
+        if (!packet.isNull()) {
 
             switch (packet->packetType()) {
 
@@ -79,29 +79,29 @@ void UserInterface::PacketHandler::Exec() {
                 case Packet::Event::Type::QualiStart:
                 case Packet::Event::Type::RaceStart:
                 case Packet::Event::Type::TimeTrialStart:
-                    NotifySessionStartObservers(pktPtr);
+                    NotifySessionStartObservers(packet);
                     break;
                 case Packet::Event::Type::RoundSessionEnd:
                 case Packet::Event::Type::TimeTrialEnd:
-                    NotifySessionEndObservers(pktPtr);
+                    NotifySessionEndObservers(packet);
                     break;
                 case Packet::Event::Type::Overtake:
-                    NotifyOvertakeObservers(pktPtr);
+                    NotifyOvertakeObservers(packet);
                     break;
                 case Packet::Event::Type::PenaltyReceived:
-                    NotifyPenaltyObservers(pktPtr);
+                    NotifyPenaltyObservers(packet);
                     break;
                 case Packet::Event::Type::ParticipantStatusChanged:
-                    NotifyStatusChangeObservers(pktPtr);
+                    NotifyStatusChangeObservers(packet);
                     break;
                 case Packet::Event::Type::LapFinished:
-                    NotifyLapObservers(pktPtr);
+                    NotifyLapObservers(packet);
                     break;
                 case Packet::Event::Type::TyreChanged:
-                    NotifyTyreObservers(pktPtr);
+                    NotifyTyreObservers(packet);
                     break;
                 case Packet::Event::Type::SectorStateChanged:
-                    NotifySectorChangeObservers(pktPtr);
+                    NotifySectorChangeObservers(packet);
                     break;
                 default:
                     // whoopsie daisy
@@ -109,9 +109,9 @@ void UserInterface::PacketHandler::Exec() {
 
             }
 
-            // TODO figure out how to clean processed packets
-
         }
+
+        m_garbageList.push_back(packet);
 
     }
 
@@ -162,9 +162,11 @@ void UserInterface::PacketHandler::NotifySessionEndObservers(QSharedPointer<Pack
     // information from packet not needed for the time being
     if (packet) {
 
+        m_latestSessionEnd = packet;
         emit SessionEnd();
 
     }
+    m_garbageList.clear();
 
 }
 

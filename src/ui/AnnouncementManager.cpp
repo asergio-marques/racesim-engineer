@@ -68,15 +68,20 @@ UserInterface::AnnouncementManager::AnnouncementManager(UserInterface::PacketHan
     if (m_handler) {
     
         connect(m_handler, &UserInterface::PacketHandler::TimeTrialStart,
-            this, &UserInterface::AnnouncementManager::OnTimeTrialStart);
+            this, &UserInterface::AnnouncementManager::OnTimeTrialStart,
+            Qt::QueuedConnection);
         connect(m_handler, &UserInterface::PacketHandler::PracticeStart,
-            this, &UserInterface::AnnouncementManager::OnPracticeStart);
+            this, &UserInterface::AnnouncementManager::OnPracticeStart,
+            Qt::QueuedConnection);
         connect(m_handler, &UserInterface::PacketHandler::QualiStart,
-            this, &UserInterface::AnnouncementManager::OnQualiStart);
+            this, &UserInterface::AnnouncementManager::OnQualiStart,
+            Qt::QueuedConnection);
         connect(m_handler, &UserInterface::PacketHandler::RaceStart,
-            this, &UserInterface::AnnouncementManager::OnRaceStart);
+            this, &UserInterface::AnnouncementManager::OnRaceStart,
+            Qt::QueuedConnection);
         connect(m_handler, &UserInterface::PacketHandler::SessionEnd,
-            this, &UserInterface::AnnouncementManager::OnSessionEnd);
+            this, &UserInterface::AnnouncementManager::OnSessionEnd,
+            Qt::QueuedConnection);
 
     }
 
@@ -124,7 +129,7 @@ void UserInterface::AnnouncementManager::OnSessionEnd() {
 
     if (m_speechEngine) {
 
-        m_speechEngine->stop(QTextToSpeech::BoundaryHint::Utterance);
+        m_speechEngine->stop();
         m_speechEngine->setParent(this);
 
     }
@@ -136,13 +141,14 @@ void UserInterface::AnnouncementManager::OnSessionEnd() {
             auto announcement = m_announcements.value(type, nullptr);
             if (announcement) {
 
+                announcement->Deactivate();
                 announcement->setParent(this);
 
             }
 
         }
 
-        m_activeAnnouncer->deleteLater();
+        delete m_activeAnnouncer;
         m_activeAnnouncer = nullptr;
 
     }

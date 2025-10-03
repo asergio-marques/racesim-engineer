@@ -1,5 +1,6 @@
 #include "detectors/PenaltyReceived.h"
 
+#include <QSharedPointer>
 #include "data/records/DriverRecord.h"
 #include "detectors/Interface.h"
 #include "detectors/Type.h"
@@ -63,7 +64,8 @@ void Processor::Detector::PenaltyReceived::AddWarnPenChange(const int8_t id, con
             packet->m_type = Penalty::Internal::Type::Warning;
             packet->m_index = id;
             packet->m_delta = diffTrackLims;
-            m_packetsToBeProcessed.push_back(packet);
+            QSharedPointer<Packet::Event::Interface> p(packet);
+            m_packetsToBeProcessed.push_back(p);
 
         }
 
@@ -76,7 +78,8 @@ void Processor::Detector::PenaltyReceived::AddWarnPenChange(const int8_t id, con
             packet->m_type = Penalty::Internal::Type::Time;
             packet->m_index = id;
             packet->m_delta = diffTimePens;
-            m_packetsToBeProcessed.push_back(packet);
+            QSharedPointer<Packet::Event::Interface> p(packet);
+            m_packetsToBeProcessed.push_back(p);
 
         }
 
@@ -90,7 +93,8 @@ void Processor::Detector::PenaltyReceived::AddWarnPenChange(const int8_t id, con
             packet->m_index = id;
             // TODO get game settings to get the accurate delta, right now it's set to F1 25 Long sessions (10s)
             packet->m_delta = diffStopGo * 10000;
-            m_packetsToBeProcessed.push_back(packet);
+            QSharedPointer<Packet::Event::Interface> p(packet);
+            m_packetsToBeProcessed.push_back(p);
 
         }
 
@@ -104,7 +108,8 @@ void Processor::Detector::PenaltyReceived::AddWarnPenChange(const int8_t id, con
             packet->m_index = id;
 
             packet->m_delta = diffDriveThrough;
-            m_packetsToBeProcessed.push_back(packet);
+            QSharedPointer<Packet::Event::Interface> p(packet);
+            m_packetsToBeProcessed.push_back(p);
 
         }
 

@@ -35,7 +35,9 @@ Packet::Event::Type UserInterface::Announcement::TyreChanged::GetAcceptedType() 
 
 void UserInterface::Announcement::TyreChanged::Activate() {
 
-    connect(m_handler, &UserInterface::PacketHandler::TyreChanged, this, &UserInterface::Announcement::TyreChanged::onEvent);
+    connect(m_handler, &UserInterface::PacketHandler::TyreChanged,
+        this, &UserInterface::Announcement::TyreChanged::onEvent,
+            Qt::QueuedConnection);
 
 }
 
@@ -43,7 +45,8 @@ void UserInterface::Announcement::TyreChanged::Activate() {
 
 void UserInterface::Announcement::TyreChanged::Deactivate() {
 
-    disconnect(m_handler, nullptr, this, nullptr);
+    disconnect(m_handler, &UserInterface::PacketHandler::TyreChanged,
+        this, &UserInterface::Announcement::TyreChanged::onEvent);
 
 }
 

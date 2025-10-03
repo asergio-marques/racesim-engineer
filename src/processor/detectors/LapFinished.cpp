@@ -1,5 +1,6 @@
 #include "detectors/LapFinished.h"
 
+#include <QSharedPointer>
 #include "data/records/DriverRecord.h"
 #include "data/records/SessionRecord.h"
 #include "data/holders/LapInfo.h"
@@ -56,7 +57,8 @@ bool Processor::Detector::LapFinished::checkFastestInSession(const Processor::Da
             packet->m_index = finishedLap.m_driverId;
             packet->m_infoType = Lap::Internal::InfoType::FastestLap;
             packet->m_lapTime = finishedLap.m_totalLapTime;
-            m_packetsToBeProcessed.push_back(packet);
+            QSharedPointer<Packet::Event::Interface> p(packet);
+            m_packetsToBeProcessed.push_back(p);
             return true;
 
         }
@@ -83,7 +85,8 @@ void Processor::Detector::LapFinished::addFinishedLapInfo(const Processor::Data:
         packet->m_index = finishedLap.m_driverId;
         packet->m_infoType = infoType;
         packet->m_lapTime = finishedLap.m_totalLapTime;
-        m_packetsToBeProcessed.push_back(packet);
+        QSharedPointer<Packet::Event::Interface> p(packet);
+        m_packetsToBeProcessed.push_back(p);
 
     }
 

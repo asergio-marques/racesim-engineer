@@ -70,7 +70,7 @@ UserInterface::Widget::DriverEntryQuali::DriverEntryQuali(QWidget* parent) :
 
 
 
-void UserInterface::Widget::DriverEntryQuali::init(const Session::Internal::Participant& dataPacket, const QList<uint8_t> sectorConfiguration) {
+void UserInterface::Widget::DriverEntryQuali::init(const Session::Internal::Participant dataPacket, const QList<uint8_t> sectorConfiguration) {
 
     m_driverIndex = dataPacket.m_index;
     m_currentPosition = dataPacket.m_startPosition;
@@ -193,7 +193,7 @@ void UserInterface::Widget::DriverEntryQuali::newLatestLap(const Lap::Internal::
 
 
 void UserInterface::Widget::DriverEntryQuali::sectorChange(const bool isMinisector, const uint8_t lapID, const uint8_t orderID, const uint8_t parentOrderID,
-    const Lap::Internal::Status sectorStatus, const Lap::Internal::Performance sectorPerf, const Lap::Internal::Time& sectorTime) {
+    const Lap::Internal::Status sectorStatus, const Lap::Internal::Performance sectorPerf, const Lap::Internal::Time sectorTime) {
 
     if (m_sectorArray) {
 

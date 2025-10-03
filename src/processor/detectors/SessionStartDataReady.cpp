@@ -1,6 +1,7 @@
 #include "detectors/SessionStartDataReady.h"
 
 #include <algorithm>
+#include <QSharedPointer>
 #include "data/internal/Sector.h"
 #include "data/records/DriverRecord.h"
 #include "data/records/DriverState.h"
@@ -160,7 +161,8 @@ void Processor::Detector::SessionStartDataReady::BuildQualiStartPacket() {
 
     }
 
-    m_packetsToBeProcessed.push_back(packet);
+    QSharedPointer<Packet::Event::Interface> p(packet);
+    m_packetsToBeProcessed.push_back(p);
 
 }
 
@@ -219,7 +221,8 @@ void Processor::Detector::SessionStartDataReady::BuildRaceStartPacket() {
 
     }
 
-    m_packetsToBeProcessed.push_back(packet);
+    QSharedPointer<Packet::Event::Interface> p(packet);
+    m_packetsToBeProcessed.push_back(p);
 
 }
 

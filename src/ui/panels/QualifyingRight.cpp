@@ -33,10 +33,18 @@ UserInterface::Panel::QualifyingRight::QualifyingRight(UserInterface::PacketHand
         if (m_driverStandings) {
 
             RegisterWidget(m_driverStandings);
-            connect(handler, &UserInterface::PacketHandler::OvertakePerformed, m_driverStandings, &UserInterface::Widget::Standings::onOvertake);
-            connect(handler, &UserInterface::PacketHandler::ParticipantStatusChanged, m_driverStandings, &UserInterface::Widget::Standings::onParticipantStatusChanged);
-            connect(handler, &UserInterface::PacketHandler::LapFinished, m_driverStandings, &UserInterface::Widget::Standings::onLapFinished);
-            connect(handler, &UserInterface::PacketHandler::SectorStateChanged, m_driverStandings, &UserInterface::Widget::Standings::onSectorStateChanged);
+            connect(handler, &UserInterface::PacketHandler::OvertakePerformed, m_driverStandings,
+                &UserInterface::Widget::Standings::onOvertake,
+                Qt::QueuedConnection);
+            connect(handler, &UserInterface::PacketHandler::ParticipantStatusChanged,
+                m_driverStandings, &UserInterface::Widget::Standings::onParticipantStatusChanged,
+                Qt::QueuedConnection);
+            connect(handler, &UserInterface::PacketHandler::LapFinished,
+                m_driverStandings, &UserInterface::Widget::Standings::onLapFinished,
+                Qt::QueuedConnection);
+            connect(handler, &UserInterface::PacketHandler::SectorStateChanged,
+                m_driverStandings, &UserInterface::Widget::Standings::onSectorStateChanged,
+                Qt::QueuedConnection);
 
         }
 

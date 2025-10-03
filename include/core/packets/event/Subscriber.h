@@ -2,7 +2,7 @@
 #define PACKETS_EVENT_INCLUDE_SUBSCRIBER_H_
 
 #include <vector>
-
+#include <QSharedPointer>
 
 
 namespace Packet {
@@ -22,7 +22,7 @@ namespace Packet {
 
             // Overriddable function that handles all incoming packets, to be overriden
             // by derived classes
-            virtual void OnPacketBundleBroadcast(std::vector<Packet::Event::Interface*> packet) = 0;
+            virtual void OnPacketBundleBroadcast(std::vector<QSharedPointer<Packet::Event::Interface>> packet) = 0;
 
         };
 

@@ -3,6 +3,9 @@
 
 #include <list>
 #include <vector>
+#include <QSharedPointer>
+
+
 
 
 namespace Packet {
@@ -21,7 +24,7 @@ namespace Packet {
 
             protected:
             // General function to divulge packet information to all subscribers
-            void Broadcast(std::vector<Packet::Event::Interface*> packets);
+            void Broadcast(std::vector<QSharedPointer<Packet::Event::Interface>> packets);
 
             // Container for all the subscribers that will receive new packets
             std::list<Packet::Event::Subscriber*> m_subscribers;

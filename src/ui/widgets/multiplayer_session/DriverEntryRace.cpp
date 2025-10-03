@@ -110,7 +110,7 @@ UserInterface::Widget::DriverEntryRace::DriverEntryRace(QWidget* parent) :
 
 
 
-void UserInterface::Widget::DriverEntryRace::init(const Session::Internal::Participant& dataPacket, const QList<uint8_t> sectorConfiguration) {
+void UserInterface::Widget::DriverEntryRace::init(const Session::Internal::Participant dataPacket, const QList<uint8_t> sectorConfiguration) {
 
     m_driverIndex = dataPacket.m_index;
     m_currentPosition = dataPacket.m_startPosition;

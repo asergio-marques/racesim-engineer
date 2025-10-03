@@ -12,8 +12,6 @@
 UserInterface::PacketHandler::PacketHandler() :
     QObject(),
     m_packetList(),
-    m_garbageList(),
-    m_latestSessionEnd(),
     m_execTimer(),
     m_workerThread() {
 
@@ -41,17 +39,14 @@ UserInterface::PacketHandler::~PacketHandler() {
 
 
 
-void UserInterface::PacketHandler::AcceptPacket(Packet::Event::Interface* packet) {
-
-    m_mutex.lock();
+void UserInterface::PacketHandler::AcceptPacket(QSharedPointer<Packet::Event::Interface> packet) {
+    
+    QMutexLocker locker(&m_mutex);
     if (packet) {
 
-        // capture the packet in a shared pointer for automatic memory management
-        QSharedPointer<Packet::Event::Interface> p(packet);
-        m_packetList.push_back(p);
+        m_packetList.push_back(packet);
 
     }
-    m_mutex.unlock();
 
 }
 
@@ -67,7 +62,7 @@ void UserInterface::PacketHandler::StartTimer() {
 
 void UserInterface::PacketHandler::Exec() {
 
-    m_mutex.lock();
+    QMutexLocker locker(&m_mutex);
     for (auto& packet : m_packetList) {
 
         // TODO proper packet handler, for now let's cast to our hearts' delight
@@ -111,12 +106,9 @@ void UserInterface::PacketHandler::Exec() {
 
         }
 
-        m_garbageList.push_back(packet);
-
     }
 
     m_packetList.clear();
-    m_mutex.unlock();
 
 }
 
@@ -162,11 +154,9 @@ void UserInterface::PacketHandler::NotifySessionEndObservers(QSharedPointer<Pack
     // information from packet not needed for the time being
     if (packet) {
 
-        m_latestSessionEnd = packet;
         emit SessionEnd();
 
     }
-    m_garbageList.clear();
 
 }
 
@@ -200,7 +190,6 @@ void UserInterface::PacketHandler::NotifyStatusChangeObservers(QSharedPointer<Pa
 
     if (packet) {
 
-        
         emit ParticipantStatusChanged(qSharedPointerDynamicCast<Packet::Event::ParticipantStatusChanged>(packet));
 
     }
@@ -213,7 +202,6 @@ void UserInterface::PacketHandler::NotifyLapObservers(QSharedPointer<Packet::Eve
 
     if (packet) {
 
-        
         emit LapFinished(qSharedPointerDynamicCast<Packet::Event::LapFinished>(packet));
 
     }
@@ -226,7 +214,6 @@ void UserInterface::PacketHandler::NotifyTyreObservers(QSharedPointer<Packet::Ev
 
     if (packet) {
 
-        
         emit TyreChanged(qSharedPointerDynamicCast<Packet::Event::TyreChanged>(packet));
 
     }
@@ -239,7 +226,6 @@ void UserInterface::PacketHandler::NotifySectorChangeObservers(QSharedPointer<Pa
 
     if (packet) {
 
-        
         emit SectorStateChanged(qSharedPointerDynamicCast<Packet::Event::SectorStateChanged>(packet));
 
     }

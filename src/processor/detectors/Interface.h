@@ -5,6 +5,7 @@
 #include <map>
 #include <thread>
 #include <vector>
+#include <QSharedPointer>
 #include "detectors/Type.h"
 
 
@@ -55,7 +56,7 @@ namespace Processor {
             virtual void Exec() = 0;
 
             // Exposes the list of vector currently held by the detector so that it may be sent
-            virtual const std::vector<Packet::Event::Interface*>& UnsentPackets() const;
+            virtual const std::vector<QSharedPointer<Packet::Event::Interface>>& UnsentPackets() const;
 
             // Cleans up the list of packets
             virtual bool ClearPacketList();
@@ -68,7 +69,7 @@ namespace Processor {
             virtual void doDeinit();
 
             // Holds all the internal packets that are yet to be sent to subscribers
-            std::vector<Packet::Event::Interface*> m_packetsToBeProcessed;
+            std::vector<QSharedPointer<Packet::Event::Interface>> m_packetsToBeProcessed;
 
             // Main execution thread
             std::thread m_workerThread;

@@ -1,5 +1,6 @@
 #include "detectors/TyreChanged.h"
 
+#include <QSharedPointer>
 #include "data/internal/TyreData.h"
 #include "data/records/DriverRecord.h"
 #include "detectors/Interface.h"
@@ -60,7 +61,8 @@ void Processor::Detector::TyreChanged::addTyreChangeInfo(const uint8_t driverID,
             it->second->getModifiableState()->posTimeData().getCurrentPosition());
         packet->m_index = driverID;
         packet->m_tyreInfo = newTyreData;
-        m_packetsToBeProcessed.push_back(packet);
+        QSharedPointer<Packet::Event::Interface> p(packet);
+        m_packetsToBeProcessed.push_back(p);
 
     }
 

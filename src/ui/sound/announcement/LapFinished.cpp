@@ -34,7 +34,9 @@ Packet::Event::Type UserInterface::Announcement::LapFinished::GetAcceptedType() 
 
 void UserInterface::Announcement::LapFinished::Activate() {
 
-    connect(m_handler, &UserInterface::PacketHandler::LapFinished, this, &UserInterface::Announcement::LapFinished::onEvent);
+    connect(m_handler, &UserInterface::PacketHandler::LapFinished,
+        this, &UserInterface::Announcement::LapFinished::onEvent,
+            Qt::QueuedConnection);
 
 }
 
@@ -42,13 +44,15 @@ void UserInterface::Announcement::LapFinished::Activate() {
 
 void UserInterface::Announcement::LapFinished::Deactivate() {
 
-    disconnect(m_handler, nullptr, this, nullptr);
+    disconnect(m_handler, &UserInterface::PacketHandler::LapFinished,
+        this, &UserInterface::Announcement::LapFinished::onEvent);
 
 }
 
 
 
 void UserInterface::Announcement::LapFinished::onEvent(QSharedPointer<Packet::Event::LapFinished> lap) {
+
 
     if (m_speechEngine && lap &&
         (lap->m_infoType == Lap::Internal::InfoType::FastestLap)) {

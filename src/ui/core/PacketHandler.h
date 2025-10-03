@@ -32,7 +32,7 @@ namespace UserInterface {
         public:
         PacketHandler();
         virtual ~PacketHandler();
-        void AcceptPacket(Packet::Event::Interface* packet);
+        void AcceptPacket(QSharedPointer<Packet::Event::Interface> packet);
 
         signals:
         void PracticeStart(QSharedPointer<Packet::Event::PracticeStart>);
@@ -62,8 +62,6 @@ namespace UserInterface {
         void NotifySectorChangeObservers(QSharedPointer<Packet::Event::Interface> packet);
 
         QList<QSharedPointer<Packet::Event::Interface>> m_packetList;
-        QList<QSharedPointer<Packet::Event::Interface>> m_garbageList;
-        QSharedPointer<Packet::Event::Interface> m_latestSessionEnd;
         QThread m_workerThread;
         QMutex m_mutex;
         QTimer m_execTimer;

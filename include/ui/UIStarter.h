@@ -3,6 +3,7 @@
 
 #include <memory>
 #include <QList>
+#include <QSharedPointer>
 #include <QThread>
 #include "packets/event/Subscriber.h"
 
@@ -39,7 +40,7 @@ namespace UserInterface {
         virtual ~UIStarter();
         void Init(int* argc, char*** argv, Presenter::ICompFacade* presenter);
         int Run();
-        void OnPacketBundleBroadcast(std::vector<Packet::Event::Interface*> packets) override final;
+        void OnPacketBundleBroadcast(std::vector<QSharedPointer<Packet::Event::Interface>> packets) override final;
 
     private:
         void packetProcessingExec();

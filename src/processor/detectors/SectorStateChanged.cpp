@@ -1,5 +1,6 @@
 #include "detectors/SectorStateChanged.h"
 
+#include <QSharedPointer>
 #include "data/records/DriverRecord.h"
 #include "data/records/SessionRecord.h"
 #include "data/internal/Sector.h"
@@ -77,7 +78,8 @@ bool Processor::Detector::SectorStateChanged::checkFastestInSession(Lap::Interna
     newBestSectorPacket->m_sectorStatus = finishedSector.m_status;
     newBestSectorPacket->m_sectorPerformance = finishedSector.m_performance;
     newBestSectorPacket->m_time = finishedSector.totalTime();
-    m_packetsToBeProcessed.push_back(newBestSectorPacket);
+    QSharedPointer<Packet::Event::Interface> newP(newBestSectorPacket);
+    m_packetsToBeProcessed.push_back(newP);
 
     if (Processor::Utility::Sector::validate(revisedSector) && revisedSector.totalTime().valid()) {
 
@@ -98,7 +100,8 @@ bool Processor::Detector::SectorStateChanged::checkFastestInSession(Lap::Interna
             oldBestSectorPacket->m_sectorStatus = revisedSector.m_status;
             oldBestSectorPacket->m_sectorPerformance = revisedSector.m_performance;
             oldBestSectorPacket->m_time = revisedSector.totalTime();
-            m_packetsToBeProcessed.push_back(oldBestSectorPacket);
+            QSharedPointer<Packet::Event::Interface> oldP(oldBestSectorPacket);
+            m_packetsToBeProcessed.push_back(oldP);
 
         }
 
@@ -130,7 +133,8 @@ void Processor::Detector::SectorStateChanged::addChangedSectorInfo(Lap::Internal
         packet->m_sectorStatus = changedSector.m_status;
         packet->m_sectorPerformance = changedSector.m_performance;
         packet->m_time = changedSector.totalTime();
-        m_packetsToBeProcessed.push_back(packet);
+        QSharedPointer<Packet::Event::Interface> p(packet);
+        m_packetsToBeProcessed.push_back(p);
 
     }
 

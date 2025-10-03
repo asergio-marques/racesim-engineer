@@ -35,7 +35,9 @@ Packet::Event::Type UserInterface::Announcement::PenaltyReceived::GetAcceptedTyp
 
 void UserInterface::Announcement::PenaltyReceived::Activate() {
 
-    connect(m_handler, &UserInterface::PacketHandler::PenaltyReceived, this, &UserInterface::Announcement::PenaltyReceived::onEvent);
+    connect(m_handler, &UserInterface::PacketHandler::PenaltyReceived,
+        this, &UserInterface::Announcement::PenaltyReceived::onEvent,
+            Qt::QueuedConnection);
 
 }
 
@@ -43,7 +45,8 @@ void UserInterface::Announcement::PenaltyReceived::Activate() {
 
 void UserInterface::Announcement::PenaltyReceived::Deactivate() {
 
-    disconnect(m_handler, nullptr, this, nullptr);
+    disconnect(m_handler, &UserInterface::PacketHandler::PenaltyReceived,
+        this, &UserInterface::Announcement::PenaltyReceived::onEvent);
 
 }
 

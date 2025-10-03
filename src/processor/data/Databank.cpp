@@ -288,11 +288,10 @@ void Processor::Data::Databank::triggerAutoExport() {
 
             if (ok && autoExportActive && m_exporter) {
 
-                std::string folderPath = "";
                 #ifndef LINUX
                 TCHAR szExeFileName[MAX_PATH];
                 GetModuleFileName(NULL, szExeFileName, MAX_PATH);
-                folderPath = szExeFileName;
+                std::wstring folderPath(&szExeFileName[0]);
                 #elif
                 // TODO LINUX
                 #endif

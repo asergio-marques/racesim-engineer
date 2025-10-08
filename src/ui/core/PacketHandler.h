@@ -32,7 +32,7 @@ namespace UserInterface {
         public:
         PacketHandler();
         virtual ~PacketHandler();
-        void AcceptPacket(Packet::Event::Interface* packet);
+        void AcceptPacket(QSharedPointer<Packet::Event::Interface> packet);
 
         signals:
         void PracticeStart(QSharedPointer<Packet::Event::PracticeStart>);

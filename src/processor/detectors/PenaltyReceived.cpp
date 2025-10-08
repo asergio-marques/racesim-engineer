@@ -1,5 +1,6 @@
 #include "detectors/PenaltyReceived.h"
 
+#include <QSharedPointer>
 #include "data/records/DriverRecord.h"
 #include "detectors/Interface.h"
 #include "detectors/Type.h"
@@ -56,7 +57,7 @@ void Processor::Detector::PenaltyReceived::AddWarnPenChange(const int8_t id, con
 
         if (diffTrackLims != 0) {
 
-            Packet::Event::PenaltyReceived* packet = new Packet::Event::PenaltyReceived(
+            auto packet = QSharedPointer<Packet::Event::PenaltyReceived>::create(
                 it->second->m_info.m_isPlayer,
                 it->second->m_info.m_fullName,
                 it->second->getModifiableState()->posTimeData().getCurrentPosition());
@@ -69,7 +70,7 @@ void Processor::Detector::PenaltyReceived::AddWarnPenChange(const int8_t id, con
 
         if (diffTimePens != 0) {
 
-            Packet::Event::PenaltyReceived* packet = new Packet::Event::PenaltyReceived(
+            auto packet = QSharedPointer<Packet::Event::PenaltyReceived>::create(
                 it->second->m_info.m_isPlayer,
                 it->second->m_info.m_fullName,
                 it->second->getModifiableState()->posTimeData().getCurrentPosition());
@@ -82,7 +83,7 @@ void Processor::Detector::PenaltyReceived::AddWarnPenChange(const int8_t id, con
 
         if (diffStopGo != 0) {
 
-            Packet::Event::PenaltyReceived* packet = new Packet::Event::PenaltyReceived(
+            auto packet = QSharedPointer<Packet::Event::PenaltyReceived>::create(
                 it->second->m_info.m_isPlayer,
                 it->second->m_info.m_fullName,
                 it->second->getModifiableState()->posTimeData().getCurrentPosition());
@@ -96,7 +97,7 @@ void Processor::Detector::PenaltyReceived::AddWarnPenChange(const int8_t id, con
 
         if (diffDriveThrough != 0) {
 
-            Packet::Event::PenaltyReceived* packet = new Packet::Event::PenaltyReceived(
+            auto packet = QSharedPointer<Packet::Event::PenaltyReceived>::create(
                 it->second->m_info.m_isPlayer,
                 it->second->m_info.m_fullName,
                 it->second->getModifiableState()->posTimeData().getCurrentPosition());

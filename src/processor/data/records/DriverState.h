@@ -29,12 +29,14 @@ namespace Processor {
     namespace Data {
 
         class DriverRecord;
+        class SessionRecord;
 
         class DriverState {
 
             public:
             // Constructor
             DriverState(const Processor::Data::DriverRecord* const parent,
+                const Processor::Data::SessionRecord* const sessionRecord,
                 const uint8_t startingPosition, const Processor::Data::TrackData& trackData);
 
             // Destructor
@@ -90,6 +92,9 @@ namespace Processor {
             private:
             // Pointer to the driver record holding this state
             const Processor::Data::DriverRecord* const m_parentRecord;
+
+            // Pointer to a session record reference
+            const Processor::Data::SessionRecord* const m_sessionRecord;
 
             // Holder of all position and time gap information
             Processor::Data::PositionTimingData m_posTimeData;

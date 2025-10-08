@@ -2,6 +2,7 @@
 
 #include <thread>
 #include <vector>
+#include <QSharedPointer>
 #include "data/Databank.h"
 #include "detectors/LapFinished.h"
 #include "detectors/Overtake.h"
@@ -145,14 +146,14 @@ void Processor::Facade::Exec() {
 
     while (true) {
 
-        std::vector<Packet::Event::Interface*> packetsToSend;
+        std::vector<QSharedPointer<Packet::Event::Interface>> packetsToSend;
 
         // Get all unsent packets from detectors
         for (auto detector : m_detectors) {
 
             if (detector) {
 
-                for (auto packet : detector->UnsentPackets()) {
+                for (auto& packet : detector->UnsentPackets()) {
 
                     packetsToSend.push_back(packet);
 

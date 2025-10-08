@@ -4,6 +4,7 @@
 #include <cstdint>
 #include <thread>
 #include <vector>
+#include <QSharedPointer>
 #include "detectors/Interface.h"
 #include "detectors/Type.h"
 #include "packets/event/Overtake.h"
@@ -67,7 +68,7 @@ void Processor::Detector::Overtake::Exec() {
                 bool alreadyAdded = false;
                 for (auto packet : m_packetsToBeProcessed) {
 
-                    auto castPacket = dynamic_cast<Packet::Event::Overtake*>(packet);
+                    auto castPacket = qSharedPointerDynamicCast<Packet::Event::Overtake>(packet);
                     if (castPacket) {
 
                         for (const auto data : castPacket->GetData()) {
@@ -112,7 +113,7 @@ void Processor::Detector::Overtake::Exec() {
 
 void Processor::Detector::Overtake::CreateNewPacket(const Processor::Detector::Overtake::PositionChange& changeInfo) {
 
-    Packet::Event::Overtake* packet = new Packet::Event::Overtake();
+    auto packet = QSharedPointer<Packet::Event::Overtake>::create();
     if (packet) {
 
         packet->InsertData(changeInfo.m_id, changeInfo.m_newPosition,

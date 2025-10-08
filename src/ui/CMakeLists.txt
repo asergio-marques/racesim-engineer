@@ -49,13 +49,15 @@ target_sources(${PROJECT_NAME} PRIVATE
     screens/Qualifying.cpp
     screens/Race.cpp)
 
-target_link_libraries(${PROJECT_NAME} PRIVATE
+target_link_libraries(${PROJECT_NAME} 
+    PUBLIC
+    Qt6::Core
+    PRIVATE
     RaceSimEngineerCore
     RaceSimEngineerPacketsEvent
     RaceSimEngineerPresenter
     RaceSimEngineerUISound
     RaceSimEngineerUIWidgets
-    Qt6::Core
     Qt6::TextToSpeech
     Qt6::Widgets)
 

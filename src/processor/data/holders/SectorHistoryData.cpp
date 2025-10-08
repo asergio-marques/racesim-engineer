@@ -270,8 +270,10 @@ bool Processor::Data::SectorHistoryData::doUpdate(Lap::Internal::Sector& current
     // I really don't understand why they took this absolute assbackwards way of handling outlaps...
     if (lapDistanceRun < 0.0f) {
 
-        if (m_minisector) lapDistanceRun += Processor::Utility::Sector::getTotalLapDistanceFromSectors(m_trackDataReference.copyMiniSectors());
-        else lapDistanceRun += Processor::Utility::Sector::getTotalLapDistanceFromSectors(m_trackDataReference.copySectors());
+        auto sectors = m_trackDataReference.copySectors();
+        auto minisectors = m_trackDataReference.copyMiniSectors();
+        if (m_minisector) lapDistanceRun += Processor::Utility::Sector::getTotalLapDistanceFromSectors(sectors);
+        else lapDistanceRun += Processor::Utility::Sector::getTotalLapDistanceFromSectors(minisectors);
 
     }
     // Check if the length of the current sector was fulfilled

@@ -33,11 +33,21 @@ UserInterface::Panel::RaceRight::RaceRight(UserInterface::PacketHandler* handler
         if (m_driverStandings) {
 
             RegisterWidget(m_driverStandings);
-            connect(handler, &UserInterface::PacketHandler::OvertakePerformed, m_driverStandings, &UserInterface::Widget::Standings::onOvertake);
-            connect(handler, &UserInterface::PacketHandler::PenaltyReceived, m_driverStandings, &UserInterface::Widget::Standings::onPenaltyReceived);
-            connect(handler, &UserInterface::PacketHandler::ParticipantStatusChanged, m_driverStandings, &UserInterface::Widget::Standings::onParticipantStatusChanged);
-            connect(handler, &UserInterface::PacketHandler::LapFinished, m_driverStandings, &UserInterface::Widget::Standings::onLapFinished);
-            connect(handler, &UserInterface::PacketHandler::TyreChanged, m_driverStandings, &UserInterface::Widget::Standings::onTyreChanged);
+            connect(handler, &UserInterface::PacketHandler::OvertakePerformed,
+                m_driverStandings, &UserInterface::Widget::Standings::onOvertake,
+                Qt::QueuedConnection);
+            connect(handler, &UserInterface::PacketHandler::PenaltyReceived,
+                m_driverStandings, &UserInterface::Widget::Standings::onPenaltyReceived,
+                Qt::QueuedConnection);
+            connect(handler, &UserInterface::PacketHandler::ParticipantStatusChanged,
+                m_driverStandings, &UserInterface::Widget::Standings::onParticipantStatusChanged,
+                Qt::QueuedConnection);
+            connect(handler, &UserInterface::PacketHandler::LapFinished,
+                m_driverStandings, &UserInterface::Widget::Standings::onLapFinished,
+                Qt::QueuedConnection);
+            connect(handler, &UserInterface::PacketHandler::TyreChanged,
+                m_driverStandings, &UserInterface::Widget::Standings::onTyreChanged,
+                Qt::QueuedConnection);
 
         }
 

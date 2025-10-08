@@ -27,13 +27,13 @@ namespace UserInterface {
             public:
             IDriverEntry();
             virtual ~IDriverEntry() = default;
-            virtual void init(const Session::Internal::Participant& dataPacket, const QList<uint8_t> sectorConfiguration) = 0;
+            virtual void init(const Session::Internal::Participant& dataPacket, const QList<uint8_t>& sectorConfiguration) = 0;
             virtual void updatePosition(const uint8_t newPosition) {}
             virtual void updatePenalties(const Penalty::Internal::Type type, const int32_t change) {}
             virtual void updateStatus(const Participant::Internal::Status status) {}
-            virtual void newSessionBestLap(const Lap::Internal::Time newLapTime, const bool isThisDrivers) {}
-            virtual void newPersonalBestLap(const Lap::Internal::Time newLapTime) {}
-            virtual void newLatestLap(const Lap::Internal::Time newLapTime) {}
+            virtual void newSessionBestLap(const Lap::Internal::Time& newLapTime, const bool isThisDrivers) {}
+            virtual void newPersonalBestLap(const Lap::Internal::Time& newLapTime) {}
+            virtual void newLatestLap(const Lap::Internal::Time& newLapTime) {}
             virtual void newTyres(const Tyre::Internal::Actual actualTyre, const Tyre::Internal::Visual visualTyre,
                 const uint8_t stintNo, const uint8_t tyreAge) {}
             virtual void sectorChange(const bool isMinisector, const uint8_t lapID, const uint8_t orderID, const uint8_t parentOrderID,

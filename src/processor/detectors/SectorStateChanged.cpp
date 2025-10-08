@@ -1,5 +1,6 @@
 #include "detectors/SectorStateChanged.h"
 
+#include <QSharedPointer>
 #include "data/records/DriverRecord.h"
 #include "data/records/SessionRecord.h"
 #include "data/internal/Sector.h"
@@ -65,7 +66,7 @@ bool Processor::Detector::SectorStateChanged::checkFastestInSession(Lap::Interna
 
     }
 
-    Packet::Event::SectorStateChanged* newBestSectorPacket = new Packet::Event::SectorStateChanged(
+    auto newBestSectorPacket = QSharedPointer<Packet::Event::SectorStateChanged>::create(
             newBestIt->second->m_info.m_isPlayer,
             newBestIt->second->m_info.m_fullName,
             newBestIt->second->getModifiableState()->posTimeData().getCurrentPosition());
@@ -86,7 +87,7 @@ bool Processor::Detector::SectorStateChanged::checkFastestInSession(Lap::Interna
 
             revisedSector.m_performance = Lap::Internal::Performance::FinishedPersonalBest;
 
-            Packet::Event::SectorStateChanged* oldBestSectorPacket = new Packet::Event::SectorStateChanged(
+            auto oldBestSectorPacket = QSharedPointer<Packet::Event::SectorStateChanged>::create(
                     oldBestIt->second->m_info.m_isPlayer,
                     oldBestIt->second->m_info.m_fullName,
                     oldBestIt->second->getModifiableState()->posTimeData().getCurrentPosition());
@@ -118,7 +119,7 @@ void Processor::Detector::SectorStateChanged::addChangedSectorInfo(Lap::Internal
     auto it = m_driverRecords->find(changedSector.getDriverID());
     if (it != m_driverRecords->end()) {
 
-        Packet::Event::SectorStateChanged* packet = new Packet::Event::SectorStateChanged(
+        auto packet = QSharedPointer<Packet::Event::SectorStateChanged>::create(
                     it->second->m_info.m_isPlayer,
                     it->second->m_info.m_fullName,
                     it->second->getModifiableState()->posTimeData().getCurrentPosition());

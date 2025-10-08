@@ -2,6 +2,7 @@
 
 #include <list>
 #include <vector>
+#include <QSharedPointer>
 #include "packets/Event/Subscriber.h"
 
 
@@ -18,7 +19,7 @@ void Packet::Event::Broadcaster::Subscribe(Packet::Event::Subscriber* subscriber
 
 
 
-void Packet::Event::Broadcaster::Broadcast(std::vector<Packet::Event::Interface*> packets) {
+void Packet::Event::Broadcaster::Broadcast(std::vector<QSharedPointer<Packet::Event::Interface>> packets) {
 
     if (!packets.empty()) {
 

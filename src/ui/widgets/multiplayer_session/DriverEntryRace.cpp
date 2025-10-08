@@ -110,7 +110,7 @@ UserInterface::Widget::DriverEntryRace::DriverEntryRace(QWidget* parent) :
 
 
 
-void UserInterface::Widget::DriverEntryRace::init(const Session::Internal::Participant& dataPacket, const QList<uint8_t> sectorConfiguration) {
+void UserInterface::Widget::DriverEntryRace::init(const Session::Internal::Participant& dataPacket, const QList<uint8_t>& sectorConfiguration) {
 
     m_driverIndex = dataPacket.m_index;
     m_currentPosition = dataPacket.m_startPosition;
@@ -224,7 +224,7 @@ void UserInterface::Widget::DriverEntryRace::updateStatus(const Participant::Int
 
 
 
-void UserInterface::Widget::DriverEntryRace::newSessionBestLap(const Lap::Internal::Time newLapTime, const bool isThisDrivers) {
+void UserInterface::Widget::DriverEntryRace::newSessionBestLap(const Lap::Internal::Time& newLapTime, const bool isThisDrivers) {
 
     if (m_fastestLap && m_personalBestLap && m_lastLap) {
 
@@ -256,7 +256,7 @@ void UserInterface::Widget::DriverEntryRace::newSessionBestLap(const Lap::Intern
 
 
 
-void UserInterface::Widget::DriverEntryRace::newPersonalBestLap(const Lap::Internal::Time newLapTime) {
+void UserInterface::Widget::DriverEntryRace::newPersonalBestLap(const Lap::Internal::Time& newLapTime) {
 
     if (m_personalBestLap && m_lastLap) {
 
@@ -277,7 +277,7 @@ void UserInterface::Widget::DriverEntryRace::newPersonalBestLap(const Lap::Inter
 
 
 
-void UserInterface::Widget::DriverEntryRace::newLatestLap(const Lap::Internal::Time newLapTime) {
+void UserInterface::Widget::DriverEntryRace::newLatestLap(const Lap::Internal::Time& newLapTime) {
 
     if (m_lastLap) {
 

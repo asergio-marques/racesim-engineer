@@ -31,10 +31,10 @@ namespace Processor {
                 const Session::Internal::WeatherSample& sample, const uint16_t minutesSinceStart);
 
             // Expose the detailed data pertaining to the track the session is running on
-            const Processor::Data::TrackData& getTrackData();
+            const Processor::Data::TrackData& getTrackData() const;
 
             // Exposes the full settings of the current session
-            const Session::Internal::Settings& getSessionSettings();
+            const Session::Internal::Settings& getSessionSettings() const;
 
             // Exposes the internal state object for easier modification
             Processor::Data::SessionState* getModifiableState();

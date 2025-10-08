@@ -1,5 +1,6 @@
 #include "PacketHandler.h"
 
+#include <iostream>
 #include <memory>
 #include <QList>
 #include <QObject>
@@ -39,17 +40,13 @@ UserInterface::PacketHandler::~PacketHandler() {
 
 
 
-void UserInterface::PacketHandler::AcceptPacket(Packet::Event::Interface* packet) {
-
-    m_mutex.lock();
-    if (packet) {
-
-        // capture the packet in a shared pointer for automatic memory management
-        QSharedPointer<Packet::Event::Interface> p(packet);
-        m_packetList.push_back(p);
+void UserInterface::PacketHandler::AcceptPacket(QSharedPointer<Packet::Event::Interface> packet) {
+    
+    QMutexLocker locker(&m_mutex);
+    if (!packet.isNull()) {
+        m_packetList.push_back(packet);
 
     }
-    m_mutex.unlock();
 
 }
 
@@ -65,43 +62,45 @@ void UserInterface::PacketHandler::StartTimer() {
 
 void UserInterface::PacketHandler::Exec() {
 
-    m_mutex.lock();
+    QMutexLocker locker(&m_mutex);
     for (auto& packet : m_packetList) {
 
         // TODO proper packet handler, for now let's cast to our hearts' delight
-        if (packet) {
+        if (!packet.isNull()) {
 
-            QSharedPointer<Packet::Event::Interface> pktPtr(packet);
-
+            /*if (reinterpret_cast<quintptr>(packet.data()) > 0xFFFFFFFFFFFF) {
+                std::cout << "\tCorrupted packet pointer detected!\a" << std::endl;
+                continue;
+            }*/
             switch (packet->packetType()) {
 
                 case Packet::Event::Type::PracticeStart:
                 case Packet::Event::Type::QualiStart:
                 case Packet::Event::Type::RaceStart:
                 case Packet::Event::Type::TimeTrialStart:
-                    NotifySessionStartObservers(pktPtr);
+                    NotifySessionStartObservers(packet);
                     break;
                 case Packet::Event::Type::RoundSessionEnd:
                 case Packet::Event::Type::TimeTrialEnd:
-                    NotifySessionEndObservers(pktPtr);
+                    NotifySessionEndObservers(packet);
                     break;
                 case Packet::Event::Type::Overtake:
-                    NotifyOvertakeObservers(pktPtr);
+                    NotifyOvertakeObservers(packet);
                     break;
                 case Packet::Event::Type::PenaltyReceived:
-                    NotifyPenaltyObservers(pktPtr);
+                    NotifyPenaltyObservers(packet);
                     break;
                 case Packet::Event::Type::ParticipantStatusChanged:
-                    NotifyStatusChangeObservers(pktPtr);
+                    NotifyStatusChangeObservers(packet);
                     break;
                 case Packet::Event::Type::LapFinished:
-                    NotifyLapObservers(pktPtr);
+                    NotifyLapObservers(packet);
                     break;
                 case Packet::Event::Type::TyreChanged:
-                    NotifyTyreObservers(pktPtr);
+                    NotifyTyreObservers(packet);
                     break;
                 case Packet::Event::Type::SectorStateChanged:
-                    NotifySectorChangeObservers(pktPtr);
+                    NotifySectorChangeObservers(packet);
                     break;
                 default:
                     // whoopsie daisy
@@ -109,14 +108,11 @@ void UserInterface::PacketHandler::Exec() {
 
             }
 
-            // TODO figure out how to clean processed packets
-
         }
 
     }
 
     m_packetList.clear();
-    m_mutex.unlock();
 
 }
 
@@ -198,7 +194,6 @@ void UserInterface::PacketHandler::NotifyStatusChangeObservers(QSharedPointer<Pa
 
     if (packet) {
 
-        
         emit ParticipantStatusChanged(qSharedPointerDynamicCast<Packet::Event::ParticipantStatusChanged>(packet));
 
     }
@@ -211,7 +206,6 @@ void UserInterface::PacketHandler::NotifyLapObservers(QSharedPointer<Packet::Eve
 
     if (packet) {
 
-        
         emit LapFinished(qSharedPointerDynamicCast<Packet::Event::LapFinished>(packet));
 
     }
@@ -224,7 +218,6 @@ void UserInterface::PacketHandler::NotifyTyreObservers(QSharedPointer<Packet::Ev
 
     if (packet) {
 
-        
         emit TyreChanged(qSharedPointerDynamicCast<Packet::Event::TyreChanged>(packet));
 
     }
@@ -237,7 +230,6 @@ void UserInterface::PacketHandler::NotifySectorChangeObservers(QSharedPointer<Pa
 
     if (packet) {
 
-        
         emit SectorStateChanged(qSharedPointerDynamicCast<Packet::Event::SectorStateChanged>(packet));
 
     }

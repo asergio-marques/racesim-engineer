@@ -2,6 +2,7 @@
 
 #include <cstdint>
 #include <vector>
+#include <QSharedPointer>
 #include "detectors/Interface.h"
 #include "detectors/Type.h"
 #include "packets/event/ParticipantStatusChanged.h"
@@ -41,7 +42,7 @@ void Processor::Detector::ParticipantStatusChanged::Deinit() {
 
 void Processor::Detector::ParticipantStatusChanged::AddStatusChange(const uint8_t id, const Participant::Internal::Status newStatus) {
 
-    Packet::Event::ParticipantStatusChanged* packet = new Packet::Event::ParticipantStatusChanged();
+    auto packet = QSharedPointer<Packet::Event::ParticipantStatusChanged>::create();
     packet->m_index = id;
     packet->m_status = newStatus;
     m_packetsToBeProcessed.push_back(packet);

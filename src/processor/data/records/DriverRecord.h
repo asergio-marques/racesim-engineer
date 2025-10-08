@@ -3,9 +3,10 @@
 
 #include <cstdint>
 #include <string>
-#include "data/records/DriverState.h"
 #include "data/holders/DriverInfo.h"
+#include "data/holders/TrackData.h"
 #include "data/internal/Session.h"
+#include "data/records/DriverState.h"
 
 
 
@@ -13,11 +14,13 @@ namespace Processor {
 
     namespace Data {
 
+        class SessionRecord;
+
         class DriverRecord {
 
             public:
             // Single constructor
-            DriverRecord(const uint64_t initTimestamp, const Session::Internal::Participant& driverData);
+            DriverRecord(const uint64_t initTimestamp, Processor::Data::SessionRecord* sessionRecord, const Session::Internal::Participant& driverData);
 
             // Destructor
             ~DriverRecord();
@@ -50,6 +53,9 @@ namespace Processor {
 
             // Internal state of the driver record, where all changes to the state in the race are made
             Processor::Data::DriverState* m_state;
+
+            // Internal reference to the session record
+            const Processor::Data::SessionRecord* m_sessionRecord;
 
         };
 

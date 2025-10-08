@@ -161,7 +161,7 @@ void Processor::Data::RecordCreator::Init(std::shared_ptr<Packet::Internal::Sess
         for (size_t i = 0; i < packet->GetTotalParticipants(); ++i) {
 
             auto data = participantData[i];
-            Processor::Data::DriverRecord* record = new Processor::Data::DriverRecord(packet->m_timestamp, data);
+            Processor::Data::DriverRecord* record = new Processor::Data::DriverRecord(packet->m_timestamp, m_sessionRecord, data);
             record->Init(data.m_startPosition, m_sessionRecord->getTrackData());
             m_driverRecords.emplace(record->getDriverId(), record);
             if (data.m_isPlayer) {
@@ -183,7 +183,7 @@ void Processor::Data::RecordCreator::Init(std::shared_ptr<Packet::Internal::Sess
         for (size_t i = m_driverRecords.size(); i < packet->GetTotalParticipants(); ++i) {
 
             auto data = participantData[i];
-            Processor::Data::DriverRecord* record = new Processor::Data::DriverRecord(packet->m_timestamp, data);
+            Processor::Data::DriverRecord* record = new Processor::Data::DriverRecord(packet->m_timestamp, m_sessionRecord, data);
             if (record) {
 
                 record->Init(data.m_startPosition, m_sessionRecord->getTrackData());

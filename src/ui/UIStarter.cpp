@@ -105,7 +105,7 @@ int UserInterface::UIStarter::Run() {
 
 
 
-void UserInterface::UIStarter::OnPacketBundleBroadcast(std::vector<Packet::Event::Interface*> packets) {
+void UserInterface::UIStarter::OnPacketBundleBroadcast(std::vector<QSharedPointer<Packet::Event::Interface>> packets) {
 
     for (auto packet : packets) {
 

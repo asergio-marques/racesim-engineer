@@ -2,6 +2,7 @@
 
 #include <thread>
 #include <vector>
+#include <QSharedPointer>
 #include "data/records/DriverRecord.h"
 #include "data/records/DriverState.h"
 #include "detectors/Type.h"
@@ -20,7 +21,7 @@ Processor::Detector::Interface::Interface() :
 
 
 
-const std::vector<Packet::Event::Interface*>& Processor::Detector::Interface::UnsentPackets() const {
+const std::vector<QSharedPointer<Packet::Event::Interface>>& Processor::Detector::Interface::UnsentPackets() const {
 
     return m_packetsToBeProcessed;
 

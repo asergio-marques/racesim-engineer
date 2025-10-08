@@ -9,6 +9,7 @@
 #include "panels/Interface.h"
 #include "other/LoadingIcon.h"
 #include "tyres/TyreInfoArray.h"
+#include "weather/WeatherVisualizer.h"
 
 
 
@@ -22,22 +23,35 @@ UserInterface::Panel::Loading::Loading(UserInterface::PacketHandler* handler, QW
     m_loadingIcon = new UserInterface::Widget::LoadingIcon(this);
     m_loadingText = new UserInterface::Widget::TextInterface(UserInterface::Widget::ID::ScreenTitle, this);
 
-    RegisterWidget(m_background);
-    RegisterWidget(m_loadingIcon);
-    RegisterWidget(m_loadingText);
-
     if (m_background) {
 
+        RegisterWidget(m_background);
         m_background->setScaledContents(true);
+
+    }
+
+    if (m_loadingIcon) {
+
+        RegisterWidget(m_loadingIcon);
 
     }
 
     if (m_loadingText) {
 
+        RegisterWidget(m_loadingText);
         m_loadingText->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::MinimumExpanding);
         m_loadingText->setFontThickness(UserInterface::Widget::FontThickness::ExtraBold);
         m_loadingText->setAlignment(Qt::AlignCenter);
         m_loadingText->setText("Waiting for a session to start...");
+
+    }
+
+    // Test
+    auto weather = new UserInterface::Widget::WeatherVisualizer(parent);
+    if (weather) {
+
+        weather->setSize(300, 300, false);
+        weather->move(100, 100, false, false);
 
     }
 

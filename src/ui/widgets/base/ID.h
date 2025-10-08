@@ -29,7 +29,8 @@ namespace UserInterface {
             RelativeTimeInfo        = 15,
             GapDeltaInfo            = 16,
             TyreInfo                = 17,
-            SectorInfo              = 18
+            SectorInfo              = 18,
+            WeatherInfo             = 19
 
         };
 

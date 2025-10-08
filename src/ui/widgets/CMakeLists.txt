@@ -5,7 +5,7 @@ add_library(${PROJECT_NAME} STATIC)
 
 set(CMAKE_AUTORCC ON)
 
-find_package(Qt6 REQUIRED COMPONENTS Core Widgets)
+find_package(Qt6 REQUIRED COMPONENTS Core Charts Widgets)
 
 set_target_properties(${PROJECT_NAME} PROPERTIES AUTOMOC ON)
 
@@ -28,40 +28,42 @@ target_sources(${PROJECT_NAME} PRIVATE
     base/ButtonInterface.cpp
     base/ImageInterface.cpp
     base/TextInterface.cpp
-    other/MenuBar.cpp
     backgrounds/BackgroundLeft.cpp
     backgrounds/BackgroundRight.cpp
     backgrounds/BackgroundFullScreen.cpp
     other/LoadingIcon.cpp
+    other/MenuBar.cpp
+    penalty/PenaltyIcon.cpp
+    penalty/PenaltyFlag.cpp
+    penalty/PenaltyTextBackground.cpp
+    retirement/RetirementIcon.cpp
+    retirement/RetirementIconBackground.cpp
+    sectors/MiniSectorIcon.cpp
+    sectors/SectorInfoArray.cpp
+    sectors/SectorInfoContainer.cpp
+    sectors/SectorTimeText.cpp
     standings/DriverEntryQuali.cpp
     standings/DriverEntryRace.cpp
     standings/FastestLapIndicator.cpp
     standings/IDriverEntry.cpp
     standings/Standings.cpp
     standings/TeamIcon.cpp
-    penalty/PenaltyIcon.cpp
-    penalty/PenaltyFlag.cpp
-    penalty/PenaltyTextBackground.cpp
-    sectors/MiniSectorIcon.cpp
-    sectors/SectorInfoArray.cpp
-    sectors/SectorInfoContainer.cpp
-    sectors/SectorTimeText.cpp
-    warning/WarningIcon.cpp
-    warning/WarningContainer.cpp
-    retirement/RetirementIcon.cpp
-    retirement/RetirementIconBackground.cpp
     timing/TimeInfoContainer.cpp
     timing/LapInfoContainer.cpp
     tyres/TyreIcon.cpp
     tyres/TyreInfoArray.cpp
     tyres/TyreInfoContainer.cpp
-    )
+    warning/WarningIcon.cpp
+    warning/WarningContainer.cpp
+    weather/WeatherGraph.cpp
+    weather/WeatherVisualizer.cpp)
 
 target_link_libraries(${PROJECT_NAME} PRIVATE
     RaceSimEngineerCore
     RaceSimEngineerPacketsEvent
     RaceSimEngineerPresenter
     Qt6::Core
+    Qt6::Charts
     Qt6::Widgets
 )
 

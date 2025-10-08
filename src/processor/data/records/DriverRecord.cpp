@@ -3,14 +3,16 @@
 #include <cstdint>
 #include <string>
 #include "data/records/DriverState.h"
+#include "data/records/SessionRecord.h"
 #include "data/internal/Session.h"
 
 
 
-Processor::Data::DriverRecord::DriverRecord(const uint64_t initTimestamp, const Session::Internal::Participant& driverData) :
+Processor::Data::DriverRecord::DriverRecord(const uint64_t initTimestamp, Processor::Data::SessionRecord* sessionRecord, const Session::Internal::Participant& driverData) :
     m_lastStateTimestamp(initTimestamp),
     m_info(driverData),
-    m_state(nullptr) {
+    m_state(nullptr),
+    m_sessionRecord(sessionRecord) {
 
 
 
@@ -33,7 +35,7 @@ Processor::Data::DriverRecord::~DriverRecord() {
 
 void Processor::Data::DriverRecord::Init(const uint8_t startPosition, const Processor::Data::TrackData& trackData) {
 
-    m_state = new DriverState(this, startPosition, trackData);
+    m_state = new DriverState(this, m_sessionRecord, startPosition, trackData);
 
 }
 
@@ -41,12 +43,18 @@ void Processor::Data::DriverRecord::Init(const uint8_t startPosition, const Proc
 
 const bool Processor::Data::DriverRecord::Initialized() const {
 
+    // sector and minisector tracking not supported in races
+    const bool sectorInit =
+        ((m_sessionRecord->getSessionSettings().m_sessionType != Session::Internal::Type::Race) || m_state->sectorData().Initialized());
+    const bool miniSectorInit =
+        ((m_sessionRecord->getSessionSettings().m_sessionType != Session::Internal::Type::Race) || m_state->sectorData().Initialized());
+
     // driver info should be always valid as it's statically initialized when the driver record is as well
     // warning data is always blank at the start
     return m_state && m_state->posTimeData().Initialized() &&
         m_state->lapData().Initialized() &&
-        m_state->sectorData().Initialized() &&
-        m_state->miniSectorData().Initialized();
+        sectorInit &&
+        miniSectorInit;
 
 }
 
@@ -56,6 +64,7 @@ const bool Processor::Data::DriverRecord::Finalized() const {
     
     // driver info should be always valid as it's statically initialized when the driver record is as well
     // warning data is irrelevant
+    // if session type is race, the sector and minisector data would not be initialized, so they are expected to be finalized
     return m_state && m_state->posTimeData().Finalized() &&
         m_state->lapData().Finalized() &&
         m_state->sectorData().Finalized() &&

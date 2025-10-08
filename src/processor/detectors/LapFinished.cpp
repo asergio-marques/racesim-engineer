@@ -50,21 +50,20 @@ bool Processor::Detector::LapFinished::checkFastestInSession(const Processor::Da
         auto it = m_driverRecords->find(finishedLap.m_driverId);
         if (it != m_driverRecords->end()) {
 
-            Packet::Event::LapFinished* packet = new Packet::Event::LapFinished(
+            auto packet = QSharedPointer<Packet::Event::LapFinished>::create(
                     it->second->m_info.m_isPlayer,
                     it->second->m_info.m_fullName,
                     it->second->getModifiableState()->posTimeData().getCurrentPosition());
             packet->m_index = finishedLap.m_driverId;
             packet->m_infoType = Lap::Internal::InfoType::FastestLap;
             packet->m_lapTime = finishedLap.m_totalLapTime;
-            QSharedPointer<Packet::Event::Interface> p(packet);
-            m_packetsToBeProcessed.push_back(p);
+            m_packetsToBeProcessed.push_back(packet);
             return true;
 
         }
 
     }
-        
+
     return false;
 
 }
@@ -72,21 +71,20 @@ bool Processor::Detector::LapFinished::checkFastestInSession(const Processor::Da
 
 
 void Processor::Detector::LapFinished::addFinishedLapInfo(const Processor::Data::LapInfo& finishedLap, const Lap::Internal::InfoType infoType) {
-    
+
     if (!m_sessionRecord) return;
 
     auto it = m_driverRecords->find(finishedLap.m_driverId);
     if (it != m_driverRecords->end()) {
 
-        Packet::Event::LapFinished* packet = new Packet::Event::LapFinished(
+        auto packet = QSharedPointer<Packet::Event::LapFinished>::create(
             it->second->m_info.m_isPlayer,
             it->second->m_info.m_fullName,
             it->second->getModifiableState()->posTimeData().getCurrentPosition());
         packet->m_index = finishedLap.m_driverId;
         packet->m_infoType = infoType;
         packet->m_lapTime = finishedLap.m_totalLapTime;
-        QSharedPointer<Packet::Event::Interface> p(packet);
-        m_packetsToBeProcessed.push_back(p);
+        m_packetsToBeProcessed.push_back(packet);
 
     }
 

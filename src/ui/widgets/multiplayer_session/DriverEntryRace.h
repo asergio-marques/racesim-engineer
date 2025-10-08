@@ -35,13 +35,13 @@ namespace UserInterface {
             public:
             DriverEntryRace(QWidget* parent = 0);
             virtual ~DriverEntryRace() = default;
-            void init(const Session::Internal::Participant dataPacket, const QList<uint8_t> sectorConfiguration);
+            void init(const Session::Internal::Participant& dataPacket, const QList<uint8_t>& sectorConfiguration);
             void updatePosition(const uint8_t newPosition);
             void updatePenalties(const Penalty::Internal::Type type, const int32_t change);
             void updateStatus(const Participant::Internal::Status status);
-            void newSessionBestLap(const Lap::Internal::Time newLapTime, const bool isThisDrivers);
-            void newPersonalBestLap(const Lap::Internal::Time newLapTime);
-            void newLatestLap(const Lap::Internal::Time newLapTime);
+            void newSessionBestLap(const Lap::Internal::Time& newLapTime, const bool isThisDrivers);
+            void newPersonalBestLap(const Lap::Internal::Time& newLapTime);
+            void newLatestLap(const Lap::Internal::Time& newLapTime);
             void newTyres(const Tyre::Internal::Actual actualTyre,const Tyre::Internal::Visual visualTyre,
                 const uint8_t stintNo, const uint8_t tyreAge);
             virtual void move(const uint16_t x, const uint16_t y, const bool centerAlignmentX, const bool centerAlignmentY) override final;

@@ -61,7 +61,7 @@ void Processor::Data::SessionRecord::updateWeather(const Session::Internal::Desc
 
 
 
-const Processor::Data::TrackData& Processor::Data::SessionRecord::getTrackData() {
+const Processor::Data::TrackData& Processor::Data::SessionRecord::getTrackData() const {
 
     return m_track;
 
@@ -69,7 +69,7 @@ const Processor::Data::TrackData& Processor::Data::SessionRecord::getTrackData()
 
 
 
-const Session::Internal::Settings& Processor::Data::SessionRecord::getSessionSettings() {
+const Session::Internal::Settings& Processor::Data::SessionRecord::getSessionSettings() const {
 
     return m_settings;
 

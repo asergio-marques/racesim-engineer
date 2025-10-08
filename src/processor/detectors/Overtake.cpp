@@ -113,13 +113,12 @@ void Processor::Detector::Overtake::Exec() {
 
 void Processor::Detector::Overtake::CreateNewPacket(const Processor::Detector::Overtake::PositionChange& changeInfo) {
 
-    Packet::Event::Overtake* packet = new Packet::Event::Overtake();
+    auto packet = QSharedPointer<Packet::Event::Overtake>::create();
     if (packet) {
 
         packet->InsertData(changeInfo.m_id, changeInfo.m_newPosition,
             (changeInfo.m_newPosition < changeInfo.m_oldPosition));
-        QSharedPointer<Packet::Event::Interface> p(packet);
-        m_packetsToBeProcessed.push_back(p);
+        m_packetsToBeProcessed.push_back(packet);
 
     }
 

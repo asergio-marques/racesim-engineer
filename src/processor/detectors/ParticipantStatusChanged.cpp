@@ -42,10 +42,9 @@ void Processor::Detector::ParticipantStatusChanged::Deinit() {
 
 void Processor::Detector::ParticipantStatusChanged::AddStatusChange(const uint8_t id, const Participant::Internal::Status newStatus) {
 
-    Packet::Event::ParticipantStatusChanged* packet = new Packet::Event::ParticipantStatusChanged();
+    auto packet = QSharedPointer<Packet::Event::ParticipantStatusChanged>::create();
     packet->m_index = id;
     packet->m_status = newStatus;
-    QSharedPointer<Packet::Event::Interface> p(packet);
-    m_packetsToBeProcessed.push_back(p);
+    m_packetsToBeProcessed.push_back(packet);
 
 }

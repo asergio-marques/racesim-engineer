@@ -57,35 +57,33 @@ void Processor::Detector::PenaltyReceived::AddWarnPenChange(const int8_t id, con
 
         if (diffTrackLims != 0) {
 
-            Packet::Event::PenaltyReceived* packet = new Packet::Event::PenaltyReceived(
+            auto packet = QSharedPointer<Packet::Event::PenaltyReceived>::create(
                 it->second->m_info.m_isPlayer,
                 it->second->m_info.m_fullName,
                 it->second->getModifiableState()->posTimeData().getCurrentPosition());
             packet->m_type = Penalty::Internal::Type::Warning;
             packet->m_index = id;
             packet->m_delta = diffTrackLims;
-            QSharedPointer<Packet::Event::Interface> p(packet);
-            m_packetsToBeProcessed.push_back(p);
+            m_packetsToBeProcessed.push_back(packet);
 
         }
 
         if (diffTimePens != 0) {
 
-            Packet::Event::PenaltyReceived* packet = new Packet::Event::PenaltyReceived(
+            auto packet = QSharedPointer<Packet::Event::PenaltyReceived>::create(
                 it->second->m_info.m_isPlayer,
                 it->second->m_info.m_fullName,
                 it->second->getModifiableState()->posTimeData().getCurrentPosition());
             packet->m_type = Penalty::Internal::Type::Time;
             packet->m_index = id;
             packet->m_delta = diffTimePens;
-            QSharedPointer<Packet::Event::Interface> p(packet);
-            m_packetsToBeProcessed.push_back(p);
+            m_packetsToBeProcessed.push_back(packet);
 
         }
 
         if (diffStopGo != 0) {
 
-            Packet::Event::PenaltyReceived* packet = new Packet::Event::PenaltyReceived(
+            auto packet = QSharedPointer<Packet::Event::PenaltyReceived>::create(
                 it->second->m_info.m_isPlayer,
                 it->second->m_info.m_fullName,
                 it->second->getModifiableState()->posTimeData().getCurrentPosition());
@@ -93,14 +91,13 @@ void Processor::Detector::PenaltyReceived::AddWarnPenChange(const int8_t id, con
             packet->m_index = id;
             // TODO get game settings to get the accurate delta, right now it's set to F1 25 Long sessions (10s)
             packet->m_delta = diffStopGo * 10000;
-            QSharedPointer<Packet::Event::Interface> p(packet);
-            m_packetsToBeProcessed.push_back(p);
+            m_packetsToBeProcessed.push_back(packet);
 
         }
 
         if (diffDriveThrough != 0) {
 
-            Packet::Event::PenaltyReceived* packet = new Packet::Event::PenaltyReceived(
+            auto packet = QSharedPointer<Packet::Event::PenaltyReceived>::create(
                 it->second->m_info.m_isPlayer,
                 it->second->m_info.m_fullName,
                 it->second->getModifiableState()->posTimeData().getCurrentPosition());
@@ -108,8 +105,7 @@ void Processor::Detector::PenaltyReceived::AddWarnPenChange(const int8_t id, con
             packet->m_index = id;
 
             packet->m_delta = diffDriveThrough;
-            QSharedPointer<Packet::Event::Interface> p(packet);
-            m_packetsToBeProcessed.push_back(p);
+            m_packetsToBeProcessed.push_back(packet);
 
         }
 

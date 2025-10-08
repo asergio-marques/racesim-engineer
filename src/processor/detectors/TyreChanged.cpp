@@ -55,14 +55,13 @@ void Processor::Detector::TyreChanged::addTyreChangeInfo(const uint8_t driverID,
     auto it = m_driverRecords->find(driverID);
     if (it != m_driverRecords->end()) {
 
-        Packet::Event::TyreChanged* packet = new Packet::Event::TyreChanged(
+        auto packet = QSharedPointer<Packet::Event::TyreChanged>::create(
             it->second->m_info.m_isPlayer,
             it->second->m_info.m_fullName,
             it->second->getModifiableState()->posTimeData().getCurrentPosition());
         packet->m_index = driverID;
         packet->m_tyreInfo = newTyreData;
-        QSharedPointer<Packet::Event::Interface> p(packet);
-        m_packetsToBeProcessed.push_back(p);
+        m_packetsToBeProcessed.push_back(packet);
 
     }
 

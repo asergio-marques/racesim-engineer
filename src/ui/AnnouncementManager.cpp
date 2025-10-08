@@ -129,7 +129,7 @@ void UserInterface::AnnouncementManager::OnSessionEnd() {
 
     if (m_speechEngine) {
 
-        m_speechEngine->stop();
+        m_speechEngine->stop(QTextToSpeech::BoundaryHint::Utterance);
         m_speechEngine->setParent(this);
 
     }
@@ -148,7 +148,7 @@ void UserInterface::AnnouncementManager::OnSessionEnd() {
 
         }
 
-        delete m_activeAnnouncer;
+        m_activeAnnouncer->deleteLater();
         m_activeAnnouncer = nullptr;
 
     }

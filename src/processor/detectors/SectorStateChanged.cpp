@@ -66,7 +66,7 @@ bool Processor::Detector::SectorStateChanged::checkFastestInSession(Lap::Interna
 
     }
 
-    Packet::Event::SectorStateChanged* newBestSectorPacket = new Packet::Event::SectorStateChanged(
+    auto newBestSectorPacket = QSharedPointer<Packet::Event::SectorStateChanged>::create(
             newBestIt->second->m_info.m_isPlayer,
             newBestIt->second->m_info.m_fullName,
             newBestIt->second->getModifiableState()->posTimeData().getCurrentPosition());
@@ -78,8 +78,7 @@ bool Processor::Detector::SectorStateChanged::checkFastestInSession(Lap::Interna
     newBestSectorPacket->m_sectorStatus = finishedSector.m_status;
     newBestSectorPacket->m_sectorPerformance = finishedSector.m_performance;
     newBestSectorPacket->m_time = finishedSector.totalTime();
-    QSharedPointer<Packet::Event::Interface> newP(newBestSectorPacket);
-    m_packetsToBeProcessed.push_back(newP);
+    m_packetsToBeProcessed.push_back(newBestSectorPacket);
 
     if (Processor::Utility::Sector::validate(revisedSector) && revisedSector.totalTime().valid()) {
 
@@ -88,7 +87,7 @@ bool Processor::Detector::SectorStateChanged::checkFastestInSession(Lap::Interna
 
             revisedSector.m_performance = Lap::Internal::Performance::FinishedPersonalBest;
 
-            Packet::Event::SectorStateChanged* oldBestSectorPacket = new Packet::Event::SectorStateChanged(
+            auto oldBestSectorPacket = QSharedPointer<Packet::Event::SectorStateChanged>::create(
                     oldBestIt->second->m_info.m_isPlayer,
                     oldBestIt->second->m_info.m_fullName,
                     oldBestIt->second->getModifiableState()->posTimeData().getCurrentPosition());
@@ -100,8 +99,7 @@ bool Processor::Detector::SectorStateChanged::checkFastestInSession(Lap::Interna
             oldBestSectorPacket->m_sectorStatus = revisedSector.m_status;
             oldBestSectorPacket->m_sectorPerformance = revisedSector.m_performance;
             oldBestSectorPacket->m_time = revisedSector.totalTime();
-            QSharedPointer<Packet::Event::Interface> oldP(oldBestSectorPacket);
-            m_packetsToBeProcessed.push_back(oldP);
+            m_packetsToBeProcessed.push_back(oldBestSectorPacket);
 
         }
 
@@ -121,7 +119,7 @@ void Processor::Detector::SectorStateChanged::addChangedSectorInfo(Lap::Internal
     auto it = m_driverRecords->find(changedSector.getDriverID());
     if (it != m_driverRecords->end()) {
 
-        Packet::Event::SectorStateChanged* packet = new Packet::Event::SectorStateChanged(
+        auto packet = QSharedPointer<Packet::Event::SectorStateChanged>::create(
                     it->second->m_info.m_isPlayer,
                     it->second->m_info.m_fullName,
                     it->second->getModifiableState()->posTimeData().getCurrentPosition());
@@ -133,8 +131,7 @@ void Processor::Detector::SectorStateChanged::addChangedSectorInfo(Lap::Internal
         packet->m_sectorStatus = changedSector.m_status;
         packet->m_sectorPerformance = changedSector.m_performance;
         packet->m_time = changedSector.totalTime();
-        QSharedPointer<Packet::Event::Interface> p(packet);
-        m_packetsToBeProcessed.push_back(p);
+        m_packetsToBeProcessed.push_back(packet);
 
     }
 

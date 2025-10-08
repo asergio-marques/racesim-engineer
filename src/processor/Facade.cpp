@@ -153,7 +153,7 @@ void Processor::Facade::Exec() {
 
             if (detector) {
 
-                for (auto packet : detector->UnsentPackets()) {
+                for (auto& packet : detector->UnsentPackets()) {
 
                     packetsToSend.push_back(packet);
 

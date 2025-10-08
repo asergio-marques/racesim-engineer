@@ -114,9 +114,8 @@ void Processor::Detector::SessionEndDataReady::Exec() {
 
 void Processor::Detector::SessionEndDataReady::BuildRoundSessionEndPacket() {
 
-    Packet::Event::RoundSessionEnd* packet = new Packet::Event::RoundSessionEnd;
+    auto packet = QSharedPointer<Packet::Event::RoundSessionEnd>::create();
     // no information is needed at the moment
-    QSharedPointer<Packet::Event::Interface> p(packet);
-    m_packetsToBeProcessed.push_back(p);
+    m_packetsToBeProcessed.push_back(packet);
 
 }

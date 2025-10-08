@@ -1,5 +1,6 @@
 #include "PacketHandler.h"
 
+#include <iostream>
 #include <memory>
 #include <QList>
 #include <QObject>
@@ -42,8 +43,7 @@ UserInterface::PacketHandler::~PacketHandler() {
 void UserInterface::PacketHandler::AcceptPacket(QSharedPointer<Packet::Event::Interface> packet) {
     
     QMutexLocker locker(&m_mutex);
-    if (packet) {
-
+    if (!packet.isNull()) {
         m_packetList.push_back(packet);
 
     }
@@ -68,6 +68,10 @@ void UserInterface::PacketHandler::Exec() {
         // TODO proper packet handler, for now let's cast to our hearts' delight
         if (!packet.isNull()) {
 
+            /*if (reinterpret_cast<quintptr>(packet.data()) > 0xFFFFFFFFFFFF) {
+                std::cout << "\tCorrupted packet pointer detected!\a" << std::endl;
+                continue;
+            }*/
             switch (packet->packetType()) {
 
                 case Packet::Event::Type::PracticeStart:

@@ -120,7 +120,7 @@ void Processor::Detector::SessionStartDataReady::BuildQualiStartPacket() {
 
     if (!m_driverRecords) return;
 
-    Packet::Event::QualiStart* packet = new Packet::Event::QualiStart();
+    auto packet = QSharedPointer<Packet::Event::QualiStart>::create();
     const auto& trackData = m_sessionRecord->getTrackData();
     Session::Internal::TrackInfo trackInfo;
     trackInfo.m_sessionTrack = trackData.m_trackId;
@@ -161,8 +161,7 @@ void Processor::Detector::SessionStartDataReady::BuildQualiStartPacket() {
 
     }
 
-    QSharedPointer<Packet::Event::Interface> p(packet);
-    m_packetsToBeProcessed.push_back(p);
+    m_packetsToBeProcessed.push_back(packet);
 
 }
 
@@ -172,7 +171,7 @@ void Processor::Detector::SessionStartDataReady::BuildRaceStartPacket() {
 
     if (!m_driverRecords) return;
 
-    Packet::Event::RaceStart* packet = new Packet::Event::RaceStart();
+    auto packet = QSharedPointer<Packet::Event::RaceStart>::create();
     const auto& trackData = m_sessionRecord->getTrackData();
     Session::Internal::TrackInfo trackInfo;
     trackInfo.m_sessionTrack = trackData.m_trackId;
@@ -221,8 +220,7 @@ void Processor::Detector::SessionStartDataReady::BuildRaceStartPacket() {
 
     }
 
-    QSharedPointer<Packet::Event::Interface> p(packet);
-    m_packetsToBeProcessed.push_back(p);
+    m_packetsToBeProcessed.push_back(packet);
 
 }
 

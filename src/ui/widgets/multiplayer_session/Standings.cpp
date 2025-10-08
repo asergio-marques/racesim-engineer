@@ -51,7 +51,7 @@ void UserInterface::Widget::Standings::onQualiStart(QSharedPointer<Packet::Event
 
     if (dataPacket && !m_initialParamsSet) {
 
-        for (const auto driverInfo : dataPacket->m_participants) {
+        for (const auto& driverInfo : dataPacket->m_participants) {
 
             UserInterface::Widget::DriverEntryQuali* entry = new UserInterface::Widget::DriverEntryQuali(m_parent);
             if (entry) {
@@ -84,7 +84,7 @@ void UserInterface::Widget::Standings::onRaceStart(QSharedPointer<Packet::Event:
 
     if (dataPacket && !m_initialParamsSet) {
 
-        for (const auto driverInfo : dataPacket->m_participants) {
+        for (const auto& driverInfo : dataPacket->m_participants) {
 
             UserInterface::Widget::DriverEntryRace* entry = new UserInterface::Widget::DriverEntryRace(m_parent);
             if (entry) {
@@ -111,7 +111,7 @@ void UserInterface::Widget::Standings::onOvertake(QSharedPointer<Packet::Event::
 
     if (packet && m_initialParamsSet) {
 
-        for (const auto overtakeData : packet->GetData()) {
+        for (const auto& overtakeData : packet->GetData()) {
 
             UserInterface::Widget::IDriverEntry* entry = m_driverData[overtakeData.m_driverID];
             if (entry) {

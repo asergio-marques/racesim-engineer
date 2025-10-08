@@ -46,9 +46,6 @@ namespace UserInterface {
                 // Prepare this panel for a new session to begin, cleaning up its members
                 void Cleanup() override final;
 
-            private:
-                UserInterface::Widget::ScreenTitle* m_screenTitle;
-
         };
 
     }

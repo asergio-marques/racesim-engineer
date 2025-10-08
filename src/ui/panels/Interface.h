@@ -1,7 +1,7 @@
 #ifndef USERINTERFACE_PANELS_INCLUDE_INTERFACE_H_
 #define USERINTERFACE_PANELS_INCLUDE_INTERFACE_H_
 
-#include <map>
+#include <QMap>
 #include <QSharedPointer>
 #include <QWidget>
 #include "core/Screen.h"
@@ -52,7 +52,7 @@ namespace UserInterface {
 
             protected:
                 bool RegisterWidget(UserInterface::Widget::Interface* widget);
-                std::map<UserInterface::Widget::ID, UserInterface::Widget::Interface*> m_widgets;
+                QMap<UserInterface::Widget::ID, UserInterface::Widget::Interface*> m_widgets;
 
                 UserInterface::Widget::ImageInterface* m_background;
                 UserInterface::PacketHandler* m_handler;

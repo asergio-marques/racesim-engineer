@@ -1,6 +1,6 @@
 #include "panels/Interface.h"
 
-#include <map>
+#include <QMap>
 #include <QSharedPointer>
 #include <QWidget>
 #include "core/Screen.h"
@@ -27,7 +27,7 @@ bool UserInterface::Panel::Interface::RegisterWidget(UserInterface::Widget::Inte
     Q_ASSERT(widget);
     if (widget) {
 
-        m_widgets.emplace(widget->GetId(), widget);
+        m_widgets[widget->GetId()] = widget;
         return true;
 
     }

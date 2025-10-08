@@ -12,7 +12,7 @@
 #include "IProcessor.h"
 #include "core/Screen.h"
 #include "screens/Interface.h"
-#include "widgets/general_use/MenuBar.h"
+#include "widgets/other/MenuBar.h"
 
 
 

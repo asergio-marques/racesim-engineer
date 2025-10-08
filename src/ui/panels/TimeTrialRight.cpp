@@ -4,8 +4,7 @@
 #include <QSize>
 #include <QWidget>
 #include "panels/Interface.h"
-#include "widgets/general_use/BackgroundRight.h"
-#include "widgets/general_use/ScreenTitle.h"
+#include "backgrounds/BackgroundRight.h"
 
 
 
@@ -14,7 +13,6 @@ UserInterface::Panel::TimeTrialRight::TimeTrialRight(UserInterface::PacketHandle
     UserInterface::Panel::Interface(handler, parent) {
         
     m_background = new UserInterface::Widget::BackgroundRight(UserInterface::Widget::ID::Background, this);
-
     RegisterWidget(m_background);
 
 }

@@ -1,17 +1,14 @@
 #include "panels/Loading.h"
 
-#include <QResizeEvent>
 #include <QSharedPointer>
-#include <QVBoxLayout>
-#include <QTimer>
 #include <QWidget>
-#include "panels/Interface.h"
+#include "backgrounds/BackgroundFullScreen.h"
+#include "base/TextInterface.h"
 #include "core/Screen.h"
 #include "core/styles/Loading.h"
-#include "widgets/general_use/BackgroundFullScreen.h"
-#include "widgets/general_use/ScreenTitle.h"
-#include "widgets/specific/LoadingIcon.h"
-#include "widgets/multiplayer_session/tyres/TyreInfoArray.h"
+#include "panels/Interface.h"
+#include "other/LoadingIcon.h"
+#include "tyres/TyreInfoArray.h"
 
 
 
@@ -23,7 +20,7 @@ UserInterface::Panel::Loading::Loading(UserInterface::PacketHandler* handler, QW
 
     m_background = new UserInterface::Widget::BackgroundFullScreen(UserInterface::Widget::ID::Background, this);
     m_loadingIcon = new UserInterface::Widget::LoadingIcon(this);
-    m_loadingText = new UserInterface::Widget::ScreenTitle(UserInterface::Widget::ID::ScreenTitle, this);
+    m_loadingText = new UserInterface::Widget::TextInterface(UserInterface::Widget::ID::ScreenTitle, this);
 
     RegisterWidget(m_background);
     RegisterWidget(m_loadingIcon);
@@ -38,8 +35,9 @@ UserInterface::Panel::Loading::Loading(UserInterface::PacketHandler* handler, QW
     if (m_loadingText) {
 
         m_loadingText->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::MinimumExpanding);
+        m_loadingText->setFontThickness(UserInterface::Widget::FontThickness::ExtraBold);
         m_loadingText->setAlignment(Qt::AlignCenter);
-        m_loadingText->setTitle(UserInterface::Screen::Type::Loading);
+        m_loadingText->setText("Waiting for a session to start...");
 
     }
 

@@ -26,7 +26,7 @@ namespace UserInterface {
     namespace Widget {
 
         class LoadingIcon;
-        class ScreenTitle;
+        class TextInterface;
 
     }
 
@@ -49,7 +49,7 @@ namespace UserInterface {
 
             private:
                 UserInterface::Widget::LoadingIcon* m_loadingIcon;
-                UserInterface::Widget::ScreenTitle* m_loadingText;
+                UserInterface::Widget::TextInterface* m_loadingText;
 
         };
 

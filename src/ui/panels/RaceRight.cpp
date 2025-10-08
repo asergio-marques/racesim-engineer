@@ -4,12 +4,11 @@
 #include <QSize>
 #include <QWidget>
 #include "PacketHandler.h"
+#include "backgrounds/BackgroundRight.h"
 #include "packets/event/Overtake.h"
 #include "panels/Interface.h"
+#include "standings/Standings.h"
 #include "styles/DriverInfo.h"
-#include "widgets/general_use/BackgroundRight.h"
-#include "widgets/general_use/ScreenTitle.h"
-#include "widgets/multiplayer_session/Standings.h"
 
 
 

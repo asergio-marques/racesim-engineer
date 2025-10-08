@@ -28,34 +28,33 @@ target_sources(${PROJECT_NAME} PRIVATE
     base/ButtonInterface.cpp
     base/ImageInterface.cpp
     base/TextInterface.cpp
-    general_use/MenuBar.cpp
-    general_use/BackgroundLeft.cpp
-    general_use/BackgroundRight.cpp
-    general_use/BackgroundFullScreen.cpp
-    general_use/ScreenTitle.cpp
-    specific/LoadingIcon.cpp
-    multiplayer_session/DriverEntryQuali.cpp
-    multiplayer_session/DriverEntryRace.cpp
-    multiplayer_session/FastestLapIndicator.cpp
-    multiplayer_session/IDriverEntry.cpp
-    multiplayer_session/Standings.cpp
-    multiplayer_session/TeamIcon.cpp
-    multiplayer_session/penalty/PenaltyIcon.cpp
-    multiplayer_session/penalty/PenaltyFlag.cpp
-    multiplayer_session/penalty/PenaltyTextBackground.cpp
-    multiplayer_session/sectors/MiniSectorIcon.cpp
-    multiplayer_session/sectors/SectorInfoArray.cpp
-    multiplayer_session/sectors/SectorInfoContainer.cpp
-    multiplayer_session/sectors/SectorTimeText.cpp
-    multiplayer_session/warning/WarningIcon.cpp
-    multiplayer_session/warning/WarningContainer.cpp
-    multiplayer_session/other/RetirementIcon.cpp
-    multiplayer_session/other/RetirementIconBackground.cpp
-    multiplayer_session/timing/TimeInfoContainer.cpp
-    multiplayer_session/timing/LapInfoContainer.cpp
-    multiplayer_session/tyres/TyreIcon.cpp
-    multiplayer_session/tyres/TyreInfoArray.cpp
-    multiplayer_session/tyres/TyreInfoContainer.cpp
+    other/MenuBar.cpp
+    backgrounds/BackgroundLeft.cpp
+    backgrounds/BackgroundRight.cpp
+    backgrounds/BackgroundFullScreen.cpp
+    other/LoadingIcon.cpp
+    standings/DriverEntryQuali.cpp
+    standings/DriverEntryRace.cpp
+    standings/FastestLapIndicator.cpp
+    standings/IDriverEntry.cpp
+    standings/Standings.cpp
+    standings/TeamIcon.cpp
+    penalty/PenaltyIcon.cpp
+    penalty/PenaltyFlag.cpp
+    penalty/PenaltyTextBackground.cpp
+    sectors/MiniSectorIcon.cpp
+    sectors/SectorInfoArray.cpp
+    sectors/SectorInfoContainer.cpp
+    sectors/SectorTimeText.cpp
+    warning/WarningIcon.cpp
+    warning/WarningContainer.cpp
+    retirement/RetirementIcon.cpp
+    retirement/RetirementIconBackground.cpp
+    timing/TimeInfoContainer.cpp
+    timing/LapInfoContainer.cpp
+    tyres/TyreIcon.cpp
+    tyres/TyreInfoArray.cpp
+    tyres/TyreInfoContainer.cpp
     )
 
 target_link_libraries(${PROJECT_NAME} PRIVATE

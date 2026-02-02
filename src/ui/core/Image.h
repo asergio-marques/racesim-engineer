@@ -52,7 +52,7 @@ namespace UserInterface {
             WetTyres = 24,
             UnknownTyres = 25,
 
-            // Sector icons
+            // Sector icons // NOTE: SectorOfX are reserved for when minisectors are readded
             //// Finished in pits
             FinishedInPitsBase      = 1000,
             FinishedInPitsSectorOf3 = 1003,

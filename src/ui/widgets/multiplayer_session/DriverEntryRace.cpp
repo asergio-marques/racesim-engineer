@@ -153,6 +153,11 @@ void UserInterface::Widget::DriverEntryRace::init(const Session::Internal::Parti
         m_tyreArray->TyreChange(dataPacket.m_startTyreActual, dataPacket.m_startTyreVisual, dataPacket.m_startTyreAge, 1, false);
 
     }
+    if (m_retirement) {
+
+        m_retirement->hide();
+
+    }
     
     redoLayout();
 
@@ -208,15 +213,10 @@ void UserInterface::Widget::DriverEntryRace::updatePenalties(const Penalty::Inte
 
 void UserInterface::Widget::DriverEntryRace::updateStatus(const Participant::Internal::Status status) {
 
-    if (m_retirement) {
+    if (status == Participant::Internal::Status::DNF ||
+        status == Participant::Internal::Status::DSQ) {
 
-        m_retirement->activate(status);
-
-    }
-    if (m_tyreArray && (status == Participant::Internal::Status::DNF ||
-        status == Participant::Internal::Status::DSQ)) {
-
-        m_tyreArray->hide();
+        if (m_retirement) m_retirement->show();
 
     }
 
@@ -421,6 +421,14 @@ void UserInterface::Widget::DriverEntryRace::redoLayout() {
     auto warningIconFontSize = UserInterface::Style::WarningNumFontSize.GetValue(height());
     uint16_t fastLapCenterX = x() + (rowHeight / 2) + warningIconDim + calcPadding;
 
+    if (m_retirement) {
+
+        m_retirement->setSize(width(), height(), false);
+
+        // No need for padding as this widget is supposed to be "above" the others
+        m_retirement->move(x(), y(), false, false);
+
+    }
     if (m_trackLimWarn) {
 
         m_trackLimWarn->setSize(warningIconDim, warningIconDim, false);
@@ -502,16 +510,6 @@ void UserInterface::Widget::DriverEntryRace::redoLayout() {
 
         // Add padding again to account for the right padding
         totalWidth += m_personalBestLap->width() + calcPadding;
-
-    }
-    if (m_retirement) {
-
-        m_retirement->setSize(UserInterface::Style::RetirementIconMaxX.GetValue(width()), UserInterface::Style::RetirementIconMaxY.GetValue(height()), false);
-        m_retirement->setTextFontSize(UserInterface::Style::RetirementFontSize.GetValue(height()));
-        m_retirement->adjustSize();
-
-        // No need for padding as this widget is supposed to be "above" the others
-        m_retirement->move(x() + totalWidth, centerY, false, true);
 
     }
     if (m_tyreArray) {

@@ -109,11 +109,15 @@ void Processor::Data::DriverState::updateWarningPenalties(const uint8_t totalWar
 
 void Processor::Data::DriverState::updateStatus(const Participant::Internal::Status status) {
 
-    m_posTimeData.updateStatus(m_parentRecord->m_info.m_driverID, status);
-    if (m_sessionRecord->getSessionSettings().m_sessionType != Session::Internal::Type::Race) {
+    if (m_lapData.numLapsAvailable() > 0) {
 
-        m_sectorData.updateStatus(m_parentRecord->m_info.m_driverID, status);
-        m_miniSectorData.updateStatus(m_parentRecord->m_info.m_driverID, status);
+        m_posTimeData.updateStatus(m_parentRecord->m_info.m_driverID, status);
+        if (m_sessionRecord->getSessionSettings().m_sessionType != Session::Internal::Type::Race) {
+
+            m_sectorData.updateStatus(m_parentRecord->m_info.m_driverID, status);
+            m_miniSectorData.updateStatus(m_parentRecord->m_info.m_driverID, status);
+
+        }
 
     }
 

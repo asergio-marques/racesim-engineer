@@ -50,7 +50,6 @@ target_sources(${PROJECT_NAME} PRIVATE
     multiplayer_session/warning/WarningIcon.cpp
     multiplayer_session/warning/WarningContainer.cpp
     multiplayer_session/other/RetirementIcon.cpp
-    multiplayer_session/other/RetirementIconBackground.cpp
     multiplayer_session/timing/TimeInfoContainer.cpp
     multiplayer_session/timing/LapInfoContainer.cpp
     multiplayer_session/tyres/TyreIcon.cpp

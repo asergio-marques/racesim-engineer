@@ -155,30 +155,6 @@ namespace UserInterface {
             100     // m_maxValuePoint
         };
 
-        static inline const Value RetirementIconMaxX = {
-            Value::Type::Absolute,
-            224,    // m_minValue
-            392,    // m_minValuePoint
-            1126,   // m_maxValue
-            1776    // m_maxValuePoint
-        };
-
-        static inline const Value RetirementIconMaxY = {
-            Value::Type::Absolute,
-            20,     // m_minValue
-            22,     // m_minValuePoint
-            92,     // m_maxValue
-            100     // m_maxValuePoint
-        };
-
-        static inline const Value RetirementFontSize = {
-            Value::Type::Absolute,
-            11,     // m_minValue
-            22,     // m_minValuePoint
-            46,     // m_maxValue
-            100     // m_maxValuePoint
-        };
-
         // TODO it might be necessary to support more than 3 sectors with other games (e.g. iRacing)
         static inline const uint8_t SectorInfoContainerMaxNum = 3;
 

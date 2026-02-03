@@ -23,6 +23,10 @@ namespace Processor {
 
     namespace Data {
 
+        /**
+          * WARNING: Class is currently unused due to descoping of mini sector tracking
+          * Control of sector information will be returned to the LapHistoryData class for the time being
+          */
         class SectorHistoryData {
 
             public:

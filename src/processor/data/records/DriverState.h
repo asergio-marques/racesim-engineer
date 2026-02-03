@@ -69,7 +69,7 @@ namespace Processor {
             // Returns true if this update has "completed" the lap entry database
             void updateLap(const uint8_t lapID, const Lap::Internal::Status status,
                 const Lap::Internal::Time currentLapTime, const std::vector<Lap::Internal::Time> sectorTimes,
-                const float_t lapDistanceRun, const bool isValid, const Lap::Internal::Time previousLapTime);
+                const uint8_t sectorsComplete, const bool isValid, const Lap::Internal::Time previousLapTime);
 
             // Alter the data of the tyre set in use for the current lap
             void updateCurrentTyre(const uint8_t driverID, const Tyre::Internal::Data data);
@@ -82,12 +82,6 @@ namespace Processor {
 
             // Expose lap data
             const Processor::Data::LapHistoryData& lapData() const;
-
-            // Expose sector data
-            const Processor::Data::SectorHistoryData& sectorData() const;
-
-            // Expose minisector data
-            const Processor::Data::SectorHistoryData& miniSectorData() const;
 
             private:
             // Pointer to the driver record holding this state
@@ -104,12 +98,6 @@ namespace Processor {
 
             // Holder of data for all laps run for this driver in the current session
             Processor::Data::LapHistoryData m_lapData;
-
-            // Holder of data for all lap sectors run for this driver in the current session
-            Processor::Data::SectorHistoryData m_sectorData;
-
-            // Holder of data for all lap minisectors run for this driver in the current session
-            Processor::Data::SectorHistoryData m_miniSectorData;
 
         };
 

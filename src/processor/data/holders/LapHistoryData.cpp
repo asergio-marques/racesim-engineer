@@ -127,9 +127,10 @@ void Processor::Data::LapHistoryData::completeData(const uint8_t id, const uint8
 
 
 
-void Processor::Data::LapHistoryData::updateLap(const uint8_t id, const uint8_t lapID, const Lap::Internal::Status lapStatus,
-    const Lap::Internal::Time currentLapTime, const std::vector<Lap::Internal::Time> sectorTimes,
-    const float_t lapDistanceRun, const Lap::Internal::Time previousLapTime, const Participant::Internal::Status participantStatus) {
+void Processor::Data::LapHistoryData::updateLap(const uint8_t id, const uint8_t lapID,
+    const Lap::Internal::Status lapStatus, const Lap::Internal::Time currentLapTime,
+    const std::vector<Lap::Internal::Time> sectorTimes, const uint8_t sectorsComplete,
+    const Lap::Internal::Time previousLapTime, const Participant::Internal::Status participantStatus) {
 
     // Only add new info if we know we still have missing info
     if (!m_isDataComplete) {
@@ -145,11 +146,9 @@ void Processor::Data::LapHistoryData::updateLap(const uint8_t id, const uint8_t 
             auto& lap = it->second;
             if (!lap.m_isFinished) {
 
-                // TODO rework with sector structs
                 lap.m_totalLapTime.zero();
                 lap.m_totalLapTime = currentLapTime;
                 lap.m_status = lapStatus;
-                lap.m_distanceFulfilled = lapDistanceRun;
                 if (participantStatus == Participant::Internal::Status::DNF ||
                     participantStatus == Participant::Internal::Status::DSQ) {
 
@@ -187,7 +186,6 @@ void Processor::Data::LapHistoryData::updateLap(const uint8_t id, const uint8_t 
             lap.m_isFinished = false;
             lap.m_totalLapTime = currentLapTime;
             lap.m_status = lapStatus;
-            lap.m_distanceFulfilled = lapDistanceRun;
 
             // increment tyre age before setting it
             // note that the ID has not been set just to guarantee comparison when tyre data is received

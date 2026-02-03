@@ -21,16 +21,7 @@ Processor::Data::DriverState::DriverState(const Processor::Data::DriverRecord* c
     m_sessionRecord(sessionRecord),
     m_posTimeData(),
     m_warnPenData(),
-    m_lapData(),
-    m_sectorData(false, trackData),
-    m_miniSectorData(true, trackData) {
-
-    if (m_sessionRecord->getSessionSettings().m_sessionType != Session::Internal::Type::Race) {
-
-        m_sectorData.initialize(m_parentRecord->m_info.m_driverID);
-        m_miniSectorData.initialize(m_parentRecord->m_info.m_driverID);
-
-    }
+    m_lapData() {
 
 }
 
@@ -43,12 +34,6 @@ void Processor::Data::DriverState::finalize(const uint8_t id, const uint8_t posi
     // TODO investigate this better because it doesn't look like it's working perfectly
     //m_posTimeData.updateCurrentPosition(id, position);
     m_posTimeData.updateStatus(id, Participant::Internal::Status::FinishedSession);
-    if (m_sessionRecord->getSessionSettings().m_sessionType != Session::Internal::Type::Race) {
-
-        m_sectorData.updateStatus(id, Participant::Internal::Status::FinishedSession);
-        m_miniSectorData.updateStatus(id, Participant::Internal::Status::FinishedSession);
-
-    }
 
 }
 
@@ -64,8 +49,6 @@ bool Processor::Data::DriverState::installDetector(Processor::Detector::Interfac
     installed |= m_posTimeData.installDetector(detector);
     installed |= m_lapData.installDetector(detector);
     installed |= m_warnPenData.installDetector(detector);
-    installed |= m_sectorData.installDetector(detector);
-    installed |= m_miniSectorData.installDetector(detector);
 
     return installed;
 
@@ -110,30 +93,18 @@ void Processor::Data::DriverState::updateWarningPenalties(const uint8_t totalWar
 void Processor::Data::DriverState::updateStatus(const Participant::Internal::Status status) {
 
     m_posTimeData.updateStatus(m_parentRecord->m_info.m_driverID, status);
-    if (m_sessionRecord->getSessionSettings().m_sessionType != Session::Internal::Type::Race) {
-
-        m_sectorData.updateStatus(m_parentRecord->m_info.m_driverID, status);
-        m_miniSectorData.updateStatus(m_parentRecord->m_info.m_driverID, status);
-
-    }
 
 }
 
 
 void Processor::Data::DriverState::updateLap(const uint8_t lapID, const Lap::Internal::Status status,
     const Lap::Internal::Time currentLapTime, const std::vector<Lap::Internal::Time> sectorTimes,
-    const float_t lapDistanceRun, const bool isValid, const Lap::Internal::Time previousLapTime) {
+    const uint8_t sectorsComplete, const bool isValid, const Lap::Internal::Time previousLapTime) {
 
     // Checking the finished status rather than using the SessionEnd packet solely as source of truth means that in multiplayer sessions
     // the user may not have to wait until the very last packet and may get info before
     m_lapData.updateLap(m_parentRecord->m_info.m_driverID, lapID, status,
-        currentLapTime, sectorTimes, lapDistanceRun, previousLapTime, m_posTimeData.getStatus());
-    if (m_sessionRecord->getSessionSettings().m_sessionType != Session::Internal::Type::Race) {
-    
-        m_sectorData.update(m_parentRecord->m_info.m_driverID, lapDistanceRun, currentLapTime, status, isValid, previousLapTime);
-        m_miniSectorData.update(m_parentRecord->m_info.m_driverID, lapDistanceRun, currentLapTime, status, isValid, previousLapTime);
-
-    }
+        currentLapTime, sectorTimes, sectorsComplete, previousLapTime, m_posTimeData.getStatus());
 
 }
 
@@ -166,21 +137,5 @@ const Processor::Data::WarningPenaltyData& Processor::Data::DriverState::warnPen
 const Processor::Data::LapHistoryData& Processor::Data::DriverState::lapData() const {
 
     return m_lapData;
-
-}
-
-
-
-const Processor::Data::SectorHistoryData& Processor::Data::DriverState::sectorData() const {
-
-    return m_sectorData;
-
-}
-
-
-
-const Processor::Data::SectorHistoryData& Processor::Data::DriverState::miniSectorData() const {
-
-    return m_miniSectorData;
 
 }

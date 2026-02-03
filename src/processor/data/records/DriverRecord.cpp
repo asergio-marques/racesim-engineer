@@ -43,18 +43,10 @@ void Processor::Data::DriverRecord::Init(const uint8_t startPosition, const Proc
 
 const bool Processor::Data::DriverRecord::Initialized() const {
 
-    // sector and minisector tracking not supported in races
-    const bool sectorInit =
-        ((m_sessionRecord->getSessionSettings().m_sessionType == Session::Internal::Type::Race) || m_state->sectorData().Initialized());
-    const bool miniSectorInit =
-        ((m_sessionRecord->getSessionSettings().m_sessionType == Session::Internal::Type::Race) || m_state->miniSectorData().Initialized());
-
     // driver info should be always valid as it's statically initialized when the driver record is as well
     // warning data is always blank at the start
     return m_state && m_state->posTimeData().Initialized() &&
-        m_state->lapData().Initialized() &&
-        sectorInit &&
-        miniSectorInit;
+        m_state->lapData().Initialized();
 
 }
 
@@ -66,9 +58,7 @@ const bool Processor::Data::DriverRecord::Finalized() const {
     // warning data is irrelevant
     // if session type is race, the sector and minisector data would not be initialized, so they are expected to be finalized
     return m_state && m_state->posTimeData().Finalized() &&
-        m_state->lapData().Finalized() &&
-        m_state->sectorData().Finalized() &&
-        m_state->miniSectorData().Finalized();
+        m_state->lapData().Finalized();
 
 }
 

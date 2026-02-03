@@ -38,8 +38,11 @@ namespace Packet {
                 // Container for the times for each sector of the track (0 = sector 1, 1 = sector 2...)
                 std::vector<Lap::Internal::Time> m_sectorTimes{};
 
-                // Track distance the vehicle has travelled in the current lap (meters)
-                float_t m_lapDistanceRun = 0.0f;
+                // Number of total sectors in a lap
+                uint8_t m_numSectorsInLap = 0;
+
+                // Number of completed sectors in the current lap
+                uint8_t m_numSectorsComplete = 0;
 
             };
 

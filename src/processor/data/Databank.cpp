@@ -557,7 +557,7 @@ void Processor::Data::Databank::updateLapStatus(std::shared_ptr<Packet::Internal
                 }
 
                 driverData->getModifiableState()->updateLap(currLapData.m_lapID, currLapData.m_status, currLapData.m_time,
-                    currLapData.m_sectorTimes, currLapData.m_lapDistanceRun, currLapData.m_valid, prevLapData.m_time);
+                    currLapData.m_sectorTimes, currLapData.m_numSectorsComplete, currLapData.m_valid, prevLapData.m_time);
 
             }
 

@@ -146,6 +146,8 @@ void Processor::Data::LapHistoryData::updateLap(const uint8_t id, const uint8_t 
     if (!m_isDataComplete) {
 
         // new entry creation should always happen if the map is empty
+        // realistically, this createNewLap would be normally initialized as "false" because
+        // it is expected that LapHistoryData::initialize() is called first
         bool createNewLap = m_laps.empty();
         Tyre::Internal::Data tyreData;
 
@@ -156,16 +158,37 @@ void Processor::Data::LapHistoryData::updateLap(const uint8_t id, const uint8_t 
             auto& lap = it->second;
             if (!lap.m_isFinished) {
 
+                /*lap.m_status = lapStatus;
                 lap.m_totalLapTime.zero();
                 lap.m_totalLapTime = currentLapTime;
-                lap.m_status = lapStatus;
+                lap.m_sectorTimes = sectorTimes;
+                lap.m_isValid = isValid;
+                if (lap.m_numSectorsComplete != sectorsComplete) {
+
+                    evaluateFinishedSector(lap.m_numSectorsComplete, lap.m_sectorTimes[lap.m_numSectorsComplete],
+                        lap.m_valid, lap.m_status == Lap::Internal::Status::Retired);
+                    lap.m_numSectorsComplete = sectorsComplete;
+
+                }
+
                 if (participantStatus == Participant::Internal::Status::DNF ||
                     participantStatus == Participant::Internal::Status::DSQ) {
 
                     lap.m_isFinished = true;
                     lap.m_isValid = false;
+                    evaluateFinishedSector(lap.m_numSectorsComplete, lap.m_sectorTimes[lap.m_numSectorsComplete], lap.m_status);
                     evaluateFinishedLap(lap);
+
                     m_isDataComplete = true;
+
+                }*/
+
+                lap.m_totalLapTime.zero();
+                lap.m_totalLapTime = currentLapTime;
+                if (lap.m_isValid != isValid) {
+
+                    // To be adapted
+                    // m_installedChangedSectorStateDetector->addChangedSectorInfo();
 
                 }
 

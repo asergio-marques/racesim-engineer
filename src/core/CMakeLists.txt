@@ -14,6 +14,7 @@ target_sources(${PROJECT_NAME} PRIVATE
     data/GeneralData.cpp
     data/internal/LapTime.cpp
     data/internal/Sector.cpp
+    data/internal/SimpleSector.cpp
     data/internal/TyreData.cpp
     packets/game/Broadcaster.cpp
     packets/game/Helper.cpp)

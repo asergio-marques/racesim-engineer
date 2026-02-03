@@ -5,7 +5,7 @@
 #include <vector>
 #include "data/internal/Lap.h"
 #include "data/internal/LapTime.h"
-#include "data/internal/Sector.h"
+#include "data/internal/SimpleSector.h"
 #include "data/internal/TyreData.h"
 
 
@@ -36,8 +36,8 @@ namespace Processor {
             // Note: If the lap has not been completed, then this denotes the current time of the lap
             Lap::Internal::Time m_totalLapTime{};
 
-            // Container for the times for each sector that makes up this lap (0 = sector 1, 1 = sector 2...)
-            std::vector<Lap::Internal::Time> m_sectorTimes{};
+            // Container for the sectors that make up this lap (0 = sector 1, 1 = sector 2...)
+            std::vector<Lap::Internal::SimpleSector> m_sectors{};
 
             // Number of total sectors in the lap
             uint8_t m_numSectorsInLap = 0;

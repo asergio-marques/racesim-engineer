@@ -21,7 +21,7 @@ Processor::Data::DriverState::DriverState(const Processor::Data::DriverRecord* c
     m_sessionRecord(sessionRecord),
     m_posTimeData(),
     m_warnPenData(),
-    m_lapData() {
+    m_lapData(trackData) {
 
 }
 
@@ -97,14 +97,15 @@ void Processor::Data::DriverState::updateStatus(const Participant::Internal::Sta
 }
 
 
-void Processor::Data::DriverState::updateLap(const uint8_t lapID, const Lap::Internal::Status status,
-    const Lap::Internal::Time currentLapTime, const std::vector<Lap::Internal::Time> sectorTimes,
-    const uint8_t sectorsComplete, const bool isValid, const Lap::Internal::Time previousLapTime) {
+void Processor::Data::DriverState::updateLap(const uint8_t lapID, const uint8_t numSectors,
+    const Lap::Internal::Status status, const Lap::Internal::Time currentLapTime,
+    const std::vector<Lap::Internal::Time> sectorTimes, const uint8_t sectorsComplete,
+    const bool isValid, const Lap::Internal::Time previousLapTime) {
 
     // Checking the finished status rather than using the SessionEnd packet solely as source of truth means that in multiplayer sessions
     // the user may not have to wait until the very last packet and may get info before
-    m_lapData.updateLap(m_parentRecord->m_info.m_driverID, lapID, status,
-        currentLapTime, sectorTimes, sectorsComplete, previousLapTime, m_posTimeData.getStatus());
+    m_lapData.updateLap(m_parentRecord->m_info.m_driverID, lapID, numSectors, status,
+        currentLapTime, sectorTimes, sectorsComplete, isValid, previousLapTime, m_posTimeData.getStatus());
 
 }
 

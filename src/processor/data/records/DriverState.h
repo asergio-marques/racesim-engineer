@@ -67,7 +67,7 @@ namespace Processor {
 
             // Alter the status of the driver's most recent lap in the session
             // Returns true if this update has "completed" the lap entry database
-            void updateLap(const uint8_t lapID, const Lap::Internal::Status status,
+            void updateLap(const uint8_t lapID, const uint8_t numSectors, const Lap::Internal::Status status,
                 const Lap::Internal::Time currentLapTime, const std::vector<Lap::Internal::Time> sectorTimes,
                 const uint8_t sectorsComplete, const bool isValid, const Lap::Internal::Time previousLapTime);
 

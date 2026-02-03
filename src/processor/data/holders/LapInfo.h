@@ -36,6 +36,15 @@ namespace Processor {
             // Note: If the lap has not been completed, then this denotes the current time of the lap
             Lap::Internal::Time m_totalLapTime{};
 
+            // Container for the times for each sector that makes up this lap (0 = sector 1, 1 = sector 2...)
+            std::vector<Lap::Internal::Time> m_sectorTimes{};
+
+            // Number of total sectors in the lap
+            uint8_t m_numSectorsInLap = 0;
+
+            // Number of completed sectors in the current lap
+            uint8_t m_numSectorsComplete = 0;
+
             // Data structure holding all relevant information
             Tyre::Internal::Data m_tyre;
 

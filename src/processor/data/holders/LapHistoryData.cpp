@@ -10,19 +10,22 @@
 #include "data/internal/Tyre.h"
 #include "detectors/LapFinished.h"
 #include "detectors/Interface.h"
+#include "detectors/SectorStateChanged.h"
 #include "detectors/Type.h"
 #include "detectors/TyreChanged.h"
 
 
 
 
-Processor::Data::LapHistoryData::LapHistoryData() :
+Processor::Data::LapHistoryData::LapHistoryData(const Processor::Data::TrackData& trackData) :
     m_laps(),
+    m_defaultNumSectors(trackData.copySectors().size()),
     m_totalTime(),
     m_isDataComplete(false),
     m_fastestLapID(UINT16_MAX),
     m_installedFinishedLapDetector(nullptr),
-    m_installedTyreChangeDetector(nullptr) {
+    m_installedTyreChangeDetector(nullptr),
+    m_installedChangedSectorStateDetector(nullptr) {
 
 }
 
@@ -40,6 +43,11 @@ bool Processor::Data::LapHistoryData::installDetector(Processor::Detector::Inter
 
         case Processor::Detector::Type::TyreChanged:
             m_installedTyreChangeDetector = dynamic_cast<Processor::Detector::TyreChanged*>(detector);
+            return true;
+
+        case Processor::Detector::Type::SectorStateChanged:
+            m_installedChangedSectorStateDetector =
+                dynamic_cast<Processor::Detector::SectorStateChanged*>(detector);
             return true;
 
         default:
@@ -86,6 +94,7 @@ void Processor::Data::LapHistoryData::initialize(const uint8_t driverID, const T
     lap.m_driverId = driverID;
     lap.m_lapId = 0;
     lap.m_tyre = data;
+    lap.m_numSectorsInLap = m_defaultNumSectors;
     m_laps.emplace(lap.m_lapId, lap);
 
 }
@@ -128,9 +137,10 @@ void Processor::Data::LapHistoryData::completeData(const uint8_t id, const uint8
 
 
 void Processor::Data::LapHistoryData::updateLap(const uint8_t id, const uint8_t lapID,
-    const Lap::Internal::Status lapStatus, const Lap::Internal::Time currentLapTime,
-    const std::vector<Lap::Internal::Time> sectorTimes, const uint8_t sectorsComplete,
-    const Lap::Internal::Time previousLapTime, const Participant::Internal::Status participantStatus) {
+    const uint8_t numSectorsInLap, const Lap::Internal::Status lapStatus,
+    const Lap::Internal::Time currentLapTime, const std::vector<Lap::Internal::Time> sectorTimes,
+    const uint8_t sectorsComplete, const bool isValid, const Lap::Internal::Time previousLapTime,
+    const Participant::Internal::Status participantStatus) {
 
     // Only add new info if we know we still have missing info
     if (!m_isDataComplete) {

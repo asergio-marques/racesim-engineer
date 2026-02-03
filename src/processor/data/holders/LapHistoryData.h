@@ -16,6 +16,7 @@ namespace Processor {
 
         class LapFinished;
         class Interface;
+        class SectorStateChanged;
         class TyreChanged;
 
     }
@@ -26,7 +27,7 @@ namespace Processor {
 
             public:
             // Constructor
-            LapHistoryData();
+            LapHistoryData(const Processor::Data::TrackData& trackData);
 
             // Destructor
             ~LapHistoryData() = default;
@@ -48,9 +49,10 @@ namespace Processor {
 
             // Alter the status of the driver's most recent lap in the session
             // Returns true if the lap data is regarded as complete
-            void updateLap(const uint8_t id, const uint8_t lapID, const Lap::Internal::Status lapStatus,
-                const Lap::Internal::Time currentLapTime, const std::vector<Lap::Internal::Time> sectorTimes,
-                const uint8_t sectorsComplete, const Lap::Internal::Time previousLapTime,
+            void updateLap(const uint8_t id, const uint8_t lapID, const uint8_t numSectorsInLap,
+                const Lap::Internal::Status lapStatus, const Lap::Internal::Time currentLapTime,
+                const std::vector<Lap::Internal::Time> sectorTimes, const uint8_t sectorsComplete,
+                const bool isValid, const Lap::Internal::Time previousLapTime,
                 const Participant::Internal::Status participantStatus);
 
             // Alter the tyre data of the driver's most recent lap
@@ -70,6 +72,10 @@ namespace Processor {
             // Holder of data pertaining to all laps run
             std::map<uint16_t, Processor::Data::LapInfo> m_laps;
 
+            // The number of sectors in a lap around the current track, by default
+            // Only used to init lap 0 data
+            const uint8_t m_defaultNumSectors;
+
             // Cumulative time of all laps completed
             Lap::Internal::Time m_totalTime;
 
@@ -84,6 +90,9 @@ namespace Processor {
 
             // Pointer to the tyre changed detector currently installed
             Processor::Detector::TyreChanged* m_installedTyreChangeDetector;
+
+            // Pointer to the finished sector detector currently installed
+            Processor::Detector::SectorStateChanged* m_installedChangedSectorStateDetector;
         };
 
     }

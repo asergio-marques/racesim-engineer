@@ -130,6 +130,7 @@ void Processor::Detector::SessionStartDataReady::BuildQualiStartPacket() {
     auto miniSectors = trackData.copyMiniSectors();
     for (size_t sectorIndex = 0; sectorIndex < sectors.size(); ++sectorIndex) {
 
+        // TODO reenable minisector tracking once this functionality can be fully worked out without the bugs
         /*
         const uint8_t sectorID = sectorIndex + 1;
         uint8_t count = std::count_if(miniSectors.begin(), miniSectors.end(), [sectorID](const Lap::Internal::Sector& miniSectorEntry) {
@@ -137,7 +138,6 @@ void Processor::Detector::SessionStartDataReady::BuildQualiStartPacket() {
         });
         packet->m_sectorConfiguration.push_back(count);
         */
-        // TODO reenable minisector tracking once this functionality can be fully worked out without the bugs
         packet->m_sectorConfiguration.push_back(0);
 
     }

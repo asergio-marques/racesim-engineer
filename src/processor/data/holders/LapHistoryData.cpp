@@ -98,6 +98,7 @@ void Processor::Data::LapHistoryData::initialize(const uint8_t driverID, const T
     lap.m_numSectorsInLap = m_defaultNumSectors;
     for (size_t i = 1; i <= m_defaultNumSectors; ++i) {
 
+        // init lap ID 0 sectors
         lap.m_sectors.push_back(Lap::Internal::SimpleSector(driverID, 0, i));
 
     }
@@ -226,10 +227,15 @@ void Processor::Data::LapHistoryData::updateLap(const uint8_t id, const uint8_t 
             lap.m_driverId = id;
             lap.m_lapId = lapID;
             lap.m_isFinished = false;
-            lap.m_numSectorsInLap = sectorTimes.size();
+            lap.m_numSectorsInLap = numSectorsInLap;
             for (size_t i = 1; i <= lap.m_numSectorsInLap; ++i) {
 
                 lap.m_sectors.push_back(Lap::Internal::SimpleSector(id, lapID, i));
+                if (m_personalBestSectorMap.size() < lap.m_numSectorsInLap) {
+
+                    m_personalBestSectorMap.emplace(i, 0);
+
+                }
 
             }
 

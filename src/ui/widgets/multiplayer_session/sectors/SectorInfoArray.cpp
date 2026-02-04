@@ -111,6 +111,26 @@ const int16_t UserInterface::Widget::SectorInfoArray::y() const {
 
 
 
+void UserInterface::Widget::SectorInfoArray::Init(uint8_t numSectors) {
+
+    for (size_t i = 0; i < numSectors; ++i) {
+
+        auto sector = new UserInterface::Widget::SectorInfoContainer(m_widgetParent);
+        if (sector) {
+
+            // Assume lap 1 when init
+            // As this function is used when minisector tracking is not possible, use 0
+            sector->init(1, 0);
+            m_sectors.push_back(sector);
+
+        }
+
+    }
+
+}
+
+
+
 
 void UserInterface::Widget::SectorInfoArray::Init(QList<uint8_t> sectorConfiguration) {
 

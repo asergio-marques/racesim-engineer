@@ -7,6 +7,7 @@
 #include "data/internal/Lap.h"
 #include "data/internal/LapTime.h"
 #include "multiplayer_session/sectors/MiniSectorIcon.h"
+#include "multiplayer_session/sectors/SectorIcon.h"
 #include "multiplayer_session/sectors/SectorTimeText.h"
 #include "styles/DriverInfo.h"
 
@@ -17,8 +18,10 @@ UserInterface::Widget::SectorInfoContainer::SectorInfoContainer(QWidget* parent)
     UserInterface::Widget::Container(UserInterface::Widget::ID::SectorInfo),
     m_sectorTimeText(nullptr),
     m_miniSectorIcons(),
+    m_sectorIcon(nullptr),
     m_currentPerf(Lap::Internal::Performance::InvalidUnknown),
-    m_lapID(0) {
+    m_lapID(0),
+    m_onlySector(false) {
 
     m_sectorTimeText = new UserInterface::Widget::SectorTimeText(UserInterface::Widget::ID::TyreInfo, parent);
     Q_ASSERT(m_sectorTimeText);
@@ -126,11 +129,23 @@ void UserInterface::Widget::SectorInfoContainer::init(const uint8_t lapID, const
 
     if (m_sectorTimeText) {
 
-        // it's not exactly needed right now, but as the index may be useful in the future I'll start at 1 to minimize future changes
-        for (uint8_t i = 1; i <= numSectors; ++i) {
+        m_onlySector = (numSectors == 0);
 
-            auto miniSector = new UserInterface::Widget::MiniSectorIcon(numSectors, m_sectorTimeText->parentWidget());
-            m_miniSectorIcons.push_back(miniSector);
+        if (m_onlySector) {
+
+            m_sectorIcon = new UserInterface::Widget::SectorIcon(m_sectorTimeText->parentWidget());
+
+        }
+        else {
+
+            // it's not exactly needed right now, but as the index may be useful in the future I'll start at 1 to minimize future changes
+            for (uint8_t i = 1; i <= numSectors; ++i) {
+
+                auto miniSector = new UserInterface::Widget::MiniSectorIcon(numSectors, m_sectorTimeText->parentWidget());
+                m_miniSectorIcons.push_back(miniSector);
+
+            }
+
 
         }
 
@@ -154,6 +169,7 @@ void UserInterface::Widget::SectorInfoContainer::clear() {
         if (icon) icon->reset();
 
     }
+    if (m_sectorIcon) m_sectorIcon->reset();
 
 }
 
@@ -168,6 +184,7 @@ bool UserInterface::Widget::SectorInfoContainer::updateSector(const uint8_t lapI
         redoLayout();
 
     }
+    if (m_sectorIcon) m_sectorIcon->performanceChanged(perf, time, m_lapID);
 
     // Check if only now did this sector's state change from a running one to a finished one
     // Signal the clearance of sectors only if this is the case
@@ -221,36 +238,46 @@ void UserInterface::Widget::SectorInfoContainer::incrementLap() {
 void UserInterface::Widget::SectorInfoContainer::redoLayout() {
 
     const uint16_t rowHeight = UserInterface::Style::RowHeight.GetValue(height());
-    const uint16_t miniSectorIconHeight = UserInterface::Style::RowHeight.GetValue(height()) / 2;
-    if (!m_miniSectorIcons.empty() && m_sectorTimeText) {
+    const uint16_t sectorIconHeight = UserInterface::Style::RowHeight.GetValue(height()) / 2;
+    if (m_sectorTimeText) {
 
         m_sectorTimeText->setFontSize(UserInterface::Style::SectorTimeStatusFontSize.GetValue(height()));
         m_sectorTimeText->adjustSize();
         m_sectorTimeText->show();
 
-        // sector time text is centered horizontally to the whole widget width
-        QFontMetrics fmlaps(m_sectorTimeText->font());
+        if (!m_onlySector && !m_miniSectorIcons.empty()) {
 
-        const uint16_t widthMiniSectorIcon = qFloor(m_width / m_miniSectorIcons.size());
-        uint16_t totalWidth = 0;
+            const uint16_t widthMiniSectorIcon = qFloor(m_width / m_miniSectorIcons.size());
+            uint16_t totalWidth = 0;
 
-        for (auto* icon : m_miniSectorIcons) {
+            for (auto* icon : m_miniSectorIcons) {
 
-            if (icon) {
+                if (icon) {
 
-                icon->setSize(widthMiniSectorIcon, miniSectorIconHeight, false);
-                icon->adjustSize();
-                icon->move(x() + totalWidth, y(), false, false);
-                icon->show();
-                totalWidth += widthMiniSectorIcon - UserInterface::Style::MiniSectorIconSpacingX;
+                    icon->setSize(widthMiniSectorIcon, sectorIconHeight, false);
+                    icon->adjustSize();
+                    icon->move(x() + totalWidth, y(), false, false);
+                    icon->show();
+                    totalWidth += widthMiniSectorIcon - UserInterface::Style::MiniSectorIconSpacingX;
+
+                }
 
             }
+            // center the text according to all the mini sector icons
+            const uint16_t baseXAge = x() + (totalWidth / 2);
+            m_sectorTimeText->move(baseXAge, y() + sectorIconHeight, true, false);
 
         }
-        // center the text according to all the mini sector icons
-        const uint16_t baseXAge = x() + ((totalWidth) / 2);
-        m_sectorTimeText->move(baseXAge, y() + miniSectorIconHeight, true, false);
+        else if (m_onlySector && m_sectorIcon) {
 
+            m_sectorIcon->setSize(m_width, sectorIconHeight, false);
+            m_sectorIcon->adjustSize();
+            m_sectorIcon->move(x(), y(), false, false);
+            m_sectorIcon->show();
+
+            m_sectorTimeText->move(x() + (m_width / 2), y() + sectorIconHeight, true, false);
+
+        }
 
     }
 

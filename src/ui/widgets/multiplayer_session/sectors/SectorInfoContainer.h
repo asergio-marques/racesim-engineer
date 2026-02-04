@@ -15,6 +15,7 @@ namespace UserInterface {
     namespace Widget {
 
         class MiniSectorIcon;
+        class SectorIcon;
         class SectorTimeText;
 
         class SectorInfoContainer : public UserInterface::Widget::Container {
@@ -45,8 +46,12 @@ namespace UserInterface {
             void redoLayout();
             UserInterface::Widget::SectorTimeText* m_sectorTimeText;
             QList<UserInterface::Widget::MiniSectorIcon*> m_miniSectorIcons;
+            UserInterface::Widget::SectorIcon* m_sectorIcon;
             Lap::Internal::Performance m_currentPerf;
             uint8_t m_lapID;
+
+            // Whether this widget is only able to track sector time and status
+            bool m_onlySector;
 
         };
     }

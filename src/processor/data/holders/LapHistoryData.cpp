@@ -179,7 +179,6 @@ void Processor::Data::LapHistoryData::updateLap(const uint8_t id, const uint8_t 
 
                 // Process current lap changes, be careful to update its number of sectors complete so
                 // on the next set of info, we update the correct sector
-                lap.m_totalLapTime.zero();
                 lap.m_totalLapTime = currentLapTime;
                 lap.m_status = lapStatus;
                 lap.m_isValid = isValid;
@@ -205,7 +204,14 @@ void Processor::Data::LapHistoryData::updateLap(const uint8_t id, const uint8_t 
             auto& finishedLap = it->second;
             finishedLap.m_isFinished = true;
             finishedLap.m_totalLapTime = previousLapTime;
-            // TODO rework with sector structs
+            auto finalSectorTime = previousLapTime;
+            for (const auto& sector : finishedLap.m_sectors) {
+
+                finalSectorTime -= sector.m_time;
+
+            }
+            evaluateSectorChanges(finishedLap.m_sectors[finishedLap.m_sectors.size() - 1], finishedLap.m_status,
+                participantStatus, finishedLap.m_isValid, finalSectorTime, true);
             evaluateFinishedLap(finishedLap);
 
             // record this finished lap's tyre usage to transmit the information to the next one
@@ -215,12 +221,28 @@ void Processor::Data::LapHistoryData::updateLap(const uint8_t id, const uint8_t 
         // Either if a new lap has just been started, or if the map is empty, we need to create a new lap entry
         if (createNewLap) {
 
+            // initialize lap and sectors information
             Processor::Data::LapInfo lap;
             lap.m_driverId = id;
             lap.m_lapId = lapID;
             lap.m_isFinished = false;
+            lap.m_numSectorsInLap = sectorTimes.size();
+            for (size_t i = 1; i <= lap.m_numSectorsInLap; ++i) {
+
+                lap.m_sectors.push_back(Lap::Internal::SimpleSector(id, lapID, i));
+
+            }
+
+            // Process current sector changes (use lap.m_numSectorsComplete as index)
+            evaluateSectorChanges(lap.m_sectors[sectorsComplete], lapStatus, participantStatus,
+                isValid, sectorTimes[sectorsComplete], false);
+
+            // Process current lap changes, be careful to update its number of sectors complete so
+            // on the next set of info, we update the correct sector
             lap.m_totalLapTime = currentLapTime;
             lap.m_status = lapStatus;
+            lap.m_isValid = isValid;
+            lap.m_numSectorsComplete = sectorsComplete;
 
             // increment tyre age before setting it
             // note that the ID has not been set just to guarantee comparison when tyre data is received

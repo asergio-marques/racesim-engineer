@@ -75,11 +75,9 @@ namespace Processor {
                 const Lap::Internal::Status lapStatus, const Participant::Internal::Status participantStatus,
                 const bool isValid, const Lap::Internal::Time sectorTime, const bool sectorComplete);
 
-            // Auxiliary function that evaluates the status changes in a sector
-            // Communicates with the SectorStateChanged detector
-            void evaluateLapChanges(Processor::Data::LapInfo& changedLap,
-                const Lap::Internal::Status newLapStatus, const Participant::Internal::Status newParticipantStatus,
-                const bool newLapValidity);
+            // Auxiliary function that checks whether a finished sector is a session best, a personal best, or nothing special
+            // Communicates with the detector
+            void evaluateFinishedSector(Lap::Internal::SimpleSector& finishedSector);
 
             // Holder of data pertaining to all laps run
             std::map<uint16_t, Processor::Data::LapInfo> m_laps;
@@ -96,6 +94,11 @@ namespace Processor {
 
             // Index of the fastest lap in the session for this driver
             uint16_t m_fastestLapID;
+
+            // Maps the ID of each sector to the ID of the lap in which it was attained
+            //      first - m_sectorID of the sector
+            //      second - m_lapID of the lap in which the personal best sector was reached
+            std::map<uint8_t, uint16_t> m_personalBestSectorMap;
 
             // Pointer to the fastest lap detector currently installed
             Processor::Detector::LapFinished* m_installedFinishedLapDetector;

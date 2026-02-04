@@ -13,6 +13,7 @@
 #include "detectors/SectorStateChanged.h"
 #include "detectors/Type.h"
 #include "detectors/TyreChanged.h"
+#include "utilities/Sector.h"
 
 
 
@@ -95,6 +96,11 @@ void Processor::Data::LapHistoryData::initialize(const uint8_t driverID, const T
     lap.m_lapId = 0;
     lap.m_tyre = data;
     lap.m_numSectorsInLap = m_defaultNumSectors;
+    for (size_t i = 1; i <= m_defaultNumSectors; ++i) {
+
+        lap.m_sectors.push_back(Lap::Internal::SimpleSector(driverID, 0, i));
+
+    }
     m_laps.emplace(lap.m_lapId, lap);
 
 }
@@ -158,52 +164,35 @@ void Processor::Data::LapHistoryData::updateLap(const uint8_t id, const uint8_t 
             auto& lap = it->second;
             if (!lap.m_isFinished) {
 
-                /*lap.m_status = lapStatus;
-                lap.m_totalLapTime.zero();
-                lap.m_totalLapTime = currentLapTime;
-                lap.m_sectorTimes = sectorTimes;
-                lap.m_isValid = isValid;
-                if (lap.m_numSectorsComplete != sectorsComplete) {
+                // Process current sector changes (use lap.m_numSectorsComplete as index)
+                // If the last registered sector was completed, as noted by the difference in the current sector index, 
+                // then also modify its data to keep it as up-to-date as possible, making sure to not mark it as completed
+                const bool wasSectorCompleted = (sectorsComplete != lap.m_numSectorsComplete);
+                evaluateSectorChanges(lap.m_sectors[lap.m_numSectorsComplete], lapStatus, participantStatus,
+                    isValid, sectorTimes[lap.m_numSectorsComplete], wasSectorCompleted);
+                if (wasSectorCompleted) {
 
-                    evaluateFinishedSector(lap.m_numSectorsComplete, lap.m_sectorTimes[lap.m_numSectorsComplete],
-                        lap.m_valid, lap.m_status == Lap::Internal::Status::Retired);
-                    lap.m_numSectorsComplete = sectorsComplete;
+                    evaluateSectorChanges(lap.m_sectors[sectorsComplete], lapStatus, participantStatus,
+                        isValid, sectorTimes[sectorsComplete], false);
 
                 }
 
+                // Process current lap changes, be careful to update its number of sectors complete so
+                // on the next set of info, we update the correct sector
+                lap.m_totalLapTime.zero();
+                lap.m_totalLapTime = currentLapTime;
+                lap.m_status = lapStatus;
+                lap.m_isValid = isValid;
+                lap.m_numSectorsComplete = sectorsComplete;
                 if (participantStatus == Participant::Internal::Status::DNF ||
                     participantStatus == Participant::Internal::Status::DSQ) {
 
                     lap.m_isFinished = true;
                     lap.m_isValid = false;
-                    evaluateFinishedSector(lap.m_numSectorsComplete, lap.m_sectorTimes[lap.m_numSectorsComplete], lap.m_status);
                     evaluateFinishedLap(lap);
-
                     m_isDataComplete = true;
 
-                }*/
-
-                lap.m_totalLapTime.zero();
-                lap.m_totalLapTime = currentLapTime;
-                // step 1 process current sector changes (use lap.m_numSectorsComplete as index)
-                evaluateSectorChanges(lap.m_sectors[lap.m_numSectorsComplete], lapStatus, participantStatus,
-                    isValid, sectorTimes[lap.m_numSectorsComplete], sectorsComplete != lap.m_numSectorsComplete);
-                // step 1.1 time update sector
-                // step 1.2 validity update                
-                // step 1.3 pit status update
-                // step 1.4 participant status update
-                // step 1.5 extract performance changes and communicate to detector
-                // step 2 process change of sectors
-                // step 2.1 check difference of numSectorsComplete (make sure it is not 0 because 2 -> 0 means lap changed)
-                // step 2.1.1 deduce finalized performance status from running performance status
-                // step 2.1.2 communicate finalized sector data to detector
-                // step 2.1.3 initialize data for new sector
-                // step 2.1.4 communicate new sector data to detector
-                // step 3 process lap changes
-                // step 3.1 time update lap
-                // step 3.2 validity update
-                // step 3.3 participant status update (if DNF/DSQ close lap AND sector AND history data)
-                evaluateLapChanges(lap, lapStatus, participantStatus, isValid);
+                }
                 
             }
 
@@ -346,13 +335,13 @@ void Processor::Data::LapHistoryData::evaluateFinishedLap(const Processor::Data:
 
 void Processor::Data::LapHistoryData::evaluateSectorChanges(Lap::Internal::SimpleSector& currentSector,
     const Lap::Internal::Status lapStatus, const Participant::Internal::Status participantStatus,
-    const bool isValid, Lap::Internal::Time sectorTime, const bool sectorComplete) {
+    const bool isValid, const Lap::Internal::Time sectorTime, const bool sectorComplete) {
 
     bool alwaysOverride = (currentSector.m_status == Lap::Internal::Status::InvalidUnknown);
 
-    // step 1.1 time update sector
+    // Update sector time
     currentSector.m_time = sectorTime;
-    // step 1.2 determine updates required
+    // Determine what state changes may be done, and which are required
     bool canChangeToInvalid = (currentSector.m_status == Lap::Internal::Status::FlyingLap);
     bool statusInvalid = (lapStatus == Lap::Internal::Status::FlyingLap) && !isValid;
     bool canChangeToInPits = (canChangeToInvalid || (currentSector.m_status == Lap::Internal::Status::FlyingLapInvalid));
@@ -362,32 +351,8 @@ void Processor::Data::LapHistoryData::evaluateSectorChanges(Lap::Internal::Simpl
         ((participantStatus == Participant::Internal::Status::DNF) || (participantStatus == Participant::Internal::Status::DSQ));
     bool changedToRetired = false;
 
-    // step 1.3 initial status for unknown status of sector
-    if (alwaysOverride && (lapStatus == Lap::Internal::Status::FlyingLap) && isValid) {
-
-        currentSector.m_status = Lap::Internal::Status::FlyingLap;
-        currentSector.m_performance = Lap::Internal::Performance::CurrentlyRunning;
-        m_installedChangedSectorStateDetector->addChangedSectorInfo(currentSector);
-
-    }
-    // step 1.4 validity update
-    else if ((alwaysOverride || canChangeToInvalid) && statusInvalid) {
-
-        currentSector.m_status = Lap::Internal::Status::FlyingLapInvalid;
-        currentSector.m_performance = Lap::Internal::Performance::CurrentlyRunningInvalid;
-        m_installedChangedSectorStateDetector->addChangedSectorInfo(currentSector);
-
-    }
-    // step 1.5 pit status update
-    else if ((alwaysOverride || canChangeToInPits) && statusInPits) {
-
-        currentSector.m_status = Lap::Internal::Status::InPits;
-        currentSector.m_performance = Lap::Internal::Performance::CurrentlyRunningPits;
-        m_installedChangedSectorStateDetector->addChangedSectorInfo(currentSector);
-
-    }
-    // step 1.6 participant status update
-    else if ((alwaysOverride || canChangeToRetired) && statusRetired) {
+    // Priority 1: participant status change
+    if ((alwaysOverride || canChangeToRetired) && statusRetired) {
 
         changedToRetired = true;
         currentSector.m_status = Lap::Internal::Status::Retired;
@@ -395,6 +360,32 @@ void Processor::Data::LapHistoryData::evaluateSectorChanges(Lap::Internal::Simpl
         m_installedChangedSectorStateDetector->addChangedSectorInfo(currentSector);
 
     }
+    // Priority 2: pit status change
+    else if ((alwaysOverride || canChangeToInPits) && statusInPits) {
+
+        currentSector.m_status = Lap::Internal::Status::InPits;
+        currentSector.m_performance = Lap::Internal::Performance::CurrentlyRunningPits;
+        m_installedChangedSectorStateDetector->addChangedSectorInfo(currentSector);
+
+    }
+    // Priority 3: lap validity status change
+    else if ((alwaysOverride || canChangeToInvalid) && statusInvalid) {
+
+        currentSector.m_status = Lap::Internal::Status::FlyingLapInvalid;
+        currentSector.m_performance = Lap::Internal::Performance::CurrentlyRunningInvalid;
+        m_installedChangedSectorStateDetector->addChangedSectorInfo(currentSector);
+
+    }
+    // Priority 4: default case in which the sector was just started
+    else if (alwaysOverride && (lapStatus == Lap::Internal::Status::FlyingLap) && isValid) {
+
+        currentSector.m_status = Lap::Internal::Status::FlyingLap;
+        currentSector.m_performance = Lap::Internal::Performance::CurrentlyRunning;
+        m_installedChangedSectorStateDetector->addChangedSectorInfo(currentSector);
+
+    }
+    // Determine current sector completion (no further updates)
+    // NOTE: Right now this is not triggered for the last sector due to integration
     if (sectorComplete || changedToRetired) {
 
         switch (currentSector.m_performance) {
@@ -417,7 +408,7 @@ void Processor::Data::LapHistoryData::evaluateSectorChanges(Lap::Internal::Simpl
 
         }
 
-        //evaluateFinishedSector(currentSector);
+        evaluateFinishedSector(currentSector);
 
     }
     // TODO what if the sector is the last one?
@@ -428,11 +419,64 @@ void Processor::Data::LapHistoryData::evaluateSectorChanges(Lap::Internal::Simpl
 
 
 
+void Processor::Data::LapHistoryData::evaluateFinishedSector(Lap::Internal::SimpleSector& finishedSector) {
 
-void Processor::Data::LapHistoryData::evaluateLapChanges(Processor::Data::LapInfo& changedLap,
-    const Lap::Internal::Status newLapStatus, const Participant::Internal::Status newParticipantStatus,
-    const bool newLapValidity) {
+    if (!m_installedChangedSectorStateDetector ||
+        !Processor::Utility::Sector::validate(finishedSector)) return;
 
+    // check if this new finished sector is the fastest in the session
+    // if it is, it's also this driver's PB
+    if (m_installedChangedSectorStateDetector->checkFastestInSession(finishedSector)) {
 
+        m_personalBestSectorMap[finishedSector.getSectorID()] = finishedSector.getLapID();
+
+    }
+    else {
+
+        // check if this is a new personal best for this driver
+        // first get the ID of the lap in which the personal best sector time was reached, for this finished sector's ID
+        auto lapIDIt = m_personalBestSectorMap.find(finishedSector.getSectorID());
+        if (lapIDIt != m_personalBestSectorMap.end()) {
+
+            // Now get the lap object
+            auto lapIt = m_laps.find(lapIDIt->second);
+            if (lapIt != m_laps.end()) {
+
+                auto referenceSector = lapIt->second.m_sectors.at(finishedSector.getSectorID() - 1);
+                auto fastestSectorTime = referenceSector.m_time;
+                auto currentSectorTime = finishedSector.m_time;
+
+                // if the currently registered personal best sector is invalid, then any valid sector is a new PB
+                if ((finishedSector.m_performance != Lap::Internal::Performance::FinishedPits) &&
+                    (finishedSector.m_performance != Lap::Internal::Performance::FinishedInvalid) &&
+                    (finishedSector.m_performance != Lap::Internal::Performance::FinishedRetired) &&
+                    (finishedSector.m_performance != Lap::Internal::Performance::InvalidUnknown) &&
+                    currentSectorTime.valid() &&
+                    (!fastestSectorTime.valid() || (currentSectorTime < fastestSectorTime))) {
+
+                    finishedSector.m_performance = Lap::Internal::Performance::FinishedPersonalBest;
+                    m_personalBestSectorMap[finishedSector.getSectorID()] = finishedSector.getLapID();
+
+                }
+                if (currentSectorTime.valid() && fastestSectorTime.valid() &&
+                    (currentSectorTime > (fastestSectorTime * 1.2f))) {
+
+                    finishedSector.m_status = Lap::Internal::Status::SlowLap;
+
+                }
+
+            }
+            else {
+
+                // if this sector ID could not be found, then at least insert the current ID to primer the personal best sector map
+                m_personalBestSectorMap.insert_or_assign(finishedSector.getSectorID(), finishedSector.getLapID());
+
+            }
+
+            m_installedChangedSectorStateDetector->addChangedSectorInfo(finishedSector);
+
+        }
+
+    }
 
 }

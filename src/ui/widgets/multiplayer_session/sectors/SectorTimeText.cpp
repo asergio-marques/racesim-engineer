@@ -52,20 +52,8 @@ void UserInterface::Widget::SectorTimeText::setTextAndColor(const Lap::Internal:
             break;
 
         case Lap::Internal::Performance::FinishedPits:
-
-            if (time.valid()) {
-
-                // show "FinishedInPits" color
-                m_currentColorString = "color : rgb(102, 170, 255)";
-                setText(time.formattedPrint(true));
-
-            }
-            else {
-
-                m_currentColorString = "color : white";
-                setText("N/A");
-
-            }
+            m_currentColorString = "color : rgb(102, 170, 255)";
+            setText("IN PIT AREA");
             appendTooltipText(time, lapID);
             break;
 

@@ -12,7 +12,7 @@
 // Constructor for a sector
 Lap::Internal::SimpleSector::SimpleSector(const uint8_t driverID,
     const uint16_t lapID, const uint8_t sectorID) :
-    m_finalLapTime(0),
+    m_time(0),
     m_status(Lap::Internal::Status::InvalidUnknown),
     m_performance(Lap::Internal::Performance::InvalidUnknown),
     m_driverID(driverID),
@@ -24,7 +24,7 @@ Lap::Internal::SimpleSector::SimpleSector(const uint8_t driverID,
 
 
 Lap::Internal::SimpleSector::SimpleSector(const Lap::Internal::SimpleSector& other) :
-    m_finalLapTime(other.m_finalLapTime),
+    m_time(other.m_time),
     m_status(other.m_status),
     m_performance(other.m_performance),
     m_driverID(other.m_driverID),
@@ -37,7 +37,7 @@ Lap::Internal::SimpleSector::SimpleSector(const Lap::Internal::SimpleSector& oth
 
 Lap::Internal::SimpleSector& Lap::Internal::SimpleSector::operator=(const Lap::Internal::SimpleSector& other) {
 
-    m_finalLapTime = other.m_finalLapTime;
+    m_time = other.m_time;
     m_status = other.m_status;
     m_performance = other.m_performance;
     m_driverID = other.m_driverID;

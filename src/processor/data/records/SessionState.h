@@ -5,6 +5,7 @@
 #include <map>
 #include "data/internal/Participant.h"
 #include "data/internal/Sector.h"
+#include "data/internal/SimpleSector.h"
 #include "data/holders/LapInfo.h"
 #include "data/holders/TrackData.h"
 #include "data/holders/WeatherData.h"
@@ -39,6 +40,9 @@ namespace Processor {
             // Checks if a newly-finished sector or minisector is a new fastest for the current session
             Lap::Internal::Sector evaluateCompletedSector(Lap::Internal::Sector& finishedSector, bool& isFastestSector);
 
+            // Checks if a newly-finished sector or minisector is a new fastest for the current session
+            Lap::Internal::SimpleSector evaluateCompletedSector(Lap::Internal::SimpleSector& finishedSector, bool& isFastestSector);
+
             // Updates the weather data for this session (and other associated sessions) with further samples
             void updateWeather(const Session::Internal::Descriptor& descriptor,
                 const Session::Internal::WeatherSample& sample, const uint16_t minutesSinceStart);
@@ -65,6 +69,11 @@ namespace Processor {
             // Maps the order ID of each sector in the template for the current track
             // to a copy of the sector with the fastest time
             std::map<uint8_t, Lap::Internal::Sector> m_fastestSectors;
+
+            // Maps the order ID of each sector in the template for the current track
+            // to a copy of the sector with the fastest time
+            // NOTE: Placeholder while dynamic method for Sectors is not fully working
+            std::map<uint8_t, Lap::Internal::SimpleSector> m_fastestSectorsSimple;
 
             // Maps the order ID of each minisector in the template for the current track
             // to the unique overall ID of the sector with the fastest time for this driver

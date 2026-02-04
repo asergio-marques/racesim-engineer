@@ -69,6 +69,18 @@ namespace Processor {
             // Communicates with the detector
             void evaluateFinishedLap(const Processor::Data::LapInfo& finishedLap);
 
+            // Auxiliary function that evaluates the status changes in a sector
+            // Communicates with the SectorStateChanged detector
+            void evaluateSectorChanges(Lap::Internal::SimpleSector& currentSector,
+                const Lap::Internal::Status lapStatus, const Participant::Internal::Status participantStatus,
+                const bool isValid, const Lap::Internal::Time sectorTime, const bool sectorComplete);
+
+            // Auxiliary function that evaluates the status changes in a sector
+            // Communicates with the SectorStateChanged detector
+            void evaluateLapChanges(Processor::Data::LapInfo& changedLap,
+                const Lap::Internal::Status newLapStatus, const Participant::Internal::Status newParticipantStatus,
+                const bool newLapValidity);
+
             // Holder of data pertaining to all laps run
             std::map<uint16_t, Processor::Data::LapInfo> m_laps;
 

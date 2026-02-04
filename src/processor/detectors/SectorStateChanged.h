@@ -2,6 +2,7 @@
 #define PROCESSOR_DETECTOR_INCLUDE_SECTOR_FINISHED_H_
 
 #include "data/internal/Sector.h"
+#include "data/internal/SimpleSector.h"
 #include "detectors/Interface.h"
 #include "detectors/Type.h"
 
@@ -42,8 +43,15 @@ namespace Processor {
             // returning true and preparing the packet if this sector is indeed the session best
             bool checkFastestInSession(Lap::Internal::Sector& finishedSector);
 
+            // Compares a new completed sector with the current session best,
+            // returning true and preparing the packet if this sector is indeed the session best
+            bool checkFastestInSession(Lap::Internal::SimpleSector& finishedSector);
+
             // Interface function to create new packets for communicating changes to the UI
             void addChangedSectorInfo(Lap::Internal::Sector& changedSector);
+
+            // Interface function to create new packets for communicating changes to the UI
+            void addChangedSectorInfo(Lap::Internal::SimpleSector& changedSector);
 
             private:
             // Main execution function (does nothing)

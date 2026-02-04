@@ -5,6 +5,7 @@
 #include <cmath>
 #include <vector>
 #include "data/internal/Sector.h"
+#include "data/internal/SimpleSector.h"
 
 
 
@@ -16,6 +17,9 @@ namespace Processor {
 
             // Returns true if all the necessary data of the sector has been set correctly
             static bool validate(const Lap::Internal::Sector& sector);
+
+            // Returns true if all the necessary data of the sector has been set correctly
+            static bool validate(const Lap::Internal::SimpleSector& sector);
 
             // Retrieves the length of one lap from the sum of the sectors' distances
             static float_t getTotalLapDistanceFromSectors(std::vector<Lap::Internal::Sector>& sectors);
@@ -31,6 +35,8 @@ namespace Processor {
             static bool isFinished(Lap::Internal::Sector& sector);
 
             static Lap::Internal::Sector INVALID_SECTOR;
+
+            static Lap::Internal::SimpleSector INVALID_SECTOR_SIMPLE;
 
         };
 

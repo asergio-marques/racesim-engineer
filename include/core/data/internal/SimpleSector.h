@@ -22,9 +22,6 @@ namespace Lap::Internal {
 
         bool operator==(const SimpleSector& other) const;
 
-        // Retrieves the total run time spent inside this sector
-        const Lap::Internal::Time totalTime() const;
-
         // Retrieves the identifier of the driver who drove this sector
         const uint8_t getDriverID() const;
 
@@ -36,7 +33,7 @@ namespace Lap::Internal {
 
         // The time the driver has spent running in this sector
         // If m_performance notes that the sector has been finished, then this is the final sector time
-        Lap::Internal::Time m_finalLapTime;
+        Lap::Internal::Time m_time;
 
         // Notes the current status of this sector
         Lap::Internal::Status m_status;        

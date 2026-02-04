@@ -4,11 +4,16 @@
 #include <cstdint>
 #include <vector>
 #include "data/internal/Sector.h"
+#include "data/internal/SimpleSector.h"
 
 
 
 
-Lap::Internal::Sector Processor::Utility::Sector::INVALID_SECTOR = Lap::Internal::Sector(0, 0, 0, 0, 0, 0, 0, 0, 0);
+Lap::Internal::Sector Processor::Utility::Sector::INVALID_SECTOR =
+    Lap::Internal::Sector(0, 0, 0, 0, 0, 0, 0, 0, 0);
+
+Lap::Internal::SimpleSector Processor::Utility::Sector::INVALID_SECTOR_SIMPLE =
+    Lap::Internal::SimpleSector(0, 0, 0);
 
 
 
@@ -18,6 +23,14 @@ bool Processor::Utility::Sector::validate(const Lap::Internal::Sector& sector) {
     // then it is expected that the startpoint is 0
     return ((sector.getLapOrderID() != 0) && (sector.getParentOrderID() != 0) &&
         (sector.getUniqueOverallID() != 0) && (sector.getEndPoint() != 0));
+
+}
+
+
+
+bool Processor::Utility::Sector::validate(const Lap::Internal::SimpleSector& sector) {
+
+    return (sector.getSectorID() != 0);
 
 }
 

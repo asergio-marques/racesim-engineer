@@ -6,6 +6,8 @@
 #include "data/holders/TrackData.h"
 #include "data/holders/WeatherData.h"
 #include "data/internal/Participant.h"
+#include "data/internal/Sector.h"
+#include "data/internal/SimpleSector.h"
 #include "utilities/Sector.h"
 
 
@@ -17,6 +19,7 @@ Processor::Data::SessionState::SessionState(Processor::Data::SessionRecord* pare
     m_weather(),
     m_fastestLap(),
     m_fastestSectors(),
+    m_fastestSectorsSimple(),
     m_fastestMinisectors() {
 
     // initialize fastest sectors/minisectors maps with the default sectors
@@ -24,6 +27,13 @@ Processor::Data::SessionState::SessionState(Processor::Data::SessionRecord* pare
     for (const auto& sector : sectors) {
 
         m_fastestSectors.emplace(sector.getLapOrderID(), sector);
+
+    }
+
+    for (size_t i = 0; i < sectors.size(); ++i) {
+
+        Lap::Internal::SimpleSector sector(0, 0, i + 1);
+        m_fastestSectorsSimple.emplace(sector.getSectorID(), sector);
 
     }
 
@@ -120,6 +130,41 @@ Lap::Internal::Sector Processor::Data::SessionState::evaluateCompletedSector(Lap
 
     isFastestSector = false;
     return Processor::Utility::Sector::INVALID_SECTOR;
+
+}
+
+
+
+Lap::Internal::SimpleSector Processor::Data::SessionState::evaluateCompletedSector(Lap::Internal::SimpleSector& finishedSector, bool& isFastestSector) {
+
+    const auto finishedSectorTime = finishedSector.m_time;
+
+    if (!Processor::Utility::Sector::validate(finishedSector) || !finishedSectorTime.valid()) return Processor::Utility::Sector::INVALID_SECTOR_SIMPLE;
+
+    auto it = m_fastestSectorsSimple.find(finishedSector.getSectorID());
+    if (it != m_fastestSectorsSimple.end()) {
+
+        auto oldFastestSector = it->second;
+        const auto fastestSectorTime = oldFastestSector.m_time;
+        // if the currently registered fastest sector is invalid, then any valid sector is a new fastest
+        if (finishedSectorTime.valid() &&
+            (!fastestSectorTime.valid() || (finishedSectorTime < fastestSectorTime))) {
+
+            isFastestSector = true;
+            finishedSector.m_performance = Lap::Internal::Performance::FinishedSessionBest;
+            m_fastestSectorsSimple.insert_or_assign(finishedSector.getSectorID(), finishedSector);
+            oldFastestSector.m_performance = Lap::Internal::Performance::FinishedPersonalBest;
+            return oldFastestSector;
+
+        }
+
+        isFastestSector = false;
+        return Processor::Utility::Sector::INVALID_SECTOR_SIMPLE;
+
+    }
+
+    isFastestSector = false;
+    return Processor::Utility::Sector::INVALID_SECTOR_SIMPLE;
 
 }
 

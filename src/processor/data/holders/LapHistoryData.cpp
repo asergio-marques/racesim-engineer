@@ -185,13 +185,26 @@ void Processor::Data::LapHistoryData::updateLap(const uint8_t id, const uint8_t 
 
                 lap.m_totalLapTime.zero();
                 lap.m_totalLapTime = currentLapTime;
-                if (lap.m_isValid != isValid) {
-
-                    // To be adapted
-                    // m_installedChangedSectorStateDetector->addChangedSectorInfo();
-
-                }
-
+                // step 1 process current sector changes (use lap.m_numSectorsComplete as index)
+                evaluateSectorChanges(lap.m_sectors[lap.m_numSectorsComplete], lapStatus, participantStatus,
+                    isValid, sectorTimes[lap.m_numSectorsComplete], sectorsComplete != lap.m_numSectorsComplete);
+                // step 1.1 time update sector
+                // step 1.2 validity update                
+                // step 1.3 pit status update
+                // step 1.4 participant status update
+                // step 1.5 extract performance changes and communicate to detector
+                // step 2 process change of sectors
+                // step 2.1 check difference of numSectorsComplete (make sure it is not 0 because 2 -> 0 means lap changed)
+                // step 2.1.1 deduce finalized performance status from running performance status
+                // step 2.1.2 communicate finalized sector data to detector
+                // step 2.1.3 initialize data for new sector
+                // step 2.1.4 communicate new sector data to detector
+                // step 3 process lap changes
+                // step 3.1 time update lap
+                // step 3.2 validity update
+                // step 3.3 participant status update (if DNF/DSQ close lap AND sector AND history data)
+                evaluateLapChanges(lap, lapStatus, participantStatus, isValid);
+                
             }
 
         }
@@ -326,5 +339,100 @@ void Processor::Data::LapHistoryData::evaluateFinishedLap(const Processor::Data:
         }
 
     }
+
+}
+
+
+
+void Processor::Data::LapHistoryData::evaluateSectorChanges(Lap::Internal::SimpleSector& currentSector,
+    const Lap::Internal::Status lapStatus, const Participant::Internal::Status participantStatus,
+    const bool isValid, Lap::Internal::Time sectorTime, const bool sectorComplete) {
+
+    bool alwaysOverride = (currentSector.m_status == Lap::Internal::Status::InvalidUnknown);
+
+    // step 1.1 time update sector
+    currentSector.m_time = sectorTime;
+    // step 1.2 determine updates required
+    bool canChangeToInvalid = (currentSector.m_status == Lap::Internal::Status::FlyingLap);
+    bool statusInvalid = (lapStatus == Lap::Internal::Status::FlyingLap) && !isValid;
+    bool canChangeToInPits = (canChangeToInvalid || (currentSector.m_status == Lap::Internal::Status::FlyingLapInvalid));
+    bool statusInPits = (lapStatus == Lap::Internal::Status::InPits);
+    bool canChangeToRetired = (canChangeToInPits || (currentSector.m_status == Lap::Internal::Status::InPits));
+    bool statusRetired =
+        ((participantStatus == Participant::Internal::Status::DNF) || (participantStatus == Participant::Internal::Status::DSQ));
+    bool changedToRetired = false;
+
+    // step 1.3 initial status for unknown status of sector
+    if (alwaysOverride && (lapStatus == Lap::Internal::Status::FlyingLap) && isValid) {
+
+        currentSector.m_status = Lap::Internal::Status::FlyingLap;
+        currentSector.m_performance = Lap::Internal::Performance::CurrentlyRunning;
+        m_installedChangedSectorStateDetector->addChangedSectorInfo(currentSector);
+
+    }
+    // step 1.4 validity update
+    else if ((alwaysOverride || canChangeToInvalid) && statusInvalid) {
+
+        currentSector.m_status = Lap::Internal::Status::FlyingLapInvalid;
+        currentSector.m_performance = Lap::Internal::Performance::CurrentlyRunningInvalid;
+        m_installedChangedSectorStateDetector->addChangedSectorInfo(currentSector);
+
+    }
+    // step 1.5 pit status update
+    else if ((alwaysOverride || canChangeToInPits) && statusInPits) {
+
+        currentSector.m_status = Lap::Internal::Status::InPits;
+        currentSector.m_performance = Lap::Internal::Performance::CurrentlyRunningPits;
+        m_installedChangedSectorStateDetector->addChangedSectorInfo(currentSector);
+
+    }
+    // step 1.6 participant status update
+    else if ((alwaysOverride || canChangeToRetired) && statusRetired) {
+
+        changedToRetired = true;
+        currentSector.m_status = Lap::Internal::Status::Retired;
+        currentSector.m_performance = Lap::Internal::Performance::FinishedRetired;
+        m_installedChangedSectorStateDetector->addChangedSectorInfo(currentSector);
+
+    }
+    if (sectorComplete || changedToRetired) {
+
+        switch (currentSector.m_performance) {
+
+            case Lap::Internal::Performance::CurrentlyRunning:
+                currentSector.m_performance = Lap::Internal::Performance::FinishedNormal;
+                break;
+
+            case Lap::Internal::Performance::CurrentlyRunningPits:
+                currentSector.m_performance = Lap::Internal::Performance::FinishedPits;
+                break;
+
+            case Lap::Internal::Performance::CurrentlyRunningInvalid:
+                currentSector.m_performance = Lap::Internal::Performance::FinishedInvalid;
+                break;
+
+            default:
+                // do nothing, these are the only expected statuses if we've just finished this sector
+                break;
+
+        }
+
+        //evaluateFinishedSector(currentSector);
+
+    }
+    // TODO what if the sector is the last one?
+    // TODO what if this is quali, as the lap ID does not increment?
+    // TODO what if this is race and formation lap?
+
+}
+
+
+
+
+void Processor::Data::LapHistoryData::evaluateLapChanges(Processor::Data::LapInfo& changedLap,
+    const Lap::Internal::Status newLapStatus, const Participant::Internal::Status newParticipantStatus,
+    const bool newLapValidity) {
+
+
 
 }

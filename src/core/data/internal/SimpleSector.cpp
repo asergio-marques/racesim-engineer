@@ -11,13 +11,14 @@
 
 // Constructor for a sector
 Lap::Internal::SimpleSector::SimpleSector(const uint8_t driverID,
-    const uint16_t lapID, const uint8_t sectorID) :
+    const uint16_t lapID, const uint8_t sectorID, const uint8_t totalSectorsInLap) :
     m_time(0),
     m_status(Lap::Internal::Status::InvalidUnknown),
     m_performance(Lap::Internal::Performance::InvalidUnknown),
     m_driverID(driverID),
     m_lapID(lapID),
-    m_sectorID(sectorID) {
+    m_sectorID(sectorID),
+    m_totalSectorsInLap(totalSectorsInLap) {
 
 }
 
@@ -29,7 +30,8 @@ Lap::Internal::SimpleSector::SimpleSector(const Lap::Internal::SimpleSector& oth
     m_performance(other.m_performance),
     m_driverID(other.m_driverID),
     m_lapID(other.m_lapID),
-    m_sectorID(other.m_sectorID)  {
+    m_sectorID(other.m_sectorID),
+    m_totalSectorsInLap(other.m_totalSectorsInLap)  {
 
 }
 
@@ -42,7 +44,8 @@ Lap::Internal::SimpleSector& Lap::Internal::SimpleSector::operator=(const Lap::I
     m_performance = other.m_performance;
     m_driverID = other.m_driverID;
     m_lapID = other.m_lapID;
-    m_sectorID = other.m_sectorID;
+    m_sectorID = other.m_sectorID;,
+    m_totalSectorsInLap = other.m_totalSectorsInLap;
 
     return *this;
 
@@ -55,7 +58,8 @@ bool Lap::Internal::SimpleSector::operator==(const Lap::Internal::SimpleSector& 
     // compare only the key aspects of the sector rather than all the variable members
     return (m_driverID == other.m_driverID) &&
         (m_lapID == other.m_lapID) &&
-        (m_sectorID == other.m_sectorID);
+        (m_sectorID == other.m_sectorID) &&
+        (m_totalSectorsInLap == other.m_totalSectorsInLap);
 
 }
 
@@ -79,5 +83,21 @@ const uint8_t Lap::Internal::SimpleSector::getLapID() const {
 const uint8_t Lap::Internal::SimpleSector::getSectorID() const {
 
     return m_sectorID;
+
+}
+
+
+
+const bool Lap::Internal::SimpleSector::isFirstSectorInLap() const{
+
+    return m_sectorID == 1;
+
+}
+
+
+
+const bool Lap::Internal::SimpleSector::isLastSectorInLap() const{
+
+    return m_sectorID == m_totalSectorsInLap;
 
 }

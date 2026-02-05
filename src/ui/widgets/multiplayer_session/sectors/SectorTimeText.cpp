@@ -27,10 +27,19 @@ void UserInterface::Widget::SectorTimeText::setTextAndColor(const Lap::Internal:
             break;
 
         case Lap::Internal::Performance::CurrentlyRunning:
-        case Lap::Internal::Performance::CurrentlyRunningPits:
         case Lap::Internal::Performance::CurrentlyRunningInvalid:
             m_currentColorString = "color : white";
             setText("IN SECTOR");
+            break;
+
+        case Lap::Internal::Performance::CurrentlyRunningPitOut:
+            m_currentColorString = "color : white";
+            setText("PIT OUT");
+            break;
+
+        case Lap::Internal::Performance::CurrentlyRunningPitIn:
+            m_currentColorString = "color : white";
+            setText("PIT IN");
             break;
 
         case Lap::Internal::Performance::FinishedNormal:
@@ -51,9 +60,15 @@ void UserInterface::Widget::SectorTimeText::setTextAndColor(const Lap::Internal:
             appendTooltipText(time, lapID);
             break;
 
-        case Lap::Internal::Performance::FinishedPits:
+        case Lap::Internal::Performance::FinishedPitIn:
             m_currentColorString = "color : rgb(102, 170, 255)";
-            setText("IN PIT AREA");
+            setText("PIT IN");
+            appendTooltipText(time, lapID);
+            break;
+
+        case Lap::Internal::Performance::FinishedPitOut:
+            m_currentColorString = "color : rgb(102, 170, 255)";
+            setText("PIT OUT");
             appendTooltipText(time, lapID);
             break;
 

@@ -14,7 +14,7 @@ namespace Lap::Internal {
 
     struct SimpleSector {
 
-        SimpleSector(const uint8_t driverID, const uint16_t lapID, const uint8_t sectorID);
+        SimpleSector(const uint8_t driverID, const uint16_t lapID, const uint8_t sectorID, const uint8_t totalSectorsInLap);
 
         SimpleSector(const SimpleSector& other);
 
@@ -30,6 +30,12 @@ namespace Lap::Internal {
 
         // Retrieves the identifier of this sector in the overall lap
         const uint8_t getSectorID() const;
+
+        // Returns true if this sector is the first sector in the lap, denoted by m_sectorID == 1
+        const bool isFirstSectorInLap() const;
+
+        // Returns true if this sector is the final sector in the lap, denoted by m_sectorID == m_totalSectorsInLap
+        const bool isLastSectorInLap() const;
 
         // The time the driver has spent running in this sector
         // If m_performance notes that the sector has been finished, then this is the final sector time
@@ -50,6 +56,9 @@ namespace Lap::Internal {
 
         // Whether this sector is the 1st, 2nd, 3rd... etc
         uint8_t m_sectorID;
+
+        // Total number of sectors in a lap, useful for determining if this is a final sector or not
+        uint8_t m_totalSectorsInLap;
 
     };
 

@@ -32,7 +32,8 @@ void UserInterface::Widget::MiniSectorIcon::performanceChanged(Lap::Internal::Pe
             calculateIDAndFetch(UserInterface::Widget::StandardImage::RunningOnTrackBase);
             break;
 
-        case Lap::Internal::Performance::CurrentlyRunningPits:
+        case Lap::Internal::Performance::CurrentlyRunningPitOut:
+        case Lap::Internal::Performance::CurrentlyRunningPitIn:
             calculateIDAndFetch(UserInterface::Widget::StandardImage::RunningInPitsBase);
             break;
 
@@ -45,7 +46,8 @@ void UserInterface::Widget::MiniSectorIcon::performanceChanged(Lap::Internal::Pe
             appendTooltipText(time, lapID);
             break;
 
-        case Lap::Internal::Performance::FinishedPits:
+        case Lap::Internal::Performance::FinishedPitOut:
+        case Lap::Internal::Performance::FinishedPitIn:
             calculateIDAndFetch(UserInterface::Widget::StandardImage::FinishedInPitsBase);
             appendTooltipText(time, lapID);
             break;

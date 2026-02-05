@@ -24,14 +24,16 @@ namespace Lap::Internal {
         InvalidUnknown              = 0,
         NotRun                      = 1,
         CurrentlyRunning            = 2,
-        CurrentlyRunningPits        = 3,
-        CurrentlyRunningInvalid     = 4,
-        FinishedNormal              = 5,
-        FinishedPits                = 6,
-        FinishedInvalid             = 7,
-        FinishedPersonalBest        = 8,
-        FinishedSessionBest         = 9,
-        FinishedRetired             = 10
+        CurrentlyRunningPitOut      = 3,
+        CurrentlyRunningPitIn       = 4,
+        CurrentlyRunningInvalid     = 5,
+        FinishedNormal              = 6,
+        FinishedPitOut              = 7,
+        FinishedPitIn               = 8,
+        FinishedInvalid             = 9,
+        FinishedPersonalBest        = 10,
+        FinishedSessionBest         = 11,
+        FinishedRetired             = 12
 
     };
 

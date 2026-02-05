@@ -1,0 +1,37 @@
+#ifndef USERINTERFACE_WIDGETS_INCLUDE_SECTOR_ICON_H_
+#define USERINTERFACE_WIDGETS_INCLUDE_SECTOR_ICON_H_
+
+#include "Image.h"
+#include "base/ImageInterface.h"
+#include "data/internal/Lap.h"
+#include "data/internal/LapTime.h"
+
+
+
+class QWidget;
+
+namespace UserInterface {
+
+    namespace Widget {
+
+        class SectorIcon : public UserInterface::Widget::ImageInterface {
+
+            public:
+            SectorIcon(QWidget* parent = 0);
+            ~SectorIcon() = default;
+            void performanceChanged(Lap::Internal::Performance perf, const Lap::Internal::Time& time, const uint8_t lapID);
+            void reset();
+
+            private:
+            void fetchPixmap(UserInterface::Widget::StandardImage baseID);
+            void appendTooltipText(const Lap::Internal::Time& time, const uint8_t lapID);
+
+            QString m_toolTipText;
+
+        };
+
+    }
+
+}
+
+#endif // USERINTERFACE_WIDGETS_INCLUDE_MINI_SECTOR_ICON_H_

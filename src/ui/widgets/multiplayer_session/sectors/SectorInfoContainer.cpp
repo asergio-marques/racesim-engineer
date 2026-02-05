@@ -192,10 +192,12 @@ bool UserInterface::Widget::SectorInfoContainer::updateSector(const uint8_t lapI
     // From incrementing the lapID too much
     bool wasNotFinished = (m_currentPerf == Lap::Internal::Performance::CurrentlyRunning ||
             m_currentPerf == Lap::Internal::Performance::CurrentlyRunningInvalid ||
-            m_currentPerf == Lap::Internal::Performance::CurrentlyRunningPits);
+            m_currentPerf == Lap::Internal::Performance::CurrentlyRunningPitIn ||
+            m_currentPerf == Lap::Internal::Performance::CurrentlyRunningPitOut);
 
     bool isNowFinished = (perf == Lap::Internal::Performance::FinishedNormal ||
-            perf == Lap::Internal::Performance::FinishedPits ||
+            perf == Lap::Internal::Performance::FinishedPitIn ||
+            perf == Lap::Internal::Performance::FinishedPitOut ||
             perf == Lap::Internal::Performance::FinishedInvalid ||
             perf == Lap::Internal::Performance::FinishedPersonalBest ||
             perf == Lap::Internal::Performance::FinishedSessionBest ||

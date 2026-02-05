@@ -182,8 +182,11 @@ void Processor::Data::SectorHistoryData::updateStatus(const uint8_t id, const Pa
             case Lap::Internal::Performance::CurrentlyRunning:
                 currentSector.m_performance = Lap::Internal::Performance::FinishedNormal;
                 break;
-            case Lap::Internal::Performance::CurrentlyRunningPits:
-                currentSector.m_performance = Lap::Internal::Performance::FinishedPits;
+            case Lap::Internal::Performance::CurrentlyRunningPitIn:
+                currentSector.m_performance = Lap::Internal::Performance::FinishedPitIn;
+                break;
+            case Lap::Internal::Performance::CurrentlyRunningPitOut:
+                currentSector.m_performance = Lap::Internal::Performance::FinishedPitOut;
                 break;
             case Lap::Internal::Performance::CurrentlyRunningInvalid:
                 currentSector.m_performance = Lap::Internal::Performance::FinishedInvalid;
@@ -220,7 +223,8 @@ void Processor::Data::SectorHistoryData::initializeSector(Lap::Internal::Sector&
 
         case Lap::Internal::Status::InPits:
             sector.m_status = lapStatus;
-            sector.m_performance = Lap::Internal::Performance::CurrentlyRunningPits;
+            if (sector.isFinalSector()) sector.m_performance = Lap::Internal::Performance::CurrentlyRunningPitIn;
+            else if (sector.getLapOrderID() == 1) sector.m_performance = Lap::Internal::Performance::CurrentlyRunningPitOut;
             break;
 
         default:
@@ -261,7 +265,9 @@ bool Processor::Data::SectorHistoryData::doUpdate(Lap::Internal::Sector& current
         (lapStatus == Lap::Internal::Status::InPits)) {
 
         currentSector.m_status = Lap::Internal::Status::InPits;
-        currentSector.m_performance = Lap::Internal::Performance::CurrentlyRunningPits;
+        if (currentSector.isFinalSector()) currentSector.m_performance = Lap::Internal::Performance::CurrentlyRunningPitIn;
+        else if (currentSector.getLapOrderID() == 1) currentSector.m_performance = Lap::Internal::Performance::CurrentlyRunningPitOut;
+        
         m_installedChangedSectorStateDetector->addChangedSectorInfo(currentSector);
 
     }
@@ -293,8 +299,13 @@ bool Processor::Data::SectorHistoryData::doUpdate(Lap::Internal::Sector& current
                 actuallyEvaluate = true;
                 break;
 
-            case Lap::Internal::Performance::CurrentlyRunningPits:
-                currentSector.m_performance = Lap::Internal::Performance::FinishedPits;
+            case Lap::Internal::Performance::CurrentlyRunningPitIn:
+                currentSector.m_performance = Lap::Internal::Performance::FinishedPitIn;
+                actuallyEvaluate = true;
+                break;
+
+            case Lap::Internal::Performance::CurrentlyRunningPitOut:
+                currentSector.m_performance = Lap::Internal::Performance::FinishedPitOut;
                 actuallyEvaluate = true;
                 break;
 
@@ -331,9 +342,9 @@ bool Processor::Data::SectorHistoryData::doUpdate(Lap::Internal::Sector& current
                 currentSector.m_performance = Lap::Internal::Performance::FinishedNormal;
                 break;
 
-            case Lap::Internal::Performance::CurrentlyRunningPits:
+            case Lap::Internal::Performance::CurrentlyRunningPitIn:
                 currentSector.m_finalLapTime = previousLapTime;
-                currentSector.m_performance = Lap::Internal::Performance::FinishedPits;
+                currentSector.m_performance = Lap::Internal::Performance::FinishedPitIn;
                 break;
 
             case Lap::Internal::Performance::CurrentlyRunningInvalid:
@@ -366,8 +377,8 @@ bool Processor::Data::SectorHistoryData::doUpdate(Lap::Internal::Sector& current
                 currentSector.m_performance = Lap::Internal::Performance::FinishedNormal;
                 break;
 
-            case Lap::Internal::Performance::CurrentlyRunningPits:
-                currentSector.m_performance = Lap::Internal::Performance::FinishedPits;
+            case Lap::Internal::Performance::CurrentlyRunningPitIn:
+                currentSector.m_performance = Lap::Internal::Performance::FinishedPitIn;
                 break;
 
             case Lap::Internal::Performance::CurrentlyRunningInvalid:
@@ -518,7 +529,8 @@ void Processor::Data::SectorHistoryData::evaluateFinishedSector(Lap::Internal::S
                 auto currentSectorTime = finishedSector.totalTime();
 
                 // if the currently registered personal best sector is invalid, then any valid sector is a new PB
-                if ((finishedSector.m_performance != Lap::Internal::Performance::FinishedPits) &&
+                if ((finishedSector.m_performance != Lap::Internal::Performance::FinishedPitIn) &&
+                    (finishedSector.m_performance != Lap::Internal::Performance::FinishedPitOut) &&
                     (finishedSector.m_performance != Lap::Internal::Performance::FinishedInvalid) &&
                     (finishedSector.m_performance != Lap::Internal::Performance::FinishedRetired) &&
                     (finishedSector.m_performance != Lap::Internal::Performance::InvalidUnknown) &&

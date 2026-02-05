@@ -44,7 +44,7 @@ Lap::Internal::SimpleSector& Lap::Internal::SimpleSector::operator=(const Lap::I
     m_performance = other.m_performance;
     m_driverID = other.m_driverID;
     m_lapID = other.m_lapID;
-    m_sectorID = other.m_sectorID;,
+    m_sectorID = other.m_sectorID;
     m_totalSectorsInLap = other.m_totalSectorsInLap;
 
     return *this;

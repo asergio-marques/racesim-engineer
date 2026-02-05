@@ -487,7 +487,8 @@ void Processor::Data::LapHistoryData::evaluateFinishedSector(Lap::Internal::Simp
                 auto currentSectorTime = finishedSector.m_time;
 
                 // if the currently registered personal best sector is invalid, then any valid sector is a new PB
-                if ((finishedSector.m_performance != Lap::Internal::Performance::FinishedPits) &&
+                if ((finishedSector.m_performance != Lap::Internal::Performance::FinishedPitOut) &&
+                    (finishedSector.m_performance != Lap::Internal::Performance::FinishedPitIn) &&
                     (finishedSector.m_performance != Lap::Internal::Performance::FinishedInvalid) &&
                     (finishedSector.m_performance != Lap::Internal::Performance::FinishedRetired) &&
                     (finishedSector.m_performance != Lap::Internal::Performance::InvalidUnknown) &&

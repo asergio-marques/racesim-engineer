@@ -44,7 +44,8 @@ void Processor::Detector::SectorStateChanged::Deinit() {
 bool Processor::Detector::SectorStateChanged::checkFastestInSession(Lap::Internal::Sector& finishedSector) {
 
     if (!m_sessionRecord || !m_sessionRecord->getModifiableState() ||
-        (finishedSector.m_performance == Lap::Internal::Performance::FinishedPits) ||
+        (finishedSector.m_performance == Lap::Internal::Performance::FinishedPitIn) ||
+        (finishedSector.m_performance == Lap::Internal::Performance::FinishedPitOut) ||
         (finishedSector.m_performance == Lap::Internal::Performance::FinishedInvalid) ||
         (finishedSector.m_performance == Lap::Internal::Performance::FinishedRetired) ||
         (finishedSector.m_performance == Lap::Internal::Performance::InvalidUnknown)) return false;
@@ -114,7 +115,8 @@ bool Processor::Detector::SectorStateChanged::checkFastestInSession(Lap::Interna
 bool Processor::Detector::SectorStateChanged::checkFastestInSession(Lap::Internal::SimpleSector& finishedSector) {
 
     if (!m_sessionRecord || !m_sessionRecord->getModifiableState() ||
-        (finishedSector.m_performance == Lap::Internal::Performance::FinishedPits) ||
+        (finishedSector.m_performance == Lap::Internal::Performance::FinishedPitIn) ||
+        (finishedSector.m_performance == Lap::Internal::Performance::FinishedPitOut) ||
         (finishedSector.m_performance == Lap::Internal::Performance::FinishedInvalid) ||
         (finishedSector.m_performance == Lap::Internal::Performance::FinishedRetired) ||
         (finishedSector.m_performance == Lap::Internal::Performance::InvalidUnknown)) return false;

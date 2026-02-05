@@ -31,7 +31,8 @@ void UserInterface::Widget::SectorIcon::performanceChanged(Lap::Internal::Perfor
             fetchPixmap(UserInterface::Widget::StandardImage::RunningOnTrackBase);
             break;
 
-        case Lap::Internal::Performance::CurrentlyRunningPits:
+        case Lap::Internal::Performance::CurrentlyRunningPitOut:
+        case Lap::Internal::Performance::CurrentlyRunningPitIn:
             fetchPixmap(UserInterface::Widget::StandardImage::RunningInPitsBase);
             break;
 
@@ -44,7 +45,8 @@ void UserInterface::Widget::SectorIcon::performanceChanged(Lap::Internal::Perfor
             appendTooltipText(time, lapID);
             break;
 
-        case Lap::Internal::Performance::FinishedPits:
+        case Lap::Internal::Performance::FinishedPitOut:
+        case Lap::Internal::Performance::FinishedPitIn:
             fetchPixmap(UserInterface::Widget::StandardImage::FinishedInPitsBase);
             appendTooltipText(time, lapID);
             break;

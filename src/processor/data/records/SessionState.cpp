@@ -32,7 +32,7 @@ Processor::Data::SessionState::SessionState(Processor::Data::SessionRecord* pare
 
     for (size_t i = 0; i < sectors.size(); ++i) {
 
-        Lap::Internal::SimpleSector sector(0, 0, i + 1);
+        Lap::Internal::SimpleSector sector(0, 0, i + 1, sectors.size());
         m_fastestSectorsSimple.emplace(sector.getSectorID(), sector);
 
     }

@@ -13,7 +13,7 @@ Lap::Internal::Sector Processor::Utility::Sector::INVALID_SECTOR =
     Lap::Internal::Sector(0, 0, 0, 0, 0, 0, 0, 0, 0);
 
 Lap::Internal::SimpleSector Processor::Utility::Sector::INVALID_SECTOR_SIMPLE =
-    Lap::Internal::SimpleSector(0, 0, 0);
+    Lap::Internal::SimpleSector(0, 0, 0, 0);
 
 
 
@@ -96,7 +96,8 @@ bool Processor::Utility::Sector::isFinished(Lap::Internal::Sector& sector) {
 
     return sector.m_performance == Lap::Internal::Performance::FinishedNormal ||
         sector.m_performance == Lap::Internal::Performance::FinishedInvalid ||
-        sector.m_performance == Lap::Internal::Performance::FinishedPits ||
+        sector.m_performance == Lap::Internal::Performance::FinishedPitIn ||
+        sector.m_performance == Lap::Internal::Performance::FinishedPitOut ||
         sector.m_performance == Lap::Internal::Performance::FinishedRetired ||
         sector.m_performance == Lap::Internal::Performance::FinishedPersonalBest ||
         sector.m_performance == Lap::Internal::Performance::FinishedSessionBest;

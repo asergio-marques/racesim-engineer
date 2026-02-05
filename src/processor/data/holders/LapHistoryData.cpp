@@ -99,7 +99,7 @@ void Processor::Data::LapHistoryData::initialize(const uint8_t driverID, const T
     for (size_t i = 1; i <= m_defaultNumSectors; ++i) {
 
         // init lap ID 0 sectors
-        lap.m_sectors.push_back(Lap::Internal::SimpleSector(driverID, 0, i));
+        lap.m_sectors.push_back(Lap::Internal::SimpleSector(driverID, 0, i, lap.m_numSectorsInLap));
 
     }
     m_laps.emplace(lap.m_lapId, lap);
@@ -230,7 +230,7 @@ void Processor::Data::LapHistoryData::updateLap(const uint8_t id, const uint8_t 
             lap.m_numSectorsInLap = numSectorsInLap;
             for (size_t i = 1; i <= lap.m_numSectorsInLap; ++i) {
 
-                lap.m_sectors.push_back(Lap::Internal::SimpleSector(id, lapID, i));
+                lap.m_sectors.push_back(Lap::Internal::SimpleSector(id, lapID, i, lap.m_numSectorsInLap));
                 if (m_personalBestSectorMap.size() < lap.m_numSectorsInLap) {
 
                     m_personalBestSectorMap.emplace(i, 0);
@@ -388,11 +388,19 @@ void Processor::Data::LapHistoryData::evaluateSectorChanges(Lap::Internal::Simpl
         m_installedChangedSectorStateDetector->addChangedSectorInfo(currentSector);
 
     }
-    // Priority 2: pit status change
-    else if ((alwaysOverride || canChangeToInPits) && statusInPits) {
+    // Priority 2.1: pit status change (pit-out branch)
+    else if ((alwaysOverride || canChangeToInPits) && statusInPits && currentSector.isFirstSectorInLap()) {
 
         currentSector.m_status = Lap::Internal::Status::InPits;
-        currentSector.m_performance = Lap::Internal::Performance::CurrentlyRunningPits;
+        currentSector.m_performance = Lap::Internal::Performance::CurrentlyRunningPitOut;
+        m_installedChangedSectorStateDetector->addChangedSectorInfo(currentSector);
+
+    }
+    // Priority 2.2: pit status change (pit-in branch)
+    else if ((alwaysOverride || canChangeToInPits) && statusInPits && currentSector.isLastSectorInLap()) {
+
+        currentSector.m_status = Lap::Internal::Status::InPits;
+        currentSector.m_performance = Lap::Internal::Performance::CurrentlyRunningPitIn;
         m_installedChangedSectorStateDetector->addChangedSectorInfo(currentSector);
 
     }
@@ -422,8 +430,12 @@ void Processor::Data::LapHistoryData::evaluateSectorChanges(Lap::Internal::Simpl
                 currentSector.m_performance = Lap::Internal::Performance::FinishedNormal;
                 break;
 
-            case Lap::Internal::Performance::CurrentlyRunningPits:
-                currentSector.m_performance = Lap::Internal::Performance::FinishedPits;
+            case Lap::Internal::Performance::CurrentlyRunningPitOut:
+                currentSector.m_performance = Lap::Internal::Performance::FinishedPitOut;
+                break;
+
+            case Lap::Internal::Performance::CurrentlyRunningPitIn:
+                currentSector.m_performance = Lap::Internal::Performance::FinishedPitIn;
                 break;
 
             case Lap::Internal::Performance::CurrentlyRunningInvalid:

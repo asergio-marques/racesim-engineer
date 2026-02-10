@@ -289,8 +289,17 @@ void Processor::Data::LapHistoryData::evaluateFinishedLap(const Processor::Data:
         }
         else {
 
-            m_fastestLapID = finishedLap.m_lapId;
-            m_installedFinishedLapDetector->addFinishedLapInfo(finishedLap, Lap::Internal::InfoType::PersonalBest);
+            if (finishedLap.m_isValid && finishedLap.m_totalLapTime.valid()) {
+
+                m_fastestLapID = finishedLap.m_lapId;
+                m_installedFinishedLapDetector->addFinishedLapInfo(finishedLap, Lap::Internal::InfoType::PersonalBest);
+
+            }
+            else {
+
+                m_installedFinishedLapDetector->addFinishedLapInfo(finishedLap, Lap::Internal::InfoType::LatestLap);
+
+            }
 
         }
 

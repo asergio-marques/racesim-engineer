@@ -42,6 +42,18 @@ namespace Processor {
             // Main execution function
             void Exec() override final;
 
+            // Auxiliary function to construct a packet with all the necessary data
+            // to maintain UI coherency with stored telemetry data for a practice session
+            void BuildPracticeSyncPacket();
+
+            // Auxiliary function to construct a packet with all the necessary data
+            // to maintain UI coherency with stored telemetry data for a qualifying session
+            void BuildQualiSyncPacket();
+
+            // Auxiliary function to construct a packet with all the necessary data
+            // to maintain UI coherency with stored telemetry data for a race session
+            void BuildRaceSyncPacket();
+
         };
 
     }

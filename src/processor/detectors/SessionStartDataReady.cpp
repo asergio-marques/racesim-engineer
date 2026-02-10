@@ -211,7 +211,7 @@ void Processor::Detector::SessionStartDataReady::BuildRaceStartPacket() {
                 participant.m_startTyreActual = lapInfo->m_tyre.m_actualTyre;
                 participant.m_startTyreAge = lapInfo->m_tyre.m_stintLength;
 
-                // makes sense to guard this only if the starting tyre info was initialized properly
+                // makes sense to store this only if the starting tyre info was initialized properly
                 packet->m_participants.push_back(participant);
 
             }

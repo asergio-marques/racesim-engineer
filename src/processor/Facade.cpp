@@ -4,6 +4,7 @@
 #include <vector>
 #include <QSharedPointer>
 #include "data/Databank.h"
+#include "detectors/InfoSynchronizer.h"
 #include "detectors/LapFinished.h"
 #include "detectors/Overtake.h"
 #include "detectors/PenaltyReceived.h"
@@ -31,6 +32,7 @@ Processor::Facade::Facade() :
 
         m_detectors.push_back(new Processor::Detector::SessionStartDataReady);
         m_detectors.push_back(new Processor::Detector::SessionEndDataReady);
+        m_detectors.push_back(new Processor::Detector::InfoSynchronizer);
         m_detectors.push_back(new Processor::Detector::LapFinished);
         m_detectors.push_back(new Processor::Detector::Overtake);
         m_detectors.push_back(new Processor::Detector::PenaltyReceived);

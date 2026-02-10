@@ -38,6 +38,7 @@ target_sources(${PROJECT_NAME} PRIVATE
     data/records/SessionRecord.cpp
     data/records/SessionState.cpp
     data/stores/TrackDataStore.cpp
+    detectors/InfoSynchronizer.cpp
     detectors/Interface.cpp
     detectors/LapFinished.cpp
     detectors/Overtake.cpp

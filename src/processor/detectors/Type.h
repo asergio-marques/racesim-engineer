@@ -14,12 +14,13 @@ namespace Processor {
             Invalid                     = 0,
             SessionStartDataReady       = 1,
             SessionEndDataReady         = 2,
-            ParticipantStatusChanged    = 3,
-            Overtake                    = 4,
-            LapFinished                 = 5,
-            PenaltyReceived             = 6,
-            TyreChanged                 = 7,
-            SectorStateChanged          = 8
+            InfoSynchronizer            = 3,
+            ParticipantStatusChanged    = 4,
+            Overtake                    = 5,
+            LapFinished                 = 6,
+            PenaltyReceived             = 7,
+            TyreChanged                 = 8,
+            SectorStateChanged          = 9
 
         };
 

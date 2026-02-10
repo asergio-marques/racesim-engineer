@@ -15,8 +15,6 @@
 #include "data/internal/TyreData.h"
 #include "detectors/Interface.h"
 #include "detectors/Type.h"
-#include "detectors/SessionStartDataReady.h"
-#include "detectors/TyreChanged.h"
 #include "exporters/RaceSession.h"
 #include "packets/internal/FinalResult.h"
 #include "packets/internal/GridPosition.h"

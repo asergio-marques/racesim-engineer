@@ -16,14 +16,17 @@ namespace Packet {
             QualiStart                  = 2,
             RaceStart                   = 3,
             TimeTrialStart              = 4,
-            RoundSessionEnd             = 5,
-            TimeTrialEnd                = 6,
-            Overtake                    = 7,
-            ParticipantStatusChanged    = 8,
-            LapFinished                 = 9,
-            PenaltyReceived             = 10,
-            TyreChanged                 = 11,
-            SectorStateChanged          = 12
+            PracticeSync                = 5,
+            QualiSync                   = 6,
+            RaceSync                    = 7,
+            RoundSessionEnd             = 8,
+            TimeTrialEnd                = 9,
+            Overtake                    = 10,
+            ParticipantStatusChanged    = 11,
+            LapFinished                 = 12,
+            PenaltyReceived             = 13,
+            TyreChanged                 = 14,
+            SectorStateChanged          = 15
 
         };
     

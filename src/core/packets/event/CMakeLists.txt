@@ -22,8 +22,11 @@ target_sources(${PROJECT_NAME} PRIVATE
 	ParticipantStatusChanged.cpp
 	PenaltyReceived.cpp
 	PracticeStart.cpp
+	PracticeSync.cpp
 	QualiStart.cpp
+	QualiSync.cpp
 	RaceStart.cpp
+	RaceSync.cpp
 	RoundSessionEnd.cpp
 	SectorStateChanged.cpp
 	TimeTrialEnd.cpp

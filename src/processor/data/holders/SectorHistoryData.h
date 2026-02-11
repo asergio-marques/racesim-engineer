@@ -51,6 +51,12 @@ namespace Processor {
             // Function to update lap status in case of retirement or session end
             void updateStatus(const uint8_t id, const Participant::Internal::Status status);
 
+            // Exposes the sectors of the current lap exclusively
+            const std::map< uint8_t, Lap::Internal::Sector> getCurrentLapSectors() const;
+
+            // An immutable reference to the track data, for creating new sector
+            const Processor::Data::TrackData& m_trackDataReference;
+
             private:
             // Auxiliary function that initializes a sector's information
             void initializeSector(Lap::Internal::Sector& sector, const Lap::Internal::Time currentLapTime,
@@ -75,7 +81,7 @@ namespace Processor {
             // Communicates with the detector
             void evaluateFinishedSector(Lap::Internal::Sector& finishedSector);
 
-            // Holder of data pertaining to all sectors of already finished laps exclusively
+            // Holder of data pertaining to all sectors that have been started, from all laps past and current
             //      first - m_uniqueOverallID of the sector
             //      second - sector object itself
             std::map<uint16_t, Lap::Internal::Sector> m_sectors;
@@ -85,9 +91,6 @@ namespace Processor {
             //      first - m_lapOrderID of the sector
             //      second - m_uniqueOverallID of the sector
             std::map<uint8_t, uint16_t> m_personalBestSectorMap;
-
-            // An immutable reference to the track data, for creating new sector
-            const Processor::Data::TrackData& m_trackDataReference;
 
             // Whether this container holds information for minisectors; if false, then it holds information for sectors
             const bool m_minisector;

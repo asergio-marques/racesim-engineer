@@ -46,10 +46,10 @@ namespace Packet {
                 bool m_bestLapSessionBest = false;
 
                 // A map holding all sectors of the current lap, mapped by lap order ID
-                std::map<uint16_t, Lap::Internal::Sector> m_currentLapSectors{};
+                std::map<uint8_t, Lap::Internal::Sector> m_currentLapSectors{};
 
                 // A map holding all minisectors of the current lap, mapped by lap order ID
-                std::map<uint16_t, Lap::Internal::Sector> m_currentLapMinisectors{};
+                std::map<uint8_t, Lap::Internal::Sector> m_currentLapMinisectors{};
 
             };
 

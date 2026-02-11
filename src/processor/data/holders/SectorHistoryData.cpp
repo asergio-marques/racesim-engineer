@@ -14,9 +14,9 @@
 
 Processor::Data::SectorHistoryData::SectorHistoryData(const bool isMinisector,
     const Processor::Data::TrackData& trackDataReference) :
+    m_trackDataReference(trackDataReference),
     m_sectors(),
     m_personalBestSectorMap(),
-    m_trackDataReference(trackDataReference),
     m_minisector(isMinisector),
     m_isDataComplete(true),
     m_installedChangedSectorStateDetector(nullptr) {
@@ -198,6 +198,30 @@ void Processor::Data::SectorHistoryData::updateStatus(const uint8_t id, const Pa
         m_isDataComplete = true;
 
     }
+
+}
+
+
+
+const std::map<uint8_t, Lap::Internal::Sector> Processor::Data::SectorHistoryData::getCurrentLapSectors() const {
+
+    std::map<uint8_t, Lap::Internal::Sector> temp{};
+
+    std::vector<Lap::Internal::Sector> sectors{};
+    if (m_minisector) sectors = m_trackDataReference.copyMiniSectors();
+    else m_trackDataReference.copyMiniSectors();
+
+    const uint16_t numLapsComplete = std::floor(m_sectors.size() / sectors.size());
+    const uint16_t numSectorsFromCompleteLaps = numLapsComplete * sectors.size();
+    const uint16_t numSectorCurrentLap = m_sectors.size() - numSectorsFromCompleteLaps;
+    for (uint16_t i = m_sectors.size() - 1; i >= numSectorsFromCompleteLaps; --i) {
+
+        auto sector = m_sectors.at(i);
+        temp.insert({ sector.getLapOrderID() , sector });
+
+    }
+
+    return temp;
 
 }
 

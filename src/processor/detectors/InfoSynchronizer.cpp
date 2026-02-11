@@ -147,11 +147,9 @@ void Processor::Detector::InfoSynchronizer::BuildQualiSyncPacket() {
 
             }
 
-            // add current lap sector info
-            // TODO
-
-            // add current lap minisector info
-            // TODO
+            // add current lap sector and minisector info
+            participant.m_currentLapSectors = driverState->sectorData().getCurrentLapSectors();
+            participant.m_currentLapMinisectors = driverState->miniSectorData().getCurrentLapSectors();
 
             // add to packet
             packet->m_participants.push_back(participant);

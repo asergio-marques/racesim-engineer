@@ -14,9 +14,12 @@
 #include "packets/event/ParticipantStatusChanged.h"
 #include "packets/event/PenaltyReceived.h"
 #include "packets/event/PracticeStart.h"
+#include "packets/event/PracticeSync.h"
 #include "packets/event/Overtake.h"
 #include "packets/event/QualiStart.h"
+#include "packets/event/QualiSync.h"
 #include "packets/event/RaceStart.h"
+#include "packets/event/RaceSync.h"
 #include "packets/event/SectorStateChanged.h"
 #include "packets/event/TimeTrialStart.h"
 #include "packets/event/TyreChanged.h"
@@ -39,6 +42,9 @@ namespace UserInterface {
         void QualiStart(QSharedPointer<Packet::Event::QualiStart>);
         void RaceStart(QSharedPointer<Packet::Event::RaceStart>);
         void TimeTrialStart(QSharedPointer<Packet::Event::TimeTrialStart>);
+        void PracticeSync(QSharedPointer<Packet::Event::PracticeSync>);
+        void QualiSync(QSharedPointer<Packet::Event::QualiSync>);
+        void RaceSync(QSharedPointer<Packet::Event::RaceSync>);
         void SessionEnd();
         void OvertakePerformed(QSharedPointer<Packet::Event::Overtake>);
         void PenaltyReceived(QSharedPointer<Packet::Event::PenaltyReceived>);
@@ -53,6 +59,7 @@ namespace UserInterface {
 
         // Notify functions
         void NotifySessionStartObservers(QSharedPointer<Packet::Event::Interface> packet);
+        void NotifySessionSyncObservers(QSharedPointer<Packet::Event::Interface> packet);
         void NotifySessionEndObservers(QSharedPointer<Packet::Event::Interface> packet);
         void NotifyOvertakeObservers(QSharedPointer<Packet::Event::Interface> packet);
         void NotifyPenaltyObservers(QSharedPointer<Packet::Event::Interface> packet);

@@ -7,6 +7,20 @@
 #include <QSharedPointer>
 #include <QThread>
 #include <QTimer>
+#include "packets/event/LapFinished.h"
+#include "packets/event/Interface.h"
+#include "packets/event/ParticipantStatusChanged.h"
+#include "packets/event/PenaltyReceived.h"
+#include "packets/event/PracticeStart.h"
+#include "packets/event/PracticeSync.h"
+#include "packets/event/Overtake.h"
+#include "packets/event/QualiStart.h"
+#include "packets/event/QualiSync.h"
+#include "packets/event/RaceStart.h"
+#include "packets/event/RaceSync.h"
+#include "packets/event/SectorStateChanged.h"
+#include "packets/event/TimeTrialStart.h"
+#include "packets/event/TyreChanged.h"
 
 
 
@@ -80,6 +94,11 @@ void UserInterface::PacketHandler::Exec() {
                 case Packet::Event::Type::TimeTrialStart:
                     NotifySessionStartObservers(packet);
                     break;
+                case Packet::Event::Type::PracticeSync:
+                case Packet::Event::Type::QualiSync:
+                case Packet::Event::Type::RaceSync:
+                    NotifySessionSyncObservers(packet);
+                    break;
                 case Packet::Event::Type::RoundSessionEnd:
                 case Packet::Event::Type::TimeTrialEnd:
                     NotifySessionEndObservers(packet);
@@ -139,6 +158,37 @@ void UserInterface::PacketHandler::NotifySessionStartObservers(QSharedPointer<Pa
 
             case Packet::Event::Type::TimeTrialStart:
                 emit TimeTrialStart(qSharedPointerDynamicCast<Packet::Event::TimeTrialStart>(packet));
+                break;
+
+            default:
+                // idk
+                break;
+
+        }
+
+    }
+
+}
+
+
+
+void UserInterface::PacketHandler::NotifySessionSyncObservers(QSharedPointer<Packet::Event::Interface> packet) {
+
+    // no need to check for nullptr
+    if (packet) {
+
+        switch (packet->packetType()) {
+
+            case Packet::Event::Type::PracticeSync:
+                emit PracticeSync(qSharedPointerDynamicCast<Packet::Event::PracticeSync>(packet));
+                break;
+
+            case Packet::Event::Type::QualiSync:
+                emit QualiSync(qSharedPointerDynamicCast<Packet::Event::QualiSync>(packet));
+                break;
+
+            case Packet::Event::Type::RaceSync:
+                emit RaceSync(qSharedPointerDynamicCast<Packet::Event::RaceSync>(packet));
                 break;
 
             default:

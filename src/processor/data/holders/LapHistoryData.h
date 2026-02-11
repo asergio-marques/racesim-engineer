@@ -61,6 +61,9 @@ namespace Processor {
             // Exposes the number of laps for which data is available for this driver
             const uint16_t numLapsAvailable() const;
 
+            // Exposes the ID of the personal best lap achieved by this participant
+            const uint16_t fastestLapID() const;
+
             private:
             // Auxiliary function that checks whether a finished lap is a session best, a personal best, or nothing special
             // Communicates with the detector

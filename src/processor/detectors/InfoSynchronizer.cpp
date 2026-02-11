@@ -102,21 +102,62 @@ void Processor::Detector::InfoSynchronizer::BuildQualiSyncPacket() {
 
 void Processor::Detector::InfoSynchronizer::BuildRaceSyncPacket() {
 
-    if (!m_driverRecords) return;
+    if (!m_driverRecords || !m_sessionRecord) return;
+    const auto* sessionState = m_sessionRecord->getModifiableState();
+    if (!sessionState) return;
 
     auto packet = QSharedPointer<Packet::Event::RaceSync>::create();
 
     Packet::Event::RaceSync::ParticipantData participant;
     for (const auto& recordEntry : *m_driverRecords) {
 
-        const auto record = recordEntry.second;
-        const auto* state = record->getModifiableState();
-        if (record && state) {
+        const auto driverRecord = recordEntry.second;
+        if (!driverRecord) continue;
 
-            participant.m_index = record->m_info.m_driverID;
-            participant.m_status = state->posTimeData().getStatus();
-            participant.m_currentPosition = state->posTimeData().getCurrentPosition();
-            // TODO rest
+        const auto* driverState = driverRecord->getModifiableState();
+        if (driverState && sessionState) {
+
+            // get basic info
+            participant.m_index = driverRecord->m_info.m_driverID;
+            participant.m_status = driverState->posTimeData().getStatus();
+            participant.m_currentPosition = driverState->posTimeData().getCurrentPosition();
+
+            // get lap info
+            const auto lastLap = driverState->lapData().getLapData(driverState->lapData().numLapsAvailable() - 1);
+            participant.m_lastLapTime = lastLap->m_totalLapTime;
+            if ((sessionState->fastestLap().m_driverId == lastLap->m_driverId) &&
+                (sessionState->fastestLap().m_lapId == lastLap->m_lapId)) {
+
+                participant.m_lastLapInfoType = Lap::Internal::InfoType::FastestLap;
+                participant.m_bestLapTime = lastLap->m_totalLapTime;
+                participant.m_bestLapSessionBest = true;
+                
+            }
+            else if (lastLap->m_lapId == driverState->lapData().fastestLapID()) {
+
+                participant.m_lastLapInfoType = Lap::Internal::InfoType::PersonalBest;
+                participant.m_bestLapTime = lastLap->m_totalLapTime;
+                participant.m_bestLapSessionBest = false;
+
+            }
+            else {
+
+
+                participant.m_lastLapInfoType = Lap::Internal::InfoType::LatestLap;
+                if (auto personalBest = driverState->lapData().getLapData(driverState->lapData().fastestLapID())) {
+
+                    participant.m_bestLapTime = personalBest->m_totalLapTime;
+                    participant.m_bestLapSessionBest = false;
+
+                }
+
+            }
+
+            // get tyre stint info
+            // TODO
+            
+            // get penalty info
+            // TODO
 
         }
 

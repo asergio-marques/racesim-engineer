@@ -35,7 +35,7 @@ namespace Packet {
                 Lap::Internal::Time m_lastLapTime;
 
                 // Whether the last lap of this driver was a personal best, session best, or nothing special (lol)
-                Lap::Internal::InfoType m_infoType;
+                Lap::Internal::InfoType m_lastLapInfoType = Lap::Internal::InfoType::InvalidUnknown;
 
                 // Time for this driver's best lap
                 Lap::Internal::Time m_bestLapTime;

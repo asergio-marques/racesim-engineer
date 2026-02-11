@@ -251,6 +251,13 @@ const uint16_t Processor::Data::LapHistoryData::numLapsAvailable() const {
 }
 
 
+const uint16_t Processor::Data::LapHistoryData::fastestLapID() const {
+
+    return m_fastestLapID;
+
+}
+
+
 
 void Processor::Data::LapHistoryData::evaluateFinishedLap(const Processor::Data::LapInfo& finishedLap) {
 

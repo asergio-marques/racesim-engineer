@@ -59,3 +59,14 @@ void Processor::Data::WarningPenaltyData::updateWarningPenalties(const int8_t id
     }
 
 }
+
+
+
+
+void Processor::Data::WarningPenaltyData::extractPenalties(uint8_t& numTrackLimits, uint16_t& timePenMS, uint8_t& numDriveThrough) const {
+
+    numTrackLimits = m_numTrackLimits;
+    timePenMS = m_timePenMS;
+    numDriveThrough = m_numDriveThrough;
+
+}

@@ -32,25 +32,28 @@ namespace Packet {
                 uint8_t m_currentPosition = 0;
 
                 // Time for this driver's last lap
-                Lap::Internal::Time m_lastLapTime;
+                Lap::Internal::Time m_lastLapTime{ 0 };
 
                 // Whether the last lap of this driver was a personal best, session best, or nothing special (lol)
                 Lap::Internal::InfoType m_lastLapInfoType = Lap::Internal::InfoType::InvalidUnknown;
 
                 // Time for this driver's best lap
-                Lap::Internal::Time m_bestLapTime;
+                Lap::Internal::Time m_bestLapTime{ 0 };
 
                 // Whether the driver's best lap is a session best
-                bool m_bestLapSessionBest;
+                bool m_bestLapSessionBest = false;
 
-                // List of all the stints done by the driver, from most recent tyres to first
-                std::vector<Tyre::Internal::Data> m_tyreStints;
+                // List of all the stints done by the driver, from first to latest/current stint
+                std::vector<Tyre::Internal::Data> m_tyreStints{};
+
+                // Total outstanding track limit warnings
+                uint8_t m_numTrackLimits = 0;
 
                 // Total unserved time penalties accured by the participant, in milliseconds
-                uint8_t m_totalTimePen;
+                uint16_t m_timePenMS = 0;
 
                 // Total unserved drive-through penalties accured by the participant
-                uint8_t m_totalDriveThrough;
+                uint8_t m_numDriveThrough = 0;
             };
 
             // Packet interface constructor

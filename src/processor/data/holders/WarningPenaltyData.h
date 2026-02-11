@@ -31,6 +31,10 @@ namespace Processor {
                 const uint8_t trackLimitWarnings, const uint16_t timePenalties,
                 const uint8_t stopGoPens, const uint8_t driveThroughPens);
 
+            // Extract the number of outstanding track limit warnings and drive-through penalties, as well as
+            // the time penalties to be added to the race time
+            void extractPenalties(uint8_t& numTrackLimits, uint16_t& timePenMS, uint8_t& numDriveThrough) const;
+
             private:
             // Number of warnings of all types issued
             uint8_t m_totalWarns;

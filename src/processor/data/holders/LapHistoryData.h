@@ -58,6 +58,9 @@ namespace Processor {
             // Exposes the data of a single lap
             const Processor::Data::LapInfo* getLapData(const uint16_t lapID) const;
 
+            // Exposes the tyre stint data entirely
+            const std::vector<Tyre::Internal::Data>& getStintData() const;
+
             // Exposes the number of laps for which data is available for this driver
             const uint16_t numLapsAvailable() const;
 
@@ -71,6 +74,10 @@ namespace Processor {
 
             // Holder of data pertaining to all laps run
             std::map<uint16_t, Processor::Data::LapInfo> m_laps;
+
+            // List holding the data for all tyre stints for easier access
+            // Organized from first stint to latest/current
+            std::vector<Tyre::Internal::Data> m_simpleTyreData;
 
             // Cumulative time of all laps completed
             Lap::Internal::Time m_totalTime;

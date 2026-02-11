@@ -18,6 +18,7 @@
 
 Processor::Data::LapHistoryData::LapHistoryData() :
     m_laps(),
+    m_simpleTyreData(),
     m_totalTime(),
     m_isDataComplete(false),
     m_fastestLapID(UINT16_MAX),
@@ -87,6 +88,7 @@ void Processor::Data::LapHistoryData::initialize(const uint8_t driverID, const T
     lap.m_lapId = 0;
     lap.m_tyre = data;
     m_laps.emplace(lap.m_lapId, lap);
+    m_simpleTyreData.push_back(data);
 
 }
 
@@ -194,6 +196,9 @@ void Processor::Data::LapHistoryData::updateLap(const uint8_t id, const uint8_t 
             ++tyreData.m_stintLength;
             lap.m_tyre = tyreData;
 
+            // also increment it on the stint list
+            m_simpleTyreData.back().m_stintNo++;
+
             m_laps.emplace(lap.m_lapId, lap);
 
         }
@@ -222,6 +227,7 @@ void Processor::Data::LapHistoryData::updateTyre(const uint8_t driverID, const T
             m_installedTyreChangeDetector->addTyreChangeInfo(currentLap.m_driverId, currentLap.m_tyre);
 
         }
+        m_simpleTyreData.push_back(data);
 
     }
 
@@ -239,6 +245,14 @@ const Processor::Data::LapInfo* Processor::Data::LapHistoryData::getLapData(cons
     }
 
     return nullptr;
+
+}
+
+
+
+const std::vector<Tyre::Internal::Data>& Processor::Data::LapHistoryData::getStintData() const {
+
+    return m_simpleTyreData;
 
 }
 

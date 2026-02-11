@@ -107,9 +107,9 @@ void Processor::Detector::InfoSynchronizer::BuildRaceSyncPacket() {
     if (!sessionState) return;
 
     auto packet = QSharedPointer<Packet::Event::RaceSync>::create();
-
-    Packet::Event::RaceSync::ParticipantData participant;
     for (const auto& recordEntry : *m_driverRecords) {
+
+        Packet::Event::RaceSync::ParticipantData participant;
 
         const auto driverRecord = recordEntry.second;
         if (!driverRecord) continue;
@@ -154,19 +154,20 @@ void Processor::Detector::InfoSynchronizer::BuildRaceSyncPacket() {
             }
 
             // get tyre stint info
-            // TODO
+            participant.m_tyreStints = driverState->lapData().getStintData();
             
             // get penalty info
-            // TODO
+            driverState->warnPenData().extractPenalties(participant.m_numTrackLimits, participant.m_timePenMS, participant.m_numDriveThrough);
+
+            // add to packet
+            packet->m_participants.push_back(participant);
 
         }
 
     }
 
-    packet->m_participants.push_back(participant);
-
-
-    m_packetsToBeProcessed.push_back(packet);
+    // only a point in adding the packet if it actually has data
+    if (packet->m_participants.size() > 0) m_packetsToBeProcessed.push_back(packet);
 
 
 }

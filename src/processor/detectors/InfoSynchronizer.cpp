@@ -96,6 +96,73 @@ void Processor::Detector::InfoSynchronizer::BuildQualiSyncPacket() {
 
 
 
+    if (!m_driverRecords || !m_sessionRecord) return;
+    const auto* sessionState = m_sessionRecord->getModifiableState();
+    if (!sessionState) return;
+
+    auto packet = QSharedPointer<Packet::Event::QualiSync>::create();
+    for (const auto& recordEntry : *m_driverRecords) {
+
+        Packet::Event::QualiSync::ParticipantData participant;
+
+        const auto driverRecord = recordEntry.second;
+        if (!driverRecord) continue;
+
+        const auto* driverState = driverRecord->getModifiableState();
+        if (driverState && sessionState) {
+
+            // get basic info
+            participant.m_index = driverRecord->m_info.m_driverID;
+            participant.m_status = driverState->posTimeData().getStatus();
+            participant.m_currentPosition = driverState->posTimeData().getCurrentPosition();
+
+            // get lap info
+            const auto lastLap = driverState->lapData().getLapData(driverState->lapData().numLapsAvailable() - 1);
+            participant.m_lastLapTime = lastLap->m_totalLapTime;
+            if ((sessionState->fastestLap().m_driverId == lastLap->m_driverId) &&
+                (sessionState->fastestLap().m_lapId == lastLap->m_lapId)) {
+
+                participant.m_lastLapInfoType = Lap::Internal::InfoType::FastestLap;
+                participant.m_bestLapTime = lastLap->m_totalLapTime;
+                participant.m_bestLapSessionBest = true;
+
+            }
+            else if (lastLap->m_lapId == driverState->lapData().fastestLapID()) {
+
+                participant.m_lastLapInfoType = Lap::Internal::InfoType::PersonalBest;
+                participant.m_bestLapTime = lastLap->m_totalLapTime;
+                participant.m_bestLapSessionBest = false;
+
+            }
+            else {
+
+
+                participant.m_lastLapInfoType = Lap::Internal::InfoType::LatestLap;
+                if (auto personalBest = driverState->lapData().getLapData(driverState->lapData().fastestLapID())) {
+
+                    participant.m_bestLapTime = personalBest->m_totalLapTime;
+                    participant.m_bestLapSessionBest = false;
+
+                }
+
+            }
+
+            // add current lap sector info
+            // TODO
+
+            // add current lap minisector info
+            // TODO
+
+            // add to packet
+            packet->m_participants.push_back(participant);
+
+        }
+
+    }
+
+    // only a point in adding the packet if it actually has data
+    if (packet->m_participants.size() > 0) m_packetsToBeProcessed.push_back(packet);
+
 }
 
 
@@ -168,6 +235,5 @@ void Processor::Detector::InfoSynchronizer::BuildRaceSyncPacket() {
 
     // only a point in adding the packet if it actually has data
     if (packet->m_participants.size() > 0) m_packetsToBeProcessed.push_back(packet);
-
 
 }

@@ -1,5 +1,6 @@
 #include "packets/event/RaceSync.h"
 
+#include <cstdint>
 #include <vector>
 #include "data/internal/Lap.h"
 #include "data/internal/LapTime.h"

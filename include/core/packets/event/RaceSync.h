@@ -1,6 +1,7 @@
 #ifndef PACKETS_EVENT_INCLUDE_RACE_SYNC_H_
 #define PACKETS_EVENT_INCLUDE_RACE_SYNC_H_
 
+#include <cstdint>
 #include <vector>
 #include "data/internal/Lap.h"
 #include "data/internal/LapTime.h"

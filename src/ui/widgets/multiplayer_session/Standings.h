@@ -11,7 +11,9 @@
 #include "packets/event/PenaltyReceived.h"
 #include "packets/event/PracticeStart.h"
 #include "packets/event/QualiStart.h"
+#include "packets/event/QualiSync.h"
 #include "packets/event/RaceStart.h"
+#include "packets/event/RaceSync.h"
 #include "packets/event/SectorStateChanged.h"
 #include "packets/event/TimeTrialStart.h"
 #include "packets/event/TyreChanged.h"
@@ -36,7 +38,9 @@ namespace UserInterface {
             void cleanup();
             void onQualiStart(QSharedPointer<Packet::Event::QualiStart> dataPacket);
             void onRaceStart(QSharedPointer<Packet::Event::RaceStart> dataPacket);
-            void onOvertake(QSharedPointer<Packet::Event::Overtake> packet);
+            void onQualiSync(QSharedPointer<Packet::Event::QualiSync> dataPacket);
+            void onRaceSync(QSharedPointer<Packet::Event::RaceSync> dataPacket);
+            void onOvertake(QSharedPointer<Packet::Event::Overtake> dataPacket);
             void onPenaltyReceived(QSharedPointer<Packet::Event::PenaltyReceived> dataPacket);
             void onParticipantStatusChanged(QSharedPointer<Packet::Event::ParticipantStatusChanged> dataPacket);
             void onLapFinished(QSharedPointer<Packet::Event::LapFinished> dataPacket);

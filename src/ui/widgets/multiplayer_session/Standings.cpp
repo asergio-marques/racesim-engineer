@@ -12,7 +12,9 @@
 #include "packets/event/PenaltyReceived.h"
 #include "packets/event/PracticeStart.h"
 #include "packets/event/QualiStart.h"
+#include "packets/event/QualiSync.h"
 #include "packets/event/RaceStart.h"
+#include "packets/event/RaceSync.h"
 #include "packets/event/TimeTrialStart.h"
 #include "styles/DriverInfo.h"
 #include "styles/Value.h"
@@ -107,11 +109,35 @@ void UserInterface::Widget::Standings::onRaceStart(QSharedPointer<Packet::Event:
 
 
 
-void UserInterface::Widget::Standings::onOvertake(QSharedPointer<Packet::Event::Overtake> packet) {
+void UserInterface::Widget::Standings::onQualiSync(QSharedPointer<Packet::Event::QualiSync> dataPacket) {
 
-    if (packet && m_initialParamsSet) {
+    if (dataPacket) {
 
-        for (const auto& overtakeData : packet->GetData()) {
+
+
+    }
+
+}
+
+
+
+void UserInterface::Widget::Standings::onRaceSync(QSharedPointer<Packet::Event::RaceSync> dataPacket) {
+
+    if (dataPacket) {
+
+
+
+    }
+
+}
+
+
+
+void UserInterface::Widget::Standings::onOvertake(QSharedPointer<Packet::Event::Overtake> dataPacket) {
+
+    if (dataPacket && m_initialParamsSet) {
+
+        for (const auto& overtakeData : dataPacket->GetData()) {
 
             UserInterface::Widget::IDriverEntry* entry = m_driverData[overtakeData.m_driverID];
             if (entry) {

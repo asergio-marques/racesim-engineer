@@ -48,6 +48,9 @@ UserInterface::Panel::RaceRight::RaceRight(UserInterface::PacketHandler* handler
             connect(handler, &UserInterface::PacketHandler::TyreChanged,
                 m_driverStandings, &UserInterface::Widget::Standings::onTyreChanged,
                 Qt::QueuedConnection);
+            connect(handler, &UserInterface::PacketHandler::RaceSync,
+                m_driverStandings, &UserInterface::Widget::Standings::onRaceSync,
+                Qt::QueuedConnection);
 
         }
 

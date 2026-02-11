@@ -45,6 +45,9 @@ UserInterface::Panel::QualifyingRight::QualifyingRight(UserInterface::PacketHand
             connect(handler, &UserInterface::PacketHandler::SectorStateChanged,
                 m_driverStandings, &UserInterface::Widget::Standings::onSectorStateChanged,
                 Qt::QueuedConnection);
+            connect(handler, &UserInterface::PacketHandler::QualiSync,
+                m_driverStandings, &UserInterface::Widget::Standings::onQualiSync,
+                Qt::QueuedConnection);
 
         }
 

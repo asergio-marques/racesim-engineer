@@ -2,12 +2,14 @@
 #define USERINTERFACE_WIDGETS_INCLUDE_DRIVER_ENTRY_RACE_H_
 
 #include <cstdint>
+#include <vector>
 #include "base/Container.h"
 #include "data/internal/LapTime.h"
 #include "data/internal/Participant.h"
 #include "data/internal/Penalty.h"
 #include "data/internal/Session.h"
 #include "data/internal/Tyre.h"
+#include "data/internal/TyreData.h"
 #include "multiplayer_session/IDriverEntry.h"
 
 
@@ -35,7 +37,10 @@ namespace UserInterface {
             public:
             DriverEntryRace(QWidget* parent = 0);
             virtual ~DriverEntryRace() = default;
-            void init(const Session::Internal::Participant& dataPacket, const QList<uint8_t>& sectorConfiguration);
+            void init(const Session::Internal::Participant& dataPacket, const QList<uint8_t>& sectorConfiguration) override;
+            void syncData(const Lap::Internal::Time& bestLapTime, const bool isSessionBest) override;
+            void syncData(const uint8_t numTrackLimits, const uint16_t timePenMS, const uint8_t numDriveThrough) override;
+            void syncData(const std::vector<Tyre::Internal::Data>& tyreStints) override;
             void updatePosition(const uint8_t newPosition);
             void updatePenalties(const Penalty::Internal::Type type, const int32_t change);
             void updateStatus(const Participant::Internal::Status status);

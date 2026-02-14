@@ -1,12 +1,15 @@
 #include "multiplayer_session/DriverEntryRace.h"
 
 #include <QWidget>
+#include <vector>
 #include "base/Container.h"
 #include "base/TextInterface.h"
 #include "data/internal/LapTime.h"
 #include "data/internal/Participant.h"
 #include "data/internal/Penalty.h"
 #include "data/internal/Session.h"
+#include "data/internal/Tyre.h"
+#include "data/internal/TyreData.h"
 #include "multiplayer_session/FastestLapIndicator.h"
 #include "multiplayer_session/TeamIcon.h"
 #include "multiplayer_session/penalty/PenaltyIcon.h"
@@ -161,6 +164,49 @@ void UserInterface::Widget::DriverEntryRace::init(const Session::Internal::Parti
     
     redoLayout();
 
+
+}
+
+
+
+void UserInterface::Widget::DriverEntryRace::syncData(const Lap::Internal::Time& bestLapTime, const bool isSessionBest) {
+
+    if (m_personalBestLap) {
+
+        m_personalBestLap->updateTime(bestLapTime);
+        m_personalBestLap->changeSessionBestStatus(isSessionBest);
+
+    }
+
+}
+
+
+
+void UserInterface::Widget::DriverEntryRace::syncData(const uint8_t numTrackLimits, const uint16_t timePenMS, const uint8_t numDriveThrough) {
+
+    if (m_trackLimWarn) {
+
+        m_trackLimWarn->override(numTrackLimits);
+
+    }
+
+    if (m_penalties) {
+
+        m_penalties->override(timePenMS, numDriveThrough, 0);
+
+    }
+
+}
+
+
+
+void UserInterface::Widget::DriverEntryRace::syncData(const std::vector<Tyre::Internal::Data>& tyreStints) {
+
+    if (m_tyreArray) {
+
+
+
+    }
 
 }
 

@@ -23,6 +23,7 @@ namespace UserInterface {
             void addTimePenalty(const int32_t change);
             void addDriveThrough(const int32_t change);
             void addStopGo(const int32_t change);
+            void override(const int32_t timePenMS, const int32_t numDriveThroughs, int32_t numStopGos);
             void move(const uint16_t x, const uint16_t y, const bool centerAlignmentX, const bool centerAlignmentY) override;
             void scale(const uint8_t percent) override;
             void scale(const uint8_t percentX, const uint8_t percentY) override;

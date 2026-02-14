@@ -112,7 +112,7 @@ void Processor::Detector::InfoSynchronizer::BuildQualiSyncPacket() {
         if (driverState && sessionState) {
 
             // get basic info
-            participant.m_index = driverRecord->m_info.m_driverID;
+            participant.m_driverID = driverRecord->m_info.m_driverID;
             participant.m_status = driverState->posTimeData().getStatus();
             participant.m_currentPosition = driverState->posTimeData().getCurrentPosition();
 
@@ -183,7 +183,7 @@ void Processor::Detector::InfoSynchronizer::BuildRaceSyncPacket() {
         if (driverState && sessionState) {
 
             // get basic info
-            participant.m_index = driverRecord->m_info.m_driverID;
+            participant.m_driverID = driverRecord->m_info.m_driverID;
             participant.m_status = driverState->posTimeData().getStatus();
             participant.m_currentPosition = driverState->posTimeData().getCurrentPosition();
 

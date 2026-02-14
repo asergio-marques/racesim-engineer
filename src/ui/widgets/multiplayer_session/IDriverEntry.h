@@ -2,6 +2,7 @@
 #define USERINTERFACE_WIDGETS_INCLUDE_IDRIVER_ENTRY_H_
 
 #include <cstdint>
+#include <vector>
 #include <QList>
 #include "base/Container.h"
 #include "data/internal/Lap.h"
@@ -10,6 +11,7 @@
 #include "data/internal/Penalty.h"
 #include "data/internal/Session.h"
 #include "data/internal/Tyre.h"
+#include "data/internal/TyreData.h"
 
 
 class QWidget;
@@ -28,6 +30,9 @@ namespace UserInterface {
             IDriverEntry();
             virtual ~IDriverEntry() = default;
             virtual void init(const Session::Internal::Participant& dataPacket, const QList<uint8_t>& sectorConfiguration) = 0;
+            virtual void syncData(const Lap::Internal::Time& bestLapTime, const bool isSessionBest) {}
+            virtual void syncData(const uint8_t numTrackLimits, const uint16_t timePenMS, const uint8_t numDriveThrough) {}
+            virtual void syncData(const std::vector<Tyre::Internal::Data>& tyreStints) {}
             virtual void updatePosition(const uint8_t newPosition) {}
             virtual void updatePenalties(const Penalty::Internal::Type type, const int32_t change) {}
             virtual void updateStatus(const Participant::Internal::Status status) {}

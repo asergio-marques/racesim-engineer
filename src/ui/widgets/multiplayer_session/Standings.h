@@ -61,6 +61,7 @@ namespace UserInterface {
 
             private:
             void reorderStandings();
+            void doLapFinished(UserInterface::Widget::IDriverEntry* entry, Lap::Internal::InfoType type, Lap::Internal::Time time);
 
             QWidget* m_parent;
             QMap<const uint8_t, UserInterface::Widget::IDriverEntry*> m_driverData;

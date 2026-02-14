@@ -66,6 +66,18 @@ void UserInterface::Widget::PenaltyIcon::addStopGo(const int32_t change) {
 
 
 
+
+void UserInterface::Widget::PenaltyIcon::override(const int32_t timePenMS, const int32_t numDriveThroughs, int32_t numStopGos) {
+
+    m_timePen = timePenMS;
+    m_driveThroughs = numDriveThroughs;
+    m_stopGos = numStopGos;
+    checkDisplayStatus();
+
+}
+
+
+
 void UserInterface::Widget::PenaltyIcon::move(const uint16_t x, const uint16_t y, const bool centerAlignmentX, const bool centerAlignmentY) {
 
     if (m_flagIcon && m_textBackground && m_text) {

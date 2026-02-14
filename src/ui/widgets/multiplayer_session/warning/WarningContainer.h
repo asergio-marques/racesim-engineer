@@ -28,7 +28,8 @@ namespace UserInterface {
 
             WarningContainer(const UserInterface::Widget::WarningContainer::Type type, QWidget* parent = 0);
             ~WarningContainer() = default;
-            void addWarning(const int32_t change);
+            void addWarning(const uint8_t change);
+            void override(const uint8_t value);
             virtual void move(const uint16_t x, const uint16_t y, const bool centerAlignmentX, const bool centerAlignmentY) override final;
             void scale(const uint8_t percent) override final;
             void scale(const uint8_t percentX, const uint8_t percentY) override final;

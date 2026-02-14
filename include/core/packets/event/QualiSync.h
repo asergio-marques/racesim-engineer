@@ -24,8 +24,8 @@ namespace Packet {
 
             struct ParticipantData {
 
-                // Index for this participant
-                uint8_t m_index = 0;
+                // ID for this participant
+                uint8_t m_driverID = 0;
 
                 // Current status of the participant
                 Participant::Internal::Status m_status = Participant::Internal::Status::InvalidUnknown;

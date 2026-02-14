@@ -125,7 +125,19 @@ void UserInterface::Widget::Standings::onRaceSync(QSharedPointer<Packet::Event::
 
     if (dataPacket) {
 
+        for (const auto& participant : dataPacket->m_participants) {
 
+            auto* entry = m_driverData[participant.m_driverID];
+            entry->updatePosition(participant.m_currentPosition);
+            entry->updateStatus(participant.m_status);
+            doLapFinished(entry, participant.m_lastLapInfoType, participant.m_lastLapTime);
+            entry->syncData(participant.m_bestLapTime, participant.m_bestLapSessionBest);
+            entry->syncData(participant.m_tyreStints);
+            entry->syncData(participant.m_numTrackLimits, participant.m_timePenMS, participant.m_numDriveThrough);
+
+        }
+
+        reorderStandings();
 
     }
 
@@ -190,28 +202,7 @@ void UserInterface::Widget::Standings::onLapFinished(QSharedPointer<Packet::Even
         UserInterface::Widget::IDriverEntry* entry = m_driverData[dataPacket->m_index];
         if (entry) {
 
-            switch (dataPacket->m_infoType) {
-
-                case Lap::Internal::InfoType::FastestLap:
-                    // update fastest lap info
-                    if (m_currentFastestLapHolder && m_currentFastestLapHolder != entry) {
-
-                        m_currentFastestLapHolder->newSessionBestLap(dataPacket->m_lapTime, false);
-
-                    }
-                    entry->newSessionBestLap(dataPacket->m_lapTime, true);
-                    m_currentFastestLapHolder = entry;
-                    break;
-                case Lap::Internal::InfoType::PersonalBest:
-                    entry->newPersonalBestLap(dataPacket->m_lapTime);
-                    break;
-                case Lap::Internal::InfoType::LatestLap:
-                    entry->newLatestLap(dataPacket->m_lapTime);
-                    break;
-                default:
-                    break;
-
-            }
+            doLapFinished(entry, dataPacket->m_infoType, dataPacket->m_lapTime);
 
         }
 
@@ -346,6 +337,40 @@ void UserInterface::Widget::Standings::reorderStandings() {
 
             }
             driver->move(x(), newY, false, false);
+
+        }
+
+    }
+
+}
+
+
+
+
+void UserInterface::Widget::Standings::doLapFinished(UserInterface::Widget::IDriverEntry* entry, Lap::Internal::InfoType type, Lap::Internal::Time time) {
+
+    if (entry) {
+
+        switch (type) {
+
+            case Lap::Internal::InfoType::FastestLap:
+                // update fastest lap info
+                if (m_currentFastestLapHolder && m_currentFastestLapHolder != entry) {
+
+                    m_currentFastestLapHolder->newSessionBestLap(time, false);
+
+                }
+                entry->newSessionBestLap(time, true);
+                m_currentFastestLapHolder = entry;
+                break;
+            case Lap::Internal::InfoType::PersonalBest:
+                entry->newPersonalBestLap(time);
+                break;
+            case Lap::Internal::InfoType::LatestLap:
+                entry->newLatestLap(time);
+                break;
+            default:
+                break;
 
         }
 

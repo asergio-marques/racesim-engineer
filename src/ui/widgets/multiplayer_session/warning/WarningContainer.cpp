@@ -45,7 +45,7 @@ UserInterface::Widget::WarningContainer::WarningContainer(const UserInterface::W
 
 
 
-void UserInterface::Widget::WarningContainer::addWarning(const int32_t change) {
+void UserInterface::Widget::WarningContainer::addWarning(const uint8_t change) {
 
     if (m_warningCount) {
 
@@ -72,6 +72,17 @@ void UserInterface::Widget::WarningContainer::addWarning(const int32_t change) {
         }
 
     }
+
+}
+
+
+
+void UserInterface::Widget::WarningContainer::override(const uint8_t value) {
+
+    if (value == m_currentlyActiveWarnings) return;     // nothing to be done here
+    // HACK: the 3 magic number is part of game rules, it should be done differently but I cba
+    const auto change = (value > m_currentlyActiveWarnings) ? value - m_currentlyActiveWarnings : (value + 3) - m_currentlyActiveWarnings;
+    addWarning(change);
 
 }
 
